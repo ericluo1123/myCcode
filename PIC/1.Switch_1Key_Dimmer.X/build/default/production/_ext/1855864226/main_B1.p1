@@ -2871,262 +2871,264 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.h: 670: void WDT_Set();
 [; ;MCU_B1.h: 671: void WDT_Main();
 [; ;MCU_B1.h: 672: void WDT_Clearing();
-"8 C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/main_B1.c
-[v _main `(v ~T0 @X0 1 ef ]
+"7 C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/main_B1.c
+[v _main `(i ~T0 @X0 1 ef2`i`**uc ]
 {
-[; ;main_B1.c: 8: void main() {
+[; ;main_B1.c: 7: int main(int argc, char** argv) {
 [e :U _main ]
+[v _argc `i ~T0 @X0 1 r1 ]
+[v _argv `**uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;main_B1.c: 9: MainT_Initialization();
-"9
+[; ;main_B1.c: 8: MainT_Initialization();
+"8
 [e ( _MainT_Initialization ..  ]
-[; ;main_B1.c: 10: Mcu_Initialization();
-"10
+[; ;main_B1.c: 9: Mcu_Initialization();
+"9
 [e ( _Mcu_Initialization ..  ]
-[; ;main_B1.c: 11: Flash_Memory_Initialization();
-"11
+[; ;main_B1.c: 10: Flash_Memory_Initialization();
+"10
 [e ( _Flash_Memory_Initialization ..  ]
-[; ;main_B1.c: 12: LED_Initialization();
-"12
+[; ;main_B1.c: 11: LED_Initialization();
+"11
 [e ( _LED_Initialization ..  ]
-[; ;main_B1.c: 13: Buzzer_Initialization();
-"13
+[; ;main_B1.c: 12: Buzzer_Initialization();
+"12
 [e ( _Buzzer_Initialization ..  ]
-[; ;main_B1.c: 15: ;;
-[; ;main_B1.c: 16: Temp_Initialization();
-"16
+[; ;main_B1.c: 14: ;;
+[; ;main_B1.c: 15: Temp_Initialization();
+"15
 [e ( _Temp_Initialization ..  ]
-[; ;main_B1.c: 17: Load_Initialization();
-"17
+[; ;main_B1.c: 16: Load_Initialization();
+"16
 [e ( _Load_Initialization ..  ]
-[; ;main_B1.c: 18: PowerFault_Initialization();
-"18
+[; ;main_B1.c: 17: PowerFault_Initialization();
+"17
 [e ( _PowerFault_Initialization ..  ]
-[; ;main_B1.c: 19: DelayOff_Initialization();
-"19
+[; ;main_B1.c: 18: DelayOff_Initialization();
+"18
 [e ( _DelayOff_Initialization ..  ]
-[; ;main_B1.c: 21: DimmerLights_Initialization();
-"21
+[; ;main_B1.c: 20: DimmerLights_Initialization();
+"20
 [e ( _DimmerLights_Initialization ..  ]
+[; ;main_B1.c: 21: ;;
 [; ;main_B1.c: 22: ;;
 [; ;main_B1.c: 23: ;;
-[; ;main_B1.c: 24: ;;
-[; ;main_B1.c: 26: Switch_Initialization();
-"26
+[; ;main_B1.c: 25: Switch_Initialization();
+"25
 [e ( _Switch_Initialization ..  ]
-[; ;main_B1.c: 27: RF_Initialization();
-"27
+[; ;main_B1.c: 26: RF_Initialization();
+"26
 [e ( _RF_Initialization ..  ]
-[; ;main_B1.c: 28: CC2500_PowerOnInitial();
-"28
+[; ;main_B1.c: 27: CC2500_PowerOnInitial();
+"27
 [e ( _CC2500_PowerOnInitial ..  ]
-[; ;main_B1.c: 30: while (1) {
-"30
+[; ;main_B1.c: 29: while (1) {
+"29
 [e :U 252 ]
 {
-[; ;main_B1.c: 31: if (TMain->PowerON) {
-"31
+[; ;main_B1.c: 30: if (TMain->PowerON) {
+"30
 [e $ ! != -> . *U _TMain 0 `i -> -> -> 0 `i `uc `i 254  ]
 {
-[; ;main_B1.c: 33: ;;
-[; ;main_B1.c: 37: getLoad_AD(0x05);
-"37
+[; ;main_B1.c: 32: ;;
+[; ;main_B1.c: 36: getLoad_AD(0x05);
+"36
 [e ( _getLoad_AD (1 -> -> 5 `i `uc ]
-[; ;main_B1.c: 41: getTemp_AD(0x09);
-"41
+[; ;main_B1.c: 40: getTemp_AD(0x09);
+"40
 [e ( _getTemp_AD (1 -> -> 9 `i `uc ]
-[; ;main_B1.c: 45: getPowerFault_AD(0x11);
-"45
+[; ;main_B1.c: 44: getPowerFault_AD(0x11);
+"44
 [e ( _getPowerFault_AD (1 -> -> 17 `i `uc ]
-[; ;main_B1.c: 57: Buzzer_Main();
-"57
+[; ;main_B1.c: 56: Buzzer_Main();
+"56
 [e ( _Buzzer_Main ..  ]
-"59
+"58
 }
 [e :U 254 ]
-[; ;main_B1.c: 59: }
-[; ;main_B1.c: 61: if (TMain->T0_Timerout)
-"61
+[; ;main_B1.c: 58: }
+[; ;main_B1.c: 60: if (TMain->T0_Timerout)
+"60
 [e $ ! != -> . *U _TMain 1 `i -> -> -> 0 `i `uc `i 255  ]
-[; ;main_B1.c: 62: {
-"62
+[; ;main_B1.c: 61: {
+"61
 {
-[; ;main_B1.c: 63: TMain->T0_Timerout = 0;
-"63
+[; ;main_B1.c: 62: TMain->T0_Timerout = 0;
+"62
 [e = . *U _TMain 1 -> -> 0 `i `uc ]
-[; ;main_B1.c: 64: MainT();
-"64
+[; ;main_B1.c: 63: MainT();
+"63
 [e ( _MainT ..  ]
-[; ;main_B1.c: 65: WDT_Main();
-"65
+[; ;main_B1.c: 64: WDT_Main();
+"64
 [e ( _WDT_Main ..  ]
-[; ;main_B1.c: 66: if (TMain->PowerON) {
-"66
+[; ;main_B1.c: 65: if (TMain->PowerON) {
+"65
 [e $ ! != -> . *U _TMain 0 `i -> -> -> 0 `i `uc `i 256  ]
 {
-[; ;main_B1.c: 67: Flash_Memory_Main();
-"67
+[; ;main_B1.c: 66: Flash_Memory_Main();
+"66
 [e ( _Flash_Memory_Main ..  ]
-[; ;main_B1.c: 69: LED_Main();
-"69
+[; ;main_B1.c: 68: LED_Main();
+"68
 [e ( _LED_Main ..  ]
-[; ;main_B1.c: 71: ;;
-[; ;main_B1.c: 72: Temp_Main();
-"72
+[; ;main_B1.c: 70: ;;
+[; ;main_B1.c: 71: Temp_Main();
+"71
 [e ( _Temp_Main ..  ]
-[; ;main_B1.c: 73: Load_Main();
-"73
+[; ;main_B1.c: 72: Load_Main();
+"72
 [e ( _Load_Main ..  ]
-[; ;main_B1.c: 74: PowerFault_Main();
-"74
+[; ;main_B1.c: 73: PowerFault_Main();
+"73
 [e ( _PowerFault_Main ..  ]
-[; ;main_B1.c: 76: ;;
-[; ;main_B1.c: 77: DimmerLights_Main();
-"77
+[; ;main_B1.c: 75: ;;
+[; ;main_B1.c: 76: DimmerLights_Main();
+"76
 [e ( _DimmerLights_Main ..  ]
-[; ;main_B1.c: 78: Switch_Main();
-"78
+[; ;main_B1.c: 77: Switch_Main();
+"77
 [e ( _Switch_Main ..  ]
+[; ;main_B1.c: 78: ;;
 [; ;main_B1.c: 79: ;;
-[; ;main_B1.c: 80: ;;
-[; ;main_B1.c: 82: RF_Main();
-"82
+[; ;main_B1.c: 81: RF_Main();
+"81
 [e ( _RF_Main ..  ]
-[; ;main_B1.c: 83: DelayOff_Main();
-"83
+[; ;main_B1.c: 82: DelayOff_Main();
+"82
 [e ( _DelayOff_Main ..  ]
-"84
+"83
 }
 [e :U 256 ]
-"85
+"84
 }
 [e :U 255 ]
-"86
+"85
 }
 [e :U 251 ]
-"30
+"29
 [e $U 252  ]
 [e :U 253 ]
+[; ;main_B1.c: 83: }
 [; ;main_B1.c: 84: }
 [; ;main_B1.c: 85: }
 [; ;main_B1.c: 86: }
-[; ;main_B1.c: 87: }
-"87
+"86
 [e :UE 250 ]
 }
-"91
+"90
 [v _MainT_Initialization `(v ~T0 @X0 1 ef ]
 {
-[; ;main_B1.c: 91: void MainT_Initialization() {
+[; ;main_B1.c: 90: void MainT_Initialization() {
 [e :U _MainT_Initialization ]
 [f ]
-[; ;main_B1.c: 93: Product = &VarProduct;
-"93
+[; ;main_B1.c: 92: Product = &VarProduct;
+"92
 [e = _Product &U _VarProduct ]
-[; ;main_B1.c: 94: Product->Data[20] = 209;
-"94
+[; ;main_B1.c: 93: Product->Data[20] = 209;
+"93
 [e = *U + &U . *U _Product 0 * -> -> -> 20 `i `ui `ux -> -> # *U &U . *U _Product 0 `ui `ux -> -> 209 `i `uc ]
-[; ;main_B1.c: 97: TMain = &VarTMain;
-"97
+[; ;main_B1.c: 96: TMain = &VarTMain;
+"96
 [e = _TMain &U _VarTMain ]
-[; ;main_B1.c: 100: }
-"100
+[; ;main_B1.c: 99: }
+"99
 [e :UE 257 ]
 }
-"103
+"102
 [v _MainT `(v ~T0 @X0 1 ef ]
 {
-[; ;main_B1.c: 103: void MainT() {
+[; ;main_B1.c: 102: void MainT() {
 [e :U _MainT ]
 [f ]
-[; ;main_B1.c: 105: if (!TMain->PowerON) {
-"105
+[; ;main_B1.c: 104: if (!TMain->PowerON) {
+"104
 [e $ ! ! != -> . *U _TMain 0 `i -> -> -> 0 `i `uc `i 259  ]
 {
-[; ;main_B1.c: 106: TMain->PowerCount++;
-"106
+[; ;main_B1.c: 105: TMain->PowerCount++;
+"105
 [e ++ . *U _TMain 6 -> -> 1 `i `ui ]
-[; ;main_B1.c: 107: if (TMain->PowerCount == 150)
-"107
+[; ;main_B1.c: 106: if (TMain->PowerCount == 150)
+"106
 [e $ ! == . *U _TMain 6 -> -> 150 `i `ui 260  ]
-[; ;main_B1.c: 108: {
-"108
+[; ;main_B1.c: 107: {
+"107
 {
-[; ;main_B1.c: 109: TMain->PowerCount = 0;
-"109
+[; ;main_B1.c: 108: TMain->PowerCount = 0;
+"108
 [e = . *U _TMain 6 -> -> 0 `i `ui ]
-[; ;main_B1.c: 110: TMain->PowerON = 1;
-"110
+[; ;main_B1.c: 109: TMain->PowerON = 1;
+"109
 [e = . *U _TMain 0 -> -> 1 `i `uc ]
-[; ;main_B1.c: 113: setTemp_Enable(1);
-"113
+[; ;main_B1.c: 112: setTemp_Enable(1);
+"112
 [e ( _setTemp_Enable (1 -> -> 1 `i `uc ]
-[; ;main_B1.c: 117: setLoad_Enable(1);
-"117
+[; ;main_B1.c: 116: setLoad_Enable(1);
+"116
 [e ( _setLoad_Enable (1 -> -> 1 `i `uc ]
-[; ;main_B1.c: 123: setBuz(3, 50);
-"123
+[; ;main_B1.c: 122: setBuz(3, 50);
+"122
 [e ( _setBuz (2 , -> -> 3 `i `uc -> 50 `i ]
-[; ;main_B1.c: 124: TMain->SelfTest = 1;
-"124
+[; ;main_B1.c: 123: TMain->SelfTest = 1;
+"123
 [e = . *U _TMain 7 -> -> 1 `i `uc ]
-[; ;main_B1.c: 126: setSw_Enable(1);
-"126
+[; ;main_B1.c: 125: setSw_Enable(1);
+"125
 [e ( _setSw_Enable (1 -> -> 1 `i `uc ]
-[; ;main_B1.c: 129: setRF_Enable(1, 1);
-"129
+[; ;main_B1.c: 128: setRF_Enable(1, 1);
+"128
 [e ( _setRF_Enable (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"133
+"132
 }
 [e :U 260 ]
-"134
+"133
 }
-[; ;main_B1.c: 133: }
-[; ;main_B1.c: 134: } else {
+[; ;main_B1.c: 132: }
+[; ;main_B1.c: 133: } else {
 [e $U 261  ]
 [e :U 259 ]
 {
-[; ;main_B1.c: 142: TMain->Count1++;
-"142
+[; ;main_B1.c: 141: TMain->Count1++;
+"141
 [e ++ . *U _TMain 10 -> -> 1 `i `ui ]
-[; ;main_B1.c: 143: if (TMain->Count1 == 100)
-"143
+[; ;main_B1.c: 142: if (TMain->Count1 == 100)
+"142
 [e $ ! == . *U _TMain 10 -> -> 100 `i `ui 262  ]
-[; ;main_B1.c: 144: {
-"144
+[; ;main_B1.c: 143: {
+"143
 {
-[; ;main_B1.c: 145: TMain->Count1 = 0;
-"145
+[; ;main_B1.c: 144: TMain->Count1 = 0;
+"144
 [e = . *U _TMain 10 -> -> 0 `i `ui ]
-[; ;main_B1.c: 158: if (TMain->Flag) {
-"158
+[; ;main_B1.c: 157: if (TMain->Flag) {
+"157
 [e $ ! != -> . *U _TMain 3 `i -> -> -> 0 `i `uc `i 263  ]
 {
-[; ;main_B1.c: 159: TMain->Flag = 0;
-"159
+[; ;main_B1.c: 158: TMain->Flag = 0;
+"158
 [e = . *U _TMain 3 -> -> 0 `i `uc ]
-"168
+"167
 }
-[; ;main_B1.c: 168: } else {
+[; ;main_B1.c: 167: } else {
 [e $U 264  ]
 [e :U 263 ]
 {
-[; ;main_B1.c: 169: TMain->Flag = 1;
-"169
+[; ;main_B1.c: 168: TMain->Flag = 1;
+"168
 [e = . *U _TMain 3 -> -> 1 `i `uc ]
-"178
+"177
 }
 [e :U 264 ]
-"179
+"178
 }
 [e :U 262 ]
-"181
+"180
 }
 [e :U 261 ]
+[; ;main_B1.c: 177: }
 [; ;main_B1.c: 178: }
-[; ;main_B1.c: 179: }
+[; ;main_B1.c: 180: }
 [; ;main_B1.c: 181: }
-[; ;main_B1.c: 182: }
-"182
+"181
 [e :UE 258 ]
 }

@@ -1,6 +1,6 @@
 
 // Includes
-#include "../1.Switch_1Key_Dimmer.X/Select_File.h"
+#include "Select_File.h"
 
 
 #if Switch_use == 1
@@ -169,7 +169,7 @@ void setSw_Main(char sw) {
 #if CC2500_use == 1
                             setRF_Learn(1, 1);
 #endif
-                            if (TMain->First) {
+                            if (myMain->First) {
                                 setBuz(2, BuzzerOnOffTime);
                             }
 #endif
@@ -322,7 +322,7 @@ void Sw_DimmerAdjFunc(char sw) {
 //*********************************************************
 
 void Sw_Detect() {
-    if (!getLoad_ERROR() && !getTemp_ERROR() && !getPF_ERROR() && TMain->SelfTest) {
+    if (!getLoad_ERROR() && !getTemp_ERROR() && !getPF_ERROR() && myMain->SelfTest) {
 #ifdef use_1KEY
         SwPointSelect(1);
         if (Sw->Enable == 0) {

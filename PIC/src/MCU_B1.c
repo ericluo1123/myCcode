@@ -1,7 +1,7 @@
 
 
 // Includes
-#include "../1.Switch_1Key_Dimmer.X/Select_File.h"
+#include "Select_File.h"
 
 //config
 #ifdef _16F723A
@@ -148,7 +148,7 @@ void TMR0_ISR() {
         Timer0->Count++;
         if (Timer0->Count == TMR0_10ms) {
             Timer0->Count = 0;
-            TMain->T0_Timerout = 1;
+            myMain->T0_Timerout = 1;
         }
 
 #if Buzzer_use == 1
@@ -252,7 +252,7 @@ void TMR1_ISR() {
         if (Timer1->Count == TMR1_1ms)//1ms
         {
             Timer1->Count = 0;
-            TMain->T1_Timerout = 1;
+            myMain->T1_Timerout = 1;
         }
     }
 
@@ -329,7 +329,7 @@ void IOC_ISR() {
     if (IOCIE && IOCBF2) {
         IOCBF2 = 0;
         IOCIF = 0;
-        if (TMain->PowerON) {
+        if (myMain->PowerON) {
 #if Dimmer_use == 1
 
 #if Control_Method_Triac == 1
@@ -469,7 +469,7 @@ void I2C_Main() {
     if (I2C->MasterRxGO) {
         I2C->MasterRxGO = 0;
         I2C_Master_Reception();
-        TMain->Test = 1;
+        myMain->Test = 1;
         LED2 = ~LED2;
 #if UART_use == 1
         for (i = 0; i < 32; i++) {
@@ -733,7 +733,7 @@ void UART_Receive() {
     char i;
     LED2 = ~LED2;
 #if UART_Master == 1
-    TMain->Test = 1;
+    myMain->Test = 1;
 #if I2C_use == 1
     for (i = 0; i < 32; i++) {
         I2C->BufferWriter[i] = UART->RxData[i];
@@ -811,8 +811,8 @@ void Flash_Memory_Initialization() {
         Product->Data[23] = i;
 #endif
         if (Product->Data[12] == 0xff && Product->Data[13] == 0xff && Product->Data[14] == 0xff) {
-            TMain->FirstOpen = 1;
-            TMain->First = 1;
+            myMain->FirstOpen = 1;
+            myMain->First = 1;
         }
     } else {
         i = setPercentValue(Dimmer_Maxum);
@@ -829,8 +829,8 @@ void Flash_Memory_Initialization() {
         GIE = 0;
         Flash_Memory_Write();
         GIE = 1;
-        TMain->FirstOpen = 1;
-        TMain->First = 1;
+        myMain->FirstOpen = 1;
+        myMain->First = 1;
     }
 }
 //*********************************************************
@@ -920,8 +920,8 @@ void Flash_Memory_Modify() {
 #endif
     if (Memory->LoopSave) {
         Memory->LoopSave = 0;
-        TMain->FirstOpen = 0;
-        TMain->First = 0;
+        myMain->FirstOpen = 0;
+        myMain->First = 0;
         //setMemoryData(30,1);
     }
     GIE = 0;

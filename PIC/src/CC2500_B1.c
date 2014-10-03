@@ -21,7 +21,7 @@
 //-----------------------------------------------------------------------------
 
 // Includes
-#include "../1.Switch_1Key_Dimmer.X/Select_File.h"
+#include "Select_File.h"
 
 #if CC2500_use == 1
 static bit Receive_OK, Transceive_OK;

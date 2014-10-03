@@ -1,12 +1,11 @@
 
 //include
 #include "Select_File.h"
-#include "../1.Switch_1Key_Dimmer.X/Select_File.h"
 
 //main
 
 int main(int argc, char** argv) {
-    MainT_Initialization();
+    myMain_Initialization();
     Mcu_Initialization();
     Flash_Memory_Initialization();
     LED_Initialization();
@@ -28,7 +27,7 @@ int main(int argc, char** argv) {
     CC2500_PowerOnInitial();
 
     while (1) {
-        if (TMain->PowerON) {
+        if (myMain->PowerON) {
 #ifdef SYSC1
             DetectSYSC_Signal(1);
 #endif
@@ -58,12 +57,12 @@ int main(int argc, char** argv) {
 #endif
         }
         //TMR0
-        if (TMain->T0_Timerout) //10ms
+        if (myMain->T0_Timerout) //10ms
         {
-            TMain->T0_Timerout = 0;
-            MainT();
+            myMain->T0_Timerout = 0;
+            myMain();
             WDT_Main();
-            if (TMain->PowerON) {
+            if (myMain->PowerON) {
                 Flash_Memory_Main();
 
                 LED_Main();
@@ -88,26 +87,26 @@ int main(int argc, char** argv) {
 
 //Tmain initial
 
-void MainT_Initialization() {
+void myMain_Initialization() {
 #ifndef _16F723A
     Product = &VarProduct;
     Product->Data[20] = KeyID;
 #endif
 
-    TMain = &VarTMain;
+    myMain = &VarTMain;
     //TMain->FirstOpen=1;
     //TMain->First=1;
 }
 //T main
 
-void MainT() {
+void myMain() {
     //Power
-    if (!TMain->PowerON) {
-        TMain->PowerCount++;
-        if (TMain->PowerCount == 150)//*10ms
+    if (myMain->PowerON == false) {
+        myMain->PowerCount++;
+        if (myMain->PowerCount == 150)//*10ms
         {
-            TMain->PowerCount = 0;
-            TMain->PowerON = 1;
+            myMain->PowerCount = 0;
+            myMain->PowerON = 1;
 
 #ifdef SYSC1
             setTemp_Enable(1);
@@ -117,11 +116,11 @@ void MainT() {
             setLoad_Enable(1);
 #endif
 
-#if Self_Test == 1
-            TMain->k = 1;
+#if Self_Test == true
+            myMain->k = 1;
 #else
             setBuz(3, BuzzerPowerOnTime);
-            TMain->SelfTest = 1;
+            myMain->SelfTest = 1;
 
             setSw_Enable(1);
 
@@ -139,10 +138,10 @@ void MainT() {
 
 
 #if Debug == 1
-        TMain->Count1++;
-        if (TMain->Count1 == 100) //*10ms
+        myMain->Count1++;
+        if (myMain->Count1 == 100) //*10ms
         {
-            TMain->Count1 = 0;
+            myMain->Count1 = 0;
 
             //	setBuz(1,100);
             //	setTxData(1);
@@ -155,8 +154,8 @@ void MainT() {
             //	setProductData(7,Sw1->Flag);
             //	setProductData(8,RF->Learn);
             //	TMain->Count3++;
-            if (TMain->Flag) {
-                TMain->Flag = 0;
+            if (myMain->Flag) {
+                myMain->Flag = 0;
                 //	setLights(1,1);
                 //	setLights_Trigger(1,1);
                 //	setLights_Switch(1,1);
@@ -166,7 +165,7 @@ void MainT() {
                 //	setLED(3,1);
                 //	setLED(99,1);
             } else {
-                TMain->Flag = 1;
+                myMain->Flag = 1;
                 //	setLights(1,0);
                 //	setLights_Trigger(1,1);
                 //	setLights_Switch(1,0);

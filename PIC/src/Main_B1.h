@@ -4,12 +4,14 @@
 
 //Global extern variable declaration
 //	extern volatile 
-
+#define true  1
+#define false 0
 #ifndef _16F723A 
 
 struct Product {
     unsigned char Data[32];
 };
+
 struct Product *Product;
 struct Product VarProduct = {
     {
@@ -52,9 +54,10 @@ struct Product VarProduct = {
 
 
 #define setProductData(address,data) Product->Data[address]=data
+
 #endif
 
-struct TMain {
+struct myMain {
     unsigned PowerON : 1;
     unsigned T0_Timerout : 1;
     unsigned T1_Timerout : 1;
@@ -84,13 +87,13 @@ struct TMain {
     unsigned q : 1;
     unsigned r : 1;
 };
-struct TMain VarTMain;
-struct TMain *TMain;
+struct myMain VarTMain;
+struct myMain *myMain;
 
 
 //Routine declaration
-void MainT_Initialization();
-void MainT();
+void myMain_Initialization();
+void myMain();
 //end
 
 

@@ -1,6 +1,6 @@
 
 // Includes
-#include "../1.Switch_1Key_Dimmer.X/Select_File.h"
+#include "Select_File.h"
 
 #if CC2500_use == 1
 
@@ -238,7 +238,7 @@ void setLog_Code(char rf) {
     setProductData(14, RF_Data[14]);
     setBuz(1, BuzzerOnOffTime);
     RF->Learn = 0;
-    if (TMain->First) {
+    if (myMain->First) {
         setMemory_LoopSave(1);
     }
     setMemory_Modify(1);

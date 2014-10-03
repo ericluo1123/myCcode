@@ -1,6 +1,6 @@
 
 // Includes
-#include "../1.Switch_1Key_Dimmer.X/Select_File.h"
+#include "Select_File.h"
 
 #if Dimmer_use == 1
 
@@ -290,12 +290,12 @@
 			setDimmerLights_TriggerERROR(3,0);
 		#endif
 
-		if(TMain->SelfTest == 0)
+		if(myMain->SelfTest == 0)
 		{
-			TMain->i=0;
-			TMain->j=0;
-			TMain->k=1;
-			TMain->Count2=0;
+			myMain->i=0;
+			myMain->j=0;
+			myMain->k=1;
+			myMain->Count2=0;
 		}	
 	}
 	//*********************************************************
@@ -579,11 +579,11 @@
 		{
 			if(!getTemp_ERROR(1) && !getPF_ERROR(1) && !getLoad_ERROR(1))
 			{
-				if(!TMain->r)
+				if(!myMain->r)
 				{	
-					if(TMain->k)
+					if(myMain->k)
 					{
-						TMain->k=0;
+						myMain->k=0;
 			
 						DimmerLightsPointSelect(1);
 						DimmerLights->MaxmumValue=Dimmer_Maxum;
@@ -593,17 +593,17 @@
 			
 						setBuz(1,1,BuzzerOnOffTime);
 					}
-					TMain->Count2++;
-					if(TMain->Count2 == 150)//*10ms
+					myMain->Count2++;
+					if(myMain->Count2 == 150)//*10ms
 					{
-						TMain->Count2=0;
+						myMain->Count2=0;
 		
-						if(!TMain->i)
+						if(!myMain->i)
 						{
 		
 							if(getTemp_Safe(1) && getPF_Safe(1) && getLoad_Safe(1))
 							{
-								TMain->i=1;
+								myMain->i=1;
 			
 								DimmerLightsPointSelect(1);
 								DimmerLights->AdjRF=1;
@@ -615,16 +615,16 @@
 							}
 							else
 							{		
-								TMain->Count2=150;//*10ms
+								myMain->Count2=150;//*10ms
 							}
 						}
 						else
 						{	
-							if(!TMain->j)
+							if(!myMain->j)
 							{
-								TMain->j=1;
-								TMain->r=1;
-								TMain->SelfTest=1;
+								myMain->j=1;
+								myMain->r=1;
+								myMain->SelfTest=1;
 			
 								DimmerLightsPointSelect(1);
 								setDimmerLights_Trigger(1,1);
