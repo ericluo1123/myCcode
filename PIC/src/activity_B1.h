@@ -87,16 +87,11 @@
 
 //UART
 #if UART_use == 1
-#define BAUD 19200
-//38400		
-//19200 
-//9600    
+#define BAUD 19200	
 #endif
 
 //I2C
 #if I2C_use == 1
-#define Master_Mode 1
-#define Slave_Mode 0
 #endif 
 
 //IOC
@@ -255,6 +250,17 @@
 //CDS
 #if CDS_use == 1	
 #endif
+
+//SegmentDisplay
+#if SegmentDisplay_use == 1
+#define Polarity        1
+#define Display_Dec	1
+#define	Display_Hex	0
+
+#define ComValue PORTA
+#define DisplayValue PORTB
+#endif
+
 
 //end file
 #endif

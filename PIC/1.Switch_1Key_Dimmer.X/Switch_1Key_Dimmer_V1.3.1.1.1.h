@@ -54,9 +54,9 @@
 
 #define CC2500_GDO0			RB0		//pin21 1	
 #define Key1_4				RB1		//pin22 1	
-#define DimmerReference1	RB2		//pin23 1
+#define DimmerReference1                RB2		//pin23 1
 #define Buzzer1				RB3		//pin24	0
-//	#define Triac2				RB4		//pin25 0	
+//#define Triac2			RB4		//pin25 0	
 #define ErrLED				RB5		//pin26	0
 #define PinEmpty1			RB6		//pin27	0	
 #define PinEmpty2			RB7		//pin28 0	
@@ -67,7 +67,7 @@
 #define	CC2500_GDO2			RC3		//pin14	1	
 #define CC2500_CSN			RC4		//pin15	0	
 #define	TTPW				RC5		//pin16	0	
-//	#define LED3				RC6		//pin17	0	
+//#define LED3                          RC6		//pin17	0
 #define	LED2				RC7		//pin18	0	
 
 //I/O
@@ -87,7 +87,7 @@
 //ADC channel
 #define OverLoad_Channel		AN1
 #define OverTemp_Channel		AN2
-#define PFV_Channel				AN4
+#define PFV_Channel			AN4
 
 //Mcu Function Option
 
@@ -102,9 +102,13 @@
 //INT
 #define INT_use 1
 //UART
-#define UART_use 0  
+#define UART_use 0
+#define UART_Master 1
+#define UART_Slave 0
 //I2C
 #define I2C_use 0
+#define Master_Mode 1
+#define Slave_Mode 0
 //IOC
 #define IOC_use 1
 //FlashMemory
@@ -138,6 +142,9 @@
 #define PowerFault_use 1
 //Dimmer Lights
 #define Dimmer_use 	1
+//SegmentDisplay
+#define SegmentDisplay_use 1
+
 
 //include
 
@@ -158,6 +165,7 @@
 #include "../src/SYSC_B1.h"
 #include "../src/TriacRelay_B1.h"
 #include "../src/MCU_B1.h"
+
 
 //end file
 #endif

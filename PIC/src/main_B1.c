@@ -25,8 +25,10 @@ int main(int argc, char** argv) {
     Switch_Initialization();
     RF_Initialization();
     CC2500_PowerOnInitial();
+    SegmentDisplay_Initial();
 
-    while (1) {
+
+    while (true) {
         if (myMain->PowerON) {
 #ifdef SYSC1
             DetectSYSC_Signal(1);
@@ -57,11 +59,13 @@ int main(int argc, char** argv) {
 #endif
         }
         //TMR0
-        if (myMain->T0_Timerout) //10ms
-        {
+#if Timer0_use == 1
+        if (myMain->T0_Timerout) {//10ms
             myMain->T0_Timerout = 0;
             myMain();
             WDT_Main();
+            I2C_Main();
+            UART_Main();
             if (myMain->PowerON) {
                 Flash_Memory_Main();
 
@@ -80,8 +84,25 @@ int main(int argc, char** argv) {
 
                 RF_Main();
                 DelayOff_Main();
+                SegmentDisplay_Main();
             }
         }
+#endif
+
+#if Timer1_use == 1
+        //TMR1
+        if (myMain->T1_Timerout) //1ms
+        {
+            myMain->T1_Timerout = 0;
+            myMain();
+            if (myMain->PowerON) {
+                RF_Main();
+                I2C_Main();
+                UART_Main();
+                SegmentDisplay_Main();
+            }
+        }
+#endif
     }
 }
 
