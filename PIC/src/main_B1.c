@@ -1,11 +1,11 @@
 
 //include
-//#include "Select_File.h"
+#include "Select_File.h"
 #include "../1.Switch_1Key_Dimmer.X/Select_File.h"
 
 //main
 
-void main() {
+int main(int argc, char** argv) {
     MainT_Initialization();
     Mcu_Initialization();
     Flash_Memory_Initialization();
