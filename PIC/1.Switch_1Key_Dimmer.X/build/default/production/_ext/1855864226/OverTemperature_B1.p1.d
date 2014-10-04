@@ -6,6 +6,7 @@ C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../1.Switch_1Key_Dimmer.X/../
 C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../1.Switch_1Key_Dimmer.X/../src/Main_B1.h  \
 C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/Select_File.h  \
 C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../1.Switch_1Key_Dimmer.X/../src/MCU_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../1.Switch_1Key_Dimmer.X/../src/SegmentDisplay_A2.h  \
 C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../1.Switch_1Key_Dimmer.X/../src/OverTemperature_B1.h  \
 C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../1.Switch_1Key_Dimmer.X/../src/CC2500_B1.h  \
 C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../1.Switch_1Key_Dimmer.X/../src/LED_B1.h  \

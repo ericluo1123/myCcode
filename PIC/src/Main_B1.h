@@ -9,12 +9,13 @@
 
 #ifndef _16F723A 
 
-struct Product {
+typedef struct Product {
     unsigned char Data[32];
-};
+}Product;
 
-struct Product *Product;
-struct Product VarProduct = {
+Product *product;
+
+Product _product = {
     {
         0x63, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -54,7 +55,7 @@ struct Product VarProduct = {
 //29=Key3 Timer
 
 
-#define setProductData(address,data) Product->Data[address]=data
+#define setProductData(address,data) product->Data[address]=data
 
 #endif
 
@@ -88,13 +89,13 @@ struct myMain {
     unsigned q : 1;
     unsigned r : 1;
 };
-struct myMain VarTMain;
+struct myMain _myMain;
 struct myMain *myMain;
 
 
 //Routine declaration
 void myMain_Initialization();
-void myMain();
+void my_Main();
 //end
 
 

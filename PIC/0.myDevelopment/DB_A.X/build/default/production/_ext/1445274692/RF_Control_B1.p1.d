@@ -1,0 +1,23 @@
+ build/default/production/_ext/1445274692/RF_Control_B1.d  \
+ build/default/production/_ext/1445274692/RF_Control_B1.p1:  \
+ ../../src/RF_Control_B1.c  \
+../../src/../0.myDevelopment/DB_A.X/../../src/DelayOff_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/CDS_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/Buzzer_B1.h  \
+../../src/Select_File.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/SegmentDisplay_A2.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/PIR_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/OverTemperature_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/SYSC_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/CC2500_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/Switch_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/myDevelopment-A.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/Main_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/Dimmer_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/Activity_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/MCU_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/PowerFault_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/RF_Control_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/OverLoad_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/TriacRelay_B1.h  \
+../../src/../0.myDevelopment/DB_A.X/../../src/LED_B1.h 

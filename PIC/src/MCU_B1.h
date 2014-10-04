@@ -4,7 +4,7 @@
 
 //*********************************************************
 //Include 
-#include <xc.h>
+//#include <xc.h>
 #include <pic.h>
 
 //*********************************************************	
@@ -20,28 +20,28 @@ void IO_Set();
 //PLLEN = 1
 #ifdef System_Fosc_16M
 #define _OSCCON 0x3c
-#define FOSC 16000000L
+#define _FOSC 16000000L
 #define _PLLEN_ON	
 #define PLEEN_Value PLLEN_ON	
 #endif
 
 #ifdef System_Fosc_8M									
 #define _OSCCON 0x2c
-#define FOSC 8000000L
+#define _FOSC 8000000L
 #define _PLLEN_ON
 #define PLEEN_Value PLLEN_ON
 #endif
 
 #ifdef System_Fosc_4M
 #define _OSCCON 0x1c
-#define FOSC 4000000L
+#define _FOSC 4000000L
 #define _PLLEN_ON
 #define PLEEN_Value PLLEN_ON
 #endif
 
 #ifdef System_Fosc_2M
 #define _OSCCON 0x0c
-#define FOSC 2000000L
+#define _FOSC 2000000L
 #define _PLLEN_ON
 #define PLEEN_Value PLLEN_ON
 #endif
@@ -49,22 +49,22 @@ void IO_Set();
 //PLLEN = 0
 #ifdef System_Fosc_500K
 #define	_OSCCON	0x30
-#define FOSC 500000L
+#define _FOSC 500000L
 #endif 
 
 #ifdef System_Fosc_250K
 #define _OSCCON 0x20
-#define FOSC 250000L
+#define _FOSC 250000L
 #endif
 
 #ifdef System_Fosc_125K
 #define _OSCCON 0x10
-#define FOSC 125000L
+#define _FOSC 125000L
 #endif
 
 #ifdef System_Fosc_62.5K	
 #define _OSCCON 0x00
-#define FOSC 62500L
+#define _FOSC 62500L
 #endif
 
 #ifndef _PLLEN_ON
@@ -75,72 +75,72 @@ void IO_Set();
 #ifdef _16F1516
 #ifdef System_Fosc_16M
 #define _OSCCON 0x78
-#define FOSC 16000000L
+#define _FOSC 16000000L
 #endif
 
 #ifdef System_Fosc_8M									
 #define _OSCCON 0x38
-#define FOSC 8000000L
+#define _FOSC 8000000L
 #endif
 
 #ifdef System_Fosc_4M
 #define _OSCCON 0x68
-#define FOSC 4000000L
+#define _FOSC 4000000L
 #endif
 
 #ifdef System_Fosc_2M
 #define _OSCCON 0x60
-#define FOSC 2000000L
+#define _FOSC 2000000L
 #endif
 
 #ifdef System_Fosc_1M
 #define _OSCCON 0x58
-#define FOSC 1000000L
+#define _FOSC 1000000L
 #endif
 
 #ifdef System_Fosc_500K
 #define	_OSCCON	0x50
-#define FOSC	500000L
+#define _FOSC	500000L
 #endif 
 
 #ifdef System_Fosc_250K
 #define _OSCCON 0x18
-#define FOSC	250000L
+#define _FOSC	250000L
 #endif
 
 #ifdef System_Fosc_125K
 #define _OSCCON 0x40
-#define FOSC	125000L
+#define _FOSC	125000L
 #endif
 
 #ifdef System_Fosc_500K_Default
 #define	_OSCCON	0x38
-#define FOSC	500000L
+#define _FOSC	500000L
 #endif 
 
 #ifdef System_Fosc_250K_Default
 #define _OSCCON 0x30
-#define FOSC	250000L
+#define _FOSC	250000L
 #endif
 
 #ifdef System_Fosc_125K_Default
 #define _OSCCON 0x28
-#define FOSC	125000L
+#define _FOSC	125000L
 #endif
 
 #ifdef System_Fosc_62.5K_Default	
 #define _OSCCON 0x20
-#define FOSC	62500L
+#define _FOSC	62500L
 #endif
 
 #ifdef System_Fosc_31.25K_Default	
 #define _OSCCON 0x02
-#define FOSC	31250L
+#define _FOSC	31250L
 #endif
 
 #ifdef System_Fosc_31K_Default	
 #define _OSCCON 0x00
-#define FOSC	31000L
+#define _FOSC	31000L
 #endif	
 
 #endif
@@ -148,94 +148,90 @@ void IO_Set();
 #ifdef _16F1518
 #ifdef System_Fosc_16M
 #define _OSCCON 0x78
-#define FOSC 16000000L
+#define _FOSC 16000000L
 #endif
 
 #ifdef System_Fosc_8M									
 #define _OSCCON 0x38
-#define FOSC 8000000L
+#define _FOSC 8000000L
 #endif
 
 #ifdef System_Fosc_4M
 #define _OSCCON 0x68
-#define FOSC 4000000L
+#define _FOSC 4000000L
 #endif
 
 #ifdef System_Fosc_2M
 #define _OSCCON 0x60
-#define FOSC 2000000L
+#define _FOSC 2000000L
 #endif
 
 #ifdef System_Fosc_1M
 #define _OSCCON 0x58
-#define FOSC 1000000L
+#define _FOSC 1000000L
 #endif
 
 #ifdef System_Fosc_500K
 #define	_OSCCON	0x50
-#define FOSC	500000L
+#define _FOSC	500000L
 #endif 
 
 #ifdef System_Fosc_250K
 #define _OSCCON 0x18
-#define FOSC	250000L
+#define _FOSC	250000L
 #endif
 
 #ifdef System_Fosc_125K
 #define _OSCCON 0x40
-#define FOSC	125000L
+#define _FOSC	125000L
 #endif
 
 #ifdef System_Fosc_500K_Default
 #define	_OSCCON	0x38
-#define FOSC	500000L
+#define _FOSC	500000L
 #endif 
 
 #ifdef System_Fosc_250K_Default
 #define _OSCCON 0x30
-#define FOSC	250000L
+#define _FOSC	250000L
 #endif
 
 #ifdef System_Fosc_125K_Default
 #define _OSCCON 0x28
-#define FOSC	125000L
+#define _FOSC	125000L
 #endif
 
 #ifdef System_Fosc_62.5K_Default	
 #define _OSCCON 0x20
-#define FOSC	62500L
+#define _FOSC	62500L
 #endif
 
 #ifdef System_Fosc_31.25K_Default	
 #define _OSCCON 0x02
-#define FOSC	31250L
+#define _FOSC	31250L
 #endif
 
 #ifdef System_Fosc_31K_Default	
 #define _OSCCON 0x00
-#define FOSC	31000L
+#define _FOSC	31000L
 #endif	
 #endif
 
-
-
-#define Fosc_Set()\
-				OSCCON=_OSCCON;\
-				;
+void Fosc_Set();
 
 //*********************************************************
 //ADC
 #if ADC_use == 1
 #define	ADGO	GO_nDONE
 
-#define	AN0		0x01 	//RA0		
-#define	AN1		0x05	//RA1		
-#define	AN2		0x09	//RA2			
-#define	AN3		0x0d	//RA3	
-#define	AN4		0x11	//RA5	
+#define	AN0	0x01 	//RA0		
+#define	AN1	0x05	//RA1		
+#define	AN2	0x09	//RA2			
+#define	AN3	0x0d	//RA3	
+#define	AN4	0x11	//RA5	
 
-#define	AN8		0x21	//RB2		
-#define	AN9		0x25	//RB3		
+#define	AN8	0x21	//RB2		
+#define	AN9	0x25	//RB3		
 #define	AN10	0x29	//RB1		
 #define	AN11	0x2d	//RB4		
 #define	AN12	0x31	//RB0		
@@ -251,40 +247,40 @@ void IO_Set();
 //ADC Conversion Clock = 111 = FRC (clock supplied from a dedicated FRC oscillator)
 
 #ifdef _16F723A
-#define	ADCON1_VDD			0x70 
-#define	ADCON1_RA3			0x72
+#define	ADCON1_VDD		0x70 
+#define	ADCON1_RA3		0x72
 #define	ADCON1_Fixed		0x73
 
 #define	FVRCON_Reserved		0x00	
-#define	FVRCON_1V			0xc1
-#define	FVRCON_2V			0xc2
-#define	FVRCON_4V			0xc3
+#define	FVRCON_1V		0xc1
+#define	FVRCON_2V		0xc2
+#define	FVRCON_4V		0xc3
 
-#define ADC_ADRES 	ADRES
+#define ADC_ADRES               ADRES
 #endif
 
 #ifdef _16F1516
-#define	ADCON1_VDD			0xf0 
-#define	ADCON1_RA3			0xf2
+#define	ADCON1_VDD		0xf0 
+#define	ADCON1_RA3		0xf2
 #define	ADCON1_Fixed		0xf3
 
-#define	FVRCON_1V			0xc0
+#define	FVRCON_1V		0xc0
 #define	FVRCON_Reserved		0xc1
-#define	FVRCON_2V			0xc2
-#define	FVRCON_4V			0xc3
+#define	FVRCON_2V		0xc2
+#define	FVRCON_4V		0xc3
 
 #define ADC_ADRES ((ADRESH*256)+ADRESL)
 #endif
 
 #ifdef _16F1518
-#define	ADCON1_VDD			0xf0 
-#define	ADCON1_RA3			0xf2
+#define	ADCON1_VDD		0xf0 
+#define	ADCON1_RA3		0xf2
 #define	ADCON1_Fixed		0xf3
 
-#define	FVRCON_1V			0xc0
+#define	FVRCON_1V		0xc0
 #define	FVRCON_Reserved		0xc1
-#define	FVRCON_2V			0xc2
-#define	FVRCON_4V			0xc3
+#define	FVRCON_2V		0xc2
+#define	FVRCON_4V		0xc3
 
 #define ADC_ADRES ((ADRESH*256)+ADRESL)
 #endif
@@ -386,7 +382,7 @@ void setDimmerReClock();
 #define T1PS_1x8	0x30
 
 #ifdef Clock_Source_System
-#define _CS	0x40
+#define _CS             0x40
 #endif
 
 
@@ -496,38 +492,37 @@ void I2C_SetData(char);
 //*********************************************************
 //UART
 #if UART_use == 1
-#include <stdio.h>
 
-//		#define BAUD 19200			//19200   9600   
+//#define BAUD 19200			//19200   9600   
 
-#define NINE	0     		/* Use 9bit communication? FALSE=8bit */
+#define NINE	0                       /* Use 9bit communication? FALSE=8bit */
 
 #define SYNC	0			//0		EUSART Mode
 //1
 #define BRG_16	0			//0		16-bit Baud Rate Generator
 //1	
-#define HIGH_SPEED 1		//0		High Baud Rate Select
+#define HIGH_SPEED 1                    //0		High Baud Rate Select
 //1
 
 //setup
 #if(SYNC_BIT == 0 && BRG_16 == 0 && HIGH_SPEED == 0)		
 #define DIVIDER_H 0	
-#define DIVIDER ((int)(FOSC/(64UL * BAUD) -1))
+#define DIVIDER ((int)(_FOSC/(64UL * BAUD) -1))
 #endif
 
 #if(SYNC_BIT == 0 && BRG_16 == 0 && HIGH_SPEED == 1)
 #define DIVIDER_H 0
-#define DIVIDER ((int)(FOSC/(16UL * BAUD) -1))
+#define DIVIDER ((int)(_FOSC/(16UL * BAUD) -1))
 #endif
 
 #if(SYNC_BIT == 0 && BRG_16 == 1 && HIGH_SPEED == 0)
-#define DIVIDER_H ((int)((FOSC/(16UL * BAUD) -1)/256))
-#define DIVIDER ((int)((FOSC/(16UL * BAUD) -1)%256))
+#define DIVIDER_H ((int)((_FOSC/(16UL * BAUD) -1)/256))
+#define DIVIDER ((int)((_FOSC/(16UL * BAUD) -1)%256))
 #endif
 
 #if(SYNC_BIT == 0 && BRG_16 == 1 && HIGH_SPEED == 1)
-#define DIVIDER_H ((int)((FOSC/(16UL * BAUD) -1)/256))
-#define DIVIDER ((int)((FOSC/(16UL * BAUD) -1)%256))
+#define DIVIDER_H ((int)((_FOSC/(16UL * BAUD) -1)/256))
+#define DIVIDER ((int)((_FOSC/(16UL * BAUD) -1)%256))
 #endif
 
 #if NINE == 1

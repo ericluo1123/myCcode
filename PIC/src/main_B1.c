@@ -5,6 +5,7 @@
 //main
 
 int main(int argc, char** argv) {
+  
     myMain_Initialization();
     Mcu_Initialization();
     Flash_Memory_Initialization();
@@ -62,7 +63,7 @@ int main(int argc, char** argv) {
 #if Timer0_use == 1
         if (myMain->T0_Timerout) {//10ms
             myMain->T0_Timerout = 0;
-            myMain();
+            my_Main();
             WDT_Main();
             I2C_Main();
             UART_Main();
@@ -94,7 +95,7 @@ int main(int argc, char** argv) {
         if (myMain->T1_Timerout) //1ms
         {
             myMain->T1_Timerout = 0;
-            myMain();
+            my_Main();
             if (myMain->PowerON) {
                 RF_Main();
                 I2C_Main();
@@ -110,17 +111,17 @@ int main(int argc, char** argv) {
 
 void myMain_Initialization() {
 #ifndef _16F723A
-    Product = &VarProduct;
-    Product->Data[20] = KeyID;
+    product = &_product;
+    product->Data[20] = KeyID;
 #endif
 
-    myMain = &VarTMain;
+    myMain = &_myMain;
     //TMain->FirstOpen=1;
     //TMain->First=1;
 }
 //T main
 
-void myMain() {
+void my_Main() {
     //Power
     if (myMain->PowerON == false) {
         myMain->PowerCount++;

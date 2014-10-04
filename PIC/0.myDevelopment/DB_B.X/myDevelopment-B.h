@@ -2,24 +2,44 @@
 #ifndef _myDevelopoment_B_H_	
 #define	_myDevelopoment_B_H_		
 
-//Include
-	#include <stdio.h>
-	//end
+#ifndef _myDevelopoment_B_H_
+/**Version information
+        Name_Version 			:	1~255
 
-	//version
-	#define KeyID 			0
-	#define Series 			1
-	#define Version 		1
-	#define Serial_Number 	0
-	#define Create_Date 	_20140803_ 
+        Name_SerialNumber		:	1~255
 
+        Properties_Product		:	1:Switch
+                                                                2:PIR
 
-	//release
-	#define _Release_0_
-	#define Release_Date 	0
-	//PCB name
-	#define PCB_Name 0									
+        Properties_Keys			:	1:1key
+                                                                2:2key
+                                                                3:3key
 
+        Properties_Country		:	1:USA
+                                                                2:EP
+                                                                3:TW
+                                                                4:CHI
+ **/
+
+#define	Name_Version 			1	//1
+#define Name_SerialNumber		3	//2
+#define Properties_Product		1	//3
+#define Properties_Keys			1	//4
+#define Properties_Country		1	//5
+
+//Control Option
+#define Control_Method_Mosfet		0
+#define Control_Method_Triac		1
+#define Control_Method_Relay		0
+#define Control_Method_TriacRelay	0
+#define Properties_Neutral			0
+#define Properties_Dimmer			1
+#define Debug 1
+#define Create_Date "2014/9/25"
+#define PCB_Name "TH-302PV11-1-Dim(20140722)"
+#else
+#define KeyID 0
+#endif
 
 //MCU
  	#define	LED1				RA0		//pin2  1
@@ -64,227 +84,89 @@
 	#define _PORTC 	0b00011000;
 		
 
-	//ADC 
-	#define ADC_use 0
+//ADC channel
+#define OverLoad_Channel		AN1
+#define OverTemp_Channel		AN2
+#define PFV_Channel			AN4
 
-	#define OverLoad_Channel		AN1
-	#define OverTemp_Channel		AN2
-	#define PFV_Channel				AN4
+//Mcu Function Option
 
-	#define _ADCON1	ADCON1_RA3		
-	#define _FVRCON FVRCON_1V		
-
-	#ifdef _16F723A
-		typedef char ADtype;
-		#define ADH_Restore 0
-		#define ADL_Restore 0xff
-	#endif
-	
-	#ifdef _16F1516
-		typedef int ADtype;
-		#define ADH_Restore 0
-		#define ADL_Restore 0xffff
-	#endif
-
-	#ifdef _16F1518
-		typedef int ADtype;
-		#define ADH_Restore 0
-		#define ADL_Restore 0xffff
-	#endif
-	
-	//Oscillator (System FOSC)
- 	#define	System_Fosc_16M				//_16M
-							
-								
-	//Timer0
-  	#define Timer0_use	0
-	#define TMR0_IntrTime_50us			//_50us
-										//_100us
-
-	//Timer1
-	#define Timer1_use	1
-	#define TMR1_IntrTime_50us			//_50us
-										//_100us
-
-	#define Clock_Source_System			//_system
-										//_instruction	
-
-	//INT
-	#define INT_use 1
-
-	//UART
-	#define UART_use 0
-	#define UART_Mode 0
-	#define UART_Slave 1
-	#define BAUD 19200			//38400		
-								//19200 
-								//9600    
-	//I2C
-	#define I2C_use 1
-	#define Master_Mode 0
-	#define Slave_Mode 1
+//ADC
+#define ADC_use 0
+//Oscillator (System FOSC)
+#define	System_Fosc_16M				//_16M
+//Timer0
+#define Timer0_use	0
+//Timer1
+#define Timer1_use	1
+//INT
+#define INT_use 1
+//UART
+#define UART_use 0
+#define UART_Master 1
+#define UART_Slave 0
+//38400
+//I2C
+#define I2C_use 1
+#define Master_Mode 0
+#define Slave_Mode 1
+//IOC
+#define IOC_use 0
+//FlashMemory
+#define FlashMemory_use 0
+//watchdog timer
+#define WDT_use 0
 
 
-	//IOC
-	#define IOC_use 0
 
-	//FlashMemory_use
-	#define FlashMemory_use 0
+//Function Option
 
-//MCU end
-	
 //SYSC
-	#define SYSC_use 0
-
+#define SYSC_use 0
 //OverTemperature
-	#define OverTemperature_use 0
-
+#define OverTemperature_use 0
 //OverLoad
-	#define OverLoad_use 0
-
-//PowerFault
-	#define PowerFault_use 0
+#define OverLoad_use 0
 //LED
-	#define LED_use 0
-
-	#define ErrLED_Flash		1
-	#define	ErrLED_ON			0
-
-	#define	LED1_Flash			0
-	#define	LED1_ON				0
-
-	#define	LED2_Flash			0
-	#define	LED2_ON				0
-
-	#define	LED3_Flash			0
-	#define	LED3_ON				0
-
-	#define ErrLEDTime		500//ms
-	#define LED1Time		500//ms
-	#define LED2Time		500//ms
-	#define LED3Time		500//ms
-
-//SegmentDisplay
-	#define SegmentDisplay_use 0
-	#define Polarity 1		//¦@¶§=1¡A¦@³±=0
-	#define Display_Dec	1
-	#define	Display_Hex	0
-
-	#define ComValue PORTA
-	#define DisplayValue PORTB
+#define LED_use 0
 //Buzzer
-	#define Buzzer_use 0
-
+#define Buzzer_use 0
 //Switch
-	#define Switch_use 0
-
+#define Switch_use 0
 //Lights
-	#define LightsControl_use 	0
-
+#define LightsControl_use 	0
 //RF cc2500
-	#define CC2500_use	1
-	#define RadioFrequency1
-	#define Tx_Enable 	1
-	#define Rx_Enable 	1
-
+#define CC2500_use	1
 //DelayOff
-	#define DelayOff_use 0
-
+#define DelayOff_use 0
 //PowerFault
-	#define PowerFault_use 0
-
+#define PowerFault_use 0
 //Dimmer Lights
-	#define Dimmer_use 0
-	
-	#define Dimmable_Func 1
-
-	//dimmer define 	
-	#define Dimming 3 //3
-	#define TriacTimeValue	1
-	#define Max_Percent 70
-	#define Med_Percent 35
-	#define Mini_Percent 20
-	#define Dimmable_Percent 100-Max_Percent
-
-	 //Percent define
-	#define TotalCount			166
-	#define One_Percent			1.5
-	#define Tune_Percent		40
+#define Dimmer_use 	0
+//SegmentDisplay
+#define SegmentDisplay_use 0
 
 
-	//maxum
-	#define Dimmer_Maxum 	((char)((100-Max_Percent)*One_Percent))
+//include
+#include "../../src/Main_B1.h"
+#include "../../src/Activity_B1.h"
+#include "../../src/Switch_B1.h"
+#include "../../src/Buzzer_B1.h"
+#include "../../src/LED_B1.h"
+#include "../../src/OverTemperature_B1.h"
+#include "../../src/CC2500_B1.h"
+#include "../../src/RF_Control_B1.h"
+#include "../../src/OverLoad_B1.h"
+#include "../../src/Dimmer_B1.h"
+#include "../../src/DelayOff_B1.h"
+#include "../../src/PowerFault_B1.h"
+#include "../../src/CDS_B1.h"
+#include "../../src/PIR_B1.h"
+#include "../../src/SYSC_B1.h"
+#include "../../src/TriacRelay_B1.h"
+#include "../../src/MCU_B1.h"
+#include "../../src/SegmentDisplay_A2.h"
 
-	//medium
-	#define Dimmer_Medium 	((char)((100-Med_Percent)*One_Percent))
-
-	//minimun
-	#define Dimmer_Minimum	((char)((100-Mini_Percent)*One_Percent))
-
-//Global extern variable declaration
-	struct Product
-	{
-		unsigned char Data[32];
-	};
-	struct Product *Product;
-	struct Product VarProduct=
-	{
-		{
-		 0x63,0x02,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-		 0x00,0x00,0xff,0xff,0xff,0x00,0x00,0x00,0x00,0x00,
-		 KeyID,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-		 0x00,0x00
-		}
-	};
-
-	#define setProductData(address,data) Product->Data[address]=data
-
-	struct TMain
-	{
-		unsigned PowerON:1;
-		unsigned T0_Timerout:1;
-		unsigned T1_Timerout:1;
-		unsigned Flag:1;
-		unsigned GO:1;
-		unsigned int PowerCount;
-	
-		unsigned int Count;
-		unsigned int Count1;
-		unsigned int Count2;
-		unsigned int Count3;
-		unsigned char IOC_Count;	
-		unsigned char Test;
-		unsigned FirstOpen:1;
-		unsigned First:1;
-
-		unsigned i:1;
-		unsigned j:1;
-		unsigned k:1;
-		unsigned l:1;
-		unsigned m:1;
-		unsigned n:1;
-		unsigned o:1;
-		unsigned p:1;
-		unsigned q:1;
-		unsigned r:1;
-	}
-	struct TMain VarTMain;
-	struct TMain *TMain;
-
-
-//Routine declaration
-	void MainT_Initial();
-	void MainT();
-	//end
-
-	#include "SegmentDisplay_A2.h"
-	#include "Buzzer_B1.h"
-	#include "CC2500_B1.h"
-	#include "Dimmer_B1.h"
-	#include "DelayOff_B1.h"
-	#include "RF_Control_B1.h"
-	#include "Switch_B1.h"
-	#include "MCU_B1.h"
 
 //end file
 #endif

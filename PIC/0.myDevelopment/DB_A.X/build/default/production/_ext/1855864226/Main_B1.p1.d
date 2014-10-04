@@ -1,0 +1,23 @@
+ build/default/production/_ext/1855864226/Main_B1.d  \
+ build/default/production/_ext/1855864226/Main_B1.p1:  \
+ C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/Main_B1.c  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/DelayOff_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/CDS_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/Buzzer_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/Select_File.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/SegmentDisplay_A2.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/PIR_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/OverTemperature_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/SYSC_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/CC2500_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/Switch_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/myDevelopment-A.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/Main_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/Dimmer_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/Activity_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/MCU_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/PowerFault_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/RF_Control_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/OverLoad_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/TriacRelay_B1.h  \
+C:/Users/taianluo/Documents/GitHub/myCcode/PIC/src/../0.myDevelopment/DB_A.X/../../src/LED_B1.h 

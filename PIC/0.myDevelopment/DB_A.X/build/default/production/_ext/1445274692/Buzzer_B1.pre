@@ -1,7 +1,75 @@
 
 # 1 "../../src/Buzzer_B1.c"
 
-# 11 "../../src/../0.myDevelopment/DB_A.X/../../src/Main_B1.h"
+# 8 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
+typedef int ptrdiff_t;
+typedef unsigned size_t;
+typedef unsigned short wchar_t;
+
+# 7 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdarg.h"
+typedef void * va_list[1];
+
+#pragma intrinsic(__va_start)
+extern void * __va_start(void);
+
+#pragma intrinsic(__va_arg)
+extern void * __va_arg(void *, ...);
+
+# 23 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
+extern int errno;
+
+# 54
+struct __prbuf
+{
+char * ptr;
+void (* func)(char);
+};
+
+# 17 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\conio.h"
+extern int errno;
+
+
+extern void init_uart(void);
+
+extern char getch(void);
+extern char getche(void);
+extern void putch(char);
+extern void ungetch(char);
+
+extern __bit kbhit(void);
+
+# 31
+extern char * cgets(char *);
+extern void cputs(const char *);
+
+# 99 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
+extern int cprintf(char *, ...);
+#pragma printf_check(cprintf)
+
+
+
+extern int _doprnt(struct __prbuf *, const register char *, register va_list);
+
+
+# 191
+#pragma printf_check(vprintf) const
+#pragma printf_check(vsprintf) const
+
+extern char * gets(char *);
+extern int puts(const char *);
+extern int scanf(const char *, ...) __attribute__((unsupported("scanf() is not supported by this compiler")));
+extern int sscanf(const char *, const char *, ...) __attribute__((unsupported("sscanf() is not supported by this compiler")));
+extern int vprintf(const char *, va_list) __attribute__((unsupported("vprintf() is not supported by this compiler")));
+extern int vsprintf(char *, const char *, va_list) __attribute__((unsupported("vsprintf() is not supported by this compiler")));
+extern int vscanf(const char *, va_list ap) __attribute__((unsupported("vscanf() is not supported by this compiler")));
+extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupported("vsscanf() is not supported by this compiler")));
+
+#pragma printf_check(printf) const
+#pragma printf_check(sprintf) const
+extern int sprintf(char *, const char *, ...);
+extern int printf(const char *, ...);
+
+# 12 "../../src/../0.myDevelopment/DB_A.X/../../src/Main_B1.h"
 struct Product {
 unsigned char Data[32];
 };
@@ -16,7 +84,7 @@ struct Product VarProduct = {
 }
 };
 
-# 60
+# 61
 struct myMain {
 unsigned PowerON : 1;
 unsigned T0_Timerout : 1;
@@ -47,21 +115,21 @@ unsigned p : 1;
 unsigned q : 1;
 unsigned r : 1;
 };
-struct myMain VarTMain;
+struct myMain _myMain;
 struct myMain *myMain;
 
 
 
 void myMain_Initialization();
-void myMain();
+void my_Main();
 
-# 21 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\htc.h"
+# 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
 
 #pragma intrinsic(__builtin_software_breakpoint)
 extern void __builtin_software_breakpoint(void);
 
-# 47 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\pic16f1516.h"
+# 47 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1516.h"
 extern volatile unsigned char INDF0 @ 0x000;
 
 asm("INDF0 equ 00h");
@@ -2527,7 +2595,7 @@ extern volatile __bit nTO @ (((unsigned) &STATUS)*8) + 4;
 extern volatile __bit nWPUEN @ (((unsigned) &OPTION_REG)*8) + 7;
 
 
-# 27 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\pic.h"
+# 27 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic.h"
 #pragma intrinsic(__nop)
 extern void __nop(void);
 
@@ -2543,7 +2611,10 @@ extern __nonreentrant void _delay(unsigned long);
 void Mcu_Initialization();
 void IO_Set();
 
-# 422
+# 220
+void Fosc_Set();
+
+# 418
 struct Timer1 {
 unsigned Timeout : 1;
 unsigned int Count;
@@ -2554,7 +2625,7 @@ struct Timer1 *Timer1;
 void TMR1_Set();
 void TMR1_ISR();
 
-# 463
+# 459
 struct I2C {
 unsigned char BufferReader[32];
 unsigned char BufferWriter[32];
@@ -2578,75 +2649,7 @@ void I2C_Slave_Mode();
 void I2C_Main();
 void I2C_SetData(char);
 
-# 8 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdio.h"
-typedef int ptrdiff_t;
-typedef unsigned size_t;
-typedef unsigned short wchar_t;
-
-# 7 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdarg.h"
-typedef void * va_list[1];
-
-#pragma intrinsic(__va_start)
-extern void * __va_start(void);
-
-#pragma intrinsic(__va_arg)
-extern void * __va_arg(void *, ...);
-
-# 23 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdio.h"
-extern int errno;
-
-# 54
-struct __prbuf
-{
-char * ptr;
-void (* func)(char);
-};
-
-# 17 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\conio.h"
-extern int errno;
-
-
-extern void init_uart(void);
-
-extern char getch(void);
-extern char getche(void);
-extern void putch(char);
-extern void ungetch(char);
-
-extern __bit kbhit(void);
-
-# 31
-extern char * cgets(char *);
-extern void cputs(const char *);
-
-# 99 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdio.h"
-extern int cprintf(char *, ...);
-#pragma printf_check(cprintf)
-
-
-
-extern int _doprnt(struct __prbuf *, const register char *, register va_list);
-
-
-# 191
-#pragma printf_check(vprintf) const
-#pragma printf_check(vsprintf) const
-
-extern char * gets(char *);
-extern int puts(const char *);
-extern int scanf(const char *, ...) __attribute__((unsupported("scanf() is not supported by this compiler")));
-extern int sscanf(const char *, const char *, ...) __attribute__((unsupported("sscanf() is not supported by this compiler")));
-extern int vprintf(const char *, va_list) __attribute__((unsupported("vprintf() is not supported by this compiler")));
-extern int vsprintf(char *, const char *, va_list) __attribute__((unsupported("vsprintf() is not supported by this compiler")));
-extern int vscanf(const char *, va_list ap) __attribute__((unsupported("vscanf() is not supported by this compiler")));
-extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupported("vsscanf() is not supported by this compiler")));
-
-#pragma printf_check(printf) const
-#pragma printf_check(sprintf) const
-extern int sprintf(char *, const char *, ...);
-extern int printf(const char *, ...);
-
-# 555 "../../src/../0.myDevelopment/DB_A.X/../../src/MCU_B1.h"
+# 550
 struct UART {
 unsigned char TxData[32];
 unsigned char RxData[32];
@@ -2671,7 +2674,7 @@ void UART_Transmit();
 void UART_Receive();
 void UART_SetData();
 
-# 56 "../../src/../0.myDevelopment/DB_A.X/../../src/SegmentDisplay_A2.h"
+# 58 "../../src/../0.myDevelopment/DB_A.X/../../src/SegmentDisplay_A2.h"
 struct Segment {
 unsigned char Display[17];
 unsigned char Num[4];

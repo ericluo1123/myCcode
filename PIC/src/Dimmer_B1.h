@@ -35,10 +35,10 @@
 			unsigned GO:1;
 			unsigned Signal:1;
 			unsigned AdjRF:1;
-			unsigned AdjFlag:1;					//adj control
-			unsigned AdjStatus:1;				//adj status
-			unsigned Status:1;					//lights status
-			unsigned StatusFlag:1;				//triac control
+			unsigned AdjFlag:1;			//adj control
+			unsigned AdjStatus:1;			//adj status
+			unsigned Status:1;			//lights status
+			unsigned StatusFlag:1;			//triac control
 			unsigned OverLoad:1;
 			unsigned char DimmingTime;		
 			unsigned char DimmingTimeValue;
@@ -65,6 +65,7 @@
 
 			unsigned MosfetSignal:1;
 			unsigned char MosfetSignalCount;
+                        unsigned char TuneValue;
 			
 		};
 		struct DimmerLights *DimmerLights;
@@ -599,29 +600,27 @@
 					}\
 					;
 			#endif
-		
-			#if Dimmer_Half_Wave == 1
 
+//                                        if(DimmerLights11->MosfetSignal)\
+//					{\
+//						DimmerLights11->MosfetSignalCount++;\
+//						if(DimmerLights11->MosfetSignalCount == DimmerLights11->TuneValue )\
+//						{\
+//							DimmerLights11->MosfetSignalCount=0;\
+//							DimmerLights11->MosfetSignal=0;\
+//                                                    if (!DimmerLights11->GO && !DimmerLights11->MosfetOpen) {
+//                                                        DimmerLights11->GO = 1;
+//                                                        if (DimmerLights11->StatusFlag) {
+//                                                            Mosfet1 = 1;
+//                                                            ID_1KEY_1;
+//                                                        }
+//                                                    }
+//						}\
+//					}\
+
+			#if Dimmer_Half_Wave == 1
 				#define setDimmerLights11_Control(lights)\
-					if(DimmerLights11->MosfetSignal)\
-					{\
-						DimmerLights11->MosfetSignalCount++;\
-						if(DimmerLights11->MosfetSignalCount == DimmerTuneValue)\
-						{\
-							DimmerLights11->MosfetSignalCount=0;\
-							DimmerLights11->MosfetSignal=0;\
-							if(!DimmerLights11->GO  && !DimmerLights11->MosfetOpen)\
-							{\
-								DimmerLights11->GO=1;\
-								if(DimmerLights11->StatusFlag)\
-								{\
-									Mosfet1=0;\
-									ID_1KEY_1;\
-								}\
-							}\
-						}\
-					}\
-					if(DimmerLights11->GO)\//reclock
+					if(DimmerLights11->GO)\
 					{\
 						DimmerLights11->Count++;\
 						if(DimmerLights11->Count >= (DimmerLights11->DimmingValue-Dimmer->Correction))\
@@ -631,7 +630,7 @@
 							DimmerLights11->Flag=1;\
 							if(DimmerLights11->StatusFlag)\
 							{\
-								Mosfet1=1;\
+								Mosfet1=0;\
 								ID_1KEY_0;\
 								if(DimmerLights11->MosfetClose)\
 								{\
@@ -808,37 +807,38 @@
 										}\
 									}\
 									else\
-									{\
-										DimmerLights22->Signal=0;\
-									}\
-								}\
-							}\
-						}\
+ {\
+										DimmerLights22->Signal = 0;        \
+									                                                                                                                                }\
+								                                                                                                }\
+							                                                                }\
+						                                }\
 					}\
 					;
-			#endif
-		
-			#if Dimmer_Half_Wave == 1
+#endif
 
-				#define setDimmerLights22_Control(lights)\
-					if(DimmerLights22->MosfetSignal)\
-					{\
-						DimmerLights22->MosfetSignalCount++;\
-						if(DimmerLights22->MosfetSignalCount == DimmerTuneValue-10)\
-						{\
-							DimmerLights22->MosfetSignalCount=0;\
-							DimmerLights22->MosfetSignal=0;\
-							if(!DimmerLights22->GO  && !DimmerLights22->MosfetOpen)\
-							{\
-								DimmerLights22->GO=1;\
-								if(DimmerLights22->StatusFlag)\
-								{\
-									Mosfet2=0;\
-								}\
-							}\
-						}\
-					}\
-					if(DimmerLights22->GO)\//reclock
+#if Dimmer_Half_Wave == 1
+
+//                                      	if(DimmerLights22->MosfetSignal)\
+//					{\
+//						DimmerLights22->MosfetSignalCount++;\
+//						if(DimmerLights22->MosfetSignalCount == DimmerTuneValue-10)\
+//						{\
+//							DimmerLights22->MosfetSignalCount=0;\
+//							DimmerLights22->MosfetSignal=0;\
+//							if(!DimmerLights22->GO  && !DimmerLights22->MosfetOpen)\
+//							{\
+//								DimmerLights22->GO=1;\
+//								if(DimmerLights22->StatusFlag)\
+//								{\
+//									Mosfet2=1;\
+//								}\
+//							}\
+//						}\
+//					}\
+
+#define setDimmerLights22_Control(lights)\
+					if(DimmerLights22->GO)\
 					{\
 						DimmerLights22->Count++;\
 						if(DimmerLights22->Count >= (DimmerLights22->DimmingValue-Dimmer->Correction))\
@@ -848,7 +848,7 @@
 							DimmerLights22->Flag=1;\
 							if(DimmerLights22->StatusFlag)\
 							{\
-								Mosfet2=1;\
+								Mosfet2=0;\
 								if(DimmerLights22->MosfetClose)\
 								{\
 									DimmerLights22->MosfetClose=0;\
@@ -924,11 +924,11 @@
 									}\
 									else\
  {\
-										DimmerLights22->Signal = 0;            \
-									                                                                                                                                                                                                }\
-								                                                                                                                                                }\
-							                                                                                                }\
-						                                                }\
+										DimmerLights22->Signal = 0;             \
+									                                                                                                                                                                                                                }\
+								                                                                                                                                                            }\
+							                                                                                                        }\
+						                                                    }\
 					}\
 					;
 #endif

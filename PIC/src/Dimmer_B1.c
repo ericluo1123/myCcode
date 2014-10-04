@@ -11,9 +11,9 @@
 			{
 				DimmerLights=&DimmerLights1;	
 			}
-			#ifdef Mosfet1	
-				Mosfet1=1;
-			#endif
+//			#ifdef Mosfet1
+//				Mosfet1=1;
+//			#endif
 		#endif
 
 		#ifdef use_2KEY
@@ -21,9 +21,9 @@
 			{
 				DimmerLights=&DimmerLights2;	
 			}
-			#ifdef Mosfet2	
-				Mosfet2=1;
-			#endif
+//			#ifdef Mosfet2
+//				Mosfet2=1;
+//			#endif
 		#endif
 
 		#ifdef use_3KEY
@@ -31,9 +31,9 @@
 			{
 				DimmerLights=&DimmerLights3;	
 			}
-			#ifdef Mosfet3	
-				Mosfet3=1;
-			#endif
+//			#ifdef Mosfet3
+//				Mosfet3=1;
+//			#endif
 		#endif		
 	}
 
@@ -67,7 +67,7 @@
 
 		#if FlashMemory_use == 1
 			#if DimmerValue_SaveMemory == 1
-				DimmerLights->MaxmumValue=getPercentValue(Product->Data[(20+lights)]);
+				DimmerLights->MaxmumValue=getPercentValue(product->Data[(20+lights)]);
 			#else
 				DimmerLights->MaxmumValue=Dimmer_Maxum;
 				DimmerLights->MinimumValue=Dimmer_Minimum;
@@ -425,7 +425,7 @@
 		DimmerLightsPointSelect(lights);
 		DimmerLights->AdjRF=1;
 		DimmerLights->Signal=1;
-		DimmerLights->MaxmumValue=getPercentValue(Product->Data[9]);
+		DimmerLights->MaxmumValue=getPercentValue(product->Data[9]);
 	}
 	void setDimmerLights_MaxmumValue(char lights,char data)
 	{
@@ -629,7 +629,7 @@
 								DimmerLightsPointSelect(1);
 								setDimmerLights_Trigger(1,1);
 								setDimmerLights_Switch(1,0);
-								DimmerLights->MaxmumValue=getPercentValue(Product->Data[(20+1)]);
+								DimmerLights->MaxmumValue=getPercentValue(product->Data[(20+1)]);
 			
 								setBuz(1,3,BuzzerPowerOnTime);
 			

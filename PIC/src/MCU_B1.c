@@ -5,18 +5,24 @@
 
 //config
 #ifdef _16F723A
-__CONFIG(FOSC_INTOSCIO & _WDTE & BOREN_OFF & PLEEN_Value); // v8.84
-__CONFIG(VCAPEN_DIS); // WRT_OFF
+#pragma config FOSC = INTOSCIO ,_WDTE, BOREN = OFF,PLEEN_Value
+#pragma config VCAPEN = DIS
+//__CONFIG(FOSC_INTOSCIO & _WDTE & BOREN_OFF & PLEEN_Value); // v8.84
+//__CONFIG(VCAPEN_DIS); // WRT_OFF
 #endif
 
 #ifdef _16F1516
-__CONFIG(FOSC_INTOSC & _WDTE); // v8.84
-__CONFIG(VCAPEN_OFF & WRT_BOOT); // WRT_OFF
+#pragma config FOSC = INTOSC
+#pragma config VCAPEN = OFF,WRT = BOOT
+//__CONFIG(FOSC_INTOSC & _WDTE); // v8.84
+//__CONFIG(VCAPEN_OFF & WRT_BOOT); // WRT_OFF
 #endif
 
 #ifdef _16F1518
-__CONFIG(FOSC_INTOSC & _WDTE & BOREN_OFF); // v8.84
-__CONFIG(VCAPEN_OFF & WRT_HALF); // WRT_OFF WRT_BOOT WRT_HALF
+#pragma config FOSC = INTOSC,_WDTE,BOREN=OFF
+#pragma config VCAPEN = OFF,WRT = HALF
+// __CONFIG(FOSC_INTOSC & _WDTE & BOREN_OFF); // v8.84
+// __CONFIG(VCAPEN_OFF & WRT_HALF); // WRT_OFF WRT_BOOT WRT_HALF
 #endif
 
 //*********************************************************
@@ -48,6 +54,10 @@ void Mcu_Initialization() {
     WDT_Set();
 }
 //*********************************************************
+
+void Fosc_Set() {
+    OSCCON = _OSCCON;
+}
 
 void IO_Set() {
 #ifdef _16F723A
@@ -174,20 +184,33 @@ void setDimmerReClock() {
 #endif
 
 #if Control_Method_Mosfet == 1
-    if (!DimmerLights11->MosfetSignal) {
-        DimmerLights11->MosfetSignal = 1;
+
+    if (!DimmerLights11->GO && !DimmerLights11->MosfetOpen) {
+        DimmerLights11->GO = 1;
+        if (DimmerLights11->StatusFlag) {
+            Mosfet1 = 1;
+            ID_1KEY_1;
+        }
     }
+
+    //    if (!DimmerLights11->MosfetSignal) {
+    //        DimmerLights11->MosfetSignal = 1;
+    //        //        if (DimmerReference1 == true) {
+    //        //            DimmerLights11->TuneValue=157;
+    //        //        }else{
+    //        //            DimmerLights11->TuneValue=140;
+    //        //        }
+    //    }
     /*
-                                            if(!DimmerLights11->GO  && !DimmerLights11->MosfetOpen)
-                                            {
-                                                    DimmerLights11->GO=1;
-                                                    if(DimmerLights11->StatusFlag)
-                                                    {
-                                                            Mosfet1=1;
-                                                            ID_1KEY_1;
-                                                    }
-                                            }
+        if (!DimmerLights11->GO && !DimmerLights11->MosfetOpen) {
+            DimmerLights11->GO = 1;
+            if (DimmerLights11->StatusFlag) {
+                Mosfet1 = 1;
+                ID_1KEY_1;
+            }
+        }
      */
+
 #endif
 #endif
 
@@ -200,18 +223,24 @@ void setDimmerReClock() {
 
 #if Control_Method_Mosfet == 1
 
-    if (!DimmerLights22->MosfetSignal) {
-        DimmerLights22->MosfetSignal = 1;
+    //    if (!DimmerLights22->MosfetSignal) {
+    //        DimmerLights22->MosfetSignal = 1;
+    //    }
+    if (!DimmerLights22->GO && !DimmerLights22->MosfetOpen) {
+        DimmerLights22->GO = 1;
+        if (DimmerLights22->StatusFlag) {
+            Mosfet2 = 1;
+        }
     }
 
-    /*		if(!DimmerLights22->GO  && !DimmerLights22->MosfetOpen)
-                    {
-                            DimmerLights22->GO=1;
-                            if(DimmerLights22->StatusFlag)
-                            {
-                                    Mosfet2=1;
-                            }
-                    }*/
+    /*
+                if (!DimmerLights22->GO && !DimmerLights22->MosfetOpen) {
+                    DimmerLights22->GO = 1;
+                    if (DimmerLights22->StatusFlag) {
+                        Mosfet2 = 1;
+                    }
+                }
+     */
 #endif
 #endif
 
@@ -367,7 +396,7 @@ char getAD(char adcon0, char adcon1) {
     ADCON0 = adcon0;
     ADCON1 = adcon1;
     ADGO = 1;
-    while (ADGO);
+    while (ADGO == true);
     return ADC_ADRES;
 }
 #endif
@@ -377,7 +406,7 @@ int getAD(char adcon0, char adcon1) {
     ADCON0 = adcon0;
     ADCON1 = adcon1;
     ADGO = 1;
-    while (ADGO);
+    while (ADGO == true);
     return ADC_ADRES;
 }
 #endif
@@ -387,7 +416,7 @@ int getAD(char adcon0, char adcon1) {
     ADCON0 = adcon0;
     ADCON1 = adcon1;
     ADGO = 1;
-    while (ADGO);
+    while (ADGO == true);
     return ADC_ADRES;
 }
 #endif
@@ -797,20 +826,20 @@ unsigned char getche(void) {
 void Flash_Memory_Initialization() {
     char i;
     if (Flash_Memory_Read(31) == 0xaa) {
-        Product->Data[12] = Flash_Memory_Read(0);
-        Product->Data[13] = Flash_Memory_Read(1);
-        Product->Data[14] = Flash_Memory_Read(2);
+        product->Data[12] = Flash_Memory_Read(0);
+        product->Data[13] = Flash_Memory_Read(1);
+        product->Data[14] = Flash_Memory_Read(2);
 #if DimmerValue_SaveMemory == 1
-        Product->Data[21] = Flash_Memory_Read(3);
-        Product->Data[22] = Flash_Memory_Read(4);
-        Product->Data[23] = Flash_Memory_Read(5);
+        product->Data[21] = Flash_Memory_Read(3);
+        product->Data[22] = Flash_Memory_Read(4);
+        product->Data[23] = Flash_Memory_Read(5);
 #else
         i = setPercentValue(Dimmer_Maxum);
-        Product->Data[21] = i;
-        Product->Data[22] = i;
-        Product->Data[23] = i;
+        product->Data[21] = i;
+        product->Data[22] = i;
+        product->Data[23] = i;
 #endif
-        if (Product->Data[12] == 0xff && Product->Data[13] == 0xff && Product->Data[14] == 0xff) {
+        if (product->Data[12] == 0xff && product->Data[13] == 0xff && product->Data[14] == 0xff) {
             myMain->FirstOpen = 1;
             myMain->First = 1;
         }
@@ -823,9 +852,9 @@ void Flash_Memory_Initialization() {
         setMemoryData(4, 0xff);
         setMemoryData(5, 0xff);
         setMemoryData(31, 0xaa);
-        Product->Data[21] = i;
-        Product->Data[22] = i;
-        Product->Data[23] = i;
+        product->Data[21] = i;
+        product->Data[22] = i;
+        product->Data[23] = i;
         GIE = 0;
         Flash_Memory_Write();
         GIE = 1;
@@ -910,13 +939,13 @@ void Flash_Memory_Modify() {
     for (i = 0; i < 32; i++) {
         Memory->Data[i] = Flash_Memory_Read(i);
     }
-    setMemoryData(0, Product->Data[12]);
-    setMemoryData(1, Product->Data[13]);
-    setMemoryData(2, Product->Data[14]);
+    setMemoryData(0, product->Data[12]);
+    setMemoryData(1, product->Data[13]);
+    setMemoryData(2, product->Data[14]);
 #if DimmerValue_SaveMemory  == 1
-    setMemoryData(3, Product->Data[21]);
-    setMemoryData(4, Product->Data[22]);
-    setMemoryData(5, Product->Data[23]);
+    setMemoryData(3, product->Data[21]);
+    setMemoryData(4, product->Data[22]);
+    setMemoryData(5, product->Data[23]);
 #endif
     if (Memory->LoopSave) {
         Memory->LoopSave = 0;

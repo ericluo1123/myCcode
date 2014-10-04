@@ -269,7 +269,7 @@ void Sw_DimmerOffFunc(char sw) {
                 setDimmerLights_TriggerAdj(sw, 1);
                 setDimmerLights_AdjGo(sw, 0);
 
-                setProductData(17, Product->Data[26 + sw]);
+                setProductData(17, product->Data[26 + sw]);
                 setRF_DimmerLights(sw, Sw->Status);
                 setTxData(1);
 

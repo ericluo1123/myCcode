@@ -143,7 +143,7 @@
 //Dimmer Lights
 #define Dimmer_use 	1
 //SegmentDisplay
-#define SegmentDisplay_use 1
+#define SegmentDisplay_use 0
 
 
 //include
@@ -165,6 +165,7 @@
 #include "../src/SYSC_B1.h"
 #include "../src/TriacRelay_B1.h"
 #include "../src/MCU_B1.h"
+#include "../src/SegmentDisplay_A2.h"
 
 
 //end file

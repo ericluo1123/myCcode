@@ -57,6 +57,7 @@ void setRF_Initialization(char rf) {
 void setRF_Main(char rf) {
     RfPointSelect(rf);
     if (RF->Enable) {
+
 #if Sleep_Mode == 0
 #if	Switch_Class == 3
         RF->Key = ((Key1 || Key2 || Key3) && !RF->Learn) ? 1 : 0; //������U
@@ -144,24 +145,24 @@ void setTxData(char rf) {
 
             RF_Data[0] = 0x63; //Product->Data[0];		//Command
             RF_Data[1] = 0x02; //Product->Data[1];		//Command
-            RF_Data[2] = Product->Data[2]; //Temperature
-            RF_Data[3] = Product->Data[3]; //Temperature
-            RF_Data[4] = Product->Data[4]; //Humidity
-            RF_Data[5] = Product->Data[5]; //Humidity
-            RF_Data[6] = Product->Data[6]; //Barometric pressure
-            RF_Data[7] = Product->Data[7]; //Barometric pressure
-            RF_Data[8] = Product->Data[8]; //Electricity
-            RF_Data[9] = Product->Data[9]; //Dimmer
-            RF_Data[10] = Product->Data[10]; //Electric  current
-            RF_Data[11] = Product->Data[11]; //Year
-            RF_Data[12] = Product->Data[12]; //Week
-            RF_Data[13] = Product->Data[13]; //Serial  Number
-            RF_Data[14] = Product->Data[14]; //Serial  Number
-            RF_Data[15] = Product->Data[15]; //Lights Status
-            RF_Data[16] = Product->Data[16]; //Timmer Command
-            RF_Data[17] = Product->Data[17]; //Timmer Time
-            RF_Data[18] = Product->Data[18]; //Reserved
-            RF_Data[19] = Product->Data[19]; //Reserved
+            RF_Data[2] = product->Data[2]; //Temperature
+            RF_Data[3] = product->Data[3]; //Temperature
+            RF_Data[4] = product->Data[4]; //Humidity
+            RF_Data[5] = product->Data[5]; //Humidity
+            RF_Data[6] = product->Data[6]; //Barometric pressure
+            RF_Data[7] = product->Data[7]; //Barometric pressure
+            RF_Data[8] = product->Data[8]; //Electricity
+            RF_Data[9] = product->Data[9]; //Dimmer
+            RF_Data[10] = product->Data[10]; //Electric  current
+            RF_Data[11] = product->Data[11]; //Year
+            RF_Data[12] = product->Data[12]; //Week
+            RF_Data[13] = product->Data[13]; //Serial  Number
+            RF_Data[14] = product->Data[14]; //Serial  Number
+            RF_Data[15] = product->Data[15]; //Lights Status
+            RF_Data[16] = product->Data[16]; //Timmer Command
+            RF_Data[17] = product->Data[17]; //Timmer Time
+            RF_Data[18] = product->Data[18]; //Reserved
+            RF_Data[19] = product->Data[19]; //Reserved
             RF_Data[20] = KeyID; //Product->Data[20];	//Key ID
 
         }
@@ -212,7 +213,7 @@ void getRxData(char rf) {
             if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
                 NOP();
             } else {
-                if (RF_Data[12] == Product->Data[12] && RF_Data[13] == Product->Data[13] && RF_Data[14] == Product->Data[14]) {
+                if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_Data[14] == product->Data[14]) {
                     setControl_Lights_Table(1);
                 }
             }
@@ -369,9 +370,9 @@ void setRFSW_AdjControl(char sw) {
         setMemory_Modify(1);
         setRF_DimmerValue(sw);
     } else {
-        setProductData(9, Product->Data[20 + sw]);
+        setProductData(9, product->Data[20 + sw]);
     }
-    setProductData(17, Product->Data[26 + sw]);
+    setProductData(17, product->Data[26 + sw]);
     setTxData(1);
 }
 //*********************************************************
@@ -389,7 +390,7 @@ void setRF_DimmerValue(char lights) {
     }
     setProductData(9, RF_Data[9]);
     setProductData(11, lights);
-    setProductData((20 + lights), Product->Data[9]);
+    setProductData((20 + lights), product->Data[9]);
     setDimmerLights_AdjRF(lights);
 }
 //*********************************************************
@@ -404,12 +405,12 @@ void setRF_DimmerLights(char lights, char on) {
     setProductData((20 + lights), setPercentValue(Dimmer_Maxum));
 #endif
 
-    setProductData(9, Product->Data[20 + lights]);
-    setProductData(17, Product->Data[26 + lights]);
+    setProductData(9, product->Data[20 + lights]);
+    setProductData(17, product->Data[26 + lights]);
     if (on) {
-        setProductData(15, (Product->Data[15] | status)); //Lights Status
+        setProductData(15, (product->Data[15] | status)); //Lights Status
     } else {
-        setProductData(15, (Product->Data[15]&(~status))); //Lights Status
+        setProductData(15, (product->Data[15]&(~status))); //Lights Status
     }
 }
 //*********************************************************		
