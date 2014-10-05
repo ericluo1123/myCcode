@@ -1,12 +1,12 @@
 
 # 1 "../src/SegmentDisplay_A2.c"
 
-# 8 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
+# 8 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdio.h"
 typedef int ptrdiff_t;
 typedef unsigned size_t;
 typedef unsigned short wchar_t;
 
-# 7 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdarg.h"
+# 7 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdarg.h"
 typedef void * va_list[1];
 
 #pragma intrinsic(__va_start)
@@ -15,7 +15,7 @@ extern void * __va_start(void);
 #pragma intrinsic(__va_arg)
 extern void * __va_arg(void *, ...);
 
-# 23 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
+# 23 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdio.h"
 extern int errno;
 
 # 54
@@ -25,7 +25,7 @@ char * ptr;
 void (* func)(char);
 };
 
-# 17 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\conio.h"
+# 17 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\conio.h"
 extern int errno;
 
 
@@ -42,7 +42,7 @@ extern __bit kbhit(void);
 extern char * cgets(char *);
 extern void cputs(const char *);
 
-# 99 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
+# 99 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdio.h"
 extern int cprintf(char *, ...);
 #pragma printf_check(cprintf)
 
@@ -70,12 +70,13 @@ extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
 # 12 "../src/../1.Switch_1Key_Dimmer.X/../src/Main_B1.h"
-struct Product {
+typedef struct Product {
 unsigned char Data[32];
-};
+}Product;
 
-struct Product *Product;
-struct Product VarProduct = {
+Product *product;
+
+Product _product = {
 {
 0x63, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -84,7 +85,7 @@ struct Product VarProduct = {
 }
 };
 
-# 61
+# 62
 struct myMain {
 unsigned PowerON : 1;
 unsigned T0_Timerout : 1;
@@ -564,16 +565,17 @@ unsigned Clear:1;
 
 unsigned MosfetSignal:1;
 unsigned char MosfetSignalCount;
+unsigned char TuneValue;
 
 };
 struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 
-# 85
+# 86
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-# 109
+# 110
 void DimmerLightsPointSelect(char);
 void DimmerLights_Initialization();
 void DimmerLights_Main();
@@ -601,7 +603,7 @@ char getDimmerLights_Trigger();
 
 void setDimmerLights_Clear(char,char);
 
-# 141
+# 142
 struct Dimmer
 {
 
@@ -673,13 +675,13 @@ void setPF_Enable(char);
 char getPF_Safe();
 char getPF_ERROR();
 
-# 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
+# 21 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
 
 #pragma intrinsic(__builtin_software_breakpoint)
 extern void __builtin_software_breakpoint(void);
 
-# 47 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h"
+# 47 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\pic16f1518.h"
 extern volatile unsigned char INDF0 @ 0x000;
 
 asm("INDF0 equ 00h");
@@ -3145,7 +3147,7 @@ extern volatile __bit nTO @ (((unsigned) &STATUS)*8) + 4;
 extern volatile __bit nWPUEN @ (((unsigned) &OPTION_REG)*8) + 7;
 
 
-# 27 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic.h"
+# 27 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\pic.h"
 #pragma intrinsic(__nop)
 extern void __nop(void);
 
