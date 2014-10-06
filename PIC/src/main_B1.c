@@ -88,6 +88,7 @@ int main(int argc, char** argv) {
                 SegmentDisplay_Main();
             }
         }
+
 #endif
 
 #if Timer1_use == 1

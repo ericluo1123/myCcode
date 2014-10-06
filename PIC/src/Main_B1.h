@@ -6,6 +6,8 @@
 //	extern volatile 
 #define true  1
 #define false 0
+#define enable 1
+#define disable 0
 
 #ifndef _16F723A 
 

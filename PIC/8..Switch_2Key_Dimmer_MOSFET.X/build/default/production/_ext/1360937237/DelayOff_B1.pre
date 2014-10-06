@@ -1,12 +1,12 @@
 
 # 1 "../src/DelayOff_B1.c"
 
-# 8 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdio.h"
+# 8 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
 typedef int ptrdiff_t;
 typedef unsigned size_t;
 typedef unsigned short wchar_t;
 
-# 7 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdarg.h"
+# 7 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdarg.h"
 typedef void * va_list[1];
 
 #pragma intrinsic(__va_start)
@@ -15,7 +15,7 @@ extern void * __va_start(void);
 #pragma intrinsic(__va_arg)
 extern void * __va_arg(void *, ...);
 
-# 23 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdio.h"
+# 23 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
 extern int errno;
 
 # 54
@@ -25,7 +25,7 @@ char * ptr;
 void (* func)(char);
 };
 
-# 17 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\conio.h"
+# 17 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\conio.h"
 extern int errno;
 
 
@@ -42,7 +42,7 @@ extern __bit kbhit(void);
 extern char * cgets(char *);
 extern void cputs(const char *);
 
-# 99 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdio.h"
+# 99 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
 extern int cprintf(char *, ...);
 #pragma printf_check(cprintf)
 
@@ -69,7 +69,7 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
-# 12 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h"
+# 14 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
 }Product;
@@ -85,7 +85,7 @@ Product _product = {
 }
 };
 
-# 62
+# 64
 struct myMain {
 unsigned PowerON : 1;
 unsigned T0_Timerout : 1;
@@ -123,6 +123,49 @@ struct myMain *myMain;
 
 void myMain_Initialization();
 void my_Main();
+
+# 12 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Buzzer_B1.h"
+struct Buzzer {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned PowerON : 1;
+unsigned BufferStatus1 : 1;
+unsigned BufferStatus2 : 1;
+unsigned Switch : 1;
+unsigned empty1 : 2;
+
+};
+
+
+unsigned int Counter;
+unsigned char Count;
+unsigned char CountBuffer1;
+unsigned char CountBuffer2;
+unsigned int TimeValue;
+unsigned int TimeValueBuffer1;
+unsigned int TimeValueBuffer2;
+};
+struct Buzzer *Buz;
+
+
+struct Buzzer Buz1;
+
+# 48
+inline void Buzzer_Initialization();
+
+# 52
+void Buzzer_Main();
+
+# 58
+void setBuz(char count, int time);
+
+# 63
+inline void setBuz_Enable(char command);
+
+# 67
+inline void setBuz_Counter();
 
 # 14 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
 struct Switch {
@@ -169,34 +212,6 @@ void Sw_DimmerAdjFunc(char);
 
 
 void TouchPower();
-
-# 25 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Buzzer_B1.h"
-struct Buzzer {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned PowerON : 1;
-unsigned BufferStatus1 : 1;
-unsigned BufferStatus2 : 1;
-unsigned Switch : 1;
-unsigned int Time;
-unsigned char Count;
-unsigned char CountBuffer1;
-unsigned char CountBuffer2;
-unsigned int TimeValue;
-unsigned int TimeValueBuffer1;
-unsigned int TimeValueBuffer2;
-};
-struct Buzzer *Buz;
-
-
-struct Buzzer Buz1;
-
-# 51
-void Buzzer_Initialization();
-void Buzzer_Main();
-void setBuz_Main(char);
-void setBuz(char, int);
-void setBuz_Enable(char);
 
 # 22 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/LED_B1.h"
 struct LED {
@@ -433,7 +448,7 @@ struct RFSW RFSW2;
 void setRF_DimmerValue(char);
 void setRF_DimmerLights(char, char);
 
-# 139 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h"
+# 155 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h"
 struct OverLoad {
 unsigned Enable : 1;
 unsigned GO : 1;
@@ -445,7 +460,7 @@ unsigned int Time;
 unsigned int ErrorTime;
 unsigned char ErrorStatus;
 
-# 171
+# 187
 unsigned int TotalLoad;
 unsigned int AH[9];
 unsigned int AL[9];
@@ -536,11 +551,12 @@ unsigned MosfetSignal:1;
 unsigned char MosfetSignalCount;
 unsigned char TuneValue;
 
+
 };
 struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 
-# 86
+# 87
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
@@ -549,7 +565,11 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 110
+# 111
+inline void setDimmerLights_IntrControl(char lights);
+inline void DimmerIntrPointSelect(char);
+inline void setDimmerLights_IntrGO(char);
+
 void DimmerLightsPointSelect(char);
 void DimmerLights_Initialization();
 void DimmerLights_Main();
@@ -577,7 +597,7 @@ char getDimmerLights_Trigger();
 
 void setDimmerLights_Clear(char,char);
 
-# 142
+# 147
 struct Dimmer
 {
 
@@ -593,7 +613,7 @@ struct Dimmer *Dimmer;
 struct Dimmer Dimmer1;
 
 
-void Dimmer_Initialization();
+inline void Dimmer_Initialization();
 
 # 19 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
 struct DelayOff {
@@ -620,13 +640,13 @@ void DlyOff_Initialization(char);
 void DlyOff_Main(char);
 void setDelayOff_GO(char, char, char);
 
-# 21 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\htc.h"
+# 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
 
 #pragma intrinsic(__builtin_software_breakpoint)
 extern void __builtin_software_breakpoint(void);
 
-# 47 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\pic16f1518.h"
+# 47 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h"
 extern volatile unsigned char INDF0 @ 0x000;
 
 asm("INDF0 equ 00h");
@@ -3092,7 +3112,7 @@ extern volatile __bit nTO @ (((unsigned) &STATUS)*8) + 4;
 extern volatile __bit nWPUEN @ (((unsigned) &OPTION_REG)*8) + 7;
 
 
-# 27 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\pic.h"
+# 27 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic.h"
 #pragma intrinsic(__nop)
 extern void __nop(void);
 
@@ -3135,7 +3155,7 @@ struct Timer0 *Timer0;
 
 void TMR0_Set();
 void TMR0_ISR();
-void setDimmerReClock();
+inline void setDimmerReClock();
 
 # 436
 void INT_Set();
@@ -3261,14 +3281,14 @@ void setDelayOff_GO(char sw, char command, char value) {
 DelayOffPointSelect(sw);
 if (DelayOff->Enable) {
 DelayOff->GO = command;
-if (command) {
+if (command == 1) {
 DelayOff->Value = DelayTimejudge(value);
 if (((value % 16) == 5 || !(value % 16)) && value <= 0x25) {
 product->Data[26 + sw]=value;
 } else {
 product->Data[26 + sw]=0x05;
 }
-} else if (!command) {
+} else if (command == 0) {
 product->Data[sw + 26]=0;
 }
 DelayOff->SecondTime = 0;

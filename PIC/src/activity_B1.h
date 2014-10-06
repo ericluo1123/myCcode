@@ -1,6 +1,9 @@
 #ifndef _Activity_B1_H_
 #define _Activity_B1_H_
 
+#include "Buzzer_B1.h"
+
+
 
 #if Properties_Keys == 1
 #define Switch_Class 1
@@ -13,14 +16,17 @@
 #endif
 
 #if Properties_Keys == 2
+
 #define Switch_Class 2
 #define use_1KEY
-#define use_2KEY	
+#define use_2KEY
+
 #if Properties_Dimmer == 1
 #define KeyID 210
 #else
 #define KeyID 2
 #endif
+
 #endif
 
 
@@ -155,7 +161,7 @@
 #define RadioFrequency1
 #define Tx_Enable 	1
 #define Rx_Enable 	1
-#define Sleep_Mode  0
+#define Sleep_Mode      0
 
 #endif
 //DelayOff
@@ -168,14 +174,15 @@
 
 //Dimmer Lights
 #if Dimmer_use == 1
-#define Dimmable_Func 					1	
-#define Dimmer_Smooth					0
+
+#define Dimmable_Func 				1	
+#define Dimmer_Smooth				0
 #define DimmerValue_SaveMemory			0
 #define DimmerValue_CloseLightsSave		0
-#define Dimmer_Half_Wave				1 
-#define Dimmer_Full_Wave				0
-#define TriacTimeValue					1
-#define MosfetOpenToCloseValue			20
+#define Dimmer_Half_Wave			1 
+#define Dimmer_Full_Wave			0
+#define TriacTimeValue				1
+#define MosfetOpenToCloseValue			10  //close mosfet delay time to allow recook
 
 //dimmer define 	
 #define DimmingDelayTime 3 //3
@@ -209,14 +216,15 @@
 #define Max_Percent 55	
 #endif
 #endif
-
-#define Med_Percent 35
-#define Mini_Percent 20
 #endif
 
+#define Med_Percent             35
+#define Mini_Percent            20
+
+
 //Percent define
-#define TotalCount			166
-#define One_Percent			1.5
+#define TotalCount		166
+#define One_Percent		1.5
 #define Tune_Percent		40
 
 

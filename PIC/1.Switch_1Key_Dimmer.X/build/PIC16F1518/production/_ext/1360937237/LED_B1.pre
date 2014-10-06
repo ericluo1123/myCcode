@@ -1,12 +1,12 @@
 
 # 1 "../src/LED_B1.c"
 
-# 8 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdio.h"
+# 8 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
 typedef int ptrdiff_t;
 typedef unsigned size_t;
 typedef unsigned short wchar_t;
 
-# 7 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdarg.h"
+# 7 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdarg.h"
 typedef void * va_list[1];
 
 #pragma intrinsic(__va_start)
@@ -15,7 +15,7 @@ extern void * __va_start(void);
 #pragma intrinsic(__va_arg)
 extern void * __va_arg(void *, ...);
 
-# 23 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdio.h"
+# 23 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
 extern int errno;
 
 # 54
@@ -25,7 +25,7 @@ char * ptr;
 void (* func)(char);
 };
 
-# 17 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\conio.h"
+# 17 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\conio.h"
 extern int errno;
 
 
@@ -42,7 +42,7 @@ extern __bit kbhit(void);
 extern char * cgets(char *);
 extern void cputs(const char *);
 
-# 99 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\stdio.h"
+# 99 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
 extern int cprintf(char *, ...);
 #pragma printf_check(cprintf)
 
@@ -69,7 +69,7 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
-# 12 "../src/../1.Switch_1Key_Dimmer.X/../src/Main_B1.h"
+# 12 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
 }Product;
@@ -124,7 +124,7 @@ struct myMain *myMain;
 void myMain_Initialization();
 void my_Main();
 
-# 14 "../src/../1.Switch_1Key_Dimmer.X/../src/Switch_B1.h"
+# 14 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
 struct Switch {
 unsigned Enable : 1;
 unsigned Touch : 1;
@@ -148,6 +148,9 @@ struct Switch *Sw;
 
 struct Switch Sw1;
 
+
+struct Switch Sw2;
+
 # 45
 void SwPointSelect(char);
 void Switch_Initialization();
@@ -167,35 +170,7 @@ void Sw_DimmerAdjFunc(char);
 
 void TouchPower();
 
-# 25 "../src/../1.Switch_1Key_Dimmer.X/../src/Buzzer_B1.h"
-struct Buzzer {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned PowerON : 1;
-unsigned BufferStatus1 : 1;
-unsigned BufferStatus2 : 1;
-unsigned Switch : 1;
-unsigned int Time;
-unsigned char Count;
-unsigned char CountBuffer1;
-unsigned char CountBuffer2;
-unsigned int TimeValue;
-unsigned int TimeValueBuffer1;
-unsigned int TimeValueBuffer2;
-};
-struct Buzzer *Buz;
-
-
-struct Buzzer Buz1;
-
-# 51
-void Buzzer_Initialization();
-void Buzzer_Main();
-void setBuz_Main(char);
-void setBuz(char, int);
-void setBuz_Enable(char);
-
-# 22 "../src/../1.Switch_1Key_Dimmer.X/../src/LED_B1.h"
+# 22 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/LED_B1.h"
 struct LED {
 unsigned Enable : 1;
 unsigned GO : 1;
@@ -226,45 +201,7 @@ void setLED_Initialization(char);
 void setLED_Main(char);
 void setLED(char, char);
 
-# 7 "../src/../1.Switch_1Key_Dimmer.X/../src/OverTemperature_B1.h"
-struct OverTemp {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned ADtoGO : 1;
-unsigned LoadADGO : 1;
-unsigned Safe : 1;
-
-unsigned int Time;
-unsigned char Count;
-
-unsigned char AD1;
-unsigned char AD2;
-
-# 32
-unsigned int AD;
-unsigned int ADH[2];
-unsigned int ADRES;
-
-
-};
-
-struct OverTemp *Temp;
-
-# 53
-struct OverTemp Temp1;
-
-# 59
-void Temp_Initialization();
-void Temp_Main();
-void setTemp_Main();
-void setTemp_Initialization();
-void getTemp_AD(char);
-void setOverTemp_Exceptions(char);
-void setTemp_Enable(char);
-char getTemp_Safe();
-char getTemp_ERROR();
-
-# 161 "../src/../1.Switch_1Key_Dimmer.X/../src/CC2500_B1.h"
+# 161 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/CC2500_B1.h"
 const unsigned char CC2500_rfSettings[47] ={
 
 
@@ -409,7 +346,7 @@ void CC2500_TxData();
 void CC2500_RxData(void);
 void DelayTime_1us(int count);
 
-# 38 "../src/../1.Switch_1Key_Dimmer.X/../src/RF_Control_B1.h"
+# 38 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h"
 struct RF {
 unsigned Enable : 1;
 unsigned ReceiveGO : 1;
@@ -460,11 +397,11 @@ void setRFSW_Status(char, char);
 
 struct RFSW RFSW1;
 
-# 99
-void setRF_DimmerValue(char);
-void setRF_DimmerLights(char, char);
 
-# 139 "../src/../1.Switch_1Key_Dimmer.X/../src/OverLoad_B1.h"
+
+struct RFSW RFSW2;
+
+# 155 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h"
 struct OverLoad {
 unsigned Enable : 1;
 unsigned GO : 1;
@@ -476,7 +413,7 @@ unsigned int Time;
 unsigned int ErrorTime;
 unsigned char ErrorStatus;
 
-# 171
+# 187
 unsigned int TotalLoad;
 unsigned int AH[9];
 unsigned int AL[9];
@@ -529,159 +466,13 @@ void setLoad_StatusOff(char, char);
 char getLoad_Safe();
 char getLoad_ERROR();
 
-# 33 "../src/../1.Switch_1Key_Dimmer.X/../src/Dimmer_B1.h"
-struct DimmerLights
-{
-unsigned GO:1;
-unsigned Signal:1;
-unsigned AdjRF:1;
-unsigned AdjFlag:1;
-unsigned AdjStatus:1;
-unsigned Status:1;
-unsigned StatusFlag:1;
-unsigned OverLoad:1;
-unsigned char DimmingTime;
-unsigned char DimmingTimeValue;
-unsigned char Count;
-unsigned char DimmingValue;
-unsigned char MaxmumValue;
-unsigned char MinimumValue;
-unsigned Flag:1;
-unsigned char TriacTime;
-
-unsigned Switch:1;
-unsigned Trigger:1;
-unsigned AdjGo:1;
-unsigned TriggerAdj:1;
-
-unsigned Triac:1;
-unsigned MosfetOpen:1;
-unsigned MosfetClose:1;
-unsigned DetectOpen:1;
-unsigned DetectClose:1;
-unsigned char DetectCount;
-
-unsigned Clear:1;
-
-unsigned MosfetSignal:1;
-unsigned char MosfetSignalCount;
-unsigned char TuneValue;
-
-};
-struct DimmerLights *DimmerLights;
-struct DimmerLights *DimmerLightsIntr;
-
-# 86
-struct DimmerLights *DimmerLights11;
-struct DimmerLights DimmerLights1;
-
-# 110
-void DimmerLightsPointSelect(char);
-void DimmerLights_Initialization();
-void DimmerLights_Main();
-void DimmerLights_Exceptions(char);
-void DimmerLights_Close();
-
-void setDimmerLights_Initialization(char);
-void setDimmerLights_GO(char,char);
-void setDimmerLights_Main(char);
-void setDimmerLights_ERROR(char);
-void setDimmerLights_TriggerERROR(char,char);
-void setDimmerLights(char,char);
-void setDimmerLights_Adj(char,char);
-void setDimmerLights_AdjRF(char);
-char getPercentValue(char);
-char setPercentValue(char);
-
-void setDimmerLights_MaxmumValue(char,char);
-void setDimmerLights_Trigger(char,char);
-void setDimmerLights_Switch(char,char);
-void setDimmerLights_AdjGo(char,char);
-void setDimmerLights_TriggerAdj(char,char);
-char getDimmerLights_StatusFlag();
-char getDimmerLights_Trigger();
-
-void setDimmerLights_Clear(char,char);
-
-# 142
-struct Dimmer
-{
-
-
-
-unsigned Detect:1;
-unsigned char Load;
-unsigned char Correction;
-};
-struct Dimmer *Dimmer;
-
-
-struct Dimmer Dimmer1;
-
-
-void Dimmer_Initialization();
-
-# 19 "../src/../1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h"
-struct DelayOff {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned char Value;
-unsigned int SecondTime;
-unsigned char MinuteTime;
-};
-struct DelayOff *DelayOff;
-
-
-struct DelayOff DlySw1;
-
-# 40
-void DelayOff_Initialization();
-void DelayOff_Main();
-char DelayTimejudge(char);
-void DlyOff_Initialization(char);
-void DlyOff_Main(char);
-void setDelayOff_GO(char, char, char);
-
-# 7 "../src/../1.Switch_1Key_Dimmer.X/../src/PowerFault_B1.h"
-struct PF {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned Safe : 1;
-unsigned ADtoGO : 1;
-
-unsigned char Count;
-unsigned int Time;
-
-# 25
-unsigned int AD;
-unsigned int ADRES;
-
-};
-struct PF *PF;
-
-
-struct PF PF1;
-
-
-
-
-void PowerFault_Initialization();
-void PowerFault_Main();
-void getPowerFault_AD(char);
-void setPowerFault_Initialization();
-void setPowerFault_Main();
-void setPowerFault_Exceptions(char);
-void setPF_Enable(char);
-char getPF_Safe();
-char getPF_ERROR();
-
-# 21 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\htc.h"
+# 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
 
 #pragma intrinsic(__builtin_software_breakpoint)
 extern void __builtin_software_breakpoint(void);
 
-# 47 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\pic16f1518.h"
+# 47 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h"
 extern volatile unsigned char INDF0 @ 0x000;
 
 asm("INDF0 equ 00h");
@@ -3147,7 +2938,7 @@ extern volatile __bit nTO @ (((unsigned) &STATUS)*8) + 4;
 extern volatile __bit nWPUEN @ (((unsigned) &OPTION_REG)*8) + 7;
 
 
-# 27 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\pic.h"
+# 27 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic.h"
 #pragma intrinsic(__nop)
 extern void __nop(void);
 
@@ -3159,7 +2950,7 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 12 "../src/../1.Switch_1Key_Dimmer.X/../src/MCU_B1.h"
+# 12 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/MCU_B1.h"
 void Mcu_Initialization();
 void IO_Set();
 

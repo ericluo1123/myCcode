@@ -86,14 +86,14 @@ void setDelayOff_GO(char sw, char command, char value) {
     DelayOffPointSelect(sw);
     if (DelayOff->Enable) {
         DelayOff->GO = command;
-        if (command) {
+        if (command == true) {
             DelayOff->Value = DelayTimejudge(value);
             if (((value % 16) == 5 || !(value % 16)) && value <= 0x25) {
                 setProductData(26 + sw, value);
             } else {
                 setProductData(26 + sw, 0x05);
             }
-        } else if (!command) {
+        } else if (command == false) {
             setProductData(sw + 26, 0);
         }
         DelayOff->SecondTime = 0;

@@ -1,13 +1,4 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"18 C:/Users/taianluo/Documents/GitHub/myCcode/PIC/mySimpleCode.X/main.c
-[s S8 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S8 . testIa testIb testIc testId testIe testIf testIg testIh ]
-"16
-[u S7 `S8 1 ]
-[n S7 . . ]
-"14
-[s S6 `S7 1 ]
-[n S6 Ball . ]
 [p mainexit ]
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
@@ -93,52 +84,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;stdlib.h: 109: extern char * ltoa(char * buf, long val, int base);
 [; ;stdlib.h: 110: extern char * ultoa(char * buf, unsigned long val, int base);
 [; ;stdlib.h: 112: extern char * ftoa(float f, int * status);
-[; ;main.c: 14: typedef struct Ball {
-[; ;main.c: 16: union {
-[; ;main.c: 18: struct {
-[; ;main.c: 19: unsigned testIa : 1;
-[; ;main.c: 20: unsigned testIb : 1;
-[; ;main.c: 21: unsigned testIc : 1;
-[; ;main.c: 22: unsigned testId : 1;
-[; ;main.c: 23: unsigned testIe : 1;
-[; ;main.c: 24: unsigned testIf : 1;
-[; ;main.c: 25: unsigned testIg : 1;
-[; ;main.c: 26: unsigned testIh : 1;
-[; ;main.c: 27: };
-[; ;main.c: 29: };
-[; ;main.c: 30: } Ball;
-"32 C:/Users/taianluo/Documents/GitHub/myCcode/PIC/mySimpleCode.X/main.c
-[v __ball `S6 ~T0 @X0 1 e ]
-[; ;main.c: 32: Ball _ball;
-"33
-[v _ball `*S6 ~T0 @X0 1 e ]
-[; ;main.c: 33: Ball *ball;
-"35
+"14 C:/Users/taianluo/Documents/GitHub/myCcode/PIC/mySimpleCode.X/newmain.c
 [v _main `(i ~T0 @X0 1 ef2`i`**uc ]
 {
-[; ;main.c: 35: int main(int argc, char** argv) {
+[; ;newmain.c: 14: int main(int argc, char** argv) {
 [e :U _main ]
 [v _argc `i ~T0 @X0 1 r1 ]
 [v _argv `**uc ~T0 @X0 1 r2 ]
 [f ]
-"36
-[v _i `l ~T0 @X0 1 a ]
-[v _j `l ~T0 @X0 1 a ]
-[; ;main.c: 36: long int i, j;
-[; ;main.c: 37: ball = &_ball;
-"37
-[e = _ball &U __ball ]
-[; ;main.c: 40: i = sizeof (j);
-"40
-[e = _i -> -> # _j `ui `l ]
-[; ;main.c: 41: j = 255;
-"41
-[e = _j -> -> 255 `i `l ]
-[; ;main.c: 44: return (0);
-"44
+"16
+[v _i `uc ~T0 @X0 1 a ]
+[; ;newmain.c: 16: unsigned char i;
+[; ;newmain.c: 17: while (1) {
+"17
+[e :U 8 ]
+{
+[; ;newmain.c: 18: i=~i & 0x01;
+"18
+[e = _i -> & ~ -> _i `i -> 1 `i `uc ]
+"19
+}
+[e :U 7 ]
+"17
+[e $U 8  ]
+[e :U 9 ]
+[; ;newmain.c: 19: }
+[; ;newmain.c: 21: return (0);
+"21
 [e ) -> 0 `i ]
-[e $UE 9  ]
-[; ;main.c: 45: }
-"45
-[e :UE 9 ]
+[e $UE 6  ]
+[; ;newmain.c: 22: }
+"22
+[e :UE 6 ]
 }

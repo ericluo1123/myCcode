@@ -124,7 +124,7 @@
 //LED
 #define LED_use 1
 //Buzzer
-#define Buzzer_use 1	
+#define Buzzer_use 1
 //Switch
 #define Switch_use 1
 //Lights
@@ -139,10 +139,15 @@
 #define Dimmer_use 	1
 //SegmentDisplay
 #define SegmentDisplay_use 0
+//CDS
+#define CDS_use 0
+//PIR
+#define PIR_use 0
 
 
 
 //include
+
 
 #include "../src/Main_B1.h"
 #include "../src/Activity_B1.h"

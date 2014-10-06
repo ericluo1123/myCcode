@@ -142,15 +142,18 @@ void TMR0_ISR() {
 #if Dimmer_use == 1
 
 #ifdef use_1KEY
-        setDimmerLights11_Control(1);
+        setDimmerLights_IntrControl(1);
+        // setDimmerLights_IntrControl(1);
 #endif
 
 #ifdef use_2KEY
-        setDimmerLights22_Control(2);
+        setDimmerLights_IntrControl(2);
+        //setDimmerLights22_Control(2);
 #endif
 
 #ifdef use_3KEY
-        setDimmerLights33_Control(3);
+        setDimmerLights_IntrControl(3);
+        // setDimmerLights33_Control(3);
 #endif
 
 #endif
@@ -159,101 +162,36 @@ void TMR0_ISR() {
         if (Timer0->Count == TMR0_10ms) {
             Timer0->Count = 0;
             myMain->T0_Timerout = 1;
-        }
 
 #if Buzzer_use == 1
-        if (Buz->GO) {
-            Buz->Time++;
+            setBuz_Counter();
+#endif
+            
         }
-#endif	
-
-
     }
 }
 //*********************************************************
 
-void setDimmerReClock() {
+inline void setDimmerReClock() {
     TMR0 = 255;
 
 #if Dimmer_use == 1
+
 #ifdef use_1KEY
-#if Control_Method_Triac == 1
-    if (!DimmerLights11->GO) {
-        DimmerLights11->GO = 1;
-    }
-#endif
-
-#if Control_Method_Mosfet == 1
-
-    if (!DimmerLights11->GO && !DimmerLights11->MosfetOpen) {
-        DimmerLights11->GO = 1;
-        if (DimmerLights11->StatusFlag) {
-            Mosfet1 = 1;
-            ID_1KEY_1;
-        }
-    }
-
-    //    if (!DimmerLights11->MosfetSignal) {
-    //        DimmerLights11->MosfetSignal = 1;
-    //        //        if (DimmerReference1 == true) {
-    //        //            DimmerLights11->TuneValue=157;
-    //        //        }else{
-    //        //            DimmerLights11->TuneValue=140;
-    //        //        }
-    //    }
-    /*
-        if (!DimmerLights11->GO && !DimmerLights11->MosfetOpen) {
-            DimmerLights11->GO = 1;
-            if (DimmerLights11->StatusFlag) {
-                Mosfet1 = 1;
-                ID_1KEY_1;
-            }
-        }
-     */
-
-#endif
+    setDimmerLights_IntrGO(1);
 #endif
 
 #ifdef use_2KEY
-#if Control_Method_Triac == 1
-    if (!DimmerLights22->GO) {
-        DimmerLights22->GO = 1;
-    }
-#endif
-
-#if Control_Method_Mosfet == 1
-
-    //    if (!DimmerLights22->MosfetSignal) {
-    //        DimmerLights22->MosfetSignal = 1;
-    //    }
-    if (!DimmerLights22->GO && !DimmerLights22->MosfetOpen) {
-        DimmerLights22->GO = 1;
-        if (DimmerLights22->StatusFlag) {
-            Mosfet2 = 1;
-        }
-    }
-
-    /*
-                if (!DimmerLights22->GO && !DimmerLights22->MosfetOpen) {
-                    DimmerLights22->GO = 1;
-                    if (DimmerLights22->StatusFlag) {
-                        Mosfet2 = 1;
-                    }
-                }
-     */
-#endif
+    setDimmerLights_IntrGO(2);
 #endif
 
 #ifdef use_3KEY
-#if Control_Method_Triac == 1
-    if (!DimmerLights33->GO) {
-        DimmerLights33->GO = 1;
-    }
-#endif
+    setDimmerLights_IntrGO(3);
 #endif	
 #endif
 }
 
+//end Tim0
 #endif
 //*********************************************************
 
@@ -287,7 +225,7 @@ void TMR1_ISR() {
 
 #if Buzzer_use == 1
     if (Buz->GO) {
-        Buz->Time++;
+        Buz->Counter++;
     }
 #endif
 }
@@ -360,20 +298,7 @@ void IOC_ISR() {
         IOCIF = 0;
         if (myMain->PowerON) {
 #if Dimmer_use == 1
-
-#if Control_Method_Triac == 1
             setDimmerReClock();
-            if (DimmerReference1) {
-                Dimmer->Correction = 0;
-            } else {
-                Dimmer->Correction = CorrectionValue;
-            }
-#endif
-
-#if Control_Method_Mosfet == 1
-            Dimmer->Correction = 0;
-            setDimmerReClock();
-#endif
 #endif
         }
     }

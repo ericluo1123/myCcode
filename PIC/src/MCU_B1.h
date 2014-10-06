@@ -361,7 +361,7 @@ struct Timer0 *Timer0;
 
 void TMR0_Set();
 void TMR0_ISR();
-void setDimmerReClock();
+inline void setDimmerReClock();
 #else
 //TMR0 NOP()
 #define	TMR0_Set()	; 
