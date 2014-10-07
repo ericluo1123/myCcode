@@ -24,7 +24,7 @@
 
 		//Tolerance
 
-		#define CorrectionValue 8//14
+		#define CorrectionValue 0//14
 	//	#define TriacTimeValue	1
 		#define DetectTime 50
 		#define DimmerTuneValue 157
@@ -64,8 +64,10 @@
 			unsigned Clear:1;
 
 			unsigned MosfetSignal:1;
+                        unsigned MosfetOK:1;
 			unsigned char MosfetSignalCount;
                         unsigned char TuneValue;
+                        unsigned char MosfetOK_Count;
 
 			
 		};
@@ -815,11 +817,11 @@
 									}\
 									else\
  {\
-										DimmerLights22->Signal = 0;                           \
-									                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
-								                                                                                                                                                                                                                                                                                                                                    }\
-							                                                                                                                                                                                                                        }\
-						                                                                                                            }\
+										DimmerLights22->Signal = 0;                                   \
+									                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
+								                                                                                                                                                                                                                                                                                                                                                                                                                                    }\
+							                                                                                                                                                                                                                                                                                        }\
+						                                                                                                                                            }\
 					}\
 					;
 #endif

@@ -69,7 +69,7 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
-# 14 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h"
+# 10 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
 }Product;
@@ -85,7 +85,7 @@ Product _product = {
 }
 };
 
-# 64
+# 60
 struct myMain {
 unsigned PowerON : 1;
 unsigned T0_Timerout : 1;
@@ -152,20 +152,20 @@ struct Buzzer *Buz;
 
 struct Buzzer Buz1;
 
-# 48
-inline void Buzzer_Initialization();
+# 50
+void Buzzer_Initialization();
 
-# 52
+# 55
 void Buzzer_Main();
 
-# 58
+# 69
 void setBuz(char count, int time);
 
-# 63
-inline void setBuz_Enable(char command);
+# 79
+void setBuz_Enable(char command);
 
-# 67
-inline void setBuz_Counter();
+# 85
+inline void Buz_Counter();
 
 # 14 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
 struct Switch {
@@ -448,71 +448,6 @@ struct RFSW RFSW2;
 void setRF_DimmerValue(char);
 void setRF_DimmerLights(char, char);
 
-# 155 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h"
-struct OverLoad {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned LightsON : 1;
-unsigned Safe : 1;
-unsigned ADtoGO : 1;
-unsigned ERROR : 1;
-unsigned int Time;
-unsigned int ErrorTime;
-unsigned char ErrorStatus;
-
-# 187
-unsigned int TotalLoad;
-unsigned int AH[9];
-unsigned int AL[9];
-unsigned int AD;
-unsigned int ADH;
-unsigned int ADL;
-unsigned int ADRES;
-
-
-
-unsigned int LightsJudgeValue;
-unsigned int JudgeValue;
-unsigned int Judge;
-
-unsigned char Count;
-unsigned char OffCount;
-unsigned char ErrorCount;
-unsigned char UpdateCount;
-unsigned char LightsCount;
-unsigned char NumberCount;
-unsigned char CloseCount;
-unsigned char ADCount;
-unsigned char SafeCount;
-
-unsigned char Lights1Status;
-unsigned char Lights2Status;
-unsigned char Lights3Status;
-unsigned StatusOn : 1;
-unsigned StatusOff : 1;
-};
-struct OverLoad *Load;
-
-
-struct OverLoad Load1;
-
-
-
-
-void Load_Initialization();
-void Load_Main();
-void getLoad_AD(char);
-void setLoad_Exceptions(char);
-void setLoad_Enable(char);
-void setLoad_AH_AL_Restore();
-
-void setLoad_Count(char);
-void setLoad_GO(char);
-void setLoad_StatusOn(char, char);
-void setLoad_StatusOff(char, char);
-char getLoad_Safe();
-char getLoad_ERROR();
-
 # 33 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights
 {
@@ -548,15 +483,17 @@ unsigned char DetectCount;
 unsigned Clear:1;
 
 unsigned MosfetSignal:1;
+unsigned MosfetOK:1;
 unsigned char MosfetSignalCount;
 unsigned char TuneValue;
+unsigned char MosfetOK_Count;
 
 
 };
 struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 
-# 87
+# 89
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
@@ -565,7 +502,7 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 111
+# 113
 inline void setDimmerLights_IntrControl(char lights);
 inline void DimmerIntrPointSelect(char);
 inline void setDimmerLights_IntrGO(char);
@@ -597,7 +534,7 @@ char getDimmerLights_Trigger();
 
 void setDimmerLights_Clear(char,char);
 
-# 147
+# 149
 struct Dimmer
 {
 
@@ -3207,252 +3144,4 @@ struct WDT *WDT;
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
-
-# 9 "../src/OverLoad_B1.c"
-void Load_Initialization() {
-Load = &Load1;
-Load->Safe = 1;
-setLoad_AH_AL_Restore();
-}
-
-
-void getLoad_AD(char channel) {
-char i = 0, j = 0;
-
-if (Load->ADtoGO) {
-Load->ADRES = getAD(channel, 0xc0);
-for (i = 0; i < 5; i++) {
-if (Load->AH[i] < Load->ADRES) {
-Load->AH[i] = Load->ADRES;
-j = 1;
-break;
-}
-}
-if (!j) {
-for (i = 0; i < 5; i++) {
-if (Load->AL[i] > Load->ADRES) {
-Load->AL[i] = Load->ADRES;
-break;
-}
-}
-}
-}
-}
-
-
-void Load_Main() {
-char i;
-if (Load->ERROR) {
-Load->ErrorTime++;
-if (Load->ErrorTime >= 1000)
-{
-Load->ErrorTime = 0;
-setLoad_Exceptions(0);
-}
-} else {
-if (Load->ADtoGO) {
-Load->Time++;
-if (Load->Time >= 5)
-{
-Load->Time = 0;
-Load->ADtoGO = 0;
-Load->LightsCount = Load->Lights1Status + Load->Lights2Status + Load->Lights3Status;
-for (i = 1; i < 4; i++) {
-Load->ADH += Load->AH[i];
-Load->ADL += Load->AL[i];
-}
-Load->ADH /= 3;
-Load->ADL /= 3;
-if (Load->ADH > Load->ADL) {
-Load->AD = (Load->ADH - Load->ADL);
-
-if (Load->Count < 2) {
-Load->Count++;
-if (Load->Count == 1) {
-Load->JudgeValue = 500;
-} else if (Load->Count == 2) {
-if (Load->LightsCount == 1) {
-Load->JudgeValue = 0x32;
-} else {
-Load->JudgeValue = (0x32 + Load->TotalLoad) - 0x08;
-}
-}
-}
-
-if (Load->AD >= Load->JudgeValue) {
-Load->ErrorCount++;
-if (Load->ErrorCount > 2) {
-Load->ErrorCount = 0;
-setLoad_Exceptions(1);
-
-# 92
-}
-} else {
-Load->ErrorCount = 0;
-if (Load->SafeCount < 10) {
-Load->SafeCount++;
-}
-if (Load->SafeCount >= 10) {
-Load->Safe = 1;
-
-
-
-setDimmerLights_Clear(1, 1);
-
-
-
-;;
-
-# 113
-setDimmerLights_Clear(2, 1);
-
-
-
-;;
-
-# 132
-if (Load->StatusOn) {
-Load->StatusOn = 0;
-Load->TotalLoad = Load->AD;
-
-}
-
-if (Load->StatusOff) {
-Load->StatusOff = 0;
-Load->TotalLoad = Load->AD;
-Load->JudgeValue = 0x32 * Load->LightsCount;
-}
-}
-}
-}
-setLoad_AH_AL_Restore();
-
-# 158
-}
-} else {
-if (Load->GO) {
-if (!Load->LightsON) {
-Load->LightsON = 1;
-Load->Safe = 0;
-}
-if (1 && 1) {
-Load->ADtoGO = 1;
-}
-} else {
-if (Load->LightsON) {
-Load->LightsON = 0;
-Load->Safe = 1;
-Load->ErrorCount = 0;
-Load->Count = 0;
-Load->TotalLoad = 0;
-Load->NumberCount = 0;
-Load->StatusOn = 0;
-Load->StatusOff = 0;
-Load->AD = 0;
-setLoad_AH_AL_Restore();
-
-
-
-setDimmerLights_Clear(1, 1);
-
-
-
-;;
-
-# 193
-setDimmerLights_Clear(2, 1);
-
-
-
-;;
-
-# 225
-}
-}
-}
-}
-}
-
-
-void setLoad_Exceptions(char command) {
-Load->ERROR = command;
-Load->Safe = (~command) & 0x01;
-Load->ErrorStatus = command;
-
-if (command) {
-DimmerLights_Exceptions(2);
-
-# 242
-}
-setLED(99, command + 10);
-
-setSw_Enable((~command) & 0x01);
-
-setRF_Enable(1, (~command) & 0x01);
-
-
-
-}
-
-
-void setLoad_Count(char command) {
-Load->Count = command;
-Load->SafeCount = command;
-}
-
-
-void setLoad_Enable(char command) {
-Load->Enable = command;
-Load->GO = 0;
-}
-
-void setLoad_GO(char command) {
-Load->GO = command;
-}
-
-void setLoad_StatusOn(char lights, char command) {
-Load->GO = 1;
-Load->StatusOn = command;
-
-if (lights == 1) {
-Load->Lights1Status = 1;
-}
-if (lights == 2) {
-Load->Lights2Status = 1;
-}
-if (lights == 3) {
-Load->Lights3Status = 1;
-}
-}
-
-void setLoad_StatusOff(char lights, char command) {
-Load->StatusOff = command;
-Load->SafeCount -= 2;
-if (lights == 1) {
-Load->Lights1Status = 0;
-}
-if (lights == 2) {
-Load->Lights2Status = 0;
-}
-if (lights == 3) {
-Load->Lights3Status = 0;
-}
-}
-
-char getLoad_Safe() {
-return Load->Safe;
-}
-
-char getLoad_ERROR() {
-return Load->ERROR;
-}
-
-
-void setLoad_AH_AL_Restore() {
-char i;
-for (i = 0; i < 5; i++) {
-Load->AH[i] = 0;
-Load->AL[i] = 0xffff;
-}
-}
 

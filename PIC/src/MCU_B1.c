@@ -123,23 +123,62 @@ void interrupt ISR(void)// interrupt 0	// ISR (Interrupt Service Routines)
     I2C_ISR();
 }
 //*********************************************************
-#if Timer0_use == 1
+#if Timer0_use == true
 
 void TMR0_Set() {
     Timer0 = &VarTimer0;
     OPTION_REG = OPTION_REG_Value;
     TMR0 = TMR0_Value;
-    TMR0IE = 1;
-    GIE = 1;
+    TMR0IE = true;
+    GIE = true;
 }
 //*********************************************************
 
 void TMR0_ISR() {
-    if (TMR0IE && TMR0IF) {
+    if (TMR0IE == true && TMR0IF == true) {
         TMR0 = TMR0_Value;
-        TMR0IF = 0;
+        TMR0IF = false;
 
-#if Dimmer_use == 1
+#if Dimmer_use == true
+
+        DimmerIntrPointSelect(1);
+        if (DimmerLights->MosfetOK == true) {
+            DimmerLights->MosfetOK_Count++;
+            if (DimmerLights->MosfetOK_Count == 220) {
+                DimmerLights->MosfetOK_Count = 0;
+                DimmerLights->MosfetOK = false;
+            }
+        }
+        if (DimmerLightsIntr->MosfetSignal == true) {
+            DimmerLightsIntr->MosfetSignalCount++;
+            if (DimmerLightsIntr->MosfetSignalCount == 130) {
+                DimmerLightsIntr->MosfetSignalCount = 0;
+                DimmerLightsIntr->MosfetSignal = false;
+                ErrLED = 0;
+                if (DimmerLightsIntr->GO == false) {
+
+                    DimmerLightsIntr->GO = true;
+
+                    if (DimmerLightsIntr->StatusFlag == true) {
+#ifdef use_1KEY
+                        Mosfet1 = true;
+                        ID_1KEY_1;
+#endif
+                    }
+                }
+                DimmerIntrPointSelect(2);
+                if (DimmerLightsIntr->GO == false) {
+
+                    DimmerLightsIntr->GO = true;
+
+                    if (DimmerLightsIntr->StatusFlag == true) {
+#ifdef use_2KEY
+                        Mosfet2 = true;
+#endif
+                    }
+                }
+            }
+        }
 
 #ifdef use_1KEY
         setDimmerLights_IntrControl(1);
@@ -164,9 +203,9 @@ void TMR0_ISR() {
             myMain->T0_Timerout = 1;
 
 #if Buzzer_use == 1
-            setBuz_Counter();
+            Buz_Counter();
 #endif
-            
+
         }
     }
 }
@@ -262,22 +301,22 @@ void setINT_GO(char command) {
 //*********************************************************
 
 //*********************************************************
-#if IOC_use == 1
+#if IOC_use == true
 
 void IOC_Set() {
-    WPUB2 = 0;
-#if Control_Method_Triac == 1
+    WPUB2 = false;
+#if Control_Method_Triac == true
     IOCBP = 0b00000100;
     IOCBN = 0b00000100;
 #endif
 
-#if Control_Method_Mosfet == 1
-#if Dimmer_Half_Wave == 1
-    IOCBP = 0b00000100;
+#if Control_Method_Mosfet == true
+#if Dimmer_Half_Wave == true
+    IOCBP = 0b00000000;
     IOCBN = 0b00000100;
 #endif
 
-#if Dimmer_Full_Wave == 1
+#if Dimmer_Full_Wave == true
     IOCBP = 0b00000000; //Positive
     IOCBN = 0b00000100; //Negative
 #endif
@@ -285,19 +324,19 @@ void IOC_Set() {
 
     IOCBF = 0b00000000;
 
-    IOCIE = 1;
-    IOCIF = 0;
-    PEIE = 1;
-    GIE = 1;
+    IOCIE = true;
+    IOCIF = false;
+    PEIE = true;
+    GIE = true;
 }
 //*********************************************************
 
 void IOC_ISR() {
-    if (IOCIE && IOCBF2) {
-        IOCBF2 = 0;
-        IOCIF = 0;
-        if (myMain->PowerON) {
-#if Dimmer_use == 1
+    if (IOCIE == true && IOCBF2 == true) {
+        IOCBF2 = false;
+        IOCIF = false;
+        if (myMain->PowerON == true) {
+#if Dimmer_use == true
             setDimmerReClock();
 #endif
         }

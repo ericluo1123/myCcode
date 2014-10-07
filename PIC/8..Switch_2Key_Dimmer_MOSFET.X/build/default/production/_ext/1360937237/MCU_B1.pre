@@ -69,7 +69,7 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
-# 14 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h"
+# 10 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
 }Product;
@@ -85,7 +85,7 @@ Product _product = {
 }
 };
 
-# 64
+# 60
 struct myMain {
 unsigned PowerON : 1;
 unsigned T0_Timerout : 1;
@@ -152,20 +152,20 @@ struct Buzzer *Buz;
 
 struct Buzzer Buz1;
 
-# 48
-inline void Buzzer_Initialization();
+# 50
+void Buzzer_Initialization();
 
-# 52
+# 55
 void Buzzer_Main();
 
-# 58
+# 69
 void setBuz(char count, int time);
 
-# 63
-inline void setBuz_Enable(char command);
+# 79
+void setBuz_Enable(char command);
 
-# 67
-inline void setBuz_Counter();
+# 85
+inline void Buz_Counter();
 
 # 14 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
 struct Switch {
@@ -448,71 +448,6 @@ struct RFSW RFSW2;
 void setRF_DimmerValue(char);
 void setRF_DimmerLights(char, char);
 
-# 155 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h"
-struct OverLoad {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned LightsON : 1;
-unsigned Safe : 1;
-unsigned ADtoGO : 1;
-unsigned ERROR : 1;
-unsigned int Time;
-unsigned int ErrorTime;
-unsigned char ErrorStatus;
-
-# 187
-unsigned int TotalLoad;
-unsigned int AH[9];
-unsigned int AL[9];
-unsigned int AD;
-unsigned int ADH;
-unsigned int ADL;
-unsigned int ADRES;
-
-
-
-unsigned int LightsJudgeValue;
-unsigned int JudgeValue;
-unsigned int Judge;
-
-unsigned char Count;
-unsigned char OffCount;
-unsigned char ErrorCount;
-unsigned char UpdateCount;
-unsigned char LightsCount;
-unsigned char NumberCount;
-unsigned char CloseCount;
-unsigned char ADCount;
-unsigned char SafeCount;
-
-unsigned char Lights1Status;
-unsigned char Lights2Status;
-unsigned char Lights3Status;
-unsigned StatusOn : 1;
-unsigned StatusOff : 1;
-};
-struct OverLoad *Load;
-
-
-struct OverLoad Load1;
-
-
-
-
-void Load_Initialization();
-void Load_Main();
-void getLoad_AD(char);
-void setLoad_Exceptions(char);
-void setLoad_Enable(char);
-void setLoad_AH_AL_Restore();
-
-void setLoad_Count(char);
-void setLoad_GO(char);
-void setLoad_StatusOn(char, char);
-void setLoad_StatusOff(char, char);
-char getLoad_Safe();
-char getLoad_ERROR();
-
 # 33 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights
 {
@@ -548,15 +483,17 @@ unsigned char DetectCount;
 unsigned Clear:1;
 
 unsigned MosfetSignal:1;
+unsigned MosfetOK:1;
 unsigned char MosfetSignalCount;
 unsigned char TuneValue;
+unsigned char MosfetOK_Count;
 
 
 };
 struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 
-# 87
+# 89
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
@@ -565,7 +502,7 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 111
+# 113
 inline void setDimmerLights_IntrControl(char lights);
 inline void DimmerIntrPointSelect(char);
 inline void setDimmerLights_IntrGO(char);
@@ -597,7 +534,7 @@ char getDimmerLights_Trigger();
 
 void setDimmerLights_Clear(char,char);
 
-# 147
+# 149
 struct Dimmer
 {
 
@@ -3294,11 +3231,50 @@ GIE = 1;
 
 
 void TMR0_ISR() {
-if (TMR0IE && TMR0IF) {
+if (TMR0IE == 1 && TMR0IF == 1) {
 TMR0 = (256-90);
 TMR0IF = 0;
 
 
+
+DimmerIntrPointSelect(1);
+if (DimmerLights->MosfetOK == 1) {
+DimmerLights->MosfetOK_Count++;
+if (DimmerLights->MosfetOK_Count == 220) {
+DimmerLights->MosfetOK_Count = 0;
+DimmerLights->MosfetOK = 0;
+}
+}
+if (DimmerLightsIntr->MosfetSignal == 1) {
+DimmerLightsIntr->MosfetSignalCount++;
+if (DimmerLightsIntr->MosfetSignalCount == 130) {
+DimmerLightsIntr->MosfetSignalCount = 0;
+DimmerLightsIntr->MosfetSignal = 0;
+RB5 = 0;
+if (DimmerLightsIntr->GO == 0) {
+
+DimmerLightsIntr->GO = 1;
+
+if (DimmerLightsIntr->StatusFlag == 1) {
+
+RA7 = 1;
+;;
+
+}
+}
+DimmerIntrPointSelect(2);
+if (DimmerLightsIntr->GO == 0) {
+
+DimmerLightsIntr->GO = 1;
+
+if (DimmerLightsIntr->StatusFlag == 1) {
+
+RB4 = 1;
+
+}
+}
+}
+}
 
 
 setDimmerLights_IntrControl(1);
@@ -3308,21 +3284,17 @@ setDimmerLights_IntrControl(1);
 
 setDimmerLights_IntrControl(2);
 
-# 161
+# 200
 Timer0->Count++;
 if (Timer0->Count == 200) {
 Timer0->Count = 0;
 myMain->T0_Timerout = 1;
 
-if (Buz->GO) {
-Buz->Counter++;
+
+Buz_Counter();
+
+
 }
-
-}
-
-
-
-
 }
 }
 
@@ -3339,10 +3311,10 @@ setDimmerLights_IntrGO(1);
 
 setDimmerLights_IntrGO(2);
 
-# 196
+# 231
 }
 
-# 244
+# 279
 void INT_Set() {
 WPUB0 = 0;
 INTE = 1;
@@ -3365,15 +3337,15 @@ INTF = 0;
 INTE = command;
 }
 
-# 271
+# 306
 void IOC_Set() {
 WPUB2 = 0;
 
-# 280
-IOCBP = 0b00000100;
+# 315
+IOCBP = 0b00000000;
 IOCBN = 0b00000100;
 
-# 290
+# 325
 IOCBF = 0b00000000;
 
 IOCIE = 1;
@@ -3384,10 +3356,10 @@ GIE = 1;
 
 
 void IOC_ISR() {
-if (IOCIE && IOCBF2) {
+if (IOCIE == 1 && IOCBF2 == 1) {
 IOCBF2 = 0;
 IOCIF = 0;
-if (myMain->PowerON) {
+if (myMain->PowerON == 1) {
 
 setDimmerReClock();
 
@@ -3395,13 +3367,13 @@ setDimmerReClock();
 }
 }
 
-# 317
+# 352
 void ADC_Set() {
 ADCON1 = 0xf2;
 FVRCON = 0xc0;
 }
 
-# 344
+# 379
 int getAD(char adcon0, char adcon1) {
 ADCON0 = adcon0;
 ADCON1 = adcon1;
@@ -3410,7 +3382,7 @@ while (GO_nDONE == 1);
 return ((ADRESH*256)+ADRESL);
 }
 
-# 755
+# 790
 void Flash_Memory_Initialization() {
 char i;
 if (Flash_Memory_Read(31) == 0xaa) {
@@ -3418,7 +3390,7 @@ product->Data[12] = Flash_Memory_Read(0);
 product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
-# 766
+# 801
 i = setPercentValue(((char)(65*1.5)));
 product->Data[21] = i;
 product->Data[22] = i;
@@ -3528,7 +3500,7 @@ Memory->Data[0]=product->Data[12];
 Memory->Data[1]=product->Data[13];
 Memory->Data[2]=product->Data[14];
 
-# 879
+# 914
 if (Memory->LoopSave) {
 Memory->LoopSave = 0;
 myMain->FirstOpen = 0;

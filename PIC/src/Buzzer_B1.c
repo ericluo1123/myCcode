@@ -8,20 +8,20 @@
 
 //*********************************************************
 
-inline void Buzzer_Initialization() {
+void Buzzer_Initialization() {
     Buz = &Buz1;
     Buz->Enable = 1;
 }
 
 //*********************************************************
 
-inline void setBuz_Enable(char command) {
+void setBuz_Enable(char command) {
     Buz->Enable = command;
 }
 //*********************************************************
 
-inline void setBuz_Counter() {
-    if (Buz->GO) {
+inline void Buz_Counter() {
+    if (Buz->GO == true) {
         Buz->Counter++;
     }
 }

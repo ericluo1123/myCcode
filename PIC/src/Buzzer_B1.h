@@ -43,28 +43,46 @@ struct Buzzer Buz1;
 #define BuzzerOnOffTime		100	//*1ms 
 
 /**
+ * void Buzzer_Initialization()\n
+ * \n
  * buzzer initialization
  */
-inline void Buzzer_Initialization();
+void Buzzer_Initialization();
 /**
- * buzzer main
+ * void Buzzer_Main()\n\n
+ * buzzer main code 
  */
 void Buzzer_Main();
 /**
+ * void setBuz(char count, int time)
+ * 
  * set buzzer beeps and time
- * @param count //number of time
- * @param time  //ms
+ *
+ * @param count
+ *
+ * beeps count value
+ *
+ * @param time
+ *
+ * time value /ms
  */
 void setBuz(char count, int time);
 /**
- * set buzzer enable
- * @param command   //1=enable,0=disable
+ * void setBuz_Enable(char command)
+ *
+ * control buzzer enable/disable
+ * 
+ * @param command
+ * 
+ * command 1(enable)/0(disable)
  */
-inline void setBuz_Enable(char command);
+void setBuz_Enable(char command);
 /**
+ * inline void setBuz_Counter()
+ * 
  * buzzer counter
  */
-inline void setBuz_Counter();
+inline void Buz_Counter();
 #else
 #define Buzzer_Initialization() ;
 #define Buzzer_Main() ;

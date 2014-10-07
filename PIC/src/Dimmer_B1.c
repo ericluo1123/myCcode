@@ -23,22 +23,16 @@ inline void DimmerIntrPointSelect(char lights) {
 #endif
 }
 
-
 #if Dimmer_Half_Wave == 1
 
 inline void setDimmerLights_IntrControl(char lights) {
+
     DimmerIntrPointSelect(lights);
-    if (DimmerLightsIntr->MosfetSignal == true) {
-        DimmerLightsIntr->MosfetSignalCount++;
-        if (DimmerLightsIntr->MosfetSignalCount == 100) {
-            DimmerLightsIntr->MosfetSignalCount = 0;
-            DimmerLightsIntr->MosfetSignal = false;
-            ErrLED = false;
-        }
-    }
+
     if (DimmerLightsIntr->GO == true) {
         DimmerLightsIntr->Count++;
-        if (DimmerLightsIntr->Count >= (DimmerLightsIntr->DimmingValue - Dimmer->Correction)) {
+        if (DimmerLightsIntr->Count
+                >= (DimmerLightsIntr->DimmingValue - Dimmer->Correction)) {
             DimmerLightsIntr->Count = 0;
             DimmerLightsIntr->GO = 0;
             DimmerLightsIntr->Flag = 1;
@@ -54,7 +48,6 @@ inline void setDimmerLights_IntrControl(char lights) {
                     Mosfet2 = 0;
                 }
 #endif
-
                 if (DimmerLightsIntr->MosfetClose) {
                     DimmerLightsIntr->MosfetClose = 0;
                     DimmerLightsIntr->StatusFlag = 0;
@@ -70,20 +63,12 @@ inline void setDimmerLights_IntrControl(char lights) {
                         LED2 = 0;
                     }
 #endif
-
                     Dimmer->Detect = 1;
                     setLoad_StatusOff(lights, 1);
                 }
             }
         }
     } else {
-        if (DimmerLightsIntr->MosfetOpen) {
-            DimmerLightsIntr->Count++;
-            if (DimmerLightsIntr->Count >= MosfetOpenToCloseValue) {
-                DimmerLightsIntr->Count = 0;
-                DimmerLightsIntr->MosfetOpen = 0;
-            }
-        }
         if (DimmerLightsIntr->Flag) {
             DimmerLightsIntr->Flag = 0;
             if (DimmerLightsIntr->Signal) {
@@ -126,36 +111,35 @@ inline void setDimmerLights_IntrControl(char lights) {
 
 inline void setDimmerLights_IntrGO(char lights) {
     DimmerIntrPointSelect(lights);
-#if Control_Method_Triac == 1
+#if Control_Method_Triac == true
     if (!DimmerLights11->GO) {
         DimmerLights11->GO = 1;
     }
 #endif
-#if Control_Method_Mosfet == 1
-    if (DimmerReference1 == false) {
-        DimmerLightsIntr->MosfetSignal = true;
+#if Control_Method_Mosfet == true
+    
+    if (DimmerLightsIntr->GO == false
+            && DimmerLights->MosfetOK == false) {
+
         if (lights == 1) {
+            DimmerLightsIntr->MosfetSignal = true;
+            DimmerLights->MosfetOK = true;
             ErrLED = true;
         }
-    }
 
-    if (!DimmerLightsIntr->GO && !DimmerLightsIntr->MosfetOpen) {
-        DimmerLightsIntr->GO = 1;
-        if (DimmerLightsIntr->StatusFlag) {
+        DimmerLightsIntr->GO = true;
+        if (DimmerLightsIntr->StatusFlag == true) {
 #ifdef use_1KEY
             if (lights == 1) {
-                Mosfet1 = 1;
+                Mosfet1 = true;
                 ID_1KEY_1;
             }
-
 #endif
 #ifdef use_2KEY
             if (lights == 2) {
-                Mosfet2 = 1;
+                Mosfet2 = true;
             }
-
 #endif
-
         }
     }
 #endif

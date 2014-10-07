@@ -69,7 +69,7 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
-# 14 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h"
+# 10 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
 }Product;
@@ -85,7 +85,7 @@ Product _product = {
 }
 };
 
-# 64
+# 60
 struct myMain {
 unsigned PowerON : 1;
 unsigned T0_Timerout : 1;
@@ -152,20 +152,20 @@ struct Buzzer *Buz;
 
 struct Buzzer Buz1;
 
-# 48
-inline void Buzzer_Initialization();
+# 50
+void Buzzer_Initialization();
 
-# 52
+# 55
 void Buzzer_Main();
 
-# 58
+# 69
 void setBuz(char count, int time);
 
-# 63
-inline void setBuz_Enable(char command);
+# 79
+void setBuz_Enable(char command);
 
-# 67
-inline void setBuz_Counter();
+# 85
+inline void Buz_Counter();
 
 # 14 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
 struct Switch {
@@ -448,71 +448,6 @@ struct RFSW RFSW2;
 void setRF_DimmerValue(char);
 void setRF_DimmerLights(char, char);
 
-# 155 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h"
-struct OverLoad {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned LightsON : 1;
-unsigned Safe : 1;
-unsigned ADtoGO : 1;
-unsigned ERROR : 1;
-unsigned int Time;
-unsigned int ErrorTime;
-unsigned char ErrorStatus;
-
-# 187
-unsigned int TotalLoad;
-unsigned int AH[9];
-unsigned int AL[9];
-unsigned int AD;
-unsigned int ADH;
-unsigned int ADL;
-unsigned int ADRES;
-
-
-
-unsigned int LightsJudgeValue;
-unsigned int JudgeValue;
-unsigned int Judge;
-
-unsigned char Count;
-unsigned char OffCount;
-unsigned char ErrorCount;
-unsigned char UpdateCount;
-unsigned char LightsCount;
-unsigned char NumberCount;
-unsigned char CloseCount;
-unsigned char ADCount;
-unsigned char SafeCount;
-
-unsigned char Lights1Status;
-unsigned char Lights2Status;
-unsigned char Lights3Status;
-unsigned StatusOn : 1;
-unsigned StatusOff : 1;
-};
-struct OverLoad *Load;
-
-
-struct OverLoad Load1;
-
-
-
-
-void Load_Initialization();
-void Load_Main();
-void getLoad_AD(char);
-void setLoad_Exceptions(char);
-void setLoad_Enable(char);
-void setLoad_AH_AL_Restore();
-
-void setLoad_Count(char);
-void setLoad_GO(char);
-void setLoad_StatusOn(char, char);
-void setLoad_StatusOff(char, char);
-char getLoad_Safe();
-char getLoad_ERROR();
-
 # 33 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights
 {
@@ -548,15 +483,17 @@ unsigned char DetectCount;
 unsigned Clear:1;
 
 unsigned MosfetSignal:1;
+unsigned MosfetOK:1;
 unsigned char MosfetSignalCount;
 unsigned char TuneValue;
+unsigned char MosfetOK_Count;
 
 
 };
 struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 
-# 87
+# 89
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
@@ -565,7 +502,7 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 111
+# 113
 inline void setDimmerLights_IntrControl(char lights);
 inline void DimmerIntrPointSelect(char);
 inline void setDimmerLights_IntrGO(char);
@@ -597,7 +534,7 @@ char getDimmerLights_Trigger();
 
 void setDimmerLights_Clear(char,char);
 
-# 147
+# 149
 struct Dimmer
 {
 
@@ -3469,7 +3406,7 @@ setDimmerLights_AdjGo(sw, 1);
 
 
 void Sw_Detect() {
-if (!getLoad_ERROR() && !0 && !0 && myMain->SelfTest) {
+if (!0 && !0 && !0 && myMain->SelfTest) {
 
 SwPointSelect(1);
 if (Sw->Enable == 0) {
