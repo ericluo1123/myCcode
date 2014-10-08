@@ -9,7 +9,15 @@
 
 //*********************************************************	
 //Routine declaration
+/**
+ * void Mcu_Initialization()\n
+ * MCU initialization\n
+ */
 void Mcu_Initialization();
+/**
+ * void IO_Set()\n
+ * I/O value setting\n
+ */
 void IO_Set();
 
 //*********************************************************
@@ -346,13 +354,17 @@ int getAD(char, char);
 //Virable declaration
 
 struct Timer0 {
-    unsigned Timeout : 1;
+
+    struct {
+        unsigned Timeout : 1;
+        unsigned Reset : 1;
+        unsigned empty : 6;
+    };
+
     unsigned int Count;
     unsigned int Count1;
 
     unsigned int DimmerCount;
-
-    unsigned Reset : 1;
     unsigned char ResetCount;
 };
 //Virable declaration
@@ -416,7 +428,11 @@ inline void setDimmerReClock();
 //Virable declaration
 
 struct Timer1 {
-    unsigned Timeout : 1;
+
+    struct {
+        unsigned Timeout : 1;
+        unsigned empty : 7;
+    };
     unsigned int Count;
 };
 struct Timer1 VarTimer1;
@@ -461,12 +477,16 @@ struct I2C {
     unsigned char BufferWriter[32];
     unsigned char Count;
     unsigned char Address;
-    unsigned SlaveGO : 1;
-    unsigned SlaveRxGO : 1;
-    unsigned SlaveTxGO : 1;
-    unsigned MasterTxGO : 1;
-    unsigned MasterRxGO : 1;
-    unsigned SS : 1;
+
+    struct {
+        unsigned SlaveGO : 1;
+        unsigned SlaveRxGO : 1;
+        unsigned SlaveTxGO : 1;
+        unsigned MasterTxGO : 1;
+        unsigned MasterRxGO : 1;
+        unsigned SS : 1;
+        unsigned empty : 2;
+    };
 }
 struct I2C VarI2C;
 struct I2C *I2C;
@@ -553,8 +573,13 @@ struct UART {
     unsigned char Count;
     unsigned char TxLength;
     unsigned char RxLength;
-    unsigned TxGO : 1;
-    unsigned RxGO : 1;
+
+    struct {
+        unsigned TxGO : 1;
+        unsigned RxGO : 1;
+        unsigned empty : 6;
+    };
+
 };
 struct UART *UART;
 struct UART VarUart;
@@ -594,10 +619,14 @@ struct FlashMemory {
     unsigned char Data[32];
     unsigned char ReadDataH;
     unsigned char ReadDataL;
-    unsigned Modify : 1;
-    unsigned GO : 1;
-    unsigned LoopSave : 1;
     unsigned int Time;
+
+    struct {
+        unsigned Modify : 1;
+        unsigned GO : 1;
+        unsigned LoopSave : 1;
+        unsigned empty : 5;
+    };
 };
 struct FlashMemory *Memory;
 struct FlashMemory VarMemory = {
@@ -616,13 +645,13 @@ struct FlashMemory VarMemory = {
 #define setMemoryData(address,data) Memory->Data[address]=data	
 #define setMemory_Modify(command) Memory->Modify=command
 #define setMemory_LoopSave(command) Memory->LoopSave=command
-#define setMemory_GO(command)\
-					Memory->GO=command;\
-					if(!command)\
-					{\
-						Memory->Time=command;\
-					}\
-					;
+//#define setMemory_GO(command)\
+//					Memory->GO=command;\
+//					if(!command)\
+//					{\
+//						Memory->Time=command;\
+//					}\
+//					;
 
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
@@ -631,6 +660,7 @@ void Flash_Memory_Write();
 void Flash_Memory_Erasing();
 void Flash_Memory_Modify();
 void Flash_Memory_Main();
+void setMemory_GO(char command);
 #else
 //NOP
 #define Flash_Memory_Set() ;

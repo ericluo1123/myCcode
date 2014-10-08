@@ -6,6 +6,6 @@
 #define false       0
 #define enable      1
 #define disable     0
-#include "../8..Switch_2Key_Dimmer_MOSFET.X/Switch_1Key_Dimmer_MOSFET_V1.0.1.2.1.h"
+#include "../2.Switch_2Key_Dimmer.X/Switch_2Key_Dimmer_V1.2.1.2.1.h"
 
 #endif

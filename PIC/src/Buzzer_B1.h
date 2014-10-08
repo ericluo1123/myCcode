@@ -1,13 +1,12 @@
-
-#ifndef _Buzzer_H_
-#define _Buzzer_H_
 /**
  * buzzer header file
- *
  */
+#ifndef _Buzzer_H_
+#define _Buzzer_H_
+
 
 #if Buzzer_use == 1
-//Global extern variable declaration
+//Global variable declaration
 
 struct Buzzer {
 
@@ -21,7 +20,6 @@ struct Buzzer {
         unsigned empty1 : 2;
 
     };
-
 
     unsigned int Counter;
     unsigned char Count;
@@ -44,43 +42,34 @@ struct Buzzer Buz1;
 
 /**
  * void Buzzer_Initialization()\n
- * \n
- * buzzer initialization
+ * buzzer initialization\n
  */
 void Buzzer_Initialization();
 /**
- * void Buzzer_Main()\n\n
- * buzzer main code 
+ * void Buzzer_Main()\n
+ * buzzer main code \n
  */
 void Buzzer_Main();
 /**
- * void setBuz(char count, int time)
- * 
- * set buzzer beeps and time
- *
- * @param count
- *
- * beeps count value
- *
- * @param time
- *
- * time value /ms
+ * void setBuz(char count, int time)\n
+ * set buzzer beeps and time\n
+ * @param count\n
+ * count value=1~10\n
+ * @param time\n
+ * time value=100~1000 ms\n
  */
 void setBuz(char count, int time);
 /**
- * void setBuz_Enable(char command)
- *
- * control buzzer enable/disable
- * 
- * @param command
- * 
- * command 1(enable)/0(disable)
+ * void setBuz_Enable(char command)\n
+ * control buzzer enable/disable\n
+ * @param command\n
+ * enable command value=1/enable
+ * disable command value=0/disable
  */
 void setBuz_Enable(char command);
 /**
- * inline void setBuz_Counter()
- * 
- * buzzer counter
+ * inline void setBuz_Counter()\n
+ * buzzer counter\n
  */
 inline void Buz_Counter();
 #else

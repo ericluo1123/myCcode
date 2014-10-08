@@ -35,8 +35,8 @@
 #define Control_Method_Triac		1
 #define Control_Method_Relay		0
 #define Control_Method_TriacRelay	0
-#define Properties_Neutral			0
-#define Properties_Dimmer			1
+#define Properties_Neutral		0
+#define Properties_Dimmer		1
 #define Debug 1
 #define Create_Date "2014/9/25"
 #define PCB_Name "TH-302PV11-1-Dim(20140722)"

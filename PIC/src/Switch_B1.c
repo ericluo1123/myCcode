@@ -221,6 +221,7 @@ void setSw_Main(char sw) {
 
 void Sw_DimmerOnFunc(char sw) {
     char Idle = 1;
+#if Dimmer_use == 1
 #if Switch_Class == 3
     if (sw == 1) {
         Idle = (DimmerLights22->AdjGo || DimmerLights33->AdjGo) ? 0 : 1;
@@ -238,7 +239,7 @@ void Sw_DimmerOnFunc(char sw) {
         Idle = (DimmerLights11->AdjGo) ? 0 : 1;
     }
 #endif
-
+#endif
     if (Idle) {
         Sw->Flag = 1;
         setBuz(1, BuzzerOnOffTime);
@@ -289,6 +290,7 @@ void Sw_DimmerOffFunc(char sw) {
 
 void Sw_DimmerAdjFunc(char sw) {
     char Idle = 1;
+#if Dimmer_use == 1
 #if Switch_Class == 3
     if (sw == 1) {
         Idle = (DimmerLights22->AdjGo || DimmerLights33->AdjGo) ? 0 : 1;
@@ -306,7 +308,7 @@ void Sw_DimmerAdjFunc(char sw) {
         Idle = (DimmerLights11->AdjGo) ? 0 : 1;
     }
 #endif
-
+#endif
     if (Idle) {
         if (Sw->Flag) {
             Sw->Adj = 1;

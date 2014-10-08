@@ -124,7 +124,7 @@ struct myMain *myMain;
 void myMain_Initialization();
 void my_Main();
 
-# 12 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Buzzer_B1.h"
+# 11 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Buzzer_B1.h"
 struct Buzzer {
 
 struct {
@@ -137,7 +137,6 @@ unsigned Switch : 1;
 unsigned empty1 : 2;
 
 };
-
 
 unsigned int Counter;
 unsigned char Count;
@@ -152,19 +151,19 @@ struct Buzzer *Buz;
 
 struct Buzzer Buz1;
 
-# 50
+# 48
 void Buzzer_Initialization();
 
-# 55
+# 53
 void Buzzer_Main();
 
-# 69
+# 67
 void setBuz(char count, int time);
 
-# 79
+# 77
 void setBuz_Enable(char command);
 
-# 85
+# 83
 inline void Buz_Counter();
 
 # 14 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
@@ -451,6 +450,7 @@ void setRF_DimmerLights(char, char);
 # 33 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights
 {
+struct{
 unsigned GO:1;
 unsigned Signal:1;
 unsigned AdjRF:1;
@@ -459,31 +459,36 @@ unsigned AdjStatus:1;
 unsigned Status:1;
 unsigned StatusFlag:1;
 unsigned OverLoad:1;
+};
+
 unsigned char DimmingTime;
 unsigned char DimmingTimeValue;
 unsigned char Count;
 unsigned char DimmingValue;
 unsigned char MaxmumValue;
 unsigned char MinimumValue;
-unsigned Flag:1;
-unsigned char TriacTime;
 
+unsigned char TriacTime;
+struct{
+unsigned Flag:1;
 unsigned Switch:1;
 unsigned Trigger:1;
 unsigned AdjGo:1;
 unsigned TriggerAdj:1;
-
 unsigned Triac:1;
 unsigned MosfetOpen:1;
 unsigned MosfetClose:1;
+};
+
+struct{
 unsigned DetectOpen:1;
 unsigned DetectClose:1;
-unsigned char DetectCount;
-
 unsigned Clear:1;
-
 unsigned MosfetSignal:1;
 unsigned MosfetOK:1;
+unsigned empty:1;
+};
+unsigned char DetectCount;
 unsigned char MosfetSignalCount;
 unsigned char TuneValue;
 unsigned char MosfetOK_Count;
@@ -493,7 +498,7 @@ unsigned char MosfetOK_Count;
 struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 
-# 89
+# 95
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
@@ -502,7 +507,7 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 113
+# 119
 inline void setDimmerLights_IntrControl(char lights);
 inline void DimmerIntrPointSelect(char);
 inline void setDimmerLights_IntrGO(char);
@@ -534,13 +539,17 @@ char getDimmerLights_Trigger();
 
 void setDimmerLights_Clear(char,char);
 
-# 149
+# 155
 struct Dimmer
 {
 
 
 
+struct{
 unsigned Detect:1;
+unsigned empty:7;
+};
+
 unsigned char Load;
 unsigned char Correction;
 };
@@ -552,10 +561,16 @@ struct Dimmer Dimmer1;
 
 inline void Dimmer_Initialization();
 
-# 19 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
+# 21 "../src/../8..Switch_2Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
 struct DelayOff {
+
+struct {
 unsigned Enable : 1;
 unsigned GO : 1;
+unsigned empty : 6;
+};
+
+
 unsigned char Value;
 unsigned int SecondTime;
 unsigned char MinuteTime;
@@ -569,7 +584,7 @@ struct DelayOff DlySw1;
 
 struct DelayOff DlySw2;
 
-# 40
+# 48
 void DelayOff_Initialization();
 void DelayOff_Main();
 char DelayTimejudge(char);

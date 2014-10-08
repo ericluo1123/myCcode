@@ -5,11 +5,14 @@
 #if PowerFault_use == 1
 
 struct PF {
-    unsigned Enable : 1;
-    unsigned ERROR : 1;
-    unsigned Safe : 1;
-    unsigned ADtoGO : 1;
 
+    struct {
+        unsigned Enable : 1;
+        unsigned ERROR : 1;
+        unsigned Safe : 1;
+        unsigned ADtoGO : 1;
+        unsigned empty : 4;
+    };
     unsigned char Count;
     unsigned int Time;
 
@@ -33,7 +36,7 @@ struct PF PF1;
 #endif
 
 
-//	void PowerFaultPointSelect(char);
+//void PowerFaultPointSelect(char);
 void PowerFault_Initialization();
 void PowerFault_Main();
 void getPowerFault_AD(char);

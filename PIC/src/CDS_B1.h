@@ -1,16 +1,23 @@
-
+/**
+ * CDS header file
+ */
 #ifndef _CDS_H_
 #define _CDS_H_
 
 #if CDS_use == 1
 
 struct CDS {
-    unsigned Enable : 1;
-    unsigned GO : 1;
-    unsigned OK : 1;
-    unsigned ADtoGO : 1;
-    unsigned High : 1;
-    unsigned Low : 1;
+
+    struct {
+        unsigned Enable : 1;
+        unsigned GO : 1;
+        unsigned OK : 1;
+        unsigned ADtoGO : 1;
+        unsigned High : 1;
+        unsigned Low : 1;
+        unsigned empty : 2;
+    };
+
     unsigned char Time;
     unsigned ADtype VRAD;
     unsigned ADtype SignalAD;

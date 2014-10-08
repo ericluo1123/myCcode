@@ -1,4 +1,6 @@
-
+/**
+ * lights delay off header file
+ */
 #ifndef	_DelayOff_H_
 #define _DelayOff_H_
 
@@ -17,8 +19,14 @@
 #endif
 
 struct DelayOff {
-    unsigned Enable : 1;
-    unsigned GO : 1;
+
+    struct {
+        unsigned Enable : 1;
+        unsigned GO : 1;
+        unsigned empty : 6;
+    };
+
+
     unsigned char Value;
     unsigned int SecondTime;
     unsigned char MinuteTime;

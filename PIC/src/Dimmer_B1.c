@@ -22,28 +22,158 @@ inline void DimmerIntrPointSelect(char lights) {
     }
 #endif
 }
+#if Control_Method_Triac == 1
 
+inline void setDimmerLights_IntrControl(char lights) {
+    DimmerIntrPointSelect(lights);
+    if (DimmerLightsIntr->GO == true) {
+        DimmerLightsIntr->Count++;
+        if (DimmerLightsIntr->Count >= (DimmerLightsIntr->DimmingValue - Dimmer->Correction)) {
+            DimmerLightsIntr->Count = 0;
+            DimmerLightsIntr->GO = false;
+            DimmerLightsIntr->Flag = true;
+            DimmerLightsIntr->TriacTemp = true;
+            if (DimmerLightsIntr->StatusFlag == true) {
+
+#ifdef use_1KEY
+                if (lights == 1) {
+                    Triac1 = 1;
+                    ID_1KEY_1;
+                }
+#endif
+#ifdef use_2KEY
+                if (lights == 2) {
+                    Triac2 = 1;
+                }
+#endif
+#ifdef use_3KEY
+                if (lights == 3) {
+                    Triac3 = 1;
+                }
+#endif
+            }
+        }
+    } else {
+        if (DimmerLightsIntr->Flag) {
+            DimmerLightsIntr->Flag = 0;
+            if (DimmerLightsIntr->Signal) {
+                DimmerLightsIntr->DimmingTime++;
+                if (DimmerLightsIntr->DimmingTime >= DimmerLightsIntr->DimmingTimeValue) {
+                    DimmerLightsIntr->DimmingTime = 0;
+                    if (DimmerLightsIntr->AdjFlag) {
+                        if (DimmerLightsIntr->AdjStatus == 0) {
+                            if (DimmerLightsIntr->DimmingValue > Dimmer_Maxum) {
+                                DimmerLightsIntr->DimmingValue--;
+                            } else {
+                                DimmerLightsIntr->AdjStatus = 1;
+                            }
+                        } else {
+                            if (DimmerLightsIntr->DimmingValue < Dimmer_Minimum) {
+                                DimmerLightsIntr->DimmingValue++;
+                            } else {
+                                DimmerLightsIntr->AdjStatus = 0;
+                            }
+                        }
+                    } else if (DimmerLightsIntr->AdjRF) {
+                        if (DimmerLightsIntr->DimmingValue > DimmerLightsIntr->MaxmumValue) {
+                            DimmerLightsIntr->DimmingValue--;
+                        } else if (DimmerLightsIntr->DimmingValue < DimmerLightsIntr->MaxmumValue) {
+                            DimmerLightsIntr->DimmingValue++;
+                        }
+                        if (DimmerLightsIntr->DimmingValue == DimmerLightsIntr->MaxmumValue) {
+                            DimmerLightsIntr->AdjRF = 0;
+                            DimmerLightsIntr->Signal = 0;
+                        }
+                    } else {
+                        if (DimmerLightsIntr->Status) {
+                            DimmerLightsIntr->DimmingValue--;
+                            if (DimmerLightsIntr->DimmingValue <= DimmerLightsIntr->MaxmumValue)\
+										                   {
+                                DimmerLightsIntr->Signal = 0;
+                            }
+                        } else {
+                            DimmerLightsIntr->DimmingValue++;
+                            if (DimmerLightsIntr->DimmingValue >= DimmerLightsIntr->MinimumValue) {
+                                DimmerLightsIntr->Signal = 0;
+                                DimmerLightsIntr->StatusFlag = 0;
+                                DimmerLightsIntr->Clear = 1;
+                                Dimmer->Detect = 1;
+#ifdef use_1KEY
+                                if (lights == 1) {
+                                    LED1 = 0;
+                                    setLED2(1);
+                                }
+#endif
+#ifdef use_2KEY
+                                if (lights == 2) {
+                                    LED2 = 0;
+                                }
+#endif
+#ifdef use_3KEY
+                                if (lights == 3) {
+                                    LED3 = 0;
+                                }
+#endif
+
+                                setLoad_StatusOff(lights, 1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (DimmerLights->TriacTemp == true) {
+            //            DimmerLightsIntr->TriacTime++;
+            //            if (DimmerLightsIntr->TriacTime >= (120 - DimmerLightsIntr->DimmingValue)) {
+            //                DimmerLightsIntr->TriacTime = 0;
+            //                DimmerLights->TriacTemp = false;
+
+#ifdef use_1KEY
+            if (lights == 1) {
+                Triac1 = 0;
+                ID_1KEY_0;
+            }
+#endif
+#ifdef use_2KEY
+            if (lights == 2) {
+                Triac2 = 0;
+            }
+#endif
+#ifdef use_3KEY
+            if (lights == 3) {
+                Triac3 = 0;
+            }
+#endif
+
+
+            //            }
+        }
+    }
+}
+
+#endif
+
+#if dimmer_Control_Method_Mosfet == 1
 #if Dimmer_Half_Wave == 1
 
 inline void setDimmerLights_IntrControl(char lights) {
 
     DimmerIntrPointSelect(lights);
-
     if (DimmerLightsIntr->GO == true) {
         DimmerLightsIntr->Count++;
         if (DimmerLightsIntr->Count
                 >= (DimmerLightsIntr->DimmingValue - Dimmer->Correction)) {
             DimmerLightsIntr->Count = 0;
-            DimmerLightsIntr->GO = 0;
-            DimmerLightsIntr->Flag = 1;
+            DimmerLightsIntr->GO = false;
+            DimmerLightsIntr->Flag = true;
             if (DimmerLightsIntr->StatusFlag) {
-#ifdef Mosfet1
+#ifdef use_1KEY
                 if (lights == 1) {
                     Mosfet1 = 0;
                     ID_1KEY_0;
                 }
 #endif
-#ifdef Mosfet2
+#ifdef use_2KEY
                 if (lights == 2) {
                     Mosfet2 = 0;
                 }
@@ -52,13 +182,13 @@ inline void setDimmerLights_IntrControl(char lights) {
                     DimmerLightsIntr->MosfetClose = 0;
                     DimmerLightsIntr->StatusFlag = 0;
                     DimmerLightsIntr->Clear = 1;
-#ifdef Mosfet1
+#ifdef use_1KEY
                     if (lights == 1) {
                         LED1 = 0;
                         setLED2(1);
                     }
 #endif
-#ifdef Mosfet2
+#ifdef use_2KEY
                     if (lights == 2) {
                         LED2 = 0;
                     }
@@ -69,8 +199,8 @@ inline void setDimmerLights_IntrControl(char lights) {
             }
         }
     } else {
-        if (DimmerLightsIntr->Flag) {
-            DimmerLightsIntr->Flag = 0;
+        if (DimmerLightsIntr->Flag == true) {
+            DimmerLightsIntr->Flag = false;
             if (DimmerLightsIntr->Signal) {
                 DimmerLightsIntr->DimmingTime++;
                 if (DimmerLightsIntr->DimmingTime >= DimmerLightsIntr->DimmingTimeValue) {
@@ -106,33 +236,39 @@ inline void setDimmerLights_IntrControl(char lights) {
             }
         }
     }
+    if (DimmerLightsIntr->MosfetSignal == true) {
+        DimmerLightsIntr->MosfetSignalCount++;
+        if (DimmerLightsIntr->MosfetSignalCount == 110) {
+            DimmerLightsIntr->MosfetSignalCount = 0;
+            DimmerLightsIntr->MosfetSignal = false;
+            ErrLED = 0;
+        }
+    }
 }
+#endif
 #endif
 
 inline void setDimmerLights_IntrGO(char lights) {
+
     DimmerIntrPointSelect(lights);
 #if Control_Method_Triac == true
-    if (!DimmerLights11->GO) {
-        DimmerLights11->GO = 1;
+    if (DimmerLightsIntr->GO == false) {
+        DimmerLightsIntr->GO = true;
     }
 #endif
 #if Control_Method_Mosfet == true
-    
-    if (DimmerLightsIntr->GO == false
-            && DimmerLights->MosfetOK == false) {
-
-        if (lights == 1) {
-            DimmerLightsIntr->MosfetSignal = true;
-            DimmerLights->MosfetOK = true;
-            ErrLED = true;
-        }
+    if (DimmerLightsIntr->MosfetSignal == false) {
+        DimmerLightsIntr->MosfetSignal = true;
+        ErrLED = true;
 
         DimmerLightsIntr->GO = true;
         if (DimmerLightsIntr->StatusFlag == true) {
+
 #ifdef use_1KEY
             if (lights == 1) {
                 Mosfet1 = true;
                 ID_1KEY_1;
+
             }
 #endif
 #ifdef use_2KEY
@@ -493,7 +629,7 @@ void setDimmerLights(char lights, char status) {
 
 void setDimmerLights_Adj(char lights, char status) {
     DimmerLightsPointSelect(lights);
-    if (status) {
+    if (status == 1) {
         DimmerLights->AdjFlag = 1;
         DimmerLights->Signal = 1;
     } else {

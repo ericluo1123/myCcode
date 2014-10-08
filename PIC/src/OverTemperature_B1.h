@@ -5,17 +5,23 @@
 #if OverTemperature_use == 1
 
 struct OverTemp {
-    unsigned Enable : 1;
-    unsigned ERROR : 1;
-    unsigned ADtoGO : 1;
-    unsigned LoadADGO : 1;
-    unsigned Safe : 1;
+
+    struct {
+        unsigned Enable : 1;
+        unsigned ERROR : 1;
+        unsigned ADtoGO : 1;
+        unsigned LoadADGO : 1;
+        unsigned Safe : 1;
+        unsigned empty : 3;
+    };
+
 
     unsigned int Time;
     unsigned char Count;
 
     unsigned char AD1;
     unsigned char AD2;
+
 #ifdef _16F723A
     unsigned char AD;
     unsigned char ADH[2];
@@ -39,14 +45,14 @@ struct OverTemp {
 struct OverTemp *Temp;
 
 #define TempCountValue 	3
-#define TempDangerValue	550		//NTC 68�� value 500
-//NTC 71�� value 490
-//NTC 73.5�� value 480	
+#define TempDangerValue	550		//NTC 68 value 500
+//NTC 71 value 490
+//NTC 73.5 value 480	
 //65,600		
 
-#define TempSafeValue	600		//NTC 47�� value 600
-//NTC 61.2�� value 540	
-//NTC 58�� value 535
+#define TempSafeValue	600		//NTC 47 value 600
+//NTC 61.2 value 540	
+//NTC 58 value 535
 //51,700
 
 #ifdef SYSC1
@@ -55,7 +61,7 @@ struct OverTemp Temp1;
 
 
 
-//	void TempPointSelect(char);
+//void TempPointSelect(char);
 void Temp_Initialization();
 void Temp_Main();
 void setTemp_Main();

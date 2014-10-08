@@ -1,27 +1,19 @@
-
+/**
+ * LED header file\n
+ */
 #ifndef _LED_H_
 #define _LED_H_
 
-/******************************************************************
-        method:
-                setErrLED(char status)
-                setLED1(char status)
-                setLED2(char status)
-                setLED3(char status)
-        Description:
-                status = 0	OFF
-                                 1	ON
-                                 10	Flash OFF
-                             11	Flash ON
-
- *****************************************************************/
-
 #if LED_use == 1
-//Global extern variable declaration
+//Global ariable declaration
 
 struct LED {
-    unsigned Enable : 1;
-    unsigned GO : 1;
+
+    struct {
+        unsigned Enable : 1;
+        unsigned GO : 1;
+        unsigned empty : 6;
+    };
     unsigned int Time;
     unsigned char Number;
 };
@@ -47,12 +39,57 @@ struct LED VarLED2;
 struct LED VarLED3;
 #endif
 
+/**
+ * void LED_Initialization()\n
+ * led initialization\n
+ */
 void LED_Initialization();
+/**
+ * void LED_Main()\n
+ * led main\n
+ */
 void LED_Main();
-void LedPointSelect(char);
-void setLED_Initialization(char);
-void setLED_Main(char);
-void setLED(char, char);
+/**
+ *void LedPointSelect(char led)\n
+ * @param led\n
+ * select LED1      value = 1\n
+ * select LED1      value = 1\n
+ * select LED1      value = 1\n
+ * select ErrLED    value = 99\n
+ */
+void LedPointSelect(char led);
+/**
+ * void setLED_Initialization(char led)\n
+ * @param led\n
+ * select LED1      value = 1\n
+ * select LED1      value = 1\n
+ * select LED1      value = 1\n
+ * select ErrLED    value = 99\n
+ */
+void setLED_Initialization(char led);
+/**
+ * void setLED_Main(char led)\n
+ * @param led\n
+ * select LED1      value = 1\n
+ * select LED1      value = 1\n
+ * select LED1      value = 1\n
+ * select ErrLED    value = 99\n
+ */
+void setLED_Main(char led);
+/**
+ * void setLED(char led, char command)\n
+ * @param led\n
+ * select LED1      value = 1\n
+ * select LED1      value = 1\n
+ * select LED1      value = 1\n
+ * select ErrLED    value = 99\n
+ * @param command\n
+ * led off  command         value=0\n
+ * led on   command         value=1\n
+ * led flash off command    value =10\n
+ * led flash on command     value = 11\n
+ */
+void setLED(char led, char command);
 #else
 #define LED_Initialization() ;
 #define LED_Main() ;

@@ -56,85 +56,91 @@ void setRF_Initialization(char rf) {
 
 void setRF_Main(char rf) {
     RfPointSelect(rf);
-    if (RF->Enable) {
-
+    if (RF->Enable == true) {
 #if Sleep_Mode == 0
+
+        if (Buz->GO == false) {
 #if	Switch_Class == 3
-        RF->Key = ((Key1 || Key2 || Key3) && !RF->Learn) ? 1 : 0; //������U
+            RF->Key = (Key1 == true || Key2 == true || Key3 == true) ? true : false;
 #endif
 
 #if	Switch_Class == 2
-        RF->Key = ((Key1_1 || Key1_2 || Key2_1 || Key2_2) && !RF->Learn) ? 1 : 0; //������U
+            RF->Key = (Key1_1 == true || Key1_2 == true || Key2_1 == true || Key2_2 == true) ? true : false;
 #endif
 
 #if	Switch_Class == 1
-        RF->Key = ((Key1_1 || Key1_2 || Key1_3 || Key1_4) && !RF->Learn) ? 1 : 0; //������U
+            RF->Key = (Key1_1 == true || Key1_2 == true || Key1_3 == true || Key1_4 == true) ? true : false;
 #endif
-
-
-        if (!RF->Key) {
-            if (RF->ReceiveGO)//設置
-            {
-                RF->ReceiveGO = 0;
-                CC2500_RxData();
-#if I2C_use == 1
-                I2C_SetData(1);
-                //	LED2=~LED2;
-#elif UART_use == 1
-                UART_SetData();
-#else 
-                getRxData(1);
-#endif
-                //	ErrLED=~ErrLED;
+            if (RF->Key == true && RF->Learn == false) {
+                RF->Run = true;
+                RF_RxDisable(1);
+                //                if (RF->TransceiveGO == true) {
+                //                    RF->TransceiveGO = false;
+                //                    CC2500_TxData();
+                //                }
             } else {
-                if (!RF->TransceiveGO) {
-#if Rx_Enable == 1
-                    if (!RF->RxStatus)//�]�m�������Ҧ�
-                    {
-                        RF->RxStatus = 1;
-                        CC2500_WriteCommand(CC2500_SIDLE); // idle
-                        CC2500_WriteCommand(CC2500_SRX); // set receive mode
-                        setINT_GO(1);
+                if (RF->Run == true && RF->Learn == false) {
+                    RF->Count++;
+                    if (RF->Count == 25) {
+                        RF->Count = 0;
+                        RF->Run == false;
                     }
-#endif	
-                }
-            }
-        } else {
-            RF_RxDisable(1);
-        }
-        if (RF->TransceiveGO)//����ƭn�o�g
-        {
-            RF_RxDisable(1);
-            if (!RF->Debounce) {
-                RF->DebounceTime++;
-                if (RF->DebounceTime == 25)//*10ms
-                {
-                    RF->DebounceTime = 0;
-                    RF->Debounce = 1;
-                }
-            } else {
-                RF->Debounce = 0;
-                RF->TransceiveGO = 0;
-                CC2500_TxData();
-            }
-        }
+                } else {
+                    RF->Count = 0;
+                    RF->Run == false;
+
+                    if (RF->ReceiveGO == true) {
+                        RF->ReceiveGO = false;
+                        CC2500_RxData();
+                        //                        RF->Run = true;
+#if I2C_use == 1
+                        I2C_SetData(1);
+                        //LED2=~LED2;
+#elif UART_use == 1
+                        UART_SetData();
 #else
-        if (!RF->Sleep) {
-            RF->Sleep = 1;
-            CC2500_WriteCommand(CC2500_SIDLE); // idle
-        }
+                        getRxData(1);
 #endif
+                        //ErrLED=~ErrLED;
+                    } else {
+                        if (RF->Learn == false) {
+                            if (RF->TransceiveGO == true) {
+                                RF->TransceiveGO = false;
+                                RF_RxDisable(1);
+                                CC2500_TxData();
+                                //                            RF->Run = true;
+                            } else {
+#if Rx_Enable == 1
+                                if (RF->TransceiveGO == false && RF->ReceiveGO == false && RF->RxStatus == false) {
+                                    CC2500_WriteCommand(CC2500_SRX); // set receive mode
+                                    setINT_GO(1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+
+#else
+                                if (!RF->Sleep) {
+                                    RF->Sleep = 1;
+                                    CC2500_WriteCommand(CC2500_SIDLE); // idle
+                                }
+#endif
 }
+
+
 //*********************************************************
 
 void setTxData(char rf) {
     char i;
     RfPointSelect(rf);
-    if (RF->Enable) {
+    if (RF->Enable == true) {
 #if Tx_Enable == 1
-        if (!RF->TransceiveGO) {
-            RF->TransceiveGO = 1;
+        if (RF->TransceiveGO == false) {
+            RF->TransceiveGO = true;
             /*	Product->Data[0]=0x63;		//Command
                     Product->Data[1]=0x02;		//Command
                     Product->Data[20]=KeyID;	//Key ID*/
@@ -164,7 +170,6 @@ void setTxData(char rf) {
             RF_Data[18] = product->Data[18]; //Reserved
             RF_Data[19] = product->Data[19]; //Reserved
             RF_Data[20] = KeyID; //Product->Data[20];	//Key ID
-
         }
 #endif
     }
@@ -187,14 +192,14 @@ void setRF_Enable(char rf, char command) {
 void RF_RxDisable(char rf) {
     RfPointSelect(rf);
 
-    if (RF->RxStatus) {
-        RF->RxStatus = 0;
-        RF->ReceiveGO = 0;
-        RF->DebounceTime = 0;
-        RF->Debounce = 0;
+    if (RF->ReceiveGO == true || RF->RxStatus == true) {
+        RF->RxStatus = false;
+        RF->ReceiveGO = false;
         CC2500_WriteCommand(CC2500_SIDLE); // idle
-        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
         setINT_GO(0);
+        if (RF->ReceiveGO == true) {
+            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+        }
     }
 }
 //*********************************************************
@@ -413,7 +418,7 @@ void setRF_DimmerLights(char lights, char on) {
         setProductData(15, (product->Data[15]&(~status))); //Lights Status
     }
 }
-//*********************************************************		
+//*********************************************************
 #endif
 
 //end

@@ -130,7 +130,7 @@
 //Lights
 #define LightsControl_use   false
 //RF cc2500
-#define CC2500_use          true
+#define CC2500_use          true//false
 //DelayOff
 #define DelayOff_use        true
 //PowerFault

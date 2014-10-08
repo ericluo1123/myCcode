@@ -36,16 +36,28 @@
 //Global extern variable declaration
 
 struct RF {
-    unsigned Enable : 1;
-    unsigned ReceiveGO : 1;
-    unsigned TransceiveGO : 1;
-    unsigned RxStatus : 1;
-    unsigned TxStatus : 1;
-    unsigned Debounce : 1;
-    unsigned Learn : 1;
-    unsigned Key : 1;
+
+    struct {
+        unsigned Enable : 1;
+        unsigned ReceiveGO : 1;
+        unsigned TransceiveGO : 1;
+        unsigned RxStatus : 1;
+        unsigned TxStatus : 1;
+        unsigned Debounce : 1;
+        unsigned Learn : 1;
+        unsigned Key : 1;
+    };
+
+    struct {
+        unsigned Sleep : 1;
+        unsigned Count : 1;
+        unsigned Run : 1;
+        unsigned Bus:1;
+        unsigned empty : 5;
+    };
+
     unsigned char DebounceTime;
-    unsigned Sleep : 1;
+
 };
 struct RF *RF;
 
@@ -71,7 +83,11 @@ void setRF_RxStatus(char, char);
 #define setRF_Data(location,value) RF_Data[location]=value
 
 struct RFSW {
-    unsigned Status : 1;
+
+    struct {
+        unsigned Status : 1;
+        unsigned empty : 7;
+    };
 };
 struct RFSW *RFSW;
 

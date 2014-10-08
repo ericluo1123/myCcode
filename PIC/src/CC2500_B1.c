@@ -88,7 +88,6 @@ void CC2500_RxData(void) {
     }
     CC2500_WriteCommand(CC2500_SIDLE); // idle
     CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-    setRF_RxStatus(1, 0);
 }
 //=============================================================================
 // CC2500 RF Module Initial 

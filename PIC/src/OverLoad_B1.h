@@ -134,16 +134,16 @@
 #endif
 #endif
 
-#if Max_Percent == 90		
+#if Max_Percent == 90
 #if Switch_Class == 3		
 #define LoadLimitValue 0x22
 #endif
 
-#if Switch_Class == 2			
+#if Switch_Class == 2
 #define LoadLimitValue 0x32//1a
 #endif
 
-#if Switch_Class == 1			
+#if Switch_Class == 1	
 #define LoadLimitValue 0x42
 #endif
 #endif
@@ -153,12 +153,17 @@
 //Global extern variable declaration
 
 struct OverLoad {
-    unsigned Enable : 1;
-    unsigned GO : 1;
-    unsigned LightsON : 1;
-    unsigned Safe : 1;
-    unsigned ADtoGO : 1;
-    unsigned ERROR : 1;
+
+    struct {
+        unsigned Enable : 1;
+        unsigned GO : 1;
+        unsigned LightsON : 1;
+        unsigned Safe : 1;
+        unsigned ADtoGO : 1;
+        unsigned ERROR : 1;
+        unsigned empty : 2;
+    };
+
     unsigned int Time;
     unsigned int ErrorTime;
     unsigned char ErrorStatus;

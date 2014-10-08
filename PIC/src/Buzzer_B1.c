@@ -28,7 +28,7 @@ inline void Buz_Counter() {
 //*********************************************************
 
 void setBuz(char count, int time) {
-    time /10;
+    time /=10;
     if (Buz->Enable) {
         if (!Buz->GO) {
             Buz->GO = 1;

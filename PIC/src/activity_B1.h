@@ -1,9 +1,10 @@
+/**
+ * activity header file
+ */
 #ifndef _Activity_B1_H_
 #define _Activity_B1_H_
 
 #include "Buzzer_B1.h"
-
-
 
 #if Properties_Keys == 1
 #define Switch_Class 1

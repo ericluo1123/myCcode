@@ -141,45 +141,6 @@ void TMR0_ISR() {
 
 #if Dimmer_use == true
 
-        DimmerIntrPointSelect(1);
-        if (DimmerLights->MosfetOK == true) {
-            DimmerLights->MosfetOK_Count++;
-            if (DimmerLights->MosfetOK_Count == 220) {
-                DimmerLights->MosfetOK_Count = 0;
-                DimmerLights->MosfetOK = false;
-            }
-        }
-        if (DimmerLightsIntr->MosfetSignal == true) {
-            DimmerLightsIntr->MosfetSignalCount++;
-            if (DimmerLightsIntr->MosfetSignalCount == 130) {
-                DimmerLightsIntr->MosfetSignalCount = 0;
-                DimmerLightsIntr->MosfetSignal = false;
-                ErrLED = 0;
-                if (DimmerLightsIntr->GO == false) {
-
-                    DimmerLightsIntr->GO = true;
-
-                    if (DimmerLightsIntr->StatusFlag == true) {
-#ifdef use_1KEY
-                        Mosfet1 = true;
-                        ID_1KEY_1;
-#endif
-                    }
-                }
-                DimmerIntrPointSelect(2);
-                if (DimmerLightsIntr->GO == false) {
-
-                    DimmerLightsIntr->GO = true;
-
-                    if (DimmerLightsIntr->StatusFlag == true) {
-#ifdef use_2KEY
-                        Mosfet2 = true;
-#endif
-                    }
-                }
-            }
-        }
-
 #ifdef use_1KEY
         setDimmerLights_IntrControl(1);
         // setDimmerLights_IntrControl(1);
@@ -289,6 +250,7 @@ void INT_ISR() {
         INTF = 0;
         INTE = 0;
         setRF_ReceiveGO(1, 1);
+        setRF_RxStatus(1,0);
     }
 }
 //*********************************************************
@@ -312,7 +274,7 @@ void IOC_Set() {
 
 #if Control_Method_Mosfet == true
 #if Dimmer_Half_Wave == true
-    IOCBP = 0b00000000;
+    IOCBP = 0b00000100;
     IOCBN = 0b00000100;
 #endif
 
@@ -923,6 +885,14 @@ void Flash_Memory_Modify() {
     GIE = 1;
 }
 #endif
+//*********************************************************
+
+void setMemory_GO(char command) {
+    Memory->GO = command;
+    if (command == false) {
+        Memory->Time = command;
+    }
+}
 //*********************************************************
 #if WDT_use == 1
 

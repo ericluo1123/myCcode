@@ -32,7 +32,8 @@
 		//private
 		struct DimmerLights
 		{
-			unsigned GO:1;
+                    struct{
+                        unsigned GO:1;
 			unsigned Signal:1;
 			unsigned AdjRF:1;
 			unsigned AdjFlag:1;			//adj control
@@ -40,31 +41,37 @@
 			unsigned Status:1;			//lights status
 			unsigned StatusFlag:1;			//triac control
 			unsigned OverLoad:1;
+                    };
+
 			unsigned char DimmingTime;		
 			unsigned char DimmingTimeValue;
 			unsigned char Count;
 			unsigned char DimmingValue;
 			unsigned char MaxmumValue;
 			unsigned char MinimumValue;
-			unsigned Flag:1;
+	
 			unsigned char TriacTime;
-			
-			unsigned Switch:1;
-			unsigned Trigger:1;
-			unsigned AdjGo:1;
-			unsigned TriggerAdj:1;
+                        struct{
+                            unsigned Flag:1;
+                            unsigned Switch:1;
+                            unsigned Trigger:1;
+                            unsigned AdjGo:1;
+                            unsigned TriggerAdj:1;
+                            unsigned Triac:1;
+                            unsigned MosfetOpen:1;
+                            unsigned MosfetClose:1;
+                        };
 
-			unsigned Triac:1;
-			unsigned MosfetOpen:1;
-			unsigned MosfetClose:1;
-			unsigned DetectOpen:1;
-			unsigned DetectClose:1;
-			unsigned char DetectCount;
-
-			unsigned Clear:1;
-
-			unsigned MosfetSignal:1;
-                        unsigned MosfetOK:1;
+                        struct{
+                            unsigned DetectOpen:1;
+                            unsigned DetectClose:1;
+                            unsigned Clear:1;
+                            unsigned MosfetSignal:1;
+                            unsigned MosfetOK:1;
+                            unsigned TriacTemp:1;
+                            unsigned empty:2;
+                        };
+                        unsigned char DetectCount;
 			unsigned char MosfetSignalCount;
                         unsigned char TuneValue;
                         unsigned char MosfetOK_Count;
@@ -140,6 +147,7 @@
 		char getDimmerLights_Trigger();
 
 		void setDimmerLights_Clear(char,char);
+                inline void setDimmerLights_IntrControl(char lights);
 	//	char getDimmerLights_Clear(char);
 	/*	void setDimmerLights_Close(char,char);
 		char getDimmerLights_Close(char);
@@ -151,7 +159,11 @@
 		//	unsigned LoadERROR:1;
 		//	unsigned TempERROR:1;
 		//	unsigned PFERROR:1;
-			unsigned Detect:1;
+                    struct{
+                      	unsigned Detect:1;
+                        unsigned empty:7;
+                    };
+
 			unsigned char Load;
 			unsigned char Correction;
 		};
@@ -176,337 +188,337 @@
 	//	char getDimmer_Detect(char);
 
 	//*********************************************************
-		#ifdef Triac1
-			#define setDimmerLights_IntrControl(lights)\
-				if(DimmerLights11->GO)\
-				{\
-					DimmerLights11->Count++;\
-					if(DimmerLights11->Count >= (DimmerLights11->DimmingValue-Dimmer->Correction))\
-					{\
-						DimmerLights11->Count=0;\
-						DimmerLights11->GO=0;\
-						DimmerLights11->Flag=1;\
-						if(DimmerLights11->StatusFlag)\
-						{\
-							Triac1=1;\
-							ID_1KEY_1;\
-						}\
-					}\
-				}\
-				else\
-				{\
-					if(DimmerLights11->Flag)\
-					{\
-						DimmerLights11->Flag=0;\
-						if(DimmerLights11->Signal)\
-						{\
-							DimmerLights11->DimmingTime++;\
-							if(DimmerLights11->DimmingTime >= DimmerLights11->DimmingTimeValue)\
-							{\
-								DimmerLights11->DimmingTime=0;\
-								if(DimmerLights11->AdjFlag)\
-								{\
-									if(DimmerLights11->AdjStatus == 0)\
-									{\
-										if(DimmerLights11->DimmingValue > Dimmer_Maxum)\
-										{\
-											DimmerLights11->DimmingValue--;\
-										}\
-										else\
-										{\
-											DimmerLights11->AdjStatus=1;\
-										}\
-									}\
-									else\
-									{\
-										if(DimmerLights11->DimmingValue < Dimmer_Minimum)\
-										{\
-											DimmerLights11->DimmingValue++;\
-										}\
-										else\
-										{\
-											DimmerLights11->AdjStatus=0;\
-										}\
-									}\
-								}\
-								else if(DimmerLights11->AdjRF)\
-								{\
-									if(DimmerLights11->DimmingValue > DimmerLights11->MaxmumValue)\
-									{\
-										DimmerLights11->DimmingValue--;\
-									}\
-									else if(DimmerLights11->DimmingValue < DimmerLights11->MaxmumValue)\
-									{\
-										DimmerLights11->DimmingValue++;\
-									}\
-									if(DimmerLights11->DimmingValue == DimmerLights11->MaxmumValue)\
-									{\
-										DimmerLights11->AdjRF=0;\
-										DimmerLights11->Signal=0;\
-									}\
-								}\
-								else\
-								{\
-									if(DimmerLights11->Status)\
-									{\
-										DimmerLights11->DimmingValue--;\
-										if(DimmerLights11->DimmingValue <= DimmerLights11->MaxmumValue)\
-										{\
-											DimmerLights11->Signal=0;\
-										}\
-									}\
-									else\
-									{\
-										DimmerLights11->DimmingValue++;\
-										if(DimmerLights11->DimmingValue >= DimmerLights11->MinimumValue)\
-										{\
-											DimmerLights11->Signal=0;\
-											DimmerLights11->StatusFlag=0;\
-											DimmerLights11->Clear=1;\
-											Dimmer->Detect=1;\
-											LED1=0;\
-											setLED2(1);\
-											setLoad_StatusOff(lights,1);\
-										}\
-									}\
-								}\
-							}\
-						}\
-					}\
-					if(Triac1)\
-					{\
-						DimmerLights11->TriacTime++;\
-						if(DimmerLights11->TriacTime >= (120-DimmerLights11->DimmingValue))\
-						{\
-							DimmerLights11->TriacTime=0;\
-							Triac1=0;\
-							ID_1KEY_0;\
-						}\
-					}\
-				}\
-				;
-
-		#endif
-		//*********************************************************
-		#ifdef Triac2
-	
-			#define setDimmerLights22_Control(lights)\
-				if(DimmerLights22->GO)\//reclock
-				{\
-					DimmerLights22->Count++;\
-					if(DimmerLights22->Count >= (DimmerLights22->DimmingValue-Dimmer->Correction))\
-					{\
-						DimmerLights22->Count=0;\
-						DimmerLights22->GO=0;\
-						DimmerLights22->Flag=1;\
-						if(DimmerLights22->StatusFlag)\
-						{\
-							Triac2=1;\
-						}\
-					}\
-				}\
-				else\
-				{\
-					if(DimmerLights22->Flag)\
-					{\
-						DimmerLights22->Flag=0;\
-						if(DimmerLights22->Signal)\
-						{\
-							DimmerLights22->DimmingTime++;\
-							if(DimmerLights22->DimmingTime >= DimmerLights22->DimmingTimeValue)\
-							{\
-								DimmerLights22->DimmingTime=0;\
-								if(DimmerLights22->AdjFlag)\
-								{\
-									if(DimmerLights22->AdjStatus == 0)\
-									{\
-										if(DimmerLights22->DimmingValue > Dimmer_Maxum)\
-										{\
-											DimmerLights22->DimmingValue--;\
-										}\
-										else\
-										{\
-											DimmerLights22->AdjStatus=1;\
-										}\
-									}\
-									else\
-									{\
-										if(DimmerLights22->DimmingValue < Dimmer_Minimum)\
-										{\
-											DimmerLights22->DimmingValue++;\
-										}\
-										else\
-										{\
-											DimmerLights22->AdjStatus=0;\
-										}\
-									}\
-								}\
-								else if(DimmerLights22->AdjRF)\
-								{\
-									if(DimmerLights22->DimmingValue > DimmerLights22->MaxmumValue)\
-									{\
-										DimmerLights22->DimmingValue--;\
-									}\
-									else if(DimmerLights22->DimmingValue < DimmerLights22->MaxmumValue)\
-									{\
-										DimmerLights22->DimmingValue++;\
-									}\
-									if(DimmerLights22->DimmingValue == DimmerLights22->MaxmumValue)\
-									{\
-										DimmerLights22->AdjRF=0;\
-										DimmerLights22->Signal=0;\
-									}\
-								}\
-								else\
-								{\
-									if(DimmerLights22->Status)\
-									{\
-										DimmerLights22->DimmingValue--;\
-										if(DimmerLights22->DimmingValue <= DimmerLights22->MaxmumValue)\
-										{\
-											DimmerLights22->Signal=0;\
-										}\
-									}\
-									else\
-									{\
-										DimmerLights22->DimmingValue++;\
-										if(DimmerLights22->DimmingValue >= DimmerLights22->MinimumValue)\
-										{\
-											DimmerLights22->Signal=0;\
-											DimmerLights22->StatusFlag=0;\
-											DimmerLights22->Clear=1;\
-											Dimmer->Detect=1;\
-											LED2=0;\
-											setLoad_StatusOff(lights,1);\
-										}\
-									}\
-								}\
-							}\
-						}\
-					}\
-					if(Triac2)\
-					{\
-						DimmerLights22->TriacTime++;\
-						if(DimmerLights22->TriacTime >= (120-DimmerLights22->DimmingValue))\
-						{\
-							DimmerLights22->TriacTime=0;\
-							Triac2=0;\
-						}\
-					}\
-				}\
-				;
-
-
-		#endif
-		//*********************************************************
-		#ifdef Triac3
-	
-			#define setDimmerLights33_Control(lights)\
-				if(DimmerLights33->GO)\//reclock
-				{\
-					DimmerLights33->Count++;\
-					if(DimmerLights33->Count >= (DimmerLights33->DimmingValue-Dimmer->Correction))\
-					{\
-						DimmerLights33->Count=0;\
-						DimmerLights33->GO=0;\
-						DimmerLights33->Flag=1;\
-						if(DimmerLights33->StatusFlag)\
-						{\
-							Triac3=1;\
-						}\
-					}\
-				}\
-				else\
-				{\
-					if(DimmerLights33->Flag)\
-					{\
-						DimmerLights33->Flag=0;\
-						if(DimmerLights33->Signal)\
-						{\
-							DimmerLights33->DimmingTime++;\
-							if(DimmerLights33->DimmingTime >= DimmerLights33->DimmingTimeValue)\
-							{\
-								DimmerLights33->DimmingTime=0;\
-								if(DimmerLights33->AdjFlag)\
-								{\
-									if(DimmerLights33->AdjStatus == 0)\
-									{\
-										if(DimmerLights33->DimmingValue > Dimmer_Maxum)\
-										{\
-											DimmerLights33->DimmingValue--;\
-										}\
-										else\
-										{\
-											DimmerLights33->AdjStatus=1;\
-										}\
-									}\
-									else\
-									{\
-										if(DimmerLights33->DimmingValue < Dimmer_Minimum)\
-										{\
-											DimmerLights33->DimmingValue++;\
-										}\
-										else\
-										{\
-											DimmerLights33->AdjStatus=0;\
-										}\
-									}\
-								}\
-								else if(DimmerLights33->AdjRF)\
-								{\
-									if(DimmerLights33->DimmingValue > DimmerLights33->MaxmumValue)\
-									{\
-										DimmerLights33->DimmingValue--;\
-									}\
-									else if(DimmerLights33->DimmingValue < DimmerLights33->MaxmumValue)\
-									{\
-										DimmerLights33->DimmingValue++;\
-									}\
-									if(DimmerLights33->DimmingValue == DimmerLights33->MaxmumValue)\
-									{\
-										DimmerLights33->AdjRF=0;\
-										DimmerLights33->Signal=0;\
-									}\
-								}\
-								else\
-								{\
-									if(DimmerLights33->Status)\
-									{\
-										DimmerLights33->DimmingValue--;\
-										if(DimmerLights33->DimmingValue <= DimmerLights33->MaxmumValue)\
-										{\
-											DimmerLights33->Signal=0;\
-										}\
-									}\
-									else\
-									{\
-										DimmerLights33->DimmingValue++;\
-										if(DimmerLights33->DimmingValue >= DimmerLights33->MinimumValue)\
-										{\
-											DimmerLights33->Signal=0;\
-											DimmerLights33->StatusFlag=0;\
-											DimmerLights33->Clear=1;\
-											Dimmer->Detect=1;\
-											LED3=0;\
-											setLoad_StatusOff(lights,1);\
-										}\
-									}\
-								}\
-							}\
-						}\
-					}\
-					if(Triac3)\
-					{\
-						DimmerLights33->TriacTime++;\
-						if(DimmerLights33->TriacTime >= (120-DimmerLights33->DimmingValue))\
-						{\
-							DimmerLights33->TriacTime=0;\
-							Triac3=0;\
-						}\
-					}\
-				}\
-				;
-		#endif
+//		#ifdef Triac1
+//			#define setDimmerLights_IntrControl(lights)\
+//				if(DimmerLights11->GO)\
+//				{\
+//					DimmerLights11->Count++;\
+//					if(DimmerLights11->Count >= (DimmerLights11->DimmingValue-Dimmer->Correction))\
+//					{\
+//						DimmerLights11->Count=0;\
+//						DimmerLights11->GO=0;\
+//						DimmerLights11->Flag=1;\
+//						if(DimmerLights11->StatusFlag)\
+//						{\
+//							Triac1=1;\
+//							ID_1KEY_1;\
+//						}\
+//					}\
+//				}\
+//				else\
+//				{\
+//					if(DimmerLights11->Flag)\
+//					{\
+//						DimmerLights11->Flag=0;\
+//						if(DimmerLights11->Signal)\
+//						{\
+//							DimmerLights11->DimmingTime++;\
+//							if(DimmerLights11->DimmingTime >= DimmerLights11->DimmingTimeValue)\
+//							{\
+//								DimmerLights11->DimmingTime=0;\
+//								if(DimmerLights11->AdjFlag)\
+//								{\
+//									if(DimmerLights11->AdjStatus == 0)\
+//									{\
+//										if(DimmerLights11->DimmingValue > Dimmer_Maxum)\
+//										{\
+//											DimmerLights11->DimmingValue--;\
+//										}\
+//										else\
+//										{\
+//											DimmerLights11->AdjStatus=1;\
+//										}\
+//									}\
+//									else\
+//									{\
+//										if(DimmerLights11->DimmingValue < Dimmer_Minimum)\
+//										{\
+//											DimmerLights11->DimmingValue++;\
+//										}\
+//										else\
+//										{\
+//											DimmerLights11->AdjStatus=0;\
+//										}\
+//									}\
+//								}\
+//								else if(DimmerLights11->AdjRF)\
+//								{\
+//									if(DimmerLights11->DimmingValue > DimmerLights11->MaxmumValue)\
+//									{\
+//										DimmerLights11->DimmingValue--;\
+//									}\
+//									else if(DimmerLights11->DimmingValue < DimmerLights11->MaxmumValue)\
+//									{\
+//										DimmerLights11->DimmingValue++;\
+//									}\
+//									if(DimmerLights11->DimmingValue == DimmerLights11->MaxmumValue)\
+//									{\
+//										DimmerLights11->AdjRF=0;\
+//										DimmerLights11->Signal=0;\
+//									}\
+//								}\
+//								else\
+//								{\
+//									if(DimmerLights11->Status)\
+//									{\
+//										DimmerLights11->DimmingValue--;\
+//										if(DimmerLights11->DimmingValue <= DimmerLights11->MaxmumValue)\
+//										{\
+//											DimmerLights11->Signal=0;\
+//										}\
+//									}\
+//									else\
+//									{\
+//										DimmerLights11->DimmingValue++;\
+//										if(DimmerLights11->DimmingValue >= DimmerLights11->MinimumValue)\
+//										{\
+//											DimmerLights11->Signal=0;\
+//											DimmerLights11->StatusFlag=0;\
+//											DimmerLights11->Clear=1;\
+//											Dimmer->Detect=1;\
+//											LED1=0;\
+//											setLED2(1);\
+//											setLoad_StatusOff(lights,1);\
+//										}\
+//									}\
+//								}\
+//							}\
+//						}\
+//					}\
+//					if(Triac1)\
+//					{\
+//						DimmerLights11->TriacTime++;\
+//						if(DimmerLights11->TriacTime >= (120-DimmerLights11->DimmingValue))\
+//						{\
+//							DimmerLights11->TriacTime=0;\
+//							Triac1=0;\
+//							ID_1KEY_0;\
+//						}\
+//					}\
+//				}\
+//				;
+//
+//		#endif
+//		//*********************************************************
+//		#ifdef Triac2
+//
+//			#define setDimmerLights22_Control(lights)\
+//				if(DimmerLights22->GO)\
+//				{\
+//					DimmerLights22->Count++;\
+//					if(DimmerLights22->Count >= (DimmerLights22->DimmingValue-Dimmer->Correction))\
+//					{\
+//						DimmerLights22->Count=0;\
+//						DimmerLights22->GO=0;\
+//						DimmerLights22->Flag=1;\
+//						if(DimmerLights22->StatusFlag)\
+//						{\
+//							Triac2=1;\
+//						}\
+//					}\
+//				}\
+//				else\
+//				{\
+//					if(DimmerLights22->Flag)\
+//					{\
+//						DimmerLights22->Flag=0;\
+//						if(DimmerLights22->Signal)\
+//						{\
+//							DimmerLights22->DimmingTime++;\
+//							if(DimmerLights22->DimmingTime >= DimmerLights22->DimmingTimeValue)\
+//							{\
+//								DimmerLights22->DimmingTime=0;\
+//								if(DimmerLights22->AdjFlag)\
+//								{\
+//									if(DimmerLights22->AdjStatus == 0)\
+//									{\
+//										if(DimmerLights22->DimmingValue > Dimmer_Maxum)\
+//										{\
+//											DimmerLights22->DimmingValue--;\
+//										}\
+//										else\
+//										{\
+//											DimmerLights22->AdjStatus=1;\
+//										}\
+//									}\
+//									else\
+//									{\
+//										if(DimmerLights22->DimmingValue < Dimmer_Minimum)\
+//										{\
+//											DimmerLights22->DimmingValue++;\
+//										}\
+//										else\
+//										{\
+//											DimmerLights22->AdjStatus=0;\
+//										}\
+//									}\
+//								}\
+//								else if(DimmerLights22->AdjRF)\
+//								{\
+//									if(DimmerLights22->DimmingValue > DimmerLights22->MaxmumValue)\
+//									{\
+//										DimmerLights22->DimmingValue--;\
+//									}\
+//									else if(DimmerLights22->DimmingValue < DimmerLights22->MaxmumValue)\
+//									{\
+//										DimmerLights22->DimmingValue++;\
+//									}\
+//									if(DimmerLights22->DimmingValue == DimmerLights22->MaxmumValue)\
+//									{\
+//										DimmerLights22->AdjRF=0;\
+//										DimmerLights22->Signal=0;\
+//									}\
+//								}\
+//								else\
+//								{\
+//									if(DimmerLights22->Status)\
+//									{\
+//										DimmerLights22->DimmingValue--;\
+//										if(DimmerLights22->DimmingValue <= DimmerLights22->MaxmumValue)\
+//										{\
+//											DimmerLights22->Signal=0;\
+//										}\
+//									}\
+//									else\
+//									{\
+//										DimmerLights22->DimmingValue++;\
+//										if(DimmerLights22->DimmingValue >= DimmerLights22->MinimumValue)\
+//										{\
+//											DimmerLights22->Signal=0;\
+//											DimmerLights22->StatusFlag=0;\
+//											DimmerLights22->Clear=1;\
+//											Dimmer->Detect=1;\
+//											LED2=0;\
+//											setLoad_StatusOff(lights,1);\
+//										}\
+//									}\
+//								}\
+//							}\
+//						}\
+//					}\
+//					if(Triac2)\
+//					{\
+//						DimmerLights22->TriacTime++;\
+//						if(DimmerLights22->TriacTime >= (120-DimmerLights22->DimmingValue))\
+//						{\
+//							DimmerLights22->TriacTime=0;\
+//							Triac2=0;\
+//						}\
+//					}\
+//				}\
+//				;
+//
+//
+//		#endif
+//		//*********************************************************
+//		#ifdef Triac3
+//
+//			#define setDimmerLights33_Control(lights)\
+//				if(DimmerLights33->GO)\
+//				{\
+//					DimmerLights33->Count++;\
+//					if(DimmerLights33->Count >= (DimmerLights33->DimmingValue-Dimmer->Correction))\
+//					{\
+//						DimmerLights33->Count=0;\
+//						DimmerLights33->GO=0;\
+//						DimmerLights33->Flag=1;\
+//						if(DimmerLights33->StatusFlag)\
+//						{\
+//							Triac3=1;\
+//						}\
+//					}\
+//				}\
+//				else\
+//				{\
+//					if(DimmerLights33->Flag)\
+//					{\
+//						DimmerLights33->Flag=0;\
+//						if(DimmerLights33->Signal)\
+//						{\
+//							DimmerLights33->DimmingTime++;\
+//							if(DimmerLights33->DimmingTime >= DimmerLights33->DimmingTimeValue)\
+//							{\
+//								DimmerLights33->DimmingTime=0;\
+//								if(DimmerLights33->AdjFlag)\
+//								{\
+//									if(DimmerLights33->AdjStatus == 0)\
+//									{\
+//										if(DimmerLights33->DimmingValue > Dimmer_Maxum)\
+//										{\
+//											DimmerLights33->DimmingValue--;\
+//										}\
+//										else\
+//										{\
+//											DimmerLights33->AdjStatus=1;\
+//										}\
+//									}\
+//									else\
+//									{\
+//										if(DimmerLights33->DimmingValue < Dimmer_Minimum)\
+//										{\
+//											DimmerLights33->DimmingValue++;\
+//										}\
+//										else\
+//										{\
+//											DimmerLights33->AdjStatus=0;\
+//										}\
+//									}\
+//								}\
+//								else if(DimmerLights33->AdjRF)\
+//								{\
+//									if(DimmerLights33->DimmingValue > DimmerLights33->MaxmumValue)\
+//									{\
+//										DimmerLights33->DimmingValue--;\
+//									}\
+//									else if(DimmerLights33->DimmingValue < DimmerLights33->MaxmumValue)\
+//									{\
+//										DimmerLights33->DimmingValue++;\
+//									}\
+//									if(DimmerLights33->DimmingValue == DimmerLights33->MaxmumValue)\
+//									{\
+//										DimmerLights33->AdjRF=0;\
+//										DimmerLights33->Signal=0;\
+//									}\
+//								}\
+//								else\
+//								{\
+//									if(DimmerLights33->Status)\
+//									{\
+//										DimmerLights33->DimmingValue--;\
+//										if(DimmerLights33->DimmingValue <= DimmerLights33->MaxmumValue)\
+//										{\
+//											DimmerLights33->Signal=0;\
+//										}\
+//									}\
+//									else\
+//									{\
+//										DimmerLights33->DimmingValue++;\
+//										if(DimmerLights33->DimmingValue >= DimmerLights33->MinimumValue)\
+//										{\
+//											DimmerLights33->Signal=0;\
+//											DimmerLights33->StatusFlag=0;\
+//											DimmerLights33->Clear=1;\
+//											Dimmer->Detect=1;\
+//											LED3=0;\
+//											setLoad_StatusOff(lights,1);\
+//										}\
+//									}\
+//								}\
+//							}\
+//						}\
+//					}\
+//					if(Triac3)\
+//					{\
+//						DimmerLights33->TriacTime++;\
+//						if(DimmerLights33->TriacTime >= (120-DimmerLights33->DimmingValue))\
+//						{\
+//							DimmerLights33->TriacTime=0;\
+//							Triac3=0;\
+//						}\
+//					}\
+//				}\
+//				;
+//		#endif
 		//*********************************************************
 		#ifdef Mosfet1
 			#if Dimmer_Full_Wave == 1
@@ -817,11 +829,11 @@
 									}\
 									else\
  {\
-										DimmerLights22->Signal = 0;                                   \
-									                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
-								                                                                                                                                                                                                                                                                                                                                                                                                                                    }\
-							                                                                                                                                                                                                                                                                                        }\
-						                                                                                                                                            }\
+										DimmerLights22->Signal = 0;                                           \
+									                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
+								                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }\
+							                                                                                                                                                                                                                                                                                                                                                        }\
+						                                                                                                                                                                            }\
 					}\
 					;
 #endif

@@ -12,20 +12,29 @@
 //Global extern vriables declaration/
 
 struct Switch {
-    unsigned Enable : 1;
-    unsigned Touch : 1;
-    unsigned Debounce : 1;
-    unsigned Hold1 : 1;
-    unsigned Hold2 : 1;
-    unsigned Hold3 : 1;
-    unsigned Status : 1;
-    unsigned Flag : 1;
-    unsigned Adj : 1;
+
+    struct {
+        unsigned Enable : 1;
+        unsigned Touch : 1;
+        unsigned Debounce : 1;
+        unsigned Hold1 : 1;
+        unsigned Hold2 : 1;
+        unsigned Hold3 : 1;
+        unsigned Status : 1;
+        unsigned Flag : 1;
+    };
+
+    struct {
+        unsigned Adj : 1;
+        unsigned empty : 7;
+    };
+
 
     unsigned char DebounceTime;
     unsigned int Hold1Time;
     unsigned int Hold2Time;
     unsigned int Hold3Time;
+
 
 };
 struct Switch *Sw;
