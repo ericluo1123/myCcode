@@ -50,12 +50,11 @@ struct RF {
 
     struct {
         unsigned Sleep : 1;
-        unsigned Count : 1;
         unsigned Run : 1;
-        unsigned Bus:1;
-        unsigned empty : 5;
+        unsigned Bus : 1;
+        unsigned empty : 6;
     };
-
+    unsigned char Count;
     unsigned char DebounceTime;
 
 };

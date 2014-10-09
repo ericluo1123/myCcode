@@ -138,48 +138,6 @@ void myMain_Initialization();
 # 118
 void my_Main();
 
-# 11 "../src/../2.Switch_2Key_Dimmer.X/../src/Buzzer_B1.h"
-struct Buzzer {
-
-struct {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned PowerON : 1;
-unsigned BufferStatus1 : 1;
-unsigned BufferStatus2 : 1;
-unsigned Switch : 1;
-unsigned empty1 : 2;
-
-};
-
-unsigned int Counter;
-unsigned char Count;
-unsigned char CountBuffer1;
-unsigned char CountBuffer2;
-unsigned int TimeValue;
-unsigned int TimeValueBuffer1;
-unsigned int TimeValueBuffer2;
-};
-struct Buzzer *Buz;
-
-
-struct Buzzer Buz1;
-
-# 47
-void Buzzer_Initialization();
-
-# 52
-void Buzzer_Main();
-
-# 61
-void setBuz(char count, int time);
-
-# 69
-void setBuz_Enable(char command);
-
-# 74
-inline void Buz_Counter();
-
 # 14 "../src/../2.Switch_2Key_Dimmer.X/../src/Switch_B1.h"
 struct Switch {
 
@@ -234,6 +192,48 @@ void Sw_DimmerAdjFunc(char);
 
 
 void TouchPower();
+
+# 11 "../src/../2.Switch_2Key_Dimmer.X/../src/Buzzer_B1.h"
+struct Buzzer {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned PowerON : 1;
+unsigned BufferStatus1 : 1;
+unsigned BufferStatus2 : 1;
+unsigned Switch : 1;
+unsigned empty1 : 2;
+
+};
+
+unsigned int Counter;
+unsigned char Count;
+unsigned char CountBuffer1;
+unsigned char CountBuffer2;
+unsigned int TimeValue;
+unsigned int TimeValueBuffer1;
+unsigned int TimeValueBuffer2;
+};
+struct Buzzer *Buz;
+
+
+struct Buzzer Buz1;
+
+# 47
+void Buzzer_Initialization();
+
+# 52
+void Buzzer_Main();
+
+# 61
+void setBuz(char count, int time);
+
+# 69
+void setBuz_Enable(char command);
+
+# 74
+inline void Buz_Counter();
 
 # 10 "../src/../2.Switch_2Key_Dimmer.X/../src/LED_B1.h"
 struct LED {
@@ -441,12 +441,11 @@ unsigned Key : 1;
 
 struct {
 unsigned Sleep : 1;
-unsigned Count : 1;
 unsigned Run : 1;
-unsigned Bus:1;
-unsigned empty : 5;
+unsigned Bus : 1;
+unsigned empty : 6;
 };
-
+unsigned char Count;
 unsigned char DebounceTime;
 
 };
@@ -496,7 +495,7 @@ struct RFSW RFSW1;
 
 struct RFSW RFSW2;
 
-# 115
+# 114
 void setRF_DimmerValue(char);
 void setRF_DimmerLights(char, char);
 

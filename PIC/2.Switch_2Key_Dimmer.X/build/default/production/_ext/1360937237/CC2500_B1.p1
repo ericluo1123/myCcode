@@ -14,21 +14,21 @@ Version 3.2 HI-TECH Software Intermediate Code
 "61
 [s S3 `S4 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `uc 1 `uc 1 `uc 1 `S5 1 `S6 1 ]
 [n S3 myMain . PowerCount Count Count1 Count2 Count3 IOC_Count Test ClockCount . . ]
-"13 ../src/../2.Switch_2Key_Dimmer.X/../src/Buzzer_B1.h
-[s S8 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :2 `uc 1 ]
-[n S8 . Enable GO PowerON BufferStatus1 BufferStatus2 Switch empty1 ]
-"11
-[s S7 `S8 1 `ui 1 `uc 1 `uc 1 `uc 1 `ui 1 `ui 1 `ui 1 ]
-[n S7 Buzzer . Counter Count CountBuffer1 CountBuffer2 TimeValue TimeValueBuffer1 TimeValueBuffer2 ]
 "16 ../src/../2.Switch_2Key_Dimmer.X/../src/Switch_B1.h
-[s S10 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S10 . Enable Touch Debounce Hold1 Hold2 Hold3 Status Flag ]
+[s S8 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S8 . Enable Touch Debounce Hold1 Hold2 Hold3 Status Flag ]
 "27
-[s S11 :1 `uc 1 :7 `uc 1 ]
-[n S11 . Adj empty ]
+[s S9 :1 `uc 1 :7 `uc 1 ]
+[n S9 . Adj empty ]
 "14
-[s S9 `S10 1 `S11 1 `uc 1 `ui 1 `ui 1 `ui 1 ]
-[n S9 Switch . . DebounceTime Hold1Time Hold2Time Hold3Time ]
+[s S7 `S8 1 `S9 1 `uc 1 `ui 1 `ui 1 `ui 1 ]
+[n S7 Switch . . DebounceTime Hold1Time Hold2Time Hold3Time ]
+"13 ../src/../2.Switch_2Key_Dimmer.X/../src/Buzzer_B1.h
+[s S11 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :2 `uc 1 ]
+[n S11 . Enable GO PowerON BufferStatus1 BufferStatus2 Switch empty1 ]
+"11
+[s S10 `S11 1 `ui 1 `uc 1 `uc 1 `uc 1 `ui 1 `ui 1 `ui 1 ]
+[n S10 Buzzer . Counter Count CountBuffer1 CountBuffer2 TimeValue TimeValueBuffer1 TimeValueBuffer2 ]
 "12 ../src/../2.Switch_2Key_Dimmer.X/../src/LED_B1.h
 [s S13 :1 `uc 1 :1 `uc 1 :6 `uc 1 ]
 [n S13 . Enable GO empty ]
@@ -39,15 +39,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S15 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S15 . Enable ReceiveGO TransceiveGO RxStatus TxStatus Debounce Learn Key ]
 "51
-[s S16 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
-[n S16 . Sleep Count Run Bus empty ]
+[s S16 :1 `uc 1 :1 `uc 1 :1 `uc 1 :6 `uc 1 ]
+[n S16 . Sleep Run Bus empty ]
 "38
-[s S14 `S15 1 `S16 1 `uc 1 ]
-[n S14 RF . . DebounceTime ]
-"87
+[s S14 `S15 1 `S16 1 `uc 1 `uc 1 ]
+[n S14 RF . . Count DebounceTime ]
+"86
 [s S18 :1 `uc 1 :7 `uc 1 ]
 [n S18 . Status empty ]
-"85
+"84
 [s S17 `S18 1 ]
 [n S17 RFSW . ]
 "35 ../src/../2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h
@@ -262,35 +262,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 105: struct myMain *myMain;
 [; ;Main_B1.h: 113: void myMain_Initialization();
 [; ;Main_B1.h: 118: void my_Main();
-[; ;Buzzer_B1.h: 11: struct Buzzer {
-[; ;Buzzer_B1.h: 13: struct {
-[; ;Buzzer_B1.h: 14: unsigned Enable : 1;
-[; ;Buzzer_B1.h: 15: unsigned GO : 1;
-[; ;Buzzer_B1.h: 16: unsigned PowerON : 1;
-[; ;Buzzer_B1.h: 17: unsigned BufferStatus1 : 1;
-[; ;Buzzer_B1.h: 18: unsigned BufferStatus2 : 1;
-[; ;Buzzer_B1.h: 19: unsigned Switch : 1;
-[; ;Buzzer_B1.h: 20: unsigned empty1 : 2;
-[; ;Buzzer_B1.h: 22: };
-[; ;Buzzer_B1.h: 24: unsigned int Counter;
-[; ;Buzzer_B1.h: 25: unsigned char Count;
-[; ;Buzzer_B1.h: 26: unsigned char CountBuffer1;
-[; ;Buzzer_B1.h: 27: unsigned char CountBuffer2;
-[; ;Buzzer_B1.h: 28: unsigned int TimeValue;
-[; ;Buzzer_B1.h: 29: unsigned int TimeValueBuffer1;
-[; ;Buzzer_B1.h: 30: unsigned int TimeValueBuffer2;
-[; ;Buzzer_B1.h: 31: };
-"32 ../src/../2.Switch_2Key_Dimmer.X/../src/Buzzer_B1.h
-[v _Buz `*S7 ~T0 @X0 1 e ]
-[; ;Buzzer_B1.h: 32: struct Buzzer *Buz;
-"35
-[v _Buz1 `S7 ~T0 @X0 1 e ]
-[; ;Buzzer_B1.h: 35: struct Buzzer Buz1;
-[; ;Buzzer_B1.h: 47: void Buzzer_Initialization();
-[; ;Buzzer_B1.h: 52: void Buzzer_Main();
-[; ;Buzzer_B1.h: 61: void setBuz(char count, int time);
-[; ;Buzzer_B1.h: 69: void setBuz_Enable(char command);
-[; ;Buzzer_B1.h: 74: inline void Buz_Counter();
 [; ;Switch_B1.h: 14: struct Switch {
 [; ;Switch_B1.h: 16: struct {
 [; ;Switch_B1.h: 17: unsigned Enable : 1;
@@ -312,13 +283,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Switch_B1.h: 36: unsigned int Hold3Time;
 [; ;Switch_B1.h: 39: };
 "40 ../src/../2.Switch_2Key_Dimmer.X/../src/Switch_B1.h
-[v _Sw `*S9 ~T0 @X0 1 e ]
+[v _Sw `*S7 ~T0 @X0 1 e ]
 [; ;Switch_B1.h: 40: struct Switch *Sw;
 "44
-[v _Sw1 `S9 ~T0 @X0 1 e ]
+[v _Sw1 `S7 ~T0 @X0 1 e ]
 [; ;Switch_B1.h: 44: struct Switch Sw1;
 "47
-[v _Sw2 `S9 ~T0 @X0 1 e ]
+[v _Sw2 `S7 ~T0 @X0 1 e ]
 [; ;Switch_B1.h: 47: struct Switch Sw2;
 [; ;Switch_B1.h: 54: void SwPointSelect(char);
 [; ;Switch_B1.h: 55: void Switch_Initialization();
@@ -333,6 +304,35 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Switch_B1.h: 65: void Sw_DimmerOffFunc(char);
 [; ;Switch_B1.h: 66: void Sw_DimmerAdjFunc(char);
 [; ;Switch_B1.h: 70: void TouchPower();
+[; ;Buzzer_B1.h: 11: struct Buzzer {
+[; ;Buzzer_B1.h: 13: struct {
+[; ;Buzzer_B1.h: 14: unsigned Enable : 1;
+[; ;Buzzer_B1.h: 15: unsigned GO : 1;
+[; ;Buzzer_B1.h: 16: unsigned PowerON : 1;
+[; ;Buzzer_B1.h: 17: unsigned BufferStatus1 : 1;
+[; ;Buzzer_B1.h: 18: unsigned BufferStatus2 : 1;
+[; ;Buzzer_B1.h: 19: unsigned Switch : 1;
+[; ;Buzzer_B1.h: 20: unsigned empty1 : 2;
+[; ;Buzzer_B1.h: 22: };
+[; ;Buzzer_B1.h: 24: unsigned int Counter;
+[; ;Buzzer_B1.h: 25: unsigned char Count;
+[; ;Buzzer_B1.h: 26: unsigned char CountBuffer1;
+[; ;Buzzer_B1.h: 27: unsigned char CountBuffer2;
+[; ;Buzzer_B1.h: 28: unsigned int TimeValue;
+[; ;Buzzer_B1.h: 29: unsigned int TimeValueBuffer1;
+[; ;Buzzer_B1.h: 30: unsigned int TimeValueBuffer2;
+[; ;Buzzer_B1.h: 31: };
+"32 ../src/../2.Switch_2Key_Dimmer.X/../src/Buzzer_B1.h
+[v _Buz `*S10 ~T0 @X0 1 e ]
+[; ;Buzzer_B1.h: 32: struct Buzzer *Buz;
+"35
+[v _Buz1 `S10 ~T0 @X0 1 e ]
+[; ;Buzzer_B1.h: 35: struct Buzzer Buz1;
+[; ;Buzzer_B1.h: 47: void Buzzer_Initialization();
+[; ;Buzzer_B1.h: 52: void Buzzer_Main();
+[; ;Buzzer_B1.h: 61: void setBuz(char count, int time);
+[; ;Buzzer_B1.h: 69: void setBuz_Enable(char command);
+[; ;Buzzer_B1.h: 74: inline void Buz_Counter();
 [; ;LED_B1.h: 10: struct LED {
 [; ;LED_B1.h: 12: struct {
 [; ;LED_B1.h: 13: unsigned Enable : 1;
@@ -733,54 +733,54 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;RF_Control_B1.h: 49: };
 [; ;RF_Control_B1.h: 51: struct {
 [; ;RF_Control_B1.h: 52: unsigned Sleep : 1;
-[; ;RF_Control_B1.h: 53: unsigned Count : 1;
-[; ;RF_Control_B1.h: 54: unsigned Run : 1;
-[; ;RF_Control_B1.h: 55: unsigned Bus:1;
-[; ;RF_Control_B1.h: 56: unsigned empty : 5;
-[; ;RF_Control_B1.h: 57: };
-[; ;RF_Control_B1.h: 59: unsigned char DebounceTime;
-[; ;RF_Control_B1.h: 61: };
-"62 ../src/../2.Switch_2Key_Dimmer.X/../src/RF_Control_B1.h
+[; ;RF_Control_B1.h: 53: unsigned Run : 1;
+[; ;RF_Control_B1.h: 54: unsigned Bus : 1;
+[; ;RF_Control_B1.h: 55: unsigned empty : 6;
+[; ;RF_Control_B1.h: 56: };
+[; ;RF_Control_B1.h: 57: unsigned char Count;
+[; ;RF_Control_B1.h: 58: unsigned char DebounceTime;
+[; ;RF_Control_B1.h: 60: };
+"61 ../src/../2.Switch_2Key_Dimmer.X/../src/RF_Control_B1.h
 [v _RF `*S14 ~T0 @X0 1 e ]
-[; ;RF_Control_B1.h: 62: struct RF *RF;
-"65
+[; ;RF_Control_B1.h: 61: struct RF *RF;
+"64
 [v _RF1 `S14 ~T0 @X0 1 e ]
-[; ;RF_Control_B1.h: 65: struct RF RF1;
-[; ;RF_Control_B1.h: 68: void RfPointSelect(char);
-[; ;RF_Control_B1.h: 69: void RF_Initialization();
-[; ;RF_Control_B1.h: 70: void RF_Main();
-[; ;RF_Control_B1.h: 71: void setRF_Initialization(char);
-[; ;RF_Control_B1.h: 72: void setRF_Main(char);
-[; ;RF_Control_B1.h: 73: void setTxData(char);
-[; ;RF_Control_B1.h: 74: void getRxData(char);
-[; ;RF_Control_B1.h: 75: void setRF_Enable(char, char);
-[; ;RF_Control_B1.h: 76: void setLog_Code(char);
-[; ;RF_Control_B1.h: 77: void setControl_Lights_Table(char);
-[; ;RF_Control_B1.h: 78: void RF_RxDisable(char);
-[; ;RF_Control_B1.h: 79: void setRF_Learn(char, char);
-[; ;RF_Control_B1.h: 80: void setRF_ReceiveGO(char, char);
-[; ;RF_Control_B1.h: 81: void setRF_RxStatus(char, char);
-[; ;RF_Control_B1.h: 85: struct RFSW {
-[; ;RF_Control_B1.h: 87: struct {
-[; ;RF_Control_B1.h: 88: unsigned Status : 1;
-[; ;RF_Control_B1.h: 89: unsigned empty : 7;
+[; ;RF_Control_B1.h: 64: struct RF RF1;
+[; ;RF_Control_B1.h: 67: void RfPointSelect(char);
+[; ;RF_Control_B1.h: 68: void RF_Initialization();
+[; ;RF_Control_B1.h: 69: void RF_Main();
+[; ;RF_Control_B1.h: 70: void setRF_Initialization(char);
+[; ;RF_Control_B1.h: 71: void setRF_Main(char);
+[; ;RF_Control_B1.h: 72: void setTxData(char);
+[; ;RF_Control_B1.h: 73: void getRxData(char);
+[; ;RF_Control_B1.h: 74: void setRF_Enable(char, char);
+[; ;RF_Control_B1.h: 75: void setLog_Code(char);
+[; ;RF_Control_B1.h: 76: void setControl_Lights_Table(char);
+[; ;RF_Control_B1.h: 77: void RF_RxDisable(char);
+[; ;RF_Control_B1.h: 78: void setRF_Learn(char, char);
+[; ;RF_Control_B1.h: 79: void setRF_ReceiveGO(char, char);
+[; ;RF_Control_B1.h: 80: void setRF_RxStatus(char, char);
+[; ;RF_Control_B1.h: 84: struct RFSW {
+[; ;RF_Control_B1.h: 86: struct {
+[; ;RF_Control_B1.h: 87: unsigned Status : 1;
+[; ;RF_Control_B1.h: 88: unsigned empty : 7;
+[; ;RF_Control_B1.h: 89: };
 [; ;RF_Control_B1.h: 90: };
-[; ;RF_Control_B1.h: 91: };
-"92
+"91
 [v _RFSW `*S17 ~T0 @X0 1 e ]
-[; ;RF_Control_B1.h: 92: struct RFSW *RFSW;
-[; ;RF_Control_B1.h: 95: void RfSWPointSelect(char);
-[; ;RF_Control_B1.h: 96: void setRFSW_Control(char);
-[; ;RF_Control_B1.h: 97: void setRFSW_AdjControl(char);
-[; ;RF_Control_B1.h: 98: void setRFSW_Status(char, char);
-"102
+[; ;RF_Control_B1.h: 91: struct RFSW *RFSW;
+[; ;RF_Control_B1.h: 94: void RfSWPointSelect(char);
+[; ;RF_Control_B1.h: 95: void setRFSW_Control(char);
+[; ;RF_Control_B1.h: 96: void setRFSW_AdjControl(char);
+[; ;RF_Control_B1.h: 97: void setRFSW_Status(char, char);
+"101
 [v _RFSW1 `S17 ~T0 @X0 1 e ]
-[; ;RF_Control_B1.h: 102: struct RFSW RFSW1;
-"106
+[; ;RF_Control_B1.h: 101: struct RFSW RFSW1;
+"105
 [v _RFSW2 `S17 ~T0 @X0 1 e ]
-[; ;RF_Control_B1.h: 106: struct RFSW RFSW2;
-[; ;RF_Control_B1.h: 115: void setRF_DimmerValue(char);
-[; ;RF_Control_B1.h: 116: void setRF_DimmerLights(char, char);
+[; ;RF_Control_B1.h: 105: struct RFSW RFSW2;
+[; ;RF_Control_B1.h: 114: void setRF_DimmerValue(char);
+[; ;RF_Control_B1.h: 115: void setRF_DimmerLights(char, char);
 [; ;Dimmer_B1.h: 33: struct DimmerLights
 [; ;Dimmer_B1.h: 34: {
 [; ;Dimmer_B1.h: 35: struct{

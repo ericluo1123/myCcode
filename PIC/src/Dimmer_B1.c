@@ -241,7 +241,7 @@ inline void setDimmerLights_IntrControl(char lights) {
         if (DimmerLightsIntr->MosfetSignalCount == 110) {
             DimmerLightsIntr->MosfetSignalCount = 0;
             DimmerLightsIntr->MosfetSignal = false;
-            ErrLED = 0;
+//            ErrLED = 0;
         }
     }
 }
@@ -259,7 +259,7 @@ inline void setDimmerLights_IntrGO(char lights) {
 #if Control_Method_Mosfet == true
     if (DimmerLightsIntr->MosfetSignal == false) {
         DimmerLightsIntr->MosfetSignal = true;
-        ErrLED = true;
+//        ErrLED = true;
 
         DimmerLightsIntr->GO = true;
         if (DimmerLightsIntr->StatusFlag == true) {
@@ -273,7 +273,7 @@ inline void setDimmerLights_IntrGO(char lights) {
 #endif
 #ifdef use_2KEY
             if (lights == 2) {
-                Mosfet2 = true;
+                Mosfet2 = true;F
             }
 #endif
         }

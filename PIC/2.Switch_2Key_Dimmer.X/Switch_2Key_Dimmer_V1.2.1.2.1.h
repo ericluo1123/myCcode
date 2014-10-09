@@ -36,7 +36,7 @@
 #define Properties_Neutral		0
 #define Properties_Dimmer		1
 #define Debug 1
-#define Create_Date "2014/10/8"
+#define Create_Date "2014/10/9"
 #define PCB_Name "TH-302PV11-1-Dim(20140722)"
 
 //MCU define

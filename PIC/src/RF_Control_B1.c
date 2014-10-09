@@ -74,23 +74,20 @@ void setRF_Main(char rf) {
             if (RF->Key == true && RF->Learn == false) {
                 RF->Run = true;
                 RF_RxDisable(1);
-                //                if (RF->TransceiveGO == true) {
-                //                    RF->TransceiveGO = false;
-                //                    CC2500_TxData();
-                //                }
             } else {
                 if (RF->Run == true && RF->Learn == false) {
                     RF->Count++;
                     if (RF->Count == 25) {
                         RF->Count = 0;
-                        RF->Run == false;
+                        RF->Run = false;
                     }
                 } else {
                     RF->Count = 0;
-                    RF->Run == false;
+                    RF->Run = false;
 
                     if (RF->ReceiveGO == true) {
                         RF->ReceiveGO = false;
+                        RF_RxDisable(1);
                         CC2500_RxData();
                         //                        RF->Run = true;
 #if I2C_use == 1
@@ -108,14 +105,20 @@ void setRF_Main(char rf) {
                                 RF->TransceiveGO = false;
                                 RF_RxDisable(1);
                                 CC2500_TxData();
-                                //                            RF->Run = true;
+                                //RF->Run = true;
                             } else {
 #if Rx_Enable == 1
-                                if (RF->TransceiveGO == false && RF->ReceiveGO == false && RF->RxStatus == false) {
-                                    CC2500_WriteCommand(CC2500_SRX); // set receive mode
-                                    setINT_GO(1);
-                                }
+                                RF->RxStatus = true;
+                                CC2500_WriteCommand(CC2500_SRX); // set receive mode
+                                setINT_GO(1);
+#endif
                             }
+                        } else {
+#if Rx_Enable == 1
+                            RF->RxStatus = true;
+                            CC2500_WriteCommand(CC2500_SRX); // set receive mode
+                            setINT_GO(1);
+#endif
                         }
                     }
                 }
@@ -124,10 +127,10 @@ void setRF_Main(char rf) {
     }
 
 #else
-                                if (!RF->Sleep) {
-                                    RF->Sleep = 1;
-                                    CC2500_WriteCommand(CC2500_SIDLE); // idle
-                                }
+        if (!RF->Sleep) {
+            RF->Sleep = 1;
+            CC2500_WriteCommand(CC2500_SIDLE); // idle
+        }
 #endif
 }
 
@@ -139,40 +142,39 @@ void setTxData(char rf) {
     RfPointSelect(rf);
     if (RF->Enable == true) {
 #if Tx_Enable == 1
-        if (RF->TransceiveGO == false) {
-            RF->TransceiveGO = true;
-            /*	Product->Data[0]=0x63;		//Command
-                    Product->Data[1]=0x02;		//Command
-                    Product->Data[20]=KeyID;	//Key ID*/
-            /*	for(i=2 ;i< 20 ;i++)
-                    {
-                            RF_Data[i]=Product->Data[i];
-                    }*/
+        RF->TransceiveGO = true;
+        //ErrLED = 0;
+        /*	Product->Data[0]=0x63;		//Command
+                Product->Data[1]=0x02;	//Command
+                Product->Data[20]=KeyID;	//Key ID*/
+        /*	for(i=2 ;i< 20 ;i++)
+                {
+                        RF_Data[i]=Product->Data[i];
+                }*/
 
-            RF_Data[0] = 0x63; //Product->Data[0];		//Command
-            RF_Data[1] = 0x02; //Product->Data[1];		//Command
-            RF_Data[2] = product->Data[2]; //Temperature
-            RF_Data[3] = product->Data[3]; //Temperature
-            RF_Data[4] = product->Data[4]; //Humidity
-            RF_Data[5] = product->Data[5]; //Humidity
-            RF_Data[6] = product->Data[6]; //Barometric pressure
-            RF_Data[7] = product->Data[7]; //Barometric pressure
-            RF_Data[8] = product->Data[8]; //Electricity
-            RF_Data[9] = product->Data[9]; //Dimmer
-            RF_Data[10] = product->Data[10]; //Electric  current
-            RF_Data[11] = product->Data[11]; //Year
-            RF_Data[12] = product->Data[12]; //Week
-            RF_Data[13] = product->Data[13]; //Serial  Number
-            RF_Data[14] = product->Data[14]; //Serial  Number
-            RF_Data[15] = product->Data[15]; //Lights Status
-            RF_Data[16] = product->Data[16]; //Timmer Command
-            RF_Data[17] = product->Data[17]; //Timmer Time
-            RF_Data[18] = product->Data[18]; //Reserved
-            RF_Data[19] = product->Data[19]; //Reserved
-            RF_Data[20] = KeyID; //Product->Data[20];	//Key ID
-        }
-#endif
+        RF_Data[0] = 0x63; //Product->Data[0];		//Command
+        RF_Data[1] = 0x02; //Product->Data[1];		//Command
+        RF_Data[2] = product->Data[2]; //Temperature
+        RF_Data[3] = product->Data[3]; //Temperature
+        RF_Data[4] = product->Data[4]; //Humidity
+        RF_Data[5] = product->Data[5]; //Humidity
+        RF_Data[6] = product->Data[6]; //Barometric pressure
+        RF_Data[7] = product->Data[7]; //Barometric pressure
+        RF_Data[8] = product->Data[8]; //Electricity
+        RF_Data[9] = product->Data[9]; //Dimmer
+        RF_Data[10] = product->Data[10]; //Electric  current
+        RF_Data[11] = product->Data[11]; //Year
+        RF_Data[12] = product->Data[12]; //Week
+        RF_Data[13] = product->Data[13]; //Serial  Number
+        RF_Data[14] = product->Data[14]; //Serial  Number
+        RF_Data[15] = product->Data[15]; //Lights Status
+        RF_Data[16] = product->Data[16]; //Timmer Command
+        RF_Data[17] = product->Data[17]; //Timmer Time
+        RF_Data[18] = product->Data[18]; //Reserved
+        RF_Data[19] = product->Data[19]; //Reserved
+        RF_Data[20] = KeyID; //Product->Data[20];	//Key ID
     }
+#endif
 }
 //*********************************************************
 
@@ -193,13 +195,13 @@ void RF_RxDisable(char rf) {
     RfPointSelect(rf);
 
     if (RF->ReceiveGO == true || RF->RxStatus == true) {
+        if (RF->ReceiveGO == true) {
+            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+        }
         RF->RxStatus = false;
         RF->ReceiveGO = false;
         CC2500_WriteCommand(CC2500_SIDLE); // idle
         setINT_GO(0);
-        if (RF->ReceiveGO == true) {
-            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-        }
     }
 }
 //*********************************************************
@@ -371,7 +373,7 @@ void setRFSW_Control(char sw) {
 
 void setRFSW_AdjControl(char sw) {
     RfSWPointSelect(sw);
-    if (RFSW->Status) {
+    if (RFSW->Status == true) {
         setMemory_Modify(1);
         setRF_DimmerValue(sw);
     } else {
@@ -412,7 +414,7 @@ void setRF_DimmerLights(char lights, char on) {
 
     setProductData(9, product->Data[20 + lights]);
     setProductData(17, product->Data[26 + lights]);
-    if (on) {
+    if (on == 1) {
         setProductData(15, (product->Data[15] | status)); //Lights Status
     } else {
         setProductData(15, (product->Data[15]&(~status))); //Lights Status

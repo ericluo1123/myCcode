@@ -5,7 +5,7 @@
 //main
 
 int main(int argc, char** argv) {
-  
+
     myMain_Initialization();
     Mcu_Initialization();
     Flash_Memory_Initialization();
@@ -55,9 +55,6 @@ int main(int argc, char** argv) {
             getPIR_AD(1, PIR_VR_Channel, PIR_Signal_Channel);
 #endif
 
-#if Buzzer_use == 1
-            Buzzer_Main();
-#endif
         }
         //TMR0
 #if Timer0_use == 1
@@ -71,6 +68,7 @@ int main(int argc, char** argv) {
                 Flash_Memory_Main();
 
                 LED_Main();
+                Buzzer_Main();
 
                 SYSC_Main();
                 Temp_Main();
@@ -138,7 +136,7 @@ void my_Main() {
 #ifdef OverLoad1
             setLoad_Enable(1);
 #endif
-        
+
 #if Self_Test == true
             myMain->k = 1;
 #else
@@ -165,8 +163,8 @@ void my_Main() {
         if (myMain->Count1 == 100) //*10ms
         {
             myMain->Count1 = 0;
+            setBuz(1, 100);
 
-            //	setBuz(1,100);
             //	setTxData(1);
             //	ErrLED=~ErrLED;
             //	setProductData(2,Sw1->DebounceTime);
@@ -183,20 +181,20 @@ void my_Main() {
                 //	setLights_Trigger(1,1);
                 //	setLights_Switch(1,1);
 
-                //	setLED(1,1);
-                //	setLED(2,0);
-                //	setLED(3,1);
-                //	setLED(99,1);
+                setLED(1, 1);
+                //                	setLED(2,1);
+                //                	setLED(3,1);
+                //                	setLED(99,1);
             } else {
                 myMain->Flag = 1;
                 //	setLights(1,0);
                 //	setLights_Trigger(1,1);
                 //	setLights_Switch(1,0);
-                //	setLED(99,0);
-                //	setLED(1,0);
-                //	setLED(2,1);
-                //	setLED(3,0);
-                //	setLED(99,0);
+
+                setLED(1, 0);
+                //                	setLED(2,0);
+                //                	setLED(3,0);
+                //                	setLED(99,0);
             }
         }
 #endif
