@@ -8,7 +8,7 @@
 #ifdef TTPW
 
 void TouchPower() {
-    while (!TTPW)
+    while (TTPW == false)
         TTPW = 1;
 }
 #endif
@@ -109,7 +109,7 @@ void setSw_Status(char sw, char command) {
 //*********************************************************
 
 void setSw_Main(char sw) {
-    if (Sw->Enable) {
+    if (Sw->Enable == true) {
         SwPointSelect(sw);
 #if	Switch_Class == 3
         if (sw == 1) {
@@ -134,12 +134,13 @@ void setSw_Main(char sw) {
 #endif
 
 
-        if (Sw->Touch) {
-            if (!Sw->Debounce) {
+        if (Sw->Touch == true) {
+            if (Sw->Debounce == false) {
                 Sw->DebounceTime++;
                 if (Sw->DebounceTime >= DebounceTimeValue) {
                     Sw->DebounceTime = 0;
-                    Sw->Debounce = 1;
+                    Sw->Debounce = true;
+
 #if Dimmer_use == 1
 
                     Sw_DimmerOnFunc(sw); //key on function
@@ -147,11 +148,11 @@ void setSw_Main(char sw) {
 #endif
                 }
             } else {
-                if (!Sw->Hold1) {
+                if (Sw->Hold1 == false) {
                     Sw->Hold1Time++;
                     if (Sw->Hold1Time >= Hold1TimeValue) {
                         Sw->Hold1Time = 0;
-                        Sw->Hold1 = 1;
+                        Sw->Hold1 = true;
 #if Dimmer_use == 1 
 #if Dimmable_Func == 1
                         Sw_DimmerAdjFunc(sw); //key on function
@@ -222,21 +223,22 @@ void setSw_Main(char sw) {
 void Sw_DimmerOnFunc(char sw) {
     char Idle = 1;
 #if Dimmer_use == 1
+
 #if Switch_Class == 3
     if (sw == 1) {
-        Idle = (DimmerLights22->AdjGo || DimmerLights33->AdjGo) ? 0 : 1;
+        Idle = (DimmerLights22->AdjGo == true || DimmerLights33->AdjGo == true) ? false : true;
     } else if (sw == 2) {
-        Idle = (DimmerLights11->AdjGo || DimmerLights33->AdjGo) ? 0 : 1;
+        Idle = (DimmerLights11->AdjGo == true || DimmerLights33->AdjGo == true) ? false : true;
     } else if (sw == 3) {
-        Idle = (DimmerLights11->AdjGo || DimmerLights22->AdjGo) ? 0 : 1;
+        Idle = (DimmerLights11->AdjGo == true || DimmerLights22->AdjGo == true) ? false : true;
     }
 #endif
 
 #if Switch_Class == 2
     if (sw == 1) {
-        Idle = (DimmerLights22->AdjGo) ? 0 : 1;
+        Idle = (DimmerLights22->AdjGo == true) ? false : true;
     } else if (sw == 2) {
-        Idle = (DimmerLights11->AdjGo) ? 0 : 1;
+        Idle = (DimmerLights11->AdjGo == true) ? false : true;
     }
 #endif
 #endif

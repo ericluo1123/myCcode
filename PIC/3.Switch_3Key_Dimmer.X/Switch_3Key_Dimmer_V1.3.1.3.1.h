@@ -52,7 +52,7 @@
 
 #define CC2500_GDO0			RB0		//pin21 1
 #define Triac3				RB1		//pin22 0
-#define DimmerReference1	RB2		//pin23 1
+#define DimmerReference1                RB2		//pin23 1
 #define Buzzer1				RB3		//pin24	0
 #define Triac1				RB4		//pin25 0
 #define ErrLED				RB5		//pin26	0
@@ -95,8 +95,10 @@
 #define	System_Fosc_16M			//_16M														
 //Timer0
 #define Timer0_use	1
+#define TMR0_IntrTime_100us
 //Timer1
-#define Timer1_use	0	
+#define Timer1_use	0
+#define TMR1_IntrTime_50us
 //INT
 #define INT_use 1
 //UART
@@ -138,7 +140,7 @@
 //PowerFault
 #define PowerFault_use 0
 //Dimmer Lights
-#define Dimmer_use 	0
+#define Dimmer_use 1
 //SegmentDisplay
 #define SegmentDisplay_use 0
 

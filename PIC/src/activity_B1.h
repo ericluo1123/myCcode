@@ -71,14 +71,11 @@
 
 //Timer0
 #if Timer0_use	== 1
-#define TMR0_IntrTime_50us			//_50us
-//_100us
+
 #endif
 
 //Timer1
 #if Timer1_use	== 1
-#define TMR1_IntrTime_50us			//_50us
-//_100us
 
 #define Clock_Source_System			//_system
 //_instruction
@@ -181,16 +178,19 @@
 #define Dimmer_Half_Wave			1 
 #define Dimmer_Full_Wave			0
 #define TriacTimeValue				1
-#define MosfetOpenToCloseValue			10  //close mosfet delay time to allow recook
-
-//dimmer define 	
-#define DimmingDelayTime 3 //3
-
+/**
+ * close mosfet delay time to allow recook
+ */
+#define MosfetOpenToCloseValue			10
+/**
+ * dimmer delay time
+ */
+#define DimmingDelayTime 6
 
 #if Properties_Neutral == 1
-#define Max_Percent 90	
+#define Max_Percent 95
 #define Med_Percent 35
-#define Mini_Percent 15 
+#define Mini_Percent 20
 #else
 #if Control_Method_Mosfet == 1
 #if Switch_Class == 1
@@ -209,23 +209,31 @@
 #define Max_Percent 55	
 #endif
 #if Switch_Class == 2
-#define Max_Percent 55	
+#define Max_Percent 70
 #endif
 #if Switch_Class == 3
 #define Max_Percent 55	
 #endif
 #endif
-#endif
 
 #define Med_Percent             35
 #define Mini_Percent            20
+#endif
+
+
 
 
 //Percent define
-#define TotalCount		166
-#define One_Percent		1.5
+#define TotalCount		86
+#define One_Percent		0.8
 #define Tune_Percent		40
 
+//Tolerance
+
+#define CorrectionValue 0//14
+#define TriacTimeValue	1
+#define DetectTime 50
+#define DimmerTuneValue 157
 
 #if Control_Method_Triac == 1
 //maxum

@@ -51,19 +51,19 @@ struct Switch Sw3;
 #endif
 //***************************************************************
 
-void SwPointSelect(char);
+void SwPointSelect(char sw);
 void Switch_Initialization();
 void Switch_Main();
-void setSw_Initialization(char);
-void setSw_Main(char);
-void setSw_Enable(char);
-void Switch_Exception(char);
-void setSw_Status(char, char);
+void setSw_Initialization(char sw);
+void setSw_Main(char sw);
+void setSw_Enable(char command);
+void Switch_Exception(char command);
+void setSw_Status(char sw, char command);
 void Sw_Detect();
 
-void Sw_DimmerOnFunc(char);
-void Sw_DimmerOffFunc(char);
-void Sw_DimmerAdjFunc(char);
+void Sw_DimmerOnFunc(char sw);
+void Sw_DimmerOffFunc(char sw);
+void Sw_DimmerAdjFunc(char sw);
 
 
 #ifdef TTPW
@@ -74,21 +74,21 @@ void TouchPower();
 
 //***************************************************************	
 #else
-#define SwPointSelect(char) ;
+#define SwPointSelect(char sw) ;
 #define Switch_Initialization() ;
 #define Switch_Main() ;
-#define setSw_Initialization(char) ;
-#define setSw_Main(char) ;
-#define setSw_Enable(char) ;
-#define Switch_Exception(char) ;
-
-#define setSw_Status(char,char) ;
+#define setSw_Initialization(char sw) ;
+#define setSw_Main(char sw) ;
+#define setSw_Enable(char command) ;
+#define Switch_Exception(char command) ;
+#define setSw_Status(char sw, char command) ;
 #define Sw_Detect() ;
 
-#define Sw_DimmerOnFunc(char) ;
-#define Sw_DimmerOffFunc(char) ;
-#define Sw_DimmerAdjFunc(char) ;
+#define Sw_DimmerOnFunc(char sw) ;
+#define Sw_DimmerOffFunc(char sw) ;
+#define Sw_DimmerAdjFunc(char sw) ;
 
+#define TouchPower() ;
 #endif
 
 //End file

@@ -175,19 +175,19 @@ struct Switch Sw1;
 struct Switch Sw2;
 
 # 54
-void SwPointSelect(char);
+void SwPointSelect(char sw);
 void Switch_Initialization();
 void Switch_Main();
-void setSw_Initialization(char);
-void setSw_Main(char);
-void setSw_Enable(char);
-void Switch_Exception(char);
-void setSw_Status(char, char);
+void setSw_Initialization(char sw);
+void setSw_Main(char sw);
+void setSw_Enable(char command);
+void Switch_Exception(char command);
+void setSw_Status(char sw, char command);
 void Sw_Detect();
 
-void Sw_DimmerOnFunc(char);
-void Sw_DimmerOffFunc(char);
-void Sw_DimmerAdjFunc(char);
+void Sw_DimmerOnFunc(char sw);
+void Sw_DimmerOffFunc(char sw);
+void Sw_DimmerAdjFunc(char sw);
 
 
 
@@ -499,7 +499,7 @@ struct RFSW RFSW2;
 void setRF_DimmerValue(char);
 void setRF_DimmerLights(char, char);
 
-# 33 "../src/../2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h"
+# 10 "../src/../2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h"
 struct DimmerLights
 {
 struct{
@@ -538,9 +538,10 @@ unsigned DetectClose:1;
 unsigned Clear:1;
 unsigned MosfetSignal:1;
 unsigned MosfetOK:1;
-unsigned TriacTemp:1;
+unsigned TriacFlag:1;
 unsigned empty:2;
 };
+unsigned char TriacCount;
 unsigned char DetectCount;
 unsigned char MosfetSignalCount;
 unsigned char TuneValue;
@@ -550,8 +551,9 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
+struct DimmerLights *DimmerLightsIntrIOC;
 
-# 96
+# 75
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
@@ -560,10 +562,13 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 120
+# 99
+inline void DimmerIntrIOCPointSelect(char lights);
+inline void setDimmerLights_IntrIOC_GO(char lights);
+
 inline void setDimmerLights_IntrControl(char lights);
 inline void DimmerIntrPointSelect(char);
-inline void setDimmerLights_IntrGO(char);
+
 
 void DimmerLightsPointSelect(char);
 void DimmerLights_Initialization();
@@ -593,7 +598,7 @@ char getDimmerLights_Trigger();
 void setDimmerLights_Clear(char,char);
 inline void setDimmerLights_IntrControl(char lights);
 
-# 157
+# 139
 struct Dimmer
 {
 
@@ -3146,7 +3151,7 @@ void setADCGO();
 # 310
 int getAD(char, char);
 
-# 356
+# 358
 struct Timer0 {
 
 struct {
@@ -3169,16 +3174,16 @@ void TMR0_Set();
 void TMR0_ISR();
 inline void setDimmerReClock();
 
-# 452
+# 454
 void INT_Set();
 void INT_ISR();
 void setINT_GO(char);
 
-# 465
+# 467
 void IOC_Set();
 void IOC_ISR();
 
-# 618
+# 620
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -3202,7 +3207,7 @@ struct FlashMemory VarMemory = {
 }
 };
 
-# 656
+# 658
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char);
@@ -3212,7 +3217,7 @@ void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
 
-# 684
+# 686
 struct WDT {
 unsigned Enable : 1;
 unsigned char Count;
@@ -3220,7 +3225,7 @@ unsigned char Count;
 struct WDT _WDT;
 struct WDT *WDT;
 
-# 695
+# 697
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -3304,7 +3309,7 @@ INT_ISR();
 void TMR0_Set() {
 Timer0 = &VarTimer0;
 OPTION_REG = 0x00;
-TMR0 = (256-90);
+TMR0 = (256-190);
 TMR0IE = 1;
 GIE = 1;
 }
@@ -3312,7 +3317,7 @@ GIE = 1;
 
 void TMR0_ISR() {
 if (TMR0IE == 1 && TMR0IF == 1) {
-TMR0 = (256-90);
+TMR0 = (256-190);
 TMR0IF = 0;
 
 
@@ -3327,7 +3332,7 @@ setDimmerLights_IntrControl(2);
 
 # 161
 Timer0->Count++;
-if (Timer0->Count == 200) {
+if (Timer0->Count == 100) {
 Timer0->Count = 0;
 myMain->T0_Timerout = 1;
 
@@ -3341,21 +3346,23 @@ Buz_Counter();
 
 
 inline void setDimmerReClock() {
+
+
+
+
+setDimmerLights_IntrIOC_GO(1);
+
+
+
+setDimmerLights_IntrIOC_GO(2);
+
+# 191
 TMR0 = 255;
 
 
-
-
-setDimmerLights_IntrGO(1);
-
-
-
-setDimmerLights_IntrGO(2);
-
-# 192
 }
 
-# 240
+# 242
 void INT_Set() {
 WPUB0 = 0;
 INTE = 1;
@@ -3365,11 +3372,11 @@ GIE = 1;
 
 
 void INT_ISR() {
-if (INTE && INTF) {
+if (INTE == 1 && INTF == 1) {
 INTF = 0;
 INTE = 0;
 setRF_ReceiveGO(1, 1);
-setRF_RxStatus(1,0);
+setRF_RxStatus(1, 0);
 }
 }
 
@@ -3379,14 +3386,14 @@ INTF = 0;
 INTE = command;
 }
 
-# 268
+# 270
 void IOC_Set() {
 WPUB2 = 0;
 
 IOCBP = 0b00000100;
 IOCBN = 0b00000100;
 
-# 287
+# 289
 IOCBF = 0b00000000;
 
 IOCIE = 1;
@@ -3408,13 +3415,13 @@ setDimmerReClock();
 }
 }
 
-# 314
+# 316
 void ADC_Set() {
 ADCON1 = 0xf2;
 FVRCON = 0xc0;
 }
 
-# 341
+# 343
 int getAD(char adcon0, char adcon1) {
 ADCON0 = adcon0;
 ADCON1 = adcon1;
@@ -3423,7 +3430,7 @@ while (GO_nDONE == 1);
 return ((ADRESH*256)+ADRESL);
 }
 
-# 752
+# 754
 void Flash_Memory_Initialization() {
 char i;
 if (Flash_Memory_Read(31) == 0xaa) {
@@ -3431,8 +3438,8 @@ product->Data[12] = Flash_Memory_Read(0);
 product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
-# 763
-i = setPercentValue(((char)((100-55)*1.5)));
+# 765
+i = setPercentValue(((char)((100-70)*0.8)));
 product->Data[21] = i;
 product->Data[22] = i;
 product->Data[23] = i;
@@ -3442,7 +3449,7 @@ myMain->FirstOpen = 1;
 myMain->First = 1;
 }
 } else {
-i = setPercentValue(((char)((100-55)*1.5)));
+i = setPercentValue(((char)((100-70)*0.8)));
 Memory->Data[0]=0xff;
 Memory->Data[1]=0xff;
 Memory->Data[2]=0xff;
@@ -3541,7 +3548,7 @@ Memory->Data[0]=product->Data[12];
 Memory->Data[1]=product->Data[13];
 Memory->Data[2]=product->Data[14];
 
-# 876
+# 878
 if (Memory->LoopSave) {
 Memory->LoopSave = 0;
 myMain->FirstOpen = 0;
@@ -3574,7 +3581,7 @@ WDT->Count = 10;
 
 
 void WDT_Main() {
-if (WDT->Enable) {
+if (WDT->Enable == 1) {
 if (WDT->Count-- > 0) {
 WDT->Count = 10;
 WDT_Clearing();

@@ -347,6 +347,8 @@ int getAD(char, char);
 #ifdef TMR0_IntrTime_100us	
 #define TMR0_Count	190
 #define TMR0_1ms	10
+#define TMR0_5ms	50
+#define TMR0_10ms	100
 #endif
 #endif
 

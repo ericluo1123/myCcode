@@ -21,7 +21,7 @@
                                                                         3:TW
                                                                         4:CHI
  **/
-
+  
 #define	Name_Version 			1	//1
 #define Name_SerialNumber		3	//2
 #define Properties_Product		1	//3
@@ -91,11 +91,13 @@
 //ADC 
 #define ADC_use 1	
 //Oscillator (System FOSC)
-#define	System_Fosc_16M			//_16M														
+#define	System_Fosc_16M													
 //Timer0
 #define Timer0_use	1
+#define TMR0_IntrTime_100us
 //Timer1
-#define Timer1_use	0	
+#define Timer1_use	0
+#define TMR1_IntrTime_50us
 //INT
 #define INT_use 1
 //UART

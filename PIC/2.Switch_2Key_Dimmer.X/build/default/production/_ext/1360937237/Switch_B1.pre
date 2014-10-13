@@ -175,19 +175,19 @@ struct Switch Sw1;
 struct Switch Sw2;
 
 # 54
-void SwPointSelect(char);
+void SwPointSelect(char sw);
 void Switch_Initialization();
 void Switch_Main();
-void setSw_Initialization(char);
-void setSw_Main(char);
-void setSw_Enable(char);
-void Switch_Exception(char);
-void setSw_Status(char, char);
+void setSw_Initialization(char sw);
+void setSw_Main(char sw);
+void setSw_Enable(char command);
+void Switch_Exception(char command);
+void setSw_Status(char sw, char command);
 void Sw_Detect();
 
-void Sw_DimmerOnFunc(char);
-void Sw_DimmerOffFunc(char);
-void Sw_DimmerAdjFunc(char);
+void Sw_DimmerOnFunc(char sw);
+void Sw_DimmerOffFunc(char sw);
+void Sw_DimmerAdjFunc(char sw);
 
 
 
@@ -499,7 +499,7 @@ struct RFSW RFSW2;
 void setRF_DimmerValue(char);
 void setRF_DimmerLights(char, char);
 
-# 33 "../src/../2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h"
+# 10 "../src/../2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h"
 struct DimmerLights
 {
 struct{
@@ -538,9 +538,10 @@ unsigned DetectClose:1;
 unsigned Clear:1;
 unsigned MosfetSignal:1;
 unsigned MosfetOK:1;
-unsigned TriacTemp:1;
+unsigned TriacFlag:1;
 unsigned empty:2;
 };
+unsigned char TriacCount;
 unsigned char DetectCount;
 unsigned char MosfetSignalCount;
 unsigned char TuneValue;
@@ -550,8 +551,9 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
+struct DimmerLights *DimmerLightsIntrIOC;
 
-# 96
+# 75
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
@@ -560,10 +562,13 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 120
+# 99
+inline void DimmerIntrIOCPointSelect(char lights);
+inline void setDimmerLights_IntrIOC_GO(char lights);
+
 inline void setDimmerLights_IntrControl(char lights);
 inline void DimmerIntrPointSelect(char);
-inline void setDimmerLights_IntrGO(char);
+
 
 void DimmerLightsPointSelect(char);
 void DimmerLights_Initialization();
@@ -593,7 +598,7 @@ char getDimmerLights_Trigger();
 void setDimmerLights_Clear(char,char);
 inline void setDimmerLights_IntrControl(char lights);
 
-# 157
+# 139
 struct Dimmer
 {
 
@@ -3146,7 +3151,7 @@ void setADCGO();
 # 310
 int getAD(char, char);
 
-# 356
+# 358
 struct Timer0 {
 
 struct {
@@ -3169,16 +3174,16 @@ void TMR0_Set();
 void TMR0_ISR();
 inline void setDimmerReClock();
 
-# 452
+# 454
 void INT_Set();
 void INT_ISR();
 void setINT_GO(char);
 
-# 465
+# 467
 void IOC_Set();
 void IOC_ISR();
 
-# 618
+# 620
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -3202,7 +3207,7 @@ struct FlashMemory VarMemory = {
 }
 };
 
-# 656
+# 658
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char);
@@ -3212,7 +3217,7 @@ void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
 
-# 684
+# 686
 struct WDT {
 unsigned Enable : 1;
 unsigned char Count;
@@ -3220,14 +3225,14 @@ unsigned char Count;
 struct WDT _WDT;
 struct WDT *WDT;
 
-# 695
+# 697
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
 
 # 10 "../src/Switch_B1.c"
 void TouchPower() {
-while (!RC5)
+while (RC5 == 0)
 RC5 = 1;
 }
 
@@ -3305,7 +3310,7 @@ Sw->Status = command;
 
 
 void setSw_Main(char sw) {
-if (Sw->Enable) {
+if (Sw->Enable == 1) {
 SwPointSelect(sw);
 
 # 125
@@ -3316,12 +3321,13 @@ Sw->Touch = (RA0 || RB1) ? 1 : 0;
 }
 
 # 137
-if (Sw->Touch) {
-if (!Sw->Debounce) {
+if (Sw->Touch == 1) {
+if (Sw->Debounce == 0) {
 Sw->DebounceTime++;
 if (Sw->DebounceTime >= 5) {
 Sw->DebounceTime = 0;
 Sw->Debounce = 1;
+
 
 
 Sw_DimmerOnFunc(sw);
@@ -3329,7 +3335,7 @@ Sw_DimmerOnFunc(sw);
 
 }
 } else {
-if (!Sw->Hold1) {
+if (Sw->Hold1 == 0) {
 Sw->Hold1Time++;
 if (Sw->Hold1Time >= 150) {
 Sw->Hold1Time = 0;
@@ -3404,11 +3410,11 @@ setRF_Learn(1, 0);
 void Sw_DimmerOnFunc(char sw) {
 char Idle = 1;
 
-# 236
+# 238
 if (sw == 1) {
-Idle = (DimmerLights22->AdjGo) ? 0 : 1;
+Idle = (DimmerLights22->AdjGo == 1) ? 0 : 1;
 } else if (sw == 2) {
-Idle = (DimmerLights11->AdjGo) ? 0 : 1;
+Idle = (DimmerLights11->AdjGo == 1) ? 0 : 1;
 }
 
 
@@ -3463,7 +3469,7 @@ setTxData(1);
 void Sw_DimmerAdjFunc(char sw) {
 char Idle = 1;
 
-# 305
+# 307
 if (sw == 1) {
 Idle = (DimmerLights22->AdjGo) ? 0 : 1;
 } else if (sw == 2) {
@@ -3500,7 +3506,7 @@ if (Sw->Enable == 0) {
 Sw->Enable = 1;
 }
 
-# 349
+# 351
 }
 }
 

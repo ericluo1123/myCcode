@@ -161,7 +161,7 @@ void TMR0_ISR() {
         Timer0->Count++;
         if (Timer0->Count == TMR0_10ms) {
             Timer0->Count = 0;
-            myMain->T0_Timerout = 1;
+            myMain->T0_Timerout = true;
 
 #if Buzzer_use == 1
             Buz_Counter();
@@ -173,21 +173,23 @@ void TMR0_ISR() {
 //*********************************************************
 
 inline void setDimmerReClock() {
-    TMR0 = 255;
 
-#if Dimmer_use == 1
+#if Dimmer_use == true
 
 #ifdef use_1KEY
-    setDimmerLights_IntrGO(1);
+    setDimmerLights_IntrIOC_GO(1);
 #endif
 
 #ifdef use_2KEY
-    setDimmerLights_IntrGO(2);
+    setDimmerLights_IntrIOC_GO(2);
 #endif
 
 #ifdef use_3KEY
-    setDimmerLights_IntrGO(3);
-#endif	
+    setDimmerLights_IntrIOC_GO(3);
+#endif
+
+    TMR0 = 255;
+
 #endif
 }
 
@@ -238,25 +240,25 @@ void TMR1_ISR() {
 #if INT_use == 1
 
 void INT_Set() {
-    WPUB0 = 0;
-    INTE = 1;
-    PEIE = 1;
-    GIE = 1;
+    WPUB0 = false;
+    INTE = true;
+    PEIE = true;
+    GIE = true;
 }
 //*********************************************************
 
 void INT_ISR() {
-    if (INTE && INTF) {
-        INTF = 0;
-        INTE = 0;
+    if (INTE == true && INTF == true) {
+        INTF = false;
+        INTE = false;
         setRF_ReceiveGO(1, 1);
-        setRF_RxStatus(1,0);
+        setRF_RxStatus(1, 0);
     }
 }
 //*********************************************************
 
 void setINT_GO(char command) {
-    INTF = 0;
+    INTF = false;
     INTE = command;
 }
 #endif
@@ -899,13 +901,13 @@ void setMemory_GO(char command) {
 void WDT_Set() {
     WDTCON = _WDTCON;
     WDT = &_WDT;
-    WDT->Enable = 1;
+    WDT->Enable = true;
     WDT->Count = 10;
 }
 //*********************************************************
 
 void WDT_Main() {
-    if (WDT->Enable) {
+    if (WDT->Enable == true) {
         if (WDT->Count-- > 0) {
             WDT->Count = 10;
             WDT_Clearing();

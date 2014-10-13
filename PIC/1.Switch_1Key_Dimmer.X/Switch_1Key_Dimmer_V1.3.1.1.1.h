@@ -97,8 +97,10 @@
 #define	System_Fosc_16M				//_16M														
 //Timer0
 #define Timer0_use	1
+#define TMR0_IntrTime_100us
 //Timer1
-#define Timer1_use	0	
+#define Timer1_use	0
+#define TMR1_IntrTime_50us
 //INT
 #define INT_use 1
 //UART

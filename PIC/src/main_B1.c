@@ -163,7 +163,7 @@ void my_Main() {
         if (myMain->Count1 == 100) //*10ms
         {
             myMain->Count1 = 0;
-            setBuz(1, 100);
+            //            setBuz(1, 100);
 
             //	setTxData(1);
             //	ErrLED=~ErrLED;
@@ -181,20 +181,20 @@ void my_Main() {
                 //	setLights_Trigger(1,1);
                 //	setLights_Switch(1,1);
 
-                setLED(1, 1);
-                //                	setLED(2,1);
-                //                	setLED(3,1);
-                //                	setLED(99,1);
+                //                setLED(1, 1);
+                //                setLED(2, 1);
+                //                setLED(3, 1);
+                //                setLED(99, 11);
             } else {
                 myMain->Flag = 1;
                 //	setLights(1,0);
                 //	setLights_Trigger(1,1);
                 //	setLights_Switch(1,0);
 
-                setLED(1, 0);
-                //                	setLED(2,0);
-                //                	setLED(3,0);
-                //                	setLED(99,0);
+                //                setLED(1, 0);
+                //                setLED(2, 0);
+                //                setLED(3, 0);
+                //                setLED(99, 0);
             }
         }
 #endif
