@@ -289,6 +289,231 @@ void setLED_Main(char led);
 # 92
 void setLED(char led, char command);
 
+# 161 "../src/../6.Switch_3Key_Dimmer_Neutral.X/../src/CC2500_B1.h"
+const unsigned char CC2500_rfSettings[47] ={
+
+
+0x07,
+0x07,
+0x30,
+0x87,
+0x6B,
+0xF8,
+0x7F,
+0x3F,
+
+0x09,
+0x00,
+0x5C,
+0xA7,
+0x62,
+0x86,
+0x83,
+0x03,
+0x22,
+0xF8,
+0x00,
+0x44,
+0xB6,
+0x10,
+0x18,
+0x1D,
+0x1C,
+0xC7,
+0x00,
+0xB2,
+0xEA,
+0x0A,
+0x00,
+0x11,
+0x59,
+0x88,
+0x31,
+0x0B,
+0x2F,
+0x2E,
+0x06,
+0x04,
+0x05,
+0x00,
+0x30,
+0xD3,
+0x91,
+0x41,
+0x00
+
+};
+
+
+
+const unsigned char CC2500_registers_address[47] ={
+
+0x03,
+0x16,
+0x17,
+0x1E,
+0x1F,
+0x20,
+0x2A,
+0x2B,
+
+0x0B,
+0x0C,
+0x0D,
+0x0E,
+0x0F,
+0x10,
+0x11,
+0x12,
+0x13,
+0x14,
+0x0A,
+0x15,
+0x21,
+0x22,
+0x18,
+0x19,
+0x1A,
+0x1B,
+0x1C,
+0x1D,
+0x23,
+0x24,
+0x25,
+0x26,
+0x29,
+0x2C,
+0x2D,
+0x2E,
+0x00,
+0x01,
+0x02,
+0x07,
+0x08,
+0x09,
+0x06,
+0x04,
+0x05,
+0x27,
+0x28
+};
+
+# 277
+unsigned int RF_Count;
+unsigned char SPI0Buffer;
+unsigned char r_data;
+unsigned char s_data;
+unsigned char r_address;
+unsigned char RF_Data[21];
+unsigned char RSSI;
+unsigned char CRC;
+unsigned char Rx_Length;
+unsigned char Tx_Length;
+
+
+
+
+const unsigned char CC2500_patable_vaule[8] = {0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE};
+
+void CC2500_PowerOnInitial();
+void CC2500_PowerRST(void);
+void CC2500_InitSetREG(void);
+void CC2500_InitPATable(void);
+void CC2500_ClearTXFIFO(void);
+void CC2500_ClearRXFIFO(void);
+void CC2500_FrequencyCabr(void);
+void CC2500_SIDLEMode(void);
+
+void CC2500_WriteByte(void);
+void CC2500_WriteREG(unsigned char addr, unsigned char value);
+void CC2500_ReadByte(void);
+void CC2500_ReadREG(unsigned char addr);
+void CC2500_ReadStatus(unsigned char s_addr);
+void CC2500_WriteCommand(unsigned char command);
+void CC2500_TxData();
+void CC2500_RxData(void);
+void DelayTime_1us(int count);
+
+# 38 "../src/../6.Switch_3Key_Dimmer_Neutral.X/../src/RF_Control_B1.h"
+struct RF {
+
+struct {
+unsigned Enable : 1;
+unsigned ReceiveGO : 1;
+unsigned TransceiveGO : 1;
+unsigned RxStatus : 1;
+unsigned TxStatus : 1;
+unsigned Debounce : 1;
+unsigned Learn : 1;
+unsigned Key : 1;
+};
+
+struct {
+unsigned Sleep : 1;
+unsigned Run : 1;
+unsigned Bus : 1;
+unsigned empty : 6;
+};
+unsigned char Count;
+unsigned char DebounceTime;
+
+};
+struct RF *RF;
+
+
+struct RF RF1;
+
+
+void RfPointSelect(char);
+void RF_Initialization();
+void RF_Main();
+void setRF_Initialization(char);
+void setRF_Main(char);
+void setTxData(char);
+void getRxData(char);
+void setRF_Enable(char, char);
+void setLog_Code(char);
+void setControl_Lights_Table(char);
+void RF_RxDisable(char);
+void setRF_Learn(char, char);
+void setRF_ReceiveGO(char, char);
+void setRF_RxStatus(char, char);
+
+
+
+struct RFSW {
+
+struct {
+unsigned Status : 1;
+unsigned empty : 7;
+};
+};
+struct RFSW *RFSW;
+
+
+void RfSWPointSelect(char);
+void setRFSW_Control(char);
+void setRFSW_AdjControl(char);
+void setRFSW_Status(char, char);
+
+
+
+struct RFSW RFSW1;
+
+
+
+struct RFSW RFSW2;
+
+
+
+struct RFSW RFSW3;
+
+
+
+
+void setRF_DimmerValue(char);
+void setRF_DimmerLights(char, char);
+
 # 10 "../src/../6.Switch_3Key_Dimmer_Neutral.X/../src/Dimmer_B1.h"
 struct DimmerLights
 {
@@ -2938,16 +3163,16 @@ void TMR0_Set();
 void TMR0_ISR();
 inline void setDimmerReClock();
 
-# 454
+# 451
 void INT_Set();
 void INT_ISR();
-void setINT_GO(char);
+void setINT_GO(char command);
 
-# 467
+# 464
 void IOC_Set();
 void IOC_ISR();
 
-# 620
+# 617
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2971,17 +3196,17 @@ struct FlashMemory VarMemory = {
 }
 };
 
-# 658
+# 646
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
-char Flash_Memory_Read(char);
+char Flash_Memory_Read(char address);
 void Flash_Memory_Write();
 void Flash_Memory_Erasing();
 void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
 
-# 686
+# 674
 struct WDT {
 unsigned Enable : 1;
 unsigned char Count;
@@ -2989,7 +3214,7 @@ unsigned char Count;
 struct WDT _WDT;
 struct WDT *WDT;
 
-# 697
+# 685
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();

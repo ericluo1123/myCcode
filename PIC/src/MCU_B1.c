@@ -163,7 +163,7 @@ void TMR0_ISR() {
             Timer0->Count = 0;
             myMain->T0_Timerout = true;
 
-#if Buzzer_use == 1
+#if Buzzer_use == true
             Buz_Counter();
 #endif
 
@@ -241,7 +241,7 @@ void TMR1_ISR() {
 
 void INT_Set() {
     WPUB0 = false;
-    INTE = true;
+    INTE = false;
     PEIE = true;
     GIE = true;
 }
@@ -343,26 +343,20 @@ int getAD(char adcon0, char adcon1) {
 int getAD(char adcon0, char adcon1) {
     ADCON0 = adcon0;
     ADCON1 = adcon1;
-    ADGO = 1;
+    ADGO = true;
     while (ADGO == true);
     return ADC_ADRES;
 }
 #endif
-//*********************************************************
-/*	void setADCGO()
-        {
-                ADGO=1;
-                while(ADGO);
-        }*/
 #endif
 //*********************************************************
 
 //*********************************************************
-#if I2C_use == 1
+#if I2C_use == true
 
 void I2C_Set() {
     I2C = &VarI2C;
-#if Master_Mode == 1
+#if Master_Mode == true
     SSPADD = 0x09; // Configure I2C for 100kHz operation
     SSPSTAT = 0x80; // Disable slew rate control and SMBus specific inputs
     SSPCON2 = 0; // Disable general call address
@@ -370,82 +364,82 @@ void I2C_Set() {
     SSPCON1 = 0b101000; //Enable serial port,I2C Master mode, clock = FOSC / (4 * (SSPADD+1))(4)
 #endif
 
-#if Slave_Mode == 1
+#if Slave_Mode == true
     SSPADD = 0x10;
     //	SSPOV=1;
     SSPSTAT = 0x80; // Disable slew rate control and disable SMBus specific inputs
     SSPCON2 = 0x80; // Enable general call address and disable clock stretching
     SSPCON1 = 0b100110; //Enable serial port,I2C Slave mode, 7-bit address
 
-    SEN = 1;
-    AHEN = 0;
-    DHEN = 0;
-    SSPIE = 1;
-    PEIE = 1;
-    GIE = 1;
+    SEN = true;
+    AHEN = false;
+    DHEN = false;
+    SSPIE = true;
+    PEIE = true;
+    GIE = true;
 #endif
 }
 //*********************************************************
 
 void I2C_ISR() {
-    if (SSPIE && SSPIF) {
-        SSPIE = 0;
-        I2C->SlaveGO = 1;
+    if (SSPIE == true && SSPIF == true) {
+        SSPIE = false;
+        I2C->SlaveGO = true;
         //	I2C_Slave_Mode();
-        //	while(!SSPIE)
-        //		SSPIE=1;
-        //	SS1=0;
-        //	I2C->SS=0;
+        //	while(SSPIE==false)
+        //		SSPIE=true;
+        //	SS1=false;
+        //	I2C->SS=false;
     }
 }
 //*********************************************************
 
 void I2C_Main() {
-    char i;
-#if Slave_Mode == 1
-    if (I2C->SlaveGO) {
-        I2C->SlaveGO = 0;
+    char i = 0;
+#if Slave_Mode == true
+    if (I2C->SlaveGO == true) {
+        I2C->SlaveGO = false;
         I2C_Slave_Mode();
-        SSPIE = 1;
+        SSPIE = true;
 
-        if (I2C->SlaveTxGO) {
-            I2C->SlaveTxGO = 0;
-            SS1 = 0;
-            I2C->SS = 0;
+        if (I2C->SlaveTxGO == true) {
+            I2C->SlaveTxGO = false;
+            SS1 = false;
+            I2C->SS = false;
         }
-        if (I2C->SlaveRxGO) {
-            I2C->SlaveRxGO = 0;
+        if (I2C->SlaveRxGO == true) {
+            I2C->SlaveRxGO = false;
             I2C_SetData(0);
         }
-        LED2 = ~LED2;
+        LED2 = LED2 == true ? true : false;
     }
 #endif
 
-#if Master_Mode == 1
+#if Master_Mode == true
 
-    if (I2C->MasterRxGO) {
-        I2C->MasterRxGO = 0;
+    if (I2C->MasterRxGO == true) {
+        I2C->MasterRxGO = false;
         I2C_Master_Reception();
-        myMain->Test = 1;
-        LED2 = ~LED2;
-#if UART_use == 1
+        myMain->Test = true;
+        LED2 = LED2 == true ? true : false;
+#if UART_use == true
         for (i = 0; i < 32; i++) {
             UART->TxData[i] = I2C->BufferReader[i];
         }
-        UART->TxGO = 1;
+        UART->TxGO = true;
 #endif
     } else {
-        if (SS1) {
-            if (!I2C->SS) {
-                I2C->SS = 1;
-                I2C->MasterRxGO = 1;
+        if (SS1 == true) {
+            if (I2C->SS == false) {
+                I2C->SS = true;
+                I2C->MasterRxGO = true;
             }
         } else {
-            if (I2C->SS) {
-                I2C->SS = 0;
+            if (I2C->SS == true) {
+                I2C->SS = false;
             }
-            if (I2C->MasterTxGO) {
-                I2C->MasterTxGO = 0;
+            if (I2C->MasterTxGO == true) {
+                I2C->MasterTxGO = false;
                 I2C_Master_Transmission();
             }
         }
@@ -456,25 +450,25 @@ void I2C_Main() {
 
 void I2C_SetData(char command)//for slave mode
 {
-#if CC2500_use == 1
-    char i;
-    if (command) {
-        if (!I2C->SS) {
-            I2C->SS = 1;
+#if CC2500_use == true
+    char i = 0;
+    if (command == true) {
+        if (I2C->SS == false) {
+            I2C->SS = true;
             for (i = 0; i < 21; i++) {
                 I2C->BufferWriter[i + 1] = RF_Data[i];
             }
             I2C->BufferWriter[0] = Tx_Length;
             I2C->BufferWriter[22] = RSSI;
             I2C->BufferWriter[23] = CRC;
-            SS1 = 1;
+            SS1 = true;
         }
     } else {
-#if CC2500_use == 1
+#if CC2500_use == true
         for (i = 0; i < 21; i++) {
             RF_Data[i] = I2C->BufferReader[i];
         }
-        RF->TransceiveGO = 1;
+        RF->TransceiveGO = true;
 #endif
     }
 #endif
@@ -484,131 +478,129 @@ void I2C_SetData(char command)//for slave mode
 
 void I2C_Master_Transmission() {
     char i;
-    while (SEN);
-    SEN = 1;
+    while (SEN == true);
+    SEN = true;
 
-    while (SEN);
-    //while(!SSPIF);
-    //	SSPIF=0;
+    while (SEN == true);
+    //while(SSPIF==false);
+    //	SSPIF=false;
     SSPBUF = 0x10;
-    while (BF);
-    //	while(!SSPIF);
-    //	SSPIF=0;
-    while (ACKSTAT);
+    while (BF == true);
+    //	while(SSPIF==false);
+    //	SSPIF=false;
+    while (ACKSTAT == true);
 
     for (i = 0; i < 32; i++) {
-        while (SEN);
+        while (SEN == true);
         SSPBUF = I2C->BufferWriter[i];
-        while (BF);
-        //	while(!SSPIF);
-        //	SSPIF=0;
-        while (ACKSTAT);
+        while (BF == true);
+        //	while(SSPIF==false);
+        //	SSPIF=false;
+        while (ACKSTAT == true);
     }
 
-    while (SEN);
-    while (!PEN)
-        PEN = 1;
-    while (PEN);
-    //	while(!SSPIF);
-    //	SSPIF=0;
+    while (SEN == true);
+    while (PEN == false)
+        PEN = true;
+    while (PEN == true);
+    //	while(SSPIF == false);
+    //	SSPIF=false;
 }
 //*********************************************************
 
 void I2C_Master_Reception() {
-    char i;
-    while (SEN);
-    SEN = 1;
-    while (SEN);
-    //	while(!SSPIF);
-    //	SSPIF=0;
+    char i = 0;
+    while (SEN == true);
+    SEN = true;
+    while (SEN == true);
+    //	while(SSPIF==false);
+    //	SSPIF=false;
     SSPBUF = 0x11;
-    //	while(!SSPIF);
-    //	SSPIF=0;
-    while (BF);
-    while (ACKSTAT);
+    //	while(SSPIF==false);
+    //	SSPIF=false;
+    while (BF == true);
+    while (ACKSTAT == true);
 
-    while (RCEN);
-    RCEN = 1;
-    while (RCEN);
+    while (RCEN == true);
+    RCEN = true;
+    while (RCEN == true);
     I2C->Address = SSPBUF;
-    while (!ACKEN)
-        ACKEN = 1;
-    while (ACKEN);
-    while (RCEN);
+    while (ACKEN == false)
+        ACKEN = true;
+    while (ACKEN == true);
+    while (RCEN == true);
     for (i = 0; i < 32; i++) {
-        while (SEN);
-        while (RCEN);
-        RCEN = 1;
-        while (RCEN);
+        while (SEN == true);
+        while (RCEN == true);
+        RCEN = true;
+        while (RCEN == true);
         I2C->BufferReader[i] = SSPBUF;
-        while (!ACKEN)
-            ACKEN = 1;
-        while (ACKEN);
+        while (ACKEN == false)
+            ACKEN = true;
+        while (ACKEN == true);
 
     }
-    /*	while(RCEN);
-            RCEN=1;
-            while(RCEN);
-            while(!ACKEN)
-                    ACKEN=1;
-            while(ACKEN);
-            while(RCEN);*/
-    RCEN = 1;
-    while (RCEN);
+    /*	while(RCEN==true);
+            RCEN=true;
+            while(RCEN==true);
+            while(ACKEN==false)
+                    ACKEN=true;
+            while(ACKEN==true);
+            while(RCEN==true);*/
+    RCEN = true;
+    while (RCEN == true);
 
-    while (SEN);
-    while (!PEN)
-        PEN = 1;
-    while (PEN);
-    //	while(!SSPIF);
-    //	SSPIF=0;
+    while (SEN == true);
+    while (PEN == false)
+        PEN = true;
+    while (PEN == true);
+    //	while(SSPIF==false);
+    //	SSPIF=false;
 }
 //*********************************************************
 
 void I2C_Slave_Mode() {
-    char i;
-    SSPIF = 0;
+    char i = 0;
+    SSPIF = false;
     I2C->Address = SSPBUF;
 
-    if (R_nW)//�g to master
+    if (R_nW == true)//write to master
     {
-        SSPOV = 0;
+        SSPOV = false;
 
         for (i = 0; i < 32; i++) {
             SSPBUF = I2C->BufferWriter[i];
-            //SSPOV=0;
-            CKP = 1;
-            while (!SSPIF);
-            SSPIF = 0;
-            while (ACKSTAT);
+            //SSPOV=false;
+            CKP = true;
+            while (SSPIF == false);
+            SSPIF = false;
+            while (ACKSTAT == true);
         }
-        CKP = 1;
-        //SSPOV=0;
-        I2C->SlaveTxGO = 1;
-    } else//Ū from master
-    {
-
-        CKP = 1;
+        CKP = true;
+        //SSPOV=false;
+        I2C->SlaveTxGO = true;
+    } else {//read from master
+        CKP = true;
         for (i = 0; i < 32; i++) {
-            while (!SSPIF);
-            SSPIF = 0;
+            while (SSPIF == false);
+            SSPIF = false;
             I2C->BufferReader[i] = SSPBUF;
-            //SSPOV=0;
-            CKP = 1;
+            //SSPOV=false;
+            CKP = true;
         }
-        //SSPOV=0;
-        CKP = 1;
-        I2C->SlaveRxGO = 1;
+        //SSPOV=false;
+        CKP = true;
+        I2C->SlaveRxGO = true;
     }
 
-    //SPIE=1;
+    //SPIE=true;
 }
 #endif
 //*********************************************************
 
 
 //*********************************************************
-#if UART_use == 1
+#if UART_use == true
 
 void UART_Set() {
     UART = &VarUart;
@@ -752,12 +744,12 @@ unsigned char getche(void) {
 //flash memry control
 
 void Flash_Memory_Initialization() {
-    char i;
+    char i = 0;
     if (Flash_Memory_Read(31) == 0xaa) {
         product->Data[12] = Flash_Memory_Read(0);
         product->Data[13] = Flash_Memory_Read(1);
         product->Data[14] = Flash_Memory_Read(2);
-#if DimmerValue_SaveMemory == 1
+#if DimmerValue_SaveMemory == true
         product->Data[21] = Flash_Memory_Read(3);
         product->Data[22] = Flash_Memory_Read(4);
         product->Data[23] = Flash_Memory_Read(5);
@@ -768,8 +760,8 @@ void Flash_Memory_Initialization() {
         product->Data[23] = i;
 #endif
         if (product->Data[12] == 0xff && product->Data[13] == 0xff && product->Data[14] == 0xff) {
-            myMain->FirstOpen = 1;
-            myMain->First = 1;
+            myMain->FirstOpen = true;
+            myMain->First = true;
         }
     } else {
         i = setPercentValue(Dimmer_Maxum);
@@ -793,19 +785,18 @@ void Flash_Memory_Initialization() {
 //*********************************************************
 
 void Flash_Memory_Main() {
-    if (Memory->GO) {
-        if (Memory->Modify) {
+    if (Memory->GO == true) {
+        if (Memory->Modify == true) {
             Memory->Time++;
             if (Memory->Time == 25)//*10ms
             {
                 Memory->Time = 0;
-                Memory->Modify = 0;
-                Memory->GO = 0;
+                Memory->Modify = false;
+                Memory->GO = false;
                 Flash_Memory_Modify();
-                //	ErrLED=~ErrLED;
             }
         } else {
-            Memory->GO = 0;
+            Memory->GO = false;
         }
     }
 }
@@ -814,18 +805,18 @@ void Flash_Memory_Main() {
 void Flash_Memory_Unlock() {
     PMCON2 = 0x55;
     PMCON2 = 0xaa;
-    WR = 1;
+    WR = true;
     NOP();
     NOP();
 }
 //*********************************************************
 
 char Flash_Memory_Read(char address) {
-    char i, ret = 0;
+    char i = 0, ret = 0;
     PMADRH = PMADRH_Value;
     PMADRL = address;
-    CFGS = 0;
-    RD = 1;
+    CFGS = false;
+    RD = true;
     i = PMDATH;
     ret = PMDATL;
     return ret;
@@ -833,58 +824,58 @@ char Flash_Memory_Read(char address) {
 //*********************************************************
 
 void Flash_Memory_Write() {
-    char i;
-    CFGS = 0;
+    char i = 0;
+    CFGS = false;
     PMADRH = PMADRH_Value;
     PMDATH = 0;
-    FREE = 0;
-    LWLO = 1;
-    WREN = 1;
+    FREE = false;
+    LWLO = true;
+    WREN = true;
     for (i = 0; i < 32; i++) {
         PMADRL = i;
         PMDATL = Memory->Data[i];
         Flash_Memory_Unlock();
     }
-    LWLO = 0;
+    LWLO = false;
     Flash_Memory_Unlock();
-    WREN = 0;
+    WREN = false;
 }
 //*********************************************************
 
 void Flash_Memory_Erasing() {
-    CFGS = 0;
+    CFGS = false;
     PMADRH = PMADRH_Value;
     PMADRL = 0x00;
-    FREE = 1;
-    WREN = 1;
+    FREE = true;
+    WREN = true;
     Flash_Memory_Unlock();
-    WREN = 0;
+    WREN = false;
 }
 //*********************************************************
 
 void Flash_Memory_Modify() {
-    char i;
+    char i = 0;
     for (i = 0; i < 32; i++) {
         Memory->Data[i] = Flash_Memory_Read(i);
     }
     setMemoryData(0, product->Data[12]);
     setMemoryData(1, product->Data[13]);
     setMemoryData(2, product->Data[14]);
-#if DimmerValue_SaveMemory  == 1
+#if DimmerValue_SaveMemory  == true
     setMemoryData(3, product->Data[21]);
     setMemoryData(4, product->Data[22]);
     setMemoryData(5, product->Data[23]);
 #endif
-    if (Memory->LoopSave) {
-        Memory->LoopSave = 0;
-        myMain->FirstOpen = 0;
-        myMain->First = 0;
+    if (Memory->LoopSave == true) {
+        Memory->LoopSave = false;
+        myMain->FirstOpen = false;
+        myMain->First = false;
         //setMemoryData(30,1);
     }
-    GIE = 0;
+    GIE = false;
     Flash_Memory_Erasing();
     Flash_Memory_Write();
-    GIE = 1;
+    GIE = true;
 }
 #endif
 //*********************************************************

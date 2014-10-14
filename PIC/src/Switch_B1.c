@@ -9,7 +9,7 @@
 
 void TouchPower() {
     while (TTPW == false)
-        TTPW = 1;
+        TTPW = true;
 }
 #endif
 //*********************************************************
@@ -37,7 +37,7 @@ void SwPointSelect(char sw) {
 void Switch_Initialization() {
     TouchPower();
 #ifdef use_1KEY
-    WPUB1 = 0;
+    WPUB1 = false;
 #else
 #ifdef use_2KEY
     WPUB1 = 0;
@@ -109,31 +109,29 @@ void setSw_Status(char sw, char command) {
 //*********************************************************
 
 void setSw_Main(char sw) {
+    SwPointSelect(sw);
     if (Sw->Enable == true) {
-        SwPointSelect(sw);
 #if	Switch_Class == 3
         if (sw == 1) {
-            Sw->Touch = (Key1) ? 1 : 0;
+            Sw->Touch = (Key1 == true) ? true : false;
         } else if (sw == 2) {
-            Sw->Touch = (Key2) ? 1 : 0;
+            Sw->Touch = (Key2 == true) ? true : false;
         } else if (sw == 3) {
-            Sw->Touch = (Key3) ? 1 : 0;
+            Sw->Touch = (Key3 == true) ? true : false;
         }
 #endif
 
 #if Switch_Class == 2
         if (sw == 1) {
-            Sw->Touch = (Key1_1 || Key1_2) ? 1 : 0;
+            Sw->Touch = (Key1_1 == true || Key1_2 == true) ? true : false;
         } else if (sw == 2) {
-            Sw->Touch = (Key2_1 || Key2_2) ? 1 : 0;
+            Sw->Touch = (Key2_1 == true || Key2_2 == true) ? true : false;
         }
 #endif
 
 #if Switch_Class == 1	
-        Sw->Touch = (Key1_1 || Key1_2 || Key1_3 || Key1_4) ? 1 : 0;
+        Sw->Touch = (Key1_1 == true || Key1_2 == true || Key1_3 == true || Key1_4 == true) ? true : false;
 #endif
-
-
         if (Sw->Touch == true) {
             if (Sw->Debounce == false) {
                 Sw->DebounceTime++;
@@ -142,9 +140,7 @@ void setSw_Main(char sw) {
                     Sw->Debounce = true;
 
 #if Dimmer_use == 1
-
                     Sw_DimmerOnFunc(sw); //key on function
-
 #endif
                 }
             } else {
@@ -160,28 +156,26 @@ void setSw_Main(char sw) {
 #endif
                     }
                 } else {
-                    if (!Sw->Hold2) {
+                    if (Sw->Hold2 == false) {
                         Sw->Hold2Time++;
                         if (Sw->Hold2Time >= Hold2TimeValue) {
                             Sw->Hold2Time = 0;
-                            Sw->Hold2 = 1;
-
+                            Sw->Hold2 = true;
 #if Dimmer_use == 1
 #if CC2500_use == 1
                             setRF_Learn(1, 1);
 #endif
-                            if (myMain->First) {
+                            if (myMain->First == true) {
                                 setBuz(2, BuzzerOnOffTime);
                             }
 #endif
                         }
                     } else {
-                        if (!Sw->Hold3) {
+                        if (Sw->Hold3 == false) {
                             Sw->Hold3Time++;
-                            if (Sw->Hold3Time >= Hold3TimeValue)//ms
-                            {
+                            if (Sw->Hold3Time >= Hold3TimeValue) {//ms
                                 Sw->Hold3Time = 0;
-                                Sw->Hold3 = 1;
+                                Sw->Hold3 = true;
 #if Dimmer_use == 1
 #if CC2500_use == 1
                                 setRF_Learn(1, 0);
@@ -193,23 +187,20 @@ void setSw_Main(char sw) {
                 }
             }
         } else {
-            if (Sw->Debounce) {
+            if (Sw->Debounce == true) {
                 Sw->DebounceTime++;
                 if (Sw->DebounceTime >= DebounceTimeValue) {
                     Sw->DebounceTime = 0;
-                    Sw->Debounce = 0;
+                    Sw->Debounce = false;
                     Sw->Hold1Time = 0;
-                    Sw->Hold1 = 0;
+                    Sw->Hold1 = false;
                     Sw->Hold2Time = 0;
-                    Sw->Hold2 = 0;
+                    Sw->Hold2 = false;
                     Sw->Hold3Time = 0;
-                    Sw->Hold3 = 0;
+                    Sw->Hold3 = false;
 #if Dimmer_use == 1
-
                     Sw_DimmerOffFunc(sw); //key on function
-
 #endif
-
 #if CC2500_use == 1
                     setRF_Learn(1, 0);
 #endif
@@ -226,11 +217,11 @@ void Sw_DimmerOnFunc(char sw) {
 
 #if Switch_Class == 3
     if (sw == 1) {
-        Idle = (DimmerLights22->AdjGo == true || DimmerLights33->AdjGo == true) ? false : true;
+        Idle = (DimmerLights2.AdjGo == true || DimmerLights3.AdjGo == true) ? 0 : 1;
     } else if (sw == 2) {
-        Idle = (DimmerLights11->AdjGo == true || DimmerLights33->AdjGo == true) ? false : true;
+        Idle = (DimmerLights1.AdjGo == true || DimmerLights3.AdjGo == true) ? 0 : 1;
     } else if (sw == 3) {
-        Idle = (DimmerLights11->AdjGo == true || DimmerLights22->AdjGo == true) ? false : true;
+        Idle = (DimmerLights1.AdjGo == true || DimmerLights2.AdjGo == true) ? 0 : 1;
     }
 #endif
 
@@ -242,11 +233,11 @@ void Sw_DimmerOnFunc(char sw) {
     }
 #endif
 #endif
-    if (Idle) {
+    if (Idle == 1) {
         Sw->Flag = 1;
         setBuz(1, BuzzerOnOffTime);
-        if (!Sw->Status) {
-            Sw->Status = 1;
+        if (Sw->Status == false) {
+            Sw->Status = true;
             setRFSW_Status(sw, 1);
 
             setDimmerLights_Trigger(sw, 1);
@@ -256,7 +247,7 @@ void Sw_DimmerOnFunc(char sw) {
             setTxData(1);
 
         } else {
-            Sw->Status = 0;
+            Sw->Status = false;
             setRFSW_Status(sw, Sw->Status);
         }
     }
@@ -264,11 +255,11 @@ void Sw_DimmerOnFunc(char sw) {
 //*********************************************************
 
 void Sw_DimmerOffFunc(char sw) {
-    if (Sw->Flag) {
-        Sw->Flag = 0;
-        if (Sw->Status) {
-            if (Sw->Adj) {
-                Sw->Adj = 0;
+    if (Sw->Flag == true) {
+        Sw->Flag = false;
+        if (Sw->Status == true) {
+            if (Sw->Adj == true) {
+                Sw->Adj = false;
                 setDimmerLights_TriggerAdj(sw, 1);
                 setDimmerLights_AdjGo(sw, 0);
 
@@ -292,29 +283,29 @@ void Sw_DimmerOffFunc(char sw) {
 
 void Sw_DimmerAdjFunc(char sw) {
     char Idle = 1;
-#if Dimmer_use == 1
+#if Dimmer_use == true
 #if Switch_Class == 3
     if (sw == 1) {
-        Idle = (DimmerLights22->AdjGo || DimmerLights33->AdjGo) ? 0 : 1;
+        Idle = (DimmerLights2.AdjGo == true || DimmerLights3.AdjGo == true) ? 0 : 1;
     } else if (sw == 2) {
-        Idle = (DimmerLights11->AdjGo || DimmerLights33->AdjGo) ? 0 : 1;
+        Idle = (DimmerLights1.AdjGo == true || DimmerLights3.AdjGo == true) ? 0 : 1;
     } else if (sw == 3) {
-        Idle = (DimmerLights11->AdjGo || DimmerLights22->AdjGo) ? 0 : 1;
+        Idle = (DimmerLights1.AdjGo == true || DimmerLights2.AdjGo == true) ? 0 : 1;
     }
 #endif
 
 #if Switch_Class == 2
     if (sw == 1) {
-        Idle = (DimmerLights22->AdjGo) ? 0 : 1;
+        Idle = (DimmerLights2.AdjGo == true) ? 0 : 1;
     } else if (sw == 2) {
-        Idle = (DimmerLights11->AdjGo) ? 0 : 1;
+        Idle = (DimmerLights1.AdjGo == true) ? 0 : 1;
     }
 #endif
 #endif
-    if (Idle) {
-        if (Sw->Flag) {
-            Sw->Adj = 1;
-            Sw->Status = 1;
+    if (Idle == 1) {
+        if (Sw->Flag == true) {
+            Sw->Adj = true;
+            Sw->Status = true;
             setRFSW_Status(sw, 1);
 
             setDimmerLights_TriggerAdj(sw, 1);
@@ -326,25 +317,25 @@ void Sw_DimmerAdjFunc(char sw) {
 //*********************************************************
 
 void Sw_Detect() {
-    if (!getLoad_ERROR() && !getTemp_ERROR() && !getPF_ERROR() && myMain->SelfTest) {
+    if (getLoad_ERROR() == false && getTemp_ERROR() == false && getPF_ERROR() == false && myMain->SelfTest == true) {
 #ifdef use_1KEY
         SwPointSelect(1);
-        if (Sw->Enable == 0) {
-            Sw->Enable = 1;
+        if (Sw->Enable == false) {
+            Sw->Enable = true;
         }
 #endif
 
 #ifdef use_2KEY
         SwPointSelect(2);
-        if (Sw->Enable == 0) {
-            Sw->Enable = 1;
+        if (Sw->Enable == false) {
+            Sw->Enable = true;
         }
 #endif
 
 #ifdef use_3KEY
         SwPointSelect(3);
-        if (Sw->Enable == 0) {
-            Sw->Enable = 1;
+        if (Sw->Enable == false) {
+            Sw->Enable = true;
         }
 #endif
 

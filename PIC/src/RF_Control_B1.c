@@ -9,6 +9,9 @@ void RfPointSelect(char rf) {
     if (rf == 1) {
         RF = &RF1;
     }
+    if (INTE == false) {
+        INTE = true;
+    }
 #endif	
 }
 //*********************************************************
@@ -87,9 +90,8 @@ void setRF_Main(char rf) {
 
                     if (RF->ReceiveGO == true) {
                         RF->ReceiveGO = false;
-                        RF_RxDisable(1);
                         CC2500_RxData();
-                        //                        RF->Run = true;
+                        //RF->Run = true;
 #if I2C_use == 1
                         I2C_SetData(1);
                         //LED2=~LED2;
@@ -98,27 +100,41 @@ void setRF_Main(char rf) {
 #else
                         getRxData(1);
 #endif
-                        //ErrLED=~ErrLED;
+                        //                        ErrLED = ErrLED == true ? false : true;
+
                     } else {
                         if (RF->Learn == false) {
                             if (RF->TransceiveGO == true) {
                                 RF->TransceiveGO = false;
-                                RF_RxDisable(1);
+                                RF->RxStatus = false;
+                                RF->ReceiveGO = false;
+                                //                                setINT_GO(0);
+                                CC2500_WriteCommand(CC2500_SIDLE); // idle
+                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
                                 CC2500_TxData();
                                 //RF->Run = true;
                             } else {
 #if Rx_Enable == 1
-                                RF->RxStatus = true;
-                                CC2500_WriteCommand(CC2500_SRX); // set receive mode
-                                setINT_GO(1);
+                                if (RF->RxStatus == false && RF->ReceiveGO == false) {
+                                    RF->RxStatus = true;
+                                    CC2500_WriteCommand(CC2500_SIDLE); // idle
+                                    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+                                    CC2500_WriteCommand(CC2500_SRX); // set receive mode
+                                    //                                    setINT_GO(1);
+                                }
+
 #endif
                             }
                         } else {
 #if Rx_Enable == 1
-                            RF->RxStatus = true;
-                            CC2500_WriteCommand(CC2500_SRX); // set receive mode
-                            setINT_GO(1);
+                            if (RF->RxStatus == false && RF->ReceiveGO == false) {
+                                RF->RxStatus = true;
+                                CC2500_WriteCommand(CC2500_SIDLE); // idle
+                                CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+                                CC2500_WriteCommand(CC2500_SRX); // set receive mode
+                                //                                setINT_GO(1);
 #endif
+                            }
                         }
                     }
                 }
@@ -181,13 +197,13 @@ void setTxData(char rf) {
 void setRF_Enable(char rf, char command) {
     RfPointSelect(rf);
     RF->Enable = command;
-    RF->Learn = 0;
-    RF->TransceiveGO = 0;
-    RF->RxStatus = 0;
-    RF->ReceiveGO = 0;
+    RF->Learn = false;
+    RF->TransceiveGO = false;
+    RF->RxStatus = false;
+    RF->ReceiveGO = false;
     RF->DebounceTime = 0;
-    RF->Debounce = 0;
-    setINT_GO(0);
+    RF->Debounce = false;
+    //    setINT_GO(0);
 }
 //*********************************************************
 
@@ -195,19 +211,16 @@ void RF_RxDisable(char rf) {
     RfPointSelect(rf);
 
     if (RF->ReceiveGO == true || RF->RxStatus == true) {
-        if (RF->ReceiveGO == true) {
-            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-        }
         RF->RxStatus = false;
         RF->ReceiveGO = false;
         CC2500_WriteCommand(CC2500_SIDLE); // idle
-        setINT_GO(0);
+        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+        //        setINT_GO(0);
     }
 }
 //*********************************************************
 
 void getRxData(char rf) {
-    unsigned char i;
     RfPointSelect(rf);
     if (RF->Learn) {
         if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) //login command

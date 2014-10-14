@@ -22,7 +22,6 @@ int main(int argc, char** argv) {
     Lights_Initialization();
     CDS_Initialization();
     PIR_Initialization();
-
     Switch_Initialization();
     RF_Initialization();
     CC2500_PowerOnInitial();
@@ -30,6 +29,7 @@ int main(int argc, char** argv) {
 
 
     while (true) {
+
         if (myMain->PowerON) {
 #ifdef SYSC1
             DetectSYSC_Signal(1);

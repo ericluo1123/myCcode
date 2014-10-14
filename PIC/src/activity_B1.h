@@ -190,7 +190,7 @@
 #if Properties_Neutral == 1
 #define Max_Percent 95
 #define Med_Percent 35
-#define Mini_Percent 20
+#define Mini_Percent 25
 #else
 #if Control_Method_Mosfet == 1
 #if Switch_Class == 1
@@ -206,18 +206,18 @@
 
 #if Control_Method_Triac == 1
 #if Switch_Class == 1
-#define Max_Percent 55	
+#define Max_Percent 60
 #endif
 #if Switch_Class == 2
-#define Max_Percent 70
+#define Max_Percent 60
 #endif
 #if Switch_Class == 3
-#define Max_Percent 55	
+#define Max_Percent 60
 #endif
 #endif
 
 #define Med_Percent             35
-#define Mini_Percent            20
+#define Mini_Percent            25
 #endif
 
 

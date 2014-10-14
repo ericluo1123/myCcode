@@ -59,33 +59,33 @@ void CC2500_RxData(void) {
 
     //	CC2500_WriteCommand(CC2500_SRX);  		// set receive mode
     //	while(CC2500_GDO0==0);            		// wait for data
-    if (CC2500_GDO0 == 1) // Check whether have data
-    {
-        while (CC2500_GDO0 == 1); // wait for receive complete
-    }
-    CC2500_ReadStatus(CC2500_RXBYTES);
-    if (s_data != 0)
-        //if(s_data == 0x18)
-    {
-        CC2500_CSN = 0;
-        SPI0Buffer = CC2500_RXFIFO + 0xC0;
-        while (CC2500_SO == 1);
-        CC2500_WriteByte();
-
-        CC2500_ReadByte();
-        Rx_Length = SPI0Buffer;
-        for (loop_f = 0; loop_f < Rx_Length; loop_f++) {
-            CC2500_ReadByte();
-            RF_Data[loop_f] = SPI0Buffer;
+        if (CC2500_GDO0 == 1) // Check whether have data
+        {
+            while (CC2500_GDO0 == 1); // wait for receive complete
         }
-        CC2500_ReadByte(); // Read RSSI data
-        RSSI = SPI0Buffer;
-        CC2500_ReadByte();
-        CRC = SPI0Buffer;
-        CC2500_CSN = 1;
-        if (CRC & 0x80)
-            Receive_OK = 1;
-    }
+
+        CC2500_ReadStatus(CC2500_RXBYTES);
+        if (s_data != 0) {//if(s_data == 0x18)
+            CC2500_CSN = 0;
+            SPI0Buffer = CC2500_RXFIFO + 0xC0;
+            while (CC2500_SO == 1);
+            CC2500_WriteByte();
+
+            CC2500_ReadByte();
+            Rx_Length = SPI0Buffer;
+            for (loop_f = 0; loop_f < Rx_Length; loop_f++) {
+                CC2500_ReadByte();
+                RF_Data[loop_f] = SPI0Buffer;
+            }
+            CC2500_ReadByte(); // Read RSSI data
+            RSSI = SPI0Buffer;
+            CC2500_ReadByte();
+            CRC = SPI0Buffer;
+            CC2500_CSN = 1;
+            if (CRC & 0x80)
+                Receive_OK = 1;
+        }
+
     CC2500_WriteCommand(CC2500_SIDLE); // idle
     CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
 }

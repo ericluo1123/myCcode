@@ -95,7 +95,7 @@
 //Timer0
 #define Timer0_use	1
 #define TMR0_IntrTime_100us
-//Timer1
+//Timer1`
 #define Timer1_use	0
 #define TMR1_IntrTime_50us
 //INT
@@ -121,9 +121,9 @@
 //SYSC
 #define SYSC_use 0
 //OverTemperature
-#define OverTemperature_use 0
+#define OverTemperature_use 1
 //OverLoad
-#define OverLoad_use 0
+#define OverLoad_use 1
 //LED
 #define LED_use 1
 //Buzzer

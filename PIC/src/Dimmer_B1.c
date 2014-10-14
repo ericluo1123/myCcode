@@ -32,19 +32,16 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
     if (DimmerLightsIntrIOC->GO == false && DimmerLightsIntrIOC->TriacFlag == false) {
         DimmerLightsIntrIOC->GO = true;
         DimmerLightsIntrIOC->TriacFlag = true;
-        if (lights == 1) {
-            ErrLED = true;
-        }
     }
 
 #endif
 #if Control_Method_Mosfet == true
-    if (DimmerLightsIntr->MosfetSignal == false) {
-        DimmerLightsIntr->MosfetSignal = true;
+    if (DimmerLightsIntrIOC->MosfetSignal == false) {
+        DimmerLightsIntrIOC->MosfetSignal = true;
         //        ErrLED = true;
 
-        DimmerLightsIntr->GO = true;
-        if (DimmerLightsIntr->StatusFlag == true) {
+        DimmerLightsIntrIOC->GO = true;
+        if (DimmerLightsIntrIOC->StatusFlag == true) {
 
 #ifdef use_1KEY
             if (lights == 1) {
@@ -214,9 +211,6 @@ inline void setDimmerLights_IntrControl(char lights) {
         if (DimmerLightsIntr->TriacCount == 70) {
             DimmerLightsIntr->TriacCount = 0;
             DimmerLightsIntr->TriacFlag = false;
-            if (lights == 1) {
-                ErrLED = false;
-            }
         }
     }
 #endif

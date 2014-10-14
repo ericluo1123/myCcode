@@ -378,9 +378,6 @@ void TMR0_ISR();
 inline void setDimmerReClock();
 #else
 //TMR0 NOP()
-#define	TMR0_Set()	; 
-#define	TMR0_ISR()	;
-
 #define TMR0_Set() ;
 #define TMR0_ISR() ;
 #define setDimmerReClock() ;
@@ -453,12 +450,12 @@ void TMR1_ISR();
 #if INT_use == 1
 void INT_Set();
 void INT_ISR();
-void setINT_GO(char);
+void setINT_GO(char command);
 #else
 //INT NOP()
 #define INT_Set() ;
 #define INT_ISR() ;
-#define setINT_GO(char) ;
+#define setINT_GO(char command) ;
 #endif
 
 //*********************************************************
@@ -499,7 +496,7 @@ void I2C_Master_Transmission();
 void I2C_Master_Reception();
 void I2C_Slave_Mode();
 void I2C_Main();
-void I2C_SetData(char);
+void I2C_SetData(char command);
 
 
 #else
@@ -642,22 +639,13 @@ struct FlashMemory VarMemory = {
 #define PMADRH_Value 0x30
 
 #define Flash_Memory_Set()	Memory=&VarMemory
-
-
 #define setMemoryData(address,data) Memory->Data[address]=data	
 #define setMemory_Modify(command) Memory->Modify=command
 #define setMemory_LoopSave(command) Memory->LoopSave=command
-//#define setMemory_GO(command)\
-//					Memory->GO=command;\
-//					if(!command)\
-//					{\
-//						Memory->Time=command;\
-//					}\
-//					;
-
+				
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
-char Flash_Memory_Read(char);
+char Flash_Memory_Read(char address);
 void Flash_Memory_Write();
 void Flash_Memory_Erasing();
 void Flash_Memory_Modify();
@@ -667,13 +655,13 @@ void setMemory_GO(char command);
 //NOP
 #define Flash_Memory_Set() ;
 #define setMemoryData(address,data) ;
-#define setMemory_GO(command) ;
+#define setMemory_GO(char command) ;
 #define setMemory_Modify(command) ;
 #define setMemory_LoopSave(command) ;
 
 #define Flash_Memory_Initialization() ;
 #define Flash_Memory_Unlock() ;
-#define Flash_Memory_Read(char) ;
+#define Flash_Memory_Read(char address) ;
 #define Flash_Memory_Write() ;
 #define Flash_Memory_Erasing() ;
 #define Flash_Memory_Modify() ;
@@ -700,7 +688,6 @@ void WDT_Clearing();
 #else
 //NOP()
 #define _WDTE WDTE_OFF	//Configuration
-
 #define WDT_Set() ;
 #define WDT_Main() ;
 #define WDT_Clearing() ;		
