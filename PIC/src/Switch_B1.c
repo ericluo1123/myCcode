@@ -148,7 +148,6 @@ void setSw_Main(char sw) {
                     Sw->Hold1Time++;
                     if (Sw->Hold1Time >= Hold1TimeValue) {
                         Sw->Hold1Time = 0;
-                        Sw->Hold1 = true;
 #if Dimmer_use == 1 
 #if Dimmable_Func == 1
                         Sw_DimmerAdjFunc(sw); //key on function
@@ -227,9 +226,9 @@ void Sw_DimmerOnFunc(char sw) {
 
 #if Switch_Class == 2
     if (sw == 1) {
-        Idle = (DimmerLights22->AdjGo == true) ? false : true;
+        Idle = (DimmerLights2.AdjGo == true) ? 0 : 1;
     } else if (sw == 2) {
-        Idle = (DimmerLights11->AdjGo == true) ? false : true;
+        Idle = (DimmerLights1.AdjGo == true) ? 0 : 1;
     }
 #endif
 #endif
@@ -304,13 +303,13 @@ void Sw_DimmerAdjFunc(char sw) {
 #endif
     if (Idle == 1) {
         if (Sw->Flag == true) {
+            Sw->Hold1 = true;
             Sw->Adj = true;
             Sw->Status = true;
             setRFSW_Status(sw, 1);
 
             setDimmerLights_TriggerAdj(sw, 1);
             setDimmerLights_AdjGo(sw, 1);
-
         }
     }
 }

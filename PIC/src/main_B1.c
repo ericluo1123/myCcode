@@ -61,6 +61,7 @@ int main(int argc, char** argv) {
         if (myMain->T0_Timerout) {//10ms
             myMain->T0_Timerout = 0;
             my_Main();
+            my_TestPointCleared();
             WDT_Main();
             I2C_Main();
             UART_Main();
@@ -104,6 +105,7 @@ int main(int argc, char** argv) {
         }
 #endif
     }
+    return (EXIT_SUCCESS);
 }
 
 //Tmain initial
@@ -201,6 +203,9 @@ void my_Main() {
     }
 }
 
-
+void my_TestPointCleared() {
+    myMain->pcount1 = 0;
+    myMain->pcount2 = 0;
+}
 //End file
 

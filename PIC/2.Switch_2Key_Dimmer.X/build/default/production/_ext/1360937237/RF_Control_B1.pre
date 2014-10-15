@@ -69,6 +69,74 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
+# 27 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdlib.h"
+typedef struct {
+int rem;
+int quot;
+} div_t;
+typedef struct {
+unsigned rem;
+unsigned quot;
+} udiv_t;
+typedef struct {
+long quot;
+long rem;
+} ldiv_t;
+typedef struct {
+unsigned long quot;
+unsigned long rem;
+} uldiv_t;
+
+# 65
+extern double atof(const char *);
+extern double strtod(const char *, const char **);
+extern int atoi(const char *);
+extern unsigned xtoi(const char *);
+extern long atol(const char *);
+extern long strtol(const char *, char **, int);
+
+extern int rand(void);
+extern void srand(unsigned int);
+extern void * calloc(size_t, size_t);
+extern div_t div(int numer, int denom);
+extern udiv_t udiv(unsigned numer, unsigned denom);
+extern ldiv_t ldiv(long numer, long denom);
+extern uldiv_t uldiv(unsigned long numer,unsigned long denom);
+extern unsigned long _lrotl(unsigned long value, unsigned int shift);
+extern unsigned long _lrotr(unsigned long value, unsigned int shift);
+extern unsigned int _rotl(unsigned int value, unsigned int shift);
+extern unsigned int _rotr(unsigned int value, unsigned int shift);
+
+
+
+
+extern void * malloc(size_t);
+extern void free(void *);
+extern void * realloc(void *, size_t);
+
+extern void abort(void);
+extern void exit(int);
+extern int atexit(void (*)(void));
+extern char * getenv(const char *);
+extern char ** environ;
+extern int system(char *);
+extern void qsort(void *, size_t, size_t, int (*)(const void *, const void *));
+extern void * bsearch(const void *, void *, size_t, size_t, int(*)(const void *, const void *));
+extern int abs(int);
+extern long labs(long);
+
+
+extern char * itoa(char * buf, int val, int base);
+extern char * utoa(char * buf, unsigned val, int base);
+
+
+
+
+extern char * ltoa(char * buf, long val, int base);
+extern char * ultoa(char * buf, unsigned long val, int base);
+
+extern char * ftoa(float f, int * status);
+
 # 11 "../src/../2.Switch_2Key_Dimmer.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
@@ -124,19 +192,24 @@ unsigned p : 1;
 struct {
 unsigned q : 1;
 unsigned r : 1;
-unsigned empty:6;
+unsigned empty : 6;
 };
 
+unsigned int pcount1;
+unsigned int pcount2;
 
 };
 struct myMain _myMain;
 struct myMain *myMain;
 
-# 113
+# 115
 void myMain_Initialization();
 
-# 118
+# 120
 void my_Main();
+
+# 125
+void my_TestPointCleared();
 
 # 14 "../src/../2.Switch_2Key_Dimmer.X/../src/Switch_B1.h"
 struct Switch {
@@ -675,7 +748,7 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 99
+# 97
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -711,7 +784,7 @@ char getDimmerLights_Trigger();
 void setDimmerLights_Clear(char,char);
 inline void setDimmerLights_IntrControl(char lights);
 
-# 139
+# 137
 struct Dimmer
 {
 
@@ -3378,7 +3451,11 @@ RF->Learn = command;
 
 void setRF_ReceiveGO(char rf, char command) {
 RfPointSelect(rf);
+if (RF->RxStatus == 1) {
+RF->RxStatus = 0;
+RF->Run = 1;
 RF->ReceiveGO = command;
+}
 }
 
 
@@ -3404,17 +3481,17 @@ if (RF->Enable == 1) {
 
 if (Buz->GO == 0) {
 
-# 71
+# 75
 RF->Key = (RA6 == 1 || RA4 == 1 || RA0 == 1 || RB1 == 1) ? 1 : 0;
 
-# 77
+# 81
 if (RF->Key == 1 && RF->Learn == 0) {
 RF->Run = 1;
 RF_RxDisable(1);
 } else {
 if (RF->Run == 1 && RF->Learn == 0) {
 RF->Count++;
-if (RF->Count == 25) {
+if (RF->Count == 5) {
 RF->Count = 0;
 RF->Run = 0;
 }
@@ -3426,11 +3503,11 @@ if (RF->ReceiveGO == 1) {
 RF->ReceiveGO = 0;
 CC2500_RxData();
 
-# 101
+# 104
 getRxData(1);
 
 
-
+RF->Run = 1;
 } else {
 if (RF->Learn == 0) {
 if (RF->TransceiveGO == 1) {
@@ -3441,7 +3518,7 @@ RF->ReceiveGO = 0;
 CC2500_WriteCommand(0x36);
 CC2500_WriteCommand(0x3B);
 CC2500_TxData();
-
+RF->Run = 1;
 } else {
 
 if (RF->RxStatus == 0 && RF->ReceiveGO == 0) {
@@ -3450,6 +3527,7 @@ CC2500_WriteCommand(0x36);
 CC2500_WriteCommand(0x3A);
 CC2500_WriteCommand(0x34);
 
+RB5 = RB5 == 1 ? 0 : 1;
 }
 
 
@@ -3462,6 +3540,7 @@ CC2500_WriteCommand(0x36);
 CC2500_WriteCommand(0x3A);
 CC2500_WriteCommand(0x34);
 
+RB5 = RB5 == 1 ? 0 : 1;
 
 }
 }
@@ -3471,7 +3550,7 @@ CC2500_WriteCommand(0x34);
 }
 }
 
-# 151
+# 156
 }
 
 
@@ -3484,7 +3563,7 @@ if (RF->Enable == 1) {
 
 RF->TransceiveGO = 1;
 
-# 171
+# 176
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 RF_Data[2] = product->Data[2];
@@ -3562,7 +3641,7 @@ setControl_Lights_Table(1);
 ;
 }
 
-# 251
+# 256
 }
 }
 
@@ -3594,7 +3673,7 @@ setDimmerLights(2, 0);
 setRFSW_Status(2, 0);
 setSw_Status(2, 0);
 
-# 288
+# 293
 product->Data[9]=0;
 product->Data[11]=0;
 product->Data[15]=0;
@@ -3627,7 +3706,7 @@ else if (RF_Data[15] == 0x21) {
 setRFSW_AdjControl(2);
 }
 
-# 332
+# 337
 }
 
 
@@ -3642,7 +3721,7 @@ if (sw == 2) {
 RFSW = &RFSW2;
 }
 
-# 351
+# 356
 }
 
 

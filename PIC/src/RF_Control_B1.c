@@ -38,7 +38,11 @@ void setRF_Learn(char rf, char command) {
 
 void setRF_ReceiveGO(char rf, char command) {
     RfPointSelect(rf);
-    RF->ReceiveGO = command;
+    if (RF->RxStatus == true) {
+        RF->RxStatus = false;
+        RF->Run = true;
+        RF->ReceiveGO = command;
+    }
 }
 //*********************************************************
 
@@ -80,7 +84,7 @@ void setRF_Main(char rf) {
             } else {
                 if (RF->Run == true && RF->Learn == false) {
                     RF->Count++;
-                    if (RF->Count == 25) {
+                    if (RF->Count == 5) {
                         RF->Count = 0;
                         RF->Run = false;
                     }
@@ -91,7 +95,6 @@ void setRF_Main(char rf) {
                     if (RF->ReceiveGO == true) {
                         RF->ReceiveGO = false;
                         CC2500_RxData();
-                        //RF->Run = true;
 #if I2C_use == 1
                         I2C_SetData(1);
                         //LED2=~LED2;
@@ -101,7 +104,7 @@ void setRF_Main(char rf) {
                         getRxData(1);
 #endif
                         //                        ErrLED = ErrLED == true ? false : true;
-
+                        RF->Run = true;
                     } else {
                         if (RF->Learn == false) {
                             if (RF->TransceiveGO == true) {
@@ -112,7 +115,7 @@ void setRF_Main(char rf) {
                                 CC2500_WriteCommand(CC2500_SIDLE); // idle
                                 CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
                                 CC2500_TxData();
-                                //RF->Run = true;
+                                RF->Run = true;
                             } else {
 #if Rx_Enable == 1
                                 if (RF->RxStatus == false && RF->ReceiveGO == false) {
@@ -121,6 +124,7 @@ void setRF_Main(char rf) {
                                     CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
                                     CC2500_WriteCommand(CC2500_SRX); // set receive mode
                                     //                                    setINT_GO(1);
+                                    ErrLED = ErrLED == true ? false : true;
                                 }
 
 #endif
@@ -133,6 +137,7 @@ void setRF_Main(char rf) {
                                 CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
                                 CC2500_WriteCommand(CC2500_SRX); // set receive mode
                                 //                                setINT_GO(1);
+                                ErrLED = ErrLED == true ? false : true;
 #endif
                             }
                         }

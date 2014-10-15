@@ -124,19 +124,24 @@ unsigned p : 1;
 struct {
 unsigned q : 1;
 unsigned r : 1;
-unsigned empty:6;
+unsigned empty : 6;
 };
 
+unsigned int pcount1;
+unsigned int pcount2;
 
 };
 struct myMain _myMain;
 struct myMain *myMain;
 
-# 113
+# 115
 void myMain_Initialization();
 
-# 118
+# 120
 void my_Main();
+
+# 125
+void my_TestPointCleared();
 
 # 14 "../src/../1.Switch_1Key_Dimmer.X/../src/Switch_B1.h"
 struct Switch {
@@ -550,7 +555,7 @@ struct DimmerLights *DimmerLightsIntrIOC;
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-# 99
+# 97
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -586,7 +591,7 @@ char getDimmerLights_Trigger();
 void setDimmerLights_Clear(char,char);
 inline void setDimmerLights_IntrControl(char lights);
 
-# 139
+# 137
 struct Dimmer
 {
 
@@ -3236,19 +3241,6 @@ void Flash_Memory_Erasing();
 void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
-
-# 674
-struct WDT {
-unsigned Enable : 1;
-unsigned char Count;
-};
-struct WDT _WDT;
-struct WDT *WDT;
-
-# 685
-void WDT_Set();
-void WDT_Main();
-void WDT_Clearing();
 
 # 7 "../src/LED_B1.c"
 void LedPointSelect(char led)

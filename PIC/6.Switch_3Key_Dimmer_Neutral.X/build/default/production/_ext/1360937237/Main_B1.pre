@@ -124,19 +124,24 @@ unsigned p : 1;
 struct {
 unsigned q : 1;
 unsigned r : 1;
-unsigned empty:6;
+unsigned empty : 6;
 };
 
+unsigned int pcount1;
+unsigned int pcount2;
 
 };
 struct myMain _myMain;
 struct myMain *myMain;
 
-# 113
+# 115
 void myMain_Initialization();
 
-# 118
+# 120
 void my_Main();
+
+# 125
+void my_TestPointCleared();
 
 # 14 "../src/../6.Switch_3Key_Dimmer_Neutral.X/../src/Switch_B1.h"
 struct Switch {
@@ -582,7 +587,7 @@ struct DimmerLights DimmerLights2;
 struct DimmerLights *DimmerLights33;
 struct DimmerLights DimmerLights3;
 
-# 99
+# 97
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -618,7 +623,7 @@ char getDimmerLights_Trigger();
 void setDimmerLights_Clear(char,char);
 inline void setDimmerLights_IntrControl(char lights);
 
-# 139
+# 137
 struct Dimmer
 {
 
@@ -3238,7 +3243,6 @@ DimmerLights_Initialization();
 ;;
 ;;
 ;;
-
 Switch_Initialization();
 RF_Initialization();
 CC2500_PowerOnInitial();
@@ -3246,6 +3250,7 @@ CC2500_PowerOnInitial();
 
 
 while (1) {
+
 if (myMain->PowerON) {
 
 ;;
@@ -3269,6 +3274,7 @@ if (myMain->PowerON) {
 if (myMain->T0_Timerout) {
 myMain->T0_Timerout = 0;
 my_Main();
+my_TestPointCleared();
 WDT_Main();
 ;;
 ;;
@@ -3295,7 +3301,7 @@ RF_Main();
 }
 }
 
-# 106
+# 107
 }
 }
 
@@ -3329,7 +3335,7 @@ myMain->PowerON = 1;
 
 ;;
 
-# 143
+# 144
 setBuz(3, 50);
 myMain->SelfTest = 1;
 
@@ -3343,24 +3349,28 @@ setRF_Enable(1, 1);
 }
 } else {
 
-# 162
+# 163
 myMain->Count1++;
 if (myMain->Count1 == 100)
 {
 myMain->Count1 = 0;
 
-# 178
+# 179
 if (myMain->Flag) {
 myMain->Flag = 0;
 
-# 188
+# 189
 } else {
 myMain->Flag = 1;
 
-# 198
+# 199
 }
 }
 
 }
+}
+void my_TestPointCleared() {
+myMain->pcount1 = 0;
+myMain->pcount2 = 0;
 }
 

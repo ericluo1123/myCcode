@@ -124,19 +124,24 @@ unsigned p : 1;
 struct {
 unsigned q : 1;
 unsigned r : 1;
-unsigned empty:6;
+unsigned empty : 6;
 };
 
+unsigned int pcount1;
+unsigned int pcount2;
 
 };
 struct myMain _myMain;
 struct myMain *myMain;
 
-# 113
+# 115
 void myMain_Initialization();
 
-# 118
+# 120
 void my_Main();
+
+# 125
+void my_TestPointCleared();
 
 # 14 "../src/../6.Switch_3Key_Dimmer_Neutral.X/../src/Switch_B1.h"
 struct Switch {
@@ -582,7 +587,7 @@ struct DimmerLights DimmerLights2;
 struct DimmerLights *DimmerLights33;
 struct DimmerLights DimmerLights3;
 
-# 99
+# 97
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -618,7 +623,7 @@ char getDimmerLights_Trigger();
 void setDimmerLights_Clear(char,char);
 inline void setDimmerLights_IntrControl(char lights);
 
-# 139
+# 137
 struct Dimmer
 {
 
@@ -3257,14 +3262,29 @@ unsigned char loop_f;
 
 if (RB0 == 1)
 {
-while (RB0 == 1);
+while (RB0 == 1) {
+myMain->pcount1++;
+if (myMain->pcount1 >= 10000) {
+myMain->pcount1 = 0;
+setBuz(1, 250);
+break;
+}
+};
 }
 
 CC2500_ReadStatus(0x3B);
 if (s_data != 0) {
 RC4 = 0;
 SPI0Buffer = 0x3F + 0xC0;
-while (RC2 == 1);
+while (RC2 == 1) {
+myMain->pcount2++;
+if (myMain->pcount2 >= 10000) {
+myMain->pcount2 = 0;
+setBuz(2, 250);
+break;
+}
+};
+
 CC2500_WriteByte();
 
 CC2500_ReadByte();
@@ -3377,7 +3397,7 @@ void CC2500_SIDLEMode(void) {
 CC2500_WriteCommand(0x36);
 }
 
-# 190
+# 205
 void CC2500_WriteByte(void) {
 unsigned char loop_a;
 for (loop_a = 0; loop_a < 8; loop_a++) {

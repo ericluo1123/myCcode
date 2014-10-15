@@ -185,7 +185,7 @@
 /**
  * dimmer delay time
  */
-#define DimmingDelayTime 6
+#define DimmingDelayTime 7
 
 #if Properties_Neutral == 1
 #define Max_Percent 95

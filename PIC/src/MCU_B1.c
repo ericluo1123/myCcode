@@ -19,7 +19,7 @@
 #endif
 
 #ifdef _16F1518
-#pragma config FOSC = INTOSC,_WDTE,BOREN=OFF
+#pragma config FOSC = INTOSC,WDTE = _WDTE,BOREN=OFF
 #pragma config VCAPEN = OFF,WRT = HALF
 // __CONFIG(FOSC_INTOSC & _WDTE & BOREN_OFF); // v8.84
 // __CONFIG(VCAPEN_OFF & WRT_HALF); // WRT_OFF WRT_BOOT WRT_HALF
@@ -163,9 +163,9 @@ void TMR0_ISR() {
             Timer0->Count = 0;
             myMain->T0_Timerout = true;
 
-#if Buzzer_use == true
-            Buz_Counter();
-#endif
+            //#if Buzzer_use == true
+            //            Buz_Counter();
+            //#endif    
 
         }
     }
@@ -252,7 +252,6 @@ void INT_ISR() {
         INTF = false;
         INTE = false;
         setRF_ReceiveGO(1, 1);
-        setRF_RxStatus(1, 0);
     }
 }
 //*********************************************************

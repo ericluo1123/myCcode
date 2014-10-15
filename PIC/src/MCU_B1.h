@@ -678,7 +678,7 @@ struct WDT {
 struct WDT _WDT;
 struct WDT *WDT;
 
-#define _WDTE WDTE_SWDTEN		//Configuration
+#define _WDTE SWDTEN		//Configuration
 #define _WDTCON 0b00010111;		//WDTPS<4:0> =2s && WDT is turned on 
 //controlled by the WDTE<1:0>
 
@@ -687,7 +687,7 @@ void WDT_Main();
 void WDT_Clearing();
 #else
 //NOP()
-#define _WDTE WDTE_OFF	//Configuration
+#define _WDTE OFF	//Configuration
 #define WDT_Set() ;
 #define WDT_Main() ;
 #define WDT_Clearing() ;		

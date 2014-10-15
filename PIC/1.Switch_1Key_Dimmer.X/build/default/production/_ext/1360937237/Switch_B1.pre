@@ -124,19 +124,24 @@ unsigned p : 1;
 struct {
 unsigned q : 1;
 unsigned r : 1;
-unsigned empty:6;
+unsigned empty : 6;
 };
 
+unsigned int pcount1;
+unsigned int pcount2;
 
 };
 struct myMain _myMain;
 struct myMain *myMain;
 
-# 113
+# 115
 void myMain_Initialization();
 
-# 118
+# 120
 void my_Main();
+
+# 125
+void my_TestPointCleared();
 
 # 14 "../src/../1.Switch_1Key_Dimmer.X/../src/Switch_B1.h"
 struct Switch {
@@ -550,7 +555,7 @@ struct DimmerLights *DimmerLightsIntrIOC;
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-# 99
+# 97
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -586,7 +591,7 @@ char getDimmerLights_Trigger();
 void setDimmerLights_Clear(char,char);
 inline void setDimmerLights_IntrControl(char lights);
 
-# 139
+# 137
 struct Dimmer
 {
 
@@ -3237,19 +3242,6 @@ void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
 
-# 674
-struct WDT {
-unsigned Enable : 1;
-unsigned char Count;
-};
-struct WDT _WDT;
-struct WDT *WDT;
-
-# 685
-void WDT_Set();
-void WDT_Main();
-void WDT_Clearing();
-
 # 10 "../src/Switch_B1.c"
 void TouchPower() {
 while (RC5 == 0)
@@ -3336,7 +3328,6 @@ if (Sw->Hold1 == 0) {
 Sw->Hold1Time++;
 if (Sw->Hold1Time >= 150) {
 Sw->Hold1Time = 0;
-Sw->Hold1 = 1;
 
 
 Sw_DimmerAdjFunc(sw);
@@ -3402,7 +3393,7 @@ setRF_Learn(1, 0);
 void Sw_DimmerOnFunc(char sw) {
 char Idle = 1;
 
-# 236
+# 235
 if (Idle == 1) {
 Sw->Flag = 1;
 setBuz(1, 100);
@@ -3454,16 +3445,16 @@ setTxData(1);
 void Sw_DimmerAdjFunc(char sw) {
 char Idle = 1;
 
-# 305
+# 304
 if (Idle == 1) {
 if (Sw->Flag == 1) {
+Sw->Hold1 = 1;
 Sw->Adj = 1;
 Sw->Status = 1;
 setRFSW_Status(sw, 1);
 
 setDimmerLights_TriggerAdj(sw, 1);
 setDimmerLights_AdjGo(sw, 1);
-
 }
 }
 }
@@ -3477,7 +3468,7 @@ if (Sw->Enable == 0) {
 Sw->Enable = 1;
 }
 
-# 342
+# 341
 }
 }
 

@@ -3,6 +3,7 @@
 #define _Switch_2Key_Dimmer_V1.3.1.2.1_H_
 //Include
 #include <stdio.h>
+#include <stdlib.h>
 
 /**Version information
                 Name_Version 			:	1~255

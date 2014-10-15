@@ -124,19 +124,24 @@ unsigned p : 1;
 struct {
 unsigned q : 1;
 unsigned r : 1;
-unsigned empty:6;
+unsigned empty : 6;
 };
 
+unsigned int pcount1;
+unsigned int pcount2;
 
 };
 struct myMain _myMain;
 struct myMain *myMain;
 
-# 113
+# 115
 void myMain_Initialization();
 
-# 118
+# 120
 void my_Main();
+
+# 125
+void my_TestPointCleared();
 
 # 14 "../src/../1.Switch_1Key_Dimmer.X/../src/Switch_B1.h"
 struct Switch {
@@ -550,7 +555,7 @@ struct DimmerLights *DimmerLightsIntrIOC;
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-# 99
+# 97
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -586,7 +591,7 @@ char getDimmerLights_Trigger();
 void setDimmerLights_Clear(char,char);
 inline void setDimmerLights_IntrControl(char lights);
 
-# 139
+# 137
 struct Dimmer
 {
 
@@ -3237,19 +3242,6 @@ void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
 
-# 674
-struct WDT {
-unsigned Enable : 1;
-unsigned char Count;
-};
-struct WDT _WDT;
-struct WDT *WDT;
-
-# 685
-void WDT_Set();
-void WDT_Main();
-void WDT_Clearing();
-
 # 11 "../src/Buzzer_B1.c"
 void Buzzer_Initialization() {
 Buz = &Buz1;
@@ -3271,19 +3263,21 @@ Buz->Counter++;
 
 
 void setBuz(char count, int time) {
-time /=10;
-if (Buz->Enable) {
-if (!Buz->GO) {
+Buz = &Buz1;
+time /= 10;
+if (Buz->Enable == 1) {
+if (Buz->GO == 0) {
 Buz->GO = 1;
+Buz->Counter = 0;
 Buz->Count = count;
 Buz->TimeValue = time;
 RB3 = 1;
 } else {
-if (!Buz->BufferStatus1) {
+if (Buz->BufferStatus1 == 0) {
 Buz->BufferStatus1 = 1;
 Buz->CountBuffer1 = count;
 Buz->TimeValueBuffer1 = time;
-} else if (!Buz->BufferStatus2) {
+} else if (Buz->BufferStatus2 == 0) {
 Buz->BufferStatus2 = 1;
 Buz->CountBuffer2 = count;
 Buz->TimeValueBuffer2 = time;
@@ -3294,17 +3288,19 @@ Buz->TimeValueBuffer2 = time;
 
 
 void Buzzer_Main() {
-Buz->Switch = (RB3) ? 1 : 0;
-
+Buz = &Buz1;
+if (Buz->GO == 1) {
+Buz->Counter++;
 if (Buz->Counter >= Buz->TimeValue) {
 Buz->Counter = 0;
-if (!Buz->Switch) {
+Buz->Switch = (RB3 == 1) ? 1 : 0;
+if (Buz->Switch == 0) {
 if (Buz->Count == 0) {
-if (Buz->BufferStatus1) {
+if (Buz->BufferStatus1 == 1) {
 Buz->BufferStatus1 = 0;
 Buz->Count = Buz->CountBuffer1;
 Buz->TimeValue = Buz->TimeValueBuffer1;
-} else if (Buz->BufferStatus2) {
+} else if (Buz->BufferStatus2 == 1) {
 Buz->BufferStatus2 = 0;
 Buz->Count = Buz->CountBuffer2;
 Buz->TimeValue = Buz->TimeValueBuffer2;
@@ -3322,6 +3318,7 @@ Buz->Switch = 0;
 RB3 = 0;
 
 Buz->Count--;
+}
 }
 }
 }

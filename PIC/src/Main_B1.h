@@ -96,9 +96,11 @@ struct myMain {
     struct {
         unsigned q : 1;
         unsigned r : 1;
-        unsigned empty:6;
+        unsigned empty : 6;
     };
 
+    unsigned int pcount1;
+    unsigned int pcount2;
 
 };
 struct myMain _myMain;
@@ -117,6 +119,9 @@ void myMain_Initialization();
  */
 void my_Main();
 //end
-
+/**
+ * Test Point cleared
+ */
+void my_TestPointCleared();
 
 #endif		

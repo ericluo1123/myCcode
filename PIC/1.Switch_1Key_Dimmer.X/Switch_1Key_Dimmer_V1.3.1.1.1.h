@@ -116,7 +116,7 @@
 //FlashMemory
 #define FlashMemory_use 1
 //watchdog timer
-#define WDT_use 1
+#define WDT_use 0
 
 
 

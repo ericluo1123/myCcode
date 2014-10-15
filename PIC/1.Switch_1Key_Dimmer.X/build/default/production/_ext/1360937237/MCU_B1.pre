@@ -124,19 +124,24 @@ unsigned p : 1;
 struct {
 unsigned q : 1;
 unsigned r : 1;
-unsigned empty:6;
+unsigned empty : 6;
 };
 
+unsigned int pcount1;
+unsigned int pcount2;
 
 };
 struct myMain _myMain;
 struct myMain *myMain;
 
-# 113
+# 115
 void myMain_Initialization();
 
-# 118
+# 120
 void my_Main();
+
+# 125
+void my_TestPointCleared();
 
 # 14 "../src/../1.Switch_1Key_Dimmer.X/../src/Switch_B1.h"
 struct Switch {
@@ -550,7 +555,7 @@ struct DimmerLights *DimmerLightsIntrIOC;
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-# 99
+# 97
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -586,7 +591,7 @@ char getDimmerLights_Trigger();
 void setDimmerLights_Clear(char,char);
 inline void setDimmerLights_IntrControl(char lights);
 
-# 139
+# 137
 struct Dimmer
 {
 
@@ -3237,22 +3242,9 @@ void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
 
-# 674
-struct WDT {
-unsigned Enable : 1;
-unsigned char Count;
-};
-struct WDT _WDT;
-struct WDT *WDT;
-
-# 685
-void WDT_Set();
-void WDT_Main();
-void WDT_Clearing();
-
 
 # 22 "../src/MCU_B1.c"
-#pragma config FOSC = INTOSC,WDTE_SWDTEN,BOREN=OFF
+#pragma config FOSC = INTOSC,WDTE = OFF,BOREN=OFF
 #pragma config VCAPEN = OFF,WRT = HALF
 
 # 30
@@ -3280,7 +3272,7 @@ IOC_Set();
 
 Memory=&VarMemory;
 
-WDT_Set();
+;;
 }
 
 
@@ -3351,10 +3343,7 @@ if (Timer0->Count == 100) {
 Timer0->Count = 0;
 myMain->T0_Timerout = 1;
 
-
-Buz_Counter();
-
-
+# 170
 }
 }
 }
@@ -3387,7 +3376,6 @@ if (INTE == 1 && INTF == 1) {
 INTF = 0;
 INTE = 0;
 setRF_ReceiveGO(1, 1);
-setRF_RxStatus(1, 0);
 }
 }
 
@@ -3397,14 +3385,14 @@ INTF = 0;
 INTE = command;
 }
 
-# 270
+# 269
 void IOC_Set() {
 WPUB2 = 0;
 
 IOCBP = 0b00000100;
 IOCBN = 0b00000100;
 
-# 289
+# 288
 IOCBF = 0b00000000;
 
 IOCIE = 1;
@@ -3426,13 +3414,13 @@ setDimmerReClock();
 }
 }
 
-# 316
+# 315
 void ADC_Set() {
 ADCON1 = 0xf2;
 FVRCON = 0xc0;
 }
 
-# 343
+# 342
 int getAD(char adcon0, char adcon1) {
 ADCON0 = adcon0;
 ADCON1 = adcon1;
@@ -3441,7 +3429,7 @@ while (GO_nDONE == 1);
 return ((ADRESH*256)+ADRESL);
 }
 
-# 746
+# 745
 void Flash_Memory_Initialization() {
 char i = 0;
 if (Flash_Memory_Read(31) == 0xaa) {
@@ -3449,7 +3437,7 @@ product->Data[12] = Flash_Memory_Read(0);
 product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
-# 757
+# 756
 i = setPercentValue(((char)((100-60)*0.8)));
 product->Data[21] = i;
 product->Data[22] = i;
@@ -3558,7 +3546,7 @@ Memory->Data[0]=product->Data[12];
 Memory->Data[1]=product->Data[13];
 Memory->Data[2]=product->Data[14];
 
-# 869
+# 868
 if (Memory->LoopSave == 1) {
 Memory->LoopSave = 0;
 myMain->FirstOpen = 0;
@@ -3578,29 +3566,5 @@ Memory->GO = command;
 if (command == 0) {
 Memory->Time = command;
 }
-}
-
-
-
-void WDT_Set() {
-WDTCON = 0b00010111;;
-WDT = &_WDT;
-WDT->Enable = 1;
-WDT->Count = 10;
-}
-
-
-void WDT_Main() {
-if (WDT->Enable == 1) {
-if (WDT->Count-- > 0) {
-WDT->Count = 10;
-WDT_Clearing();
-}
-}
-}
-
-
-void WDT_Clearing() {
-asm("clrwdt");
 }
 

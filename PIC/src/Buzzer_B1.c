@@ -28,20 +28,22 @@ inline void Buz_Counter() {
 //*********************************************************
 
 void setBuz(char count, int time) {
-    time /=10;
-    if (Buz->Enable) {
-        if (!Buz->GO) {
-            Buz->GO = 1;
+    Buz = &Buz1;
+    time /= 10;
+    if (Buz->Enable == true) {
+        if (Buz->GO == false) {
+            Buz->GO = true;
+            Buz->Counter = 0;
             Buz->Count = count;
             Buz->TimeValue = time;
-            Buzzer1 = 1;
+            Buzzer1 = true;
         } else {
-            if (!Buz->BufferStatus1) {
-                Buz->BufferStatus1 = 1;
+            if (Buz->BufferStatus1 == false) {
+                Buz->BufferStatus1 = true;
                 Buz->CountBuffer1 = count;
                 Buz->TimeValueBuffer1 = time;
-            } else if (!Buz->BufferStatus2) {
-                Buz->BufferStatus2 = 1;
+            } else if (Buz->BufferStatus2 == false) {
+                Buz->BufferStatus2 = true;
                 Buz->CountBuffer2 = count;
                 Buz->TimeValueBuffer2 = time;
             }
@@ -51,34 +53,37 @@ void setBuz(char count, int time) {
 //*********************************************************
 
 void Buzzer_Main() {
-    Buz->Switch = (Buzzer1) ? 1 : 0;
-
-    if (Buz->Counter >= Buz->TimeValue) {
-        Buz->Counter = 0;
-        if (!Buz->Switch) {
-            if (Buz->Count == 0) {
-                if (Buz->BufferStatus1) {
-                    Buz->BufferStatus1 = 0;
-                    Buz->Count = Buz->CountBuffer1;
-                    Buz->TimeValue = Buz->TimeValueBuffer1;
-                } else if (Buz->BufferStatus2) {
-                    Buz->BufferStatus2 = 0;
-                    Buz->Count = Buz->CountBuffer2;
-                    Buz->TimeValue = Buz->TimeValueBuffer2;
+    Buz = &Buz1;
+    if (Buz->GO == true) {
+        Buz->Counter++;
+        if (Buz->Counter >= Buz->TimeValue) {
+            Buz->Counter = 0;
+            Buz->Switch = (Buzzer1 == true) ? true : false;
+            if (Buz->Switch == false) {
+                if (Buz->Count == 0) {
+                    if (Buz->BufferStatus1 == true) {
+                        Buz->BufferStatus1 = false;
+                        Buz->Count = Buz->CountBuffer1;
+                        Buz->TimeValue = Buz->TimeValueBuffer1;
+                    } else if (Buz->BufferStatus2 == true) {
+                        Buz->BufferStatus2 = false;
+                        Buz->Count = Buz->CountBuffer2;
+                        Buz->TimeValue = Buz->TimeValueBuffer2;
+                    } else {
+                        Buz->GO = false;
+                    }
                 } else {
-                    Buz->GO = 0;
+                    Buz->Switch = true;
+
+                    Buzzer1 = true;
                 }
             } else {
-                Buz->Switch = 1;
+                Buz->Switch = false;
 
-                Buzzer1 = 1;
+                Buzzer1 = false;
+
+                Buz->Count--;
             }
-        } else {
-            Buz->Switch = 0;
-
-            Buzzer1 = 0;
-
-            Buz->Count--;
         }
     }
 }

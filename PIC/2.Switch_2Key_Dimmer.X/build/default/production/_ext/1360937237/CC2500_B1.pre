@@ -69,6 +69,74 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
+# 27 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdlib.h"
+typedef struct {
+int rem;
+int quot;
+} div_t;
+typedef struct {
+unsigned rem;
+unsigned quot;
+} udiv_t;
+typedef struct {
+long quot;
+long rem;
+} ldiv_t;
+typedef struct {
+unsigned long quot;
+unsigned long rem;
+} uldiv_t;
+
+# 65
+extern double atof(const char *);
+extern double strtod(const char *, const char **);
+extern int atoi(const char *);
+extern unsigned xtoi(const char *);
+extern long atol(const char *);
+extern long strtol(const char *, char **, int);
+
+extern int rand(void);
+extern void srand(unsigned int);
+extern void * calloc(size_t, size_t);
+extern div_t div(int numer, int denom);
+extern udiv_t udiv(unsigned numer, unsigned denom);
+extern ldiv_t ldiv(long numer, long denom);
+extern uldiv_t uldiv(unsigned long numer,unsigned long denom);
+extern unsigned long _lrotl(unsigned long value, unsigned int shift);
+extern unsigned long _lrotr(unsigned long value, unsigned int shift);
+extern unsigned int _rotl(unsigned int value, unsigned int shift);
+extern unsigned int _rotr(unsigned int value, unsigned int shift);
+
+
+
+
+extern void * malloc(size_t);
+extern void free(void *);
+extern void * realloc(void *, size_t);
+
+extern void abort(void);
+extern void exit(int);
+extern int atexit(void (*)(void));
+extern char * getenv(const char *);
+extern char ** environ;
+extern int system(char *);
+extern void qsort(void *, size_t, size_t, int (*)(const void *, const void *));
+extern void * bsearch(const void *, void *, size_t, size_t, int(*)(const void *, const void *));
+extern int abs(int);
+extern long labs(long);
+
+
+extern char * itoa(char * buf, int val, int base);
+extern char * utoa(char * buf, unsigned val, int base);
+
+
+
+
+extern char * ltoa(char * buf, long val, int base);
+extern char * ultoa(char * buf, unsigned long val, int base);
+
+extern char * ftoa(float f, int * status);
+
 # 11 "../src/../2.Switch_2Key_Dimmer.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
@@ -124,19 +192,24 @@ unsigned p : 1;
 struct {
 unsigned q : 1;
 unsigned r : 1;
-unsigned empty:6;
+unsigned empty : 6;
 };
 
+unsigned int pcount1;
+unsigned int pcount2;
 
 };
 struct myMain _myMain;
 struct myMain *myMain;
 
-# 113
+# 115
 void myMain_Initialization();
 
-# 118
+# 120
 void my_Main();
+
+# 125
+void my_TestPointCleared();
 
 # 14 "../src/../2.Switch_2Key_Dimmer.X/../src/Switch_B1.h"
 struct Switch {
@@ -675,7 +748,7 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 99
+# 97
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -711,7 +784,7 @@ char getDimmerLights_Trigger();
 void setDimmerLights_Clear(char,char);
 inline void setDimmerLights_IntrControl(char lights);
 
-# 139
+# 137
 struct Dimmer
 {
 
@@ -3381,14 +3454,29 @@ unsigned char loop_f;
 
 if (RB0 == 1)
 {
-while (RB0 == 1);
+while (RB0 == 1) {
+myMain->pcount1++;
+if (myMain->pcount1 >= 10000) {
+myMain->pcount1 = 0;
+setBuz(1, 250);
+break;
+}
+};
 }
 
 CC2500_ReadStatus(0x3B);
 if (s_data != 0) {
 RC4 = 0;
 SPI0Buffer = 0x3F + 0xC0;
-while (RC2 == 1);
+while (RC2 == 1) {
+myMain->pcount2++;
+if (myMain->pcount2 >= 10000) {
+myMain->pcount2 = 0;
+setBuz(2, 250);
+break;
+}
+};
+
 CC2500_WriteByte();
 
 CC2500_ReadByte();
@@ -3501,7 +3589,7 @@ void CC2500_SIDLEMode(void) {
 CC2500_WriteCommand(0x36);
 }
 
-# 190
+# 205
 void CC2500_WriteByte(void) {
 unsigned char loop_a;
 for (loop_a = 0; loop_a < 8; loop_a++) {
