@@ -2,8 +2,7 @@
 #ifndef _Switch_3Key_Dimmer_Neutral_V1.1.1.3.1_H_
 #define	_Switch_3Key_Dimmer_Neutral_V1.1.1.3.1_H_
 
-//Include
-#include <stdio.h>
+
 /**Version information
                 Name_Version 			:	1~255
 
@@ -122,7 +121,7 @@
 //SYSC
 #define SYSC_use 0
 //OverTemperature
-#define OverTemperature_use 0
+#define OverTemperature_use 1
 //OverLoad
 #define OverLoad_use 0
 //LED

@@ -1,6 +1,80 @@
 
 # 1 "../src/RF_Control_B1.c"
 
+# 11 "../src/../2.Switch_2Key_Dimmer.X/../src/Main_B1.h"
+typedef struct Product {
+unsigned char Data[32];
+} Product;
+
+Product *product;
+
+Product _product = {
+{
+0x63, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00, 0x00
+}
+};
+
+# 61
+struct myMain {
+
+struct {
+unsigned PowerON : 1;
+unsigned T0_Timerout : 1;
+unsigned T1_Timerout : 1;
+unsigned Flag : 1;
+unsigned GO : 1;
+unsigned FirstOpen : 1;
+unsigned SelfTest : 1;
+unsigned First : 1;
+};
+
+unsigned int PowerCount;
+
+
+unsigned int Count;
+unsigned int Count1;
+unsigned int Count2;
+unsigned int Count3;
+unsigned char IOC_Count;
+unsigned char Test;
+unsigned char ClockCount;
+
+struct {
+unsigned i : 1;
+unsigned j : 1;
+unsigned k : 1;
+unsigned l : 1;
+unsigned m : 1;
+unsigned n : 1;
+unsigned o : 1;
+unsigned p : 1;
+};
+
+struct {
+unsigned q : 1;
+unsigned r : 1;
+unsigned empty : 6;
+};
+
+unsigned int pcount1;
+unsigned int pcount2;
+
+};
+struct myMain _myMain;
+struct myMain *myMain;
+
+# 115
+void myMain_Initialization();
+
+# 120
+void my_Main();
+
+# 125
+void my_TestPointCleared();
+
 # 8 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
 typedef int ptrdiff_t;
 typedef unsigned size_t;
@@ -136,80 +210,6 @@ extern char * ltoa(char * buf, long val, int base);
 extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
-
-# 11 "../src/../2.Switch_2Key_Dimmer.X/../src/Main_B1.h"
-typedef struct Product {
-unsigned char Data[32];
-} Product;
-
-Product *product;
-
-Product _product = {
-{
-0x63, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00
-}
-};
-
-# 61
-struct myMain {
-
-struct {
-unsigned PowerON : 1;
-unsigned T0_Timerout : 1;
-unsigned T1_Timerout : 1;
-unsigned Flag : 1;
-unsigned GO : 1;
-unsigned FirstOpen : 1;
-unsigned SelfTest : 1;
-unsigned First : 1;
-};
-
-unsigned int PowerCount;
-
-
-unsigned int Count;
-unsigned int Count1;
-unsigned int Count2;
-unsigned int Count3;
-unsigned char IOC_Count;
-unsigned char Test;
-unsigned char ClockCount;
-
-struct {
-unsigned i : 1;
-unsigned j : 1;
-unsigned k : 1;
-unsigned l : 1;
-unsigned m : 1;
-unsigned n : 1;
-unsigned o : 1;
-unsigned p : 1;
-};
-
-struct {
-unsigned q : 1;
-unsigned r : 1;
-unsigned empty : 6;
-};
-
-unsigned int pcount1;
-unsigned int pcount2;
-
-};
-struct myMain _myMain;
-struct myMain *myMain;
-
-# 115
-void myMain_Initialization();
-
-# 120
-void my_Main();
-
-# 125
-void my_TestPointCleared();
 
 # 14 "../src/../2.Switch_2Key_Dimmer.X/../src/Switch_B1.h"
 struct Switch {
@@ -395,295 +395,6 @@ void setOverTemp_Exceptions(char);
 void setTemp_Enable(char);
 char getTemp_Safe();
 char getTemp_ERROR();
-
-# 161 "../src/../2.Switch_2Key_Dimmer.X/../src/CC2500_B1.h"
-const unsigned char CC2500_rfSettings[47] ={
-
-
-0x07,
-0x07,
-0x30,
-0x87,
-0x6B,
-0xF8,
-0x7F,
-0x3F,
-
-0x09,
-0x00,
-0x5C,
-0xA7,
-0x62,
-0x86,
-0x83,
-0x03,
-0x22,
-0xF8,
-0x00,
-0x44,
-0xB6,
-0x10,
-0x18,
-0x1D,
-0x1C,
-0xC7,
-0x00,
-0xB2,
-0xEA,
-0x0A,
-0x00,
-0x11,
-0x59,
-0x88,
-0x31,
-0x0B,
-0x2F,
-0x2E,
-0x06,
-0x04,
-0x05,
-0x00,
-0x30,
-0xD3,
-0x91,
-0x41,
-0x00
-
-};
-
-
-
-const unsigned char CC2500_registers_address[47] ={
-
-0x03,
-0x16,
-0x17,
-0x1E,
-0x1F,
-0x20,
-0x2A,
-0x2B,
-
-0x0B,
-0x0C,
-0x0D,
-0x0E,
-0x0F,
-0x10,
-0x11,
-0x12,
-0x13,
-0x14,
-0x0A,
-0x15,
-0x21,
-0x22,
-0x18,
-0x19,
-0x1A,
-0x1B,
-0x1C,
-0x1D,
-0x23,
-0x24,
-0x25,
-0x26,
-0x29,
-0x2C,
-0x2D,
-0x2E,
-0x00,
-0x01,
-0x02,
-0x07,
-0x08,
-0x09,
-0x06,
-0x04,
-0x05,
-0x27,
-0x28
-};
-
-# 277
-unsigned int RF_Count;
-unsigned char SPI0Buffer;
-unsigned char r_data;
-unsigned char s_data;
-unsigned char r_address;
-unsigned char RF_Data[21];
-unsigned char RSSI;
-unsigned char CRC;
-unsigned char Rx_Length;
-unsigned char Tx_Length;
-
-
-
-
-const unsigned char CC2500_patable_vaule[8] = {0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE};
-
-void CC2500_PowerOnInitial();
-void CC2500_PowerRST(void);
-void CC2500_InitSetREG(void);
-void CC2500_InitPATable(void);
-void CC2500_ClearTXFIFO(void);
-void CC2500_ClearRXFIFO(void);
-void CC2500_FrequencyCabr(void);
-void CC2500_SIDLEMode(void);
-
-void CC2500_WriteByte(void);
-void CC2500_WriteREG(unsigned char addr, unsigned char value);
-void CC2500_ReadByte(void);
-void CC2500_ReadREG(unsigned char addr);
-void CC2500_ReadStatus(unsigned char s_addr);
-void CC2500_WriteCommand(unsigned char command);
-void CC2500_TxData();
-void CC2500_RxData(void);
-void DelayTime_1us(int count);
-
-# 38 "../src/../2.Switch_2Key_Dimmer.X/../src/RF_Control_B1.h"
-struct RF {
-
-struct {
-unsigned Enable : 1;
-unsigned ReceiveGO : 1;
-unsigned TransceiveGO : 1;
-unsigned RxStatus : 1;
-unsigned TxStatus : 1;
-unsigned Debounce : 1;
-unsigned Learn : 1;
-unsigned Key : 1;
-};
-
-struct {
-unsigned Sleep : 1;
-unsigned Run : 1;
-unsigned Bus : 1;
-unsigned empty : 6;
-};
-unsigned char Count;
-unsigned char DebounceTime;
-
-};
-struct RF *RF;
-
-
-struct RF RF1;
-
-
-void RfPointSelect(char);
-void RF_Initialization();
-void RF_Main();
-void setRF_Initialization(char);
-void setRF_Main(char);
-void setTxData(char);
-void getRxData(char);
-void setRF_Enable(char, char);
-void setLog_Code(char);
-void setControl_Lights_Table(char);
-void RF_RxDisable(char);
-void setRF_Learn(char, char);
-void setRF_ReceiveGO(char, char);
-void setRF_RxStatus(char, char);
-
-
-
-struct RFSW {
-
-struct {
-unsigned Status : 1;
-unsigned empty : 7;
-};
-};
-struct RFSW *RFSW;
-
-
-void RfSWPointSelect(char);
-void setRFSW_Control(char);
-void setRFSW_AdjControl(char);
-void setRFSW_Status(char, char);
-
-
-
-struct RFSW RFSW1;
-
-
-
-struct RFSW RFSW2;
-
-# 114
-void setRF_DimmerValue(char);
-void setRF_DimmerLights(char, char);
-
-# 155 "../src/../2.Switch_2Key_Dimmer.X/../src/OverLoad_B1.h"
-struct OverLoad {
-
-struct {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned LightsON : 1;
-unsigned Safe : 1;
-unsigned ADtoGO : 1;
-unsigned ERROR : 1;
-unsigned empty : 2;
-};
-
-unsigned int Time;
-unsigned int ErrorTime;
-unsigned char ErrorStatus;
-
-# 192
-unsigned int TotalLoad;
-unsigned int AH[9];
-unsigned int AL[9];
-unsigned int AD;
-unsigned int ADH;
-unsigned int ADL;
-unsigned int ADRES;
-
-
-
-unsigned int LightsJudgeValue;
-unsigned int JudgeValue;
-unsigned int Judge;
-
-unsigned char Count;
-unsigned char OffCount;
-unsigned char ErrorCount;
-unsigned char UpdateCount;
-unsigned char LightsCount;
-unsigned char NumberCount;
-unsigned char CloseCount;
-unsigned char ADCount;
-unsigned char SafeCount;
-
-unsigned char Lights1Status;
-unsigned char Lights2Status;
-unsigned char Lights3Status;
-unsigned StatusOn : 1;
-unsigned StatusOff : 1;
-};
-struct OverLoad *Load;
-
-
-struct OverLoad Load1;
-
-
-
-
-void Load_Initialization();
-void Load_Main();
-void getLoad_AD(char);
-void setLoad_Exceptions(char);
-void setLoad_Enable(char);
-void setLoad_AH_AL_Restore();
-
-void setLoad_Count(char);
-void setLoad_GO(char);
-void setLoad_StatusOn(char, char);
-void setLoad_StatusOff(char, char);
-char getLoad_Safe();
-char getLoad_ERROR();
 
 # 10 "../src/../2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h"
 struct DimmerLights
@@ -3402,409 +3113,4 @@ void Flash_Memory_Erasing();
 void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
-
-# 674
-struct WDT {
-unsigned Enable : 1;
-unsigned char Count;
-};
-struct WDT _WDT;
-struct WDT *WDT;
-
-# 685
-void WDT_Set();
-void WDT_Main();
-void WDT_Clearing();
-
-# 7 "../src/RF_Control_B1.c"
-void RfPointSelect(char rf) {
-
-if (rf == 1) {
-RF = &RF1;
-}
-if (INTE == 0) {
-INTE = 1;
-}
-
-}
-
-
-void RF_Initialization() {
-
-setRF_Initialization(1);
-
-}
-
-
-void RF_Main() {
-
-setRF_Main(1);
-
-}
-
-
-void setRF_Learn(char rf, char command) {
-RfPointSelect(rf);
-RF->Learn = command;
-}
-
-
-void setRF_ReceiveGO(char rf, char command) {
-RfPointSelect(rf);
-if (RF->RxStatus == 1) {
-RF->RxStatus = 0;
-RF->Run = 1;
-RF->ReceiveGO = command;
-}
-}
-
-
-void setRF_RxStatus(char rf, char command) {
-RfPointSelect(rf);
-RF->RxStatus = command;
-}
-
-
-
-void setRF_Initialization(char rf) {
-
-
-Tx_Length = 21;
-
-}
-
-
-void setRF_Main(char rf) {
-RfPointSelect(rf);
-if (RF->Enable == 1) {
-
-
-if (Buz->GO == 0) {
-
-# 75
-RF->Key = (RA6 == 1 || RA4 == 1 || RA0 == 1 || RB1 == 1) ? 1 : 0;
-
-# 81
-if (RF->Key == 1 && RF->Learn == 0) {
-RF->Run = 1;
-RF_RxDisable(1);
-} else {
-if (RF->Run == 1 && RF->Learn == 0) {
-RF->Count++;
-if (RF->Count == 5) {
-RF->Count = 0;
-RF->Run = 0;
-}
-} else {
-RF->Count = 0;
-RF->Run = 0;
-
-if (RF->ReceiveGO == 1) {
-RF->ReceiveGO = 0;
-CC2500_RxData();
-
-# 104
-getRxData(1);
-
-
-RF->Run = 1;
-} else {
-if (RF->Learn == 0) {
-if (RF->TransceiveGO == 1) {
-RF->TransceiveGO = 0;
-RF->RxStatus = 0;
-RF->ReceiveGO = 0;
-
-CC2500_WriteCommand(0x36);
-CC2500_WriteCommand(0x3B);
-CC2500_TxData();
-RF->Run = 1;
-} else {
-
-if (RF->RxStatus == 0 && RF->ReceiveGO == 0) {
-RF->RxStatus = 1;
-CC2500_WriteCommand(0x36);
-CC2500_WriteCommand(0x3A);
-CC2500_WriteCommand(0x34);
-
-RB5 = RB5 == 1 ? 0 : 1;
-}
-
-
-}
-} else {
-
-if (RF->RxStatus == 0 && RF->ReceiveGO == 0) {
-RF->RxStatus = 1;
-CC2500_WriteCommand(0x36);
-CC2500_WriteCommand(0x3A);
-CC2500_WriteCommand(0x34);
-
-RB5 = RB5 == 1 ? 0 : 1;
-
-}
-}
-}
-}
-}
-}
-}
-
-# 156
-}
-
-
-
-
-void setTxData(char rf) {
-char i;
-RfPointSelect(rf);
-if (RF->Enable == 1) {
-
-RF->TransceiveGO = 1;
-
-# 176
-RF_Data[0] = 0x63;
-RF_Data[1] = 0x02;
-RF_Data[2] = product->Data[2];
-RF_Data[3] = product->Data[3];
-RF_Data[4] = product->Data[4];
-RF_Data[5] = product->Data[5];
-RF_Data[6] = product->Data[6];
-RF_Data[7] = product->Data[7];
-RF_Data[8] = product->Data[8];
-RF_Data[9] = product->Data[9];
-RF_Data[10] = product->Data[10];
-RF_Data[11] = product->Data[11];
-RF_Data[12] = product->Data[12];
-RF_Data[13] = product->Data[13];
-RF_Data[14] = product->Data[14];
-RF_Data[15] = product->Data[15];
-RF_Data[16] = product->Data[16];
-RF_Data[17] = product->Data[17];
-RF_Data[18] = product->Data[18];
-RF_Data[19] = product->Data[19];
-RF_Data[20] = 210;
-}
-
-}
-
-
-void setRF_Enable(char rf, char command) {
-RfPointSelect(rf);
-RF->Enable = command;
-RF->Learn = 0;
-RF->TransceiveGO = 0;
-RF->RxStatus = 0;
-RF->ReceiveGO = 0;
-RF->DebounceTime = 0;
-RF->Debounce = 0;
-
-}
-
-
-void RF_RxDisable(char rf) {
-RfPointSelect(rf);
-
-if (RF->ReceiveGO == 1 || RF->RxStatus == 1) {
-RF->RxStatus = 0;
-RF->ReceiveGO = 0;
-CC2500_WriteCommand(0x36);
-CC2500_WriteCommand(0x3A);
-
-}
-}
-
-
-void getRxData(char rf) {
-RfPointSelect(rf);
-if (RF->Learn) {
-if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64)
-{
-setLog_Code(1);
-}
-} else {
-if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02)
-{
-if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
-__nop();
-} else {
-if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_Data[14] == product->Data[14]) {
-setControl_Lights_Table(1);
-}
-}
-} else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02)
-{
-;
-} else if (RF_Data[0] == 0x0 && RF_Data[1] == 0x65)
-{
-;
-}
-
-# 256
-}
-}
-
-
-void setLog_Code(char rf) {
-RfPointSelect(rf);
-product->Data[12]=RF_Data[12];
-product->Data[13]=RF_Data[13];
-product->Data[14]=RF_Data[14];
-setBuz(1, 100);
-RF->Learn = 0;
-if (myMain->First) {
-Memory->LoopSave=1;
-}
-Memory->Modify=1;
-}
-
-
-void setControl_Lights_Table(char rf) {
-RfPointSelect(rf);
-if (RF_Data[15] == 0x00) {
-
-setDimmerLights(1, 0);
-setRFSW_Status(1, 0);
-setSw_Status(1, 0);
-
-
-setDimmerLights(2, 0);
-setRFSW_Status(2, 0);
-setSw_Status(2, 0);
-
-# 293
-product->Data[9]=0;
-product->Data[11]=0;
-product->Data[15]=0;
-product->Data[17]=0;
-setBuz(1, 100);
-setTxData(1);
-} else if (RF_Data[15] == 0x20) {
-product->Data[9]=0;
-product->Data[11]=0;
-product->Data[17]=0;
-setTxData(1);
-}
-
-else if (RF_Data[15] == 0x01) {
-setRFSW_Control(1);
-}
-
-else if (RF_Data[15] == 0x11) {
-setRFSW_AdjControl(1);
-}
-
-
-
-
-else if (RF_Data[15] == 0x02) {
-setRFSW_Control(2);
-}
-
-else if (RF_Data[15] == 0x21) {
-setRFSW_AdjControl(2);
-}
-
-# 337
-}
-
-
-void RfSWPointSelect(char sw) {
-
-if (sw == 1) {
-RFSW = &RFSW1;
-}
-
-
-if (sw == 2) {
-RFSW = &RFSW2;
-}
-
-# 356
-}
-
-
-void setRFSW_Control(char sw) {
-RfSWPointSelect(sw);
-if (!RFSW->Status) {
-if (RF_Data[16] == 0x80) {
-setDelayOff_GO(sw, 1, RF_Data[17]);
-}
-RFSW->Status = 1;
-setSw_Status(sw, 1);
-
-setDimmerLights_Trigger(sw, 1);
-setDimmerLights_Switch(sw, 1);
-
-setRF_DimmerLights(sw, RFSW->Status);
-} else {
-if (RF_Data[16] == 0x80) {
-setDelayOff_GO(sw, 1, RF_Data[17]);
-setRF_DimmerLights(sw, 1);
-} else {
-RFSW->Status = 0;
-setSw_Status(sw, 0);
-
-setDimmerLights_Trigger(sw, 1);
-setDimmerLights_Switch(sw, RFSW->Status);
-
-setDelayOff_GO(sw, 0, 0);
-setRF_DimmerLights(sw, 0);
-}
-}
-setBuz(1, 100);
-setTxData(1);
-}
-
-
-void setRFSW_AdjControl(char sw) {
-RfSWPointSelect(sw);
-if (RFSW->Status == 1) {
-Memory->Modify=1;
-setRF_DimmerValue(sw);
-} else {
-product->Data[9]=product->Data[20 + sw];
-}
-product->Data[17]=product->Data[26 + sw];
-setTxData(1);
-}
-
-
-void setRFSW_Status(char sw, char command) {
-RfSWPointSelect(sw);
-RFSW->Status = command;
-}
-
-
-
-void setRF_DimmerValue(char lights) {
-if (RF_Data[9] > 0x64) {
-RF_Data[9] = 0x64;
-}
-product->Data[9]=RF_Data[9];
-product->Data[11]=lights;
-product->Data[(20 + lights)]=product->Data[9];
-setDimmerLights_AdjRF(lights);
-}
-
-
-void setRF_DimmerLights(char lights, char on) {
-char status;
-status = 1;
-status <<= (lights - 1);
-product->Data[11]=lights;
-
-
-product->Data[(20 + lights)]=setPercentValue(((char)((100-60)*0.8)));
-
-
-product->Data[9]=product->Data[20 + lights];
-product->Data[17]=product->Data[26 + lights];
-if (on == 1) {
-product->Data[15]=(product->Data[15] | status);
-} else {
-product->Data[15]=(product->Data[15]&(~status));
-}
-}
 

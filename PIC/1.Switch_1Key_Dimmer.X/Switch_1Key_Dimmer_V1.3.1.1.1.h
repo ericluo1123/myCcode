@@ -2,8 +2,6 @@
 #ifndef _Switch_1Key_Dimmer_V1.3.1.1.1_H_	
 #define	_Switch_1Key_Dimmer_V1.3.1.1.1_H_		
 
-//Include
-#include <stdio.h>
 //end
 
 /**Version information

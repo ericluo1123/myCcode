@@ -1,9 +1,6 @@
 
 #ifndef _Switch_2Key_Dimmer_V1.3.1.2.1_H_			
 #define _Switch_2Key_Dimmer_V1.3.1.2.1_H_
-//Include
-#include <stdio.h>
-#include <stdlib.h>
 
 /**Version information
                 Name_Version 			:	1~255
@@ -114,7 +111,7 @@
 //FlashMemory
 #define FlashMemory_use 1
 //Watchdog timer 
-#define WDT_use 1
+#define WDT_use 0
 
 
 //Function Option
@@ -124,7 +121,7 @@
 //OverTemperature
 #define OverTemperature_use 1
 //OverLoad
-#define OverLoad_use 1
+#define OverLoad_use 0
 //LED
 #define LED_use 1
 //Buzzer
@@ -134,7 +131,7 @@
 //Lights
 #define LightsControl_use 	0
 //RF cc2500
-#define CC2500_use	1
+#define CC2500_use	0
 //DelayOff
 #define DelayOff_use 1
 //PowerFault
