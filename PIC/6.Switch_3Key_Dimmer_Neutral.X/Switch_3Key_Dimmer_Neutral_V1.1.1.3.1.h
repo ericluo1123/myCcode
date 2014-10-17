@@ -133,9 +133,9 @@
 //Lights
 #define LightsControl_use 	0
 //RF cc2500
-#define CC2500_use	1
+#define CC2500_use	0
 //DelayOff
-#define DelayOff_use 0
+#define DelayOff_use 1
 //PowerFault
 #define PowerFault_use 0
 //Dimmer Lights

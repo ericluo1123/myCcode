@@ -52,8 +52,8 @@ struct Switch Sw3;
 //***************************************************************
 
 void SwPointSelect(char sw);
-void Switch_Initialization();
-void Switch_Main();
+inline void Switch_Initialization();
+inline void Switch_Main();
 void setSw_Initialization(char sw);
 void setSw_Main(char sw);
 void setSw_Enable(char command);

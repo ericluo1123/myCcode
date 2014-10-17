@@ -249,8 +249,8 @@ struct Switch Sw2;
 
 # 54
 void SwPointSelect(char sw);
-void Switch_Initialization();
-void Switch_Main();
+inline void Switch_Initialization();
+inline void Switch_Main();
 void setSw_Initialization(char sw);
 void setSw_Main(char sw);
 void setSw_Enable(char command);
@@ -288,25 +288,23 @@ unsigned int TimeValue;
 unsigned int TimeValueBuffer1;
 unsigned int TimeValueBuffer2;
 };
-struct Buzzer *Buz;
-
 
 struct Buzzer Buz1;
 
-# 47
-void Buzzer_Initialization();
+# 45
+inline void Buzzer_Initialization();
 
-# 52
-void Buzzer_Main();
+# 50
+inline void Buzzer_Main();
 
-# 61
+# 59
 void setBuz(char count, int time);
 
-# 69
+# 67
 void setBuz_Enable(char command);
 
-# 74
-inline void Buz_Counter();
+# 71
+int getBuz_GO();
 
 # 10 "../src/../2.Switch_2Key_Dimmer.X/../src/LED_B1.h"
 struct LED {
@@ -336,10 +334,10 @@ struct LED VarLED1;
 struct LED VarLED2;
 
 # 46
-void LED_Initialization();
+inline void LED_Initialization();
 
 # 51
-void LED_Main();
+inline void LED_Main();
 
 # 60
 void LedPointSelect(char led);
@@ -364,15 +362,13 @@ unsigned LoadADGO : 1;
 unsigned Safe : 1;
 unsigned empty : 3;
 };
-
-
 unsigned int Time;
 unsigned char Count;
 
 unsigned char AD1;
 unsigned char AD2;
 
-# 38
+# 36
 unsigned int AD;
 unsigned int ADH[2];
 unsigned int ADRES;
@@ -380,21 +376,303 @@ unsigned int ADRES;
 
 };
 
-struct OverTemp *Temp;
-
-# 59
+# 55
 struct OverTemp Temp1;
 
-# 65
-void Temp_Initialization();
-void Temp_Main();
+# 61
+inline void Temp_Initialization();
+inline void Temp_Main();
 void setTemp_Main();
 void setTemp_Initialization();
-void getTemp_AD(char);
-void setOverTemp_Exceptions(char);
-void setTemp_Enable(char);
+void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+void setTemp_Enable(char command);
 char getTemp_Safe();
 char getTemp_ERROR();
+
+# 161 "../src/../2.Switch_2Key_Dimmer.X/../src/CC2500_B1.h"
+const unsigned char CC2500_rfSettings[47] ={
+
+
+0x07,
+0x07,
+0x30,
+0x87,
+0x6B,
+0xF8,
+0x7F,
+0x3F,
+
+0x09,
+0x00,
+0x5C,
+0xA7,
+0x62,
+0x86,
+0x83,
+0x03,
+0x22,
+0xF8,
+0x00,
+0x44,
+0xB6,
+0x10,
+0x18,
+0x1D,
+0x1C,
+0xC7,
+0x00,
+0xB2,
+0xEA,
+0x0A,
+0x00,
+0x11,
+0x59,
+0x88,
+0x31,
+0x0B,
+0x2F,
+0x2E,
+0x06,
+0x04,
+0x05,
+0x00,
+0x30,
+0xD3,
+0x91,
+0x41,
+0x00
+
+};
+
+
+
+const unsigned char CC2500_registers_address[47] ={
+
+0x03,
+0x16,
+0x17,
+0x1E,
+0x1F,
+0x20,
+0x2A,
+0x2B,
+
+0x0B,
+0x0C,
+0x0D,
+0x0E,
+0x0F,
+0x10,
+0x11,
+0x12,
+0x13,
+0x14,
+0x0A,
+0x15,
+0x21,
+0x22,
+0x18,
+0x19,
+0x1A,
+0x1B,
+0x1C,
+0x1D,
+0x23,
+0x24,
+0x25,
+0x26,
+0x29,
+0x2C,
+0x2D,
+0x2E,
+0x00,
+0x01,
+0x02,
+0x07,
+0x08,
+0x09,
+0x06,
+0x04,
+0x05,
+0x27,
+0x28
+};
+
+# 277
+unsigned int RF_Count;
+unsigned char SPI0Buffer;
+unsigned char r_data;
+unsigned char s_data;
+unsigned char r_address;
+unsigned char RF_Data[21];
+unsigned char RSSI;
+unsigned char CRC;
+unsigned char Rx_Length;
+unsigned char Tx_Length;
+
+
+
+
+const unsigned char CC2500_patable_vaule[8] = {0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE};
+
+void CC2500_PowerOnInitial();
+void CC2500_PowerRST(void);
+void CC2500_InitSetREG(void);
+void CC2500_InitPATable(void);
+void CC2500_ClearTXFIFO(void);
+void CC2500_ClearRXFIFO(void);
+void CC2500_FrequencyCabr(void);
+void CC2500_SIDLEMode(void);
+
+void CC2500_WriteByte(void);
+void CC2500_WriteREG(unsigned char addr, unsigned char value);
+void CC2500_ReadByte(void);
+void CC2500_ReadREG(unsigned char addr);
+void CC2500_ReadStatus(unsigned char s_addr);
+void CC2500_WriteCommand(unsigned char command);
+void CC2500_TxData();
+void CC2500_RxData(void);
+void DelayTime_1us(int count);
+
+# 11 "../src/../2.Switch_2Key_Dimmer.X/../src/RF_Control_B1.h"
+struct RF {
+
+struct {
+unsigned Enable : 1;
+unsigned ReceiveGO : 1;
+unsigned TransceiveGO : 1;
+unsigned RxStatus : 1;
+unsigned TxStatus : 1;
+unsigned Debounce : 1;
+unsigned Learn : 1;
+unsigned Key : 1;
+};
+
+struct {
+unsigned Sleep : 1;
+unsigned Run : 1;
+unsigned Bus : 1;
+unsigned empty : 6;
+};
+unsigned char Count;
+unsigned char DebounceTime;
+
+};
+
+
+struct RF RF1;
+
+
+inline void RF_Initialization();
+inline void RF_Main();
+void setRF_Initialization();
+void setRF_Main();
+void setTxData();
+void getRxData();
+void setRF_Enable(char command);
+void setLog_Code();
+void setControl_Lights_Table();
+void RF_RxDisable();
+void setRF_Learn(char command);
+void setRF_ReceiveGO(char command);
+void setRF_RxStatus(char command);
+
+
+
+struct RFSW {
+
+struct {
+unsigned Status : 1;
+unsigned empty : 7;
+};
+};
+struct RFSW *RFSW;
+
+
+struct RFSW RFSW1;
+
+
+
+struct RFSW RFSW2;
+
+# 76
+void RfSWPointSelect(char sw);
+void setRFSW_Control(char sw);
+void setRFSW_AdjControl(char sw);
+void setRFSW_Status(char sw, char command);
+
+
+void setRF_DimmerValue(char lights);
+void setRF_DimmerLights(char lights, char on);
+
+# 155 "../src/../2.Switch_2Key_Dimmer.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Safe : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned StatusOn : 1;
+unsigned StatusOff : 1;
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+unsigned char ErrorStatus;
+
+# 193
+unsigned int TotalLoad;
+unsigned int AH[9];
+unsigned int AL[9];
+unsigned int AD;
+unsigned int ADH;
+unsigned int ADL;
+unsigned int ADRES;
+
+
+
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char OffCount;
+unsigned char ErrorCount;
+unsigned char UpdateCount;
+unsigned char LightsCount;
+unsigned char NumberCount;
+unsigned char CloseCount;
+unsigned char ADCount;
+unsigned char SafeCount;
+
+unsigned char Lights1Status;
+unsigned char Lights2Status;
+unsigned char Lights3Status;
+};
+
+
+struct OverLoad Load1;
+
+
+
+
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_Enable(char command);
+void setLoad_AH_AL_Restore();
+
+void setLoad_Count(char command);
+void setLoad_GO(char command);
+void setLoad_StatusOn(char lights, char command);
+void setLoad_StatusOff(char lights, char command);
+char getLoad_Safe();
+char getLoad_ERROR();
 
 # 10 "../src/../2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h"
 struct DimmerLights
@@ -525,8 +803,6 @@ unsigned Enable : 1;
 unsigned GO : 1;
 unsigned empty : 6;
 };
-
-
 unsigned char Value;
 unsigned int SecondTime;
 unsigned char MinuteTime;
@@ -540,13 +816,13 @@ struct DelayOff DlySw1;
 
 struct DelayOff DlySw2;
 
-# 48
-void DelayOff_Initialization();
-void DelayOff_Main();
-char DelayTimejudge(char);
-void DlyOff_Initialization(char);
-void DlyOff_Main(char);
-void setDelayOff_GO(char, char, char);
+# 46
+inline void DelayOff_Initialization();
+inline void DelayOff_Main();
+char DelayTimejudge(char value);
+void DlyOff_Initialization(char sw);
+void DlyOff_Main(char sw);
+void setDelayOff_GO(char sw, char command, char value);
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
@@ -3115,83 +3391,79 @@ void Flash_Memory_Main();
 void setMemory_GO(char command);
 
 # 11 "../src/Buzzer_B1.c"
-void Buzzer_Initialization() {
-Buz = &Buz1;
-Buz->Enable = 1;
-}
+inline void Buzzer_Initialization() {
 
+Buz1.Enable = 1;
+}
 
 
 void setBuz_Enable(char command) {
-Buz->Enable = command;
-}
-
-
-inline void Buz_Counter() {
-if (Buz->GO == 1) {
-Buz->Counter++;
-}
+Buz1.Enable = command;
 }
 
 
 void setBuz(char count, int time) {
-Buz = &Buz1;
 time /= 10;
-if (Buz->Enable == 1) {
-if (Buz->GO == 0) {
-Buz->GO = 1;
-Buz->Counter = 0;
-Buz->Count = count;
-Buz->TimeValue = time;
+if (Buz1.Enable == 1) {
+if (Buz1.GO == 0) {
+Buz1.GO = 1;
+Buz1.Counter = 0;
+Buz1.Count = count;
+Buz1.TimeValue = time;
 RB3 = 1;
 } else {
-if (Buz->BufferStatus1 == 0) {
-Buz->BufferStatus1 = 1;
-Buz->CountBuffer1 = count;
-Buz->TimeValueBuffer1 = time;
-} else if (Buz->BufferStatus2 == 0) {
-Buz->BufferStatus2 = 1;
-Buz->CountBuffer2 = count;
-Buz->TimeValueBuffer2 = time;
+if (Buz1.BufferStatus1 == 0) {
+Buz1.BufferStatus1 = 1;
+Buz1.CountBuffer1 = count;
+Buz1.TimeValueBuffer1 = time;
+} else if (Buz1.BufferStatus2 == 0) {
+Buz1.BufferStatus2 = 1;
+Buz1.CountBuffer2 = count;
+Buz1.TimeValueBuffer2 = time;
 }
 }
 }
 }
 
 
-void Buzzer_Main() {
-Buz = &Buz1;
-if (Buz->GO == 1) {
-Buz->Counter++;
-if (Buz->Counter >= Buz->TimeValue) {
-Buz->Counter = 0;
-Buz->Switch = (RB3 == 1) ? 1 : 0;
-if (Buz->Switch == 0) {
-if (Buz->Count == 0) {
-if (Buz->BufferStatus1 == 1) {
-Buz->BufferStatus1 = 0;
-Buz->Count = Buz->CountBuffer1;
-Buz->TimeValue = Buz->TimeValueBuffer1;
-} else if (Buz->BufferStatus2 == 1) {
-Buz->BufferStatus2 = 0;
-Buz->Count = Buz->CountBuffer2;
-Buz->TimeValue = Buz->TimeValueBuffer2;
+inline void Buzzer_Main() {
+if (Buz1.GO == 1) {
+Buz1.Counter++;
+if (Buz1.Counter >= Buz1.TimeValue) {
+Buz1.Counter = 0;
+Buz1.Switch = (RB3 == 1) ? 1 : 0;
+if (Buz1.Switch == 0) {
+if (Buz1.Count == 0) {
+if (Buz1.BufferStatus1 == 1) {
+Buz1.BufferStatus1 = 0;
+Buz1.Count = Buz1.CountBuffer1;
+Buz1.TimeValue = Buz1.TimeValueBuffer1;
+} else if (Buz1.BufferStatus2 == 1) {
+Buz1.BufferStatus2 = 0;
+Buz1.Count = Buz1.CountBuffer2;
+Buz1.TimeValue = Buz1.TimeValueBuffer2;
 } else {
-Buz->GO = 0;
+Buz1.GO = 0;
 }
 } else {
-Buz->Switch = 1;
+Buz1.Switch = 1;
 
 RB3 = 1;
 }
 } else {
-Buz->Switch = 0;
+Buz1.Switch = 0;
 
 RB3 = 0;
 
-Buz->Count--;
+Buz1.Count--;
 }
 }
 }
+}
+
+
+int getBuz_GO() {
+int i = Buz1.GO;
+return i;
 }
 

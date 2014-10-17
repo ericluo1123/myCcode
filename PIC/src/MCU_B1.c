@@ -250,8 +250,8 @@ void INT_Set() {
 void INT_ISR() {
     if (INTE == true && INTF == true) {
         INTF = false;
-        INTE = false;
-        setRF_ReceiveGO(1, 1);
+        //        INTE = false;
+        setRF_ReceiveGO(1);
     }
 }
 //*********************************************************

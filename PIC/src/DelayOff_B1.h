@@ -25,8 +25,6 @@ struct DelayOff {
         unsigned GO : 1;
         unsigned empty : 6;
     };
-
-
     unsigned char Value;
     unsigned int SecondTime;
     unsigned char MinuteTime;
@@ -45,12 +43,12 @@ struct DelayOff DlySw2;
 struct DelayOff DlySw3;
 #endif
 
-void DelayOff_Initialization();
-void DelayOff_Main();
-char DelayTimejudge(char);
-void DlyOff_Initialization(char);
-void DlyOff_Main(char);
-void setDelayOff_GO(char, char, char);
+inline void DelayOff_Initialization();
+inline void DelayOff_Main();
+char DelayTimejudge(char value);
+void DlyOff_Initialization(char sw);
+void DlyOff_Main(char sw);
+void setDelayOff_GO(char sw, char command, char value);
 
 #else
 //NOP

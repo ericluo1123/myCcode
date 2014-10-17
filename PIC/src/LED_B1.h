@@ -43,12 +43,12 @@ struct LED VarLED3;
  * void LED_Initialization()\n
  * led initialization\n
  */
-void LED_Initialization();
+inline void LED_Initialization();
 /**
  * void LED_Main()\n
  * led main\n
  */
-void LED_Main();
+inline void LED_Main();
 /**
  *void LedPointSelect(char led)\n
  * @param led\n

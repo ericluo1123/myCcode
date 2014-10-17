@@ -161,7 +161,8 @@ struct OverLoad {
         unsigned Safe : 1;
         unsigned ADtoGO : 1;
         unsigned ERROR : 1;
-        unsigned empty : 2;
+        unsigned StatusOn : 1;
+        unsigned StatusOff : 1;
     };
 
     unsigned int Time;
@@ -216,10 +217,7 @@ struct OverLoad {
     unsigned char Lights1Status;
     unsigned char Lights2Status;
     unsigned char Lights3Status;
-    unsigned StatusOn : 1;
-    unsigned StatusOff : 1;
 };
-struct OverLoad *Load;
 
 #ifdef OverLoad1
 struct OverLoad Load1;
@@ -227,17 +225,17 @@ struct OverLoad Load1;
 
 #define DetectCountValue 30
 
-void Load_Initialization();
-void Load_Main();
-void getLoad_AD(char);
-void setLoad_Exceptions(char);
-void setLoad_Enable(char);
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_Enable(char command);
 void setLoad_AH_AL_Restore();
 //	void setLoad_LightsStatus(char,char);
-void setLoad_Count(char);
-void setLoad_GO(char);
-void setLoad_StatusOn(char, char);
-void setLoad_StatusOff(char, char);
+void setLoad_Count(char command);
+void setLoad_GO(char command);
+void setLoad_StatusOn(char lights, char command);
+void setLoad_StatusOff(char lights, char command);
 char getLoad_Safe();
 char getLoad_ERROR();
 

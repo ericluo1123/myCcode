@@ -29,27 +29,25 @@ struct Buzzer {
     unsigned int TimeValueBuffer1;
     unsigned int TimeValueBuffer2;
 };
-struct Buzzer *Buz;
-
 #ifdef Buzzer1
 struct Buzzer Buz1;
 #endif
 
 //default Interval Time
-#define BuzzerPowerOnTime	50	//*1ms 
-#define BuzzerErrorTime		300	//*1ms 
-#define BuzzerOnOffTime		100	//*1ms 
+#define BuzzerPowerOnTime	50	//ms 
+#define BuzzerErrorTime		300	//ms 
+#define BuzzerOnOffTime		100	//ms 
 
 /**
  * void Buzzer_Initialization()\n
  * buzzer initialization\n
  */
-void Buzzer_Initialization();
+inline void Buzzer_Initialization();
 /**
  * void Buzzer_Main()\n
  * buzzer main code \n
  */
-void Buzzer_Main();
+inline void Buzzer_Main();
 /**
  * void setBuz(char count, int time)\n
  * set buzzer beeps and time\n
@@ -68,10 +66,9 @@ void setBuz(char count, int time);
  */
 void setBuz_Enable(char command);
 /**
- * inline void setBuz_Counter()\n
- * buzzer counter\n
+ * get buz GO value
  */
-inline void Buz_Counter();
+int getBuz_GO();
 #else
 #define Buzzer_Initialization() ;
 #define Buzzer_Main() ;

@@ -6,29 +6,28 @@
 
 //*********************************************************
 
-void Load_Initialization() {
-    Load = &Load1;
-    Load->Safe = 1;
+inline void Load_Initialization() {
+    Load1.Safe = true;
     setLoad_AH_AL_Restore();
 }
 //*********************************************************
 
-void getLoad_AD(char channel) {
+inline void getLoad_AD(char channel) {
     char i = 0, j = 0;
 
-    if (Load->ADtoGO) {
-        Load->ADRES = getAD(channel, FVRCON_1V);
+    if (Load1.ADtoGO == true) {
+        Load1.ADRES = getAD(channel, FVRCON_1V);
         for (i = 0; i < 5; i++) {
-            if (Load->AH[i] < Load->ADRES) {
-                Load->AH[i] = Load->ADRES;
+            if (Load1.AH[i] < Load1.ADRES) {
+                Load1.AH[i] = Load1.ADRES;
                 j = 1;
                 break;
             }
         }
-        if (!j) {
+        if (j == 0) {
             for (i = 0; i < 5; i++) {
-                if (Load->AL[i] > Load->ADRES) {
-                    Load->AL[i] = Load->ADRES;
+                if (Load1.AL[i] > Load1.ADRES) {
+                    Load1.AL[i] = Load1.ADRES;
                     break;
                 }
             }
@@ -37,49 +36,49 @@ void getLoad_AD(char channel) {
 }
 //*********************************************************
 
-void Load_Main() {
-    char i;
-    if (Load->ERROR) {
-        Load->ErrorTime++;
-        if (Load->ErrorTime >= 1000)//*10ms
+inline void Load_Main() {
+    char i = 0;
+    if (Load1.ERROR == true) {
+        Load1.ErrorTime++;
+        if (Load1.ErrorTime >= 1000)//*10ms
         {
-            Load->ErrorTime = 0;
+            Load1.ErrorTime = 0;
             setLoad_Exceptions(0);
         }
     } else {
-        if (Load->ADtoGO) {
-            Load->Time++;
-            if (Load->Time >= 5)//*10ms
+        if (Load1.ADtoGO == true) {
+            Load1.Time++;
+            if (Load1.Time >= 5)//*10ms
             {
-                Load->Time = 0;
-                Load->ADtoGO = 0;
-                Load->LightsCount = Load->Lights1Status + Load->Lights2Status + Load->Lights3Status;
+                Load1.Time = 0;
+                Load1.ADtoGO = false;
+                Load1.LightsCount = Load1.Lights1Status + Load1.Lights2Status + Load1.Lights3Status;
                 for (i = 1; i < 4; i++) {
-                    Load->ADH += Load->AH[i];
-                    Load->ADL += Load->AL[i];
+                    Load1.ADH += Load1.AH[i];
+                    Load1.ADL += Load1.AL[i];
                 }
-                Load->ADH /= 3;
-                Load->ADL /= 3;
-                if (Load->ADH > Load->ADL) {
-                    Load->AD = (Load->ADH - Load->ADL);
+                Load1.ADH /= 3;
+                Load1.ADL /= 3;
+                if (Load1.ADH > Load1.ADL) {
+                    Load1.AD = (Load1.ADH - Load1.ADL);
 
-                    if (Load->Count < 2) {
-                        Load->Count++;
-                        if (Load->Count == 1) {
-                            Load->JudgeValue = 500;
-                        } else if (Load->Count == 2) {
-                            if (Load->LightsCount == 1) {
-                                Load->JudgeValue = LoadLimitValue;
+                    if (Load1.Count < 2) {
+                        Load1.Count++;
+                        if (Load1.Count == 1) {
+                            Load1.JudgeValue = 500;
+                        } else if (Load1.Count == 2) {
+                            if (Load1.LightsCount == 1) {
+                                Load1.JudgeValue = LoadLimitValue;
                             } else {
-                                Load->JudgeValue = (LoadLimitValue + Load->TotalLoad) - 0x08;
+                                Load1.JudgeValue = (LoadLimitValue + Load1.TotalLoad) - 0x08;
                             }
                         }
                     }
 
-                    if (Load->AD >= Load->JudgeValue) {
-                        Load->ErrorCount++;
-                        if (Load->ErrorCount > 2) {
-                            Load->ErrorCount = 0;
+                    if (Load1.AD >= Load1.JudgeValue) {
+                        Load1.ErrorCount++;
+                        if (Load1.ErrorCount > 2) {
+                            Load1.ErrorCount = 0;
                             setLoad_Exceptions(1);
 
                             //                            setProductData(4, (Load->AD >> 8));
@@ -91,12 +90,12 @@ void Load_Main() {
 
                         }
                     } else {
-                        Load->ErrorCount = 0;
-                        if (Load->SafeCount < SafeCountValue) {
-                            Load->SafeCount++;
+                        Load1.ErrorCount = 0;
+                        if (Load1.SafeCount < SafeCountValue) {
+                            Load1.SafeCount++;
                         }
-                        if (Load->SafeCount >= SafeCountValue) {
-                            Load->Safe = 1;
+                        if (Load1.SafeCount >= SafeCountValue) {
+                            Load1.Safe = 1;
 
 #ifdef use_1KEY			
 #ifdef Dimmer_use == 1
@@ -129,16 +128,16 @@ void Load_Main() {
 
 #endif	
 
-                            if (Load->StatusOn) {
-                                Load->StatusOn = 0;
-                                Load->TotalLoad = Load->AD;
+                            if (Load1.StatusOn == true) {
+                                Load1.StatusOn = 0;
+                                Load1.TotalLoad = Load1.AD;
                                 //Load->JudgeValue=LoadLimitValue*Load->LightsCount;
                             }
 
-                            if (Load->StatusOff) {
-                                Load->StatusOff = 0;
-                                Load->TotalLoad = Load->AD;
-                                Load->JudgeValue = LoadLimitValue * Load->LightsCount;
+                            if (Load1.StatusOff == true) {
+                                Load1.StatusOff = 0;
+                                Load1.TotalLoad = Load1.AD;
+                                Load1.JudgeValue = LoadLimitValue * Load1.LightsCount;
                             }
                         }
                     }
@@ -157,25 +156,25 @@ void Load_Main() {
 
             }
         } else {
-            if (Load->GO) {
-                if (!Load->LightsON) {
-                    Load->LightsON = 1;
-                    Load->Safe = 0;
+            if (Load1.GO == true) {
+                if (Load1.LightsON == false) {
+                    Load1.LightsON = true;
+                    Load1.Safe = false;
                 }
-                if (getTemp_Safe() && getPF_Safe()) {
-                    Load->ADtoGO = 1;
+                if (getTemp_Safe() == 1 && getPF_Safe() == 1) {
+                    Load1.ADtoGO = true;
                 }
             } else {
-                if (Load->LightsON) {
-                    Load->LightsON = 0;
-                    Load->Safe = 1;
-                    Load->ErrorCount = 0;
-                    Load->Count = 0;
-                    Load->TotalLoad = 0;
-                    Load->NumberCount = 0;
-                    Load->StatusOn = 0;
-                    Load->StatusOff = 0;
-                    Load->AD = 0;
+                if (Load1.LightsON == true) {
+                    Load1.LightsON = false;
+                    Load1.Safe = true;
+                    Load1.ErrorCount = 0;
+                    Load1.Count = 0;
+                    Load1.TotalLoad = 0;
+                    Load1.NumberCount = 0;
+                    Load1.StatusOn = 0;
+                    Load1.StatusOff = 0;
+                    Load1.AD = 0;
                     setLoad_AH_AL_Restore();
 
 #ifdef use_1KEY			
@@ -230,11 +229,12 @@ void Load_Main() {
 //*********************************************************
 
 void setLoad_Exceptions(char command) {
-    Load->ERROR = command;
-    Load->Safe = (~command) & 0x01;
-    Load->ErrorStatus = command;
+    char i = command == 1 ? 0 : 1;
+    Load1.ERROR = command;
+    Load1.Safe = i;
+    Load1.ErrorStatus = command;
 
-    if (command) {
+    if (command == 1) {
         DimmerLights_Exceptions(2);
 #if Switch_Class == 1 && Dimmer_use == 1
         setLED(2, 1);
@@ -242,9 +242,9 @@ void setLoad_Exceptions(char command) {
     }
     setLED(99, command + 10);
 
-    setSw_Enable((~command) & 0x01);
+    setSw_Enable(i);
 #ifdef RadioFrequency1
-    setRF_Enable(1, (~command) & 0x01);
+    setRF_Enable(i);
 #endif
 
 
@@ -252,63 +252,63 @@ void setLoad_Exceptions(char command) {
 //*********************************************************
 
 void setLoad_Count(char command) {
-    Load->Count = command;
-    Load->SafeCount = command;
+    Load1.Count = command;
+    Load1.SafeCount = command;
 }
 //*********************************************************
 
 void setLoad_Enable(char command) {
-    Load->Enable = command;
-    Load->GO = 0;
+    Load1.Enable = command;
+    Load1.GO = false;
 }
 
 void setLoad_GO(char command) {
-    Load->GO = command;
+    Load1.GO = command;
 }
 
 void setLoad_StatusOn(char lights, char command) {
-    Load->GO = 1;
-    Load->StatusOn = command;
+    Load1.GO = true;
+    Load1.StatusOn = command;
 
     if (lights == 1) {
-        Load->Lights1Status = 1;
+        Load1.Lights1Status = 1;
     }
     if (lights == 2) {
-        Load->Lights2Status = 1;
+        Load1.Lights2Status = 1;
     }
     if (lights == 3) {
-        Load->Lights3Status = 1;
+        Load1.Lights3Status = 1;
     }
 }
 
 void setLoad_StatusOff(char lights, char command) {
-    Load->StatusOff = command;
-    Load->SafeCount -= 2;
+    Load1.StatusOff = command;
+    Load1.SafeCount -= 2;
     if (lights == 1) {
-        Load->Lights1Status = 0;
+        Load1.Lights1Status = 0;
     }
     if (lights == 2) {
-        Load->Lights2Status = 0;
+        Load1.Lights2Status = 0;
     }
     if (lights == 3) {
-        Load->Lights3Status = 0;
+        Load1.Lights3Status = 0;
     }
 }
 
 char getLoad_Safe() {
-    return Load->Safe;
+    return Load1.Safe;
 }
 
 char getLoad_ERROR() {
-    return Load->ERROR;
+    return Load1.ERROR;
 }
 //*********************************************************
 
 void setLoad_AH_AL_Restore() {
     char i;
     for (i = 0; i < 5; i++) {
-        Load->AH[i] = ADH_Restore;
-        Load->AL[i] = ADL_Restore;
+        Load1.AH[i] = ADH_Restore;
+        Load1.AL[i] = ADL_Restore;
     }
 }
 

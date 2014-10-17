@@ -23,7 +23,7 @@ void DelayOffPointSelect(char sw) {
 }
 //*********************************************************
 
-void DelayOff_Initialization() {
+inline void DelayOff_Initialization() {
 #ifdef use_1KEY
     DlyOff_Initialization(1);
 #endif
@@ -38,7 +38,7 @@ void DelayOff_Initialization() {
 }
 //*********************************************************
 
-void DelayOff_Main() {
+inline void DelayOff_Main() {
 #ifdef use_1KEY
     DlyOff_Main(1);
 #endif
@@ -55,26 +55,27 @@ void DelayOff_Main() {
 
 void DlyOff_Initialization(char sw) {
     DelayOffPointSelect(sw);
-    DelayOff->Enable = 1;
+    DelayOff->Enable = true;
 }
 //*********************************************************
 
 void DlyOff_Main(char sw) {
     DelayOffPointSelect(sw);
-    if (DelayOff->GO) {
+    if (DelayOff->GO == true) {
         DelayOff->SecondTime++;
         if (DelayOff->SecondTime >= SecondTimeValue) {
             DelayOff->SecondTime = 0;
             DelayOff->MinuteTime++;
             if (DelayOff->MinuteTime >= DelayOff->Value) {
                 DelayOff->MinuteTime = 0;
-                DelayOff->GO = 0;
+                DelayOff->GO = false;
+                //關燈
                 setSw_Status(sw, 0);
                 setRFSW_Status(sw, 0);
                 setRF_DimmerLights(sw, 0);
                 setDimmerLights_Trigger(sw, 1);
                 setDimmerLights_Switch(sw, 0);
-                setTxData(1);
+                setTxData();
                 setBuz(1, BuzzerOnOffTime);
             }
         }
@@ -84,16 +85,16 @@ void DlyOff_Main(char sw) {
 
 void setDelayOff_GO(char sw, char command, char value) {
     DelayOffPointSelect(sw);
-    if (DelayOff->Enable) {
-        DelayOff->GO = command;
-        if (command == true) {
+    if (DelayOff->Enable == true) {
+        DelayOff->GO = command == 1 ? true : false;
+        if (command == 1) {
             DelayOff->Value = DelayTimejudge(value);
-            if (((value % 16) == 5 || !(value % 16)) && value <= 0x25) {
+            if (((value % 16) == 5 || (value % 16) == 0) && value <= 0x25) {
                 setProductData(26 + sw, value);
             } else {
                 setProductData(26 + sw, 0x05);
             }
-        } else if (command == false) {
+        } else if (command == 0) {
             setProductData(sw + 26, 0);
         }
         DelayOff->SecondTime = 0;
@@ -103,27 +104,32 @@ void setDelayOff_GO(char sw, char command, char value) {
 //*********************************************************
 
 char DelayTimejudge(char value) {
-    char i = 5;
-    switch (value) {
-        case 0x05:
-            i = 5;
-            break;
-        case 0x10:
-            i = 10;
-            break;
-        case 0x15:
-            i = 15;
-            break;
-        case 0x20:
-            i = 20;
-            break;
-        case 0x25:
-            i = 25;
-            break;
-        case 0x30:
-            i = 30;
-            break;
+    char i = 5, j = 0, k = 0;
+    if (value <= 0x30) {
+        j = value & 0x0f;
+        k = (value >> 4) & 0x0f;
+        i = j + (k * 10);
     }
+    //    switch (value) {
+    //        case 0x05:
+    //            i = 5;
+    //            break;
+    //        case 0x10:
+    //            i = 10;
+    //            break;
+    //        case 0x15:
+    //            i = 15;
+    //            break;
+    //        case 0x20:
+    //            i = 20;
+    //            break;
+    //        case 0x25:
+    //            i = 25;
+    //            break;
+    //        case 0x30:
+    //            i = 30;
+    //            break;
+    //    }
     return i;
 }
 

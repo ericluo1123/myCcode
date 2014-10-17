@@ -148,7 +148,7 @@ void my_Main() {
             setSw_Enable(1);
 
 #ifdef RadioFrequency1
-            setRF_Enable(1, 1);
+            setRF_Enable(1);
 #endif
 
 #endif

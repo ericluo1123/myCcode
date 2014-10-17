@@ -8,84 +8,80 @@
 
 //*********************************************************
 
-void Buzzer_Initialization() {
-    Buz = &Buz1;
-    Buz->Enable = 1;
-}
+inline void Buzzer_Initialization() {
 
+    Buz1.Enable = true;
+}
 //*********************************************************
 
 void setBuz_Enable(char command) {
-    Buz->Enable = command;
-}
-//*********************************************************
-
-inline void Buz_Counter() {
-    if (Buz->GO == true) {
-        Buz->Counter++;
-    }
+    Buz1.Enable = command;
 }
 //*********************************************************
 
 void setBuz(char count, int time) {
-    Buz = &Buz1;
     time /= 10;
-    if (Buz->Enable == true) {
-        if (Buz->GO == false) {
-            Buz->GO = true;
-            Buz->Counter = 0;
-            Buz->Count = count;
-            Buz->TimeValue = time;
+    if (Buz1.Enable == true) {
+        if (Buz1.GO == false) {
+            Buz1.GO = true;
+            Buz1.Counter = 0;
+            Buz1.Count = count;
+            Buz1.TimeValue = time;
             Buzzer1 = true;
         } else {
-            if (Buz->BufferStatus1 == false) {
-                Buz->BufferStatus1 = true;
-                Buz->CountBuffer1 = count;
-                Buz->TimeValueBuffer1 = time;
-            } else if (Buz->BufferStatus2 == false) {
-                Buz->BufferStatus2 = true;
-                Buz->CountBuffer2 = count;
-                Buz->TimeValueBuffer2 = time;
+            if (Buz1.BufferStatus1 == false) {
+                Buz1.BufferStatus1 = true;
+                Buz1.CountBuffer1 = count;
+                Buz1.TimeValueBuffer1 = time;
+            } else if (Buz1.BufferStatus2 == false) {
+                Buz1.BufferStatus2 = true;
+                Buz1.CountBuffer2 = count;
+                Buz1.TimeValueBuffer2 = time;
             }
         }
     }
 }
-//*********************************************************
+//*****************************************************************************
 
-void Buzzer_Main() {
-    Buz = &Buz1;
-    if (Buz->GO == true) {
-        Buz->Counter++;
-        if (Buz->Counter >= Buz->TimeValue) {
-            Buz->Counter = 0;
-            Buz->Switch = (Buzzer1 == true) ? true : false;
-            if (Buz->Switch == false) {
-                if (Buz->Count == 0) {
-                    if (Buz->BufferStatus1 == true) {
-                        Buz->BufferStatus1 = false;
-                        Buz->Count = Buz->CountBuffer1;
-                        Buz->TimeValue = Buz->TimeValueBuffer1;
-                    } else if (Buz->BufferStatus2 == true) {
-                        Buz->BufferStatus2 = false;
-                        Buz->Count = Buz->CountBuffer2;
-                        Buz->TimeValue = Buz->TimeValueBuffer2;
+inline void Buzzer_Main() {
+    if (Buz1.GO == true) {
+        Buz1.Counter++;
+        if (Buz1.Counter >= Buz1.TimeValue) {
+            Buz1.Counter = 0;
+            Buz1.Switch = (Buzzer1 == true) ? true : false;
+            if (Buz1.Switch == false) {
+                if (Buz1.Count == 0) {
+                    if (Buz1.BufferStatus1 == true) {
+                        Buz1.BufferStatus1 = false;
+                        Buz1.Count = Buz1.CountBuffer1;
+                        Buz1.TimeValue = Buz1.TimeValueBuffer1;
+                    } else if (Buz1.BufferStatus2 == true) {
+                        Buz1.BufferStatus2 = false;
+                        Buz1.Count = Buz1.CountBuffer2;
+                        Buz1.TimeValue = Buz1.TimeValueBuffer2;
                     } else {
-                        Buz->GO = false;
+                        Buz1.GO = false;
                     }
                 } else {
-                    Buz->Switch = true;
+                    Buz1.Switch = true;
 
                     Buzzer1 = true;
                 }
             } else {
-                Buz->Switch = false;
+                Buz1.Switch = false;
 
                 Buzzer1 = false;
 
-                Buz->Count--;
+                Buz1.Count--;
             }
         }
     }
+}
+//*****************************************************************************
+
+int getBuz_GO() {
+    int i = Buz1.GO;
+    return i;
 }
 
 #endif

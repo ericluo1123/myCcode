@@ -663,7 +663,7 @@ void setDimmerLights_Adj(char lights, char status) {
 #endif
 #endif
             setRF_DimmerLights(lights, 1);
-            setTxData(1);
+            setTxData();
         }
     }
 }

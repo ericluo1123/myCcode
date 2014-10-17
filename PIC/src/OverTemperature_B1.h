@@ -14,8 +14,6 @@ struct OverTemp {
         unsigned Safe : 1;
         unsigned empty : 3;
     };
-
-
     unsigned int Time;
     unsigned char Count;
 
@@ -42,8 +40,6 @@ struct OverTemp {
 
 };
 
-struct OverTemp *Temp;
-
 #define TempCountValue 	3
 #define TempDangerValue	550		//NTC 68 value 500
 //NTC 71 value 490
@@ -59,16 +55,16 @@ struct OverTemp *Temp;
 struct OverTemp Temp1;
 #endif
 
-
-
-//void TempPointSelect(char);
-void Temp_Initialization();
-void Temp_Main();
+/**
+ * temp initialization
+ */
+inline void Temp_Initialization();
+inline void Temp_Main();
 void setTemp_Main();
 void setTemp_Initialization();
-void getTemp_AD(char);
-void setOverTemp_Exceptions(char);
-void setTemp_Enable(char);
+void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+void setTemp_Enable(char command);
 char getTemp_Safe();
 char getTemp_ERROR();
 #else

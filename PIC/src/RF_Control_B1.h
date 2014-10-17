@@ -1,36 +1,9 @@
 
 #ifndef _RF_Control_H_
 #define _RF_Control_H_
-
-/****************************************************************
-        File list:
-                CC2500_A1.c
-                CC2500_A1.h
-                RF_Control_A1.c
-                RF_Control_A1.h
-	
-        addFunction
-                CC2500_PowerOnInitial();
-                RF_Initial();
-                RF_Main();
-
-        method:
- *send data step:
-                step:1
-                                setRF_Data(char location,char value);
-                                        location(0~20)
-                                        value(1~255)
-                step:2
-                                setTxData();
-
- *receive data
-                                getRxData(); //if have receive data
-
-
-                setRF_Enable(char command);
-                        command(0 ~ 1)
-
-/***************************************************************/
+/**
+ * RF control header
+ */
 
 #if CC2500_use == 1
 //Global extern variable declaration
@@ -58,26 +31,24 @@ struct RF {
     unsigned char DebounceTime;
 
 };
-struct RF *RF;
 
 #ifdef RadioFrequency1
 struct RF RF1;
 #endif
 
-void RfPointSelect(char);
-void RF_Initialization();
-void RF_Main();
-void setRF_Initialization(char);
-void setRF_Main(char);
-void setTxData(char);
-void getRxData(char);
-void setRF_Enable(char, char);
-void setLog_Code(char);
-void setControl_Lights_Table(char);
-void RF_RxDisable(char);
-void setRF_Learn(char, char);
-void setRF_ReceiveGO(char, char);
-void setRF_RxStatus(char, char);
+inline void RF_Initialization();
+inline void RF_Main();
+void setRF_Initialization();
+void setRF_Main();
+void setTxData();
+void getRxData();
+void setRF_Enable(char command);
+void setLog_Code();
+void setControl_Lights_Table();
+void RF_RxDisable();
+void setRF_Learn(char command);
+void setRF_ReceiveGO(char command);
+void setRF_RxStatus(char command);
 
 #define setRF_Data(location,value) RF_Data[location]=value
 
@@ -90,13 +61,6 @@ struct RFSW {
 };
 struct RFSW *RFSW;
 
-
-void RfSWPointSelect(char);
-void setRFSW_Control(char);
-void setRFSW_AdjControl(char);
-void setRFSW_Status(char, char);
-
-
 #ifdef use_1KEY
 struct RFSW RFSW1;
 #endif
@@ -105,14 +69,18 @@ struct RFSW RFSW1;
 struct RFSW RFSW2;
 #endif
 
-#ifdef use_3KEY 
+#ifdef use_3KEY
 struct RFSW RFSW3;
 #endif
 
+void RfSWPointSelect(char sw);
+void setRFSW_Control(char sw);
+void setRFSW_AdjControl(char sw);
+void setRFSW_Status(char sw, char command);
 
 #if Dimmer_use == 1
-void setRF_DimmerValue(char);
-void setRF_DimmerLights(char, char);
+void setRF_DimmerValue(char lights);
+void setRF_DimmerLights(char lights, char on);
 #else
 #define setRF_DimmerValue(char) ;
 #define setRF_DimmerLights(char,char) ;

@@ -34,7 +34,7 @@ void SwPointSelect(char sw) {
 }
 //*********************************************************
 
-void Switch_Initialization() {
+inline void Switch_Initialization() {
     TouchPower();
 #ifdef use_1KEY
     WPUB1 = false;
@@ -58,7 +58,7 @@ void Switch_Initialization() {
 }
 //*********************************************************
 
-void Switch_Main() {
+inline void Switch_Main() {
 #ifdef use_1KEY
     setSw_Main(1);
 #endif
@@ -162,7 +162,7 @@ void setSw_Main(char sw) {
                             Sw->Hold2 = true;
 #if Dimmer_use == 1
 #if CC2500_use == 1
-                            setRF_Learn(1, 1);
+                            setRF_Learn(1);
 #endif
                             if (myMain->First == true) {
                                 setBuz(2, BuzzerOnOffTime);
@@ -177,7 +177,7 @@ void setSw_Main(char sw) {
                                 Sw->Hold3 = true;
 #if Dimmer_use == 1
 #if CC2500_use == 1
-                                setRF_Learn(1, 0);
+                                setRF_Learn(0);
 #endif
 #endif
                             }
@@ -201,7 +201,7 @@ void setSw_Main(char sw) {
                     Sw_DimmerOffFunc(sw); //key on function
 #endif
 #if CC2500_use == 1
-                    setRF_Learn(1, 0);
+                    setRF_Learn(0);
 #endif
                 }
             }
@@ -243,7 +243,7 @@ void Sw_DimmerOnFunc(char sw) {
             setDimmerLights_Switch(sw, 1);
 
             setRF_DimmerLights(sw, Sw->Status);
-            setTxData(1);
+            setTxData();
 
         } else {
             Sw->Status = false;
@@ -264,7 +264,7 @@ void Sw_DimmerOffFunc(char sw) {
 
                 setProductData(17, product->Data[26 + sw]);
                 setRF_DimmerLights(sw, Sw->Status);
-                setTxData(1);
+                setTxData();
 
             }
         } else {
@@ -273,7 +273,7 @@ void Sw_DimmerOffFunc(char sw) {
 
             setDelayOff_GO(sw, 0, 0);
             setRF_DimmerLights(sw, Sw->Status);
-            setTxData(1);
+            setTxData();
 
         }
     }
