@@ -43,7 +43,7 @@ void setRF_RxStatus(char command) {
 void setRF_Initialization() {
 #ifdef RadioFrequency1
     Tx_Length = 21;
-    INTE = true;
+    //    INTE = true;
 #endif
 }
 //*********************************************************
@@ -78,6 +78,14 @@ void setRF_Main() {
                     RF1.Count = 0;
                     RF1.Run = false;
 
+//                    if (CC2500_GDO0 == false && RF1.RxStatus == true) { // Check whether have data
+//                        CC2500_ReadStatus(CC2500_RXBYTES);
+//                        if (s_data != 0) {//if(s_data == 0x18)
+//                            RF1.ReceiveGO = true;
+//                            RF1.RxStatus = false;
+//                        }
+//                    }
+
                     if (RF1.ReceiveGO == true) {
                         RF1.ReceiveGO = false;
                         CC2500_RxData();
@@ -90,7 +98,7 @@ void setRF_Main() {
                         getRxData();
 #endif
                         RF1.Run = true;
-                        ErrLED = ErrLED == true ? false : true;
+                        //                        ErrLED = ErrLED == true ? false : true;
                     } else {
                         if (RF1.Learn == false) {
                             if (RF1.TransceiveGO == true) {
@@ -179,7 +187,7 @@ void setTxData() {
         RF_Data[20] = KeyID; //Product->Data[20];	//Key ID
     }
 #endif
-}
+}  
 //*********************************************************
 
 void setRF_Enable(char command) {
@@ -242,7 +250,7 @@ void setLog_Code() {
     setProductData(14, RF_Data[14]);
     setBuz(1, BuzzerOnOffTime);
     RF1.Learn = 0;
-    if (myMain->First) {
+    if (myMain.First) {
         setMemory_LoopSave(1);
     }
     setMemory_Modify(1);

@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 
     while (true) {
 
-        if (myMain->PowerON) {
+        if (myMain.PowerON) {
 #ifdef SYSC1
             DetectSYSC_Signal(1);
 #endif
@@ -55,17 +55,20 @@ int main(int argc, char** argv) {
             getPIR_AD(1, PIR_VR_Channel, PIR_Signal_Channel);
 #endif
 
+//                        while (true && myMain.Timeout == false) {
+//                            Timeout_Counter();
+//                        }
+//                        set_TimeoutCleared();
         }
         //TMR0
 #if Timer0_use == 1
-        if (myMain->T0_Timerout) {//10ms
-            myMain->T0_Timerout = 0;
+        if (myMain.T0_Timerout) {//10ms
+            myMain.T0_Timerout = 0;
             my_Main();
-            my_TestPointCleared();
             WDT_Main();
             I2C_Main();
             UART_Main();
-            if (myMain->PowerON) {
+            if (myMain.PowerON) {
                 Flash_Memory_Main();
 
                 LED_Main();
@@ -92,11 +95,11 @@ int main(int argc, char** argv) {
 
 #if Timer1_use == 1
         //TMR1
-        if (myMain->T1_Timerout) //1ms
+        if (myMain.T1_Timerout) //1ms
         {
-            myMain->T1_Timerout = 0;
+            myMain.T1_Timerout = 0;
             my_Main();
-            if (myMain->PowerON) {
+            if (myMain.PowerON) {
                 RF_Main();
                 I2C_Main();
                 UART_Main();
@@ -116,7 +119,7 @@ void myMain_Initialization() {
     product->Data[20] = KeyID;
 #endif
 
-    myMain = &_myMain;
+    //    myMain = &_myMain;
     //TMain->FirstOpen=1;
     //TMain->First=1;
 }
@@ -124,12 +127,12 @@ void myMain_Initialization() {
 
 void my_Main() {
     //Power
-    if (myMain->PowerON == false) {
-        myMain->PowerCount++;
-        if (myMain->PowerCount == 150)//*10ms
+    if (myMain.PowerON == false) {
+        myMain.PowerCount++;
+        if (myMain.PowerCount == 150)//*10ms
         {
-            myMain->PowerCount = 0;
-            myMain->PowerON = 1;
+            myMain.PowerCount = 0;
+            myMain.PowerON = 1;
 
 #ifdef SYSC1
             setTemp_Enable(1);
@@ -140,10 +143,10 @@ void my_Main() {
 #endif
 
 #if Self_Test == true
-            myMain->k = 1;
+            myMain.k = 1;
 #else
             setBuz(3, BuzzerPowerOnTime);
-            myMain->SelfTest = 1;
+            myMain.SelfTest = 1;
 
             setSw_Enable(1);
 
@@ -161,10 +164,10 @@ void my_Main() {
 
 
 #if Debug == 1
-        myMain->Count1++;
-        if (myMain->Count1 == 100) //*10ms
+        myMain.Count1++;
+        if (myMain.Count1 == 100) //*10ms
         {
-            myMain->Count1 = 0;
+            myMain.Count1 = 0;
             //            setBuz(1, 100);
 
             //	setTxData(1);
@@ -177,8 +180,8 @@ void my_Main() {
             //	setProductData(7,Sw1->Flag);
             //	setProductData(8,RF->Learn);
             //	TMain->Count3++;
-            if (myMain->Flag) {
-                myMain->Flag = 0;
+            if (myMain.Flag) {
+                myMain.Flag = 0;
                 //	setLights(1,1);
                 //	setLights_Trigger(1,1);
                 //	setLights_Switch(1,1);
@@ -188,7 +191,7 @@ void my_Main() {
                 //                setLED(3, 1);
                 //                setLED(99, 11);
             } else {
-                myMain->Flag = 1;
+                myMain.Flag = 1;
                 //	setLights(1,0);
                 //	setLights_Trigger(1,1);
                 //	setLights_Switch(1,0);
@@ -203,9 +206,18 @@ void my_Main() {
     }
 }
 
-void my_TestPointCleared() {
-    myMain->pcount1 = 0;
-    myMain->pcount2 = 0;
+inline void Timeout_Counter() {
+    myMain.Timeout_Counter++;
+    if (myMain.Timeout_Counter == 10000) {
+        myMain.Timeout_Counter = 0;
+        myMain.Timeout = true;
+        ErrLED = ErrLED == true ? false : true;
+    }
+}
+
+inline void set_TimeoutCleared() {
+    myMain.Timeout = false;
+    myMain.Timeout_Counter = 0;
 }
 //End file
 

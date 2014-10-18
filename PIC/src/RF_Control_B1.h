@@ -88,20 +88,19 @@ void setRF_DimmerLights(char lights, char on);
 
 #else 
 
-#define RfPointSelect(char) ;
 #define RF_Initialization() ;
 #define RF_Main() ;
-#define setRF_Initialization(char) ;
-#define setRF_Main(char) ;
-#define setTxData(char) ;
-#define getRxData(char) ;
-#define setRF_Enable(char,char) ;
-#define setLog_Code(char) ;
-#define setControl_Lights_Table(char) ;
-#define RF_RxDisable(char) ;
-#define setRF_Learn(char,char) ;
-#define setRF_ReceiveGO(char,char) ;
-#define setRF_RxStatus(char,char) ;
+#define setRF_Initialization() ;
+#define setRF_Main() ;
+#define setTxData() ;
+#define getRxData() ;
+#define setRF_Enable(char) ;
+#define setLog_Code() ;
+#define setControl_Lights_Table() ;
+#define RF_RxDisable() ;
+#define setRF_Learn(char) ;
+#define setRF_ReceiveGO(char) ;
+#define setRF_RxStatus(char) ;
 
 #define setRF_Data(location,value) ;
 

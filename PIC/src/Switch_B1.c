@@ -8,9 +8,13 @@
 #ifdef TTPW
 
 void TouchPower() {
-    while (TTPW == false)
+    while (TTPW == false && myMain.Timeout == false) {
         TTPW = true;
+        Timeout_Counter();
+    }
+    set_TimeoutCleared();
 }
+
 #endif
 //*********************************************************
 
@@ -164,7 +168,7 @@ void setSw_Main(char sw) {
 #if CC2500_use == 1
                             setRF_Learn(1);
 #endif
-                            if (myMain->First == true) {
+                            if (myMain.First == true) {
                                 setBuz(2, BuzzerOnOffTime);
                             }
 #endif
@@ -316,7 +320,7 @@ void Sw_DimmerAdjFunc(char sw) {
 //*********************************************************
 
 void Sw_Detect() {
-    if (getLoad_ERROR() == false && getTemp_ERROR() == false && getPF_ERROR() == false && myMain->SelfTest == true) {
+    if (getLoad_ERROR() == false && getTemp_ERROR() == false && getPF_ERROR() == false && myMain.SelfTest == true) {
 #ifdef use_1KEY
         SwPointSelect(1);
         if (Sw->Enable == false) {

@@ -29,21 +29,18 @@ struct PF {
     unsigned int ADRES;
 #endif
 };
-struct PF *PF;
 
 #ifdef PFV1
 struct PF PF1;
 #endif
 
-
-//void PowerFaultPointSelect(char);
-void PowerFault_Initialization();
-void PowerFault_Main();
-void getPowerFault_AD(char);
+inline void PowerFault_Initialization();
+inline inline void PowerFault_Main();
+void getPowerFault_AD(char channel);
 void setPowerFault_Initialization();
 void setPowerFault_Main();
-void setPowerFault_Exceptions(char);
-void setPF_Enable(char);
+void setPowerFault_Exceptions(char command);
+void setPF_Enable(char command);
 char getPF_Safe();
 char getPF_ERROR();
 #else
@@ -57,7 +54,7 @@ char getPF_ERROR();
 #define setPowerFault_Main() ;
 #define setPowerFault_Exceptions(char) ;
 #define setPF_Enable(char) ;
-
+ 
 #endif
 
 #endif

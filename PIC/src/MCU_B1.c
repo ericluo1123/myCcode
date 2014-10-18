@@ -48,8 +48,6 @@ void Mcu_Initialization() {
     I2C_Set();
     //UART
     UART_Set();
-    //Flash_Memory
-    Flash_Memory_Set();
     //Watch dog
     WDT_Set();
 }
@@ -126,7 +124,7 @@ void interrupt ISR(void)// interrupt 0	// ISR (Interrupt Service Routines)
 #if Timer0_use == true
 
 void TMR0_Set() {
-    Timer0 = &VarTimer0;
+    //  Timer0 = &_Timer0;
     OPTION_REG = OPTION_REG_Value;
     TMR0 = TMR0_Value;
     TMR0IE = true;
@@ -158,10 +156,10 @@ void TMR0_ISR() {
 
 #endif
 
-        Timer0->Count++;
-        if (Timer0->Count == TMR0_10ms) {
-            Timer0->Count = 0;
-            myMain->T0_Timerout = true;
+        Timer0.Count++;
+        if (Timer0.Count == TMR0_10ms) {
+            Timer0.Count = 0;
+            myMain.T0_Timerout = true;
 
             //#if Buzzer_use == true
             //            Buz_Counter();
@@ -221,7 +219,7 @@ void TMR1_ISR() {
         if (Timer1->Count == TMR1_1ms)//1ms
         {
             Timer1->Count = 0;
-            myMain->T1_Timerout = 1;
+            myMain.T1_Timerout = 1;
         }
     }
 
@@ -298,7 +296,7 @@ void IOC_ISR() {
     if (IOCIE == true && IOCBF2 == true) {
         IOCBF2 = false;
         IOCIF = false;
-        if (myMain->PowerON == true) {
+        if (myMain.PowerON == true) {
 #if Dimmer_use == true
             setDimmerReClock();
 #endif
@@ -323,7 +321,10 @@ char getAD(char adcon0, char adcon1) {
     ADCON0 = adcon0;
     ADCON1 = adcon1;
     ADGO = 1;
-    while (ADGO == true);
+    while (ADGO == true && myMain.Timeout == false) {
+        Timeout_Counter();
+    };
+    set_TimeoutCleared();
     return ADC_ADRES;
 }
 #endif
@@ -333,17 +334,23 @@ int getAD(char adcon0, char adcon1) {
     ADCON0 = adcon0;
     ADCON1 = adcon1;
     ADGO = 1;
-    while (ADGO == true);
+    while (ADGO == true && myMain.Timeout == false) {
+        Timeout_Counter();
+    };
+    set_TimeoutCleared();
     return ADC_ADRES;
 }
 #endif
 #ifdef _16F1518
 
-int getAD(char adcon0, char adcon1) {
+inline int getAD(char adcon0, char adcon1) {
     ADCON0 = adcon0;
     ADCON1 = adcon1;
     ADGO = true;
-    while (ADGO == true);
+    while (ADGO == true && myMain.Timeout == false) {
+        Timeout_Counter();
+    };
+    set_TimeoutCleared();
     return ADC_ADRES;
 }
 #endif
@@ -419,7 +426,7 @@ void I2C_Main() {
     if (I2C->MasterRxGO == true) {
         I2C->MasterRxGO = false;
         I2C_Master_Reception();
-        myMain->Test = true;
+        myMain.Test = true;
         LED2 = LED2 == true ? true : false;
 #if UART_use == true
         for (i = 0; i < 32; i++) {
@@ -681,7 +688,7 @@ void UART_Receive() {
     char i;
     LED2 = ~LED2;
 #if UART_Master == 1
-    myMain->Test = 1;
+    myMain.Test = 1;
 #if I2C_use == 1
     for (i = 0; i < 32; i++) {
         I2C->BufferWriter[i] = UART->RxData[i];
@@ -759,8 +766,8 @@ void Flash_Memory_Initialization() {
         product->Data[23] = i;
 #endif
         if (product->Data[12] == 0xff && product->Data[13] == 0xff && product->Data[14] == 0xff) {
-            myMain->FirstOpen = true;
-            myMain->First = true;
+            myMain.FirstOpen = true;
+            myMain.First = true;
         }
     } else {
         i = setPercentValue(Dimmer_Maxum);
@@ -777,25 +784,25 @@ void Flash_Memory_Initialization() {
         GIE = 0;
         Flash_Memory_Write();
         GIE = 1;
-        myMain->FirstOpen = 1;
-        myMain->First = 1;
+        myMain.FirstOpen = 1;
+        myMain.First = 1;
     }
 }
 //*********************************************************
 
 void Flash_Memory_Main() {
-    if (Memory->GO == true) {
-        if (Memory->Modify == true) {
-            Memory->Time++;
-            if (Memory->Time == 25)//*10ms
+    if (Memory.GO == true) {
+        if (Memory.Modify == true) {
+            Memory.Time++;
+            if (Memory.Time == 25)//*10ms
             {
-                Memory->Time = 0;
-                Memory->Modify = false;
-                Memory->GO = false;
+                Memory.Time = 0;
+                Memory.Modify = false;
+                Memory.GO = false;
                 Flash_Memory_Modify();
             }
         } else {
-            Memory->GO = false;
+            Memory.GO = false;
         }
     }
 }
@@ -832,7 +839,7 @@ void Flash_Memory_Write() {
     WREN = true;
     for (i = 0; i < 32; i++) {
         PMADRL = i;
-        PMDATL = Memory->Data[i];
+        PMDATL = Memory.Data[i];
         Flash_Memory_Unlock();
     }
     LWLO = false;
@@ -855,7 +862,7 @@ void Flash_Memory_Erasing() {
 void Flash_Memory_Modify() {
     char i = 0;
     for (i = 0; i < 32; i++) {
-        Memory->Data[i] = Flash_Memory_Read(i);
+        Memory.Data[i] = Flash_Memory_Read(i);
     }
     setMemoryData(0, product->Data[12]);
     setMemoryData(1, product->Data[13]);
@@ -865,10 +872,10 @@ void Flash_Memory_Modify() {
     setMemoryData(4, product->Data[22]);
     setMemoryData(5, product->Data[23]);
 #endif
-    if (Memory->LoopSave == true) {
-        Memory->LoopSave = false;
-        myMain->FirstOpen = false;
-        myMain->First = false;
+    if (Memory.LoopSave == true) {
+        Memory.LoopSave = false;
+        myMain.FirstOpen = false;
+        myMain.First = false;
         //setMemoryData(30,1);
     }
     GIE = false;
@@ -880,9 +887,9 @@ void Flash_Memory_Modify() {
 //*********************************************************
 
 void setMemory_GO(char command) {
-    Memory->GO = command;
+    Memory.GO = command;
     if (command == false) {
-        Memory->Time = command;
+        Memory.Time = command;
     }
 }
 //*********************************************************

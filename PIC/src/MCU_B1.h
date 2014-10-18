@@ -301,13 +301,13 @@ void Fosc_Set();
 void ADC_Set();
 void setADCGO();
 #ifdef _16F723A
-char getAD(char, char);
+inline char getAD(char, char);
 #endif
 #ifdef _16F1516
-int getAD(char, char);
+inline int getAD(char, char);
 #endif
 #ifdef _16F1518
-int getAD(char, char);
+inline int getAD(char, char);
 #endif
 #else
 //ADC NOP()
@@ -370,8 +370,8 @@ struct Timer0 {
     unsigned char ResetCount;
 };
 //Virable declaration
-struct Timer0 VarTimer0;
-struct Timer0 *Timer0;
+struct Timer0 Timer0;
+//struct Timer0 *Timer0;
 
 void TMR0_Set();
 void TMR0_ISR();
@@ -455,7 +455,7 @@ void setINT_GO(char command);
 //INT NOP()
 #define INT_Set() ;
 #define INT_ISR() ;
-#define setINT_GO(char command) ;
+#define setINT_GO(char) ;
 #endif
 
 //*********************************************************
@@ -627,8 +627,8 @@ struct FlashMemory {
         unsigned empty : 5;
     };
 };
-struct FlashMemory *Memory;
-struct FlashMemory VarMemory = {
+//struct FlashMemory *Memory;
+struct FlashMemory Memory = {
     {
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
@@ -638,10 +638,10 @@ struct FlashMemory VarMemory = {
 };
 #define PMADRH_Value 0x30
 
-#define Flash_Memory_Set()	Memory=&VarMemory
-#define setMemoryData(address,data) Memory->Data[address]=data	
-#define setMemory_Modify(command) Memory->Modify=command
-#define setMemory_LoopSave(command) Memory->LoopSave=command
+//#define Flash_Memory_Set()	Memory=&Memory
+#define setMemoryData(address,data) Memory.Data[address]=data
+#define setMemory_Modify(command) Memory.Modify=command
+#define setMemory_LoopSave(command) Memory.LoopSave=command
 				
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();

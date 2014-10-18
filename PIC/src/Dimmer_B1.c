@@ -552,11 +552,11 @@ void DimmerLights_Exceptions(char status) {
     setDimmerLights_TriggerERROR(3, 0);
 #endif
 
-    if (myMain->SelfTest == false) {
-        myMain->i = false;
-        myMain->j = false;
-        myMain->k = true;
-        myMain->Count2 = 0;
+    if (myMain.SelfTest == false) {
+        myMain.i = false;
+        myMain.j = false;
+        myMain.k = true;
+        myMain.Count2 = 0;
     }
 }
 //*********************************************************
@@ -844,9 +844,9 @@ inline void Dimmer_Initialization() {
 
 void DimmerLightsOpenShow() {
     if (!getTemp_ERROR(1) && !getPF_ERROR(1) && !getLoad_ERROR(1)) {
-        if (!myMain->r) {
-            if (myMain->k) {
-                myMain->k = 0;
+        if (!myMain.r) {
+            if (myMain.k) {
+                myMain.k = 0;
 
                 DimmerLightsPointSelect(1);
                 DimmerLights->MaxmumValue = Dimmer_Maxum;
@@ -856,15 +856,15 @@ void DimmerLightsOpenShow() {
 
                 setBuz(1, 1, BuzzerOnOffTime);
             }
-            myMain->Count2++;
-            if (myMain->Count2 == 150)//*10ms
+            myMain.Count2++;
+            if (myMain.Count2 == 150)//*10ms
             {
-                myMain->Count2 = 0;
+                myMain.Count2 = 0;
 
-                if (!myMain->i) {
+                if (!myMain.i) {
 
                     if (getTemp_Safe(1) && getPF_Safe(1) && getLoad_Safe(1)) {
-                        myMain->i = 1;
+                        myMain.i = 1;
 
                         DimmerLightsPointSelect(1);
                         DimmerLights->AdjRF = 1;
@@ -874,13 +874,13 @@ void DimmerLightsOpenShow() {
 
                         setBuz(1, 1, BuzzerOnOffTime);
                     } else {
-                        myMain->Count2 = 150; //*10ms
+                        myMain.Count2 = 150; //*10ms
                     }
                 } else {
-                    if (!myMain->j) {
-                        myMain->j = 1;
-                        myMain->r = 1;
-                        myMain->SelfTest = 1;
+                    if (!myMain.j) {
+                        myMain.j = 1;
+                        myMain.r = 1;
+                        myMain.SelfTest = 1;
 
                         DimmerLightsPointSelect(1);
                         setDimmerLights_Trigger(1, 1);

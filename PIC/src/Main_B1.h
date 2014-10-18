@@ -5,9 +5,9 @@
 #define	_Main_H_
 
 //Global  variable declaration
-
-#ifndef _16F723A 
-
+  
+#ifndef _16F723A
+  
 typedef struct Product {
     unsigned char Data[32];
 } Product;
@@ -96,15 +96,15 @@ struct myMain {
     struct {
         unsigned q : 1;
         unsigned r : 1;
-        unsigned empty : 6;
+        unsigned Timeout:1;
+        unsigned empty : 5;
     };
 
-    unsigned int pcount1;
-    unsigned int pcount2;
+    unsigned int Timeout_Counter;
 
 };
-struct myMain _myMain;
-struct myMain *myMain;
+struct myMain myMain;
+//struct myMain *myMain;
 
 
 //Routine declaration
@@ -122,6 +122,7 @@ void my_Main();
 /**
  * Test Point cleared
  */
-void my_TestPointCleared();
+inline void Timeout_Counter();
+inline void set_TimeoutCleared();
 
 #endif		
