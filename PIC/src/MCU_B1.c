@@ -5,7 +5,7 @@
 
 //config
 #ifdef _16F723A
-#pragma config FOSC = INTOSCIO ,_WDTE, BOREN = OFF,PLEEN_Value
+#pragma config FOSC = INTOSCIO ,WDTE = _WDTE, BOREN = OFF , PLLEN = ON
 #pragma config VCAPEN = DIS
 //__CONFIG(FOSC_INTOSCIO & _WDTE & BOREN_OFF & PLEEN_Value); // v8.84
 //__CONFIG(VCAPEN_DIS); // WRT_OFF
@@ -104,8 +104,8 @@ void IO_Set() {
 
 //ISR
 
-void interrupt ISR(void)// interrupt 0	// ISR (Interrupt Service Routines)
-{
+void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
+
     IOC_ISR();
 
     TMR0_ISR();
@@ -132,8 +132,9 @@ void TMR0_Set() {
 }
 //*********************************************************
 
-void TMR0_ISR() {
+inline void TMR0_ISR() {
     if (TMR0IE == true && TMR0IF == true) {
+
         TMR0 = TMR0_Value;
         TMR0IF = false;
 
@@ -160,11 +161,6 @@ void TMR0_ISR() {
         if (Timer0.Count == TMR0_10ms) {
             Timer0.Count = 0;
             myMain.T0_Timerout = true;
-
-            //#if Buzzer_use == true
-            //            Buz_Counter();
-            //#endif    
-
         }
     }
 }
@@ -186,7 +182,7 @@ inline void setDimmerReClock() {
     setDimmerLights_IntrIOC_GO(3);
 #endif
 
-    TMR0 = 255;
+    //    TMR0 = 255;
 
 #endif
 }
@@ -245,7 +241,7 @@ void INT_Set() {
 }
 //*********************************************************
 
-void INT_ISR() {
+inline void INT_ISR() {
     if (INTE == true && INTF == true) {
         INTF = false;
         //        INTE = false;
@@ -292,7 +288,7 @@ void IOC_Set() {
 }
 //*********************************************************
 
-void IOC_ISR() {
+inline void IOC_ISR() {
     if (IOCIE == true && IOCBF2 == true) {
         IOCBF2 = false;
         IOCIF = false;
@@ -317,7 +313,7 @@ void ADC_Set() {
 //*********************************************************
 #ifdef _16F723A
 
-char getAD(char adcon0, char adcon1) {
+inline char getAD(char adcon0, char adcon1) {
     ADCON0 = adcon0;
     ADCON1 = adcon1;
     ADGO = 1;
@@ -328,9 +324,10 @@ char getAD(char adcon0, char adcon1) {
     return ADC_ADRES;
 }
 #endif
+
 #ifdef _16F1516
 
-int getAD(char adcon0, char adcon1) {
+inline int getAD(char adcon0, char adcon1) {
     ADCON0 = adcon0;
     ADCON1 = adcon1;
     ADGO = 1;
@@ -883,7 +880,6 @@ void Flash_Memory_Modify() {
     Flash_Memory_Write();
     GIE = true;
 }
-#endif
 //*********************************************************
 
 void setMemory_GO(char command) {
@@ -892,6 +888,7 @@ void setMemory_GO(char command) {
         Memory.Time = command;
     }
 }
+#endif
 //*********************************************************
 #if WDT_use == 1
 

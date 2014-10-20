@@ -520,16 +520,16 @@ void CC2500_InitPATable(void);
 void CC2500_ClearTXFIFO(void);
 void CC2500_ClearRXFIFO(void);
 void CC2500_FrequencyCabr(void);
-void CC2500_SIDLEMode(void);
+inline void CC2500_SIDLEMode(void);
 
-void CC2500_WriteByte(void);
-void CC2500_WriteREG(unsigned char addr, unsigned char value);
-void CC2500_ReadByte(void);
-void CC2500_ReadREG(unsigned char addr);
-void CC2500_ReadStatus(unsigned char s_addr);
-void CC2500_WriteCommand(unsigned char command);
-void CC2500_TxData();
-void CC2500_RxData(void);
+inline void CC2500_WriteByte(void);
+inline void CC2500_WriteREG(unsigned char addr, unsigned char value);
+inline void CC2500_ReadByte(void);
+inline void CC2500_ReadREG(unsigned char addr);
+inline void CC2500_ReadStatus(unsigned char s_addr);
+inline void CC2500_WriteCommand(unsigned char command);
+inline void CC2500_TxData();
+inline void CC2500_RxData(void);
 void DelayTime_1us(int count);
 
 # 11 "../src/../1-1.Switch_1Key_Dimmer.X/../src/RF_Control_B1.h"
@@ -3263,17 +3263,17 @@ void Mcu_Initialization();
 # 21
 void IO_Set();
 
-# 228
+# 229
 void Fosc_Set();
 
-# 301
+# 302
 void ADC_Set();
 void setADCGO();
 
-# 310
+# 311
 inline int getAD(char, char);
 
-# 358
+# 369
 struct Timer0 {
 
 struct {
@@ -3293,14 +3293,14 @@ struct Timer0 Timer0;
 
 
 void TMR0_Set();
-void TMR0_ISR();
+inline void TMR0_ISR();
 inline void setDimmerReClock();
 
-# 464
+# 475
 void IOC_Set();
-void IOC_ISR();
+inline void IOC_ISR();
 
-# 617
+# 628
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -3324,7 +3324,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 646
+# 657
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -3340,7 +3340,7 @@ static bit Receive_OK, Transceive_OK;
 
 
 
-void CC2500_TxData() {
+inline void CC2500_TxData() {
 unsigned char loop_e;
 
 RC4 = 0;
@@ -3374,7 +3374,7 @@ Transceive_OK = 1;
 
 
 
-void CC2500_RxData(void) {
+inline void CC2500_RxData(void) {
 unsigned char loop_f;
 
 
@@ -3410,10 +3410,14 @@ CRC = SPI0Buffer;
 RC4 = 1;
 if (CRC & 0x80)
 Receive_OK = 1;
-}
 
 CC2500_WriteCommand(0x36);
 CC2500_WriteCommand(0x3A);
+RF1.RxStatus = 0;
+RF1.ReceiveGO = 1;
+}
+
+
 }
 
 
@@ -3509,12 +3513,12 @@ DelayTime_1us(1000);
 
 
 
-void CC2500_SIDLEMode(void) {
+inline void CC2500_SIDLEMode(void) {
 CC2500_WriteCommand(0x36);
 }
 
-# 211
-void CC2500_WriteByte(void) {
+# 215
+inline void CC2500_WriteByte(void) {
 unsigned char loop_a;
 for (loop_a = 0; loop_a < 8; loop_a++) {
 if (SPI0Buffer & 0x80)
@@ -3530,7 +3534,7 @@ RC1 = 0;
 
 
 
-void CC2500_ReadByte(void) {
+inline void CC2500_ReadByte(void) {
 unsigned char loop_b;
 for (loop_b = 0; loop_b < 8; loop_b++) {
 RC1 = 1;
@@ -3546,7 +3550,7 @@ RC1 = 0;
 
 
 
-void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
+inline void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
 RC4 = 0;
 SPI0Buffer = w_addr;
 while (RC2 == 1 && myMain.Timeout == 0) {
@@ -3562,7 +3566,7 @@ RC4 = 1;
 
 
 
-void CC2500_ReadREG(unsigned char r_addr) {
+inline void CC2500_ReadREG(unsigned char r_addr) {
 RC4 = 0;
 SPI0Buffer = r_addr + 0x80;
 while (RC2 == 1 && myMain.Timeout == 0) {
@@ -3578,7 +3582,7 @@ r_data = SPI0Buffer;
 
 
 
-void CC2500_WriteCommand(unsigned char command) {
+inline void CC2500_WriteCommand(unsigned char command) {
 RC4 = 0;
 SPI0Buffer = command;
 
@@ -3593,7 +3597,7 @@ RC4 = 1;
 
 
 
-void CC2500_ReadStatus(unsigned char status_addr) {
+inline void CC2500_ReadStatus(unsigned char status_addr) {
 RC4 = 0;
 SPI0Buffer = status_addr + 0xC0;
 

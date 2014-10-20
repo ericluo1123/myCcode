@@ -29,7 +29,7 @@ static bit Receive_OK, Transceive_OK;
 // CC2500 TX Function
 //-----------------------------------------------------------------------------
 
-void CC2500_TxData() {
+inline void CC2500_TxData() {
     unsigned char loop_e;
 
     CC2500_CSN = 0;
@@ -63,7 +63,7 @@ void CC2500_TxData() {
 // CC2500 RX Function
 //-----------------------------------------------------------------------------
 
-void CC2500_RxData(void) {
+inline void CC2500_RxData(void) {
     unsigned char loop_f;
 
     //	CC2500_WriteCommand(CC2500_SRX);  		// set receive mode
@@ -99,10 +99,14 @@ void CC2500_RxData(void) {
         CC2500_CSN = 1;
         if (CRC & 0x80)
             Receive_OK = 1;
-    }
 
-    CC2500_WriteCommand(CC2500_SIDLE); // idle
-    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+        CC2500_WriteCommand(CC2500_SIDLE); // idle
+        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+        RF1.RxStatus = false;
+        RF1.ReceiveGO = true;
+    }
+    //    CC2500_WriteCommand(CC2500_SIDLE); // idle
+    //    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
 }
 //=============================================================================
 // CC2500 RF Module Initial
@@ -198,7 +202,7 @@ void CC2500_FrequencyCabr(void) {
 // CC2500 SIDLE Mode
 //-----------------------------------------------------------------------------
 
-void CC2500_SIDLEMode(void) {
+inline void CC2500_SIDLEMode(void) {
     CC2500_WriteCommand(CC2500_SIDLE);
 }
 
@@ -208,7 +212,7 @@ void CC2500_SIDLEMode(void) {
 // write one byte
 //-----------------------------------------------------------------------------
 
-void CC2500_WriteByte(void) {
+inline void CC2500_WriteByte(void) {
     unsigned char loop_a;
     for (loop_a = 0; loop_a < 8; loop_a++) {
         if (SPI0Buffer & 0x80)
@@ -224,7 +228,7 @@ void CC2500_WriteByte(void) {
 // read one byte
 //-----------------------------------------------------------------------------
 
-void CC2500_ReadByte(void) {
+inline void CC2500_ReadByte(void) {
     unsigned char loop_b;
     for (loop_b = 0; loop_b < 8; loop_b++) {
         CC2500_SCK = 1;
@@ -240,7 +244,7 @@ void CC2500_ReadByte(void) {
 // write REG to CC2500
 //-----------------------------------------------------------------------------
 
-void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
+inline void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
     CC2500_CSN = 0;
     SPI0Buffer = w_addr; //register address
     while (CC2500_SO == 1 && myMain.Timeout == false) {
@@ -256,7 +260,7 @@ void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
 // read REG to CC2500
 //-----------------------------------------------------------------------------
 
-void CC2500_ReadREG(unsigned char r_addr) {
+inline void CC2500_ReadREG(unsigned char r_addr) {
     CC2500_CSN = 0;
     SPI0Buffer = r_addr + 0x80; //read register +0x80
     while (CC2500_SO == 1 && myMain.Timeout == false) {
@@ -272,7 +276,7 @@ void CC2500_ReadREG(unsigned char r_addr) {
 // write command to CC2500
 //-----------------------------------------------------------------------------
 
-void CC2500_WriteCommand(unsigned char command) {
+inline void CC2500_WriteCommand(unsigned char command) {
     CC2500_CSN = 0;
     SPI0Buffer = command;
 
@@ -287,7 +291,7 @@ void CC2500_WriteCommand(unsigned char command) {
 // read one status register data
 //-----------------------------------------------------------------------------
 
-void CC2500_ReadStatus(unsigned char status_addr) {
+inline void CC2500_ReadStatus(unsigned char status_addr) {
     CC2500_CSN = 0;
     SPI0Buffer = status_addr + 0xC0; //read status +0xc0
 

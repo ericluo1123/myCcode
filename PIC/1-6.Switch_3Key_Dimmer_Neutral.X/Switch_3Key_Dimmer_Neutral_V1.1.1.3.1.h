@@ -99,7 +99,7 @@
 #define Timer1_use	0
 #define TMR1_IntrTime_50us
 //INT
-#define INT_use 1
+#define INT_use 0
 //UART
 #define UART_use 0
 #define UART_Master 1

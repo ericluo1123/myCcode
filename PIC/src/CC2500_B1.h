@@ -297,16 +297,16 @@ void CC2500_InitPATable(void);
 void CC2500_ClearTXFIFO(void);
 void CC2500_ClearRXFIFO(void);
 void CC2500_FrequencyCabr(void);
-void CC2500_SIDLEMode(void);
+inline void CC2500_SIDLEMode(void);
 
-void CC2500_WriteByte(void);
-void CC2500_WriteREG(unsigned char addr, unsigned char value);
-void CC2500_ReadByte(void);
-void CC2500_ReadREG(unsigned char addr);
-void CC2500_ReadStatus(unsigned char s_addr);
-void CC2500_WriteCommand(unsigned char command);
-void CC2500_TxData();
-void CC2500_RxData(void);
+inline void CC2500_WriteByte(void);
+inline void CC2500_WriteREG(unsigned char addr, unsigned char value);
+inline void CC2500_ReadByte(void);
+inline void CC2500_ReadREG(unsigned char addr);
+inline void CC2500_ReadStatus(unsigned char s_addr);
+inline void CC2500_WriteCommand(unsigned char command);
+inline void CC2500_TxData();
+inline void CC2500_RxData(void);
 void DelayTime_1us(int count);
 #else
 #define CC2500_PowerOnInitial() NOP()

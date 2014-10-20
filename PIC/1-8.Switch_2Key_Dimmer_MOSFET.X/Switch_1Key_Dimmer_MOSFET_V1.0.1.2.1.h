@@ -2,25 +2,22 @@
 #ifndef _Switch_1Key_Dimmer_V1.0.1.2.1_H_	
 #define	_Switch_1Key_Dimmer_V1.0.1.2.1_H_		
 
-//Include
-#include <stdio.h>
-
 /**Version information
         Name_Version 			:	1~255
 
-        Name_SerialNumber		:	0~255
+        Name_SerialNumber		:	1~255
  
         Properties_Product		:	1:Switch
-                                                                        2:PIR
+                                                2:PIR
 
         Properties_Keys			:	1:1key
-                                                                        2:2key
-                                                                        3:3key
+                                                2:2key
+                                                3:3key
 
         Properties_Country		:	1:USA
-                                                                        2:EP
-                                                                        3:TW
-                                                                        4:CHI
+                                                2:EP
+                                                3:TW
+                                                4:CHI
  **/
 
 #define	Name_Version 			1	//1

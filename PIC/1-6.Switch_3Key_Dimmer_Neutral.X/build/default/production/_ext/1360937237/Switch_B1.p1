@@ -12,8 +12,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S5 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
 [n S5 . q r Timeout empty ]
 "61
-[s S2 `S3 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `uc 1 `uc 1 `uc 1 `S4 1 `S5 1 `ui 1 `ui 1 `ui 1 ]
-[n S2 myMain . PowerCount Count Count1 Count2 Count3 IOC_Count Test ClockCount . . pcount1 pcount2 Timeout_Counter ]
+[s S2 `S3 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `uc 1 `uc 1 `uc 1 `S4 1 `S5 1 `ui 1 ]
+[n S2 myMain . PowerCount Count Count1 Count2 Count3 IOC_Count Test ClockCount . . Timeout_Counter ]
 "16 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Switch_B1.h
 [s S12 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S12 . Enable Touch Debounce Hold1 Hold2 Hold3 Status Flag ]
@@ -80,29 +80,29 @@ Version 3.2 HI-TECH Software Intermediate Code
 "21
 [s S31 `S32 1 `uc 1 `ui 1 `uc 1 ]
 [n S31 DelayOff . Value SecondTime MinuteTime ]
-"360 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/MCU_B1.h
+"371 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/MCU_B1.h
 [s S266 :1 `uc 1 :1 `uc 1 :6 `uc 1 ]
 [n S266 . Timeout Reset empty ]
-"358
+"369
 [s S265 `S266 1 `ui 1 `ui 1 `ui 1 `uc 1 ]
 [n S265 Timer0 . Count Count1 DimmerCount ResetCount ]
-"623
+"634
 [s S268 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
 [n S268 . Modify GO LoopSave empty ]
-"617
+"628
 [s S267 `uc -> 32 `i `uc 1 `uc 1 `ui 1 `S268 1 ]
 [n S267 FlashMemory Data ReadDataH ReadDataL Time . ]
-"674
+"685
 [s S269 :1 `uc 1 `uc 1 ]
 [n S269 WDT Enable Count ]
 "4549 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _RC5 `Vb ~T0 @X0 0 e@117 ]
+[v F46 `(v ~T0 @X0 1 tf ]
+"125 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Main_B1.h
+[v _Timeout_Counter `TF46 ~T0 @X0 0 e ]
 [v F48 `(v ~T0 @X0 1 tf ]
-"128 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Main_B1.h
-[v _Timeout_Counter `TF48 ~T0 @X0 0 e ]
-[v F50 `(v ~T0 @X0 1 tf ]
-"129
-[v _set_TimeoutCleared `TF50 ~T0 @X0 0 e ]
+"126
+[v _set_TimeoutCleared `TF48 ~T0 @X0 0 e ]
 "4781 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _WPUB1 `Vb ~T0 @X0 0 e@4201 ]
 "57 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Switch_B1.h
@@ -241,17 +241,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 99: unsigned Timeout:1;
 [; ;Main_B1.h: 100: unsigned empty : 5;
 [; ;Main_B1.h: 101: };
-[; ;Main_B1.h: 103: unsigned int pcount1;
-[; ;Main_B1.h: 104: unsigned int pcount2;
-[; ;Main_B1.h: 106: unsigned int Timeout_Counter;
-[; ;Main_B1.h: 108: };
-"109
+[; ;Main_B1.h: 103: unsigned int Timeout_Counter;
+[; ;Main_B1.h: 105: };
+"106
 [v _myMain `S2 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 109: struct myMain myMain;
-[; ;Main_B1.h: 118: void myMain_Initialization();
-[; ;Main_B1.h: 123: void my_Main();
-[; ;Main_B1.h: 128: inline void Timeout_Counter();
-[; ;Main_B1.h: 129: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 106: struct myMain myMain;
+[; ;Main_B1.h: 115: void myMain_Initialization();
+[; ;Main_B1.h: 120: void my_Main();
+[; ;Main_B1.h: 125: inline void Timeout_Counter();
+[; ;Main_B1.h: 126: inline void set_TimeoutCleared();
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -816,15 +814,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;CC2500_B1.h: 297: void CC2500_ClearTXFIFO(void);
 [; ;CC2500_B1.h: 298: void CC2500_ClearRXFIFO(void);
 [; ;CC2500_B1.h: 299: void CC2500_FrequencyCabr(void);
-[; ;CC2500_B1.h: 300: void CC2500_SIDLEMode(void);
-[; ;CC2500_B1.h: 302: void CC2500_WriteByte(void);
-[; ;CC2500_B1.h: 303: void CC2500_WriteREG(unsigned char addr, unsigned char value);
-[; ;CC2500_B1.h: 304: void CC2500_ReadByte(void);
-[; ;CC2500_B1.h: 305: void CC2500_ReadREG(unsigned char addr);
-[; ;CC2500_B1.h: 306: void CC2500_ReadStatus(unsigned char s_addr);
-[; ;CC2500_B1.h: 307: void CC2500_WriteCommand(unsigned char command);
-[; ;CC2500_B1.h: 308: void CC2500_TxData();
-[; ;CC2500_B1.h: 309: void CC2500_RxData(void);
+[; ;CC2500_B1.h: 300: inline void CC2500_SIDLEMode(void);
+[; ;CC2500_B1.h: 302: inline void CC2500_WriteByte(void);
+[; ;CC2500_B1.h: 303: inline void CC2500_WriteREG(unsigned char addr, unsigned char value);
+[; ;CC2500_B1.h: 304: inline void CC2500_ReadByte(void);
+[; ;CC2500_B1.h: 305: inline void CC2500_ReadREG(unsigned char addr);
+[; ;CC2500_B1.h: 306: inline void CC2500_ReadStatus(unsigned char s_addr);
+[; ;CC2500_B1.h: 307: inline void CC2500_WriteCommand(unsigned char command);
+[; ;CC2500_B1.h: 308: inline void CC2500_TxData();
+[; ;CC2500_B1.h: 309: inline void CC2500_RxData(void);
 [; ;CC2500_B1.h: 310: void DelayTime_1us(int count);
 [; ;RF_Control_B1.h: 11: struct RF {
 [; ;RF_Control_B1.h: 13: struct {
@@ -2848,51 +2846,48 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic.h: 154: extern __nonreentrant void _delay(unsigned long);
 [; ;MCU_B1.h: 16: void Mcu_Initialization();
 [; ;MCU_B1.h: 21: void IO_Set();
-[; ;MCU_B1.h: 228: void Fosc_Set();
-[; ;MCU_B1.h: 301: void ADC_Set();
-[; ;MCU_B1.h: 302: void setADCGO();
-[; ;MCU_B1.h: 310: inline int getAD(char, char);
-[; ;MCU_B1.h: 358: struct Timer0 {
-[; ;MCU_B1.h: 360: struct {
-[; ;MCU_B1.h: 361: unsigned Timeout : 1;
-[; ;MCU_B1.h: 362: unsigned Reset : 1;
-[; ;MCU_B1.h: 363: unsigned empty : 6;
-[; ;MCU_B1.h: 364: };
-[; ;MCU_B1.h: 366: unsigned int Count;
-[; ;MCU_B1.h: 367: unsigned int Count1;
-[; ;MCU_B1.h: 369: unsigned int DimmerCount;
-[; ;MCU_B1.h: 370: unsigned char ResetCount;
-[; ;MCU_B1.h: 371: };
-"373 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/MCU_B1.h
+[; ;MCU_B1.h: 229: void Fosc_Set();
+[; ;MCU_B1.h: 302: void ADC_Set();
+[; ;MCU_B1.h: 303: void setADCGO();
+[; ;MCU_B1.h: 311: inline int getAD(char, char);
+[; ;MCU_B1.h: 369: struct Timer0 {
+[; ;MCU_B1.h: 371: struct {
+[; ;MCU_B1.h: 372: unsigned Timeout : 1;
+[; ;MCU_B1.h: 373: unsigned Reset : 1;
+[; ;MCU_B1.h: 374: unsigned empty : 6;
+[; ;MCU_B1.h: 375: };
+[; ;MCU_B1.h: 377: unsigned int Count;
+[; ;MCU_B1.h: 378: unsigned int Count1;
+[; ;MCU_B1.h: 380: unsigned int DimmerCount;
+[; ;MCU_B1.h: 381: unsigned char ResetCount;
+[; ;MCU_B1.h: 382: };
+"384 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/MCU_B1.h
 [v _Timer0 `S265 ~T0 @X0 1 e ]
-[; ;MCU_B1.h: 373: struct Timer0 Timer0;
-[; ;MCU_B1.h: 376: void TMR0_Set();
-[; ;MCU_B1.h: 377: void TMR0_ISR();
-[; ;MCU_B1.h: 378: inline void setDimmerReClock();
-[; ;MCU_B1.h: 451: void INT_Set();
-[; ;MCU_B1.h: 452: void INT_ISR();
-[; ;MCU_B1.h: 453: void setINT_GO(char command);
-[; ;MCU_B1.h: 464: void IOC_Set();
-[; ;MCU_B1.h: 465: void IOC_ISR();
-[; ;MCU_B1.h: 617: struct FlashMemory {
-[; ;MCU_B1.h: 618: unsigned char Data[32];
-[; ;MCU_B1.h: 619: unsigned char ReadDataH;
-[; ;MCU_B1.h: 620: unsigned char ReadDataL;
-[; ;MCU_B1.h: 621: unsigned int Time;
-[; ;MCU_B1.h: 623: struct {
-[; ;MCU_B1.h: 624: unsigned Modify : 1;
-[; ;MCU_B1.h: 625: unsigned GO : 1;
-[; ;MCU_B1.h: 626: unsigned LoopSave : 1;
-[; ;MCU_B1.h: 627: unsigned empty : 5;
-[; ;MCU_B1.h: 628: };
-[; ;MCU_B1.h: 629: };
-"631
+[; ;MCU_B1.h: 384: struct Timer0 Timer0;
+[; ;MCU_B1.h: 387: void TMR0_Set();
+[; ;MCU_B1.h: 388: inline void TMR0_ISR();
+[; ;MCU_B1.h: 389: inline void setDimmerReClock();
+[; ;MCU_B1.h: 475: void IOC_Set();
+[; ;MCU_B1.h: 476: inline void IOC_ISR();
+[; ;MCU_B1.h: 628: struct FlashMemory {
+[; ;MCU_B1.h: 629: unsigned char Data[32];
+[; ;MCU_B1.h: 630: unsigned char ReadDataH;
+[; ;MCU_B1.h: 631: unsigned char ReadDataL;
+[; ;MCU_B1.h: 632: unsigned int Time;
+[; ;MCU_B1.h: 634: struct {
+[; ;MCU_B1.h: 635: unsigned Modify : 1;
+[; ;MCU_B1.h: 636: unsigned GO : 1;
+[; ;MCU_B1.h: 637: unsigned LoopSave : 1;
+[; ;MCU_B1.h: 638: unsigned empty : 5;
+[; ;MCU_B1.h: 639: };
+[; ;MCU_B1.h: 640: };
+"642
 [v _Memory `S267 ~T0 @X0 1 e ]
 [i _Memory
 :U ..
 :U ..
 :U ..
-"633
+"644
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
@@ -2901,7 +2896,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
-"634
+"645
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
@@ -2910,7 +2905,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
-"635
+"646
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
@@ -2919,7 +2914,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
-"636
+"647
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
@@ -2932,35 +2927,35 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-[; ;MCU_B1.h: 631: struct FlashMemory Memory = {
-[; ;MCU_B1.h: 632: {
-[; ;MCU_B1.h: 633: 0, 0, 0, 0, 0, 0, 0, 0,
-[; ;MCU_B1.h: 634: 0, 0, 0, 0, 0, 0, 0, 0,
-[; ;MCU_B1.h: 635: 0, 0, 0, 0, 0, 0, 0, 0,
-[; ;MCU_B1.h: 636: 0, 0, 0, 0, 0, 0, 0, 0,
-[; ;MCU_B1.h: 637: }
-[; ;MCU_B1.h: 638: };
-[; ;MCU_B1.h: 646: void Flash_Memory_Initialization();
-[; ;MCU_B1.h: 647: void Flash_Memory_Unlock();
-[; ;MCU_B1.h: 648: char Flash_Memory_Read(char address);
-[; ;MCU_B1.h: 649: void Flash_Memory_Write();
-[; ;MCU_B1.h: 650: void Flash_Memory_Erasing();
-[; ;MCU_B1.h: 651: void Flash_Memory_Modify();
-[; ;MCU_B1.h: 652: void Flash_Memory_Main();
-[; ;MCU_B1.h: 653: void setMemory_GO(char command);
-[; ;MCU_B1.h: 674: struct WDT {
-[; ;MCU_B1.h: 675: unsigned Enable : 1;
-[; ;MCU_B1.h: 676: unsigned char Count;
-[; ;MCU_B1.h: 677: };
-"678
+[; ;MCU_B1.h: 642: struct FlashMemory Memory = {
+[; ;MCU_B1.h: 643: {
+[; ;MCU_B1.h: 644: 0, 0, 0, 0, 0, 0, 0, 0,
+[; ;MCU_B1.h: 645: 0, 0, 0, 0, 0, 0, 0, 0,
+[; ;MCU_B1.h: 646: 0, 0, 0, 0, 0, 0, 0, 0,
+[; ;MCU_B1.h: 647: 0, 0, 0, 0, 0, 0, 0, 0,
+[; ;MCU_B1.h: 648: }
+[; ;MCU_B1.h: 649: };
+[; ;MCU_B1.h: 657: void Flash_Memory_Initialization();
+[; ;MCU_B1.h: 658: void Flash_Memory_Unlock();
+[; ;MCU_B1.h: 659: char Flash_Memory_Read(char address);
+[; ;MCU_B1.h: 660: void Flash_Memory_Write();
+[; ;MCU_B1.h: 661: void Flash_Memory_Erasing();
+[; ;MCU_B1.h: 662: void Flash_Memory_Modify();
+[; ;MCU_B1.h: 663: void Flash_Memory_Main();
+[; ;MCU_B1.h: 664: void setMemory_GO(char command);
+[; ;MCU_B1.h: 685: struct WDT {
+[; ;MCU_B1.h: 686: unsigned Enable : 1;
+[; ;MCU_B1.h: 687: unsigned char Count;
+[; ;MCU_B1.h: 688: };
+"689
 [v __WDT `S269 ~T0 @X0 1 e ]
-[; ;MCU_B1.h: 678: struct WDT _WDT;
-"679
+[; ;MCU_B1.h: 689: struct WDT _WDT;
+"690
 [v _WDT `*S269 ~T0 @X0 1 e ]
-[; ;MCU_B1.h: 679: struct WDT *WDT;
-[; ;MCU_B1.h: 685: void WDT_Set();
-[; ;MCU_B1.h: 686: void WDT_Main();
-[; ;MCU_B1.h: 687: void WDT_Clearing();
+[; ;MCU_B1.h: 690: struct WDT *WDT;
+[; ;MCU_B1.h: 696: void WDT_Set();
+[; ;MCU_B1.h: 697: void WDT_Main();
+[; ;MCU_B1.h: 698: void WDT_Clearing();
 "10 ../src/Switch_B1.c
 [v _TouchPower `(v ~T0 @X0 1 ef ]
 {
@@ -3040,9 +3035,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Switch_B1.c: 38: }
 [e :UE 274 ]
 }
-[v F263 `(v ~T0 @X0 1 tf ]
+[v F261 `(v ~T0 @X0 1 tf ]
 "41
-[v _Switch_Initialization `TF263 ~T0 @X0 1 e ]
+[v _Switch_Initialization `TF261 ~T0 @X0 1 e ]
 {
 [; ;Switch_B1.c: 41: inline void Switch_Initialization() {
 [e :U _Switch_Initialization ]
@@ -3066,9 +3061,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "62
 [e :UE 280 ]
 }
-[v F265 `(v ~T0 @X0 1 tf ]
+[v F263 `(v ~T0 @X0 1 tf ]
 "65
-[v _Switch_Main `TF265 ~T0 @X0 1 e ]
+[v _Switch_Main `TF263 ~T0 @X0 1 e ]
 {
 [; ;Switch_B1.c: 65: inline void Switch_Main() {
 [e :U _Switch_Main ]

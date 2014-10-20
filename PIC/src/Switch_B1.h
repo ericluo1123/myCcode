@@ -74,19 +74,19 @@ void TouchPower();
 
 //***************************************************************	
 #else
-#define SwPointSelect(char sw) ;
+#define SwPointSelect(char ) ;
 #define Switch_Initialization() ;
 #define Switch_Main() ;
-#define setSw_Initialization(char sw) ;
-#define setSw_Main(char sw) ;
-#define setSw_Enable(char command) ;
-#define Switch_Exception(char command) ;
-#define setSw_Status(char sw, char command) ;
+#define setSw_Initialization(char) ;
+#define setSw_Main(char) ;
+#define setSw_Enable(char) ;
+#define Switch_Exception(char) ;
+#define setSw_Status(char,char) ;
 #define Sw_Detect() ;
 
-#define Sw_DimmerOnFunc(char sw) ;
-#define Sw_DimmerOffFunc(char sw) ;
-#define Sw_DimmerAdjFunc(char sw) ;
+#define Sw_DimmerOnFunc(char) ;
+#define Sw_DimmerOffFunc(char) ;
+#define Sw_DimmerAdjFunc(char) ;
 
 #define TouchPower() ;
 #endif

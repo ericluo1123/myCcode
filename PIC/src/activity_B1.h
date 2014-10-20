@@ -186,10 +186,6 @@
  * close mosfet delay time to allow recook
  */
 #define MosfetOpenToCloseValue			10
-/**
- * dimmer delay time
- */
-#define DimmingDelayTime 7
 
 #if Properties_Neutral == 1
 #define Max_Percent 95
@@ -228,9 +224,35 @@
 
 
 //Percent define
+#ifdef TMR0_IntrTime_50us
+#define TotalCount		166
+#define One_Percent		1.5
+#define Tune_Percent		40
+/**
+ * dimmer delay time
+ */
+#define DimmingDelayTime 3
+#endif
+
+#ifdef TMR0_IntrTime_100us
 #define TotalCount		86
 #define One_Percent		0.8
 #define Tune_Percent		40
+/**
+ * dimmer delay time
+ */
+#define DimmingDelayTime 7
+#endif
+
+#ifdef TMR0_IntrTime_200us
+#define TotalCount		41
+#define One_Percent		0.4
+#define Tune_Percent            40
+/**
+ * dimmer delay time
+ */
+#define DimmingDelayTime 7
+#endif
 
 //Tolerance
 

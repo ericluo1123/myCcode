@@ -23,35 +23,35 @@ void IO_Set();
 //*********************************************************
 //oscillator
 //System Clock Select=FOSC<2:0>
-
+ 
 #ifdef _16F723A
 //PLLEN = 1
 #ifdef System_Fosc_16M
 #define _OSCCON 0x3c
 #define _FOSC 16000000L
-#define _PLLEN_ON	
-#define PLEEN_Value PLLEN_ON	
+#define PLLEN_ON
+#define _PLLEN ON
 #endif
 
 #ifdef System_Fosc_8M									
 #define _OSCCON 0x2c
 #define _FOSC 8000000L
-#define _PLLEN_ON
-#define PLEEN_Value PLLEN_ON
+#define PLLEN_ON
+#define _PLLEN ON
 #endif
 
 #ifdef System_Fosc_4M
 #define _OSCCON 0x1c
 #define _FOSC 4000000L
-#define _PLLEN_ON
-#define PLEEN_Value PLLEN_ON
+#define PLLEN_ON
+#define _PLLEN ON
 #endif
 
 #ifdef System_Fosc_2M
 #define _OSCCON 0x0c
 #define _FOSC 2000000L
-#define _PLLEN_ON
-#define PLEEN_Value PLLEN_ON
+#define PLLEN_ON
+#define _PLLEN ON
 #endif
 
 //PLLEN = 0
@@ -74,10 +74,11 @@ void IO_Set();
 #define _OSCCON 0x00
 #define _FOSC 62500L
 #endif
+ 
+#ifndef PLLEN_ON
+#define _PLLEN OFF
+#endif
 
-#ifndef _PLLEN_ON
-#define PLEEN_Value PLLEN_OFF
-#endif		
 #endif
 
 #ifdef _16F1516
@@ -335,21 +336,31 @@ inline int getAD(char, char);
 #ifdef System_Fosc_16M		
 //TMR0 Clock Source Select Internal instruction cycle clock (FOSC/4)
 //Prescaler is assigned to the Timer0 module
-#define  OPTION_REG_Value T0PS_1x2
 
 #ifdef TMR0_IntrTime_50us	//interrupt time= (1/(System_Fosc/4)) * T0PS * TMR0_Count
+#define  OPTION_REG_Value T0PS_1x2
 #define TMR0_Count	90	
 #define TMR0_1ms	20	
 #define TMR0_5ms	100
 #define TMR0_10ms	200
 #endif
-
-#ifdef TMR0_IntrTime_100us	
+ 
+#ifdef TMR0_IntrTime_100us
+#define  OPTION_REG_Value T0PS_1x2
 #define TMR0_Count	190
 #define TMR0_1ms	10
 #define TMR0_5ms	50
 #define TMR0_10ms	100
 #endif
+
+#ifdef TMR0_IntrTime_200us
+#define  OPTION_REG_Value T0PS_1x4
+#define TMR0_Count	190
+#define TMR0_1ms	5
+#define TMR0_5ms	25
+#define TMR0_10ms	50
+#endif
+
 #endif
 
 #define TMR0_Value	(256-TMR0_Count)
@@ -374,7 +385,7 @@ struct Timer0 Timer0;
 //struct Timer0 *Timer0;
 
 void TMR0_Set();
-void TMR0_ISR();
+inline void TMR0_ISR();
 inline void setDimmerReClock();
 #else
 //TMR0 NOP()
@@ -449,7 +460,7 @@ void TMR1_ISR();
 //INT		
 #if INT_use == 1
 void INT_Set();
-void INT_ISR();
+inline void INT_ISR();
 void setINT_GO(char command);
 #else
 //INT NOP()
@@ -462,7 +473,7 @@ void setINT_GO(char command);
 //IOC
 #if IOC_use == 1
 void IOC_Set();
-void IOC_ISR();
+inline void IOC_ISR();
 #else
 //NOP
 #define IOC_Set() ;
@@ -655,13 +666,13 @@ void setMemory_GO(char command);
 //NOP
 #define Flash_Memory_Set() ;
 #define setMemoryData(address,data) ;
-#define setMemory_GO(char command) ;
+#define setMemory_GO(char) ;
 #define setMemory_Modify(command) ;
 #define setMemory_LoopSave(command) ;
 
 #define Flash_Memory_Initialization() ;
 #define Flash_Memory_Unlock() ;
-#define Flash_Memory_Read(char address) ;
+#define Flash_Memory_Read(char) ;
 #define Flash_Memory_Write() ;
 #define Flash_Memory_Erasing() ;
 #define Flash_Memory_Modify() ;

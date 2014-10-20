@@ -97,7 +97,7 @@
 #define Timer1_use	0
 #define TMR1_IntrTime_50us
 //INT
-#define INT_use 1
+#define INT_use 0
 //UART
 #define UART_use 0
 #define UART_Master 1
@@ -121,7 +121,7 @@
 //OverTemperature
 #define OverTemperature_use 0
 //OverLoad
-#define OverLoad_use 1
+#define OverLoad_use 0
 //LED
 #define LED_use 1
 //Buzzer
