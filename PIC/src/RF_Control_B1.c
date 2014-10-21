@@ -71,7 +71,7 @@ void setRF_Main() {
             } else {
                 if (RF1.Run == true && RF1.Learn == false) {
                     RF1.Count++;
-                    if (RF1.Count == 10) {
+                    if (RF1.Count == 20) {
                         RF1.Count = 0;
                         RF1.Run = false;
                     }
@@ -86,8 +86,9 @@ void setRF_Main() {
                         //                                setINT_GO(0);
                         CC2500_WriteCommand(CC2500_SIDLE); // idle
                         CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+                        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
                         CC2500_TxData();
-                        RF1.Run = true;
+                        //                        RF1.Run = true;
                     } else {
 
                         if (RF1.RxStatus == true) { // Check whether have data
@@ -110,6 +111,7 @@ void setRF_Main() {
                             if (RF1.RxStatus == false && RF1.ReceiveGO == false) {
                                 RF1.RxStatus = true;
                                 CC2500_WriteCommand(CC2500_SIDLE); // idle
+                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
                                 CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
                                 CC2500_WriteCommand(CC2500_SRX); // set receive mode
                                 //                                    setINT_GO(1);

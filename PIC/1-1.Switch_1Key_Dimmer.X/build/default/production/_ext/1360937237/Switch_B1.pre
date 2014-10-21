@@ -3273,7 +3273,7 @@ void setADCGO();
 # 311
 inline int getAD(char, char);
 
-# 369
+# 377
 struct Timer0 {
 
 struct {
@@ -3296,11 +3296,11 @@ void TMR0_Set();
 inline void TMR0_ISR();
 inline void setDimmerReClock();
 
-# 475
+# 483
 void IOC_Set();
 inline void IOC_ISR();
 
-# 628
+# 636
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -3324,7 +3324,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 657
+# 665
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -3365,7 +3365,7 @@ WPUB1 = 0;
 # 53
 setSw_Initialization(1);
 
-# 62
+# 64
 }
 
 
@@ -3373,7 +3373,7 @@ inline void Switch_Main() {
 
 setSw_Main(1);
 
-# 78
+# 80
 }
 
 
@@ -3391,7 +3391,7 @@ void setSw_Enable(char command) {
 SwPointSelect(1);
 Sw->Enable = command;
 
-# 106
+# 108
 }
 
 
@@ -3405,7 +3405,7 @@ void setSw_Main(char sw) {
 SwPointSelect(sw);
 if (Sw->Enable == 1) {
 
-# 137
+# 139
 Sw->Touch = (RA6 == 1 || RA4 == 1 || RA0 == 1 || RB1 == 1) ? 1 : 0;
 
 if (Sw->Touch == 1) {
@@ -3418,6 +3418,7 @@ Sw->Debounce = 1;
 
 Sw_DimmerOnFunc(sw);
 
+# 173
 }
 } else {
 if (Sw->Hold1 == 0) {
@@ -3489,7 +3490,7 @@ setRF_Learn(0);
 void Sw_DimmerOnFunc(char sw) {
 char Idle = 1;
 
-# 239
+# 263
 if (Idle == 1) {
 Sw->Flag = 1;
 setBuz(1, 100);
@@ -3541,7 +3542,7 @@ setTxData();
 void Sw_DimmerAdjFunc(char sw) {
 char Idle = 1;
 
-# 308
+# 332
 if (Idle == 1) {
 if (Sw->Flag == 1) {
 Sw->Hold1 = 1;
@@ -3564,7 +3565,7 @@ if (Sw->Enable == 0) {
 Sw->Enable = 1;
 }
 
-# 345
+# 369
 }
 }
 

@@ -3278,7 +3278,7 @@ void setADCGO();
 # 311
 inline int getAD(char, char);
 
-# 369
+# 377
 struct Timer0 {
 
 struct {
@@ -3301,11 +3301,11 @@ void TMR0_Set();
 inline void TMR0_ISR();
 inline void setDimmerReClock();
 
-# 475
+# 483
 void IOC_Set();
 inline void IOC_ISR();
 
-# 628
+# 636
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -3329,7 +3329,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 657
+# 665
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -3338,19 +3338,6 @@ void Flash_Memory_Erasing();
 void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
-
-# 685
-struct WDT {
-unsigned Enable : 1;
-unsigned char Count;
-};
-struct WDT _WDT;
-struct WDT *WDT;
-
-# 696
-void WDT_Set();
-void WDT_Main();
-void WDT_Clearing();
 
 # 27 "../src/CC2500_B1.c"
 static bit Receive_OK, Transceive_OK;
@@ -3367,6 +3354,7 @@ while (RC2 == 1 && myMain.Timeout == 0) {
 Timeout_Counter();
 };
 set_TimeoutCleared();
+
 CC2500_WriteByte();
 SPI0Buffer = Tx_Length;
 CC2500_WriteByte();
@@ -3380,10 +3368,12 @@ while (RB0 == 0 && myMain.Timeout == 0) {
 Timeout_Counter();
 };
 set_TimeoutCleared();
+
 while (RB0 == 1 && myMain.Timeout == 0) {
 Timeout_Counter();
 };
 set_TimeoutCleared();
+
 CC2500_WriteCommand(0x36);
 CC2500_WriteCommand(0x3B);
 Transceive_OK = 1;
@@ -3412,7 +3402,7 @@ SPI0Buffer = 0x3F + 0xC0;
 while (RC2 == 1 && myMain.Timeout == 0) {
 Timeout_Counter();
 };
-set_TimeoutCleared();
+if (myMain.Timeout == 0) {
 CC2500_WriteByte();
 
 CC2500_ReadByte();
@@ -3433,6 +3423,10 @@ CC2500_WriteCommand(0x36);
 CC2500_WriteCommand(0x3A);
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 1;
+} else {
+RC4 = 1;
+}
+set_TimeoutCleared();
 }
 
 
@@ -3535,7 +3529,7 @@ inline void CC2500_SIDLEMode(void) {
 CC2500_WriteCommand(0x36);
 }
 
-# 215
+# 222
 inline void CC2500_WriteByte(void) {
 unsigned char loop_a;
 for (loop_a = 0; loop_a < 8; loop_a++) {
@@ -3575,6 +3569,7 @@ while (RC2 == 1 && myMain.Timeout == 0) {
 Timeout_Counter();
 };
 set_TimeoutCleared();
+
 CC2500_WriteByte();
 SPI0Buffer = value;
 CC2500_WriteByte();
@@ -3591,6 +3586,7 @@ while (RC2 == 1 && myMain.Timeout == 0) {
 Timeout_Counter();
 };
 set_TimeoutCleared();
+
 CC2500_WriteByte();
 CC2500_ReadByte();
 RC4 = 1;
@@ -3608,6 +3604,7 @@ while (RC2 == 1 && myMain.Timeout == 0) {
 Timeout_Counter();
 };
 set_TimeoutCleared();
+
 CC2500_WriteByte();
 RC4 = 1;
 }
@@ -3623,6 +3620,7 @@ while (RC2 == 1 && myMain.Timeout == 0) {
 Timeout_Counter();
 };
 set_TimeoutCleared();
+
 CC2500_WriteByte();
 CC2500_ReadByte();
 RC4 = 1;

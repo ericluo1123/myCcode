@@ -80,14 +80,13 @@ inline void Load_Main() {
                         if (Load1.ErrorCount > 2) {
                             Load1.ErrorCount = 0;
                             setLoad_Exceptions(1);
-
-                            //                            setProductData(4, (Load->AD >> 8));
-                            //                            setProductData(5, Load->AD);
-                            //                            setProductData(16, (Load->JudgeValue >> 8));
-                            //                            setProductData(17, Load->JudgeValue);
-                            //                            setProductData(8, Load->LightsCount);
-
-
+#if Load_Debug == 1
+                            setProductData(4, (Load1.AD >> 8));
+                            setProductData(5, Load1.AD);
+                            setProductData(6, (Load1.JudgeValue >> 8));
+                            setProductData(7, Load1.JudgeValue);
+                            setProductData(8, Load1.LightsCount);
+#endif
                         }
                     } else {
                         Load1.ErrorCount = 0;
@@ -107,7 +106,7 @@ inline void Load_Main() {
 #endif
 #endif
 
-#ifdef use_2KEY	
+#ifdef use_2KEY
 #ifdef Dimmer_use == 1
                             setDimmerLights_Clear(2, 1);
 #endif
@@ -125,13 +124,12 @@ inline void Load_Main() {
 #ifdef LightsControl_use == 1
                             setLights_Clear(3, 1);
 #endif
-
 #endif	
 
                             if (Load1.StatusOn == true) {
                                 Load1.StatusOn = 0;
                                 Load1.TotalLoad = Load1.AD;
-                                //Load->JudgeValue=LoadLimitValue*Load->LightsCount;
+                                //Load1.JudgeValue=LoadLimitValue*Load1.LightsCount;
                             }
 
                             if (Load1.StatusOff == true) {
@@ -143,16 +141,16 @@ inline void Load_Main() {
                     }
                 }
                 setLoad_AH_AL_Restore();
-
-                //                setProductData(2, (Load->AD >> 8));
-                //                setProductData(3, Load->AD);
-                //                setProductData(8, Load->LightsCount);
-                //                setProductData(10, Load->TotalLoad);
-                //                setProductData(16, (Load->JudgeValue >> 8));
-                //                setProductData(17, Load->JudgeValue);
-                //                setProductData(18, Load->ErrorStatus);
-                //                setProductData(19, Load->Count);
-
+#if Load_Debug == 1
+                setProductData(4, (Load1.AD >> 8));
+                setProductData(5, Load1.AD);
+                setProductData(6, (Load1.JudgeValue >> 8));
+                setProductData(7, Load1.JudgeValue);
+                setProductData(8, Load1.LightsCount);
+                setProductData(10, Load1.TotalLoad);
+                setProductData(18, Load1.ErrorStatus);
+                setProductData(19, Load1.Count);
+#endif
 
             }
         } else {
@@ -207,20 +205,22 @@ inline void Load_Main() {
 #endif
 
 #endif	
+#if Load_Debug == 1
+                    setProductData(4, (Load1.AD >> 8));
+                    setProductData(5, Load1.AD);
+                    setProductData(6, (Load1.JudgeValue >> 8));
+                    setProductData(7, Load1.JudgeValue);
+                    setProductData(8, Load1.Count);
+                    //setProductData(4,(Load1.ADH >> 8));
+                    //setProductData(5,Load1.ADH);
+                    //setProductData(6,(Load1.ADL >> 8));
+                    //setProductData(7,Load1.ADL);
+                    //                    setProductData(8, Load1.NumberCount);
+                    setProductData(10, Load1.TotalLoad);
 
-                    //                    setProductData(2, (Load->AD >> 8));
-                    //                    setProductData(3, Load->AD);
-                    //setProductData(4,(Load->ADH >> 8));
-                    //setProductData(5,Load->ADH);
-                    //setProductData(6,(Load->ADL >> 8));
-                    //setProductData(7,Load->ADL);
-                    //                    setProductData(8, Load->NumberCount);
-                    //                    setProductData(10, Load->TotalLoad);
-                    //                    setProductData(16, (Load->JudgeValue >> 8));
-                    //                    setProductData(17, Load->JudgeValue);
-                    //                    setProductData(18, Load->ErrorStatus);
-                    //                    setProductData(19, Load->Count);
+                    setProductData(18, Load1.ErrorStatus);
 
+#endif
                 }
             }
         }
@@ -246,8 +246,6 @@ void setLoad_Exceptions(char command) {
 #ifdef RadioFrequency1
     setRF_Enable(i);
 #endif
-
-
 }
 //*********************************************************
 
@@ -296,11 +294,13 @@ void setLoad_StatusOff(char lights, char command) {
 }
 
 char getLoad_Safe() {
-    return Load1.Safe;
+    char result = Load1.Safe;
+    return result;
 }
 
 char getLoad_ERROR() {
-    return Load1.ERROR;
+    char result = Load1.ERROR;
+    return result;
 }
 //*********************************************************
 

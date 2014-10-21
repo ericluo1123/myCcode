@@ -244,6 +244,16 @@
 #define DimmingDelayTime 7
 #endif
 
+#ifdef TMR0_IntrTime_150us
+#define TotalCount		55
+#define One_Percent		0.55
+#define Tune_Percent		40
+/**
+ * dimmer delay time
+ */
+#define DimmingDelayTime 5
+#endif
+
 #ifdef TMR0_IntrTime_200us
 #define TotalCount		41
 #define One_Percent		0.4

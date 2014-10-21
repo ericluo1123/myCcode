@@ -891,19 +891,18 @@ void setMemory_GO(char command) {
 #endif
 //*********************************************************
 #if WDT_use == 1
-
+  
 void WDT_Set() {
     WDTCON = _WDTCON;
-    WDT = &_WDT;
-    WDT->Enable = true;
-    WDT->Count = 10;
+    WDT.Enable = true;
+    WDT.Count = 10;
 }
 //*********************************************************
 
 void WDT_Main() {
-    if (WDT->Enable == true) {
-        if (WDT->Count-- > 0) {
-            WDT->Count = 10;
+    if (WDT.Enable == true) {
+        if (WDT.Count-- > 0) {
+            WDT.Count = 10;
             WDT_Clearing();
         }
     }

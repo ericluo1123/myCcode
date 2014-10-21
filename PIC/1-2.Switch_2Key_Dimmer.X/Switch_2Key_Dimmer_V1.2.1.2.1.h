@@ -111,7 +111,7 @@
 //FlashMemory
 #define FlashMemory_use 1
 //Watchdog timer 
-#define WDT_use 0
+#define WDT_use 1
 
 
 //Function Option
@@ -119,9 +119,9 @@
 //SYSC
 #define SYSC_use 0
 //OverTemperature
-#define OverTemperature_use 0
+#define OverTemperature_use 1
 //OverLoad
-#define OverLoad_use 0
+#define OverLoad_use 1
 //LED
 #define LED_use 1
 //Buzzer

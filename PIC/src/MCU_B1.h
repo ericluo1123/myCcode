@@ -353,6 +353,14 @@ inline int getAD(char, char);
 #define TMR0_10ms	100
 #endif
 
+#ifdef TMR0_IntrTime_150us
+#define  OPTION_REG_Value T0PS_1x4
+#define TMR0_Count	140
+#define TMR0_1ms	6
+#define TMR0_5ms	33
+#define TMR0_10ms	66
+#endif
+
 #ifdef TMR0_IntrTime_200us
 #define  OPTION_REG_Value T0PS_1x4
 #define TMR0_Count	190
@@ -686,8 +694,7 @@ struct WDT {
     unsigned Enable : 1;
     unsigned char Count;
 };
-struct WDT _WDT;
-struct WDT *WDT;
+struct WDT WDT;
 
 #define _WDTE SWDTEN		//Configuration
 #define _WDTCON 0b00010111;		//WDTPS<4:0> =2s && WDT is turned on 

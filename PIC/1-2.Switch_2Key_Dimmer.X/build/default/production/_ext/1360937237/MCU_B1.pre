@@ -351,6 +351,45 @@ void setLED_Main(char led);
 # 92
 void setLED(char led, char command);
 
+# 7 "../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h"
+struct OverTemp {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned ADtoGO : 1;
+unsigned LoadADGO : 1;
+unsigned Safe : 1;
+unsigned empty : 3;
+};
+unsigned int Time;
+unsigned char Count;
+
+unsigned char AD1;
+unsigned char AD2;
+
+# 36
+unsigned int AD;
+unsigned int ADH[2];
+unsigned int ADRES;
+
+
+};
+
+# 55
+struct OverTemp Temp1;
+
+# 61
+inline void Temp_Initialization();
+inline void Temp_Main();
+void setTemp_Main();
+void setTemp_Initialization();
+void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+void setTemp_Enable(char command);
+char getTemp_Safe();
+char getTemp_ERROR();
+
 # 161 "../src/../1-2.Switch_2Key_Dimmer.X/../src/CC2500_B1.h"
 const unsigned char CC2500_rfSettings[47] ={
 
@@ -566,6 +605,74 @@ void setRFSW_Status(char sw, char command);
 
 void setRF_DimmerValue(char lights);
 void setRF_DimmerLights(char lights, char on);
+
+# 155 "../src/../1-2.Switch_2Key_Dimmer.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Safe : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned StatusOn : 1;
+unsigned StatusOff : 1;
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+unsigned char ErrorStatus;
+
+# 193
+unsigned int TotalLoad;
+unsigned int AH[9];
+unsigned int AL[9];
+unsigned int AD;
+unsigned int ADH;
+unsigned int ADL;
+unsigned int ADRES;
+
+
+
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char OffCount;
+unsigned char ErrorCount;
+unsigned char UpdateCount;
+unsigned char LightsCount;
+unsigned char NumberCount;
+unsigned char CloseCount;
+unsigned char ADCount;
+unsigned char SafeCount;
+
+unsigned char Lights1Status;
+unsigned char Lights2Status;
+unsigned char Lights3Status;
+};
+
+
+struct OverLoad Load1;
+
+
+
+
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_Enable(char command);
+void setLoad_AH_AL_Restore();
+
+void setLoad_Count(char command);
+void setLoad_GO(char command);
+void setLoad_StatusOn(char lights, char command);
+void setLoad_StatusOff(char lights, char command);
+char getLoad_Safe();
+char getLoad_ERROR();
 
 # 10 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h"
 struct DimmerLights
@@ -3217,7 +3324,7 @@ void setADCGO();
 # 311
 inline int getAD(char, char);
 
-# 369
+# 377
 struct Timer0 {
 
 struct {
@@ -3240,11 +3347,11 @@ void TMR0_Set();
 inline void TMR0_ISR();
 inline void setDimmerReClock();
 
-# 475
+# 483
 void IOC_Set();
 inline void IOC_ISR();
 
-# 628
+# 636
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -3268,7 +3375,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 657
+# 665
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -3278,9 +3385,21 @@ void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
 
+# 693
+struct WDT {
+unsigned Enable : 1;
+unsigned char Count;
+};
+struct WDT WDT;
+
+# 703
+void WDT_Set();
+void WDT_Main();
+void WDT_Clearing();
+
 
 # 22 "../src/MCU_B1.c"
-#pragma config FOSC = INTOSC,WDTE = OFF,BOREN=OFF
+#pragma config FOSC = INTOSC,WDTE = SWDTEN,BOREN=OFF
 #pragma config VCAPEN = OFF,WRT = HALF
 
 # 30
@@ -3306,7 +3425,7 @@ IOC_Set();
 
 ;;
 
-;;
+WDT_Set();
 }
 
 
@@ -3584,5 +3703,29 @@ Memory.GO = command;
 if (command == 0) {
 Memory.Time = command;
 }
+}
+
+
+
+
+void WDT_Set() {
+WDTCON = 0b00010111;;
+WDT.Enable = 1;
+WDT.Count = 10;
+}
+
+
+void WDT_Main() {
+if (WDT.Enable == 1) {
+if (WDT.Count-- > 0) {
+WDT.Count = 10;
+WDT_Clearing();
+}
+}
+}
+
+
+void WDT_Clearing() {
+asm("clrwdt");
 }
 

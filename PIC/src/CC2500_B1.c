@@ -38,6 +38,7 @@ inline void CC2500_TxData() {
         Timeout_Counter();
     };
     set_TimeoutCleared();
+
     CC2500_WriteByte();
     SPI0Buffer = Tx_Length;
     CC2500_WriteByte();
@@ -51,12 +52,15 @@ inline void CC2500_TxData() {
         Timeout_Counter();
     };
     set_TimeoutCleared();
+
     while (CC2500_GDO0 == 1 && myMain.Timeout == false) {
         Timeout_Counter();
     };
     set_TimeoutCleared();
+
     CC2500_WriteCommand(CC2500_SIDLE); // idle
     CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
     Transceive_OK = 1;
 }
 //-----------------------------------------------------------------------------
@@ -83,27 +87,32 @@ inline void CC2500_RxData(void) {
         while (CC2500_SO == 1 && myMain.Timeout == false) {
             Timeout_Counter();
         };
-        set_TimeoutCleared();
-        CC2500_WriteByte();
+        if (myMain.Timeout == false) {
+            CC2500_WriteByte();
 
-        CC2500_ReadByte();
-        Rx_Length = SPI0Buffer;
-        for (loop_f = 0; loop_f < Rx_Length; loop_f++) {
             CC2500_ReadByte();
-            RF_Data[loop_f] = SPI0Buffer;
-        }
-        CC2500_ReadByte(); // Read RSSI data
-        RSSI = SPI0Buffer;
-        CC2500_ReadByte();
-        CRC = SPI0Buffer;
-        CC2500_CSN = 1;
-        if (CRC & 0x80)
-            Receive_OK = 1;
+            Rx_Length = SPI0Buffer;
+            for (loop_f = 0; loop_f < Rx_Length; loop_f++) {
+                CC2500_ReadByte();
+                RF_Data[loop_f] = SPI0Buffer;
+            }
+            CC2500_ReadByte(); // Read RSSI data
+            RSSI = SPI0Buffer;
+            CC2500_ReadByte();
+            CRC = SPI0Buffer;
+            CC2500_CSN = 1;
+            if (CRC & 0x80)
+                Receive_OK = 1;
 
-        CC2500_WriteCommand(CC2500_SIDLE); // idle
-        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-        RF1.RxStatus = false;
-        RF1.ReceiveGO = true;
+            CC2500_WriteCommand(CC2500_SIDLE); // idle
+            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+            CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+            RF1.RxStatus = false;
+            RF1.ReceiveGO = true;
+        } else {
+            CC2500_CSN = 1;
+        }
+        set_TimeoutCleared();
     }
     //    CC2500_WriteCommand(CC2500_SIDLE); // idle
     //    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
@@ -251,6 +260,7 @@ inline void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
         Timeout_Counter();
     };
     set_TimeoutCleared();
+
     CC2500_WriteByte();
     SPI0Buffer = value; //register data
     CC2500_WriteByte();
@@ -267,6 +277,7 @@ inline void CC2500_ReadREG(unsigned char r_addr) {
         Timeout_Counter();
     };
     set_TimeoutCleared();
+
     CC2500_WriteByte();
     CC2500_ReadByte();
     CC2500_CSN = 1;
@@ -284,6 +295,7 @@ inline void CC2500_WriteCommand(unsigned char command) {
         Timeout_Counter();
     };
     set_TimeoutCleared();
+
     CC2500_WriteByte();
     CC2500_CSN = 1;
 }
@@ -299,6 +311,7 @@ inline void CC2500_ReadStatus(unsigned char status_addr) {
         Timeout_Counter();
     };
     set_TimeoutCleared();
+
     CC2500_WriteByte();
     CC2500_ReadByte();
     CC2500_CSN = 1;

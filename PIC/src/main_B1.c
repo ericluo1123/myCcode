@@ -211,7 +211,7 @@ inline void Timeout_Counter() {
     if (myMain.Timeout_Counter == 10000) {
         myMain.Timeout_Counter = 0;
         myMain.Timeout = true;
-        ErrLED = ErrLED == true ? false : true;
+//        ErrLED = ErrLED == true ? false : true;
     }
 }
 

@@ -3273,7 +3273,7 @@ void setADCGO();
 # 311
 inline int getAD(char, char);
 
-# 369
+# 377
 struct Timer0 {
 
 struct {
@@ -3296,11 +3296,11 @@ void TMR0_Set();
 inline void TMR0_ISR();
 inline void setDimmerReClock();
 
-# 475
+# 483
 void IOC_Set();
 inline void IOC_ISR();
 
-# 628
+# 636
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -3324,7 +3324,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 657
+# 665
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -3348,12 +3348,14 @@ Temp1.Enable = command;
 
 
 char getTemp_Safe() {
-return Temp1.Safe;
+char result = Temp1.Safe;
+return result;
 }
 
 
 char getTemp_ERROR() {
-return Temp1.ERROR;
+char result = Temp1.ERROR;
+return result;
 }
 
 
@@ -3389,16 +3391,16 @@ if (Temp1.Time >= 500)
 {
 if (1 == 1 && getPF_Safe() == 1) {
 Temp1.Time = 0;
-Temp1.ADtoGO = 0;
+Temp1.ADtoGO = 1;
 Temp1.Safe = 0;
+
 } else {
 Temp1.Time = 1000;
 }
 }
 } else {
 Temp1.Time++;
-if (Temp1.Time >= 4)
-{
+if (Temp1.Time >= 4) {
 Temp1.Time = 0;
 Temp1.ADtoGO = 0;
 Temp1.AD = Temp1.ADH[1];
@@ -3428,6 +3430,8 @@ Temp1.Safe = 1;
 }
 product->Data[24]=Temp1.AD >> 8;
 product->Data[25]=Temp1.AD;
+
+
 Temp1.ADH[0] = 0;
 Temp1.ADH[1] = 0;
 }

@@ -3,7 +3,7 @@
 #define _OverLoad_H_
 
 #if OverLoad_use == 1
-
+#define Load_Debug 0
 #if Dimmer_use == 1
 
 #if Max_Percent == 45

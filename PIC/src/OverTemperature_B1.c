@@ -19,12 +19,14 @@ void setTemp_Enable(char command) {
 //*********************************************************
 
 char getTemp_Safe() {
-    return Temp1.Safe;
+    char result = Temp1.Safe;
+    return result;
 }
 //*********************************************************
 
 char getTemp_ERROR() {
-    return Temp1.ERROR;
+    char result = Temp1.ERROR;
+    return result;
 }
 //*********************************************************
 
@@ -60,16 +62,16 @@ void setTemp_Main() {
             {
                 if (getLoad_Safe() == 1 && getPF_Safe() == 1) {
                     Temp1.Time = 0;
-                    Temp1.ADtoGO = false;
+                    Temp1.ADtoGO = true;
                     Temp1.Safe = false;
+
                 } else {
                     Temp1.Time = 1000; //*5
                 }
             }
         } else {
             Temp1.Time++;
-            if (Temp1.Time >= 4)//*10ms
-            {
+            if (Temp1.Time >= 4) {//*10ms
                 Temp1.Time = 0;
                 Temp1.ADtoGO = false;
                 Temp1.AD = Temp1.ADH[1];
@@ -99,6 +101,8 @@ void setTemp_Main() {
                 }
                 setProductData(24, Temp1.AD >> 8);
                 setProductData(25, Temp1.AD);
+                //                setProductData(2, Temp1.AD >> 8);
+                //                setProductData(3, Temp1.AD);
                 Temp1.ADH[0] = 0;
                 Temp1.ADH[1] = 0;
             }

@@ -52,9 +52,11 @@ inline void Switch_Initialization() {
 #ifdef use_1KEY
     setSw_Initialization(1);
 #endif
+
 #ifdef use_2KEY
     setSw_Initialization(2);
 #endif
+    
 #ifdef use_3KEY
     setSw_Initialization(3);
 #endif
@@ -145,6 +147,28 @@ void setSw_Main(char sw) {
 
 #if Dimmer_use == 1
                     Sw_DimmerOnFunc(sw); //key on function
+#else
+                    if (Sw->Status == false) {
+                        Sw->Status = true;
+                        if (sw == 1) {
+                            setLED(1, 0);
+                        } else if (sw == 2) {
+                            setLED(2, 0);
+                        } else if (sw == 3) {
+                            setLED(3, 0);
+                        }
+                    } else {
+                        Sw->Status = false;
+                        if (sw == 1) {
+                            setLED(1, 1);
+                        } else if (sw == 2) {
+                            setLED(2, 1);
+                        } else if (sw == 3) {
+                            setLED(3, 1);
+                        }
+                    }
+
+                    setBuz(1, 100);
 #endif
                 }
             } else {
