@@ -32,7 +32,15 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
     if (DimmerLightsIntrIOC->GO == false && DimmerLightsIntrIOC->TriacFlag == false) {
         DimmerLightsIntrIOC->GO = true;
         DimmerLightsIntrIOC->TriacFlag = true;
+        if (DimmerReference1 == true) {
+            Dimmer->Correction = 1;
+        } else {
+            Dimmer->Correction = 0;
+        }
     }
+    //    if (lights == 1) {
+    //        ErrLED = ErrLED == true ? false : true;
+    //    }
 
 #endif
 #if Control_Method_Mosfet == true
@@ -89,7 +97,7 @@ inline void setDimmerLights_IntrControl(char lights) {
     DimmerIntrPointSelect(lights);
     if (DimmerLightsIntr->GO == true) {
         DimmerLightsIntr->Count++;
-        if (DimmerLightsIntr->Count >= (DimmerLightsIntr->DimmingValue - Dimmer->Correction)) {
+        if (DimmerLightsIntr->Count >= (DimmerLightsIntr->DimmingValue + Dimmer->Correction)) {
             DimmerLightsIntr->Count = 0;
             DimmerLightsIntr->GO = false;
 
@@ -208,9 +216,12 @@ inline void setDimmerLights_IntrControl(char lights) {
     }
     if (DimmerLightsIntr->TriacFlag == true) {
         DimmerLightsIntr->TriacCount++;
-        if (DimmerLightsIntr->TriacCount == 70) {
+        if (DimmerLightsIntr->TriacCount == TriacCountValue) {
             DimmerLightsIntr->TriacCount = 0;
             DimmerLightsIntr->TriacFlag = false;
+            //            if (lights == 1) {
+            //                ErrLED = ErrLED == true ? false : true;
+            //            }
         }
     }
 #endif

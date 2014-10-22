@@ -112,12 +112,17 @@ struct myMain myMain;
  * void myMain_Initialization()\n
  * my main initialization\n
  */
-void myMain_Initialization();
+inline void myMain_Initialization();
+/**
+ * inline void my_Main();\n
+ * my Main\n
+ */
+inline void my_Main();
 /**
  * void my_Main()\n
- * my main\n
+ * my main time\n
  */
-void my_Main();
+inline void my_MainTime();
 //end
 /**
  * Test Point cleared

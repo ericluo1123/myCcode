@@ -66,12 +66,15 @@ unsigned int Timeout_Counter;
 struct myMain myMain;
 
 # 115
-void myMain_Initialization();
+inline void myMain_Initialization();
 
 # 120
-void my_Main();
+inline void my_Main();
 
 # 125
+inline void my_MainTime();
+
+# 130
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 
@@ -269,6 +272,8 @@ void TouchPower();
 # 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Buzzer_B1.h"
 struct Buzzer {
 
+union {
+
 struct {
 unsigned Enable : 1;
 unsigned GO : 1;
@@ -278,6 +283,7 @@ unsigned BufferStatus2 : 1;
 unsigned Switch : 1;
 unsigned empty1 : 2;
 
+};
 };
 
 unsigned int Counter;
@@ -291,19 +297,19 @@ unsigned int TimeValueBuffer2;
 
 struct Buzzer Buz1;
 
-# 45
+# 48
 inline void Buzzer_Initialization();
 
-# 50
+# 53
 inline void Buzzer_Main();
 
-# 59
+# 62
 void setBuz(char count, int time);
 
-# 67
+# 70
 void setBuz_Enable(char command);
 
-# 71
+# 74
 int getBuz_GO();
 
 # 10 "../src/../1-2.Switch_2Key_Dimmer.X/../src/LED_B1.h"
@@ -553,9 +559,14 @@ struct {
 unsigned Sleep : 1;
 unsigned Run : 1;
 unsigned Bus : 1;
-unsigned empty : 6;
+unsigned Checked : 1;
+unsigned RxChecked:1;
+unsigned empty : 4;
 };
 unsigned char Count;
+unsigned char CheckCount;
+unsigned char CheckedCounter;
+unsigned char RunTime;
 unsigned char DebounceTime;
 
 };
@@ -596,7 +607,7 @@ struct RFSW RFSW1;
 
 struct RFSW RFSW2;
 
-# 76
+# 81
 void RfSWPointSelect(char sw);
 void setRFSW_Control(char sw);
 void setRFSW_AdjControl(char sw);
@@ -742,25 +753,25 @@ inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
 inline void setDimmerLights_IntrControl(char lights);
-inline void DimmerIntrPointSelect(char);
+inline void DimmerIntrPointSelect(char lights);
 
 
-void DimmerLightsPointSelect(char);
+void DimmerLightsPointSelect(char lights);
 void DimmerLights_Initialization();
 void DimmerLights_Main();
-void DimmerLights_Exceptions(char);
+void DimmerLights_Exceptions(char status);
 void DimmerLights_Close();
 
-void setDimmerLights_Initialization(char);
-void setDimmerLights_GO(char,char);
-void setDimmerLights_Main(char);
-void setDimmerLights_ERROR(char);
-void setDimmerLights_TriggerERROR(char,char);
-void setDimmerLights(char,char);
-void setDimmerLights_Adj(char,char);
-void setDimmerLights_AdjRF(char);
-char getPercentValue(char);
-char setPercentValue(char);
+void setDimmerLights_Initialization(char lights);
+void setDimmerLights_GO(char lights,char command);
+void setDimmerLights_Main(char lights);
+void setDimmerLights_ERROR(char lights);
+void setDimmerLights_TriggerERROR(char lights,char command);
+void setDimmerLights(char lights,char status);
+void setDimmerLights_Adj(char lights,char status);
+void setDimmerLights_AdjRF(char lights);
+char getPercentValue(char value);
+char setPercentValue(char value);
 
 void setDimmerLights_MaxmumValue(char,char);
 void setDimmerLights_Trigger(char,char);
@@ -3399,7 +3410,6 @@ void WDT_Clearing();
 
 # 7 "../src/Main_B1.c"
 int main(int argc, char** argv) {
-
 myMain_Initialization();
 Mcu_Initialization();
 Flash_Memory_Initialization();
@@ -3440,13 +3450,13 @@ getTemp_AD(0x09);
 
 ;;
 
-# 62
+# 61
 }
 
 
 if (myMain.T0_Timerout) {
 myMain.T0_Timerout = 0;
-my_Main();
+my_MainTime();
 WDT_Main();
 ;;
 ;;
@@ -3473,23 +3483,23 @@ DelayOff_Main();
 }
 }
 
-# 110
+# 109
 }
 return (0);
 }
 
 
 
-void myMain_Initialization() {
+inline void myMain_Initialization() {
 
 product = &_product;
 product->Data[20] = 210;
 
-# 125
+# 124
 }
 
 
-void my_Main() {
+inline void my_MainTime() {
 
 if (myMain.PowerON == 0) {
 myMain.PowerCount++;
@@ -3505,7 +3515,7 @@ setTemp_Enable(1);
 
 setLoad_Enable(1);
 
-# 148
+# 147
 setBuz(3, 50);
 myMain.SelfTest = 1;
 
@@ -3519,21 +3529,21 @@ setRF_Enable(1);
 }
 } else {
 
-# 167
+# 166
 myMain.Count1++;
 if (myMain.Count1 == 100)
 {
 myMain.Count1 = 0;
 
-# 183
+# 182
 if (myMain.Flag) {
 myMain.Flag = 0;
 
-# 193
+# 192
 } else {
 myMain.Flag = 1;
 
-# 203
+# 202
 }
 }
 

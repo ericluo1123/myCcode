@@ -201,10 +201,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 "106
 [v _myMain `S2 ~T0 @X0 1 e ]
 [; ;Main_B1.h: 106: struct myMain myMain;
-[; ;Main_B1.h: 115: void myMain_Initialization();
-[; ;Main_B1.h: 120: void my_Main();
-[; ;Main_B1.h: 125: inline void Timeout_Counter();
-[; ;Main_B1.h: 126: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 115: inline void myMain_Initialization();
+[; ;Main_B1.h: 120: inline void my_Main();
+[; ;Main_B1.h: 125: inline void my_MainTime();
+[; ;Main_B1.h: 130: inline void Timeout_Counter();
+[; ;Main_B1.h: 131: inline void set_TimeoutCleared();
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -886,22 +887,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.h: 97: inline void DimmerIntrIOCPointSelect(char lights);
 [; ;Dimmer_B1.h: 98: inline void setDimmerLights_IntrIOC_GO(char lights);
 [; ;Dimmer_B1.h: 100: inline void setDimmerLights_IntrControl(char lights);
-[; ;Dimmer_B1.h: 101: inline void DimmerIntrPointSelect(char);
-[; ;Dimmer_B1.h: 104: void DimmerLightsPointSelect(char);
+[; ;Dimmer_B1.h: 101: inline void DimmerIntrPointSelect(char lights);
+[; ;Dimmer_B1.h: 104: void DimmerLightsPointSelect(char lights);
 [; ;Dimmer_B1.h: 105: void DimmerLights_Initialization();
 [; ;Dimmer_B1.h: 106: void DimmerLights_Main();
-[; ;Dimmer_B1.h: 107: void DimmerLights_Exceptions(char);
+[; ;Dimmer_B1.h: 107: void DimmerLights_Exceptions(char status);
 [; ;Dimmer_B1.h: 108: void DimmerLights_Close();
-[; ;Dimmer_B1.h: 110: void setDimmerLights_Initialization(char);
-[; ;Dimmer_B1.h: 111: void setDimmerLights_GO(char,char);
-[; ;Dimmer_B1.h: 112: void setDimmerLights_Main(char);
-[; ;Dimmer_B1.h: 113: void setDimmerLights_ERROR(char);
-[; ;Dimmer_B1.h: 114: void setDimmerLights_TriggerERROR(char,char);
-[; ;Dimmer_B1.h: 115: void setDimmerLights(char,char);
-[; ;Dimmer_B1.h: 116: void setDimmerLights_Adj(char,char);
-[; ;Dimmer_B1.h: 117: void setDimmerLights_AdjRF(char);
-[; ;Dimmer_B1.h: 118: char getPercentValue(char);
-[; ;Dimmer_B1.h: 119: char setPercentValue(char);
+[; ;Dimmer_B1.h: 110: void setDimmerLights_Initialization(char lights);
+[; ;Dimmer_B1.h: 111: void setDimmerLights_GO(char lights,char command);
+[; ;Dimmer_B1.h: 112: void setDimmerLights_Main(char lights);
+[; ;Dimmer_B1.h: 113: void setDimmerLights_ERROR(char lights);
+[; ;Dimmer_B1.h: 114: void setDimmerLights_TriggerERROR(char lights,char command);
+[; ;Dimmer_B1.h: 115: void setDimmerLights(char lights,char status);
+[; ;Dimmer_B1.h: 116: void setDimmerLights_Adj(char lights,char status);
+[; ;Dimmer_B1.h: 117: void setDimmerLights_AdjRF(char lights);
+[; ;Dimmer_B1.h: 118: char getPercentValue(char value);
+[; ;Dimmer_B1.h: 119: char setPercentValue(char value);
 [; ;Dimmer_B1.h: 121: void setDimmerLights_MaxmumValue(char,char);
 [; ;Dimmer_B1.h: 122: void setDimmerLights_Trigger(char,char);
 [; ;Dimmer_B1.h: 123: void setDimmerLights_Switch(char,char);
@@ -2890,9 +2891,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.h: 670: void Flash_Memory_Modify();
 [; ;MCU_B1.h: 671: void Flash_Memory_Main();
 [; ;MCU_B1.h: 672: void setMemory_GO(char command);
-[v F300 `(v ~T0 @X0 1 tf ]
+[v F304 `(v ~T0 @X0 1 tf ]
 "11 ../src/Buzzer_B1.c
-[v _Buzzer_Initialization `TF300 ~T0 @X0 1 e ]
+[v _Buzzer_Initialization `TF304 ~T0 @X0 1 e ]
 {
 [; ;Buzzer_B1.c: 11: inline void Buzzer_Initialization() {
 [e :U _Buzzer_Initialization ]
@@ -3004,9 +3005,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "43
 [e :UE 273 ]
 }
-[v F302 `(v ~T0 @X0 1 tf ]
+[v F306 `(v ~T0 @X0 1 tf ]
 "46
-[v _Buzzer_Main `TF302 ~T0 @X0 1 e ]
+[v _Buzzer_Main `TF306 ~T0 @X0 1 e ]
 {
 [; ;Buzzer_B1.c: 46: inline void Buzzer_Main() {
 [e :U _Buzzer_Main ]

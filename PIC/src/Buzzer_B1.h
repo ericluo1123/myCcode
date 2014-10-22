@@ -10,15 +10,18 @@
 
 struct Buzzer {
 
-    struct {
-        unsigned Enable : 1;
-        unsigned GO : 1;
-        unsigned PowerON : 1;
-        unsigned BufferStatus1 : 1;
-        unsigned BufferStatus2 : 1;
-        unsigned Switch : 1;
-        unsigned empty1 : 2;
+    union {
 
+        struct {
+            unsigned Enable : 1;
+            unsigned GO : 1;
+            unsigned PowerON : 1;
+            unsigned BufferStatus1 : 1;
+            unsigned BufferStatus2 : 1;
+            unsigned Switch : 1;
+            unsigned empty1 : 2;
+
+        };
     };
 
     unsigned int Counter;

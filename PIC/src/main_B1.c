@@ -5,7 +5,6 @@
 //main
 
 int main(int argc, char** argv) {
-
     myMain_Initialization();
     Mcu_Initialization();
     Flash_Memory_Initialization();
@@ -55,16 +54,16 @@ int main(int argc, char** argv) {
             getPIR_AD(1, PIR_VR_Channel, PIR_Signal_Channel);
 #endif
 
-//                        while (true && myMain.Timeout == false) {
-//                            Timeout_Counter();
-//                        }
-//                        set_TimeoutCleared();
+            //                        while (true && myMain.Timeout == false) {
+            //                            Timeout_Counter();
+            //                        }
+            //                        set_TimeoutCleared();
         }
         //TMR0
 #if Timer0_use == 1
         if (myMain.T0_Timerout) {//10ms
             myMain.T0_Timerout = 0;
-            my_Main();
+            my_MainTime();
             WDT_Main();
             I2C_Main();
             UART_Main();
@@ -98,7 +97,7 @@ int main(int argc, char** argv) {
         if (myMain.T1_Timerout) //1ms
         {
             myMain.T1_Timerout = 0;
-            my_Main();
+            my_MainTime();
             if (myMain.PowerON) {
                 RF_Main();
                 I2C_Main();
@@ -113,7 +112,7 @@ int main(int argc, char** argv) {
 
 //Tmain initial
 
-void myMain_Initialization() {
+inline void myMain_Initialization() {
 #ifndef _16F723A
     product = &_product;
     product->Data[20] = KeyID;
@@ -125,7 +124,7 @@ void myMain_Initialization() {
 }
 //T main
 
-void my_Main() {
+inline void my_MainTime() {
     //Power
     if (myMain.PowerON == false) {
         myMain.PowerCount++;
@@ -211,7 +210,7 @@ inline void Timeout_Counter() {
     if (myMain.Timeout_Counter == 10000) {
         myMain.Timeout_Counter = 0;
         myMain.Timeout = true;
-//        ErrLED = ErrLED == true ? false : true;
+        //        ErrLED = ErrLED == true ? false : true;
     }
 }
 

@@ -891,7 +891,7 @@ void setMemory_GO(char command) {
 #endif
 //*********************************************************
 #if WDT_use == 1
-  
+
 void WDT_Set() {
     WDTCON = _WDTCON;
     WDT.Enable = true;

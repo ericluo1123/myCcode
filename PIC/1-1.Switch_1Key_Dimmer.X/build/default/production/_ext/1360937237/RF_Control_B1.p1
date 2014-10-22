@@ -114,15 +114,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _RB1 `Vb ~T0 @X0 0 e@105 ]
 "48 ../src/../1-1.Switch_1Key_Dimmer.X/../src/RF_Control_B1.h
 [v _RF_RxDisable `(v ~T0 @X0 0 ef ]
-[v F412 `(v ~T0 @X0 1 tf1`uc ]
+[v F416 `(v ~T0 @X0 1 tf1`uc ]
 "307 ../src/../1-1.Switch_1Key_Dimmer.X/../src/CC2500_B1.h
-[v _CC2500_WriteCommand `TF412 ~T0 @X0 0 e ]
-[v F414 `(v ~T0 @X0 1 tf ]
+[v _CC2500_WriteCommand `TF416 ~T0 @X0 0 e ]
+[v F418 `(v ~T0 @X0 1 tf ]
 "308
-[v _CC2500_TxData `TF414 ~T0 @X0 0 e ]
-[v F417 `(v ~T0 @X0 1 tf ]
+[v _CC2500_TxData `TF418 ~T0 @X0 0 e ]
+[v F421 `(v ~T0 @X0 1 tf ]
 "309
-[v _CC2500_RxData `TF417 ~T0 @X0 0 e ]
+[v _CC2500_RxData `TF421 ~T0 @X0 0 e ]
 "44 ../src/../1-1.Switch_1Key_Dimmer.X/../src/RF_Control_B1.h
 [v _getRxData `(v ~T0 @X0 0 ef ]
 "4533 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
@@ -261,10 +261,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 "106
 [v _myMain `S2 ~T0 @X0 1 e ]
 [; ;Main_B1.h: 106: struct myMain myMain;
-[; ;Main_B1.h: 115: void myMain_Initialization();
-[; ;Main_B1.h: 120: void my_Main();
-[; ;Main_B1.h: 125: inline void Timeout_Counter();
-[; ;Main_B1.h: 126: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 115: inline void myMain_Initialization();
+[; ;Main_B1.h: 120: inline void my_Main();
+[; ;Main_B1.h: 125: inline void my_MainTime();
+[; ;Main_B1.h: 130: inline void Timeout_Counter();
+[; ;Main_B1.h: 131: inline void set_TimeoutCleared();
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -946,22 +947,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.h: 97: inline void DimmerIntrIOCPointSelect(char lights);
 [; ;Dimmer_B1.h: 98: inline void setDimmerLights_IntrIOC_GO(char lights);
 [; ;Dimmer_B1.h: 100: inline void setDimmerLights_IntrControl(char lights);
-[; ;Dimmer_B1.h: 101: inline void DimmerIntrPointSelect(char);
-[; ;Dimmer_B1.h: 104: void DimmerLightsPointSelect(char);
+[; ;Dimmer_B1.h: 101: inline void DimmerIntrPointSelect(char lights);
+[; ;Dimmer_B1.h: 104: void DimmerLightsPointSelect(char lights);
 [; ;Dimmer_B1.h: 105: void DimmerLights_Initialization();
 [; ;Dimmer_B1.h: 106: void DimmerLights_Main();
-[; ;Dimmer_B1.h: 107: void DimmerLights_Exceptions(char);
+[; ;Dimmer_B1.h: 107: void DimmerLights_Exceptions(char status);
 [; ;Dimmer_B1.h: 108: void DimmerLights_Close();
-[; ;Dimmer_B1.h: 110: void setDimmerLights_Initialization(char);
-[; ;Dimmer_B1.h: 111: void setDimmerLights_GO(char,char);
-[; ;Dimmer_B1.h: 112: void setDimmerLights_Main(char);
-[; ;Dimmer_B1.h: 113: void setDimmerLights_ERROR(char);
-[; ;Dimmer_B1.h: 114: void setDimmerLights_TriggerERROR(char,char);
-[; ;Dimmer_B1.h: 115: void setDimmerLights(char,char);
-[; ;Dimmer_B1.h: 116: void setDimmerLights_Adj(char,char);
-[; ;Dimmer_B1.h: 117: void setDimmerLights_AdjRF(char);
-[; ;Dimmer_B1.h: 118: char getPercentValue(char);
-[; ;Dimmer_B1.h: 119: char setPercentValue(char);
+[; ;Dimmer_B1.h: 110: void setDimmerLights_Initialization(char lights);
+[; ;Dimmer_B1.h: 111: void setDimmerLights_GO(char lights,char command);
+[; ;Dimmer_B1.h: 112: void setDimmerLights_Main(char lights);
+[; ;Dimmer_B1.h: 113: void setDimmerLights_ERROR(char lights);
+[; ;Dimmer_B1.h: 114: void setDimmerLights_TriggerERROR(char lights,char command);
+[; ;Dimmer_B1.h: 115: void setDimmerLights(char lights,char status);
+[; ;Dimmer_B1.h: 116: void setDimmerLights_Adj(char lights,char status);
+[; ;Dimmer_B1.h: 117: void setDimmerLights_AdjRF(char lights);
+[; ;Dimmer_B1.h: 118: char getPercentValue(char value);
+[; ;Dimmer_B1.h: 119: char setPercentValue(char value);
 [; ;Dimmer_B1.h: 121: void setDimmerLights_MaxmumValue(char,char);
 [; ;Dimmer_B1.h: 122: void setDimmerLights_Trigger(char,char);
 [; ;Dimmer_B1.h: 123: void setDimmerLights_Switch(char,char);
@@ -2950,9 +2951,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.h: 670: void Flash_Memory_Modify();
 [; ;MCU_B1.h: 671: void Flash_Memory_Main();
 [; ;MCU_B1.h: 672: void setMemory_GO(char command);
-[v F441 `(v ~T0 @X0 1 tf ]
+[v F445 `(v ~T0 @X0 1 tf ]
 "9 ../src/RF_Control_B1.c
-[v _RF_Initialization `TF441 ~T0 @X0 1 e ]
+[v _RF_Initialization `TF445 ~T0 @X0 1 e ]
 {
 [; ;RF_Control_B1.c: 9: inline void RF_Initialization() {
 [e :U _RF_Initialization ]
@@ -2964,9 +2965,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "13
 [e :UE 271 ]
 }
-[v F443 `(v ~T0 @X0 1 tf ]
+[v F447 `(v ~T0 @X0 1 tf ]
 "16
-[v _RF_Main `TF443 ~T0 @X0 1 e ]
+[v _RF_Main `TF447 ~T0 @X0 1 e ]
 {
 [; ;RF_Control_B1.c: 16: inline void RF_Main() {
 [e :U _RF_Main ]
@@ -3091,9 +3092,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;RF_Control_B1.c: 73: RF1.Count++;
 "73
 [e ++ . _RF1 2 -> -> 1 `i `uc ]
-[; ;RF_Control_B1.c: 74: if (RF1.Count == 20) {
+[; ;RF_Control_B1.c: 74: if (RF1.Count == 30) {
 "74
-[e $ ! == -> . _RF1 2 `i -> 20 `i 284  ]
+[e $ ! == -> . _RF1 2 `i -> 30 `i 284  ]
 {
 [; ;RF_Control_B1.c: 75: RF1.Count = 0;
 "75
@@ -3385,488 +3386,480 @@ Version 3.2 HI-TECH Software Intermediate Code
 "202
 [e $ ! == -> . . _RF1 0 6 `i -> 1 `i 298  ]
 {
-[; ;RF_Control_B1.c: 203: if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64)
+[; ;RF_Control_B1.c: 203: if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) {
 "203
 [e $ ! && == -> *U + &U _RF_Data * -> -> -> 0 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 0 `i == -> *U + &U _RF_Data * -> -> -> 1 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 100 `i 299  ]
-[; ;RF_Control_B1.c: 204: {
-"204
 {
-[; ;RF_Control_B1.c: 205: setLog_Code();
-"205
+[; ;RF_Control_B1.c: 204: setLog_Code();
+"204
 [e ( _setLog_Code ..  ]
-"206
+"205
 }
 [e :U 299 ]
-"207
+"206
 }
-[; ;RF_Control_B1.c: 206: }
-[; ;RF_Control_B1.c: 207: } else {
+[; ;RF_Control_B1.c: 205: }
+[; ;RF_Control_B1.c: 206: } else {
 [e $U 300  ]
 [e :U 298 ]
 {
-[; ;RF_Control_B1.c: 208: if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02)
-"208
+[; ;RF_Control_B1.c: 207: if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {
+"207
 [e $ ! && == -> *U + &U _RF_Data * -> -> -> 0 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 0 `i == -> *U + &U _RF_Data * -> -> -> 1 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 2 `i 301  ]
-[; ;RF_Control_B1.c: 209: {
-"209
 {
-[; ;RF_Control_B1.c: 210: if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
-"210
+[; ;RF_Control_B1.c: 209: if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
+"209
 [e $ ! && && == -> *U + &U _RF_Data * -> -> -> 12 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 255 `i == -> *U + &U _RF_Data * -> -> -> 13 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 255 `i == -> *U + &U _RF_Data * -> -> -> 14 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 255 `i 302  ]
 {
-[; ;RF_Control_B1.c: 211: __nop();
-"211
+[; ;RF_Control_B1.c: 210: __nop();
+"210
 [e ( ___nop ..  ]
-"212
+"211
 }
-[; ;RF_Control_B1.c: 212: } else {
+[; ;RF_Control_B1.c: 211: } else {
 [e $U 303  ]
 [e :U 302 ]
 {
-[; ;RF_Control_B1.c: 213: if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_Data[14] == product->Data[14]) {
-"213
+[; ;RF_Control_B1.c: 212: if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_Data[14] == product->Data[14]) {
+"212
 [e $ ! && && == -> *U + &U _RF_Data * -> -> -> 12 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> *U + &U . *U _product 0 * -> -> -> 12 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux `i == -> *U + &U _RF_Data * -> -> -> 13 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> *U + &U . *U _product 0 * -> -> -> 13 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux `i == -> *U + &U _RF_Data * -> -> -> 14 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> *U + &U . *U _product 0 * -> -> -> 14 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux `i 304  ]
 {
-[; ;RF_Control_B1.c: 214: setControl_Lights_Table();
-"214
+[; ;RF_Control_B1.c: 213: setControl_Lights_Table();
+"213
 [e ( _setControl_Lights_Table ..  ]
-"215
+"214
 }
 [e :U 304 ]
-"216
+"215
 }
 [e :U 303 ]
-"217
+"216
 }
+[; ;RF_Control_B1.c: 214: }
 [; ;RF_Control_B1.c: 215: }
-[; ;RF_Control_B1.c: 216: }
-[; ;RF_Control_B1.c: 217: } else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02)
+[; ;RF_Control_B1.c: 216: } else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02) {
 [e $U 305  ]
 [e :U 301 ]
 [e $ ! && == -> *U + &U _RF_Data * -> -> -> 0 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 255 `i == -> *U + &U _RF_Data * -> -> -> 1 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 2 `i 306  ]
-[; ;RF_Control_B1.c: 218: {
+{
+[; ;RF_Control_B1.c: 217: ;
 "218
+}
+[; ;RF_Control_B1.c: 218: } else if (RF_Data[0] == 0x0 && RF_Data[1] == 0x65) {
+[e $U 307  ]
+[e :U 306 ]
+[e $ ! && == -> *U + &U _RF_Data * -> -> -> 0 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 0 `i == -> *U + &U _RF_Data * -> -> -> 1 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 101 `i 308  ]
 {
 [; ;RF_Control_B1.c: 219: ;
 "220
 }
-[; ;RF_Control_B1.c: 220: } else if (RF_Data[0] == 0x0 && RF_Data[1] == 0x65)
-[e $U 307  ]
-[e :U 306 ]
-[e $ ! && == -> *U + &U _RF_Data * -> -> -> 0 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 0 `i == -> *U + &U _RF_Data * -> -> -> 1 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 101 `i 308  ]
-[; ;RF_Control_B1.c: 221: {
-"221
-{
-[; ;RF_Control_B1.c: 222: ;
-"223
-}
 [e :U 308 ]
-"228
+"225
 [e :U 307 ]
 [e :U 305 ]
 }
 [e :U 300 ]
-[; ;RF_Control_B1.c: 223: }
-[; ;RF_Control_B1.c: 228: }
-[; ;RF_Control_B1.c: 229: }
-"229
+[; ;RF_Control_B1.c: 220: }
+[; ;RF_Control_B1.c: 225: }
+[; ;RF_Control_B1.c: 226: }
+"226
 [e :UE 297 ]
 }
-"232
+"229
 [v _setLog_Code `(v ~T0 @X0 1 ef ]
 {
-[; ;RF_Control_B1.c: 232: void setLog_Code() {
+[; ;RF_Control_B1.c: 229: void setLog_Code() {
 [e :U _setLog_Code ]
 [f ]
-[; ;RF_Control_B1.c: 233: product->Data[12]=RF_Data[12];
-"233
+[; ;RF_Control_B1.c: 230: product->Data[12]=RF_Data[12];
+"230
 [e = *U + &U . *U _product 0 * -> -> -> 12 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U _RF_Data * -> -> -> 12 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux ]
-[; ;RF_Control_B1.c: 234: product->Data[13]=RF_Data[13];
-"234
+[; ;RF_Control_B1.c: 231: product->Data[13]=RF_Data[13];
+"231
 [e = *U + &U . *U _product 0 * -> -> -> 13 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U _RF_Data * -> -> -> 13 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux ]
-[; ;RF_Control_B1.c: 235: product->Data[14]=RF_Data[14];
-"235
+[; ;RF_Control_B1.c: 232: product->Data[14]=RF_Data[14];
+"232
 [e = *U + &U . *U _product 0 * -> -> -> 14 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U _RF_Data * -> -> -> 14 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux ]
-[; ;RF_Control_B1.c: 236: setBuz(1, 100);
-"236
+[; ;RF_Control_B1.c: 233: setBuz(1, 100);
+"233
 [e ( _setBuz (2 , -> -> 1 `i `uc -> 100 `i ]
-[; ;RF_Control_B1.c: 237: RF1.Learn = 0;
-"237
+[; ;RF_Control_B1.c: 234: RF1.Learn = 0;
+"234
 [e = . . _RF1 0 6 -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 238: if (myMain.First) {
-"238
+[; ;RF_Control_B1.c: 235: if (myMain.First) {
+"235
 [e $ ! != -> . . _myMain 0 7 `i -> -> -> 0 `i `uc `i 310  ]
 {
-[; ;RF_Control_B1.c: 239: Memory.LoopSave=1;
-"239
+[; ;RF_Control_B1.c: 236: Memory.LoopSave=1;
+"236
 [e = . . _Memory 4 2 -> -> 1 `i `uc ]
-"240
+"237
 }
 [e :U 310 ]
-[; ;RF_Control_B1.c: 240: }
-[; ;RF_Control_B1.c: 241: Memory.Modify=1;
-"241
+[; ;RF_Control_B1.c: 237: }
+[; ;RF_Control_B1.c: 238: Memory.Modify=1;
+"238
 [e = . . _Memory 4 0 -> -> 1 `i `uc ]
-[; ;RF_Control_B1.c: 242: }
-"242
+[; ;RF_Control_B1.c: 239: }
+"239
 [e :UE 309 ]
 }
-"245
+"242
 [v _setControl_Lights_Table `(v ~T0 @X0 1 ef ]
 {
-[; ;RF_Control_B1.c: 245: void setControl_Lights_Table() {
+[; ;RF_Control_B1.c: 242: void setControl_Lights_Table() {
 [e :U _setControl_Lights_Table ]
 [f ]
-[; ;RF_Control_B1.c: 246: if (RF_Data[15] == 0x00) {
-"246
+[; ;RF_Control_B1.c: 243: if (RF_Data[15] == 0x00) {
+"243
 [e $ ! == -> *U + &U _RF_Data * -> -> -> 15 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 0 `i 312  ]
 {
-[; ;RF_Control_B1.c: 248: setDimmerLights(1, 0);
-"248
+[; ;RF_Control_B1.c: 245: setDimmerLights(1, 0);
+"245
 [e ( _setDimmerLights (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 249: setRFSW_Status(1, 0);
-"249
+[; ;RF_Control_B1.c: 246: setRFSW_Status(1, 0);
+"246
 [e ( _setRFSW_Status (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 250: setSw_Status(1, 0);
-"250
+[; ;RF_Control_B1.c: 247: setSw_Status(1, 0);
+"247
 [e ( _setSw_Status (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 263: product->Data[9]=0;
-"263
+[; ;RF_Control_B1.c: 260: product->Data[9]=0;
+"260
 [e = *U + &U . *U _product 0 * -> -> -> 9 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 264: product->Data[11]=0;
-"264
+[; ;RF_Control_B1.c: 261: product->Data[11]=0;
+"261
 [e = *U + &U . *U _product 0 * -> -> -> 11 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 265: product->Data[15]=0;
-"265
+[; ;RF_Control_B1.c: 262: product->Data[15]=0;
+"262
 [e = *U + &U . *U _product 0 * -> -> -> 15 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 266: product->Data[17]=0;
-"266
+[; ;RF_Control_B1.c: 263: product->Data[17]=0;
+"263
 [e = *U + &U . *U _product 0 * -> -> -> 17 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 267: setBuz(1, 100);
-"267
+[; ;RF_Control_B1.c: 264: setBuz(1, 100);
+"264
 [e ( _setBuz (2 , -> -> 1 `i `uc -> 100 `i ]
-[; ;RF_Control_B1.c: 268: setTxData();
-"268
+[; ;RF_Control_B1.c: 265: setTxData();
+"265
 [e ( _setTxData ..  ]
-"269
+"266
 }
-[; ;RF_Control_B1.c: 269: } else if (RF_Data[15] == 0x20) {
+[; ;RF_Control_B1.c: 266: } else if (RF_Data[15] == 0x20) {
 [e $U 313  ]
 [e :U 312 ]
 [e $ ! == -> *U + &U _RF_Data * -> -> -> 15 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 32 `i 314  ]
 {
-[; ;RF_Control_B1.c: 270: product->Data[9]=0;
-"270
+[; ;RF_Control_B1.c: 267: product->Data[9]=0;
+"267
 [e = *U + &U . *U _product 0 * -> -> -> 9 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 271: product->Data[11]=0;
-"271
+[; ;RF_Control_B1.c: 268: product->Data[11]=0;
+"268
 [e = *U + &U . *U _product 0 * -> -> -> 11 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 272: product->Data[17]=0;
-"272
+[; ;RF_Control_B1.c: 269: product->Data[17]=0;
+"269
 [e = *U + &U . *U _product 0 * -> -> -> 17 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 273: setTxData();
-"273
+[; ;RF_Control_B1.c: 270: setTxData();
+"270
 [e ( _setTxData ..  ]
-"274
+"271
 }
-[; ;RF_Control_B1.c: 274: }
+[; ;RF_Control_B1.c: 271: }
 [e $U 315  ]
-"276
+"273
 [e :U 314 ]
-[; ;RF_Control_B1.c: 276: else if (RF_Data[15] == 0x01) {
+[; ;RF_Control_B1.c: 273: else if (RF_Data[15] == 0x01) {
 [e $ ! == -> *U + &U _RF_Data * -> -> -> 15 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 1 `i 316  ]
 {
-[; ;RF_Control_B1.c: 277: setRFSW_Control(1);
-"277
+[; ;RF_Control_B1.c: 274: setRFSW_Control(1);
+"274
 [e ( _setRFSW_Control (1 -> -> 1 `i `uc ]
-"278
+"275
 }
-[; ;RF_Control_B1.c: 278: }
+[; ;RF_Control_B1.c: 275: }
 [e $U 317  ]
-"280
+"277
 [e :U 316 ]
-[; ;RF_Control_B1.c: 280: else if (RF_Data[15] == 0x11) {
+[; ;RF_Control_B1.c: 277: else if (RF_Data[15] == 0x11) {
 [e $ ! == -> *U + &U _RF_Data * -> -> -> 15 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 17 `i 318  ]
 {
-[; ;RF_Control_B1.c: 281: setRFSW_AdjControl(1);
-"281
+[; ;RF_Control_B1.c: 278: setRFSW_AdjControl(1);
+"278
 [e ( _setRFSW_AdjControl (1 -> -> 1 `i `uc ]
-"282
+"279
 }
 [e :U 318 ]
-"307
+"304
 [e :U 317 ]
 [e :U 315 ]
 [e :U 313 ]
-[; ;RF_Control_B1.c: 282: }
-[; ;RF_Control_B1.c: 307: }
+[; ;RF_Control_B1.c: 279: }
+[; ;RF_Control_B1.c: 304: }
 [e :UE 311 ]
 }
-"314
+"311
 [v _RfSWPointSelect `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;RF_Control_B1.c: 314: void RfSWPointSelect(char sw) {
+[; ;RF_Control_B1.c: 311: void RfSWPointSelect(char sw) {
 [e :U _RfSWPointSelect ]
 [v _sw `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;RF_Control_B1.c: 316: if (sw == 1) {
-"316
+[; ;RF_Control_B1.c: 313: if (sw == 1) {
+"313
 [e $ ! == -> _sw `i -> 1 `i 320  ]
 {
-[; ;RF_Control_B1.c: 317: RFSW = &RFSW1;
-"317
+[; ;RF_Control_B1.c: 314: RFSW = &RFSW1;
+"314
 [e = _RFSW &U _RFSW1 ]
-"318
+"315
 }
 [e :U 320 ]
-[; ;RF_Control_B1.c: 318: }
-[; ;RF_Control_B1.c: 330: }
-"330
+[; ;RF_Control_B1.c: 315: }
+[; ;RF_Control_B1.c: 327: }
+"327
 [e :UE 319 ]
 }
-"333
+"330
 [v _setRFSW_Control `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;RF_Control_B1.c: 333: void setRFSW_Control(char sw) {
+[; ;RF_Control_B1.c: 330: void setRFSW_Control(char sw) {
 [e :U _setRFSW_Control ]
 [v _sw `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;RF_Control_B1.c: 334: RfSWPointSelect(sw);
-"334
+[; ;RF_Control_B1.c: 331: RfSWPointSelect(sw);
+"331
 [e ( _RfSWPointSelect (1 _sw ]
-[; ;RF_Control_B1.c: 335: if (RFSW->Status == 0) {
-"335
+[; ;RF_Control_B1.c: 332: if (RFSW->Status == 0) {
+"332
 [e $ ! == -> . . *U _RFSW 0 0 `i -> 0 `i 322  ]
 {
-[; ;RF_Control_B1.c: 336: if (RF_Data[16] == 0x80) {
-"336
+[; ;RF_Control_B1.c: 333: if (RF_Data[16] == 0x80) {
+"333
 [e $ ! == -> *U + &U _RF_Data * -> -> -> 16 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 128 `i 323  ]
 {
-[; ;RF_Control_B1.c: 337: setDelayOff_GO(sw, 1, RF_Data[17]);
-"337
+[; ;RF_Control_B1.c: 334: setDelayOff_GO(sw, 1, RF_Data[17]);
+"334
 [e ( _setDelayOff_GO (3 , , _sw -> -> 1 `i `uc *U + &U _RF_Data * -> -> -> 17 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux ]
-"338
+"335
 }
 [e :U 323 ]
-[; ;RF_Control_B1.c: 338: }
-[; ;RF_Control_B1.c: 339: RFSW->Status = 1;
-"339
+[; ;RF_Control_B1.c: 335: }
+[; ;RF_Control_B1.c: 336: RFSW->Status = 1;
+"336
 [e = . . *U _RFSW 0 0 -> -> 1 `i `uc ]
-[; ;RF_Control_B1.c: 340: setSw_Status(sw, 1);
-"340
+[; ;RF_Control_B1.c: 337: setSw_Status(sw, 1);
+"337
 [e ( _setSw_Status (2 , _sw -> -> 1 `i `uc ]
-[; ;RF_Control_B1.c: 342: setDimmerLights_Trigger(sw, 1);
-"342
+[; ;RF_Control_B1.c: 339: setDimmerLights_Trigger(sw, 1);
+"339
 [e ( _setDimmerLights_Trigger (2 , _sw -> -> 1 `i `uc ]
-[; ;RF_Control_B1.c: 343: setDimmerLights_Switch(sw, 1);
-"343
+[; ;RF_Control_B1.c: 340: setDimmerLights_Switch(sw, 1);
+"340
 [e ( _setDimmerLights_Switch (2 , _sw -> -> 1 `i `uc ]
-[; ;RF_Control_B1.c: 345: setRF_DimmerLights(sw, RFSW->Status);
-"345
+[; ;RF_Control_B1.c: 342: setRF_DimmerLights(sw, RFSW->Status);
+"342
 [e ( _setRF_DimmerLights (2 , _sw . . *U _RFSW 0 0 ]
-"346
+"343
 }
-[; ;RF_Control_B1.c: 346: } else {
+[; ;RF_Control_B1.c: 343: } else {
 [e $U 324  ]
 [e :U 322 ]
 {
-[; ;RF_Control_B1.c: 347: if (RF_Data[16] == 0x80) {
-"347
+[; ;RF_Control_B1.c: 344: if (RF_Data[16] == 0x80) {
+"344
 [e $ ! == -> *U + &U _RF_Data * -> -> -> 16 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 128 `i 325  ]
 {
-[; ;RF_Control_B1.c: 348: setDelayOff_GO(sw, 1, RF_Data[17]);
-"348
+[; ;RF_Control_B1.c: 345: setDelayOff_GO(sw, 1, RF_Data[17]);
+"345
 [e ( _setDelayOff_GO (3 , , _sw -> -> 1 `i `uc *U + &U _RF_Data * -> -> -> 17 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux ]
-[; ;RF_Control_B1.c: 349: setRF_DimmerLights(sw, 1);
-"349
+[; ;RF_Control_B1.c: 346: setRF_DimmerLights(sw, 1);
+"346
 [e ( _setRF_DimmerLights (2 , _sw -> -> 1 `i `uc ]
-"350
+"347
 }
-[; ;RF_Control_B1.c: 350: } else {
+[; ;RF_Control_B1.c: 347: } else {
 [e $U 326  ]
 [e :U 325 ]
 {
-[; ;RF_Control_B1.c: 351: RFSW->Status = 0;
-"351
+[; ;RF_Control_B1.c: 348: RFSW->Status = 0;
+"348
 [e = . . *U _RFSW 0 0 -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 352: setSw_Status(sw, 0);
-"352
+[; ;RF_Control_B1.c: 349: setSw_Status(sw, 0);
+"349
 [e ( _setSw_Status (2 , _sw -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 354: setDimmerLights_Trigger(sw, 1);
-"354
+[; ;RF_Control_B1.c: 351: setDimmerLights_Trigger(sw, 1);
+"351
 [e ( _setDimmerLights_Trigger (2 , _sw -> -> 1 `i `uc ]
-[; ;RF_Control_B1.c: 355: setDimmerLights_Switch(sw, RFSW->Status);
-"355
+[; ;RF_Control_B1.c: 352: setDimmerLights_Switch(sw, RFSW->Status);
+"352
 [e ( _setDimmerLights_Switch (2 , _sw . . *U _RFSW 0 0 ]
-[; ;RF_Control_B1.c: 357: setDelayOff_GO(sw, 0, 0);
-"357
+[; ;RF_Control_B1.c: 354: setDelayOff_GO(sw, 0, 0);
+"354
 [e ( _setDelayOff_GO (3 , , _sw -> -> 0 `i `uc -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 358: setRF_DimmerLights(sw, 0);
-"358
+[; ;RF_Control_B1.c: 355: setRF_DimmerLights(sw, 0);
+"355
 [e ( _setRF_DimmerLights (2 , _sw -> -> 0 `i `uc ]
-"359
+"356
 }
 [e :U 326 ]
-"360
+"357
 }
 [e :U 324 ]
-[; ;RF_Control_B1.c: 359: }
-[; ;RF_Control_B1.c: 360: }
-[; ;RF_Control_B1.c: 361: setBuz(1, 100);
-"361
+[; ;RF_Control_B1.c: 356: }
+[; ;RF_Control_B1.c: 357: }
+[; ;RF_Control_B1.c: 358: setBuz(1, 100);
+"358
 [e ( _setBuz (2 , -> -> 1 `i `uc -> 100 `i ]
-[; ;RF_Control_B1.c: 362: setTxData();
-"362
+[; ;RF_Control_B1.c: 359: setTxData();
+"359
 [e ( _setTxData ..  ]
-[; ;RF_Control_B1.c: 363: }
-"363
+[; ;RF_Control_B1.c: 360: }
+"360
 [e :UE 321 ]
 }
-"366
+"363
 [v _setRFSW_AdjControl `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;RF_Control_B1.c: 366: void setRFSW_AdjControl(char sw) {
+[; ;RF_Control_B1.c: 363: void setRFSW_AdjControl(char sw) {
 [e :U _setRFSW_AdjControl ]
 [v _sw `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;RF_Control_B1.c: 367: RfSWPointSelect(sw);
-"367
+[; ;RF_Control_B1.c: 364: RfSWPointSelect(sw);
+"364
 [e ( _RfSWPointSelect (1 _sw ]
-[; ;RF_Control_B1.c: 368: if (RFSW->Status == 1) {
-"368
+[; ;RF_Control_B1.c: 365: if (RFSW->Status == 1) {
+"365
 [e $ ! == -> . . *U _RFSW 0 0 `i -> 1 `i 328  ]
 {
-[; ;RF_Control_B1.c: 369: Memory.Modify=1;
-"369
+[; ;RF_Control_B1.c: 366: Memory.Modify=1;
+"366
 [e = . . _Memory 4 0 -> -> 1 `i `uc ]
-[; ;RF_Control_B1.c: 370: setRF_DimmerValue(sw);
-"370
+[; ;RF_Control_B1.c: 367: setRF_DimmerValue(sw);
+"367
 [e ( _setRF_DimmerValue (1 _sw ]
-"371
+"368
 }
-[; ;RF_Control_B1.c: 371: } else {
+[; ;RF_Control_B1.c: 368: } else {
 [e $U 329  ]
 [e :U 328 ]
 {
-[; ;RF_Control_B1.c: 372: product->Data[9]=product->Data[20 + sw];
-"372
+[; ;RF_Control_B1.c: 369: product->Data[9]=product->Data[20 + sw];
+"369
 [e = *U + &U . *U _product 0 * -> -> -> 9 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . *U _product 0 * -> -> + -> 20 `i -> _sw `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-"373
+"370
 }
 [e :U 329 ]
-[; ;RF_Control_B1.c: 373: }
-[; ;RF_Control_B1.c: 374: product->Data[17]=product->Data[26 + sw];
-"374
+[; ;RF_Control_B1.c: 370: }
+[; ;RF_Control_B1.c: 371: product->Data[17]=product->Data[26 + sw];
+"371
 [e = *U + &U . *U _product 0 * -> -> -> 17 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . *U _product 0 * -> -> + -> 26 `i -> _sw `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-[; ;RF_Control_B1.c: 375: setTxData();
-"375
+[; ;RF_Control_B1.c: 372: setTxData();
+"372
 [e ( _setTxData ..  ]
-[; ;RF_Control_B1.c: 376: }
-"376
+[; ;RF_Control_B1.c: 373: }
+"373
 [e :UE 327 ]
 }
-"379
+"376
 [v _setRFSW_Status `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;RF_Control_B1.c: 379: void setRFSW_Status(char sw, char command) {
+[; ;RF_Control_B1.c: 376: void setRFSW_Status(char sw, char command) {
 [e :U _setRFSW_Status ]
 [v _sw `uc ~T0 @X0 1 r1 ]
 [v _command `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;RF_Control_B1.c: 380: RfSWPointSelect(sw);
-"380
+[; ;RF_Control_B1.c: 377: RfSWPointSelect(sw);
+"377
 [e ( _RfSWPointSelect (1 _sw ]
-[; ;RF_Control_B1.c: 381: RFSW->Status = command;
-"381
+[; ;RF_Control_B1.c: 378: RFSW->Status = command;
+"378
 [e = . . *U _RFSW 0 0 _command ]
-[; ;RF_Control_B1.c: 382: }
-"382
+[; ;RF_Control_B1.c: 379: }
+"379
 [e :UE 330 ]
 }
-"386
+"383
 [v _setRF_DimmerValue `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;RF_Control_B1.c: 386: void setRF_DimmerValue(char lights) {
+[; ;RF_Control_B1.c: 383: void setRF_DimmerValue(char lights) {
 [e :U _setRF_DimmerValue ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;RF_Control_B1.c: 387: if (RF_Data[9] > 0x64) {
-"387
+[; ;RF_Control_B1.c: 384: if (RF_Data[9] > 0x64) {
+"384
 [e $ ! > -> *U + &U _RF_Data * -> -> -> 9 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux `i -> 100 `i 332  ]
 {
-[; ;RF_Control_B1.c: 388: RF_Data[9] = 0x64;
-"388
+[; ;RF_Control_B1.c: 385: RF_Data[9] = 0x64;
+"385
 [e = *U + &U _RF_Data * -> -> -> 9 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux -> -> 100 `i `uc ]
-"389
+"386
 }
 [e :U 332 ]
-[; ;RF_Control_B1.c: 389: }
-[; ;RF_Control_B1.c: 390: product->Data[9]=RF_Data[9];
-"390
+[; ;RF_Control_B1.c: 386: }
+[; ;RF_Control_B1.c: 387: product->Data[9]=RF_Data[9];
+"387
 [e = *U + &U . *U _product 0 * -> -> -> 9 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U _RF_Data * -> -> -> 9 `i `ui `ux -> -> # *U &U _RF_Data `ui `ux ]
-[; ;RF_Control_B1.c: 391: product->Data[11]=lights;
-"391
+[; ;RF_Control_B1.c: 388: product->Data[11]=lights;
+"388
 [e = *U + &U . *U _product 0 * -> -> -> 11 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux _lights ]
-[; ;RF_Control_B1.c: 392: product->Data[(20 + lights)]=product->Data[9];
-"392
+[; ;RF_Control_B1.c: 389: product->Data[(20 + lights)]=product->Data[9];
+"389
 [e = *U + &U . *U _product 0 * -> -> + -> 20 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . *U _product 0 * -> -> -> 9 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-[; ;RF_Control_B1.c: 393: setDimmerLights_AdjRF(lights);
-"393
+[; ;RF_Control_B1.c: 390: setDimmerLights_AdjRF(lights);
+"390
 [e ( _setDimmerLights_AdjRF (1 _lights ]
-[; ;RF_Control_B1.c: 394: }
-"394
+[; ;RF_Control_B1.c: 391: }
+"391
 [e :UE 331 ]
 }
-"397
+"394
 [v _setRF_DimmerLights `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;RF_Control_B1.c: 397: void setRF_DimmerLights(char lights, char on) {
+[; ;RF_Control_B1.c: 394: void setRF_DimmerLights(char lights, char on) {
 [e :U _setRF_DimmerLights ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [v _on `uc ~T0 @X0 1 r2 ]
 [f ]
-"398
+"395
 [v _status `uc ~T0 @X0 1 a ]
-[; ;RF_Control_B1.c: 398: char status;
-[; ;RF_Control_B1.c: 399: status = 1;
-"399
+[; ;RF_Control_B1.c: 395: char status;
+[; ;RF_Control_B1.c: 396: status = 1;
+"396
 [e = _status -> -> 1 `i `uc ]
-[; ;RF_Control_B1.c: 400: status <<= (lights - 1);
-"400
+[; ;RF_Control_B1.c: 397: status <<= (lights - 1);
+"397
 [e =<< _status - -> _lights `i -> 1 `i ]
-[; ;RF_Control_B1.c: 401: product->Data[11]=lights;
-"401
+[; ;RF_Control_B1.c: 398: product->Data[11]=lights;
+"398
 [e = *U + &U . *U _product 0 * -> -> -> 11 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux _lights ]
-[; ;RF_Control_B1.c: 404: product->Data[(20 + lights)]=setPercentValue(((char)((100-60)*0.8)));
-"404
+[; ;RF_Control_B1.c: 401: product->Data[(20 + lights)]=setPercentValue(((char)((100-60)*0.8)));
+"401
 [e = *U + &U . *U _product 0 * -> -> + -> 20 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ( _setPercentValue (1 -> * -> - -> 100 `i -> 60 `i `d .0.8 `uc ]
-[; ;RF_Control_B1.c: 407: product->Data[9]=product->Data[20 + lights];
-"407
+[; ;RF_Control_B1.c: 404: product->Data[9]=product->Data[20 + lights];
+"404
 [e = *U + &U . *U _product 0 * -> -> -> 9 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . *U _product 0 * -> -> + -> 20 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-[; ;RF_Control_B1.c: 408: product->Data[17]=product->Data[26 + lights];
-"408
+[; ;RF_Control_B1.c: 405: product->Data[17]=product->Data[26 + lights];
+"405
 [e = *U + &U . *U _product 0 * -> -> -> 17 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . *U _product 0 * -> -> + -> 26 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-[; ;RF_Control_B1.c: 409: if (on == 1) {
-"409
+[; ;RF_Control_B1.c: 406: if (on == 1) {
+"406
 [e $ ! == -> _on `i -> 1 `i 334  ]
 {
-[; ;RF_Control_B1.c: 410: product->Data[15]=(product->Data[15] | status);
-"410
+[; ;RF_Control_B1.c: 407: product->Data[15]=(product->Data[15] | status);
+"407
 [e = *U + &U . *U _product 0 * -> -> -> 15 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> | -> *U + &U . *U _product 0 * -> -> -> 15 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux `i -> _status `i `uc ]
-"411
+"408
 }
-[; ;RF_Control_B1.c: 411: } else {
+[; ;RF_Control_B1.c: 408: } else {
 [e $U 335  ]
 [e :U 334 ]
 {
-[; ;RF_Control_B1.c: 412: product->Data[15]=(product->Data[15]&(~status));
-"412
+[; ;RF_Control_B1.c: 409: product->Data[15]=(product->Data[15]&(~status));
+"409
 [e = *U + &U . *U _product 0 * -> -> -> 15 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> & -> *U + &U . *U _product 0 * -> -> -> 15 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux `i ~ -> _status `i `uc ]
-"413
+"410
 }
 [e :U 335 ]
-[; ;RF_Control_B1.c: 413: }
-[; ;RF_Control_B1.c: 414: }
-"414
+[; ;RF_Control_B1.c: 410: }
+[; ;RF_Control_B1.c: 411: }
+"411
 [e :UE 333 ]
 }

@@ -25,9 +25,14 @@ struct RF {
         unsigned Sleep : 1;
         unsigned Run : 1;
         unsigned Bus : 1;
-        unsigned empty : 6;
+        unsigned Checked : 1;
+        unsigned RxChecked:1;
+        unsigned empty : 4;
     };
     unsigned char Count;
+    unsigned char CheckCount;
+    unsigned char CheckedCounter;
+    unsigned char RunTime;
     unsigned char DebounceTime;
 
 };

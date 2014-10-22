@@ -121,7 +121,7 @@
 //SYSC
 #define SYSC_use 0
 //OverTemperature
-#define OverTemperature_use 1
+#define OverTemperature_use 0
 //OverLoad
 #define OverLoad_use 0
 //LED

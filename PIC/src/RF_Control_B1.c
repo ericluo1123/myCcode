@@ -43,6 +43,7 @@ void setRF_RxStatus(char command) {
 void setRF_Initialization() {
 #ifdef RadioFrequency1
     Tx_Length = 21;
+    RF1.RunTime = 20;
     //    INTE = true;
 #endif
 }
@@ -66,12 +67,13 @@ void setRF_Main() {
             RF1.Key = (Key1_1 == true || Key1_2 == true || Key1_3 == true || Key1_4 == true) ? true : false;
 #endif
             if (RF1.Key == true && RF1.Learn == false) {
+                RF1.Count = 0;
                 RF1.Run = true;
                 RF_RxDisable();
             } else {
                 if (RF1.Run == true && RF1.Learn == false) {
                     RF1.Count++;
-                    if (RF1.Count == 20) {
+                    if (RF1.Count == RF1.RunTime) {
                         RF1.Count = 0;
                         RF1.Run = false;
                     }
@@ -83,10 +85,10 @@ void setRF_Main() {
                         RF1.TransceiveGO = false;
                         RF1.RxStatus = false;
                         RF1.ReceiveGO = false;
-                        //                                setINT_GO(0);
-                        CC2500_WriteCommand(CC2500_SIDLE); // idle
-                        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
-                        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+                        //                        setINT_GO(0);
+                        //                        CC2500_WriteCommand(CC2500_SIDLE); // idle
+                        //                        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+                        //                        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
                         CC2500_TxData();
                         //                        RF1.Run = true;
                     } else {
@@ -105,14 +107,36 @@ void setRF_Main() {
 #endif
                                 RF1.Run = true;
                                 ErrLED = ErrLED == true ? false : true;
+                                if (RF1.Checked == true) {
+                                    if (RF1.RunTime > 20) {
+                                        RF1.RunTime -= 10;
+                                    }
+                                    RF1.CheckCount = 0;
+                                } else {
+
+                                    RF1.CheckCount++;
+                                    if (RF1.CheckCount == 2) {
+                                        RF1.CheckCount = 0;
+                                        RF1.CheckedCounter = 0;
+                                        if (RF1.RxChecked == false) {
+                                            RF1.RxChecked = true;
+
+                                        } else {
+
+                                            if (RF1.RunTime < 100) {
+                                                RF1.RunTime += 10;
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         } else {
 #if Rx_Enable == 1
                             if (RF1.RxStatus == false && RF1.ReceiveGO == false) {
                                 RF1.RxStatus = true;
-                                CC2500_WriteCommand(CC2500_SIDLE); // idle
-                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
-                                CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+                                //                                CC2500_WriteCommand(CC2500_SIDLE); // idle
+                                //                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+                                //                                CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
                                 CC2500_WriteCommand(CC2500_SRX); // set receive mode
                                 //                                    setINT_GO(1);
                             }
@@ -120,9 +144,23 @@ void setRF_Main() {
                         }
                     }
                 }
+                if (RF1.RxChecked == true) {
+                    RF1.CheckedCounter++;
+                    if (RF1.CheckedCounter == (10 * RF1.RunTime)) {
+                        RF1.CheckedCounter = 0;
+                        RF1.RxChecked = false;
+                    }
+                } else {
+                    if (RF1.RunTime > 20) {
+                        RF1.CheckedCounter++;
+                        if (RF1.CheckedCounter == (10 * RF1.RunTime)) {
+                            RF1.CheckedCounter = 0;
+                            RF1.RunTime -= 10;
+                        }
+                    }
+                }
             }
         }
-
 #else
         if (!RF1.Sleep) {
             RF1.Sleep = 1;
@@ -193,6 +231,7 @@ void RF_RxDisable() {
         RF1.ReceiveGO = false;
         CC2500_WriteCommand(CC2500_SIDLE); // idle
         CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
         //        setINT_GO(0);
     }
 }
@@ -200,29 +239,33 @@ void RF_RxDisable() {
 
 void getRxData() {
     if (RF1.Learn == true) {
-        if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) //login command
-        {
+        if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) { //login command
             setLog_Code();
+            RF1.Checked = true;
+        } else {
+            RF1.Checked = false;
         }
     } else {
-        if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) //lights control command
-        {
+        if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {//lights control command
+
             if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
                 NOP();
+                RF1.Checked = false;
             } else {
                 if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_Data[14] == product->Data[14]) {
                     setControl_Lights_Table();
+                    RF1.Checked = true;
                 }
             }
-        } else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02) //Broadcasting command
-        {
-            ;
-        } else if (RF_Data[0] == 0x0 && RF_Data[1] == 0x65) //overload command
-        {
-            ;
+        } else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02) { //Broadcasting command
+            NOP();
+        } else if (RF_Data[0] == 0x0 && RF_Data[1] == 0x65) { //overload command
+            NOP();
+        } else {
+            RF1.Checked = false;
         }
-        /*	else if(RF_Data[0] == 0x63 && RF_Data[1] == 0x02)		//return command
-                {
+        /*	else if(RF_Data[0] == 0x63 && RF_Data[1] == 0x02){		//return command
+                
                         ;
                 }*/
     }

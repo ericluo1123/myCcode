@@ -98,25 +98,25 @@
                 inline void setDimmerLights_IntrIOC_GO(char lights);
 
                 inline void setDimmerLights_IntrControl(char lights);
-                inline void DimmerIntrPointSelect(char);
+                inline void DimmerIntrPointSelect(char lights);
 
 
-		void DimmerLightsPointSelect(char);
+		void DimmerLightsPointSelect(char lights);
 		void DimmerLights_Initialization();
 		void DimmerLights_Main();
-		void DimmerLights_Exceptions(char);
+		void DimmerLights_Exceptions(char status);
 		void DimmerLights_Close();
 
-		void setDimmerLights_Initialization(char);
-		void setDimmerLights_GO(char,char);
-		void setDimmerLights_Main(char);
-		void setDimmerLights_ERROR(char);
-		void setDimmerLights_TriggerERROR(char,char); 
-		void setDimmerLights(char,char);
-		void setDimmerLights_Adj(char,char);
-		void setDimmerLights_AdjRF(char);
-		char getPercentValue(char);
-		char setPercentValue(char);
+		void setDimmerLights_Initialization(char lights);
+		void setDimmerLights_GO(char lights,char command);
+		void setDimmerLights_Main(char lights);
+		void setDimmerLights_ERROR(char lights);
+		void setDimmerLights_TriggerERROR(char lights,char command);
+		void setDimmerLights(char lights,char status);
+		void setDimmerLights_Adj(char lights,char status);
+		void setDimmerLights_AdjRF(char lights);
+		char getPercentValue(char value);
+		char setPercentValue(char value);
 
 		void setDimmerLights_MaxmumValue(char,char); 
 		void setDimmerLights_Trigger(char,char); 

@@ -188,7 +188,7 @@
 #define MosfetOpenToCloseValue			10
 
 #if Properties_Neutral == 1
-#define Max_Percent 95
+#define Max_Percent 90
 #define Med_Percent 35
 #define Mini_Percent 25
 #else
@@ -232,6 +232,7 @@
  * dimmer delay time
  */
 #define DimmingDelayTime 3
+#define TriacCountValue 87
 #endif
 
 #ifdef TMR0_IntrTime_100us
@@ -242,16 +243,18 @@
  * dimmer delay time
  */
 #define DimmingDelayTime 7
+#define TriacCountValue 70
 #endif
 
 #ifdef TMR0_IntrTime_150us
 #define TotalCount		55
 #define One_Percent		0.55
 #define Tune_Percent		40
+#define TriacCountValue         45
 /**
  * dimmer delay time
  */
-#define DimmingDelayTime 5
+#define DimmingDelayTime 10
 #endif
 
 #ifdef TMR0_IntrTime_200us
@@ -261,7 +264,8 @@
 /**
  * dimmer delay time
  */
-#define DimmingDelayTime 7
+#define DimmingDelayTime 12
+#define TriacCountValue 30
 #endif
 
 //Tolerance

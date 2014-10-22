@@ -66,12 +66,15 @@ unsigned int Timeout_Counter;
 struct myMain myMain;
 
 # 115
-void myMain_Initialization();
+inline void myMain_Initialization();
 
 # 120
-void my_Main();
+inline void my_Main();
 
 # 125
+inline void my_MainTime();
+
+# 130
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 
@@ -273,6 +276,8 @@ void TouchPower();
 # 11 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Buzzer_B1.h"
 struct Buzzer {
 
+union {
+
 struct {
 unsigned Enable : 1;
 unsigned GO : 1;
@@ -282,6 +287,7 @@ unsigned BufferStatus2 : 1;
 unsigned Switch : 1;
 unsigned empty1 : 2;
 
+};
 };
 
 unsigned int Counter;
@@ -295,19 +301,19 @@ unsigned int TimeValueBuffer2;
 
 struct Buzzer Buz1;
 
-# 45
+# 48
 inline void Buzzer_Initialization();
 
-# 50
+# 53
 inline void Buzzer_Main();
 
-# 59
+# 62
 void setBuz(char count, int time);
 
-# 67
+# 70
 void setBuz_Enable(char command);
 
-# 71
+# 74
 int getBuz_GO();
 
 # 10 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/LED_B1.h"
@@ -359,45 +365,6 @@ void setLED_Main(char led);
 
 # 92
 void setLED(char led, char command);
-
-# 7 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/OverTemperature_B1.h"
-struct OverTemp {
-
-struct {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned ADtoGO : 1;
-unsigned LoadADGO : 1;
-unsigned Safe : 1;
-unsigned empty : 3;
-};
-unsigned int Time;
-unsigned char Count;
-
-unsigned char AD1;
-unsigned char AD2;
-
-# 36
-unsigned int AD;
-unsigned int ADH[2];
-unsigned int ADRES;
-
-
-};
-
-# 55
-struct OverTemp Temp1;
-
-# 61
-inline void Temp_Initialization();
-inline void Temp_Main();
-void setTemp_Main();
-void setTemp_Initialization();
-void getTemp_AD(char channel);
-void setOverTemp_Exceptions(char command);
-void setTemp_Enable(char command);
-char getTemp_Safe();
-char getTemp_ERROR();
 
 # 161 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/CC2500_B1.h"
 const unsigned char CC2500_rfSettings[47] ={
@@ -562,9 +529,14 @@ struct {
 unsigned Sleep : 1;
 unsigned Run : 1;
 unsigned Bus : 1;
-unsigned empty : 6;
+unsigned Checked : 1;
+unsigned RxChecked:1;
+unsigned empty : 4;
 };
 unsigned char Count;
+unsigned char CheckCount;
+unsigned char CheckedCounter;
+unsigned char RunTime;
 unsigned char DebounceTime;
 
 };
@@ -692,25 +664,25 @@ inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
 inline void setDimmerLights_IntrControl(char lights);
-inline void DimmerIntrPointSelect(char);
+inline void DimmerIntrPointSelect(char lights);
 
 
-void DimmerLightsPointSelect(char);
+void DimmerLightsPointSelect(char lights);
 void DimmerLights_Initialization();
 void DimmerLights_Main();
-void DimmerLights_Exceptions(char);
+void DimmerLights_Exceptions(char status);
 void DimmerLights_Close();
 
-void setDimmerLights_Initialization(char);
-void setDimmerLights_GO(char,char);
-void setDimmerLights_Main(char);
-void setDimmerLights_ERROR(char);
-void setDimmerLights_TriggerERROR(char,char);
-void setDimmerLights(char,char);
-void setDimmerLights_Adj(char,char);
-void setDimmerLights_AdjRF(char);
-char getPercentValue(char);
-char setPercentValue(char);
+void setDimmerLights_Initialization(char lights);
+void setDimmerLights_GO(char lights,char command);
+void setDimmerLights_Main(char lights);
+void setDimmerLights_ERROR(char lights);
+void setDimmerLights_TriggerERROR(char lights,char command);
+void setDimmerLights(char lights,char status);
+void setDimmerLights_Adj(char lights,char status);
+void setDimmerLights_AdjRF(char lights);
+char getPercentValue(char value);
+char setPercentValue(char value);
 
 void setDimmerLights_MaxmumValue(char,char);
 void setDimmerLights_Trigger(char,char);
@@ -3377,6 +3349,7 @@ RF1.RxStatus = command;
 void setRF_Initialization() {
 
 Tx_Length = 21;
+RF1.RunTime = 20;
 
 
 }
@@ -3391,14 +3364,15 @@ if (getBuz_GO() == 0) {
 
 RF1.Key = (RA0 == 1 || RA6 == 1 || RA4 == 1) ? 1 : 0;
 
-# 68
+# 69
 if (RF1.Key == 1 && RF1.Learn == 0) {
+RF1.Count = 0;
 RF1.Run = 1;
 RF_RxDisable();
 } else {
 if (RF1.Run == 1 && RF1.Learn == 0) {
 RF1.Count++;
-if (RF1.Count == 20) {
+if (RF1.Count == RF1.RunTime) {
 RF1.Count = 0;
 RF1.Run = 0;
 }
@@ -3411,9 +3385,9 @@ RF1.TransceiveGO = 0;
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 0;
 
-CC2500_WriteCommand(0x36);
-CC2500_WriteCommand(0x3B);
-CC2500_WriteCommand(0x3A);
+
+
+
 CC2500_TxData();
 
 } else {
@@ -3423,19 +3397,41 @@ CC2500_RxData();
 if (RF1.ReceiveGO == 1) {
 RF1.ReceiveGO = 0;
 
-# 104
+# 106
 getRxData();
 
 RF1.Run = 1;
+if (RF1.Checked == 1) {
+if (RF1.RunTime > 20) {
+RF1.RunTime -= 10;
+}
+RF1.CheckCount = 0;
+} else {
+RF1.CheckCount++;
+if (RF1.CheckCount == 2) {
+RF1.CheckCount = 0;
+if (RF1.RxChecked == 0) {
+RF1.RxChecked = 1;
+RF1.CheckedCounter = 0;
+} else {
+RF1.RunTime = 0;
+if (RF1.RunTime < 100) {
+RF1.RunTime += 10;
+}
+}
+}
+}
+
 RB5 = RB5 == 1 ? 0 : 1;
+
 }
 } else {
 
 if (RF1.RxStatus == 0 && RF1.ReceiveGO == 0) {
 RF1.RxStatus = 1;
-CC2500_WriteCommand(0x36);
-CC2500_WriteCommand(0x3B);
-CC2500_WriteCommand(0x3A);
+
+
+
 CC2500_WriteCommand(0x34);
 
 }
@@ -3443,10 +3439,25 @@ CC2500_WriteCommand(0x34);
 }
 }
 }
+if (RF1.RxChecked == 1) {
+RF1.CheckedCounter++;
+if (RF1.CheckedCounter == RF1.RunTime) {
+RF1.CheckedCounter = 0;
+RF1.RxChecked = 0;
+}
+} else {
+if (RF1.RunTime > 20) {
+RF1.CheckedCounter++;
+if (RF1.CheckedCounter == RF1.RunTime) {
+RF1.CheckedCounter = 0;
+RF1.RunTime -= 10;
+}
+}
+}
 }
 }
 
-# 132
+# 170
 }
 }
 
@@ -3459,7 +3470,7 @@ if (RF1.Enable == 1) {
 
 RF1.TransceiveGO = 1;
 
-# 152
+# 190
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 RF_Data[2] = product->Data[2];
@@ -3504,6 +3515,7 @@ RF1.RxStatus = 0;
 RF1.ReceiveGO = 0;
 CC2500_WriteCommand(0x36);
 CC2500_WriteCommand(0x3A);
+CC2500_WriteCommand(0x3B);
 
 }
 }
@@ -3511,29 +3523,33 @@ CC2500_WriteCommand(0x3A);
 
 void getRxData() {
 if (RF1.Learn == 1) {
-if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64)
-{
+if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) {
 setLog_Code();
+RF1.Checked = 1;
+} else {
+RF1.Checked = 0;
 }
 } else {
-if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02)
-{
+if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {
+
 if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
 __nop();
+RF1.Checked = 0;
 } else {
 if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_Data[14] == product->Data[14]) {
 setControl_Lights_Table();
+RF1.Checked = 1;
 }
 }
-} else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02)
-{
+} else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02) {
 ;
-} else if (RF_Data[0] == 0x0 && RF_Data[1] == 0x65)
-{
+} else if (RF_Data[0] == 0x0 && RF_Data[1] == 0x65) {
 ;
+} else {
+RF1.Checked = 0;
 }
 
-# 228
+# 271
 }
 }
 
@@ -3615,7 +3631,7 @@ setRFSW_AdjControl(3);
 
 }
 
-# 314
+# 357
 void RfSWPointSelect(char sw) {
 
 if (sw == 1) {
@@ -3706,7 +3722,7 @@ status <<= (lights - 1);
 product->Data[11]=lights;
 
 
-product->Data[(20 + lights)]=setPercentValue(((char)((100-95)*0.8)));
+product->Data[(20 + lights)]=setPercentValue(((char)((100-90)*0.8)));
 
 
 product->Data[9]=product->Data[20 + lights];
