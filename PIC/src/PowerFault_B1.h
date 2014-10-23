@@ -6,12 +6,15 @@
 
 struct PF {
 
-    struct {
-        unsigned Enable : 1;
-        unsigned ERROR : 1;
-        unsigned Safe : 1;
-        unsigned ADtoGO : 1;
-        unsigned empty : 4;
+    union {
+
+        struct {
+            unsigned Enable : 1;
+            unsigned ERROR : 1;
+            unsigned Safe : 1;
+            unsigned ADtoGO : 1;
+            unsigned empty : 4;
+        };
     };
     unsigned char Count;
     unsigned int Time;
@@ -54,7 +57,7 @@ char getPF_ERROR();
 #define setPowerFault_Main() ;
 #define setPowerFault_Exceptions(char) ;
 #define setPF_Enable(char) ;
- 
+
 #endif
 
 #endif

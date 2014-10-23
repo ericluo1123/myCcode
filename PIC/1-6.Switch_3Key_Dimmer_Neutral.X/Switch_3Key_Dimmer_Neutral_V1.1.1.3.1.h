@@ -113,7 +113,7 @@
 //FlashMemory
 #define FlashMemory_use 1
 //Watchdog timer 
-#define WDT_use 0
+#define WDT_use 1
 
 
 //Function Option
@@ -140,6 +140,8 @@
 #define PowerFault_use 0
 //Dimmer Lights
 #define Dimmer_use 1
+#define Dimmer_Half_Wave	0
+#define Dimmer_Full_Wave	1
 //SegmentDisplay
 #define SegmentDisplay_use 0
 

@@ -6,13 +6,16 @@
 
 struct OverTemp {
 
-    struct {
-        unsigned Enable : 1;
-        unsigned ERROR : 1;
-        unsigned ADtoGO : 1;
-        unsigned LoadADGO : 1;
-        unsigned Safe : 1;
-        unsigned empty : 3;
+    union {
+
+        struct {
+            unsigned Enable : 1;
+            unsigned ERROR : 1;
+            unsigned ADtoGO : 1;
+            unsigned LoadADGO : 1;
+            unsigned Safe : 1;
+            unsigned empty : 3;
+        };
     };
     unsigned int Time;
     unsigned char Count;

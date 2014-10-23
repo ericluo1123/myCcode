@@ -58,9 +58,10 @@ inline void CC2500_TxData() {
     };
     set_TimeoutCleared();
 
+    //    CC2500_WriteCommand(CC2500_SIDLE); // idle
     CC2500_WriteCommand(CC2500_SIDLE); // idle
     CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
-    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+    //    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
     Transceive_OK = 1;
 }
 //-----------------------------------------------------------------------------
@@ -81,6 +82,7 @@ inline void CC2500_RxData(void) {
     }
 
     CC2500_ReadStatus(CC2500_RXBYTES);
+
     if (s_data != 0) {//if(s_data == 0x18)
         CC2500_CSN = 0;
         SPI0Buffer = CC2500_RXFIFO + 0xC0;
@@ -104,9 +106,11 @@ inline void CC2500_RxData(void) {
             if (CRC & 0x80)
                 Receive_OK = 1;
 
-            CC2500_WriteCommand(CC2500_SIDLE); // idle
-            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-            CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+            //            CC2500_WriteCommand(CC2500_SIDLE); // idle
+            //            CC2500_WriteCommand(CC2500_SIDLE); // idle
+            //            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+            //            CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+
             RF1.RxStatus = false;
             RF1.ReceiveGO = true;
         } else {

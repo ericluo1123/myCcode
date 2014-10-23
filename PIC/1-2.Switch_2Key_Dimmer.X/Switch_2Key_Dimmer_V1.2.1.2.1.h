@@ -19,7 +19,7 @@
                                                                         3:TW
                                                                         4:CHI
  **/
-  
+
 #define	Name_Version 			1	//1
 #define Name_SerialNumber		3	//2
 #define Properties_Product		1	//3
@@ -138,6 +138,8 @@
 #define PowerFault_use 0
 //Dimmer Lights
 #define Dimmer_use 	1
+#define Dimmer_Half_Wave	0
+#define Dimmer_Full_Wave	1
 //SegmentDisplay
 #define SegmentDisplay_use 0
 

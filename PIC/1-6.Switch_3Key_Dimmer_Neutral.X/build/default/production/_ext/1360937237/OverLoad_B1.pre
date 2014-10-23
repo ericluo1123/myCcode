@@ -20,6 +20,8 @@ Product _product = {
 # 61
 struct myMain {
 
+union {
+
 struct {
 unsigned PowerON : 1;
 unsigned T0_Timerout : 1;
@@ -30,7 +32,7 @@ unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
 };
-
+};
 unsigned int PowerCount;
 
 
@@ -42,6 +44,8 @@ unsigned char IOC_Count;
 unsigned char Test;
 unsigned char ClockCount;
 
+union {
+
 struct {
 unsigned i : 1;
 unsigned j : 1;
@@ -52,29 +56,32 @@ unsigned n : 1;
 unsigned o : 1;
 unsigned p : 1;
 };
+};
+
+union {
 
 struct {
 unsigned q : 1;
 unsigned r : 1;
-unsigned Timeout:1;
+unsigned Timeout : 1;
 unsigned empty : 5;
 };
-
+};
 unsigned int Timeout_Counter;
 
 };
 struct myMain myMain;
 
-# 115
+# 122
 inline void myMain_Initialization();
 
-# 120
+# 127
 inline void my_Main();
 
-# 125
+# 132
 inline void my_MainTime();
 
-# 130
+# 137
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 
@@ -217,6 +224,8 @@ extern char * ftoa(float f, int * status);
 # 14 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Switch_B1.h"
 struct Switch {
 
+union {
+
 struct {
 unsigned Enable : 1;
 unsigned Touch : 1;
@@ -227,12 +236,15 @@ unsigned Hold3 : 1;
 unsigned Status : 1;
 unsigned Flag : 1;
 };
+};
+
+union {
 
 struct {
 unsigned Adj : 1;
 unsigned empty : 7;
 };
-
+};
 
 unsigned char DebounceTime;
 unsigned int Hold1Time;
@@ -318,11 +330,13 @@ int getBuz_GO();
 
 # 10 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/LED_B1.h"
 struct LED {
+union {
 
 struct {
 unsigned Enable : 1;
 unsigned GO : 1;
 unsigned empty : 6;
+};
 };
 unsigned int Time;
 unsigned char Number;
@@ -348,22 +362,22 @@ struct LED VarLED2;
 
 struct LED VarLED3;
 
-# 46
+# 48
 inline void LED_Initialization();
 
-# 51
+# 53
 inline void LED_Main();
 
-# 60
+# 62
 void LedPointSelect(char led);
 
-# 69
+# 71
 void setLED_Initialization(char led);
 
-# 78
+# 80
 void setLED_Main(char led);
 
-# 92
+# 94
 void setLED(char led, char command);
 
 # 161 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/CC2500_B1.h"
@@ -514,6 +528,8 @@ void DelayTime_1us(int count);
 # 11 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/RF_Control_B1.h"
 struct RF {
 
+union {
+
 struct {
 unsigned Enable : 1;
 unsigned ReceiveGO : 1;
@@ -524,20 +540,26 @@ unsigned Debounce : 1;
 unsigned Learn : 1;
 unsigned Key : 1;
 };
+};
+
+union {
 
 struct {
 unsigned Sleep : 1;
 unsigned Run : 1;
 unsigned Bus : 1;
 unsigned Checked : 1;
-unsigned RxChecked:1;
-unsigned empty : 4;
+unsigned RxChecked : 1;
+unsigned Correction : 1;
+unsigned empty : 2;
+};
 };
 unsigned char Count;
 unsigned char CheckCount;
 unsigned char CheckedCounter;
 unsigned char RunTime;
 unsigned char DebounceTime;
+unsigned int CorrectionCounter;
 
 };
 
@@ -591,9 +613,10 @@ void setRFSW_Status(char sw, char command);
 void setRF_DimmerValue(char lights);
 void setRF_DimmerLights(char lights, char on);
 
-# 10 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Dimmer_B1.h"
+# 11 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Dimmer_B1.h"
 struct DimmerLights
 {
+union{
 struct{
 unsigned GO:1;
 unsigned Signal:1;
@@ -604,7 +627,7 @@ unsigned Status:1;
 unsigned StatusFlag:1;
 unsigned OverLoad:1;
 };
-
+};
 unsigned char DimmingTime;
 unsigned char DimmingTimeValue;
 unsigned char Count;
@@ -613,6 +636,7 @@ unsigned char MaxmumValue;
 unsigned char MinimumValue;
 
 unsigned char TriacTime;
+union{
 struct{
 unsigned Flag:1;
 unsigned Switch:1;
@@ -623,7 +647,8 @@ unsigned Triac:1;
 unsigned MosfetOpen:1;
 unsigned MosfetClose:1;
 };
-
+};
+union{
 struct{
 unsigned DetectOpen:1;
 unsigned DetectClose:1;
@@ -632,6 +657,7 @@ unsigned MosfetSignal:1;
 unsigned MosfetOK:1;
 unsigned TriacFlag:1;
 unsigned empty:2;
+};
 };
 unsigned char TriacCount;
 unsigned char DetectCount;
@@ -645,7 +671,7 @@ struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
-# 75
+# 80
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
@@ -659,7 +685,7 @@ struct DimmerLights DimmerLights2;
 struct DimmerLights *DimmerLights33;
 struct DimmerLights DimmerLights3;
 
-# 97
+# 102
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -695,17 +721,18 @@ char getDimmerLights_Trigger();
 void setDimmerLights_Clear(char,char);
 inline void setDimmerLights_IntrControl(char lights);
 
-# 137
+# 142
 struct Dimmer
 {
 
 
 
+union{
 struct{
 unsigned Detect:1;
 unsigned empty:7;
 };
-
+};
 unsigned char Load;
 unsigned char Correction;
 };
@@ -720,6 +747,8 @@ inline void Dimmer_Initialization();
 # 21 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/DelayOff_B1.h"
 struct DelayOff {
 
+union {
+
 struct {
 unsigned Enable : 1;
 unsigned GO : 1;
@@ -728,6 +757,7 @@ unsigned empty : 6;
 unsigned char Value;
 unsigned int SecondTime;
 unsigned char MinuteTime;
+};
 };
 struct DelayOff *DelayOff;
 
@@ -3253,10 +3283,13 @@ inline int getAD(char, char);
 # 377
 struct Timer0 {
 
+union {
+
 struct {
 unsigned Timeout : 1;
 unsigned Reset : 1;
 unsigned empty : 6;
+};
 };
 
 unsigned int Count;
@@ -3273,22 +3306,25 @@ void TMR0_Set();
 inline void TMR0_ISR();
 inline void setDimmerReClock();
 
-# 483
+# 486
 void IOC_Set();
 inline void IOC_ISR();
 
-# 636
+# 644
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
 unsigned char ReadDataL;
 unsigned int Time;
 
+union {
+
 struct {
 unsigned Modify : 1;
 unsigned GO : 1;
 unsigned LoopSave : 1;
 unsigned empty : 5;
+};
 };
 };
 
@@ -3301,7 +3337,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 665
+# 676
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -3310,4 +3346,23 @@ void Flash_Memory_Erasing();
 void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
+
+# 704
+struct WDT {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned empty:7;
+};
+};
+unsigned char Count;
+};
+struct WDT WDT;
+
+# 721
+void WDT_Set();
+void WDT_Main();
+void WDT_Clearing();
 

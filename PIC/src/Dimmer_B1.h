@@ -7,19 +7,21 @@
 	#if Dimmer_use == 1
 
 		//private
+           
 		struct DimmerLights
 		{
-                    struct{
-                        unsigned GO:1;
-			unsigned Signal:1;
-			unsigned AdjRF:1;
-			unsigned AdjFlag:1;			//adj control
-			unsigned AdjStatus:1;			//adj status
-			unsigned Status:1;			//lights status
-			unsigned StatusFlag:1;			//triac control
-			unsigned OverLoad:1;
+                    union{
+                        struct{
+                            unsigned GO:1;
+                            unsigned Signal:1;
+                            unsigned AdjRF:1;
+                            unsigned AdjFlag:1;			//adj control
+                            unsigned AdjStatus:1;			//adj status
+                            unsigned Status:1;			//lights status
+                            unsigned StatusFlag:1;			//triac control
+                            unsigned OverLoad:1;
+                        };
                     };
-
 			unsigned char DimmingTime;		
 			unsigned char DimmingTimeValue;
 			unsigned char Count;
@@ -28,25 +30,28 @@
 			unsigned char MinimumValue;
 	
 			unsigned char TriacTime;
-                        struct{
-                            unsigned Flag:1;
-                            unsigned Switch:1;
-                            unsigned Trigger:1;
-                            unsigned AdjGo:1;
-                            unsigned TriggerAdj:1;
-                            unsigned Triac:1;
-                            unsigned MosfetOpen:1;
-                            unsigned MosfetClose:1;
+                        union{
+                            struct{
+                                unsigned Flag:1;
+                                unsigned Switch:1;
+                                unsigned Trigger:1;
+                                unsigned AdjGo:1;
+                                unsigned TriggerAdj:1;
+                                unsigned Triac:1;
+                                unsigned MosfetOpen:1;
+                                unsigned MosfetClose:1;
+                            };
                         };
-
-                        struct{
-                            unsigned DetectOpen:1;
-                            unsigned DetectClose:1;
-                            unsigned Clear:1;
-                            unsigned MosfetSignal:1;
-                            unsigned MosfetOK:1;
-                            unsigned TriacFlag:1;
-                            unsigned empty:2;
+                        union{
+                            struct{
+                                unsigned DetectOpen:1;
+                                unsigned DetectClose:1;
+                                unsigned Clear:1;
+                                unsigned MosfetSignal:1;
+                                unsigned MosfetOK:1;
+                                unsigned TriacFlag:1;
+                                unsigned empty:2;
+                            };
                         };
                         unsigned char TriacCount;
                         unsigned char DetectCount;
@@ -139,11 +144,12 @@
 		//	unsigned LoadERROR:1;
 		//	unsigned TempERROR:1;
 		//	unsigned PFERROR:1;
-                    struct{
-                      	unsigned Detect:1;
-                        unsigned empty:7;
+                    union{
+                        struct{
+                            unsigned Detect:1;
+                            unsigned empty:7;
+                        };
                     };
-
 			unsigned char Load;
 			unsigned char Correction;
 		};
@@ -809,11 +815,11 @@
 									}\
 									else\
  {\
-										DimmerLights22->Signal = 0;                                                     \
-									                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
-								                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }\
-							                                                                                                                                                                                                                                                                                                                                                                                                                                        }\
-						                                                                                                                                                                                                                    }\
+										DimmerLights22->Signal = 0;                                                            \
+									                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
+								                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
+							                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
+						                                                                                                                                                                                                                                                }\
 					}\
 					;
 #endif

@@ -8,11 +8,13 @@
 //Global ariable declaration
 
 struct LED {
+    union {
 
-    struct {
-        unsigned Enable : 1;
-        unsigned GO : 1;
-        unsigned empty : 6;
+        struct {
+            unsigned Enable : 1;
+            unsigned GO : 1;
+            unsigned empty : 6;
+        };
     };
     unsigned int Time;
     unsigned char Number;

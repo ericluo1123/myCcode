@@ -52,6 +52,7 @@ void setRF_Initialization() {
 void setRF_Main() {
     char loop_f, Receive_OK;
     if (RF1.Enable == true) {
+
 #if Sleep_Mode == 0
 
         if (getBuz_GO() == 0) {
@@ -69,7 +70,8 @@ void setRF_Main() {
             if (RF1.Key == true && RF1.Learn == false) {
                 RF1.Count = 0;
                 RF1.Run = true;
-                RF_RxDisable();
+                RF1.RxStatus = false;
+                //                RF_RxDisable();
             } else {
                 if (RF1.Run == true && RF1.Learn == false) {
                     RF1.Count++;
@@ -97,6 +99,9 @@ void setRF_Main() {
                             CC2500_RxData();
                             if (RF1.ReceiveGO == true) {
                                 RF1.ReceiveGO = false;
+                                RF1.Correction = false;
+                                RF1.CorrectionCounter = 0;
+
 #if I2C_use == 1
                                 I2C_SetData(1);
                                 //LED2=~LED2;
@@ -105,11 +110,12 @@ void setRF_Main() {
 #else
                                 getRxData();
 #endif
+
                                 RF1.Run = true;
                                 ErrLED = ErrLED == true ? false : true;
                                 if (RF1.Checked == true) {
                                     if (RF1.RunTime > 20) {
-                                        RF1.RunTime -= 10;
+                                        RF1.RunTime = 20;
                                     }
                                     RF1.CheckCount = 0;
                                 } else {
@@ -120,9 +126,7 @@ void setRF_Main() {
                                         RF1.CheckedCounter = 0;
                                         if (RF1.RxChecked == false) {
                                             RF1.RxChecked = true;
-
                                         } else {
-
                                             if (RF1.RunTime < 100) {
                                                 RF1.RunTime += 10;
                                             }
@@ -134,9 +138,11 @@ void setRF_Main() {
 #if Rx_Enable == 1
                             if (RF1.RxStatus == false && RF1.ReceiveGO == false) {
                                 RF1.RxStatus = true;
+                                RF1.Correction = true;
                                 //                                CC2500_WriteCommand(CC2500_SIDLE); // idle
+                                CC2500_WriteCommand(CC2500_SIDLE); // idle
                                 //                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
-                                //                                CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+                                CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
                                 CC2500_WriteCommand(CC2500_SRX); // set receive mode
                                 //                                    setINT_GO(1);
                             }
@@ -159,6 +165,15 @@ void setRF_Main() {
                         }
                     }
                 }
+                if (RF1.Correction == true) {
+                    RF1.CorrectionCounter++;
+                    if (RF1.CorrectionCounter >= 60000) {
+                        RF1.CorrectionCounter = 0;
+                        //                        RF_RxDisable();
+                        RF1.RxStatus = false;
+                        RF1.ReceiveGO = false;
+                    }
+                }
             }
         }
 #else
@@ -178,6 +193,7 @@ void setTxData() {
     if (RF1.Enable == true) {
 #if Tx_Enable == 1
         RF1.TransceiveGO = true;
+        RF1.RunTime = 20;
         //ErrLED = 0;
         /*	Product->Data[0]=0x63;		//Command
                 Product->Data[1]=0x02;	//Command
@@ -229,6 +245,7 @@ void RF_RxDisable() {
     if (RF1.ReceiveGO == true || RF1.RxStatus == true) {
         RF1.RxStatus = false;
         RF1.ReceiveGO = false;
+        CC2500_WriteCommand(CC2500_SIDLE); // idle
         CC2500_WriteCommand(CC2500_SIDLE); // idle
         CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
         CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data

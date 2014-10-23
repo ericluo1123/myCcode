@@ -13,22 +13,27 @@
 
 struct Switch {
 
-    struct {
-        unsigned Enable : 1;
-        unsigned Touch : 1;
-        unsigned Debounce : 1;
-        unsigned Hold1 : 1;
-        unsigned Hold2 : 1;
-        unsigned Hold3 : 1;
-        unsigned Status : 1;
-        unsigned Flag : 1;
+    union {
+
+        struct {
+            unsigned Enable : 1;
+            unsigned Touch : 1;
+            unsigned Debounce : 1;
+            unsigned Hold1 : 1;
+            unsigned Hold2 : 1;
+            unsigned Hold3 : 1;
+            unsigned Status : 1;
+            unsigned Flag : 1;
+        };
     };
 
-    struct {
-        unsigned Adj : 1;
-        unsigned empty : 7;
-    };
+    union {
 
+        struct {
+            unsigned Adj : 1;
+            unsigned empty : 7;
+        };
+    };
 
     unsigned char DebounceTime;
     unsigned int Hold1Time;

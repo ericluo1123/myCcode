@@ -179,8 +179,6 @@
 #define Dimmer_Smooth				0
 #define DimmerValue_SaveMemory			0
 #define DimmerValue_CloseLightsSave		0
-#define Dimmer_Half_Wave			1 
-#define Dimmer_Full_Wave			0
 #define TriacTimeValue				1
 /**
  * close mosfet delay time to allow recook

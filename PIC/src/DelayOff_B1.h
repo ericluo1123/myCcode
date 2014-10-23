@@ -20,14 +20,17 @@
 
 struct DelayOff {
 
-    struct {
-        unsigned Enable : 1;
-        unsigned GO : 1;
-        unsigned empty : 6;
+    union {
+
+        struct {
+            unsigned Enable : 1;
+            unsigned GO : 1;
+            unsigned empty : 6;
+        };
+        unsigned char Value;
+        unsigned int SecondTime;
+        unsigned char MinuteTime;
     };
-    unsigned char Value;
-    unsigned int SecondTime;
-    unsigned char MinuteTime;
 };
 struct DelayOff *DelayOff;
 

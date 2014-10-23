@@ -23,7 +23,7 @@ void IO_Set();
 //*********************************************************
 //oscillator
 //System Clock Select=FOSC<2:0>
- 
+
 #ifdef _16F723A
 //PLLEN = 1
 #ifdef System_Fosc_16M
@@ -74,7 +74,7 @@ void IO_Set();
 #define _OSCCON 0x00
 #define _FOSC 62500L
 #endif
- 
+
 #ifndef PLLEN_ON
 #define _PLLEN OFF
 #endif
@@ -344,7 +344,7 @@ inline int getAD(char, char);
 #define TMR0_5ms	100
 #define TMR0_10ms	200
 #endif
- 
+
 #ifdef TMR0_IntrTime_100us
 #define  OPTION_REG_Value T0PS_1x2
 #define TMR0_Count	190
@@ -376,10 +376,13 @@ inline int getAD(char, char);
 
 struct Timer0 {
 
-    struct {
-        unsigned Timeout : 1;
-        unsigned Reset : 1;
-        unsigned empty : 6;
+    union {
+
+        struct {
+            unsigned Timeout : 1;
+            unsigned Reset : 1;
+            unsigned empty : 6;
+        };
     };
 
     unsigned int Count;
@@ -496,14 +499,17 @@ struct I2C {
     unsigned char Count;
     unsigned char Address;
 
-    struct {
-        unsigned SlaveGO : 1;
-        unsigned SlaveRxGO : 1;
-        unsigned SlaveTxGO : 1;
-        unsigned MasterTxGO : 1;
-        unsigned MasterRxGO : 1;
-        unsigned SS : 1;
-        unsigned empty : 2;
+    union {
+
+        struct {
+            unsigned SlaveGO : 1;
+            unsigned SlaveRxGO : 1;
+            unsigned SlaveTxGO : 1;
+            unsigned MasterTxGO : 1;
+            unsigned MasterRxGO : 1;
+            unsigned SS : 1;
+            unsigned empty : 2;
+        };
     };
 }
 struct I2C VarI2C;
@@ -592,12 +598,14 @@ struct UART {
     unsigned char TxLength;
     unsigned char RxLength;
 
-    struct {
-        unsigned TxGO : 1;
-        unsigned RxGO : 1;
-        unsigned empty : 6;
-    };
+    union {
 
+        struct {
+            unsigned TxGO : 1;
+            unsigned RxGO : 1;
+            unsigned empty : 6;
+        };
+    };
 };
 struct UART *UART;
 struct UART VarUart;
@@ -639,11 +647,14 @@ struct FlashMemory {
     unsigned char ReadDataL;
     unsigned int Time;
 
-    struct {
-        unsigned Modify : 1;
-        unsigned GO : 1;
-        unsigned LoopSave : 1;
-        unsigned empty : 5;
+    union {
+
+        struct {
+            unsigned Modify : 1;
+            unsigned GO : 1;
+            unsigned LoopSave : 1;
+            unsigned empty : 5;
+        };
     };
 };
 //struct FlashMemory *Memory;
@@ -661,7 +672,7 @@ struct FlashMemory Memory = {
 #define setMemoryData(address,data) Memory.Data[address]=data
 #define setMemory_Modify(command) Memory.Modify=command
 #define setMemory_LoopSave(command) Memory.LoopSave=command
-				
+
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -691,7 +702,14 @@ void setMemory_GO(char command);
 #if WDT_use == 1
 
 struct WDT {
-    unsigned Enable : 1;
+
+    union {
+
+        struct {
+            unsigned Enable : 1;
+            unsigned empty:7;
+        };
+    };
     unsigned char Count;
 };
 struct WDT WDT;

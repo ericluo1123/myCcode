@@ -37,11 +37,10 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
         } else {
             Dimmer->Correction = 0;
         }
+        //        if (lights == 1) {
+        //            ErrLED = ErrLED == true ? false : true;
+        //        }
     }
-    //    if (lights == 1) {
-    //        ErrLED = ErrLED == true ? false : true;
-    //    }
-
 #endif
 #if Control_Method_Mosfet == true
     if (DimmerLightsIntrIOC->MosfetSignal == false) {
@@ -227,7 +226,6 @@ inline void setDimmerLights_IntrControl(char lights) {
 #endif
 #if dimmer_Control_Method_Mosfet == 1
 #if Dimmer_Half_Wave == 1
-
     DimmerIntrPointSelect(lights);
     if (DimmerLightsIntr->GO == true) {
         DimmerLightsIntr->Count++;

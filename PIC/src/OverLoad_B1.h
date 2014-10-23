@@ -154,17 +154,19 @@
 
 struct OverLoad {
 
-    struct {
-        unsigned Enable : 1;
-        unsigned GO : 1;
-        unsigned LightsON : 1;
-        unsigned Safe : 1;
-        unsigned ADtoGO : 1;
-        unsigned ERROR : 1;
-        unsigned StatusOn : 1;
-        unsigned StatusOff : 1;
-    };
+    union {
 
+        struct {
+            unsigned Enable : 1;
+            unsigned GO : 1;
+            unsigned LightsON : 1;
+            unsigned Safe : 1;
+            unsigned ADtoGO : 1;
+            unsigned ERROR : 1;
+            unsigned StatusOn : 1;
+            unsigned StatusOff : 1;
+        };
+    };
     unsigned int Time;
     unsigned int ErrorTime;
     unsigned char ErrorStatus;

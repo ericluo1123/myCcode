@@ -10,30 +10,38 @@
 
 struct RF {
 
-    struct {
-        unsigned Enable : 1;
-        unsigned ReceiveGO : 1;
-        unsigned TransceiveGO : 1;
-        unsigned RxStatus : 1;
-        unsigned TxStatus : 1;
-        unsigned Debounce : 1;
-        unsigned Learn : 1;
-        unsigned Key : 1;
+    union {
+
+        struct {
+            unsigned Enable : 1;
+            unsigned ReceiveGO : 1;
+            unsigned TransceiveGO : 1;
+            unsigned RxStatus : 1;
+            unsigned TxStatus : 1;
+            unsigned Debounce : 1;
+            unsigned Learn : 1;
+            unsigned Key : 1;
+        };
     };
 
-    struct {
-        unsigned Sleep : 1;
-        unsigned Run : 1;
-        unsigned Bus : 1;
-        unsigned Checked : 1;
-        unsigned RxChecked:1;
-        unsigned empty : 4;
+    union {
+
+        struct {
+            unsigned Sleep : 1;
+            unsigned Run : 1;
+            unsigned Bus : 1;
+            unsigned Checked : 1;
+            unsigned RxChecked : 1;
+            unsigned Correction : 1;
+            unsigned empty : 2;
+        };
     };
     unsigned char Count;
     unsigned char CheckCount;
     unsigned char CheckedCounter;
     unsigned char RunTime;
     unsigned char DebounceTime;
+    unsigned int CorrectionCounter;
 
 };
 

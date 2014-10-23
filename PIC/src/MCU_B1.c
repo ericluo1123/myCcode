@@ -263,8 +263,14 @@ void setINT_GO(char command) {
 void IOC_Set() {
     WPUB2 = false;
 #if Control_Method_Triac == true
+#ifdef  Dimmer_Half_Wave
     IOCBP = 0b00000100;
     IOCBN = 0b00000100;
+#endif
+#if Dimmer_Full_Wave == true
+    IOCBP = 0b00000000;
+    IOCBN = 0b00000100;
+#endif
 #endif
 
 #if Control_Method_Mosfet == true
