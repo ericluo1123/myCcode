@@ -3,7 +3,7 @@
 #define _PIR_H_
 
 #if PIR_use == 1
-
+ 
 #define RangeMaximum	45
 #define RangeMedium		25
 #define RangeMinimum	8
@@ -44,10 +44,9 @@ struct PIR {
     unsigned char RangeCount1;
     unsigned char Offset;
 };
-struct PIR *PIR;
 
 #ifdef PIR_1
-struct PIR _PIR1;
+struct PIR _PIR;
 #endif
 
 void selectPIRPoint(char);

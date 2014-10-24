@@ -556,7 +556,7 @@ unsigned empty : 2;
 };
 unsigned char Count;
 unsigned char CheckCount;
-unsigned char CheckedCounter;
+unsigned int CheckedCounter;
 unsigned char RunTime;
 unsigned char DebounceTime;
 unsigned int CorrectionCounter;
@@ -3401,10 +3401,9 @@ Timeout_Counter();
 };
 set_TimeoutCleared();
 
-
 CC2500_WriteCommand(0x36);
 CC2500_WriteCommand(0x3B);
-
+CC2500_WriteCommand(0x3A);
 Transceive_OK = 1;
 }
 
@@ -3449,7 +3448,6 @@ RC4 = 1;
 if (CRC & 0x80)
 Receive_OK = 1;
 
-# 114
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 1;
 } else {
@@ -3558,7 +3556,7 @@ inline void CC2500_SIDLEMode(void) {
 CC2500_WriteCommand(0x36);
 }
 
-# 228
+# 222
 inline void CC2500_WriteByte(void) {
 unsigned char loop_a;
 for (loop_a = 0; loop_a < 8; loop_a++) {

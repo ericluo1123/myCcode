@@ -586,7 +586,7 @@ unsigned empty : 2;
 };
 unsigned char Count;
 unsigned char CheckCount;
-unsigned char CheckedCounter;
+unsigned int CheckedCounter;
 unsigned char RunTime;
 unsigned char DebounceTime;
 unsigned int CorrectionCounter;
@@ -3429,9 +3429,12 @@ Dimmer->Correction = 1;
 } else {
 Dimmer->Correction = 0;
 }
+
+
+
 }
 
-# 70
+# 69
 }
 
 
@@ -3441,7 +3444,7 @@ if (lights == 1) {
 DimmerLightsIntr = &DimmerLights1;
 }
 
-# 90
+# 89
 }
 
 
@@ -3465,7 +3468,7 @@ RA7 = 1;
 RB4=1;
 }
 
-# 123
+# 122
 }
 }
 } else {
@@ -3518,7 +3521,7 @@ RA3 = 0;
 RC7=!1;
 }
 
-# 185
+# 184
 ;;
 }
 }
@@ -3539,7 +3542,7 @@ RA7 = 0;
 RB4=0;
 }
 
-# 215
+# 214
 }
 }
 if (DimmerLightsIntr->TriacFlag == 1) {
@@ -3553,17 +3556,17 @@ DimmerLightsIntr->TriacFlag = 0;
 }
 }
 
-# 320
+# 318
 }
 
-# 326
+# 324
 void DimmerLightsPointSelect(char lights) {
 
 if (lights == 1) {
 DimmerLights = &DimmerLights1;
 }
 
-# 342
+# 340
 }
 
 
@@ -3573,7 +3576,7 @@ void DimmerLights_Initialization() {
 DimmerLights11 = &DimmerLights1;
 setDimmerLights_Initialization(1);
 
-# 363
+# 361
 Dimmer_Initialization();
 
 
@@ -3584,14 +3587,14 @@ void setDimmerLights_Initialization(char lights) {
 DimmerLightsPointSelect(lights);
 DimmerLights->Clear = 1;
 
-# 377
+# 375
 DimmerLights->MaxmumValue = ((char)((100-60)*0.8));
 DimmerLights->MinimumValue = ((char)((100-25)*0.8));
 
-# 388
+# 386
 DimmerLights->DimmingValue = DimmerLights->MinimumValue;
 
-# 404
+# 402
 }
 
 
@@ -3611,7 +3614,7 @@ void DimmerLights_Main() {
 
 setDimmerLights_Main(1);
 
-# 432
+# 430
 DimmerLights_Close();
 }
 
@@ -3620,7 +3623,7 @@ void setDimmerLights_Main(char lights) {
 char clear = 1;
 DimmerLightsPointSelect(lights);
 
-# 458
+# 456
 if (DimmerLights->Trigger == 1) {
 if (clear == 1) {
 DimmerLights->Trigger = 0;
@@ -3630,7 +3633,7 @@ setDimmerLights(lights, 1);
 setDimmerLights(lights, 0);
 }
 
-# 469
+# 467
 }
 } else {
 if (DimmerLights->TriggerAdj == 1) {
@@ -3651,7 +3654,7 @@ setDimmerLights_Adj(lights, 0);
 char getDimmerLights_StatusFlag() {
 char Status = 0;
 
-# 498
+# 496
 Status = (DimmerLights1.StatusFlag == 1) ? 1 : 0;
 
 
@@ -3662,7 +3665,7 @@ return Status;
 char getDimmerLights_Trigger() {
 char Status = 0;
 
-# 517
+# 515
 Status = (DimmerLights1.Trigger) ? 1 : 0;
 
 
@@ -3679,7 +3682,7 @@ setBuz(10, 300);
 
 setDimmerLights_ERROR(1);
 
-# 539
+# 537
 } else if (status == 2)
 {
 setBuz(5, 300);
@@ -3689,13 +3692,13 @@ setDimmerLights_ERROR(Dimmer->Load);
 
 setDimmerLights_ERROR(1);
 
-# 554
+# 552
 }
 
 
 setDimmerLights_TriggerERROR(1, 0);
 
-# 566
+# 564
 if (myMain.SelfTest == 0) {
 myMain.i = 0;
 myMain.j = 0;
@@ -3764,13 +3767,13 @@ DimmerLights->Status = 0;
 
 DimmerLights->DimmingValue = DimmerLights->MinimumValue;
 
-# 639
+# 637
 DimmerLights->Signal = 1;
 DimmerLights->AdjFlag = 0;
 DimmerLights->AdjStatus = 0;
 DimmerLights->DimmingTimeValue = 7;
 
-# 654
+# 652
 }
 }
 
@@ -3787,7 +3790,7 @@ DimmerLights->AdjFlag = 0;
 ;;
 DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
 
-# 676
+# 674
 setRF_DimmerLights(lights, 1);
 setTxData();
 }
@@ -3846,14 +3849,14 @@ DimmerLightsPointSelect(lights);
 DimmerLights->Clear = command;
 }
 
-# 763
+# 761
 char getPercentValue(char value) {
 
 float i = ((char)((100-25)*0.8)) - ((char)((100-60)*0.8));
 i /= 100;
 return (char) (((100 - value) * i) + ((char)((100-60)*0.8)));
 
-# 776
+# 774
 }
 
 
@@ -3863,7 +3866,7 @@ float i = ((char)((100-25)*0.8)) - ((char)((100-60)*0.8));
 i /= 100;
 return (100 - (char) ((value - ((char)((100-60)*0.8))) / i));
 
-# 792
+# 790
 }
 
 

@@ -38,7 +38,7 @@ struct RF {
     };
     unsigned char Count;
     unsigned char CheckCount;
-    unsigned char CheckedCounter;
+    unsigned int CheckedCounter;
     unsigned char RunTime;
     unsigned char DebounceTime;
     unsigned int CorrectionCounter;

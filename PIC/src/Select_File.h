@@ -7,6 +7,6 @@
 #define enable      1
 #define disable     0
  
-#include "../1-2.Switch_2Key_Dimmer.X/Switch_2Key_Dimmer_V1.2.1.2.1.h"
+#include "../2-1.PIR_Ceiling_Embed.X/PIR_Ceiling_Embed_V1.1.2.1.3.h"
 
 #endif

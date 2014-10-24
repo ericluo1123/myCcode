@@ -140,8 +140,8 @@
 #define PowerFault_use 0
 //Dimmer Lights
 #define Dimmer_use 1
-#define Dimmer_Half_Wave	0
-#define Dimmer_Full_Wave	1
+#define Dimmer_Half_Wave	1
+#define Dimmer_Full_Wave	0
 //SegmentDisplay
 #define SegmentDisplay_use 0
 

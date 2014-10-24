@@ -12,7 +12,7 @@
 #endif
 
 #ifdef _16F1516
-#pragma config FOSC = INTOSC
+#pragma config FOSC = INTOSC ,WDTE = _WDTE,BOREN=OFF
 #pragma config VCAPEN = OFF,WRT = BOOT
 //__CONFIG(FOSC_INTOSC & _WDTE); // v8.84
 //__CONFIG(VCAPEN_OFF & WRT_BOOT); // WRT_OFF
@@ -162,6 +162,7 @@ inline void TMR0_ISR() {
             Timer0.Count = 0;
             myMain.T0_Timerout = true;
         }
+//        ErrLED = ErrLED == true ? false : true;
     }
 }
 //*********************************************************

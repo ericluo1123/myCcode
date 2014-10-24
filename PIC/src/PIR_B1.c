@@ -3,17 +3,16 @@
 #include "Select_File.h"
 
 #if PIR_use == 1
-
+ 
 /*	void selectPIRPoint(char pir)
 	{	
 	}
 */
 	void PIR_Initialization()
 	{	
-		PIR=&VarPIR;
-		PIR->Enable=1;
-		PIR->RangeValue=RangeMinimum;
-		PIR->CloseTimeValue=150;
+		_PIR.Enable=1;
+		_PIR.RangeValue=RangeMinimum;
+		_PIR.CloseTimeValue=150;
 		setLED(1,1);
 	}
 	void PIR_Main()

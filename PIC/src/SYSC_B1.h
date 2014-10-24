@@ -27,7 +27,7 @@ void DetectSYSC_Signal(char);
 
 #else
 #define selectSYSCPoint(char) ;
-#define SYSC_Initialization() ;
+#define SYSC_Initialization();
 #define SYSC_Main() ;
 #define setSYSC_Initialization() ;
 #define setSYSC_Main() ;

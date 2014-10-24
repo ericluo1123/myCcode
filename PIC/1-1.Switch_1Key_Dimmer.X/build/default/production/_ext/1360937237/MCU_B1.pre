@@ -586,7 +586,7 @@ unsigned empty : 2;
 };
 unsigned char Count;
 unsigned char CheckCount;
-unsigned char CheckedCounter;
+unsigned int CheckedCounter;
 unsigned char RunTime;
 unsigned char DebounceTime;
 unsigned int CorrectionCounter;
@@ -3408,7 +3408,7 @@ void WDT_Clearing();
 
 
 # 22 "../src/MCU_B1.c"
-#pragma config FOSC = INTOSC,WDTE = SWDTEN,BOREN=OFF
+#pragma config FOSC = INTOSC,WDTE = ON,BOREN=OFF
 #pragma config VCAPEN = OFF,WRT = HALF
 
 # 30
@@ -3506,6 +3506,7 @@ if (Timer0.Count == 100) {
 Timer0.Count = 0;
 myMain.T0_Timerout = 1;
 }
+RB5 = RB5 == 1 ? 0 : 1;
 }
 }
 
@@ -3517,17 +3518,18 @@ inline void setDimmerReClock() {
 
 setDimmerLights_IntrIOC_GO(1);
 
-# 188
+# 189
 }
 
-# 263
+# 264
 void IOC_Set() {
 WPUB2 = 0;
+
 
 IOCBP = 0b00000100;
 IOCBN = 0b00000100;
 
-# 282
+# 289
 IOCBF = 0b00000000;
 
 IOCIE = 1;
@@ -3549,13 +3551,13 @@ setDimmerReClock();
 }
 }
 
-# 309
+# 316
 void ADC_Set() {
 ADCON1 = 0xf2;
 FVRCON = 0xc0;
 }
 
-# 343
+# 350
 inline int getAD(char adcon0, char adcon1) {
 ADCON0 = adcon0;
 ADCON1 = adcon1;
@@ -3567,7 +3569,7 @@ set_TimeoutCleared();
 return ((ADRESH*256)+ADRESL);
 }
 
-# 749
+# 756
 void Flash_Memory_Initialization() {
 char i = 0;
 if (Flash_Memory_Read(31) == 0xaa) {
@@ -3575,7 +3577,7 @@ product->Data[12] = Flash_Memory_Read(0);
 product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
-# 760
+# 767
 i = setPercentValue(((char)((100-60)*0.8)));
 product->Data[21] = i;
 product->Data[22] = i;
@@ -3684,7 +3686,7 @@ Memory.Data[0]=product->Data[12];
 Memory.Data[1]=product->Data[13];
 Memory.Data[2]=product->Data[14];
 
-# 872
+# 879
 if (Memory.LoopSave == 1) {
 Memory.LoopSave = 0;
 myMain.FirstOpen = 0;

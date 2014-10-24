@@ -153,7 +153,7 @@ void IO_Set();
 #endif	
 
 #endif
-
+ 
 #ifdef _16F1518
 #ifdef System_Fosc_16M
 #define _OSCCON 0x78
@@ -714,8 +714,8 @@ struct WDT {
 };
 struct WDT WDT;
 
-#define _WDTE SWDTEN		//Configuration
-#define _WDTCON 0b00010111;		//WDTPS<4:0> =2s && WDT is turned on 
+#define _WDTE ON                        //Configuration
+#define _WDTCON 0b00010111;		//WDTPS<4:0> =2s && WDT is turned on
 //controlled by the WDTE<1:0>
 
 void WDT_Set();

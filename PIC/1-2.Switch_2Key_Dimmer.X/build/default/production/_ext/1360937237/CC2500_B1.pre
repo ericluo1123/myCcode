@@ -1,7 +1,7 @@
 
 # 1 "../src/CC2500_B1.c"
 
-# 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Main_B1.h"
+# 11 "../src/../1-1.Switch_1Key_Dimmer.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
 } Product;
@@ -221,7 +221,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 14 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Switch_B1.h"
+# 14 "../src/../1-1.Switch_1Key_Dimmer.X/../src/Switch_B1.h"
 struct Switch {
 
 union {
@@ -259,9 +259,6 @@ struct Switch *Sw;
 
 struct Switch Sw1;
 
-
-struct Switch Sw2;
-
 # 59
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
@@ -281,7 +278,7 @@ void Sw_DimmerAdjFunc(char sw);
 
 void TouchPower();
 
-# 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Buzzer_B1.h"
+# 11 "../src/../1-1.Switch_1Key_Dimmer.X/../src/Buzzer_B1.h"
 struct Buzzer {
 
 union {
@@ -324,7 +321,7 @@ void setBuz_Enable(char command);
 # 74
 int getBuz_GO();
 
-# 10 "../src/../1-2.Switch_2Key_Dimmer.X/../src/LED_B1.h"
+# 10 "../src/../1-1.Switch_1Key_Dimmer.X/../src/LED_B1.h"
 struct LED {
 union {
 
@@ -371,7 +368,7 @@ void setLED_Main(char led);
 # 94
 void setLED(char led, char command);
 
-# 7 "../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h"
+# 7 "../src/../1-1.Switch_1Key_Dimmer.X/../src/OverTemperature_B1.h"
 struct OverTemp {
 
 union {
@@ -413,7 +410,7 @@ void setTemp_Enable(char command);
 char getTemp_Safe();
 char getTemp_ERROR();
 
-# 161 "../src/../1-2.Switch_2Key_Dimmer.X/../src/CC2500_B1.h"
+# 161 "../src/../1-1.Switch_1Key_Dimmer.X/../src/CC2500_B1.h"
 const unsigned char CC2500_rfSettings[47] ={
 
 
@@ -558,7 +555,7 @@ inline void CC2500_TxData();
 inline void CC2500_RxData(void);
 void DelayTime_1us(int count);
 
-# 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/RF_Control_B1.h"
+# 11 "../src/../1-1.Switch_1Key_Dimmer.X/../src/RF_Control_B1.h"
 struct RF {
 
 union {
@@ -589,7 +586,7 @@ unsigned empty : 2;
 };
 unsigned char Count;
 unsigned char CheckCount;
-unsigned char CheckedCounter;
+unsigned int CheckedCounter;
 unsigned char RunTime;
 unsigned char DebounceTime;
 unsigned int CorrectionCounter;
@@ -628,10 +625,6 @@ struct RFSW *RFSW;
 
 struct RFSW RFSW1;
 
-
-
-struct RFSW RFSW2;
-
 # 89
 void RfSWPointSelect(char sw);
 void setRFSW_Control(char sw);
@@ -642,77 +635,7 @@ void setRFSW_Status(char sw, char command);
 void setRF_DimmerValue(char lights);
 void setRF_DimmerLights(char lights, char on);
 
-# 155 "../src/../1-2.Switch_2Key_Dimmer.X/../src/OverLoad_B1.h"
-struct OverLoad {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned LightsON : 1;
-unsigned Safe : 1;
-unsigned ADtoGO : 1;
-unsigned ERROR : 1;
-unsigned StatusOn : 1;
-unsigned StatusOff : 1;
-};
-};
-unsigned int Time;
-unsigned int ErrorTime;
-unsigned char ErrorStatus;
-
-# 195
-unsigned int TotalLoad;
-unsigned int AH[9];
-unsigned int AL[9];
-unsigned int AD;
-unsigned int ADH;
-unsigned int ADL;
-unsigned int ADRES;
-
-
-
-unsigned int LightsJudgeValue;
-unsigned int JudgeValue;
-unsigned int Judge;
-
-unsigned char Count;
-unsigned char OffCount;
-unsigned char ErrorCount;
-unsigned char UpdateCount;
-unsigned char LightsCount;
-unsigned char NumberCount;
-unsigned char CloseCount;
-unsigned char ADCount;
-unsigned char SafeCount;
-
-unsigned char Lights1Status;
-unsigned char Lights2Status;
-unsigned char Lights3Status;
-};
-
-
-struct OverLoad Load1;
-
-
-
-
-inline void Load_Initialization();
-inline void Load_Main();
-inline void getLoad_AD(char channel);
-void setLoad_Exceptions(char command);
-void setLoad_Enable(char command);
-void setLoad_AH_AL_Restore();
-
-void setLoad_Count(char command);
-void setLoad_GO(char command);
-void setLoad_StatusOn(char lights, char command);
-void setLoad_StatusOff(char lights, char command);
-char getLoad_Safe();
-char getLoad_ERROR();
-
-# 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h"
+# 11 "../src/../1-1.Switch_1Key_Dimmer.X/../src/Dimmer_B1.h"
 struct DimmerLights
 {
 union{
@@ -774,11 +697,6 @@ struct DimmerLights *DimmerLightsIntrIOC;
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-
-
-struct DimmerLights *DimmerLights22;
-struct DimmerLights DimmerLights2;
-
 # 102
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
@@ -838,7 +756,7 @@ struct Dimmer Dimmer1;
 
 inline void Dimmer_Initialization();
 
-# 21 "../src/../1-2.Switch_2Key_Dimmer.X/../src/DelayOff_B1.h"
+# 21 "../src/../1-1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h"
 struct DelayOff {
 
 union {
@@ -858,10 +776,6 @@ struct DelayOff *DelayOff;
 
 struct DelayOff DlySw1;
 
-
-
-struct DelayOff DlySw2;
-
 # 49
 inline void DelayOff_Initialization();
 inline void DelayOff_Main();
@@ -869,6 +783,42 @@ char DelayTimejudge(char value);
 void DlyOff_Initialization(char sw);
 void DlyOff_Main(char sw);
 void setDelayOff_GO(char sw, char command, char value);
+
+# 7 "../src/../1-1.Switch_1Key_Dimmer.X/../src/PowerFault_B1.h"
+struct PF {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned Safe : 1;
+unsigned ADtoGO : 1;
+unsigned empty : 4;
+};
+};
+unsigned char Count;
+unsigned int Time;
+
+# 31
+unsigned int AD;
+unsigned int ADRES;
+
+};
+
+
+struct PF PF1;
+
+
+inline void PowerFault_Initialization();
+inline inline void PowerFault_Main();
+void getPowerFault_AD(char channel);
+void setPowerFault_Initialization();
+void setPowerFault_Main();
+void setPowerFault_Exceptions(char command);
+void setPF_Enable(char command);
+char getPF_Safe();
+char getPF_ERROR();
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
@@ -3354,7 +3304,7 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 16 "../src/../1-2.Switch_2Key_Dimmer.X/../src/MCU_B1.h"
+# 16 "../src/../1-1.Switch_1Key_Dimmer.X/../src/MCU_B1.h"
 void Mcu_Initialization();
 
 # 21
@@ -3491,10 +3441,9 @@ Timeout_Counter();
 };
 set_TimeoutCleared();
 
-
 CC2500_WriteCommand(0x36);
 CC2500_WriteCommand(0x3B);
-
+CC2500_WriteCommand(0x3A);
 Transceive_OK = 1;
 }
 
@@ -3539,7 +3488,6 @@ RC4 = 1;
 if (CRC & 0x80)
 Receive_OK = 1;
 
-# 114
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 1;
 } else {
@@ -3648,7 +3596,7 @@ inline void CC2500_SIDLEMode(void) {
 CC2500_WriteCommand(0x36);
 }
 
-# 228
+# 222
 inline void CC2500_WriteByte(void) {
 unsigned char loop_a;
 for (loop_a = 0; loop_a < 8; loop_a++) {

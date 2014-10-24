@@ -37,7 +37,7 @@
 #define Control_Method_TriacRelay	1
 #define Properties_Neutral		0
 #define Properties_Dimmer		0
-#define Debug 1
+#define Debug                           1
 #define Create_Date "2014/10/20"
 #define PCB_Name "TH-302PV11-1-Dim(20140722)"
 
@@ -143,8 +143,15 @@
 #define PowerFault_use 0
 //Dimmer Lights
 #define Dimmer_use 	0
+#define Dimmer_Half_Wave	1
+#define Dimmer_Full_Wave	0
 //SegmentDisplay
 #define SegmentDisplay_use 0
+//PIR
+#define  PIR_use  1
+//CDS
+#define CDS_use  1
+
 
 
 //include

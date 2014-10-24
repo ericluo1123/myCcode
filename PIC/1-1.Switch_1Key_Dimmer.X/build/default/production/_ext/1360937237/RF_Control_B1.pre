@@ -586,7 +586,7 @@ unsigned empty : 2;
 };
 unsigned char Count;
 unsigned char CheckCount;
-unsigned char CheckedCounter;
+unsigned int CheckedCounter;
 unsigned char RunTime;
 unsigned char DebounceTime;
 unsigned int CorrectionCounter;
@@ -3482,9 +3482,12 @@ RF1.TransceiveGO = 0;
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 0;
 
-
-
-
+CC2500_ReadStatus(0x3B);
+if (s_data != 0) {
+CC2500_WriteCommand(0x36);
+CC2500_WriteCommand(0x3B);
+CC2500_WriteCommand(0x3A);
+}
 CC2500_TxData();
 
 } else {
@@ -3496,7 +3499,7 @@ RF1.ReceiveGO = 0;
 RF1.Correction = 0;
 RF1.CorrectionCounter = 0;
 
-# 111
+# 114
 getRxData();
 
 
@@ -3508,17 +3511,12 @@ RF1.RunTime = 20;
 }
 RF1.CheckCount = 0;
 } else {
-
 RF1.CheckCount++;
 if (RF1.CheckCount == 2) {
 RF1.CheckCount = 0;
 RF1.CheckedCounter = 0;
-if (RF1.RxChecked == 0) {
-RF1.RxChecked = 1;
-} else {
-if (RF1.RunTime < 100) {
+if (RF1.RunTime < 200) {
 RF1.RunTime += 10;
-}
 }
 }
 }
@@ -3530,7 +3528,7 @@ RF1.RxStatus = 1;
 RF1.Correction = 1;
 
 CC2500_WriteCommand(0x36);
-
+CC2500_WriteCommand(0x3B);
 CC2500_WriteCommand(0x3A);
 CC2500_WriteCommand(0x34);
 
@@ -3539,16 +3537,10 @@ CC2500_WriteCommand(0x34);
 }
 }
 }
-if (RF1.RxChecked == 1) {
-RF1.CheckedCounter++;
-if (RF1.CheckedCounter == (10 * RF1.RunTime)) {
-RF1.CheckedCounter = 0;
-RF1.RxChecked = 0;
-}
-} else {
+if (RF1.RxStatus == 1) {
 if (RF1.RunTime > 20) {
 RF1.CheckedCounter++;
-if (RF1.CheckedCounter == (10 * RF1.RunTime)) {
+if (RF1.CheckedCounter == 1000) {
 RF1.CheckedCounter = 0;
 RF1.RunTime -= 10;
 }
@@ -3556,9 +3548,8 @@ RF1.RunTime -= 10;
 }
 if (RF1.Correction == 1) {
 RF1.CorrectionCounter++;
-if (RF1.CorrectionCounter >= 60000) {
+if (RF1.CorrectionCounter >= 30000) {
 RF1.CorrectionCounter = 0;
-
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 0;
 }
@@ -3566,7 +3557,7 @@ RF1.ReceiveGO = 0;
 }
 }
 
-# 185
+# 176
 }
 }
 
@@ -3580,7 +3571,7 @@ if (RF1.Enable == 1) {
 RF1.TransceiveGO = 1;
 RF1.RunTime = 20;
 
-# 206
+# 197
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 RF_Data[2] = product->Data[2];
@@ -3660,7 +3651,7 @@ __nop();
 RF1.Checked = 0;
 }
 
-# 288
+# 279
 }
 }
 
@@ -3685,7 +3676,7 @@ setDimmerLights(1, 0);
 setRFSW_Status(1, 0);
 setSw_Status(1, 0);
 
-# 323
+# 314
 product->Data[9]=0;
 product->Data[11]=0;
 product->Data[15]=0;
@@ -3707,17 +3698,17 @@ else if (RF_Data[15] == 0x11) {
 setRFSW_AdjControl(1);
 }
 
-# 367
+# 358
 }
 
-# 374
+# 365
 void RfSWPointSelect(char sw) {
 
 if (sw == 1) {
 RFSW = &RFSW1;
 }
 
-# 390
+# 381
 }
 
 

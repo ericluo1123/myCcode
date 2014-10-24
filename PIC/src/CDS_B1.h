@@ -17,16 +17,21 @@ struct CDS {
         unsigned Low : 1;
         unsigned empty : 2;
     };
-
+ 
     unsigned char Time;
-    unsigned ADtype VRAD;
-    unsigned ADtype SignalAD;
-    unsigned ADtype ADRES;
+#ifdef _16F723A
+    unsigned char VRAD;
+    unsigned char SignalAD;
+    unsigned char ADRES;
+#else
+    unsigned int VRAD;
+    unsigned int SignalAD;
+    unsigned int ADRES;
+#endif
 };
-struct CDS *CDS;
 
 #ifdef CDS_1
-struct CDS _CDS1;
+struct CDS _CDS;
 #endif
 
 //void selectCDSPoint(char);

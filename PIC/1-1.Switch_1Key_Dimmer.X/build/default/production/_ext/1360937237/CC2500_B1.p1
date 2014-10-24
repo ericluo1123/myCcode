@@ -78,7 +78,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [u S31 `S32 1 ]
 [n S31 . . ]
 "11
-[s S28 `S29 1 `S31 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `ui 1 ]
+[s S28 `S29 1 `S31 1 `uc 1 `uc 1 `ui 1 `uc 1 `uc 1 `ui 1 ]
 [n S28 RF . . Count CheckCount CheckedCounter RunTime DebounceTime CorrectionCounter ]
 "70
 [s S34 :1 `uc 1 :7 `uc 1 ]
@@ -922,7 +922,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;RF_Control_B1.h: 38: };
 [; ;RF_Control_B1.h: 39: unsigned char Count;
 [; ;RF_Control_B1.h: 40: unsigned char CheckCount;
-[; ;RF_Control_B1.h: 41: unsigned char CheckedCounter;
+[; ;RF_Control_B1.h: 41: unsigned int CheckedCounter;
 [; ;RF_Control_B1.h: 42: unsigned char RunTime;
 [; ;RF_Control_B1.h: 43: unsigned char DebounceTime;
 [; ;RF_Control_B1.h: 44: unsigned int CorrectionCounter;
@@ -3170,735 +3170,738 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;CC2500_B1.c: 59: set_TimeoutCleared();
 "59
 [e ( _set_TimeoutCleared ..  ]
-[; ;CC2500_B1.c: 62: CC2500_WriteCommand(0x36);
-"62
+[; ;CC2500_B1.c: 61: CC2500_WriteCommand(0x36);
+"61
 [e ( _CC2500_WriteCommand (1 -> -> 54 `i `uc ]
-[; ;CC2500_B1.c: 63: CC2500_WriteCommand(0x3B);
-"63
+[; ;CC2500_B1.c: 62: CC2500_WriteCommand(0x3B);
+"62
 [e ( _CC2500_WriteCommand (1 -> -> 59 `i `uc ]
-[; ;CC2500_B1.c: 65: Transceive_OK = 1;
-"65
+[; ;CC2500_B1.c: 63: CC2500_WriteCommand(0x3A);
+"63
+[e ( _CC2500_WriteCommand (1 -> -> 58 `i `uc ]
+[; ;CC2500_B1.c: 64: Transceive_OK = 1;
+"64
 [e = _Transceive_OK -> -> 1 `i `b ]
-[; ;CC2500_B1.c: 66: }
-"66
+[; ;CC2500_B1.c: 65: }
+"65
 [e :UE 292 ]
 }
 [v F437 `(v ~T0 @X0 1 tf ]
-"71
+"70
 [v _CC2500_RxData `TF437 ~T0 @X0 1 e ]
 {
-[; ;CC2500_B1.c: 71: inline void CC2500_RxData(void) {
+[; ;CC2500_B1.c: 70: inline void CC2500_RxData(void) {
 [e :U _CC2500_RxData ]
 [f ]
-"72
+"71
 [v _loop_f `uc ~T0 @X0 1 a ]
-[; ;CC2500_B1.c: 72: unsigned char loop_f;
-[; ;CC2500_B1.c: 76: if (RB0 == 1)
-"76
+[; ;CC2500_B1.c: 71: unsigned char loop_f;
+[; ;CC2500_B1.c: 75: if (RB0 == 1)
+"75
 [e $ ! == -> _RB0 `i -> 1 `i 307  ]
-[; ;CC2500_B1.c: 77: {
-"77
+[; ;CC2500_B1.c: 76: {
+"76
 {
-[; ;CC2500_B1.c: 78: while (RB0 == 1 && myMain.Timeout == 0) {
-"78
+[; ;CC2500_B1.c: 77: while (RB0 == 1 && myMain.Timeout == 0) {
+"77
 [e $U 308  ]
 [e :U 309 ]
 {
-[; ;CC2500_B1.c: 79: Timeout_Counter();
-"79
+[; ;CC2500_B1.c: 78: Timeout_Counter();
+"78
 [e ( _Timeout_Counter ..  ]
-"80
+"79
 }
 [e :U 308 ]
-"78
+"77
 [e $ && == -> _RB0 `i -> 1 `i == -> . . . _myMain 10 0 2 `i -> 0 `i 309  ]
 [e :U 310 ]
-[; ;CC2500_B1.c: 80: };
-[; ;CC2500_B1.c: 81: set_TimeoutCleared();
-"81
+[; ;CC2500_B1.c: 79: };
+[; ;CC2500_B1.c: 80: set_TimeoutCleared();
+"80
 [e ( _set_TimeoutCleared ..  ]
-"82
+"81
 }
 [e :U 307 ]
-[; ;CC2500_B1.c: 82: }
-[; ;CC2500_B1.c: 84: CC2500_ReadStatus(0x3B);
-"84
+[; ;CC2500_B1.c: 81: }
+[; ;CC2500_B1.c: 83: CC2500_ReadStatus(0x3B);
+"83
 [e ( _CC2500_ReadStatus (1 -> -> 59 `i `uc ]
-[; ;CC2500_B1.c: 86: if (s_data != 0) {
-"86
+[; ;CC2500_B1.c: 85: if (s_data != 0) {
+"85
 [e $ ! != -> _s_data `i -> 0 `i 311  ]
 {
-[; ;CC2500_B1.c: 87: RC4 = 0;
-"87
+[; ;CC2500_B1.c: 86: RC4 = 0;
+"86
 [e = _RC4 -> -> 0 `i `b ]
-[; ;CC2500_B1.c: 88: SPI0Buffer = 0x3F + 0xC0;
-"88
+[; ;CC2500_B1.c: 87: SPI0Buffer = 0x3F + 0xC0;
+"87
 [e = _SPI0Buffer -> + -> 63 `i -> 192 `i `uc ]
-[; ;CC2500_B1.c: 89: while (RC2 == 1 && myMain.Timeout == 0) {
-"89
+[; ;CC2500_B1.c: 88: while (RC2 == 1 && myMain.Timeout == 0) {
+"88
 [e $U 312  ]
 [e :U 313 ]
 {
-[; ;CC2500_B1.c: 90: Timeout_Counter();
-"90
+[; ;CC2500_B1.c: 89: Timeout_Counter();
+"89
 [e ( _Timeout_Counter ..  ]
-"91
+"90
 }
 [e :U 312 ]
-"89
+"88
 [e $ && == -> _RC2 `i -> 1 `i == -> . . . _myMain 10 0 2 `i -> 0 `i 313  ]
 [e :U 314 ]
-[; ;CC2500_B1.c: 91: };
-[; ;CC2500_B1.c: 92: if (myMain.Timeout == 0) {
-"92
+[; ;CC2500_B1.c: 90: };
+[; ;CC2500_B1.c: 91: if (myMain.Timeout == 0) {
+"91
 [e $ ! == -> . . . _myMain 10 0 2 `i -> 0 `i 315  ]
 {
-[; ;CC2500_B1.c: 93: CC2500_WriteByte();
-"93
+[; ;CC2500_B1.c: 92: CC2500_WriteByte();
+"92
 [e ( _CC2500_WriteByte ..  ]
-[; ;CC2500_B1.c: 95: CC2500_ReadByte();
-"95
+[; ;CC2500_B1.c: 94: CC2500_ReadByte();
+"94
 [e ( _CC2500_ReadByte ..  ]
-[; ;CC2500_B1.c: 96: Rx_Length = SPI0Buffer;
-"96
+[; ;CC2500_B1.c: 95: Rx_Length = SPI0Buffer;
+"95
 [e = _Rx_Length _SPI0Buffer ]
-[; ;CC2500_B1.c: 97: for (loop_f = 0; loop_f < Rx_Length; loop_f++) {
-"97
+[; ;CC2500_B1.c: 96: for (loop_f = 0; loop_f < Rx_Length; loop_f++) {
+"96
 {
 [e = _loop_f -> -> 0 `i `uc ]
 [e $U 319  ]
 [e :U 316 ]
 {
-[; ;CC2500_B1.c: 98: CC2500_ReadByte();
-"98
-[e ( _CC2500_ReadByte ..  ]
-[; ;CC2500_B1.c: 99: RF_Data[loop_f] = SPI0Buffer;
-"99
-[e = *U + &U _RF_Data * -> _loop_f `ux -> -> # *U &U _RF_Data `ui `ux _SPI0Buffer ]
-"100
-}
+[; ;CC2500_B1.c: 97: CC2500_ReadByte();
 "97
+[e ( _CC2500_ReadByte ..  ]
+[; ;CC2500_B1.c: 98: RF_Data[loop_f] = SPI0Buffer;
+"98
+[e = *U + &U _RF_Data * -> _loop_f `ux -> -> # *U &U _RF_Data `ui `ux _SPI0Buffer ]
+"99
+}
+"96
 [e ++ _loop_f -> -> 1 `i `uc ]
 [e :U 319 ]
 [e $ < -> _loop_f `i -> _Rx_Length `i 316  ]
 [e :U 317 ]
-"100
+"99
 }
-[; ;CC2500_B1.c: 100: }
-[; ;CC2500_B1.c: 101: CC2500_ReadByte();
+[; ;CC2500_B1.c: 99: }
+[; ;CC2500_B1.c: 100: CC2500_ReadByte();
+"100
+[e ( _CC2500_ReadByte ..  ]
+[; ;CC2500_B1.c: 101: RSSI = SPI0Buffer;
 "101
-[e ( _CC2500_ReadByte ..  ]
-[; ;CC2500_B1.c: 102: RSSI = SPI0Buffer;
-"102
 [e = _RSSI _SPI0Buffer ]
-[; ;CC2500_B1.c: 103: CC2500_ReadByte();
-"103
+[; ;CC2500_B1.c: 102: CC2500_ReadByte();
+"102
 [e ( _CC2500_ReadByte ..  ]
-[; ;CC2500_B1.c: 104: CRC = SPI0Buffer;
-"104
+[; ;CC2500_B1.c: 103: CRC = SPI0Buffer;
+"103
 [e = _CRC _SPI0Buffer ]
-[; ;CC2500_B1.c: 105: RC4 = 1;
-"105
+[; ;CC2500_B1.c: 104: RC4 = 1;
+"104
 [e = _RC4 -> -> 1 `i `b ]
-[; ;CC2500_B1.c: 106: if (CRC & 0x80)
-"106
+[; ;CC2500_B1.c: 105: if (CRC & 0x80)
+"105
 [e $ ! != & -> _CRC `i -> 128 `i -> 0 `i 320  ]
-[; ;CC2500_B1.c: 107: Receive_OK = 1;
-"107
+[; ;CC2500_B1.c: 106: Receive_OK = 1;
+"106
 [e = _Receive_OK -> -> 1 `i `b ]
 [e :U 320 ]
-[; ;CC2500_B1.c: 114: RF1.RxStatus = 0;
-"114
+[; ;CC2500_B1.c: 108: RF1.RxStatus = 0;
+"108
 [e = . . . _RF1 0 0 3 -> -> 0 `i `uc ]
-[; ;CC2500_B1.c: 115: RF1.ReceiveGO = 1;
-"115
+[; ;CC2500_B1.c: 109: RF1.ReceiveGO = 1;
+"109
 [e = . . . _RF1 0 0 1 -> -> 1 `i `uc ]
-"116
+"110
 }
-[; ;CC2500_B1.c: 116: } else {
+[; ;CC2500_B1.c: 110: } else {
 [e $U 321  ]
 [e :U 315 ]
 {
-[; ;CC2500_B1.c: 117: RC4 = 1;
-"117
+[; ;CC2500_B1.c: 111: RC4 = 1;
+"111
 [e = _RC4 -> -> 1 `i `b ]
-"118
+"112
 }
 [e :U 321 ]
-[; ;CC2500_B1.c: 118: }
-[; ;CC2500_B1.c: 119: set_TimeoutCleared();
-"119
+[; ;CC2500_B1.c: 112: }
+[; ;CC2500_B1.c: 113: set_TimeoutCleared();
+"113
 [e ( _set_TimeoutCleared ..  ]
-"120
+"114
 }
 [e :U 311 ]
-[; ;CC2500_B1.c: 120: }
-[; ;CC2500_B1.c: 123: }
-"123
+[; ;CC2500_B1.c: 114: }
+[; ;CC2500_B1.c: 117: }
+"117
 [e :UE 306 ]
 }
-"128
+"122
 [v _CC2500_PowerOnInitial `(v ~T0 @X0 1 ef ]
 {
-[; ;CC2500_B1.c: 128: void CC2500_PowerOnInitial() {
+[; ;CC2500_B1.c: 122: void CC2500_PowerOnInitial() {
 [e :U _CC2500_PowerOnInitial ]
 [f ]
-[; ;CC2500_B1.c: 129: CC2500_PowerRST();
-"129
+[; ;CC2500_B1.c: 123: CC2500_PowerRST();
+"123
 [e ( _CC2500_PowerRST ..  ]
-[; ;CC2500_B1.c: 130: CC2500_InitSetREG();
-"130
+[; ;CC2500_B1.c: 124: CC2500_InitSetREG();
+"124
 [e ( _CC2500_InitSetREG ..  ]
-[; ;CC2500_B1.c: 131: CC2500_InitPATable();
-"131
+[; ;CC2500_B1.c: 125: CC2500_InitPATable();
+"125
 [e ( _CC2500_InitPATable ..  ]
-[; ;CC2500_B1.c: 132: CC2500_ClearTXFIFO();
-"132
+[; ;CC2500_B1.c: 126: CC2500_ClearTXFIFO();
+"126
 [e ( _CC2500_ClearTXFIFO ..  ]
-[; ;CC2500_B1.c: 133: CC2500_ClearRXFIFO();
-"133
+[; ;CC2500_B1.c: 127: CC2500_ClearRXFIFO();
+"127
 [e ( _CC2500_ClearRXFIFO ..  ]
-[; ;CC2500_B1.c: 134: CC2500_FrequencyCabr();
-"134
+[; ;CC2500_B1.c: 128: CC2500_FrequencyCabr();
+"128
 [e ( _CC2500_FrequencyCabr ..  ]
-[; ;CC2500_B1.c: 135: CC2500_SIDLEMode();
-"135
+[; ;CC2500_B1.c: 129: CC2500_SIDLEMode();
+"129
 [e ( _CC2500_SIDLEMode ..  ]
-[; ;CC2500_B1.c: 136: }
-"136
+[; ;CC2500_B1.c: 130: }
+"130
 [e :UE 322 ]
 }
-"141
+"135
 [v _CC2500_PowerRST `(v ~T0 @X0 1 ef ]
 {
-[; ;CC2500_B1.c: 141: void CC2500_PowerRST(void) {
+[; ;CC2500_B1.c: 135: void CC2500_PowerRST(void) {
 [e :U _CC2500_PowerRST ]
 [f ]
-[; ;CC2500_B1.c: 142: RC1 = 0;
-"142
+[; ;CC2500_B1.c: 136: RC1 = 0;
+"136
 [e = _RC1 -> -> 0 `i `b ]
-[; ;CC2500_B1.c: 143: RC0 = 0;
-"143
+[; ;CC2500_B1.c: 137: RC0 = 0;
+"137
 [e = _RC0 -> -> 0 `i `b ]
-[; ;CC2500_B1.c: 144: RC4 = 1;
-"144
+[; ;CC2500_B1.c: 138: RC4 = 1;
+"138
 [e = _RC4 -> -> 1 `i `b ]
-[; ;CC2500_B1.c: 145: DelayTime_1us(10);
-"145
+[; ;CC2500_B1.c: 139: DelayTime_1us(10);
+"139
 [e ( _DelayTime_1us (1 -> 10 `i ]
-[; ;CC2500_B1.c: 146: RC4 = 0;
-"146
+[; ;CC2500_B1.c: 140: RC4 = 0;
+"140
 [e = _RC4 -> -> 0 `i `b ]
-[; ;CC2500_B1.c: 147: DelayTime_1us(10);
-"147
+[; ;CC2500_B1.c: 141: DelayTime_1us(10);
+"141
 [e ( _DelayTime_1us (1 -> 10 `i ]
-[; ;CC2500_B1.c: 148: RC4 = 1;
-"148
+[; ;CC2500_B1.c: 142: RC4 = 1;
+"142
 [e = _RC4 -> -> 1 `i `b ]
-[; ;CC2500_B1.c: 149: DelayTime_1us(40);
-"149
+[; ;CC2500_B1.c: 143: DelayTime_1us(40);
+"143
 [e ( _DelayTime_1us (1 -> 40 `i ]
-[; ;CC2500_B1.c: 150: RC4 = 0;
-"150
+[; ;CC2500_B1.c: 144: RC4 = 0;
+"144
 [e = _RC4 -> -> 0 `i `b ]
-[; ;CC2500_B1.c: 151: SPI0Buffer = 0x30;
-"151
+[; ;CC2500_B1.c: 145: SPI0Buffer = 0x30;
+"145
 [e = _SPI0Buffer -> -> 48 `i `uc ]
-[; ;CC2500_B1.c: 152: while (RC2 == 1 && myMain.Timeout == 0) {
-"152
+[; ;CC2500_B1.c: 146: while (RC2 == 1 && myMain.Timeout == 0) {
+"146
 [e $U 324  ]
 [e :U 325 ]
 {
-[; ;CC2500_B1.c: 153: Timeout_Counter();
-"153
+[; ;CC2500_B1.c: 147: Timeout_Counter();
+"147
 [e ( _Timeout_Counter ..  ]
-"154
+"148
 }
 [e :U 324 ]
-"152
+"146
 [e $ && == -> _RC2 `i -> 1 `i == -> . . . _myMain 10 0 2 `i -> 0 `i 325  ]
 [e :U 326 ]
-[; ;CC2500_B1.c: 154: };
-[; ;CC2500_B1.c: 155: set_TimeoutCleared();
-"155
+[; ;CC2500_B1.c: 148: };
+[; ;CC2500_B1.c: 149: set_TimeoutCleared();
+"149
 [e ( _set_TimeoutCleared ..  ]
-[; ;CC2500_B1.c: 156: CC2500_WriteByte();
-"156
+[; ;CC2500_B1.c: 150: CC2500_WriteByte();
+"150
 [e ( _CC2500_WriteByte ..  ]
-[; ;CC2500_B1.c: 157: while (RC2 == 1 && myMain.Timeout == 0) {
-"157
+[; ;CC2500_B1.c: 151: while (RC2 == 1 && myMain.Timeout == 0) {
+"151
 [e $U 327  ]
 [e :U 328 ]
 {
-[; ;CC2500_B1.c: 158: Timeout_Counter();
-"158
+[; ;CC2500_B1.c: 152: Timeout_Counter();
+"152
 [e ( _Timeout_Counter ..  ]
-"159
+"153
 }
 [e :U 327 ]
-"157
+"151
 [e $ && == -> _RC2 `i -> 1 `i == -> . . . _myMain 10 0 2 `i -> 0 `i 328  ]
 [e :U 329 ]
-[; ;CC2500_B1.c: 159: };
-[; ;CC2500_B1.c: 160: set_TimeoutCleared();
-"160
+[; ;CC2500_B1.c: 153: };
+[; ;CC2500_B1.c: 154: set_TimeoutCleared();
+"154
 [e ( _set_TimeoutCleared ..  ]
-[; ;CC2500_B1.c: 161: RC0 = 0;
-"161
+[; ;CC2500_B1.c: 155: RC0 = 0;
+"155
 [e = _RC0 -> -> 0 `i `b ]
-[; ;CC2500_B1.c: 162: RC4 = 1;
-"162
+[; ;CC2500_B1.c: 156: RC4 = 1;
+"156
 [e = _RC4 -> -> 1 `i `b ]
-[; ;CC2500_B1.c: 163: }
-"163
+[; ;CC2500_B1.c: 157: }
+"157
 [e :UE 323 ]
 }
-"168
+"162
 [v _CC2500_InitSetREG `(v ~T0 @X0 1 ef ]
 {
-[; ;CC2500_B1.c: 168: void CC2500_InitSetREG(void) {
+[; ;CC2500_B1.c: 162: void CC2500_InitSetREG(void) {
 [e :U _CC2500_InitSetREG ]
 [f ]
-"169
+"163
 [v _loop_c `uc ~T0 @X0 1 a ]
-"170
+"164
 [v _temp1 `uc ~T0 @X0 1 a ]
 [v _temp2 `uc ~T0 @X0 1 a ]
-[; ;CC2500_B1.c: 169: unsigned char loop_c;
-[; ;CC2500_B1.c: 170: unsigned char temp1, temp2;
-[; ;CC2500_B1.c: 172: for (loop_c = 0; loop_c < 47; loop_c++) {
-"172
+[; ;CC2500_B1.c: 163: unsigned char loop_c;
+[; ;CC2500_B1.c: 164: unsigned char temp1, temp2;
+[; ;CC2500_B1.c: 166: for (loop_c = 0; loop_c < 47; loop_c++) {
+"166
 {
 [e = _loop_c -> -> 0 `i `uc ]
 [e $ < -> _loop_c `i -> 47 `i 331  ]
 [e $U 332  ]
 [e :U 331 ]
 {
-[; ;CC2500_B1.c: 173: temp1 = CC2500_registers_address[loop_c];
-"173
+[; ;CC2500_B1.c: 167: temp1 = CC2500_registers_address[loop_c];
+"167
 [e = _temp1 *U + &U _CC2500_registers_address * -> _loop_c `ux -> -> # *U &U _CC2500_registers_address `ui `ux ]
-[; ;CC2500_B1.c: 174: temp2 = CC2500_rfSettings[loop_c];
-"174
+[; ;CC2500_B1.c: 168: temp2 = CC2500_rfSettings[loop_c];
+"168
 [e = _temp2 *U + &U _CC2500_rfSettings * -> _loop_c `ux -> -> # *U &U _CC2500_rfSettings `ui `ux ]
-[; ;CC2500_B1.c: 176: CC2500_WriteREG(temp1, temp2);
-"176
+[; ;CC2500_B1.c: 170: CC2500_WriteREG(temp1, temp2);
+"170
 [e ( _CC2500_WriteREG (2 , _temp1 _temp2 ]
-"177
+"171
 }
-"172
+"166
 [e ++ _loop_c -> -> 1 `i `uc ]
 [e $ < -> _loop_c `i -> 47 `i 331  ]
 [e :U 332 ]
-"177
+"171
 }
-[; ;CC2500_B1.c: 177: }
-[; ;CC2500_B1.c: 178: }
-"178
+[; ;CC2500_B1.c: 171: }
+[; ;CC2500_B1.c: 172: }
+"172
 [e :UE 330 ]
 }
-"183
+"177
 [v _CC2500_InitPATable `(v ~T0 @X0 1 ef ]
 {
-[; ;CC2500_B1.c: 183: void CC2500_InitPATable(void) {
+[; ;CC2500_B1.c: 177: void CC2500_InitPATable(void) {
 [e :U _CC2500_InitPATable ]
 [f ]
-"184
+"178
 [v _loop_d `uc ~T0 @X0 1 a ]
-"185
+"179
 [v _temp `uc ~T0 @X0 1 a ]
-[; ;CC2500_B1.c: 184: unsigned char loop_d;
-[; ;CC2500_B1.c: 185: unsigned char temp;
-[; ;CC2500_B1.c: 187: for (loop_d = 0; loop_d < 8; loop_d++) {
-"187
+[; ;CC2500_B1.c: 178: unsigned char loop_d;
+[; ;CC2500_B1.c: 179: unsigned char temp;
+[; ;CC2500_B1.c: 181: for (loop_d = 0; loop_d < 8; loop_d++) {
+"181
 {
 [e = _loop_d -> -> 0 `i `uc ]
 [e $ < -> _loop_d `i -> 8 `i 335  ]
 [e $U 336  ]
 [e :U 335 ]
 {
-[; ;CC2500_B1.c: 188: temp = CC2500_patable_vaule[loop_d];
-"188
+[; ;CC2500_B1.c: 182: temp = CC2500_patable_vaule[loop_d];
+"182
 [e = _temp *U + &U _CC2500_patable_vaule * -> _loop_d `ux -> -> # *U &U _CC2500_patable_vaule `ui `ux ]
-[; ;CC2500_B1.c: 189: CC2500_WriteREG(0x3E, temp);
-"189
+[; ;CC2500_B1.c: 183: CC2500_WriteREG(0x3E, temp);
+"183
 [e ( _CC2500_WriteREG (2 , -> -> 62 `i `uc _temp ]
-"190
+"184
 }
-"187
+"181
 [e ++ _loop_d -> -> 1 `i `uc ]
 [e $ < -> _loop_d `i -> 8 `i 335  ]
 [e :U 336 ]
-"190
+"184
 }
-[; ;CC2500_B1.c: 190: }
-[; ;CC2500_B1.c: 191: }
-"191
+[; ;CC2500_B1.c: 184: }
+[; ;CC2500_B1.c: 185: }
+"185
 [e :UE 334 ]
 }
-"196
+"190
 [v _CC2500_ClearTXFIFO `(v ~T0 @X0 1 ef ]
 {
-[; ;CC2500_B1.c: 196: void CC2500_ClearTXFIFO(void) {
+[; ;CC2500_B1.c: 190: void CC2500_ClearTXFIFO(void) {
 [e :U _CC2500_ClearTXFIFO ]
 [f ]
-[; ;CC2500_B1.c: 197: CC2500_WriteCommand(0x3B);
-"197
+[; ;CC2500_B1.c: 191: CC2500_WriteCommand(0x3B);
+"191
 [e ( _CC2500_WriteCommand (1 -> -> 59 `i `uc ]
-[; ;CC2500_B1.c: 198: }
-"198
+[; ;CC2500_B1.c: 192: }
+"192
 [e :UE 338 ]
 }
-"203
+"197
 [v _CC2500_ClearRXFIFO `(v ~T0 @X0 1 ef ]
 {
-[; ;CC2500_B1.c: 203: void CC2500_ClearRXFIFO(void) {
+[; ;CC2500_B1.c: 197: void CC2500_ClearRXFIFO(void) {
 [e :U _CC2500_ClearRXFIFO ]
 [f ]
-[; ;CC2500_B1.c: 204: CC2500_WriteCommand(0x3A);
-"204
+[; ;CC2500_B1.c: 198: CC2500_WriteCommand(0x3A);
+"198
 [e ( _CC2500_WriteCommand (1 -> -> 58 `i `uc ]
-[; ;CC2500_B1.c: 205: }
-"205
+[; ;CC2500_B1.c: 199: }
+"199
 [e :UE 339 ]
 }
-"210
+"204
 [v _CC2500_FrequencyCabr `(v ~T0 @X0 1 ef ]
 {
-[; ;CC2500_B1.c: 210: void CC2500_FrequencyCabr(void) {
+[; ;CC2500_B1.c: 204: void CC2500_FrequencyCabr(void) {
 [e :U _CC2500_FrequencyCabr ]
 [f ]
-[; ;CC2500_B1.c: 211: CC2500_WriteCommand(0x33);
-"211
+[; ;CC2500_B1.c: 205: CC2500_WriteCommand(0x33);
+"205
 [e ( _CC2500_WriteCommand (1 -> -> 51 `i `uc ]
-[; ;CC2500_B1.c: 212: DelayTime_1us(1000);
-"212
+[; ;CC2500_B1.c: 206: DelayTime_1us(1000);
+"206
 [e ( _DelayTime_1us (1 -> 1000 `i ]
-[; ;CC2500_B1.c: 213: }
-"213
+[; ;CC2500_B1.c: 207: }
+"207
 [e :UE 340 ]
 }
-"218
+"212
 [v _CC2500_SIDLEMode `TF413 ~T0 @X0 1 e ]
 {
-[; ;CC2500_B1.c: 218: inline void CC2500_SIDLEMode(void) {
+[; ;CC2500_B1.c: 212: inline void CC2500_SIDLEMode(void) {
 [e :U _CC2500_SIDLEMode ]
 [f ]
-[; ;CC2500_B1.c: 219: CC2500_WriteCommand(0x36);
-"219
+[; ;CC2500_B1.c: 213: CC2500_WriteCommand(0x36);
+"213
 [e ( _CC2500_WriteCommand (1 -> -> 54 `i `uc ]
-[; ;CC2500_B1.c: 220: }
-"220
+[; ;CC2500_B1.c: 214: }
+"214
 [e :UE 341 ]
 }
-"228
+"222
 [v _CC2500_WriteByte `TF416 ~T0 @X0 1 e ]
 {
-[; ;CC2500_B1.c: 228: inline void CC2500_WriteByte(void) {
+[; ;CC2500_B1.c: 222: inline void CC2500_WriteByte(void) {
 [e :U _CC2500_WriteByte ]
 [f ]
-"229
+"223
 [v _loop_a `uc ~T0 @X0 1 a ]
-[; ;CC2500_B1.c: 229: unsigned char loop_a;
-[; ;CC2500_B1.c: 230: for (loop_a = 0; loop_a < 8; loop_a++) {
-"230
+[; ;CC2500_B1.c: 223: unsigned char loop_a;
+[; ;CC2500_B1.c: 224: for (loop_a = 0; loop_a < 8; loop_a++) {
+"224
 {
 [e = _loop_a -> -> 0 `i `uc ]
 [e $ < -> _loop_a `i -> 8 `i 343  ]
 [e $U 344  ]
 [e :U 343 ]
 {
-[; ;CC2500_B1.c: 231: if (SPI0Buffer & 0x80)
-"231
+[; ;CC2500_B1.c: 225: if (SPI0Buffer & 0x80)
+"225
 [e $ ! != & -> _SPI0Buffer `i -> 128 `i -> 0 `i 346  ]
-[; ;CC2500_B1.c: 232: RC0 = 1;
-"232
+[; ;CC2500_B1.c: 226: RC0 = 1;
+"226
 [e = _RC0 -> -> 1 `i `b ]
 [e $U 347  ]
-"233
+"227
 [e :U 346 ]
-[; ;CC2500_B1.c: 233: else
-[; ;CC2500_B1.c: 234: RC0 = 0;
-"234
+[; ;CC2500_B1.c: 227: else
+[; ;CC2500_B1.c: 228: RC0 = 0;
+"228
 [e = _RC0 -> -> 0 `i `b ]
 [e :U 347 ]
-[; ;CC2500_B1.c: 235: RC1 = 1;
-"235
+[; ;CC2500_B1.c: 229: RC1 = 1;
+"229
 [e = _RC1 -> -> 1 `i `b ]
-[; ;CC2500_B1.c: 236: SPI0Buffer <<= 1;
-"236
-[e =<< _SPI0Buffer -> 1 `i ]
-[; ;CC2500_B1.c: 237: RC1 = 0;
-"237
-[e = _RC1 -> -> 0 `i `b ]
-"238
-}
+[; ;CC2500_B1.c: 230: SPI0Buffer <<= 1;
 "230
+[e =<< _SPI0Buffer -> 1 `i ]
+[; ;CC2500_B1.c: 231: RC1 = 0;
+"231
+[e = _RC1 -> -> 0 `i `b ]
+"232
+}
+"224
 [e ++ _loop_a -> -> 1 `i `uc ]
 [e $ < -> _loop_a `i -> 8 `i 343  ]
 [e :U 344 ]
-"238
+"232
 }
-[; ;CC2500_B1.c: 238: }
-[; ;CC2500_B1.c: 239: }
-"239
+[; ;CC2500_B1.c: 232: }
+[; ;CC2500_B1.c: 233: }
+"233
 [e :UE 342 ]
 }
-"244
+"238
 [v _CC2500_ReadByte `TF423 ~T0 @X0 1 e ]
 {
-[; ;CC2500_B1.c: 244: inline void CC2500_ReadByte(void) {
+[; ;CC2500_B1.c: 238: inline void CC2500_ReadByte(void) {
 [e :U _CC2500_ReadByte ]
 [f ]
-"245
+"239
 [v _loop_b `uc ~T0 @X0 1 a ]
-[; ;CC2500_B1.c: 245: unsigned char loop_b;
-[; ;CC2500_B1.c: 246: for (loop_b = 0; loop_b < 8; loop_b++) {
-"246
+[; ;CC2500_B1.c: 239: unsigned char loop_b;
+[; ;CC2500_B1.c: 240: for (loop_b = 0; loop_b < 8; loop_b++) {
+"240
 {
 [e = _loop_b -> -> 0 `i `uc ]
 [e $ < -> _loop_b `i -> 8 `i 349  ]
 [e $U 350  ]
 [e :U 349 ]
 {
-[; ;CC2500_B1.c: 247: RC1 = 1;
-"247
+[; ;CC2500_B1.c: 241: RC1 = 1;
+"241
 [e = _RC1 -> -> 1 `i `b ]
-[; ;CC2500_B1.c: 248: SPI0Buffer <<= 1;
-"248
+[; ;CC2500_B1.c: 242: SPI0Buffer <<= 1;
+"242
 [e =<< _SPI0Buffer -> 1 `i ]
-[; ;CC2500_B1.c: 249: if (RC2 == 1)
-"249
+[; ;CC2500_B1.c: 243: if (RC2 == 1)
+"243
 [e $ ! == -> _RC2 `i -> 1 `i 352  ]
-[; ;CC2500_B1.c: 250: SPI0Buffer |= 0x01;
-"250
+[; ;CC2500_B1.c: 244: SPI0Buffer |= 0x01;
+"244
 [e =| _SPI0Buffer -> -> 1 `i `uc ]
 [e $U 353  ]
-"251
+"245
 [e :U 352 ]
-[; ;CC2500_B1.c: 251: else
-[; ;CC2500_B1.c: 252: SPI0Buffer &= 0xFE;
-"252
+[; ;CC2500_B1.c: 245: else
+[; ;CC2500_B1.c: 246: SPI0Buffer &= 0xFE;
+"246
 [e =& _SPI0Buffer -> -> 254 `i `uc ]
 [e :U 353 ]
-[; ;CC2500_B1.c: 253: RC1 = 0;
-"253
+[; ;CC2500_B1.c: 247: RC1 = 0;
+"247
 [e = _RC1 -> -> 0 `i `b ]
-"254
+"248
 }
-"246
+"240
 [e ++ _loop_b -> -> 1 `i `uc ]
 [e $ < -> _loop_b `i -> 8 `i 349  ]
 [e :U 350 ]
-"254
+"248
 }
-[; ;CC2500_B1.c: 254: }
-[; ;CC2500_B1.c: 255: }
-"255
+[; ;CC2500_B1.c: 248: }
+[; ;CC2500_B1.c: 249: }
+"249
 [e :UE 348 ]
 }
-"260
+"254
 [v _CC2500_WriteREG `TF420 ~T0 @X0 1 e ]
 {
-[; ;CC2500_B1.c: 260: inline void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
+[; ;CC2500_B1.c: 254: inline void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
 [e :U _CC2500_WriteREG ]
 [v _w_addr `uc ~T0 @X0 1 r1 ]
 [v _value `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;CC2500_B1.c: 261: RC4 = 0;
-"261
+[; ;CC2500_B1.c: 255: RC4 = 0;
+"255
 [e = _RC4 -> -> 0 `i `b ]
-[; ;CC2500_B1.c: 262: SPI0Buffer = w_addr;
-"262
+[; ;CC2500_B1.c: 256: SPI0Buffer = w_addr;
+"256
 [e = _SPI0Buffer _w_addr ]
-[; ;CC2500_B1.c: 263: while (RC2 == 1 && myMain.Timeout == 0) {
-"263
+[; ;CC2500_B1.c: 257: while (RC2 == 1 && myMain.Timeout == 0) {
+"257
 [e $U 355  ]
 [e :U 356 ]
 {
-[; ;CC2500_B1.c: 264: Timeout_Counter();
-"264
+[; ;CC2500_B1.c: 258: Timeout_Counter();
+"258
 [e ( _Timeout_Counter ..  ]
-"265
+"259
 }
 [e :U 355 ]
-"263
+"257
 [e $ && == -> _RC2 `i -> 1 `i == -> . . . _myMain 10 0 2 `i -> 0 `i 356  ]
 [e :U 357 ]
-[; ;CC2500_B1.c: 265: };
-[; ;CC2500_B1.c: 266: set_TimeoutCleared();
-"266
+[; ;CC2500_B1.c: 259: };
+[; ;CC2500_B1.c: 260: set_TimeoutCleared();
+"260
 [e ( _set_TimeoutCleared ..  ]
-[; ;CC2500_B1.c: 268: CC2500_WriteByte();
-"268
+[; ;CC2500_B1.c: 262: CC2500_WriteByte();
+"262
 [e ( _CC2500_WriteByte ..  ]
-[; ;CC2500_B1.c: 269: SPI0Buffer = value;
-"269
+[; ;CC2500_B1.c: 263: SPI0Buffer = value;
+"263
 [e = _SPI0Buffer _value ]
-[; ;CC2500_B1.c: 270: CC2500_WriteByte();
-"270
+[; ;CC2500_B1.c: 264: CC2500_WriteByte();
+"264
 [e ( _CC2500_WriteByte ..  ]
-[; ;CC2500_B1.c: 271: RC4 = 1;
-"271
+[; ;CC2500_B1.c: 265: RC4 = 1;
+"265
 [e = _RC4 -> -> 1 `i `b ]
-[; ;CC2500_B1.c: 272: }
-"272
+[; ;CC2500_B1.c: 266: }
+"266
 [e :UE 354 ]
 }
 [v F426 `(v ~T0 @X0 1 tf1`uc ]
-"277
+"271
 [v _CC2500_ReadREG `TF426 ~T0 @X0 1 e ]
 {
-[; ;CC2500_B1.c: 277: inline void CC2500_ReadREG(unsigned char r_addr) {
+[; ;CC2500_B1.c: 271: inline void CC2500_ReadREG(unsigned char r_addr) {
 [e :U _CC2500_ReadREG ]
 [v _r_addr `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;CC2500_B1.c: 278: RC4 = 0;
-"278
+[; ;CC2500_B1.c: 272: RC4 = 0;
+"272
 [e = _RC4 -> -> 0 `i `b ]
-[; ;CC2500_B1.c: 279: SPI0Buffer = r_addr + 0x80;
-"279
+[; ;CC2500_B1.c: 273: SPI0Buffer = r_addr + 0x80;
+"273
 [e = _SPI0Buffer -> + -> _r_addr `i -> 128 `i `uc ]
-[; ;CC2500_B1.c: 280: while (RC2 == 1 && myMain.Timeout == 0) {
-"280
+[; ;CC2500_B1.c: 274: while (RC2 == 1 && myMain.Timeout == 0) {
+"274
 [e $U 359  ]
 [e :U 360 ]
 {
-[; ;CC2500_B1.c: 281: Timeout_Counter();
-"281
+[; ;CC2500_B1.c: 275: Timeout_Counter();
+"275
 [e ( _Timeout_Counter ..  ]
-"282
+"276
 }
 [e :U 359 ]
-"280
+"274
 [e $ && == -> _RC2 `i -> 1 `i == -> . . . _myMain 10 0 2 `i -> 0 `i 360  ]
 [e :U 361 ]
-[; ;CC2500_B1.c: 282: };
-[; ;CC2500_B1.c: 283: set_TimeoutCleared();
-"283
+[; ;CC2500_B1.c: 276: };
+[; ;CC2500_B1.c: 277: set_TimeoutCleared();
+"277
 [e ( _set_TimeoutCleared ..  ]
-[; ;CC2500_B1.c: 285: CC2500_WriteByte();
-"285
+[; ;CC2500_B1.c: 279: CC2500_WriteByte();
+"279
 [e ( _CC2500_WriteByte ..  ]
-[; ;CC2500_B1.c: 286: CC2500_ReadByte();
-"286
+[; ;CC2500_B1.c: 280: CC2500_ReadByte();
+"280
 [e ( _CC2500_ReadByte ..  ]
-[; ;CC2500_B1.c: 287: RC4 = 1;
-"287
+[; ;CC2500_B1.c: 281: RC4 = 1;
+"281
 [e = _RC4 -> -> 1 `i `b ]
-[; ;CC2500_B1.c: 288: r_data = SPI0Buffer;
-"288
+[; ;CC2500_B1.c: 282: r_data = SPI0Buffer;
+"282
 [e = _r_data _SPI0Buffer ]
-[; ;CC2500_B1.c: 289: }
-"289
+[; ;CC2500_B1.c: 283: }
+"283
 [e :UE 358 ]
 }
-"294
+"288
 [v _CC2500_WriteCommand `TF432 ~T0 @X0 1 e ]
 {
-[; ;CC2500_B1.c: 294: inline void CC2500_WriteCommand(unsigned char command) {
+[; ;CC2500_B1.c: 288: inline void CC2500_WriteCommand(unsigned char command) {
 [e :U _CC2500_WriteCommand ]
 [v _command `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;CC2500_B1.c: 295: RC4 = 0;
-"295
+[; ;CC2500_B1.c: 289: RC4 = 0;
+"289
 [e = _RC4 -> -> 0 `i `b ]
-[; ;CC2500_B1.c: 296: SPI0Buffer = command;
-"296
+[; ;CC2500_B1.c: 290: SPI0Buffer = command;
+"290
 [e = _SPI0Buffer _command ]
-[; ;CC2500_B1.c: 298: while (RC2 == 1 && myMain.Timeout == 0) {
-"298
+[; ;CC2500_B1.c: 292: while (RC2 == 1 && myMain.Timeout == 0) {
+"292
 [e $U 363  ]
 [e :U 364 ]
 {
-[; ;CC2500_B1.c: 299: Timeout_Counter();
-"299
+[; ;CC2500_B1.c: 293: Timeout_Counter();
+"293
 [e ( _Timeout_Counter ..  ]
-"300
+"294
 }
 [e :U 363 ]
-"298
+"292
 [e $ && == -> _RC2 `i -> 1 `i == -> . . . _myMain 10 0 2 `i -> 0 `i 364  ]
 [e :U 365 ]
-[; ;CC2500_B1.c: 300: };
-[; ;CC2500_B1.c: 301: set_TimeoutCleared();
-"301
+[; ;CC2500_B1.c: 294: };
+[; ;CC2500_B1.c: 295: set_TimeoutCleared();
+"295
 [e ( _set_TimeoutCleared ..  ]
-[; ;CC2500_B1.c: 303: CC2500_WriteByte();
-"303
+[; ;CC2500_B1.c: 297: CC2500_WriteByte();
+"297
 [e ( _CC2500_WriteByte ..  ]
-[; ;CC2500_B1.c: 304: RC4 = 1;
-"304
+[; ;CC2500_B1.c: 298: RC4 = 1;
+"298
 [e = _RC4 -> -> 1 `i `b ]
-[; ;CC2500_B1.c: 305: }
-"305
+[; ;CC2500_B1.c: 299: }
+"299
 [e :UE 362 ]
 }
-"310
+"304
 [v _CC2500_ReadStatus `TF429 ~T0 @X0 1 e ]
 {
-[; ;CC2500_B1.c: 310: inline void CC2500_ReadStatus(unsigned char status_addr) {
+[; ;CC2500_B1.c: 304: inline void CC2500_ReadStatus(unsigned char status_addr) {
 [e :U _CC2500_ReadStatus ]
 [v _status_addr `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;CC2500_B1.c: 311: RC4 = 0;
-"311
+[; ;CC2500_B1.c: 305: RC4 = 0;
+"305
 [e = _RC4 -> -> 0 `i `b ]
-[; ;CC2500_B1.c: 312: SPI0Buffer = status_addr + 0xC0;
-"312
+[; ;CC2500_B1.c: 306: SPI0Buffer = status_addr + 0xC0;
+"306
 [e = _SPI0Buffer -> + -> _status_addr `i -> 192 `i `uc ]
-[; ;CC2500_B1.c: 314: while (RC2 == 1 && myMain.Timeout == 0) {
-"314
+[; ;CC2500_B1.c: 308: while (RC2 == 1 && myMain.Timeout == 0) {
+"308
 [e $U 367  ]
 [e :U 368 ]
 {
-[; ;CC2500_B1.c: 315: Timeout_Counter();
-"315
+[; ;CC2500_B1.c: 309: Timeout_Counter();
+"309
 [e ( _Timeout_Counter ..  ]
-"316
+"310
 }
 [e :U 367 ]
-"314
+"308
 [e $ && == -> _RC2 `i -> 1 `i == -> . . . _myMain 10 0 2 `i -> 0 `i 368  ]
 [e :U 369 ]
-[; ;CC2500_B1.c: 316: };
-[; ;CC2500_B1.c: 317: set_TimeoutCleared();
-"317
+[; ;CC2500_B1.c: 310: };
+[; ;CC2500_B1.c: 311: set_TimeoutCleared();
+"311
 [e ( _set_TimeoutCleared ..  ]
-[; ;CC2500_B1.c: 319: CC2500_WriteByte();
-"319
+[; ;CC2500_B1.c: 313: CC2500_WriteByte();
+"313
 [e ( _CC2500_WriteByte ..  ]
-[; ;CC2500_B1.c: 320: CC2500_ReadByte();
-"320
+[; ;CC2500_B1.c: 314: CC2500_ReadByte();
+"314
 [e ( _CC2500_ReadByte ..  ]
-[; ;CC2500_B1.c: 321: RC4 = 1;
-"321
+[; ;CC2500_B1.c: 315: RC4 = 1;
+"315
 [e = _RC4 -> -> 1 `i `b ]
-[; ;CC2500_B1.c: 323: s_data = SPI0Buffer;
-"323
+[; ;CC2500_B1.c: 317: s_data = SPI0Buffer;
+"317
 [e = _s_data _SPI0Buffer ]
-[; ;CC2500_B1.c: 324: }
-"324
+[; ;CC2500_B1.c: 318: }
+"318
 [e :UE 366 ]
 }
-"329
+"323
 [v _DelayTime_1us `(v ~T0 @X0 1 ef1`i ]
 {
-[; ;CC2500_B1.c: 329: void DelayTime_1us(int count) {
+[; ;CC2500_B1.c: 323: void DelayTime_1us(int count) {
 [e :U _DelayTime_1us ]
 [v _count `i ~T0 @X0 1 r1 ]
 [f ]
-"330
+"324
 [v _i `ui ~T0 @X0 1 a ]
 [v _j `ui ~T0 @X0 1 a ]
-[; ;CC2500_B1.c: 330: unsigned int i, j;
-[; ;CC2500_B1.c: 331: for (i = 1; i < count; i++)
-"331
+[; ;CC2500_B1.c: 324: unsigned int i, j;
+[; ;CC2500_B1.c: 325: for (i = 1; i < count; i++)
+"325
 {
 [e = _i -> -> 1 `i `ui ]
 [e $U 374  ]
-"332
+"326
 [e :U 371 ]
-[; ;CC2500_B1.c: 332: for (j = 0; j <= 1; j++);
+[; ;CC2500_B1.c: 326: for (j = 0; j <= 1; j++);
 {
 [e = _j -> -> 0 `i `ui ]
 [e $ <= _j -> -> 1 `i `ui 375  ]
@@ -3908,14 +3911,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $ <= _j -> -> 1 `i `ui 375  ]
 [e :U 376 ]
 }
-"331
+"325
 [e ++ _i -> -> 1 `i `ui ]
 [e :U 374 ]
 [e $ < _i -> _count `ui 371  ]
 [e :U 372 ]
-"332
+"326
 }
-[; ;CC2500_B1.c: 333: }
-"333
+[; ;CC2500_B1.c: 327: }
+"327
 [e :UE 370 ]
 }

@@ -4,48 +4,37 @@
 
 #if CDS_use == 1
 
-/*	void setCDSPoint(char cds)
-	{
-		#ifdef CDS_1
-			if(cds == 1)
-			{
-				CDS=&_CDS1;
-			}
-		#endif
-	}
-*/
 	void CDS_Initialization()
 	{
-		CDS=&_CDS1;
-		CDS->Enable=1;
+		_CDS.Enable=1;
 		setLED(1,1);
 		setLED(2,0);
 	}
 	void CDS_Main()
 	{
 		//setCDSPoint(cds);
-		if(CDS->Enable)
+		if(_CDS.Enable)
 		{
-			if(!CDS->GO)
+			if(!_CDS.GO)
 			{
-				if(!CDS->ADtoGO)
+				if(!_CDS.ADtoGO)
 				{
-					CDS->Time++;
-					if(CDS->Time >= 100)//*10ms
+					_CDS.Time++;
+					if(_CDS.Time >= 100)//*10ms
 					{
-						CDS->Time=0;
-						CDS->ADtoGO=1;
+						_CDS.Time=0;
+						_CDS.ADtoGO=1;
 					}
 				}
 			}
 			else
 			{
-				CDS->GO=0;
-				if(CDS->High)
+				_CDS.GO=0;
+				if(_CDS.High)
 				{
-					if(CDS->SignalAD >= CDS->VRAD)
+					if(_CDS.SignalAD >= _CDS.VRAD)
 					{
-						CDS->High=0;
+						_CDS.High=0;
 						ErrLED=0;
 						setLights_Trigger(1,1);
 						setLights_Switch(1,1);
@@ -53,9 +42,9 @@
 				}
 				else
 				{
-					if(CDS->SignalAD <= (CDS->VRAD-100))
+					if(_CDS.SignalAD <= (_CDS.VRAD-100))
 					{
-						CDS->High=1;
+						_CDS.High=1;
 						ErrLED=1;
 						setLights_Trigger(1,1);
 						setLights_Switch(1,0);
@@ -68,14 +57,14 @@
 	{
 		char i=0,j=0;
 		//setCDSPoint(cds);
-		if(CDS->ADtoGO)
+		if(_CDS.ADtoGO)
 		{
-			CDS->ADtoGO=0;
-			CDS->GO=1;
-			CDS->ADRES=getAD(channel1,ADCON1_VDD);
-			CDS->VRAD=CDS->ADRES;
-			CDS->ADRES=getAD(channel2,ADCON1_VDD);
-			CDS->SignalAD=CDS->ADRES;
+			_CDS.ADtoGO=0;
+			_CDS.GO=1;
+			_CDS.ADRES=getAD(channel1,ADCON1_VDD);
+			_CDS.VRAD=_CDS.ADRES;
+			_CDS.ADRES=getAD(channel2,ADCON1_VDD);
+			_CDS.SignalAD=_CDS.ADRES;
 		}
 	}
 

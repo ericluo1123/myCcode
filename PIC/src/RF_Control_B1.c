@@ -67,11 +67,12 @@ void setRF_Main() {
 #if	Switch_Class == 1
             RF1.Key = (Key1_1 == true || Key1_2 == true || Key1_3 == true || Key1_4 == true) ? true : false;
 #endif
+
             if (RF1.Key == true && RF1.Learn == false) {
                 RF1.Count = 0;
                 RF1.Run = true;
                 RF1.RxStatus = false;
-                //                RF_RxDisable();
+
             } else {
                 if (RF1.Run == true && RF1.Learn == false) {
                     RF1.Count++;
@@ -87,12 +88,15 @@ void setRF_Main() {
                         RF1.TransceiveGO = false;
                         RF1.RxStatus = false;
                         RF1.ReceiveGO = false;
-                        //                        setINT_GO(0);
-                        //                        CC2500_WriteCommand(CC2500_SIDLE); // idle
-                        //                        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
-                        //                        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+
+                        CC2500_ReadStatus(CC2500_RXBYTES);
+                        if (s_data != 0) {
+                            CC2500_WriteCommand(CC2500_SIDLE); // idle
+                            CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+                            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+                        }
                         CC2500_TxData();
-                        //                        RF1.Run = true;
+
                     } else {
 
                         if (RF1.RxStatus == true) { // Check whether have data
@@ -119,17 +123,12 @@ void setRF_Main() {
                                     }
                                     RF1.CheckCount = 0;
                                 } else {
-
                                     RF1.CheckCount++;
                                     if (RF1.CheckCount == 2) {
                                         RF1.CheckCount = 0;
                                         RF1.CheckedCounter = 0;
-                                        if (RF1.RxChecked == false) {
-                                            RF1.RxChecked = true;
-                                        } else {
-                                            if (RF1.RunTime < 100) {
-                                                RF1.RunTime += 10;
-                                            }
+                                        if (RF1.RunTime < 250) {
+                                            RF1.RunTime += 10;
                                         }
                                     }
                                 }
@@ -139,37 +138,31 @@ void setRF_Main() {
                             if (RF1.RxStatus == false && RF1.ReceiveGO == false) {
                                 RF1.RxStatus = true;
                                 RF1.Correction = true;
-                                //                                CC2500_WriteCommand(CC2500_SIDLE); // idle
+
                                 CC2500_WriteCommand(CC2500_SIDLE); // idle
-                                //                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
                                 CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
                                 CC2500_WriteCommand(CC2500_SRX); // set receive mode
-                                //                                    setINT_GO(1);
+
                             }
 #endif
                         }
                     }
                 }
-                if (RF1.RxChecked == true) {
+                if (RF1.RxStatus == true) {
                     RF1.CheckedCounter++;
-                    if (RF1.CheckedCounter == (10 * RF1.RunTime)) {
+                    if (RF1.CheckedCounter == 1000) {
                         RF1.CheckedCounter = 0;
-                        RF1.RxChecked = false;
-                    }
-                } else {
-                    if (RF1.RunTime > 20) {
-                        RF1.CheckedCounter++;
-                        if (RF1.CheckedCounter == (10 * RF1.RunTime)) {
-                            RF1.CheckedCounter = 0;
+                        RF1.CheckCount = 0;
+                        if (RF1.RunTime > 20) {
                             RF1.RunTime -= 10;
                         }
                     }
                 }
                 if (RF1.Correction == true) {
                     RF1.CorrectionCounter++;
-                    if (RF1.CorrectionCounter >= 60000) {
+                    if (RF1.CorrectionCounter >= 30000) {
                         RF1.CorrectionCounter = 0;
-                        //                        RF_RxDisable();
                         RF1.RxStatus = false;
                         RF1.ReceiveGO = false;
                     }

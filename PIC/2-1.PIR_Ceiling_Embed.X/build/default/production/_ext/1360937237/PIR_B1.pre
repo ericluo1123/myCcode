@@ -72,6 +72,8 @@ extern int printf(const char *, ...);
 # 61 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
 struct myMain {
 
+union {
+
 struct {
 unsigned PowerON : 1;
 unsigned T0_Timerout : 1;
@@ -82,7 +84,7 @@ unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
 };
-
+};
 unsigned int PowerCount;
 
 
@@ -94,6 +96,8 @@ unsigned char IOC_Count;
 unsigned char Test;
 unsigned char ClockCount;
 
+union {
+
 struct {
 unsigned i : 1;
 unsigned j : 1;
@@ -104,26 +108,32 @@ unsigned n : 1;
 unsigned o : 1;
 unsigned p : 1;
 };
+};
+
+union {
 
 struct {
 unsigned q : 1;
 unsigned r : 1;
-unsigned Timeout:1;
+unsigned Timeout : 1;
 unsigned empty : 5;
 };
-
+};
 unsigned int Timeout_Counter;
 
 };
 struct myMain myMain;
 
-# 115
-void myMain_Initialization();
+# 122
+inline void myMain_Initialization();
 
-# 120
-void my_Main();
+# 127
+inline void my_Main();
 
-# 125
+# 132
+inline void my_MainTime();
+
+# 137
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 
@@ -198,6 +208,8 @@ extern char * ftoa(float f, int * status);
 # 11 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Buzzer_B1.h"
 struct Buzzer {
 
+union {
+
 struct {
 unsigned Enable : 1;
 unsigned GO : 1;
@@ -207,6 +219,7 @@ unsigned BufferStatus2 : 1;
 unsigned Switch : 1;
 unsigned empty1 : 2;
 
+};
 };
 
 unsigned int Counter;
@@ -220,28 +233,30 @@ unsigned int TimeValueBuffer2;
 
 struct Buzzer Buz1;
 
-# 45
+# 48
 inline void Buzzer_Initialization();
 
-# 50
+# 53
 inline void Buzzer_Main();
 
-# 59
+# 62
 void setBuz(char count, int time);
 
-# 67
+# 70
 void setBuz_Enable(char command);
 
-# 71
+# 74
 int getBuz_GO();
 
 # 10 "../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h"
 struct LED {
+union {
 
 struct {
 unsigned Enable : 1;
 unsigned GO : 1;
 unsigned empty : 6;
+};
 };
 unsigned int Time;
 unsigned char Number;
@@ -262,23 +277,103 @@ struct LED VarLED1;
 
 struct LED VarLED2;
 
-# 46
+# 48
 inline void LED_Initialization();
 
-# 51
+# 53
 inline void LED_Main();
 
-# 60
+# 62
 void LedPointSelect(char led);
 
-# 69
+# 71
 void setLED_Initialization(char led);
 
-# 78
+# 80
 void setLED_Main(char led);
 
-# 92
+# 94
 void setLED(char led, char command);
+
+# 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
+struct CDS {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned OK : 1;
+unsigned ADtoGO : 1;
+unsigned High : 1;
+unsigned Low : 1;
+unsigned empty : 2;
+};
+
+unsigned char Time;
+
+unsigned char VRAD;
+unsigned char SignalAD;
+unsigned char ADRES;
+
+# 31
+};
+
+
+struct CDS _CDS;
+
+
+
+void CDS_Initialization();
+void CDS_Main();
+
+
+void getCDS_AD(char, char, char);
+
+# 11 "../src/../2-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
+struct PIR {
+
+unsigned Enable : 1;
+
+
+unsigned ADCGO : 1;
+unsigned char VRAD;
+unsigned char VRAD1;
+unsigned char SignalAD;
+unsigned char Time;
+unsigned char ADCount;
+unsigned char ADCount1;
+unsigned char ReferenceVoltage;
+unsigned char TenAverage[10];
+unsigned int TenAverageValue;
+unsigned char HundredAverage[10];
+unsigned int HundredAverageValue;
+
+
+unsigned GO : 1;
+unsigned OK : 1;
+unsigned Switch : 1;
+unsigned int Count;
+unsigned char Trigger;
+unsigned int CloseTime;
+unsigned int CloseTimeValue;
+
+
+unsigned RangeRun : 1;
+unsigned char RangeTime;
+unsigned char RangeTime1;
+unsigned char RangeCount;
+unsigned char RangeValue;
+unsigned char RangeCount1;
+unsigned char Offset;
+};
+
+
+struct PIR _PIR;
+
+
+void selectPIRPoint(char);
+void PIR_Initialization();
+void PIR_Main();
+void getPIR_AD(char, char, char);
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
@@ -2028,13 +2123,16 @@ void setADCGO();
 
 inline char getAD(char, char);
 
-# 359
+# 377
 struct Timer0 {
+
+union {
 
 struct {
 unsigned Timeout : 1;
 unsigned Reset : 1;
 unsigned empty : 6;
+};
 };
 
 unsigned int Count;
@@ -2050,4 +2148,19 @@ struct Timer0 Timer0;
 void TMR0_Set();
 inline void TMR0_ISR();
 inline void setDimmerReClock();
+
+# 11 "../src/PIR_B1.c"
+void PIR_Initialization()
+{
+_PIR.Enable=1;
+_PIR.RangeValue=8;
+_PIR.CloseTimeValue=150;
+setLED(1,1);
+}
+void PIR_Main()
+{
+}
+void getPIR_AD(char pir ,char channel1,char charchannel2)
+{
+}
 
