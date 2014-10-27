@@ -36,10 +36,10 @@ struct RF {
             unsigned empty : 2;
         };
     };
-    unsigned char Count;
+    unsigned int Count;
     unsigned char CheckCount;
     unsigned int CheckedCounter;
-    unsigned char RunTime;
+    unsigned int RunTime;
     unsigned char DebounceTime;
     unsigned int CorrectionCounter;
 

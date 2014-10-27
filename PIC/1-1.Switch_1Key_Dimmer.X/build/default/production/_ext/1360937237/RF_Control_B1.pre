@@ -584,10 +584,10 @@ unsigned Correction : 1;
 unsigned empty : 2;
 };
 };
-unsigned char Count;
+unsigned int Count;
 unsigned char CheckCount;
 unsigned int CheckedCounter;
-unsigned char RunTime;
+unsigned int RunTime;
 unsigned char DebounceTime;
 unsigned int CorrectionCounter;
 
@@ -3304,23 +3304,23 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 16 "../src/../1-1.Switch_1Key_Dimmer.X/../src/MCU_B1.h"
+# 15 "../src/../1-1.Switch_1Key_Dimmer.X/../src/MCU_B1.h"
 void Mcu_Initialization();
 
-# 21
+# 20
 void IO_Set();
 
-# 229
+# 228
 void Fosc_Set();
 
-# 302
+# 301
 void ADC_Set();
 void setADCGO();
 
-# 311
+# 310
 inline int getAD(char, char);
 
-# 377
+# 376
 struct Timer0 {
 
 union {
@@ -3346,11 +3346,11 @@ void TMR0_Set();
 inline void TMR0_ISR();
 inline void setDimmerReClock();
 
-# 486
+# 485
 void IOC_Set();
 inline void IOC_ISR();
 
-# 644
+# 643
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -3377,7 +3377,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 676
+# 675
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -3387,21 +3387,21 @@ void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
 
-# 704
+# 703
 struct WDT {
 
 union {
 
 struct {
 unsigned Enable : 1;
-unsigned empty:7;
+unsigned empty : 7;
 };
 };
 unsigned char Count;
 };
 struct WDT WDT;
 
-# 721
+# 720
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -3461,6 +3461,7 @@ if (getBuz_GO() == 0) {
 # 68
 RF1.Key = (RA6 == 1 || RA4 == 1 || RA0 == 1 || RB1 == 1) ? 1 : 0;
 
+
 if (RF1.Key == 1 && RF1.Learn == 0) {
 RF1.Count = 0;
 RF1.Run = 1;
@@ -3499,7 +3500,7 @@ RF1.ReceiveGO = 0;
 RF1.Correction = 0;
 RF1.CorrectionCounter = 0;
 
-# 114
+# 115
 getRxData();
 
 
@@ -3515,7 +3516,7 @@ RF1.CheckCount++;
 if (RF1.CheckCount == 2) {
 RF1.CheckCount = 0;
 RF1.CheckedCounter = 0;
-if (RF1.RunTime < 200) {
+if (RF1.RunTime < 300) {
 RF1.RunTime += 10;
 }
 }
@@ -3538,10 +3539,11 @@ CC2500_WriteCommand(0x34);
 }
 }
 if (RF1.RxStatus == 1) {
-if (RF1.RunTime > 20) {
 RF1.CheckedCounter++;
-if (RF1.CheckedCounter == 1000) {
+if (RF1.CheckedCounter == 100) {
 RF1.CheckedCounter = 0;
+RF1.CheckCount = 0;
+if (RF1.RunTime > 20) {
 RF1.RunTime -= 10;
 }
 }
@@ -3557,7 +3559,7 @@ RF1.ReceiveGO = 0;
 }
 }
 
-# 176
+# 178
 }
 }
 
@@ -3571,7 +3573,7 @@ if (RF1.Enable == 1) {
 RF1.TransceiveGO = 1;
 RF1.RunTime = 20;
 
-# 197
+# 199
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 RF_Data[2] = product->Data[2];
@@ -3651,7 +3653,7 @@ __nop();
 RF1.Checked = 0;
 }
 
-# 279
+# 281
 }
 }
 
@@ -3676,7 +3678,7 @@ setDimmerLights(1, 0);
 setRFSW_Status(1, 0);
 setSw_Status(1, 0);
 
-# 314
+# 316
 product->Data[9]=0;
 product->Data[11]=0;
 product->Data[15]=0;
@@ -3698,17 +3700,17 @@ else if (RF_Data[15] == 0x11) {
 setRFSW_AdjControl(1);
 }
 
-# 358
+# 360
 }
 
-# 365
+# 367
 void RfSWPointSelect(char sw) {
 
 if (sw == 1) {
 RFSW = &RFSW1;
 }
 
-# 381
+# 383
 }
 
 

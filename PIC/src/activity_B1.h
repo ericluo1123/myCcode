@@ -85,7 +85,9 @@
 //_instruction
 #endif
 
-
+//Timer2
+#if Timer2_use	== 1
+#endif
 
 //INT
 #if INT_use == 1

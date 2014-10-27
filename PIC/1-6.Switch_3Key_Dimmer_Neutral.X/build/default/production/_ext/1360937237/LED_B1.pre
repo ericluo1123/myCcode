@@ -554,10 +554,10 @@ unsigned Correction : 1;
 unsigned empty : 2;
 };
 };
-unsigned char Count;
+unsigned int Count;
 unsigned char CheckCount;
 unsigned int CheckedCounter;
-unsigned char RunTime;
+unsigned int RunTime;
 unsigned char DebounceTime;
 unsigned int CorrectionCounter;
 
@@ -3264,23 +3264,23 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 16 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/MCU_B1.h"
+# 15 "../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/MCU_B1.h"
 void Mcu_Initialization();
 
-# 21
+# 20
 void IO_Set();
 
-# 229
+# 228
 void Fosc_Set();
 
-# 302
+# 301
 void ADC_Set();
 void setADCGO();
 
-# 311
+# 310
 inline int getAD(char, char);
 
-# 377
+# 376
 struct Timer0 {
 
 union {
@@ -3306,11 +3306,11 @@ void TMR0_Set();
 inline void TMR0_ISR();
 inline void setDimmerReClock();
 
-# 486
+# 485
 void IOC_Set();
 inline void IOC_ISR();
 
-# 644
+# 643
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -3337,7 +3337,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 676
+# 675
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -3347,21 +3347,21 @@ void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
 
-# 704
+# 703
 struct WDT {
 
 union {
 
 struct {
 unsigned Enable : 1;
-unsigned empty:7;
+unsigned empty : 7;
 };
 };
 unsigned char Count;
 };
 struct WDT WDT;
 
-# 721
+# 720
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();

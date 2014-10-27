@@ -4,8 +4,7 @@
 
 //*********************************************************
 //Include 
-//#include <xc.h>
-#include <pic.h>
+#include <xc.h>
 
 //*********************************************************	
 //Routine declaration
@@ -153,7 +152,7 @@ void IO_Set();
 #endif	
 
 #endif
- 
+
 #ifdef _16F1518
 #ifdef System_Fosc_16M
 #define _OSCCON 0x78
@@ -466,7 +465,62 @@ void TMR1_ISR();
 #define TMR1_Set() ;
 #define TMR1_ISR() ;
 #endif
+//*********************************************************
+#if Timer2_use == 1
+#define TOUTPS_1x1  0x00
+#define TOUTPS_1x2  0x08
+#define TOUTPS_1x3  0x10
+#define TOUTPS_1x4  0x18
+#define TOUTPS_1x5  0x20
+#define TOUTPS_1x6  0x28
+#define TOUTPS_1x7  0x30
+#define TOUTPS_1x8  0x38
+#define TOUTPS_1x9  0x40
+#define TOUTPS_1x10 0x48
+#define TOUTPS_1x11 0x50
+#define TOUTPS_1x12 0x58
+#define TOUTPS_1x13 0x60
+#define TOUTPS_1x14 0x68
+#define TOUTPS_1x15 0x70
+#define TOUTPS_1x16 0x78
 
+#define T2CKPS_1x1  0x01
+#define T2CKPS_1x4  0x10
+#define T2CKPS_1x16 0x11
+
+#ifdef TMR2_IntrTime_100us
+#define _TMR2 155
+#define _PR2 0
+#define _TMR2ON 1
+#define _TOUTPS TOUTPS_1x1
+#define _T2CKPS T2CKPS_1x4
+#define TMR2_1ms	10
+#define TMR2_5ms	50
+#define TMR2_10ms	100
+#endif
+
+struct Timer2 {
+
+    union {
+
+        struct {
+            unsigned Timeout : 1;
+            unsigned empty : 7;
+        };
+    };
+    unsigned int Count;
+};
+
+struct Timer2 Timer2;
+inline void TMR2_Set();
+inline void TMR2_ISR();
+inline void DimmerReClock();
+
+#else
+//NOP()
+#define TMR2_Set() ;
+#define TMR2_ISR() ;
+#endif
 //*********************************************************
 //INT		
 #if INT_use == 1
@@ -707,7 +761,7 @@ struct WDT {
 
         struct {
             unsigned Enable : 1;
-            unsigned empty:7;
+            unsigned empty : 7;
         };
     };
     unsigned char Count;

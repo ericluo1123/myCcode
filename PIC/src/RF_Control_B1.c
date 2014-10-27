@@ -111,12 +111,14 @@ void setRF_Main() {
                                 //LED2=~LED2;
 #elif UART_use == 1
                                 UART_SetData();
+                                //LED2=~LED2;
 #else
                                 getRxData();
+                                ErrLED = ErrLED == true ? false : true;
 #endif
 
                                 RF1.Run = true;
-                                ErrLED = ErrLED == true ? false : true;
+
                                 if (RF1.Checked == true) {
                                     if (RF1.RunTime > 20) {
                                         RF1.RunTime = 20;
@@ -127,7 +129,7 @@ void setRF_Main() {
                                     if (RF1.CheckCount == 2) {
                                         RF1.CheckCount = 0;
                                         RF1.CheckedCounter = 0;
-                                        if (RF1.RunTime < 250) {
+                                        if (RF1.RunTime < 300) {
                                             RF1.RunTime += 10;
                                         }
                                     }
@@ -151,7 +153,7 @@ void setRF_Main() {
                 }
                 if (RF1.RxStatus == true) {
                     RF1.CheckedCounter++;
-                    if (RF1.CheckedCounter == 1000) {
+                    if (RF1.CheckedCounter == 100) {
                         RF1.CheckedCounter = 0;
                         RF1.CheckCount = 0;
                         if (RF1.RunTime > 20) {

@@ -39,7 +39,7 @@ void Mcu_Initialization() {
     //ADC
     ADC_Set();
     //Timmer2
-    //TMR2_Set();
+    TMR2_Set();
     //INT
     INT_Set();
     //IOC
@@ -112,7 +112,7 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
 
     TMR1_ISR();
 
-    //	TMR2_ISR();
+    TMR2_ISR();
 
     INT_ISR();
 
@@ -162,7 +162,7 @@ inline void TMR0_ISR() {
             Timer0.Count = 0;
             myMain.T0_Timerout = true;
         }
-//        ErrLED = ErrLED == true ? false : true;
+        //        ErrLED = ErrLED == true ? false : true;
     }
 }
 //*********************************************************
@@ -229,8 +229,77 @@ void TMR1_ISR() {
 
 #endif
 //*********************************************************
+#if Timer2_use == 1
+
+inline void TMR2_Set() {
+    T2CON = (_T2CKPS | _TOUTPS | _TMR2ON);
+    TMR2 = _TMR2;
+    PR2 = _PR2;
+    TMR2IE = true;
+    PEIE = true;
+    GIE = true;
+}
+
+inline void TMR2_ISR() {
+    if (TMR2IE == true && TMR2IF == true) {
+
+        TMR2 = _TMR2;
+        TMR2IF = false;
+
+#if Dimmer_use == true
+
+#ifdef use_1KEY
+        setDimmerLights_IntrControl(1);
+        // setDimmerLights_IntrControl(1);
+#endif
+
+#ifdef use_2KEY
+        setDimmerLights_IntrControl(2);
+        //setDimmerLights22_Control(2);
+#endif
+
+#ifdef use_3KEY
+        setDimmerLights_IntrControl(3);
+        // setDimmerLights33_Control(3);
+#endif
+
+#endif
+
+        Timer2.Count++;
+        if (Timer2.Count == TMR2_10ms) {
+            Timer2.Count = 0;
+            myMain.T0_Timerout = true;
+        }
+        //        ErrLED = ErrLED == true ? false : true;
+    }
+}
 
 
+//*********************************************************
+
+inline void DimmerReClock() {
+
+#if Dimmer_use == true
+
+#ifdef use_1KEY
+    setDimmerLights_IntrIOC_GO(1);
+#endif
+
+#ifdef use_2KEY
+    setDimmerLights_IntrIOC_GO(2);
+#endif
+
+#ifdef use_3KEY
+    setDimmerLights_IntrIOC_GO(3);
+#endif
+
+    //    TMR0 = 255;
+
+#endif
+}
+
+//end Tim0
+#endif
 //*********************************************************
 #if INT_use == 1
 
@@ -337,7 +406,7 @@ inline char getAD(char adcon0, char adcon1) {
 inline int getAD(char adcon0, char adcon1) {
     ADCON0 = adcon0;
     ADCON1 = adcon1;
-    ADGO = 1;
+    ADGO = true;
     while (ADGO == true && myMain.Timeout == false) {
         Timeout_Counter();
     };

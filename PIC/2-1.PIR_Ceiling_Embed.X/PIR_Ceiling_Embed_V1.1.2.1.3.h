@@ -97,11 +97,14 @@
 //Oscillator (System FOSC)
 #define	System_Fosc_16M				//_16M
 //Timer0
-#define Timer0_use	1
+#define Timer0_use	0
 #define TMR0_IntrTime_100us
 //Timer1
 #define Timer1_use	0
-#define TMR1_IntrTime_50us
+#define TMR1_IntrTime_100us
+//Timer2
+#define Timer2_use	1
+#define TMR2_IntrTime_100us
 //INT
 #define INT_use 0
 //UART
@@ -130,7 +133,7 @@
 //LED
 #define LED_use 1
 //Buzzer
-#define Buzzer_use 1
+#define Buzzer_use 0
 //Switch
 #define Switch_use 0
 //Lights
@@ -155,7 +158,7 @@
 
 
 //include
-
+#include "../src/MCU_B1.h"
 #include "../src/Main_B1.h"
 #include "../src/Activity_B1.h"
 #include "../src/Switch_B1.h"
@@ -172,7 +175,6 @@
 #include "../src/PIR_B1.h"
 #include "../src/SYSC_B1.h"
 #include "../src/TriacRelay_B1.h"
-#include "../src/MCU_B1.h"
 #include "../src/SegmentDisplay_A2.h"
 
 //end file

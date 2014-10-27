@@ -47,13 +47,13 @@ int main(int argc, char** argv) {
 #endif
 
 #ifdef CDS_1
-            getCDS_AD(1, CDS_VR_Channel, CDS_Signal_Channel);
+            getCDS_AD(CDS_VR_Channel, CDS_Signal_Channel);
 #endif
 
 #ifdef PIR_1
-            getPIR_AD(1, PIR_VR_Channel, PIR_Signal_Channel);
+            getPIR_AD(PIR_VR_Channel, PIR_Signal_Channel);
 #endif
-
+ 
             //                        while (true && myMain.Timeout == false) {
             //                            Timeout_Counter();
             //                        }

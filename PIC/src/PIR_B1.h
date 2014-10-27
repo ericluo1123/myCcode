@@ -1,25 +1,48 @@
-
+/**
+ * PIR header
+ */
 #ifndef _PIR_H_
 #define _PIR_H_
 
 #if PIR_use == 1
- 
+
+//detect range
 #define RangeMaximum	45
-#define RangeMedium		25
-#define RangeMinimum	8
+#define RangeMedium	25
+#define RangeMinimum	15//8
 
 struct PIR {
-    //enable
-    unsigned Enable : 1;
 
-    //AD
-    unsigned ADCGO : 1;
+    union {
+
+        struct {
+            unsigned Enable : 1;
+            unsigned ADtoGO : 1;
+            unsigned GO : 1;
+            unsigned OK : 1;
+            unsigned Detect : 1;
+            unsigned RangeRun : 1;
+            unsigned Status : 1;
+            unsigned Available : 1;
+        };
+    };
+
+#ifdef _16F723A
+    unsigned char SignalAD;
+    unsigned char ADRES;
     unsigned char VRAD;
     unsigned char VRAD1;
-    unsigned char SignalAD;
+#else
+    unsigned int SignalAD;
+    unsigned int ADRES;
+    unsigned int VRAD;
+    unsigned int VRAD1;
+#endif
+
+
     unsigned char Time;
-    unsigned char ADCount;
-    unsigned char ADCount1;
+    unsigned char TenCount;
+    unsigned char HundreCount;
     unsigned char ReferenceVoltage;
     unsigned char TenAverage[10];
     unsigned int TenAverageValue;
@@ -27,16 +50,15 @@ struct PIR {
     unsigned int HundredAverageValue;
 
     //main
-    unsigned GO : 1;
-    unsigned OK : 1;
-    unsigned Switch : 1;
+
     unsigned int Count;
-    unsigned char Trigger;
-    unsigned int CloseTime;
+    unsigned char TriggerValue;
+    unsigned int CloseTimeMinutes ;
+    unsigned char CloseTimeSeconds;
     unsigned int CloseTimeValue;
 
     //auto gain
-    unsigned RangeRun : 1;
+
     unsigned char RangeTime;
     unsigned char RangeTime1;
     unsigned char RangeCount;
@@ -52,14 +74,12 @@ struct PIR _PIR;
 void selectPIRPoint(char);
 void PIR_Initialization();
 void PIR_Main();
-void getPIR_AD(char, char, char);
+void getPIR_AD(char channel1, char channel2);
 #else
-#define selectPIRPoint(char) ;
-#define PIR_Initialization() ;
-#define PIR_Main() ;
-#define getPIR_AD(char,char,char) ;
-#define setPIR_Initialization() ;
-#define setPIR_Main() ;	
+#define selectPIRPoint(char);
+#define PIR_Initialization();
+#define PIR_Main();
+#define getPIR_AD(char , char );
 
 #endif
 
