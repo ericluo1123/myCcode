@@ -23,7 +23,7 @@ void IO_Set();
 //oscillator
 //System Clock Select=FOSC<2:0>
 
-#ifdef _16F723A
+#ifdef MCU_16F723A
 //PLLEN = 1
 #ifdef System_Fosc_16M
 #define _OSCCON 0x3c
@@ -80,7 +80,7 @@ void IO_Set();
 
 #endif
 
-#ifdef _16F1516
+#ifdef MCU_16F1516
 #ifdef System_Fosc_16M
 #define _OSCCON 0x78
 #define _FOSC 16000000L
@@ -153,7 +153,7 @@ void IO_Set();
 
 #endif
 
-#ifdef _16F1518
+#ifdef MCU_16F1518
 #ifdef System_Fosc_16M
 #define _OSCCON 0x78
 #define _FOSC 16000000L
@@ -254,7 +254,7 @@ void Fosc_Set();
 
 //ADC Conversion Clock = 111 = FRC (clock supplied from a dedicated FRC oscillator)
 
-#ifdef _16F723A
+#ifdef MCU_16F723A
 #define	ADCON1_VDD		0x70 
 #define	ADCON1_RA3		0x72
 #define	ADCON1_Fixed		0x73
@@ -267,7 +267,7 @@ void Fosc_Set();
 #define ADC_ADRES               ADRES
 #endif
 
-#ifdef _16F1516
+#ifdef MCU_16F1516
 #define	ADCON1_VDD		0xf0 
 #define	ADCON1_RA3		0xf2
 #define	ADCON1_Fixed		0xf3
@@ -280,7 +280,7 @@ void Fosc_Set();
 #define ADC_ADRES ((ADRESH*256)+ADRESL)
 #endif
 
-#ifdef _16F1518
+#ifdef MCU_16F1518
 #define	ADCON1_VDD		0xf0 
 #define	ADCON1_RA3		0xf2
 #define	ADCON1_Fixed		0xf3
@@ -300,13 +300,13 @@ void Fosc_Set();
 
 void ADC_Set();
 void setADCGO();
-#ifdef _16F723A
+#ifdef MCU_16F723A
 inline char getAD(char, char);
 #endif
-#ifdef _16F1516
+#ifdef MCU_16F1516
 inline int getAD(char, char);
 #endif
-#ifdef _16F1518
+#ifdef MCU_16F1518
 inline int getAD(char, char);
 #endif
 #else
@@ -401,7 +401,6 @@ inline void setDimmerReClock();
 //TMR0 NOP()
 #define TMR0_Set() ;
 #define TMR0_ISR() ;
-#define setDimmerReClock() ;
 #endif
 
 //*********************************************************
@@ -432,8 +431,10 @@ inline void setDimmerReClock();
 #endif
 
 #ifdef TMR1_IntrTime_100us	
-#define TMR1_Count	1500
+#define TMR1_Count	1480
 #define TMR1_1ms	10
+#define TMR1_5ms	50
+#define TMR1_10ms	100
 #endif
 
 #ifdef TMR1_IntrTime_500us	
@@ -441,6 +442,7 @@ inline void setDimmerReClock();
 #define TMR1_1ms	2
 #endif
 
+#define _TMR1ON 0x01
 #define TMR1H_Value 	((65536-TMR1_Count)/256)
 #define TMR1L_Value  	((65536-TMR1_Count)%256)
 #endif	
@@ -455,11 +457,11 @@ struct Timer1 {
     };
     unsigned int Count;
 };
-struct Timer1 VarTimer1;
-struct Timer1 *Timer1;
+struct Timer1 Timer1;
 
-void TMR1_Set();
-void TMR1_ISR();
+inline void TMR1_Set();
+inline void TMR1_ISR();
+inline void setDimmerReClock();
 #else
 //NOP()
 #define TMR1_Set() ;
@@ -489,11 +491,11 @@ void TMR1_ISR();
 #define T2CKPS_1x16 0x11
 
 #ifdef TMR2_IntrTime_100us
-#define _TMR2 155
+#define _TMR2 168
 #define _PR2 0
-#define _TMR2ON 1
-#define _TOUTPS TOUTPS_1x1
-#define _T2CKPS T2CKPS_1x4
+#define _TMR2ON 0x04
+#define _TOUTPS TOUTPS_1x4
+#define _T2CKPS T2CKPS_1x1
 #define TMR2_1ms	10
 #define TMR2_5ms	50
 #define TMR2_10ms	100
@@ -512,9 +514,10 @@ struct Timer2 {
 };
 
 struct Timer2 Timer2;
+
 inline void TMR2_Set();
 inline void TMR2_ISR();
-inline void DimmerReClock();
+inline void setDimmerReClock();
 
 #else
 //NOP()
@@ -764,13 +767,24 @@ struct WDT {
             unsigned empty : 7;
         };
     };
-    unsigned char Count;
+    unsigned char Timer;
 };
 struct WDT WDT;
-
-#define _WDTE ON                        //Configuration
-#define _WDTCON 0b00010111;		//WDTPS<4:0> =2s && WDT is turned on
 //controlled by the WDTE<1:0>
+#define _WDTE ON                        //Configuration
+#ifdef MCU_16F723A
+
+//Time-out period is from 17 ms to 2.2 seconds
+#define _PSA 1
+#define _PS0 1
+#define _PS1 1
+#define _PS2 1
+
+#else  
+#define _WDTCON 0b00010111;		//WDTPS<4:0> =2s && WDT is turned on
+#endif
+
+
 
 void WDT_Set();
 void WDT_Main();

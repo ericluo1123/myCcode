@@ -20,23 +20,38 @@
 //Global extern variable declaration
 
 struct Lights {
-    unsigned Enable : 1;
-    unsigned GO : 1;
-    unsigned Status : 1;
-    unsigned Open : 1;
-    unsigned Close : 1;
-    unsigned Trigger : 1;
-    unsigned Switch : 1;
-    unsigned Relay : 1;
-    unsigned Triac : 1;
+
+    union {
+
+        struct {
+            unsigned Enable : 1;
+            unsigned GO : 1;
+            unsigned Status : 1;
+            unsigned Open : 1;
+            unsigned Close : 1;
+            unsigned Trigger : 1;
+            unsigned Switch : 1;
+            unsigned Relay : 1;
+        };
+    };
+
+    union {
+
+        struct {
+            unsigned Triac : 1;
+            unsigned Clear : 1;
+            unsigned RelaySet : 1;
+            unsigned empty : 5;
+        };
+    };
+
     unsigned char Time;
     unsigned char TriacTime;
     unsigned char TriacValue;
     unsigned char RelayTime;
     unsigned char RelayValue;
-    unsigned RelaySet : 1;
     unsigned char Number;
-    unsigned Clear : 1;
+
 };
 struct Lights *Lights;
 
@@ -74,6 +89,7 @@ char getLights_Open(char);
 void setLights_Close(char, char);
 char getLights_Close(char);
 void setLights(char, char);
+char getLights_Status(char lights);
 #else
 
 #define LightsPointSelect(char) ;

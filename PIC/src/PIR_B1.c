@@ -9,7 +9,6 @@ void PIR_Initialization() {
     _PIR.RangeValue = RangeMinimum;
     _PIR.CloseTimeValue = 150;
     _PIR.TriggerValue = 2;
-    setLED(2, 1);
 }
 
 void PIR_Main() {
@@ -19,6 +18,9 @@ void PIR_Main() {
             if (_PIR.Detect == false) {
                 _PIR.Detect = true;
                 _PIR.Available = true;
+                if (_PIR.OK == false) {
+                    setLED(2, 1);
+                }
             }
         } else {
             if (_PIR.Detect == true) {
@@ -40,6 +42,16 @@ void PIR_Main() {
                 }
                 _PIR.CloseTimeSeconds = 0;
                 _PIR.CloseTimeMinutes = 0;
+
+                //Lights
+#ifdef use_1KEY
+#if LightsControl_use == 1
+                if (getLights_Status(1) == true) {
+                    setLights_Trigger(1, 1);
+                    setLights_Switch(1, 0);
+                }
+#endif
+#endif
             }
         }
 
@@ -95,7 +107,15 @@ void PIR_Main() {
                                 _PIR.CloseTimeSeconds = 0;
                                 _PIR.CloseTimeMinutes = 0;
                                 //  Turn_On_Lights();
-                                ErrLED = false;
+#ifdef use_1KEY
+#if LightsControl_use == 1
+                                if (getLights_Status(1) == false) {
+                                    setLights_Trigger(1, 1);
+                                    setLights_Switch(1, 1);
+                                }
+#endif
+#endif
+
                                 _PIR.Status = true;
 
                                 if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
@@ -128,7 +148,15 @@ void PIR_Main() {
                     _PIR.CloseTimeMinutes = 0;
                     _PIR.Status = false;
                     //Turn_Off_Lights();
-                    ErrLED = true;
+#ifdef use_1KEY
+#if LightsControl_use == 1
+                    if (getLights_Status(1) == true) {
+                        setLights_Trigger(1, 1);
+                        setLights_Switch(1, 0);
+                    }
+#endif
+#endif
+
                 }
             }
         }

@@ -26,6 +26,7 @@ struct {
 unsigned PowerON : 1;
 unsigned T0_Timerout : 1;
 unsigned T1_Timerout : 1;
+unsigned T2_Timerout : 1;
 unsigned Flag : 1;
 unsigned GO : 1;
 unsigned FirstOpen : 1;
@@ -72,16 +73,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 122
+# 123
 inline void myMain_Initialization();
 
-# 127
+# 128
 inline void my_Main();
 
-# 132
+# 133
 inline void my_MainTime();
 
-# 137
+# 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 
@@ -3280,37 +3281,26 @@ void setADCGO();
 # 310
 inline int getAD(char, char);
 
-# 376
-struct Timer0 {
-
-union {
+# 452
+struct Timer1 {
 
 struct {
 unsigned Timeout : 1;
-unsigned Reset : 1;
-unsigned empty : 6;
+unsigned empty : 7;
 };
-};
-
 unsigned int Count;
-unsigned int Count1;
-
-unsigned int DimmerCount;
-unsigned char ResetCount;
 };
+struct Timer1 Timer1;
 
-struct Timer0 Timer0;
-
-
-void TMR0_Set();
-inline void TMR0_ISR();
+inline void TMR1_Set();
+inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 485
+# 543
 void IOC_Set();
 inline void IOC_ISR();
 
-# 643
+# 701
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -3337,7 +3327,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 675
+# 733
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -3347,7 +3337,7 @@ void Flash_Memory_Modify();
 void Flash_Memory_Main();
 void setMemory_GO(char command);
 
-# 703
+# 761
 struct WDT {
 
 union {
@@ -3357,11 +3347,11 @@ unsigned Enable : 1;
 unsigned empty : 7;
 };
 };
-unsigned char Count;
+unsigned char Timer;
 };
 struct WDT WDT;
 
-# 720
+# 789
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -3389,7 +3379,6 @@ RF_Initialization();
 CC2500_PowerOnInitial();
 ;;
 
-
 while (1) {
 
 if (myMain.PowerON) {
@@ -3408,12 +3397,12 @@ if (myMain.PowerON) {
 
 ;;
 
-# 61
+# 60
 }
 
-
-if (myMain.T0_Timerout) {
-myMain.T0_Timerout = 0;
+# 96
+if (myMain.T1_Timerout) {
+myMain.T1_Timerout = 0;
 my_MainTime();
 WDT_Main();
 ;;
@@ -3438,13 +3427,16 @@ Switch_Main();
 RF_Main();
 DelayOff_Main();
 ;;
+
+# 129
 }
 }
 
-# 109
+# 164
 }
 return (0);
 }
+
 
 
 
@@ -3453,7 +3445,7 @@ inline void myMain_Initialization() {
 product = &_product;
 product->Data[20] = 211;
 
-# 124
+# 180
 }
 
 
@@ -3473,7 +3465,7 @@ myMain.PowerON = 1;
 
 ;;
 
-# 147
+# 203
 setBuz(3, 50);
 myMain.SelfTest = 1;
 
@@ -3487,25 +3479,32 @@ setRF_Enable(1);
 }
 } else {
 
-# 166
+# 222
 myMain.Count1++;
 if (myMain.Count1 == 100)
 {
 myMain.Count1 = 0;
 
-# 182
+# 237
 if (myMain.Flag) {
 myMain.Flag = 0;
 
-# 192
+# 247
 } else {
 myMain.Flag = 1;
 
-# 202
+# 257
 }
 }
 
 }
+
+myMain.Count2++;
+if (myMain.Count2 == 50) {
+myMain.Count2 = 0;
+
+}
+
 }
 
 inline void Timeout_Counter() {

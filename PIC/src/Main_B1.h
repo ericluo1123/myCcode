@@ -5,8 +5,8 @@
 #define	_Main_H_
 
 //Global  variable declaration
-
-#ifndef _16F723A
+  
+#ifndef MCU_16F723A 
 
 typedef struct Product {
     unsigned char Data[32];
@@ -57,7 +57,7 @@ Product _product = {
 #define setProductData(address,data) product->Data[address]=data
 
 #endif
-
+ 
 struct myMain {
 
     union {
@@ -66,6 +66,7 @@ struct myMain {
             unsigned PowerON : 1;
             unsigned T0_Timerout : 1;
             unsigned T1_Timerout : 1;
+            unsigned T2_Timerout : 1;
             unsigned Flag : 1;
             unsigned GO : 1;
             unsigned FirstOpen : 1;

@@ -46,8 +46,8 @@ void Lights_Initialization() {
 
 void setLights_Initialization(char lights) {
     LightsPointSelect(lights);
-    Lights->Open = 1;
-    Lights->Close = 1;
+    Lights->Open = true;
+    Lights->Close = true;
 }
 
 void Lights_Main() {
@@ -79,41 +79,46 @@ void Lights_Main() {
 void setLights_Main(char lights) {
     char clear = 1;
     LightsPointSelect(lights);
+    if (Lights->GO == false) {
 
 #if Switch_Class == 3
-    if (lights == 1) {
-        clear = (!Lights22->Clear || !Lights33->Clear) ? 0 : 1;
-    } else if (lights == 2) {
-        clear = (!Lights11->Clear || !Lights33->Clear) ? 0 : 1;
-    } else if (lights == 3) {
-        clear = (!Lights11->Clear || !Lights22->Clear) ? 0 : 1;
-    }
+        if (lights == 1) {
+            clear = (Lights22.Clear == false || Lights33.Clear == false) ? 0 : 1;
+        } else if (lights == 2) {
+            clear = (Lights11->Clear == false || Lights33->Clear == false) ? 0 : 1;
+        } else if (lights == 3) {
+            clear = (Lights11->Clear == false || Lights22->Clear == false) ? 0 : 1;
+        }
 #endif
 
 #if Switch_Class == 2
-    if (lights == 1) {
-        clear = (!Lights22->Clear) ? 0 : 1;
-    } else if (lights == 2) {
-        clear = (!Lights11->Clear) ? 0 : 1;
-    }
+        if (lights == 1) {
+            clear = (Lights22->Clear == false) ? 0 : 1;
+        } else if (lights == 2) {
+            clear = (Lights11->Clear == false) ? 0 : 1;
+        }
 #endif
 
-    if (Lights->Trigger) {
-        if (clear) {
-            if (Lights->Switch) {
-                Lights->Trigger = 0;
-                setLights(lights, 1);
+        if (Lights->Trigger == true) {
+            if (clear == 1) {
+                if (Lights->Switch == true) {
+                    Lights->Trigger = false;
 
-#if OverLoad_use == 1
-                Lights->Clear = 0;
-#endif
-            } else {
-                Lights->Trigger = 0;
-                setLights(lights, 0);
+                    setLights(lights, 1);
+
 
 #if OverLoad_use == 1
-                Lights->Clear = 0;
+                    Lights->Clear = 0;
 #endif
+                } else {
+                    Lights->Trigger = false;
+
+                    setLights(lights, 0);
+
+#if OverLoad_use == 1
+                    Lights->Clear = 0;
+#endif
+                }
             }
         }
     }
@@ -141,7 +146,9 @@ void setLights_Open(char lights, char command) {
 
 char getLights_Open(char lights) {
     LightsPointSelect(lights);
-    return Lights->Open;
+    char result = 0;
+    result = Lights->Open;
+    return result;
 }
 
 void setLights_Close(char lights, char command) {
@@ -151,51 +158,97 @@ void setLights_Close(char lights, char command) {
 
 char getLights_Close(char lights) {
     LightsPointSelect(lights);
-    return Lights->Close;
+    char result;
+    result = Lights->Close;
+    return result;
 
+}
+
+char getLights_Status(char lights) {
+    LightsPointSelect(lights);
+    char result = Lights->Status;
+    return result;
+}
+
+void setLights(char lights, char command) {
+
+    LightsPointSelect(lights);
+
+    Lights->GO = true;
+    if (command == 1) {
+        if (Lights->Status == false) {
+            Lights->Status = true;
+            Lights->RelayValue = 70;
+            Lights->TriacValue = 140;
+        }
+    } else {
+        if (Lights->Status == true) {
+            Lights->Status = false;
+            Lights->RelayValue = 40;
+            Lights->TriacValue = 80;
+        }
+    }
+#ifdef use_1KEY
+    if (lights == 1) {
+        Triac1 = true;
+    }
+#endif
+#ifdef use_2KEY
+    else if (lights == 2) {
+        Triac2 = true;
+    }
+#endif
+#ifdef use_3KEY
+    else if (lights == 3) {
+        Triac3 = true;
+    }
+#endif
 }
 
 void Lights_Control(char lights) {
     LightsPointSelect(lights);
-    if (Lights->GO) {
+    if (Lights->GO == true) {
         Lights->Time++;
-        if (Lights->Time >= Lights->RelayValue && !Lights->RelaySet) {
-            Lights->RelaySet = 1;
+        if (Lights->Time >= Lights->RelayValue && Lights->RelaySet == false) {
+            Lights->RelaySet = true;
 #ifdef use_1KEY
             if (lights == 1) {
-                Relay1 = Lights->Status ? 1 : 0;
+
+                Relay1 = Lights->Status ? true : false;
+
             }
 #endif
-
 #ifdef use_2KEY
             else if (lights == 2) {
-                Relay2 = Lights->Status ? 1 : 0;
+
+                Relay2 = Lights->Status ? true : false;
+
             }
 #endif
-
 #ifdef use_3KEY
             else if (lights == 3) {
-                Relay3 = Lights->Status ? 1 : 0;
+                Relay3 = Lights->Status ? true : false;
             }
 #endif
 
         } else if (Lights->Time >= Lights->TriacValue) {
             Lights->Time = 0;
-            Lights->GO = 0;
+            Lights->GO = false;
+            Lights->RelaySet = false;
 #ifdef use_1KEY
             if (lights == 1) {
-                Triac1 = 0;
+                Triac1 = false;
             }
 #endif
 #ifdef use_2KEY
             else if (lights == 2) {
-                Triac2 = 0;
+                Triac2 = false;
             }
 #endif
 
 #ifdef use_3KEY
             else if (lights == 3) {
-                Triac3 = 0;
+                Triac3 = false;
             }
 #endif
         }
@@ -223,7 +276,7 @@ void Lights_Initial()
 
 //setting
 void Lights_Setting(char number)
-{	
+{
 	
         if(number==10 || number==11)
         {
@@ -310,7 +363,7 @@ void Lights_Setting(char number)
 }
 //main
 void Lights_Main()
-{	
+{
         if(Lights1->GO==1)
         {
                 Lights1->Time++;

@@ -41,19 +41,20 @@
 #define Create_Date "2014/10/20"
 #define PCB_Name "TH-302PV11-1-Dim(20140722)"
 
+#define MCU_16F723A
 //MCU define
 #define	Overload1			RA0		//pin2  1
 #define PIR1_VR				RA1		//pin3	1	
 #define CDS1_VR				RA2		//pin4	1		
 #define	PIR_1				RA3		//pin5	1
-#define	Relay1				RA4		//pin6 	0
+#define	Relay1                    	RA4		//pin6 	0
 #define SYSC1				RA5		//pin7	1
 //#define Dimmer_Clock                  RA6		//pin10 0
 //#define DimmerReference1              RA7		//pin9	0
 
 #define CDS_1				RB0		//pin21 1
 #define Buzzer1				RB1		//pin22 0
-#define Triac1				RB2		//pin23 0
+#define Triac1 				RB2		//pin23 0
 #define ErrLED				RB3		//pin24	0
 #define LED1				RB4		//pin25 0	LED pin2
 #define LED2				RB5		//pin26	0	LED pin3
@@ -82,7 +83,6 @@
 
 
 //ADC channel
-
 #define CDS_Signal_Channel		AN12
 #define CDS_VR_Channel			AN2
 #define PIR_Signal_Channel		AN3
@@ -100,10 +100,10 @@
 #define Timer0_use	0
 #define TMR0_IntrTime_100us
 //Timer1
-#define Timer1_use	0
+#define Timer1_use	1
 #define TMR1_IntrTime_100us
 //Timer2
-#define Timer2_use	1
+#define Timer2_use	0
 #define TMR2_IntrTime_100us
 //INT
 #define INT_use 0
@@ -120,7 +120,7 @@
 //FlashMemory
 #define FlashMemory_use 0
 //watchdog timer
-#define WDT_use 0
+#define WDT_use 1
 
 //Function Option
 
@@ -156,11 +156,10 @@
 #define CDS_use  1
 
 
-
 //include
+#include "../src/Activity_B1.h"
 #include "../src/MCU_B1.h"
 #include "../src/Main_B1.h"
-#include "../src/Activity_B1.h"
 #include "../src/Switch_B1.h"
 #include "../src/Buzzer_B1.h"
 #include "../src/LED_B1.h"

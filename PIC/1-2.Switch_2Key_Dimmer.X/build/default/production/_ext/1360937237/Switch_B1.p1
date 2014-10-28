@@ -3,21 +3,21 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S1 `uc -> 32 `i ]
 [n S1 Product Data ]
 "65
-[s S4 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S4 . PowerON T0_Timerout T1_Timerout Flag GO FirstOpen SelfTest First ]
+[s S4 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S4 . PowerON T0_Timerout T1_Timerout T2_Timerout Flag GO FirstOpen SelfTest First ]
 "63
 [u S3 `S4 1 ]
 [n S3 . . ]
-"89
+"90
 [s S6 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S6 . i j k l m n o p ]
-"87
+"88
 [u S5 `S6 1 ]
 [n S5 . . ]
-"103
+"104
 [s S8 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
 [n S8 . q r Timeout empty ]
-"101
+"102
 [u S7 `S8 1 ]
 [n S7 . . ]
 "61
@@ -134,41 +134,38 @@ Version 3.2 HI-TECH Software Intermediate Code
 "21
 [s S48 `S49 1 ]
 [n S48 DelayOff . ]
-"380 ../src/../1-2.Switch_2Key_Dimmer.X/../src/MCU_B1.h
-[s S285 :1 `uc 1 :1 `uc 1 :6 `uc 1 ]
-[n S285 . Timeout Reset empty ]
-"378
-[u S284 `S285 1 ]
-[n S284 . . ]
-"376
-[s S283 `S284 1 `ui 1 `ui 1 `ui 1 `uc 1 ]
-[n S283 Timer0 . Count Count1 DimmerCount ResetCount ]
-"651
-[s S288 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
-[n S288 . Modify GO LoopSave empty ]
-"649
-[u S287 `S288 1 ]
-[n S287 . . ]
-"643
-[s S286 `uc -> 32 `i `uc 1 `uc 1 `ui 1 `S287 1 ]
-[n S286 FlashMemory Data ReadDataH ReadDataL Time . ]
+"454 ../src/../1-2.Switch_2Key_Dimmer.X/../src/MCU_B1.h
+[s S284 :1 `uc 1 :7 `uc 1 ]
+[n S284 . Timeout empty ]
+"452
+[s S283 `S284 1 `ui 1 ]
+[n S283 Timer1 . Count ]
+"709
+[s S287 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
+[n S287 . Modify GO LoopSave empty ]
 "707
-[s S291 :1 `uc 1 :7 `uc 1 ]
-[n S291 . Enable empty ]
-"705
-[u S290 `S291 1 ]
-[n S290 . . ]
-"703
-[s S289 `S290 1 `uc 1 ]
-[n S289 WDT . Count ]
+[u S286 `S287 1 ]
+[n S286 . . ]
+"701
+[s S285 `uc -> 32 `i `uc 1 `uc 1 `ui 1 `S286 1 ]
+[n S285 FlashMemory Data ReadDataH ReadDataL Time . ]
+"765
+[s S290 :1 `uc 1 :7 `uc 1 ]
+[n S290 . Enable empty ]
+"763
+[u S289 `S290 1 ]
+[n S289 . . ]
+"761
+[s S288 `S289 1 `uc 1 ]
+[n S288 WDT . Timer ]
 "4549 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _RC5 `Vb ~T0 @X0 0 e@117 ]
-[v F56 `(v ~T0 @X0 1 tf ]
-"137 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Main_B1.h
-[v _Timeout_Counter `TF56 ~T0 @X0 0 e ]
-[v F58 `(v ~T0 @X0 1 tf ]
-"138
-[v _set_TimeoutCleared `TF58 ~T0 @X0 0 e ]
+[v F57 `(v ~T0 @X0 1 tf ]
+"138 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Main_B1.h
+[v _Timeout_Counter `TF57 ~T0 @X0 0 e ]
+[v F59 `(v ~T0 @X0 1 tf ]
+"139
+[v _set_TimeoutCleared `TF59 ~T0 @X0 0 e ]
 "4781 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _WPUB1 `Vb ~T0 @X0 0 e@4201 ]
 "62 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Switch_B1.h
@@ -282,51 +279,52 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 66: unsigned PowerON : 1;
 [; ;Main_B1.h: 67: unsigned T0_Timerout : 1;
 [; ;Main_B1.h: 68: unsigned T1_Timerout : 1;
-[; ;Main_B1.h: 69: unsigned Flag : 1;
-[; ;Main_B1.h: 70: unsigned GO : 1;
-[; ;Main_B1.h: 71: unsigned FirstOpen : 1;
-[; ;Main_B1.h: 72: unsigned SelfTest : 1;
-[; ;Main_B1.h: 73: unsigned First : 1;
-[; ;Main_B1.h: 74: };
+[; ;Main_B1.h: 69: unsigned T2_Timerout : 1;
+[; ;Main_B1.h: 70: unsigned Flag : 1;
+[; ;Main_B1.h: 71: unsigned GO : 1;
+[; ;Main_B1.h: 72: unsigned FirstOpen : 1;
+[; ;Main_B1.h: 73: unsigned SelfTest : 1;
+[; ;Main_B1.h: 74: unsigned First : 1;
 [; ;Main_B1.h: 75: };
-[; ;Main_B1.h: 76: unsigned int PowerCount;
-[; ;Main_B1.h: 79: unsigned int Count;
-[; ;Main_B1.h: 80: unsigned int Count1;
-[; ;Main_B1.h: 81: unsigned int Count2;
-[; ;Main_B1.h: 82: unsigned int Count3;
-[; ;Main_B1.h: 83: unsigned char IOC_Count;
-[; ;Main_B1.h: 84: unsigned char Test;
-[; ;Main_B1.h: 85: unsigned char ClockCount;
-[; ;Main_B1.h: 87: union {
-[; ;Main_B1.h: 89: struct {
-[; ;Main_B1.h: 90: unsigned i : 1;
-[; ;Main_B1.h: 91: unsigned j : 1;
-[; ;Main_B1.h: 92: unsigned k : 1;
-[; ;Main_B1.h: 93: unsigned l : 1;
-[; ;Main_B1.h: 94: unsigned m : 1;
-[; ;Main_B1.h: 95: unsigned n : 1;
-[; ;Main_B1.h: 96: unsigned o : 1;
-[; ;Main_B1.h: 97: unsigned p : 1;
-[; ;Main_B1.h: 98: };
+[; ;Main_B1.h: 76: };
+[; ;Main_B1.h: 77: unsigned int PowerCount;
+[; ;Main_B1.h: 80: unsigned int Count;
+[; ;Main_B1.h: 81: unsigned int Count1;
+[; ;Main_B1.h: 82: unsigned int Count2;
+[; ;Main_B1.h: 83: unsigned int Count3;
+[; ;Main_B1.h: 84: unsigned char IOC_Count;
+[; ;Main_B1.h: 85: unsigned char Test;
+[; ;Main_B1.h: 86: unsigned char ClockCount;
+[; ;Main_B1.h: 88: union {
+[; ;Main_B1.h: 90: struct {
+[; ;Main_B1.h: 91: unsigned i : 1;
+[; ;Main_B1.h: 92: unsigned j : 1;
+[; ;Main_B1.h: 93: unsigned k : 1;
+[; ;Main_B1.h: 94: unsigned l : 1;
+[; ;Main_B1.h: 95: unsigned m : 1;
+[; ;Main_B1.h: 96: unsigned n : 1;
+[; ;Main_B1.h: 97: unsigned o : 1;
+[; ;Main_B1.h: 98: unsigned p : 1;
 [; ;Main_B1.h: 99: };
-[; ;Main_B1.h: 101: union {
-[; ;Main_B1.h: 103: struct {
-[; ;Main_B1.h: 104: unsigned q : 1;
-[; ;Main_B1.h: 105: unsigned r : 1;
-[; ;Main_B1.h: 106: unsigned Timeout : 1;
-[; ;Main_B1.h: 107: unsigned empty : 5;
-[; ;Main_B1.h: 108: };
+[; ;Main_B1.h: 100: };
+[; ;Main_B1.h: 102: union {
+[; ;Main_B1.h: 104: struct {
+[; ;Main_B1.h: 105: unsigned q : 1;
+[; ;Main_B1.h: 106: unsigned r : 1;
+[; ;Main_B1.h: 107: unsigned Timeout : 1;
+[; ;Main_B1.h: 108: unsigned empty : 5;
 [; ;Main_B1.h: 109: };
-[; ;Main_B1.h: 110: unsigned int Timeout_Counter;
-[; ;Main_B1.h: 112: };
-"113
+[; ;Main_B1.h: 110: };
+[; ;Main_B1.h: 111: unsigned int Timeout_Counter;
+[; ;Main_B1.h: 113: };
+"114
 [v _myMain `S2 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 113: struct myMain myMain;
-[; ;Main_B1.h: 122: inline void myMain_Initialization();
-[; ;Main_B1.h: 127: inline void my_Main();
-[; ;Main_B1.h: 132: inline void my_MainTime();
-[; ;Main_B1.h: 137: inline void Timeout_Counter();
-[; ;Main_B1.h: 138: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 114: struct myMain myMain;
+[; ;Main_B1.h: 123: inline void myMain_Initialization();
+[; ;Main_B1.h: 128: inline void my_Main();
+[; ;Main_B1.h: 133: inline void my_MainTime();
+[; ;Main_B1.h: 138: inline void Timeout_Counter();
+[; ;Main_B1.h: 139: inline void set_TimeoutCleared();
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -2994,48 +2992,42 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.h: 301: void ADC_Set();
 [; ;MCU_B1.h: 302: void setADCGO();
 [; ;MCU_B1.h: 310: inline int getAD(char, char);
-[; ;MCU_B1.h: 376: struct Timer0 {
-[; ;MCU_B1.h: 378: union {
-[; ;MCU_B1.h: 380: struct {
-[; ;MCU_B1.h: 381: unsigned Timeout : 1;
-[; ;MCU_B1.h: 382: unsigned Reset : 1;
-[; ;MCU_B1.h: 383: unsigned empty : 6;
-[; ;MCU_B1.h: 384: };
-[; ;MCU_B1.h: 385: };
-[; ;MCU_B1.h: 387: unsigned int Count;
-[; ;MCU_B1.h: 388: unsigned int Count1;
-[; ;MCU_B1.h: 390: unsigned int DimmerCount;
-[; ;MCU_B1.h: 391: unsigned char ResetCount;
-[; ;MCU_B1.h: 392: };
-"394 ../src/../1-2.Switch_2Key_Dimmer.X/../src/MCU_B1.h
-[v _Timer0 `S283 ~T0 @X0 1 e ]
-[; ;MCU_B1.h: 394: struct Timer0 Timer0;
-[; ;MCU_B1.h: 397: void TMR0_Set();
-[; ;MCU_B1.h: 398: inline void TMR0_ISR();
-[; ;MCU_B1.h: 399: inline void setDimmerReClock();
-[; ;MCU_B1.h: 485: void IOC_Set();
-[; ;MCU_B1.h: 486: inline void IOC_ISR();
-[; ;MCU_B1.h: 643: struct FlashMemory {
-[; ;MCU_B1.h: 644: unsigned char Data[32];
-[; ;MCU_B1.h: 645: unsigned char ReadDataH;
-[; ;MCU_B1.h: 646: unsigned char ReadDataL;
-[; ;MCU_B1.h: 647: unsigned int Time;
-[; ;MCU_B1.h: 649: union {
-[; ;MCU_B1.h: 651: struct {
-[; ;MCU_B1.h: 652: unsigned Modify : 1;
-[; ;MCU_B1.h: 653: unsigned GO : 1;
-[; ;MCU_B1.h: 654: unsigned LoopSave : 1;
-[; ;MCU_B1.h: 655: unsigned empty : 5;
-[; ;MCU_B1.h: 656: };
-[; ;MCU_B1.h: 657: };
-[; ;MCU_B1.h: 658: };
-"660
-[v _Memory `S286 ~T0 @X0 1 e ]
+[; ;MCU_B1.h: 452: struct Timer1 {
+[; ;MCU_B1.h: 454: struct {
+[; ;MCU_B1.h: 455: unsigned Timeout : 1;
+[; ;MCU_B1.h: 456: unsigned empty : 7;
+[; ;MCU_B1.h: 457: };
+[; ;MCU_B1.h: 458: unsigned int Count;
+[; ;MCU_B1.h: 459: };
+"460 ../src/../1-2.Switch_2Key_Dimmer.X/../src/MCU_B1.h
+[v _Timer1 `S283 ~T0 @X0 1 e ]
+[; ;MCU_B1.h: 460: struct Timer1 Timer1;
+[; ;MCU_B1.h: 462: inline void TMR1_Set();
+[; ;MCU_B1.h: 463: inline void TMR1_ISR();
+[; ;MCU_B1.h: 464: inline void setDimmerReClock();
+[; ;MCU_B1.h: 543: void IOC_Set();
+[; ;MCU_B1.h: 544: inline void IOC_ISR();
+[; ;MCU_B1.h: 701: struct FlashMemory {
+[; ;MCU_B1.h: 702: unsigned char Data[32];
+[; ;MCU_B1.h: 703: unsigned char ReadDataH;
+[; ;MCU_B1.h: 704: unsigned char ReadDataL;
+[; ;MCU_B1.h: 705: unsigned int Time;
+[; ;MCU_B1.h: 707: union {
+[; ;MCU_B1.h: 709: struct {
+[; ;MCU_B1.h: 710: unsigned Modify : 1;
+[; ;MCU_B1.h: 711: unsigned GO : 1;
+[; ;MCU_B1.h: 712: unsigned LoopSave : 1;
+[; ;MCU_B1.h: 713: unsigned empty : 5;
+[; ;MCU_B1.h: 714: };
+[; ;MCU_B1.h: 715: };
+[; ;MCU_B1.h: 716: };
+"718
+[v _Memory `S285 ~T0 @X0 1 e ]
 [i _Memory
 :U ..
 :U ..
 :U ..
-"662
+"720
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
@@ -3044,7 +3036,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
-"663
+"721
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
@@ -3053,7 +3045,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
-"664
+"722
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
@@ -3062,7 +3054,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
-"665
+"723
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
@@ -3075,37 +3067,37 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-[; ;MCU_B1.h: 660: struct FlashMemory Memory = {
-[; ;MCU_B1.h: 661: {
-[; ;MCU_B1.h: 662: 0, 0, 0, 0, 0, 0, 0, 0,
-[; ;MCU_B1.h: 663: 0, 0, 0, 0, 0, 0, 0, 0,
-[; ;MCU_B1.h: 664: 0, 0, 0, 0, 0, 0, 0, 0,
-[; ;MCU_B1.h: 665: 0, 0, 0, 0, 0, 0, 0, 0,
-[; ;MCU_B1.h: 666: }
-[; ;MCU_B1.h: 667: };
-[; ;MCU_B1.h: 675: void Flash_Memory_Initialization();
-[; ;MCU_B1.h: 676: void Flash_Memory_Unlock();
-[; ;MCU_B1.h: 677: char Flash_Memory_Read(char address);
-[; ;MCU_B1.h: 678: void Flash_Memory_Write();
-[; ;MCU_B1.h: 679: void Flash_Memory_Erasing();
-[; ;MCU_B1.h: 680: void Flash_Memory_Modify();
-[; ;MCU_B1.h: 681: void Flash_Memory_Main();
-[; ;MCU_B1.h: 682: void setMemory_GO(char command);
-[; ;MCU_B1.h: 703: struct WDT {
-[; ;MCU_B1.h: 705: union {
-[; ;MCU_B1.h: 707: struct {
-[; ;MCU_B1.h: 708: unsigned Enable : 1;
-[; ;MCU_B1.h: 709: unsigned empty : 7;
-[; ;MCU_B1.h: 710: };
-[; ;MCU_B1.h: 711: };
-[; ;MCU_B1.h: 712: unsigned char Count;
-[; ;MCU_B1.h: 713: };
-"714
-[v _WDT `S289 ~T0 @X0 1 e ]
-[; ;MCU_B1.h: 714: struct WDT WDT;
-[; ;MCU_B1.h: 720: void WDT_Set();
-[; ;MCU_B1.h: 721: void WDT_Main();
-[; ;MCU_B1.h: 722: void WDT_Clearing();
+[; ;MCU_B1.h: 718: struct FlashMemory Memory = {
+[; ;MCU_B1.h: 719: {
+[; ;MCU_B1.h: 720: 0, 0, 0, 0, 0, 0, 0, 0,
+[; ;MCU_B1.h: 721: 0, 0, 0, 0, 0, 0, 0, 0,
+[; ;MCU_B1.h: 722: 0, 0, 0, 0, 0, 0, 0, 0,
+[; ;MCU_B1.h: 723: 0, 0, 0, 0, 0, 0, 0, 0,
+[; ;MCU_B1.h: 724: }
+[; ;MCU_B1.h: 725: };
+[; ;MCU_B1.h: 733: void Flash_Memory_Initialization();
+[; ;MCU_B1.h: 734: void Flash_Memory_Unlock();
+[; ;MCU_B1.h: 735: char Flash_Memory_Read(char address);
+[; ;MCU_B1.h: 736: void Flash_Memory_Write();
+[; ;MCU_B1.h: 737: void Flash_Memory_Erasing();
+[; ;MCU_B1.h: 738: void Flash_Memory_Modify();
+[; ;MCU_B1.h: 739: void Flash_Memory_Main();
+[; ;MCU_B1.h: 740: void setMemory_GO(char command);
+[; ;MCU_B1.h: 761: struct WDT {
+[; ;MCU_B1.h: 763: union {
+[; ;MCU_B1.h: 765: struct {
+[; ;MCU_B1.h: 766: unsigned Enable : 1;
+[; ;MCU_B1.h: 767: unsigned empty : 7;
+[; ;MCU_B1.h: 768: };
+[; ;MCU_B1.h: 769: };
+[; ;MCU_B1.h: 770: unsigned char Timer;
+[; ;MCU_B1.h: 771: };
+"772
+[v _WDT `S288 ~T0 @X0 1 e ]
+[; ;MCU_B1.h: 772: struct WDT WDT;
+[; ;MCU_B1.h: 789: void WDT_Set();
+[; ;MCU_B1.h: 790: void WDT_Main();
+[; ;MCU_B1.h: 791: void WDT_Clearing();
 "10 ../src/Switch_B1.c
 [v _TouchPower `(v ~T0 @X0 1 ef ]
 {
@@ -3114,8 +3106,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;Switch_B1.c: 11: while (RC5 == 0 && myMain.Timeout == 0) {
 "11
-[e $U 293  ]
-[e :U 294 ]
+[e $U 292  ]
+[e :U 293 ]
 {
 [; ;Switch_B1.c: 12: RC5 = 1;
 "12
@@ -3125,17 +3117,17 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _Timeout_Counter ..  ]
 "14
 }
-[e :U 293 ]
+[e :U 292 ]
 "11
-[e $ && == -> _RC5 `i -> 0 `i == -> . . . _myMain 10 0 2 `i -> 0 `i 294  ]
-[e :U 295 ]
+[e $ && == -> _RC5 `i -> 0 `i == -> . . . _myMain 10 0 2 `i -> 0 `i 293  ]
+[e :U 294 ]
 [; ;Switch_B1.c: 14: }
 [; ;Switch_B1.c: 15: set_TimeoutCleared();
 "15
 [e ( _set_TimeoutCleared ..  ]
 [; ;Switch_B1.c: 16: }
 "16
-[e :UE 292 ]
+[e :UE 291 ]
 }
 "21
 [v _SwPointSelect `(v ~T0 @X0 1 ef1`uc ]
@@ -3146,7 +3138,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;Switch_B1.c: 24: if (sw == 1) {
 "24
-[e $ ! == -> _sw `i -> 1 `i 297  ]
+[e $ ! == -> _sw `i -> 1 `i 296  ]
 {
 [; ;Switch_B1.c: 25: Sw = &Sw1;
 "25
@@ -3154,27 +3146,27 @@ Version 3.2 HI-TECH Software Intermediate Code
 "26
 }
 [; ;Switch_B1.c: 26: }
-[e $U 298  ]
+[e $U 297  ]
 "29
-[e :U 297 ]
+[e :U 296 ]
 [; ;Switch_B1.c: 29: else if (sw == 2) {
-[e $ ! == -> _sw `i -> 2 `i 299  ]
+[e $ ! == -> _sw `i -> 2 `i 298  ]
 {
 [; ;Switch_B1.c: 30: Sw = &Sw2;
 "30
 [e = _Sw &U _Sw2 ]
 "31
 }
-[e :U 299 ]
-"38
 [e :U 298 ]
+"38
+[e :U 297 ]
 [; ;Switch_B1.c: 31: }
 [; ;Switch_B1.c: 38: }
-[e :UE 296 ]
+[e :UE 295 ]
 }
-[v F274 `(v ~T0 @X0 1 tf ]
+[v F275 `(v ~T0 @X0 1 tf ]
 "41
-[v _Switch_Initialization `TF274 ~T0 @X0 1 e ]
+[v _Switch_Initialization `TF275 ~T0 @X0 1 e ]
 {
 [; ;Switch_B1.c: 41: inline void Switch_Initialization() {
 [e :U _Switch_Initialization ]
@@ -3193,11 +3185,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setSw_Initialization (1 -> -> 2 `i `uc ]
 [; ;Switch_B1.c: 64: }
 "64
-[e :UE 300 ]
+[e :UE 299 ]
 }
-[v F276 `(v ~T0 @X0 1 tf ]
+[v F277 `(v ~T0 @X0 1 tf ]
 "67
-[v _Switch_Main `TF276 ~T0 @X0 1 e ]
+[v _Switch_Main `TF277 ~T0 @X0 1 e ]
 {
 [; ;Switch_B1.c: 67: inline void Switch_Main() {
 [e :U _Switch_Main ]
@@ -3210,7 +3202,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setSw_Main (1 -> -> 2 `i `uc ]
 [; ;Switch_B1.c: 80: }
 "80
-[e :UE 301 ]
+[e :UE 300 ]
 }
 "83
 [v _setSw_Initialization `(v ~T0 @X0 1 ef1`uc ]
@@ -3224,7 +3216,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setLED (2 , _sw -> -> 1 `i `uc ]
 [; ;Switch_B1.c: 88: }
 "88
-[e :UE 302 ]
+[e :UE 301 ]
 }
 "91
 [v _setSw_Enable `(v ~T0 @X0 1 ef1`uc ]
@@ -3247,7 +3239,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . . *U _Sw 0 0 0 _command ]
 [; ;Switch_B1.c: 108: }
 "108
-[e :UE 303 ]
+[e :UE 302 ]
 }
 "111
 [v _setSw_Status `(v ~T0 @X0 1 ef2`uc`uc ]
@@ -3265,7 +3257,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . . *U _Sw 0 0 6 _command ]
 [; ;Switch_B1.c: 114: }
 "114
-[e :UE 304 ]
+[e :UE 303 ]
 }
 "117
 [v _setSw_Main `(v ~T0 @X0 1 ef1`uc ]
@@ -3279,11 +3271,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _SwPointSelect (1 _sw ]
 [; ;Switch_B1.c: 119: if (Sw->Enable == 1) {
 "119
-[e $ ! == -> . . . *U _Sw 0 0 0 `i -> 1 `i 306  ]
+[e $ ! == -> . . . *U _Sw 0 0 0 `i -> 1 `i 305  ]
 {
 [; ;Switch_B1.c: 131: if (sw == 1) {
 "131
-[e $ ! == -> _sw `i -> 1 `i 307  ]
+[e $ ! == -> _sw `i -> 1 `i 306  ]
 {
 [; ;Switch_B1.c: 132: Sw->Touch = (RA6 == 1 || RA4 == 1) ? 1 : 0;
 "132
@@ -3291,32 +3283,32 @@ Version 3.2 HI-TECH Software Intermediate Code
 "133
 }
 [; ;Switch_B1.c: 133: } else if (sw == 2) {
-[e $U 308  ]
-[e :U 307 ]
-[e $ ! == -> _sw `i -> 2 `i 309  ]
+[e $U 307  ]
+[e :U 306 ]
+[e $ ! == -> _sw `i -> 2 `i 308  ]
 {
 [; ;Switch_B1.c: 134: Sw->Touch = (RA0 == 1 || RB1 == 1) ? 1 : 0;
 "134
 [e = . . . *U _Sw 0 0 1 -> ? || == -> _RA0 `i -> 1 `i == -> _RB1 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
 "135
 }
-[e :U 309 ]
-"141
 [e :U 308 ]
+"141
+[e :U 307 ]
 [; ;Switch_B1.c: 135: }
 [; ;Switch_B1.c: 141: if (Sw->Touch == 1) {
-[e $ ! == -> . . . *U _Sw 0 0 1 `i -> 1 `i 310  ]
+[e $ ! == -> . . . *U _Sw 0 0 1 `i -> 1 `i 309  ]
 {
 [; ;Switch_B1.c: 142: if (Sw->Debounce == 0) {
 "142
-[e $ ! == -> . . . *U _Sw 0 0 2 `i -> 0 `i 311  ]
+[e $ ! == -> . . . *U _Sw 0 0 2 `i -> 0 `i 310  ]
 {
 [; ;Switch_B1.c: 143: Sw->DebounceTime++;
 "143
 [e ++ . *U _Sw 2 -> -> 1 `i `uc ]
 [; ;Switch_B1.c: 144: if (Sw->DebounceTime >= 5) {
 "144
-[e $ ! >= -> . *U _Sw 2 `i -> 5 `i 312  ]
+[e $ ! >= -> . *U _Sw 2 `i -> 5 `i 311  ]
 {
 [; ;Switch_B1.c: 145: Sw->DebounceTime = 0;
 "145
@@ -3329,24 +3321,24 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _Sw_DimmerOnFunc (1 _sw ]
 "173
 }
-[e :U 312 ]
+[e :U 311 ]
 "174
 }
 [; ;Switch_B1.c: 173: }
 [; ;Switch_B1.c: 174: } else {
-[e $U 313  ]
-[e :U 311 ]
+[e $U 312  ]
+[e :U 310 ]
 {
 [; ;Switch_B1.c: 175: if (Sw->Hold1 == 0) {
 "175
-[e $ ! == -> . . . *U _Sw 0 0 3 `i -> 0 `i 314  ]
+[e $ ! == -> . . . *U _Sw 0 0 3 `i -> 0 `i 313  ]
 {
 [; ;Switch_B1.c: 176: Sw->Hold1Time++;
 "176
 [e ++ . *U _Sw 3 -> -> 1 `i `ui ]
 [; ;Switch_B1.c: 177: if (Sw->Hold1Time >= 150) {
 "177
-[e $ ! >= . *U _Sw 3 -> -> 150 `i `ui 315  ]
+[e $ ! >= . *U _Sw 3 -> -> 150 `i `ui 314  ]
 {
 [; ;Switch_B1.c: 178: Sw->Hold1Time = 0;
 "178
@@ -3356,24 +3348,24 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _Sw_DimmerAdjFunc (1 _sw ]
 "184
 }
-[e :U 315 ]
+[e :U 314 ]
 "185
 }
 [; ;Switch_B1.c: 184: }
 [; ;Switch_B1.c: 185: } else {
-[e $U 316  ]
-[e :U 314 ]
+[e $U 315  ]
+[e :U 313 ]
 {
 [; ;Switch_B1.c: 186: if (Sw->Hold2 == 0) {
 "186
-[e $ ! == -> . . . *U _Sw 0 0 4 `i -> 0 `i 317  ]
+[e $ ! == -> . . . *U _Sw 0 0 4 `i -> 0 `i 316  ]
 {
 [; ;Switch_B1.c: 187: Sw->Hold2Time++;
 "187
 [e ++ . *U _Sw 4 -> -> 1 `i `ui ]
 [; ;Switch_B1.c: 188: if (Sw->Hold2Time >= 150) {
 "188
-[e $ ! >= . *U _Sw 4 -> -> 150 `i `ui 318  ]
+[e $ ! >= . *U _Sw 4 -> -> 150 `i `ui 317  ]
 {
 [; ;Switch_B1.c: 189: Sw->Hold2Time = 0;
 "189
@@ -3386,35 +3378,35 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setRF_Learn (1 -> -> 1 `i `uc ]
 [; ;Switch_B1.c: 195: if (myMain.First == 1) {
 "195
-[e $ ! == -> . . . _myMain 0 0 7 `i -> 1 `i 319  ]
+[e $ ! == -> . . . _myMain 0 0 8 `i -> 1 `i 318  ]
 {
 [; ;Switch_B1.c: 196: setBuz(2, 100);
 "196
 [e ( _setBuz (2 , -> -> 2 `i `uc -> 100 `i ]
 "197
 }
-[e :U 319 ]
+[e :U 318 ]
 "199
 }
-[e :U 318 ]
+[e :U 317 ]
 "200
 }
 [; ;Switch_B1.c: 197: }
 [; ;Switch_B1.c: 199: }
 [; ;Switch_B1.c: 200: } else {
-[e $U 320  ]
-[e :U 317 ]
+[e $U 319  ]
+[e :U 316 ]
 {
 [; ;Switch_B1.c: 201: if (Sw->Hold3 == 0) {
 "201
-[e $ ! == -> . . . *U _Sw 0 0 5 `i -> 0 `i 321  ]
+[e $ ! == -> . . . *U _Sw 0 0 5 `i -> 0 `i 320  ]
 {
 [; ;Switch_B1.c: 202: Sw->Hold3Time++;
 "202
 [e ++ . *U _Sw 5 -> -> 1 `i `ui ]
 [; ;Switch_B1.c: 203: if (Sw->Hold3Time >= 300) {
 "203
-[e $ ! >= . *U _Sw 5 -> -> 300 `i `ui 322  ]
+[e $ ! >= . *U _Sw 5 -> -> 300 `i `ui 321  ]
 {
 [; ;Switch_B1.c: 204: Sw->Hold3Time = 0;
 "204
@@ -3427,19 +3419,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setRF_Learn (1 -> -> 0 `i `uc ]
 "211
 }
-[e :U 322 ]
+[e :U 321 ]
 "212
 }
-[e :U 321 ]
+[e :U 320 ]
 "213
 }
-[e :U 320 ]
+[e :U 319 ]
 "214
 }
-[e :U 316 ]
+[e :U 315 ]
 "215
 }
-[e :U 313 ]
+[e :U 312 ]
 "216
 }
 [; ;Switch_B1.c: 211: }
@@ -3448,19 +3440,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Switch_B1.c: 214: }
 [; ;Switch_B1.c: 215: }
 [; ;Switch_B1.c: 216: } else {
-[e $U 323  ]
-[e :U 310 ]
+[e $U 322  ]
+[e :U 309 ]
 {
 [; ;Switch_B1.c: 217: if (Sw->Debounce == 1) {
 "217
-[e $ ! == -> . . . *U _Sw 0 0 2 `i -> 1 `i 324  ]
+[e $ ! == -> . . . *U _Sw 0 0 2 `i -> 1 `i 323  ]
 {
 [; ;Switch_B1.c: 218: Sw->DebounceTime++;
 "218
 [e ++ . *U _Sw 2 -> -> 1 `i `uc ]
 [; ;Switch_B1.c: 219: if (Sw->DebounceTime >= 5) {
 "219
-[e $ ! >= -> . *U _Sw 2 `i -> 5 `i 325  ]
+[e $ ! >= -> . *U _Sw 2 `i -> 5 `i 324  ]
 {
 [; ;Switch_B1.c: 220: Sw->DebounceTime = 0;
 "220
@@ -3494,23 +3486,23 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setRF_Learn (1 -> -> 0 `i `uc ]
 "234
 }
-[e :U 325 ]
+[e :U 324 ]
 "235
 }
-[e :U 324 ]
+[e :U 323 ]
 "236
 }
-[e :U 323 ]
+[e :U 322 ]
 "237
 }
-[e :U 306 ]
+[e :U 305 ]
 [; ;Switch_B1.c: 234: }
 [; ;Switch_B1.c: 235: }
 [; ;Switch_B1.c: 236: }
 [; ;Switch_B1.c: 237: }
 [; ;Switch_B1.c: 238: }
 "238
-[e :UE 305 ]
+[e :UE 304 ]
 }
 "241
 [v _Sw_DimmerOnFunc `(v ~T0 @X0 1 ef1`uc ]
@@ -3525,7 +3517,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _Idle -> -> 1 `i `uc ]
 [; ;Switch_B1.c: 256: if (sw == 1) {
 "256
-[e $ ! == -> _sw `i -> 1 `i 327  ]
+[e $ ! == -> _sw `i -> 1 `i 326  ]
 {
 [; ;Switch_B1.c: 257: Idle = (DimmerLights2.AdjGo == 1) ? 0 : 1;
 "257
@@ -3533,21 +3525,21 @@ Version 3.2 HI-TECH Software Intermediate Code
 "258
 }
 [; ;Switch_B1.c: 258: } else if (sw == 2) {
-[e $U 328  ]
-[e :U 327 ]
-[e $ ! == -> _sw `i -> 2 `i 329  ]
+[e $U 327  ]
+[e :U 326 ]
+[e $ ! == -> _sw `i -> 2 `i 328  ]
 {
 [; ;Switch_B1.c: 259: Idle = (DimmerLights1.AdjGo == 1) ? 0 : 1;
 "259
 [e = _Idle -> ? == -> . . . _DimmerLights1 8 0 3 `i -> 1 `i : -> 0 `i -> 1 `i `uc ]
 "260
 }
-[e :U 329 ]
-"263
 [e :U 328 ]
+"263
+[e :U 327 ]
 [; ;Switch_B1.c: 260: }
 [; ;Switch_B1.c: 263: if (Idle == 1) {
-[e $ ! == -> _Idle `i -> 1 `i 330  ]
+[e $ ! == -> _Idle `i -> 1 `i 329  ]
 {
 [; ;Switch_B1.c: 264: Sw->Flag = 1;
 "264
@@ -3557,7 +3549,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setBuz (2 , -> -> 1 `i `uc -> 100 `i ]
 [; ;Switch_B1.c: 266: if (Sw->Status == 0) {
 "266
-[e $ ! == -> . . . *U _Sw 0 0 6 `i -> 0 `i 331  ]
+[e $ ! == -> . . . *U _Sw 0 0 6 `i -> 0 `i 330  ]
 {
 [; ;Switch_B1.c: 267: Sw->Status = 1;
 "267
@@ -3580,8 +3572,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 "276
 }
 [; ;Switch_B1.c: 276: } else {
-[e $U 332  ]
-[e :U 331 ]
+[e $U 331  ]
+[e :U 330 ]
 {
 [; ;Switch_B1.c: 277: Sw->Status = 0;
 "277
@@ -3591,15 +3583,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setRFSW_Status (2 , _sw . . . *U _Sw 0 0 6 ]
 "279
 }
-[e :U 332 ]
+[e :U 331 ]
 "280
 }
-[e :U 330 ]
+[e :U 329 ]
 [; ;Switch_B1.c: 279: }
 [; ;Switch_B1.c: 280: }
 [; ;Switch_B1.c: 281: }
 "281
-[e :UE 326 ]
+[e :UE 325 ]
 }
 "284
 [v _Sw_DimmerOffFunc `(v ~T0 @X0 1 ef1`uc ]
@@ -3610,18 +3602,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;Switch_B1.c: 285: if (Sw->Flag == 1) {
 "285
-[e $ ! == -> . . . *U _Sw 0 0 7 `i -> 1 `i 334  ]
+[e $ ! == -> . . . *U _Sw 0 0 7 `i -> 1 `i 333  ]
 {
 [; ;Switch_B1.c: 286: Sw->Flag = 0;
 "286
 [e = . . . *U _Sw 0 0 7 -> -> 0 `i `uc ]
 [; ;Switch_B1.c: 287: if (Sw->Status == 1) {
 "287
-[e $ ! == -> . . . *U _Sw 0 0 6 `i -> 1 `i 335  ]
+[e $ ! == -> . . . *U _Sw 0 0 6 `i -> 1 `i 334  ]
 {
 [; ;Switch_B1.c: 288: if (Sw->Adj == 1) {
 "288
-[e $ ! == -> . . . *U _Sw 1 0 0 `i -> 1 `i 336  ]
+[e $ ! == -> . . . *U _Sw 1 0 0 `i -> 1 `i 335  ]
 {
 [; ;Switch_B1.c: 289: Sw->Adj = 0;
 "289
@@ -3643,13 +3635,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setTxData ..  ]
 "297
 }
-[e :U 336 ]
+[e :U 335 ]
 "298
 }
 [; ;Switch_B1.c: 297: }
 [; ;Switch_B1.c: 298: } else {
-[e $U 337  ]
-[e :U 335 ]
+[e $U 336  ]
+[e :U 334 ]
 {
 [; ;Switch_B1.c: 299: setDimmerLights_Trigger(sw, 1);
 "299
@@ -3668,15 +3660,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setTxData ..  ]
 "306
 }
-[e :U 337 ]
+[e :U 336 ]
 "307
 }
-[e :U 334 ]
+[e :U 333 ]
 [; ;Switch_B1.c: 306: }
 [; ;Switch_B1.c: 307: }
 [; ;Switch_B1.c: 308: }
 "308
-[e :UE 333 ]
+[e :UE 332 ]
 }
 "311
 [v _Sw_DimmerAdjFunc `(v ~T0 @X0 1 ef1`uc ]
@@ -3691,7 +3683,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _Idle -> -> 1 `i `uc ]
 [; ;Switch_B1.c: 325: if (sw == 1) {
 "325
-[e $ ! == -> _sw `i -> 1 `i 339  ]
+[e $ ! == -> _sw `i -> 1 `i 338  ]
 {
 [; ;Switch_B1.c: 326: Idle = (DimmerLights2.AdjGo == 1) ? 0 : 1;
 "326
@@ -3699,25 +3691,25 @@ Version 3.2 HI-TECH Software Intermediate Code
 "327
 }
 [; ;Switch_B1.c: 327: } else if (sw == 2) {
-[e $U 340  ]
-[e :U 339 ]
-[e $ ! == -> _sw `i -> 2 `i 341  ]
+[e $U 339  ]
+[e :U 338 ]
+[e $ ! == -> _sw `i -> 2 `i 340  ]
 {
 [; ;Switch_B1.c: 328: Idle = (DimmerLights1.AdjGo == 1) ? 0 : 1;
 "328
 [e = _Idle -> ? == -> . . . _DimmerLights1 8 0 3 `i -> 1 `i : -> 0 `i -> 1 `i `uc ]
 "329
 }
-[e :U 341 ]
-"332
 [e :U 340 ]
+"332
+[e :U 339 ]
 [; ;Switch_B1.c: 329: }
 [; ;Switch_B1.c: 332: if (Idle == 1) {
-[e $ ! == -> _Idle `i -> 1 `i 342  ]
+[e $ ! == -> _Idle `i -> 1 `i 341  ]
 {
 [; ;Switch_B1.c: 333: if (Sw->Flag == 1) {
 "333
-[e $ ! == -> . . . *U _Sw 0 0 7 `i -> 1 `i 343  ]
+[e $ ! == -> . . . *U _Sw 0 0 7 `i -> 1 `i 342  ]
 {
 [; ;Switch_B1.c: 334: Sw->Hold1 = 1;
 "334
@@ -3739,15 +3731,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setDimmerLights_AdjGo (2 , _sw -> -> 1 `i `uc ]
 "341
 }
-[e :U 343 ]
+[e :U 342 ]
 "342
 }
-[e :U 342 ]
+[e :U 341 ]
 [; ;Switch_B1.c: 341: }
 [; ;Switch_B1.c: 342: }
 [; ;Switch_B1.c: 343: }
 "343
-[e :UE 338 ]
+[e :UE 337 ]
 }
 "346
 [v _Sw_Detect `(v ~T0 @X0 1 ef ]
@@ -3757,41 +3749,41 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;Switch_B1.c: 347: if (getLoad_ERROR() == 0 && getTemp_ERROR() == 0 && 0 == 0 && myMain.SelfTest == 1) {
 "347
-[e $ ! && && && == -> ( _getLoad_ERROR ..  `i -> 0 `i == -> ( _getTemp_ERROR ..  `i -> 0 `i == -> 0 `i -> 0 `i == -> . . . _myMain 0 0 6 `i -> 1 `i 345  ]
+[e $ ! && && && == -> ( _getLoad_ERROR ..  `i -> 0 `i == -> ( _getTemp_ERROR ..  `i -> 0 `i == -> 0 `i -> 0 `i == -> . . . _myMain 0 0 7 `i -> 1 `i 344  ]
 {
 [; ;Switch_B1.c: 349: SwPointSelect(1);
 "349
 [e ( _SwPointSelect (1 -> -> 1 `i `uc ]
 [; ;Switch_B1.c: 350: if (Sw->Enable == 0) {
 "350
-[e $ ! == -> . . . *U _Sw 0 0 0 `i -> 0 `i 346  ]
+[e $ ! == -> . . . *U _Sw 0 0 0 `i -> 0 `i 345  ]
 {
 [; ;Switch_B1.c: 351: Sw->Enable = 1;
 "351
 [e = . . . *U _Sw 0 0 0 -> -> 1 `i `uc ]
 "352
 }
-[e :U 346 ]
+[e :U 345 ]
 [; ;Switch_B1.c: 352: }
 [; ;Switch_B1.c: 356: SwPointSelect(2);
 "356
 [e ( _SwPointSelect (1 -> -> 2 `i `uc ]
 [; ;Switch_B1.c: 357: if (Sw->Enable == 0) {
 "357
-[e $ ! == -> . . . *U _Sw 0 0 0 `i -> 0 `i 347  ]
+[e $ ! == -> . . . *U _Sw 0 0 0 `i -> 0 `i 346  ]
 {
 [; ;Switch_B1.c: 358: Sw->Enable = 1;
 "358
 [e = . . . *U _Sw 0 0 0 -> -> 1 `i `uc ]
 "359
 }
-[e :U 347 ]
+[e :U 346 ]
 "369
 }
-[e :U 345 ]
+[e :U 344 ]
 [; ;Switch_B1.c: 359: }
 [; ;Switch_B1.c: 369: }
 [; ;Switch_B1.c: 370: }
 "370
-[e :UE 344 ]
+[e :UE 343 ]
 }

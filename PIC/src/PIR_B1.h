@@ -7,9 +7,9 @@
 #if PIR_use == 1
 
 //detect range
-#define RangeMaximum	45
+#define RangeMaximum	35
 #define RangeMedium	25
-#define RangeMinimum	15//8
+#define RangeMinimum	15
 
 struct PIR {
 
@@ -27,7 +27,7 @@ struct PIR {
         };
     };
 
-#ifdef _16F723A
+#ifdef MCU_16F723A
     unsigned char SignalAD;
     unsigned char ADRES;
     unsigned char VRAD;

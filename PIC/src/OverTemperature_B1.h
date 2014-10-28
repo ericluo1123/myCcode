@@ -23,19 +23,19 @@ struct OverTemp {
     unsigned char AD1;
     unsigned char AD2;
 
-#ifdef _16F723A
+#ifdef MCU_16F723A
     unsigned char AD;
     unsigned char ADH[2];
     unsigned char ADRES;
 #endif
 
-#ifdef _16F1516
+#ifdef MCU_16F1516
     unsigned int AD;
     unsigned int ADH[2];
     unsigned int ADRES;
 #endif
 
-#ifdef _16F1518
+#ifdef MCU_16F1518
     unsigned int AD;
     unsigned int ADH[2];
     unsigned int ADRES;

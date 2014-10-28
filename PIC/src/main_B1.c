@@ -26,7 +26,6 @@ int main(int argc, char** argv) {
     CC2500_PowerOnInitial();
     SegmentDisplay_Initial();
 
-
     while (true) {
 
         if (myMain.PowerON) {
@@ -53,7 +52,7 @@ int main(int argc, char** argv) {
 #ifdef PIR_1
             getPIR_AD(PIR_VR_Channel, PIR_Signal_Channel);
 #endif
- 
+
             //                        while (true && myMain.Timeout == false) {
             //                            Timeout_Counter();
             //                        }
@@ -94,26 +93,83 @@ int main(int argc, char** argv) {
 
 #if Timer1_use == 1
         //TMR1
-        if (myMain.T1_Timerout) //1ms
-        {
+        if (myMain.T1_Timerout) { //10ms
             myMain.T1_Timerout = 0;
             my_MainTime();
+            WDT_Main();
+            I2C_Main();
+            UART_Main();
             if (myMain.PowerON) {
+                Flash_Memory_Main();
+
+                LED_Main();
+                Buzzer_Main();
+
+                SYSC_Main();
+                Temp_Main();
+                Load_Main();
+                PowerFault_Main();
+
+                Lights_Main();
+                DimmerLights_Main();
+                Switch_Main();
+                CDS_Main();
+                PIR_Main();
+
                 RF_Main();
-                I2C_Main();
-                UART_Main();
+                DelayOff_Main();
+                SegmentDisplay_Main();
+
+                //            my_MainTime();
+                //            if (myMain.PowerON) {
+                //                RF_Main();
+                //                I2C_Main();
+                //                UART_Main();
+                //                SegmentDisplay_Main();
+            }
+        }
+#endif 
+
+#if Timer2_use == 1
+        if (myMain.T2_Timerout) {//10ms
+            myMain.T2_Timerout = false;
+            my_MainTime();
+            WDT_Main();
+            I2C_Main();
+            UART_Main();
+            if (myMain.PowerON) {
+                Flash_Memory_Main();
+
+                LED_Main();
+                Buzzer_Main();
+
+                SYSC_Main();
+                Temp_Main();
+                Load_Main();
+                PowerFault_Main();
+
+                Lights_Main();
+                DimmerLights_Main();
+                Switch_Main();
+                CDS_Main();
+                PIR_Main();
+
+                RF_Main();
+                DelayOff_Main();
                 SegmentDisplay_Main();
             }
         }
+
 #endif
     }
     return (EXIT_SUCCESS);
 }
 
+
 //Tmain initial
 
 inline void myMain_Initialization() {
-#ifndef _16F723A
+#ifndef MCU_16F723A
     product = &_product;
     product->Data[20] = KeyID;
 #endif
@@ -168,7 +224,6 @@ inline void my_MainTime() {
         {
             myMain.Count1 = 0;
             //            setBuz(1, 100);
-
             //	setTxData(1);
             //	ErrLED=~ErrLED;
             //	setProductData(2,Sw1->DebounceTime);
@@ -203,6 +258,13 @@ inline void my_MainTime() {
         }
 #endif
     }
+#if Debug == true
+    myMain.Count2++;
+    if (myMain.Count2 == 50) {
+        myMain.Count2 = 0;
+        Relay1 = true;
+    }
+#endif
 }
 
 inline void Timeout_Counter() {

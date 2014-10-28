@@ -171,7 +171,7 @@ struct OverLoad {
     unsigned int ErrorTime;
     unsigned char ErrorStatus;
 
-#ifdef _16F723A
+#ifdef MCU_16F723A
     unsigned char TotalLoad;
     unsigned char AH[9];
     unsigned char AL[9];
@@ -179,9 +179,9 @@ struct OverLoad {
     unsigned char ADH;
     unsigned char ADL;
     unsigned char ADRES;
-#endif
+#endif 
 
-#ifdef _16F1516
+#ifdef MCU_16F1516
     unsigned int TotalLoad;
     unsigned int AH[9];
     unsigned int AL[9];
@@ -191,7 +191,7 @@ struct OverLoad {
     unsigned int ADRES;
 #endif
 
-#ifdef _16F1518
+#ifdef MCU_16F1518
     unsigned int TotalLoad;
     unsigned int AH[9];
     unsigned int AL[9];

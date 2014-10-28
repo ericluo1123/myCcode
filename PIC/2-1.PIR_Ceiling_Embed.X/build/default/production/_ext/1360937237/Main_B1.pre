@@ -69,6 +69,74 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
+# 27 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdlib.h"
+typedef struct {
+int rem;
+int quot;
+} div_t;
+typedef struct {
+unsigned rem;
+unsigned quot;
+} udiv_t;
+typedef struct {
+long quot;
+long rem;
+} ldiv_t;
+typedef struct {
+unsigned long quot;
+unsigned long rem;
+} uldiv_t;
+
+# 65
+extern double atof(const char *);
+extern double strtod(const char *, const char **);
+extern int atoi(const char *);
+extern unsigned xtoi(const char *);
+extern long atol(const char *);
+extern long strtol(const char *, char **, int);
+
+extern int rand(void);
+extern void srand(unsigned int);
+extern void * calloc(size_t, size_t);
+extern div_t div(int numer, int denom);
+extern udiv_t udiv(unsigned numer, unsigned denom);
+extern ldiv_t ldiv(long numer, long denom);
+extern uldiv_t uldiv(unsigned long numer,unsigned long denom);
+extern unsigned long _lrotl(unsigned long value, unsigned int shift);
+extern unsigned long _lrotr(unsigned long value, unsigned int shift);
+extern unsigned int _rotl(unsigned int value, unsigned int shift);
+extern unsigned int _rotr(unsigned int value, unsigned int shift);
+
+
+
+
+extern void * malloc(size_t);
+extern void free(void *);
+extern void * realloc(void *, size_t);
+
+extern void abort(void);
+extern void exit(int);
+extern int atexit(void (*)(void));
+extern char * getenv(const char *);
+extern char ** environ;
+extern int system(char *);
+extern void qsort(void *, size_t, size_t, int (*)(const void *, const void *));
+extern void * bsearch(const void *, void *, size_t, size_t, int(*)(const void *, const void *));
+extern int abs(int);
+extern long labs(long);
+
+
+extern char * itoa(char * buf, int val, int base);
+extern char * utoa(char * buf, unsigned val, int base);
+
+
+
+
+extern char * ltoa(char * buf, long val, int base);
+extern char * ultoa(char * buf, unsigned long val, int base);
+
+extern char * ftoa(float f, int * status);
+
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
 
@@ -1817,23 +1885,39 @@ void setADCGO();
 
 inline char getAD(char, char);
 
-# 502
-struct Timer2 {
-
-union {
+# 452
+struct Timer1 {
 
 struct {
 unsigned Timeout : 1;
 unsigned empty : 7;
 };
-};
 unsigned int Count;
 };
+struct Timer1 Timer1;
 
-struct Timer2 Timer2;
-inline void TMR2_Set();
-inline void TMR2_ISR();
-inline void DimmerReClock();
+inline void TMR1_Set();
+inline void TMR1_ISR();
+inline void setDimmerReClock();
+
+# 761
+struct WDT {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned empty : 7;
+};
+};
+unsigned char Timer;
+};
+struct WDT WDT;
+
+# 789
+void WDT_Set();
+void WDT_Main();
+void WDT_Clearing();
 
 # 61 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
 struct myMain {
@@ -1844,6 +1928,7 @@ struct {
 unsigned PowerON : 1;
 unsigned T0_Timerout : 1;
 unsigned T1_Timerout : 1;
+unsigned T2_Timerout : 1;
 unsigned Flag : 1;
 unsigned GO : 1;
 unsigned FirstOpen : 1;
@@ -1890,86 +1975,18 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 122
+# 123
 inline void myMain_Initialization();
 
-# 127
+# 128
 inline void my_Main();
 
-# 132
+# 133
 inline void my_MainTime();
 
-# 137
+# 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
-
-# 27 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdlib.h"
-typedef struct {
-int rem;
-int quot;
-} div_t;
-typedef struct {
-unsigned rem;
-unsigned quot;
-} udiv_t;
-typedef struct {
-long quot;
-long rem;
-} ldiv_t;
-typedef struct {
-unsigned long quot;
-unsigned long rem;
-} uldiv_t;
-
-# 65
-extern double atof(const char *);
-extern double strtod(const char *, const char **);
-extern int atoi(const char *);
-extern unsigned xtoi(const char *);
-extern long atol(const char *);
-extern long strtol(const char *, char **, int);
-
-extern int rand(void);
-extern void srand(unsigned int);
-extern void * calloc(size_t, size_t);
-extern div_t div(int numer, int denom);
-extern udiv_t udiv(unsigned numer, unsigned denom);
-extern ldiv_t ldiv(long numer, long denom);
-extern uldiv_t uldiv(unsigned long numer,unsigned long denom);
-extern unsigned long _lrotl(unsigned long value, unsigned int shift);
-extern unsigned long _lrotr(unsigned long value, unsigned int shift);
-extern unsigned int _rotl(unsigned int value, unsigned int shift);
-extern unsigned int _rotr(unsigned int value, unsigned int shift);
-
-
-
-
-extern void * malloc(size_t);
-extern void free(void *);
-extern void * realloc(void *, size_t);
-
-extern void abort(void);
-extern void exit(int);
-extern int atexit(void (*)(void));
-extern char * getenv(const char *);
-extern char ** environ;
-extern int system(char *);
-extern void qsort(void *, size_t, size_t, int (*)(const void *, const void *));
-extern void * bsearch(const void *, void *, size_t, size_t, int(*)(const void *, const void *));
-extern int abs(int);
-extern long labs(long);
-
-
-extern char * itoa(char * buf, int val, int base);
-extern char * utoa(char * buf, unsigned val, int base);
-
-
-
-
-extern char * ltoa(char * buf, long val, int base);
-extern char * ultoa(char * buf, unsigned long val, int base);
-
-extern char * ftoa(float f, int * status);
 
 # 10 "../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h"
 struct LED {
@@ -2135,36 +2152,68 @@ PIR_Initialization();
 __nop();
 ;;
 
-
 while (1) {
 
 if (myMain.PowerON) {
 
 ;;
 
-# 42
+# 41
 ;;
 
-# 50
+# 49
 getCDS_AD(0x09, 0x31);
 
 
 
 getPIR_AD(0x05, 0x0d);
 
-# 61
+# 60
 }
 
-# 109
+# 96
+if (myMain.T1_Timerout) {
+myMain.T1_Timerout = 0;
+my_MainTime();
+WDT_Main();
+;;
+;;
+if (myMain.PowerON) {
+;;
+
+LED_Main();
+;;
+
+;;
+;;
+;;
+;;
+
+;;
+;;
+;;
+CDS_Main();
+PIR_Main();
+
+;;
+;;
+;;
+
+# 129
+}
+}
+
+# 164
 }
 return (0);
 }
 
 
 
+
 inline void myMain_Initialization() {
 
-# 124
+# 180
 }
 
 
@@ -2180,35 +2229,42 @@ myMain.PowerON = 1;
 
 ;;
 
-# 147
+# 203
 ;;
 myMain.SelfTest = 1;
 
 ;;
 
-# 157
+# 213
 }
 } else {
 
-# 166
+# 222
 myMain.Count1++;
 if (myMain.Count1 == 100)
 {
 myMain.Count1 = 0;
 
-# 182
+# 237
 if (myMain.Flag) {
 myMain.Flag = 0;
 
-# 192
+# 247
 } else {
 myMain.Flag = 1;
 
-# 202
+# 257
 }
 }
 
 }
+
+myMain.Count2++;
+if (myMain.Count2 == 50) {
+myMain.Count2 = 0;
+RA4 = 1;
+}
+
 }
 
 inline void Timeout_Counter() {

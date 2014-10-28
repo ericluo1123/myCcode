@@ -4,21 +4,21 @@
 #include "Select_File.h"
 
 //config
-#ifdef _16F723A
+#ifdef MCU_16F723A
 #pragma config FOSC = INTOSCIO ,WDTE = _WDTE, BOREN = OFF , PLLEN = ON
 #pragma config VCAPEN = DIS
 //__CONFIG(FOSC_INTOSCIO & _WDTE & BOREN_OFF & PLEEN_Value); // v8.84
 //__CONFIG(VCAPEN_DIS); // WRT_OFF
 #endif
 
-#ifdef _16F1516
+#ifdef MCU_16F1516
 #pragma config FOSC = INTOSC ,WDTE = _WDTE,BOREN=OFF
 #pragma config VCAPEN = OFF,WRT = BOOT
 //__CONFIG(FOSC_INTOSC & _WDTE); // v8.84
 //__CONFIG(VCAPEN_OFF & WRT_BOOT); // WRT_OFF
-#endif
+#endif 
 
-#ifdef _16F1518
+#ifdef MCU_16F1518
 #pragma config FOSC = INTOSC,WDTE = _WDTE,BOREN=OFF
 #pragma config VCAPEN = OFF,WRT = HALF
 // __CONFIG(FOSC_INTOSC & _WDTE & BOREN_OFF); // v8.84
@@ -58,7 +58,7 @@ void Fosc_Set() {
 }
 
 void IO_Set() {
-#ifdef _16F723A
+#ifdef MCU_16F723A
     TRISA = _TRISA;
     TRISB = _TRISB;
     TRISC = _TRISC;
@@ -69,7 +69,7 @@ void IO_Set() {
     PORTC = _PORTC;
 #endif
 
-#ifdef _16F1516
+#ifdef MCU_16F1516
     TRISA = _TRISA;
     TRISB = _TRISB;
     TRISC = _TRISC;
@@ -84,7 +84,7 @@ void IO_Set() {
     PORTC = _PORTC;
 #endif
 
-#ifdef _16F1518
+#ifdef MCU_16F1518
     TRISA = _TRISA;
     TRISB = _TRISB;
     TRISC = _TRISC;
@@ -196,41 +196,76 @@ inline void setDimmerReClock() {
 //*********************************************************
 #if Timer1_use == 1
 
-void TMR1_Set() {
-    Timer1 = &VarTimer1;
-    T1CON = (_CS | _CKPS | 0x01);
+inline void TMR1_Set() {
+    T1CON = (_CS | _CKPS | _TMR1ON);
     TMR1H = TMR1H_Value;
     TMR1L = TMR1L_Value;
-    TMR1IE = 1;
-    PEIE = 1;
-    GIE = 1;
+    TMR1IE = true;
+    PEIE = true;
+    GIE = true;
 }
 //*********************************************************
 
-void TMR1_ISR() {
-    if (TMR1IE && TMR1IF) {
+inline void TMR1_ISR() {
+    if (TMR1IE == true && TMR1IF == true) {
+
         TMR1H = TMR1H_Value;
         TMR1L = TMR1L_Value;
-        TMR1IF = 0;
-        Timer1->Count++;
-        if (Timer1->Count == TMR1_1ms)//1ms
-        {
-            Timer1->Count = 0;
-            myMain.T1_Timerout = 1;
-        }
-    }
+        TMR1IF = false;
 
-#if Buzzer_use == 1
-    if (Buz->GO) {
-        Buz->Counter++;
+#if Dimmer_use == true
+
+#ifdef use_1KEY
+        setDimmerLights_IntrControl(1);
+        // setDimmerLights_IntrControl(1);
+#endif
+
+#ifdef use_2KEY
+        setDimmerLights_IntrControl(2);
+        //setDimmerLights22_Control(2);
+#endif
+
+#ifdef use_3KEY
+        setDimmerLights_IntrControl(3);
+        // setDimmerLights33_Control(3);
+#endif
+#endif
+
+        Timer1.Count++;
+        if (Timer1.Count == TMR1_10ms)//10ms
+        {
+            Timer1.Count = 0;
+            myMain.T1_Timerout = true;
+        }
+        //        ErrLED = ErrLED == false ? true : false;
     }
+} 
+ 
+inline void setDimmerReClock() {
+
+#if Dimmer_use == true
+
+#ifdef use_1KEY
+    setDimmerLights_IntrIOC_GO(1);
+#endif
+
+#ifdef use_2KEY
+    setDimmerLights_IntrIOC_GO(2);
+#endif
+
+#ifdef use_3KEY
+    setDimmerLights_IntrIOC_GO(3);
+#endif
+
+    //    TMR0 = 255;
+
 #endif
 }
 
 #endif
 //*********************************************************
 #if Timer2_use == 1
-
+  
 inline void TMR2_Set() {
     T2CON = (_T2CKPS | _TOUTPS | _TMR2ON);
     TMR2 = _TMR2;
@@ -268,16 +303,16 @@ inline void TMR2_ISR() {
         Timer2.Count++;
         if (Timer2.Count == TMR2_10ms) {
             Timer2.Count = 0;
-            myMain.T0_Timerout = true;
+            myMain.T2_Timerout = true;
         }
-        //        ErrLED = ErrLED == true ? false : true;
+        ErrLED = ErrLED == true ? false : true;
     }
 }
 
 
 //*********************************************************
 
-inline void DimmerReClock() {
+inline void setDimmerReClock() {
 
 #if Dimmer_use == true
 
@@ -298,7 +333,6 @@ inline void DimmerReClock() {
 #endif
 }
 
-//end Tim0
 #endif
 //*********************************************************
 #if INT_use == 1
@@ -969,16 +1003,23 @@ void setMemory_GO(char command) {
 #if WDT_use == 1
 
 void WDT_Set() {
+#ifdef MCU_16F723A
+    PSA = _PSA;
+    PS0 = _PS0;
+    PS1 = _PS1;
+    PS2 = _PS2;
+#else
     WDTCON = _WDTCON;
+#endif
     WDT.Enable = true;
-    WDT.Count = 10;
+    WDT.Timer = 10;
 }
 //*********************************************************
 
 void WDT_Main() {
     if (WDT.Enable == true) {
-        if (WDT.Count-- > 0) {
-            WDT.Count = 10;
+        if (WDT.Timer-- > 0) {
+            WDT.Timer = 100;
             WDT_Clearing();
         }
     }

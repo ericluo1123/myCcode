@@ -19,15 +19,15 @@ struct PF {
     unsigned char Count;
     unsigned int Time;
 
-#ifdef _16F723A
+#ifdef MCU_16F723A
     unsigned char AD;
     unsigned char ADRES;
 #endif
-#ifdef _16F1516
+#ifdef MCU_16F1516
     unsigned int AD;
     unsigned int ADRES;
 #endif
-#ifdef _16F1518
+#ifdef MCU_16F1518
     unsigned int AD;
     unsigned int ADRES;
 #endif

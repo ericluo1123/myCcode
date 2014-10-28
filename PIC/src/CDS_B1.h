@@ -22,7 +22,7 @@ struct CDS {
     };
 
     unsigned char Time;
-#ifdef _16F723A
+#ifdef MCU_16F723A
     unsigned char VRAD;
     unsigned char SignalAD;
     unsigned char ADRES;

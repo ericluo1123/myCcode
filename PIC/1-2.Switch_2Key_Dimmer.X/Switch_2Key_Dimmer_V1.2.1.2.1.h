@@ -37,6 +37,7 @@
 #define Create_Date "2014/10/9"
 #define PCB_Name "TH-302PV11-1-Dim(20140722)"
 
+#define MCU_16F1518
 //MCU define
 #define	Key2_1				RA0		//pin2  1	
 #define OverLoad1			RA1		//pin3	1	
@@ -91,11 +92,14 @@
 //Oscillator (System FOSC)
 #define	System_Fosc_16M													
 //Timer0
-#define Timer0_use	1
+#define Timer0_use	0
 #define TMR0_IntrTime_100us
 //Timer1
-#define Timer1_use	0
-#define TMR1_IntrTime_50us
+#define Timer1_use	1
+#define TMR1_IntrTime_100us
+//Timer2
+#define Timer2_use	0
+#define TMR2_IntrTime_100us
 //INT
 #define INT_use 0
 //UART
