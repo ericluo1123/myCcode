@@ -87,69 +87,75 @@
 
 //Mcu Function Option
 
-//ADC 
-#define ADC_use 1	
+
 //Oscillator (System FOSC)
-#define	System_Fosc_16M													
+#define	System_Fosc_16M
+//ADC
+#define ADC_use true
 //Timer0
-#define Timer0_use	0
+#define Timer0_use	false
 #define TMR0_IntrTime_100us
 //Timer1
-#define Timer1_use	1
+#define Timer1_use	true
 #define TMR1_IntrTime_100us
-//Timer2
-#define Timer2_use	0
+//Timer2 
+#define Timer2_use	false
 #define TMR2_IntrTime_100us
 //INT
-#define INT_use 0
+#define INT_use false
 //UART
-#define UART_use 0
-#define UART_Master 1
-#define UART_Slave 0
+#define UART_use false
+#define UART_Master true
+#define UART_Slave false
 //I2C
-#define I2C_use 0
-#define Master_Mode 1
-#define Slave_Mode 0
+#define I2C_use false
+#define Master_Mode true
+#define Slave_Mode false
 //IOC
-#define IOC_use 1
+#define IOC_use true
 //FlashMemory
-#define FlashMemory_use 1
+#define FlashMemory_use true
 //Watchdog timer 
-#define WDT_use 1
+#define WDT_use true
 
 
 //Function Option
 
 //SYSC
-#define SYSC_use 0
+#define SYSC_use false
 //OverTemperature
-#define OverTemperature_use 1
+#define OverTemperature_use true
 //OverLoad
-#define OverLoad_use 1
+#define OverLoad_use true
 //LED
-#define LED_use 1
+#define LED_use true
 //Buzzer
-#define Buzzer_use 1	
+#define Buzzer_use true
 //Switch
-#define Switch_use 1
+#define Switch_use true
 //Lights
-#define LightsControl_use 	0
+#define LightsControl_use 	false
 //RF cc2500
-#define CC2500_use	1
+#define CC2500_use	true
 //DelayOff
-#define DelayOff_use 1
+#define DelayOff_use true
 //PowerFault
-#define PowerFault_use 0
+#define PowerFault_use false
 //Dimmer Lights
-#define Dimmer_use              1
-#define Dimmer_Half_Wave	1
-#define Dimmer_Full_Wave	0
+#define Dimmer_use              true
+#define Dimmer_Half_Wave	true
+#define Dimmer_Full_Wave	false
 //SegmentDisplay
-#define SegmentDisplay_use 0
+#define SegmentDisplay_use false
+//CDS
+#define CDS_use             false
+//PIR
+#define PIR_use             false
 
 //include
-#include "../src/Main_B1.h"
 #include "../src/Activity_B1.h"
+#include "../src/MCU_B1.h"
+#include "../src/Main_B1.h"
 #include "../src/Switch_B1.h"
 #include "../src/Buzzer_B1.h"
 #include "../src/LED_B1.h"
@@ -164,7 +170,6 @@
 #include "../src/PIR_B1.h"
 #include "../src/SYSC_B1.h"
 #include "../src/TriacRelay_B1.h"
-#include "../src/MCU_B1.h"
 #include "../src/SegmentDisplay_A2.h"
 
 //end file

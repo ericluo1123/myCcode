@@ -16,8 +16,12 @@ void CDS_Main() {
                 _CDS.Time++;
                 if (_CDS.Time >= 10)//*10ms
                 {
-                    _CDS.Time = 0;
-                    _CDS.ADtoGO = true;
+                    if (getLoad_Safe() == 1) {
+                        _CDS.Time = 0;
+                        _CDS.ADtoGO = true;
+                    } else {
+                        _CDS.Time = 10;
+                    }
                 }
             }
         } else {

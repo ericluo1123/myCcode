@@ -5,7 +5,7 @@
 #define	_Main_H_
 
 //Global  variable declaration
-  
+
 #ifndef MCU_16F723A 
 
 typedef struct Product {
@@ -55,9 +55,10 @@ Product _product = {
 
 
 #define setProductData(address,data) product->Data[address]=data
-
+#else
+#define setProductData(address,data) ;
 #endif
- 
+
 struct myMain {
 
     union {
@@ -137,5 +138,6 @@ inline void my_MainTime();
  */
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
-
+char getMain_Exception();
+char getMain_AD_Status();
 #endif		

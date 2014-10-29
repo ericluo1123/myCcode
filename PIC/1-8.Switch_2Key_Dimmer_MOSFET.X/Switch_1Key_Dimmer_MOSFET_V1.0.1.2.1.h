@@ -34,8 +34,10 @@
 #define Properties_Neutral		0
 #define Properties_Dimmer		1
 #define Debug 1
+#define Create_Date "2014/10/29"
 #define PCB_Name "TH-302PV11-1-Dim(20140722)"
 
+#define MCU_16F1518
 //MCU define
 #define	Key2_1				RA0		//pin2  1	
 #define OverLoad1			RA1		//pin3	1	
@@ -90,9 +92,14 @@
 //ADC 
 #define ADC_use             true											
 //Timer0
-#define Timer0_use          true
+#define Timer0_use          false
+#define TMR0_IntrTime_100us
 //Timer1
-#define Timer1_use          false
+#define Timer1_use          true
+#define TMR1_IntrTime_100us
+//Timer2
+#define Timer2_use	false
+#define TMR2_IntrTime_100us
 //INT
 #define INT_use             true
 //UART
@@ -133,7 +140,9 @@
 //PowerFault
 #define PowerFault_use      false
 //Dimmer Lights
-#define Dimmer_use          true
+#define Dimmer_use              true
+#define Dimmer_Half_Wave	true
+#define Dimmer_Full_Wave	false
 //SegmentDisplay
 #define SegmentDisplay_use  false
 //CDS
@@ -144,10 +153,9 @@
 
 
 //include
-
-
-#include "../src/Main_B1.h"
 #include "../src/Activity_B1.h"
+#include "../src/MCU_B1.h"
+#include "../src/Main_B1.h"
 #include "../src/Switch_B1.h"
 #include "../src/Buzzer_B1.h"
 #include "../src/LED_B1.h"
@@ -162,7 +170,6 @@
 #include "../src/PIR_B1.h"
 #include "../src/SYSC_B1.h"
 #include "../src/TriacRelay_B1.h"
-#include "../src/MCU_B1.h"
 #include "../src/SegmentDisplay_A2.h"
 
 //end file

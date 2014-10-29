@@ -14,36 +14,36 @@ inline void Temp_Initialization() {
 //*********************************************************
 
 void setTemp_Enable(char command) {
-    Temp1.Enable = command;
+    Temp.Enable = command;
 }
 //*********************************************************
 
 char getTemp_Safe() {
-    char result = Temp1.Safe;
+    char result = Temp.Safe;
     return result;
 }
 //*********************************************************
 
 char getTemp_ERROR() {
-    char result = Temp1.ERROR;
+    char result = Temp.ERROR;
     return result;
 }
 //*********************************************************
 
 void getTemp_AD(char channel) {
-    if (Temp1.ADtoGO == true) {
-        Temp1.ADRES = getAD(channel, ADCON1_VDD);
-        if (Temp1.ADH[0] < Temp1.ADRES) {
-            Temp1.ADH[0] = Temp1.ADRES;
-        } else if (Temp1.ADH[1] < Temp1.ADRES) {
-            Temp1.ADH[1] = Temp1.ADRES;
+    if (Temp.ADtoGO == true) {
+        Temp.ADRES = getAD(channel, ADCON1_VDD);
+        if (Temp.ADH[0] < Temp.ADRES) {
+            Temp.ADH[0] = Temp.ADRES;
+        } else if (Temp.ADH[1] < Temp.ADRES) {
+            Temp.ADH[1] = Temp.ADRES;
         }
     }
 }
 //*********************************************************
 
 void setTemp_Initialization() {
-    Temp1.Safe = true;
+    Temp.Safe = true;
 }
 //*********************************************************
 
@@ -55,56 +55,55 @@ inline void Temp_Main() {
 //*********************************************************
 
 void setTemp_Main() {
-    if (Temp1.Enable == true) {
-        if (Temp1.ADtoGO == false) {
-            Temp1.Time++;
-            if (Temp1.Time >= 500)//*10ms
-            {
-                if (getLoad_Safe() == 1 && getPF_Safe() == 1) {
-                    Temp1.Time = 0;
-                    Temp1.ADtoGO = true;
-                    Temp1.Safe = false;
+    if (Temp.Enable == true) {
+        if (Temp.ADtoGO == false) {
+            Temp.Time++;
+            if (Temp.Time >= 500) {//*10ms
+                if (getLoad_Safe() == 1) {
+                    Temp.Time = 0;
+                    Temp.ADtoGO = true;
+                    Temp.Safe = false;
 
                 } else {
-                    Temp1.Time = 1000; //*5
+                    Temp.Time = 500; //*10ms
                 }
             }
         } else {
-            Temp1.Time++;
-            if (Temp1.Time >= 4) {//*10ms
-                Temp1.Time = 0;
-                Temp1.ADtoGO = false;
-                Temp1.AD = Temp1.ADH[1];
-                if (Temp1.ERROR == true) {
-                    if (Temp1.AD >= TempSafeValue) {
-                        Temp1.Count++;
-                        if (Temp1.Count >= TempCountValue) {
-                            Temp1.Count = 0;
+            Temp.Time++;
+            if (Temp.Time >= 4) {//*10ms
+                Temp.Time = 0;
+                Temp.ADtoGO = false;
+                Temp.AD = Temp.ADH[1];
+                if (Temp.ERROR == true) {
+                    if (Temp.AD >= TempSafeValue) {
+                        Temp.Count++;
+                        if (Temp.Count >= TempCountValue) {
+                            Temp.Count = 0;
                             setOverTemp_Exceptions(0);
                         }
                     } else {
-                        Temp1.Count = 0;
+                        Temp.Count = 0;
                     }
                 } else {
-                    if (Temp1.AD <= TempDangerValue) {
-                        Temp1.Count++;
-                        if (Temp1.Count >= TempCountValue) {
-                            Temp1.Count = 0;
+                    if (Temp.AD <= TempDangerValue) {
+                        Temp.Count++;
+                        if (Temp.Count >= TempCountValue) {
+                            Temp.Count = 0;
                             setOverTemp_Exceptions(1);
                         }
                     } else {
-                        Temp1.Count = 0;
+                        Temp.Count = 0;
                     }
                 }
-                if (Temp1.ERROR == 0) {
-                    Temp1.Safe = true;
+                if (Temp.ERROR == 0) {
+                    Temp.Safe = true;
                 }
-                setProductData(24, Temp1.AD >> 8);
-                setProductData(25, Temp1.AD);
+                setProductData(24, Temp.AD >> 8);
+                setProductData(25, Temp.AD);
                 //                setProductData(2, Temp1.AD >> 8);
                 //                setProductData(3, Temp1.AD);
-                Temp1.ADH[0] = 0;
-                Temp1.ADH[1] = 0;
+                Temp.ADH[0] = 0;
+                Temp.ADH[1] = 0;
             }
         }
     }
@@ -113,8 +112,8 @@ void setTemp_Main() {
 
 void setOverTemp_Exceptions(char command) {
     char i = command == 1 ? false : true;
-    Temp1.ERROR = command;
-    Temp1.Safe = i;
+    Temp.ERROR = command;
+    Temp.Safe = i;
     if (command == 1) {
         DimmerLights_Exceptions(1);
 #if Switch_Class == 1 && Dimmer_use == 1

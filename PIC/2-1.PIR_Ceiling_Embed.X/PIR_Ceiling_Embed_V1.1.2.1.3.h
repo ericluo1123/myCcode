@@ -127,7 +127,7 @@
 //SYSC
 #define SYSC_use 0
 //OverTemperature
-#define OverTemperature_use 0
+#define OverTemperature_use 1
 //OverLoad
 #define OverLoad_use 0
 //LED
@@ -137,7 +137,7 @@
 //Switch
 #define Switch_use 0
 //Lights
-#define LightsControl_use 	0
+#define LightsControl_use 	1
 //RF cc2500
 #define CC2500_use	0
 //DelayOff

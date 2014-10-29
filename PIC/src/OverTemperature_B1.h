@@ -42,21 +42,49 @@ struct OverTemp {
 #endif
 
 };
+#ifdef SYSC1
+struct OverTemp Temp;
+#endif
 
-#define TempCountValue 	3
-#define TempDangerValue	550		//NTC 68 value 500
+#ifdef MCU_16F723A
+#define TempDangerValue	137		//NTC 68 value 500
 //NTC 71 value 490
 //NTC 73.5 value 480	
-//65,600		
+//65,600
 
-#define TempSafeValue	600		//NTC 47 value 600
-//NTC 61.2 value 540	
+#define TempSafeValue	150		//NTC 47 value 600
+//NTC 61.2 value 540
 //NTC 58 value 535
 //51,700
-
-#ifdef SYSC1
-struct OverTemp Temp1;
 #endif
+
+#ifdef MCU_16F1516
+#define TempDangerValue	550		//NTC 68 value 500
+//NTC 71 value 490
+//NTC 73.5 value 480
+//65,600
+
+#define TempSafeValue	600		//NTC 47 value 600
+//NTC 61.2 value 540
+//NTC 58 value 535
+//51,700
+#endif
+#ifdef MCU_16F1518
+#define TempDangerValue	550		//NTC 68 value 500
+//NTC 71 value 490
+//NTC 73.5 value 480
+//65,600
+
+#define TempSafeValue	600		//NTC 47 value 600
+//NTC 61.2 value 540
+//NTC 58 value 535
+//51,700
+#endif
+
+#define TempCountValue 	3
+
+
+
 
 /**
  * temp initialization

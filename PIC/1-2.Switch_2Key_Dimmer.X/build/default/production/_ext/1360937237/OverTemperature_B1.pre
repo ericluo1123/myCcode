@@ -17,7 +17,7 @@ Product _product = {
 }
 };
 
-# 61
+# 62
 struct myMain {
 
 union {
@@ -73,18 +73,20 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 123
+# 124
 inline void myMain_Initialization();
 
-# 128
+# 129
 inline void my_Main();
 
-# 133
+# 134
 inline void my_MainTime();
 
-# 138
+# 139
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
+char getMain_Exception();
+char getMain_AD_Status();
 
 # 8 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
 typedef int ptrdiff_t;
@@ -400,10 +402,9 @@ unsigned int ADRES;
 
 };
 
-# 58
-struct OverTemp Temp1;
+struct OverTemp Temp;
 
-# 64
+# 92
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -3455,36 +3456,36 @@ setTemp_Initialization();
 
 
 void setTemp_Enable(char command) {
-Temp1.Enable = command;
+Temp.Enable = command;
 }
 
 
 char getTemp_Safe() {
-char result = Temp1.Safe;
+char result = Temp.Safe;
 return result;
 }
 
 
 char getTemp_ERROR() {
-char result = Temp1.ERROR;
+char result = Temp.ERROR;
 return result;
 }
 
 
 void getTemp_AD(char channel) {
-if (Temp1.ADtoGO == 1) {
-Temp1.ADRES = getAD(channel, 0xf0);
-if (Temp1.ADH[0] < Temp1.ADRES) {
-Temp1.ADH[0] = Temp1.ADRES;
-} else if (Temp1.ADH[1] < Temp1.ADRES) {
-Temp1.ADH[1] = Temp1.ADRES;
+if (Temp.ADtoGO == 1) {
+Temp.ADRES = getAD(channel, 0xf0);
+if (Temp.ADH[0] < Temp.ADRES) {
+Temp.ADH[0] = Temp.ADRES;
+} else if (Temp.ADH[1] < Temp.ADRES) {
+Temp.ADH[1] = Temp.ADRES;
 }
 }
 }
 
 
 void setTemp_Initialization() {
-Temp1.Safe = 1;
+Temp.Safe = 1;
 }
 
 
@@ -3496,56 +3497,55 @@ setTemp_Main();
 
 
 void setTemp_Main() {
-if (Temp1.Enable == 1) {
-if (Temp1.ADtoGO == 0) {
-Temp1.Time++;
-if (Temp1.Time >= 500)
-{
-if (getLoad_Safe() == 1 && 1 == 1) {
-Temp1.Time = 0;
-Temp1.ADtoGO = 1;
-Temp1.Safe = 0;
+if (Temp.Enable == 1) {
+if (Temp.ADtoGO == 0) {
+Temp.Time++;
+if (Temp.Time >= 500) {
+if (getLoad_Safe() == 1) {
+Temp.Time = 0;
+Temp.ADtoGO = 1;
+Temp.Safe = 0;
 
 } else {
-Temp1.Time = 1000;
+Temp.Time = 500;
 }
 }
 } else {
-Temp1.Time++;
-if (Temp1.Time >= 4) {
-Temp1.Time = 0;
-Temp1.ADtoGO = 0;
-Temp1.AD = Temp1.ADH[1];
-if (Temp1.ERROR == 1) {
-if (Temp1.AD >= 600) {
-Temp1.Count++;
-if (Temp1.Count >= 3) {
-Temp1.Count = 0;
+Temp.Time++;
+if (Temp.Time >= 4) {
+Temp.Time = 0;
+Temp.ADtoGO = 0;
+Temp.AD = Temp.ADH[1];
+if (Temp.ERROR == 1) {
+if (Temp.AD >= 600) {
+Temp.Count++;
+if (Temp.Count >= 3) {
+Temp.Count = 0;
 setOverTemp_Exceptions(0);
 }
 } else {
-Temp1.Count = 0;
+Temp.Count = 0;
 }
 } else {
-if (Temp1.AD <= 550) {
-Temp1.Count++;
-if (Temp1.Count >= 3) {
-Temp1.Count = 0;
+if (Temp.AD <= 550) {
+Temp.Count++;
+if (Temp.Count >= 3) {
+Temp.Count = 0;
 setOverTemp_Exceptions(1);
 }
 } else {
-Temp1.Count = 0;
+Temp.Count = 0;
 }
 }
-if (Temp1.ERROR == 0) {
-Temp1.Safe = 1;
+if (Temp.ERROR == 0) {
+Temp.Safe = 1;
 }
-product->Data[24]=Temp1.AD >> 8;
-product->Data[25]=Temp1.AD;
+product->Data[24]=Temp.AD >> 8;
+product->Data[25]=Temp.AD;
 
 
-Temp1.ADH[0] = 0;
-Temp1.ADH[1] = 0;
+Temp.ADH[0] = 0;
+Temp.ADH[1] = 0;
 }
 }
 }
@@ -3554,12 +3554,12 @@ Temp1.ADH[1] = 0;
 
 void setOverTemp_Exceptions(char command) {
 char i = command == 1 ? 0 : 1;
-Temp1.ERROR = command;
-Temp1.Safe = i;
+Temp.ERROR = command;
+Temp.Safe = i;
 if (command == 1) {
 DimmerLights_Exceptions(1);
 
-# 123
+# 122
 } else if (command == 0) {
 setBuz(2, 100);
 }

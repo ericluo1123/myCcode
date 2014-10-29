@@ -1919,7 +1919,7 @@ void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
 
-# 61 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
+# 62 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
 struct myMain {
 
 union {
@@ -1975,18 +1975,20 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 123
+# 124
 inline void myMain_Initialization();
 
-# 128
+# 129
 inline void my_Main();
 
-# 133
+# 134
 inline void my_MainTime();
 
-# 138
+# 139
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
+char getMain_Exception();
+char getMain_AD_Status();
 
 # 10 "../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h"
 struct LED {
@@ -2034,6 +2036,47 @@ void setLED_Main(char led);
 
 # 94
 void setLED(char led, char command);
+
+# 7 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h"
+struct OverTemp {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned ADtoGO : 1;
+unsigned LoadADGO : 1;
+unsigned Safe : 1;
+unsigned empty : 3;
+};
+};
+unsigned int Time;
+unsigned char Count;
+
+unsigned char AD1;
+unsigned char AD2;
+
+
+unsigned char AD;
+unsigned char ADH[2];
+unsigned char ADRES;
+
+# 44
+};
+
+struct OverTemp Temp;
+
+# 92
+inline void Temp_Initialization();
+inline void Temp_Main();
+void setTemp_Main();
+void setTemp_Initialization();
+void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+void setTemp_Enable(char command);
+char getTemp_Safe();
+char getTemp_ERROR();
 
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
@@ -2129,6 +2172,71 @@ void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
 
+# 22 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
+struct Lights {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned Status : 1;
+unsigned Open : 1;
+unsigned Close : 1;
+unsigned Trigger : 1;
+unsigned Switch : 1;
+unsigned Relay : 1;
+};
+};
+
+union {
+
+struct {
+unsigned Triac : 1;
+unsigned Clear : 1;
+unsigned RelaySet : 1;
+unsigned empty : 5;
+};
+};
+
+unsigned char Time;
+unsigned char TriacTime;
+unsigned char TriacValue;
+unsigned char RelayTime;
+unsigned char RelayValue;
+unsigned char Number;
+
+};
+struct Lights *Lights;
+
+
+
+struct Lights Lights1;
+
+# 71
+void LightsPointSelect(char);
+void Lights_Initialization();
+void Lights_Main();
+void Lights_ERROR();
+void Lights_Close();
+
+void setLights_Initialization(char);
+void setLights_GO(char, char);
+void setLights_Main(char);
+void setLights_ERROR(char);
+void setLights_TriggerERROR(char, char);
+void Lights_Control(char);
+
+void setLights_Clear(char, char);
+void setLights_Trigger(char, char);
+void setLights_Switch(char, char);
+void setLights_Open(char, char);
+char getLights_Open(char);
+void setLights_Close(char, char);
+char getLights_Close(char);
+void setLights(char, char);
+char getLights_Status(char lights);
+
 # 7 "../src/CDS_B1.c"
 void CDS_Initialization() {
 _CDS.Enable = 1;
@@ -2142,8 +2250,12 @@ if (_CDS.ADtoGO == 0) {
 _CDS.Time++;
 if (_CDS.Time >= 10)
 {
+if (1 == 1) {
 _CDS.Time = 0;
 _CDS.ADtoGO = 1;
+} else {
+_CDS.Time = 10;
+}
 }
 }
 } else {

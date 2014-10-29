@@ -60,7 +60,7 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
             if (lights == 2) {
 
                 Mosfet2 = true;
-                F
+
             }
 #endif
         }
@@ -224,7 +224,7 @@ inline void setDimmerLights_IntrControl(char lights) {
         }
     }
 #endif
-#if dimmer_Control_Method_Mosfet == 1
+#if Control_Method_Mosfet == 1
 #if Dimmer_Half_Wave == 1
     DimmerIntrPointSelect(lights);
     if (DimmerLightsIntr->GO == true) {

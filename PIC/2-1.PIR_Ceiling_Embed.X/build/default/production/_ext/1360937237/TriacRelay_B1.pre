@@ -1919,7 +1919,7 @@ void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
 
-# 61 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
+# 62 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
 struct myMain {
 
 union {
@@ -1975,18 +1975,20 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 123
+# 124
 inline void myMain_Initialization();
 
-# 128
+# 129
 inline void my_Main();
 
-# 133
+# 134
 inline void my_MainTime();
 
-# 138
+# 139
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
+char getMain_Exception();
+char getMain_AD_Status();
 
 # 10 "../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h"
 struct LED {
@@ -2034,6 +2036,47 @@ void setLED_Main(char led);
 
 # 94
 void setLED(char led, char command);
+
+# 7 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h"
+struct OverTemp {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned ADtoGO : 1;
+unsigned LoadADGO : 1;
+unsigned Safe : 1;
+unsigned empty : 3;
+};
+};
+unsigned int Time;
+unsigned char Count;
+
+unsigned char AD1;
+unsigned char AD2;
+
+
+unsigned char AD;
+unsigned char ADH[2];
+unsigned char ADRES;
+
+# 44
+};
+
+struct OverTemp Temp;
+
+# 92
+inline void Temp_Initialization();
+inline void Temp_Main();
+void setTemp_Main();
+void setTemp_Initialization();
+void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+void setTemp_Enable(char command);
+char getTemp_Safe();
+char getTemp_ERROR();
 
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
@@ -2128,4 +2171,236 @@ void selectPIRPoint(char);
 void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
+
+# 22 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
+struct Lights {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned Status : 1;
+unsigned Open : 1;
+unsigned Close : 1;
+unsigned Trigger : 1;
+unsigned Switch : 1;
+unsigned Relay : 1;
+};
+};
+
+union {
+
+struct {
+unsigned Triac : 1;
+unsigned Clear : 1;
+unsigned RelaySet : 1;
+unsigned empty : 5;
+};
+};
+
+unsigned char Time;
+unsigned char TriacTime;
+unsigned char TriacValue;
+unsigned char RelayTime;
+unsigned char RelayValue;
+unsigned char Number;
+
+};
+struct Lights *Lights;
+
+
+
+struct Lights Lights1;
+
+# 71
+void LightsPointSelect(char);
+void Lights_Initialization();
+void Lights_Main();
+void Lights_ERROR();
+void Lights_Close();
+
+void setLights_Initialization(char);
+void setLights_GO(char, char);
+void setLights_Main(char);
+void setLights_ERROR(char);
+void setLights_TriggerERROR(char, char);
+void Lights_Control(char);
+
+void setLights_Clear(char, char);
+void setLights_Trigger(char, char);
+void setLights_Switch(char, char);
+void setLights_Open(char, char);
+char getLights_Open(char);
+void setLights_Close(char, char);
+char getLights_Close(char);
+void setLights(char, char);
+char getLights_Status(char lights);
+
+# 10 "../src/TriacRelay_B1.c"
+void LightsPointSelect(char lights) {
+
+
+
+if (lights == 1) {
+Lights = &Lights1;
+}
+
+# 31
+}
+
+void Lights_Initialization() {
+
+setLights_Initialization(1);
+
+# 45
+}
+
+void setLights_Initialization(char lights) {
+LightsPointSelect(lights);
+Lights->Open = 1;
+Lights->Close = 1;
+}
+
+void Lights_Main() {
+
+setLights_Main(1);
+
+# 67
+Lights_Control(1);
+
+# 77
+}
+
+void setLights_Main(char lights) {
+char clear = 1;
+LightsPointSelect(lights);
+if (Lights->GO == 0) {
+
+# 102
+if (Lights->Trigger == 1) {
+if (clear == 1) {
+if (Lights->Switch == 1) {
+Lights->Trigger = 0;
+
+setLights(lights, 1);
+
+# 113
+} else {
+Lights->Trigger = 0;
+
+setLights(lights, 0);
+
+# 121
+}
+}
+}
+}
+}
+
+void setLights_Clear(char lights, char command) {
+LightsPointSelect(lights);
+Lights->Clear = command;
+}
+
+void setLights_Trigger(char lights, char command) {
+LightsPointSelect(lights);
+Lights->Trigger = command;
+}
+
+void setLights_Switch(char lights, char command) {
+LightsPointSelect(lights);
+Lights->Switch = command;
+}
+
+void setLights_Open(char lights, char command) {
+LightsPointSelect(lights);
+Lights->Open = command;
+}
+
+char getLights_Open(char lights) {
+LightsPointSelect(lights);
+char result = 0;
+result = Lights->Open;
+return result;
+}
+
+void setLights_Close(char lights, char command) {
+LightsPointSelect(lights);
+Lights->Close = command;
+}
+
+char getLights_Close(char lights) {
+LightsPointSelect(lights);
+char result;
+result = Lights->Close;
+return result;
+
+}
+
+char getLights_Status(char lights) {
+LightsPointSelect(lights);
+char result = Lights->Status;
+return result;
+}
+
+void setLights(char lights, char command) {
+
+LightsPointSelect(lights);
+
+Lights->GO = 1;
+if (command == 1) {
+if (Lights->Status == 0) {
+Lights->Status = 1;
+Lights->RelayValue = 7;
+Lights->TriacValue = 14;
+}
+} else {
+if (Lights->Status == 1) {
+Lights->Status = 0;
+Lights->RelayValue = 4;
+Lights->TriacValue = 8;
+}
+}
+
+if (lights == 1) {
+RB2 = 1;
+}
+
+# 206
+}
+
+void Lights_Control(char lights) {
+LightsPointSelect(lights);
+if (Lights->GO == 1) {
+Lights->Time++;
+if (Lights->Time >= Lights->RelayValue && Lights->RelaySet == 0) {
+Lights->RelaySet = 1;
+
+if (lights == 1) {
+
+RA4 = Lights->Status ? 1 : 0;
+
+}
+
+# 234
+} else if (Lights->Time >= Lights->TriacValue) {
+Lights->Time = 0;
+Lights->GO = 0;
+Lights->RelaySet = 0;
+
+if (lights == 1) {
+RB2 = 0;
+}
+
+# 254
+}
+}
+}
+
+void Lights_ERROR() {
+}
+
+void Lights_Close() {
+}
 

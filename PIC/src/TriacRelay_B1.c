@@ -178,14 +178,14 @@ void setLights(char lights, char command) {
     if (command == 1) {
         if (Lights->Status == false) {
             Lights->Status = true;
-            Lights->RelayValue = 70;
-            Lights->TriacValue = 140;
+            Lights->RelayValue = 7;
+            Lights->TriacValue = 14;
         }
     } else {
         if (Lights->Status == true) {
             Lights->Status = false;
-            Lights->RelayValue = 40;
-            Lights->TriacValue = 80;
+            Lights->RelayValue = 4;
+            Lights->TriacValue = 8;
         }
     }
 #ifdef use_1KEY

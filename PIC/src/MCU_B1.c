@@ -195,7 +195,7 @@ inline void setDimmerReClock() {
 
 //*********************************************************
 #if Timer1_use == 1
-
+ 
 inline void TMR1_Set() {
     T1CON = (_CS | _CKPS | _TMR1ON);
     TMR1H = TMR1H_Value;
@@ -208,7 +208,7 @@ inline void TMR1_Set() {
 
 inline void TMR1_ISR() {
     if (TMR1IE == true && TMR1IF == true) {
-
+ 
         TMR1H = TMR1H_Value;
         TMR1L = TMR1L_Value;
         TMR1IF = false;

@@ -2,25 +2,25 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Main_B1.h
 [s S1 `uc -> 32 `i ]
 [n S1 Product Data ]
-"65
+"66
 [s S4 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S4 . PowerON T0_Timerout T1_Timerout T2_Timerout Flag GO FirstOpen SelfTest First ]
-"63
+"64
 [u S3 `S4 1 ]
 [n S3 . . ]
-"90
+"91
 [s S6 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S6 . i j k l m n o p ]
-"88
+"89
 [u S5 `S6 1 ]
 [n S5 . . ]
-"104
+"105
 [s S8 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
 [n S8 . q r Timeout empty ]
-"102
+"103
 [u S7 `S8 1 ]
 [n S7 . . ]
-"61
+"62
 [s S2 `S3 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `uc 1 `uc 1 `uc 1 `S5 1 `S7 1 `ui 1 ]
 [n S2 myMain . PowerCount Count Count1 Count2 Count3 IOC_Count Test ClockCount . . Timeout_Counter ]
 "18 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Switch_B1.h
@@ -158,16 +158,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 "761
 [s S288 `S289 1 `uc 1 ]
 [n S288 WDT . Timer ]
-"67 ../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h
+"95 ../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h
 [v _setTemp_Initialization `(v ~T0 @X0 0 ef ]
-[v F2560 `(i ~T0 @X0 1 tf2`uc`uc ]
+[v F2562 `(i ~T0 @X0 1 tf2`uc`uc ]
 "310 ../src/../1-2.Switch_2Key_Dimmer.X/../src/MCU_B1.h
-[v _getAD `TF2560 ~T0 @X0 0 e ]
-"66 ../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h
+[v _getAD `TF2562 ~T0 @X0 0 e ]
+"94 ../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h
 [v _setTemp_Main `(v ~T0 @X0 0 ef ]
 "241 ../src/../1-2.Switch_2Key_Dimmer.X/../src/OverLoad_B1.h
 [v _getLoad_Safe `(uc ~T0 @X0 0 ef ]
-"69 ../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h
+"97 ../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h
 [v _setOverTemp_Exceptions `(v ~T0 @X0 0 ef1`uc ]
 "112 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h
 [v _DimmerLights_Exceptions `(v ~T0 @X0 0 ef1`uc ]
@@ -240,58 +240,60 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 22: 0x00, 0x00
 [; ;Main_B1.h: 23: }
 [; ;Main_B1.h: 24: };
-[; ;Main_B1.h: 61: struct myMain {
-[; ;Main_B1.h: 63: union {
-[; ;Main_B1.h: 65: struct {
-[; ;Main_B1.h: 66: unsigned PowerON : 1;
-[; ;Main_B1.h: 67: unsigned T0_Timerout : 1;
-[; ;Main_B1.h: 68: unsigned T1_Timerout : 1;
-[; ;Main_B1.h: 69: unsigned T2_Timerout : 1;
-[; ;Main_B1.h: 70: unsigned Flag : 1;
-[; ;Main_B1.h: 71: unsigned GO : 1;
-[; ;Main_B1.h: 72: unsigned FirstOpen : 1;
-[; ;Main_B1.h: 73: unsigned SelfTest : 1;
-[; ;Main_B1.h: 74: unsigned First : 1;
-[; ;Main_B1.h: 75: };
+[; ;Main_B1.h: 62: struct myMain {
+[; ;Main_B1.h: 64: union {
+[; ;Main_B1.h: 66: struct {
+[; ;Main_B1.h: 67: unsigned PowerON : 1;
+[; ;Main_B1.h: 68: unsigned T0_Timerout : 1;
+[; ;Main_B1.h: 69: unsigned T1_Timerout : 1;
+[; ;Main_B1.h: 70: unsigned T2_Timerout : 1;
+[; ;Main_B1.h: 71: unsigned Flag : 1;
+[; ;Main_B1.h: 72: unsigned GO : 1;
+[; ;Main_B1.h: 73: unsigned FirstOpen : 1;
+[; ;Main_B1.h: 74: unsigned SelfTest : 1;
+[; ;Main_B1.h: 75: unsigned First : 1;
 [; ;Main_B1.h: 76: };
-[; ;Main_B1.h: 77: unsigned int PowerCount;
-[; ;Main_B1.h: 80: unsigned int Count;
-[; ;Main_B1.h: 81: unsigned int Count1;
-[; ;Main_B1.h: 82: unsigned int Count2;
-[; ;Main_B1.h: 83: unsigned int Count3;
-[; ;Main_B1.h: 84: unsigned char IOC_Count;
-[; ;Main_B1.h: 85: unsigned char Test;
-[; ;Main_B1.h: 86: unsigned char ClockCount;
-[; ;Main_B1.h: 88: union {
-[; ;Main_B1.h: 90: struct {
-[; ;Main_B1.h: 91: unsigned i : 1;
-[; ;Main_B1.h: 92: unsigned j : 1;
-[; ;Main_B1.h: 93: unsigned k : 1;
-[; ;Main_B1.h: 94: unsigned l : 1;
-[; ;Main_B1.h: 95: unsigned m : 1;
-[; ;Main_B1.h: 96: unsigned n : 1;
-[; ;Main_B1.h: 97: unsigned o : 1;
-[; ;Main_B1.h: 98: unsigned p : 1;
-[; ;Main_B1.h: 99: };
+[; ;Main_B1.h: 77: };
+[; ;Main_B1.h: 78: unsigned int PowerCount;
+[; ;Main_B1.h: 81: unsigned int Count;
+[; ;Main_B1.h: 82: unsigned int Count1;
+[; ;Main_B1.h: 83: unsigned int Count2;
+[; ;Main_B1.h: 84: unsigned int Count3;
+[; ;Main_B1.h: 85: unsigned char IOC_Count;
+[; ;Main_B1.h: 86: unsigned char Test;
+[; ;Main_B1.h: 87: unsigned char ClockCount;
+[; ;Main_B1.h: 89: union {
+[; ;Main_B1.h: 91: struct {
+[; ;Main_B1.h: 92: unsigned i : 1;
+[; ;Main_B1.h: 93: unsigned j : 1;
+[; ;Main_B1.h: 94: unsigned k : 1;
+[; ;Main_B1.h: 95: unsigned l : 1;
+[; ;Main_B1.h: 96: unsigned m : 1;
+[; ;Main_B1.h: 97: unsigned n : 1;
+[; ;Main_B1.h: 98: unsigned o : 1;
+[; ;Main_B1.h: 99: unsigned p : 1;
 [; ;Main_B1.h: 100: };
-[; ;Main_B1.h: 102: union {
-[; ;Main_B1.h: 104: struct {
-[; ;Main_B1.h: 105: unsigned q : 1;
-[; ;Main_B1.h: 106: unsigned r : 1;
-[; ;Main_B1.h: 107: unsigned Timeout : 1;
-[; ;Main_B1.h: 108: unsigned empty : 5;
-[; ;Main_B1.h: 109: };
+[; ;Main_B1.h: 101: };
+[; ;Main_B1.h: 103: union {
+[; ;Main_B1.h: 105: struct {
+[; ;Main_B1.h: 106: unsigned q : 1;
+[; ;Main_B1.h: 107: unsigned r : 1;
+[; ;Main_B1.h: 108: unsigned Timeout : 1;
+[; ;Main_B1.h: 109: unsigned empty : 5;
 [; ;Main_B1.h: 110: };
-[; ;Main_B1.h: 111: unsigned int Timeout_Counter;
-[; ;Main_B1.h: 113: };
-"114
+[; ;Main_B1.h: 111: };
+[; ;Main_B1.h: 112: unsigned int Timeout_Counter;
+[; ;Main_B1.h: 114: };
+"115
 [v _myMain `S2 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 114: struct myMain myMain;
-[; ;Main_B1.h: 123: inline void myMain_Initialization();
-[; ;Main_B1.h: 128: inline void my_Main();
-[; ;Main_B1.h: 133: inline void my_MainTime();
-[; ;Main_B1.h: 138: inline void Timeout_Counter();
-[; ;Main_B1.h: 139: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 115: struct myMain myMain;
+[; ;Main_B1.h: 124: inline void myMain_Initialization();
+[; ;Main_B1.h: 129: inline void my_Main();
+[; ;Main_B1.h: 134: inline void my_MainTime();
+[; ;Main_B1.h: 139: inline void Timeout_Counter();
+[; ;Main_B1.h: 140: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 141: char getMain_Exception();
+[; ;Main_B1.h: 142: char getMain_AD_Status();
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -498,18 +500,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.h: 40: unsigned int ADH[2];
 [; ;OverTemperature_B1.h: 41: unsigned int ADRES;
 [; ;OverTemperature_B1.h: 44: };
-"58 ../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h
-[v _Temp1 `S25 ~T0 @X0 1 e ]
-[; ;OverTemperature_B1.h: 58: struct OverTemp Temp1;
-[; ;OverTemperature_B1.h: 64: inline void Temp_Initialization();
-[; ;OverTemperature_B1.h: 65: inline void Temp_Main();
-[; ;OverTemperature_B1.h: 66: void setTemp_Main();
-[; ;OverTemperature_B1.h: 67: void setTemp_Initialization();
-[; ;OverTemperature_B1.h: 68: void getTemp_AD(char channel);
-[; ;OverTemperature_B1.h: 69: void setOverTemp_Exceptions(char command);
-[; ;OverTemperature_B1.h: 70: void setTemp_Enable(char command);
-[; ;OverTemperature_B1.h: 71: char getTemp_Safe();
-[; ;OverTemperature_B1.h: 72: char getTemp_ERROR();
+"46 ../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h
+[v _Temp `S25 ~T0 @X0 1 e ]
+[; ;OverTemperature_B1.h: 46: struct OverTemp Temp;
+[; ;OverTemperature_B1.h: 92: inline void Temp_Initialization();
+[; ;OverTemperature_B1.h: 93: inline void Temp_Main();
+[; ;OverTemperature_B1.h: 94: void setTemp_Main();
+[; ;OverTemperature_B1.h: 95: void setTemp_Initialization();
+[; ;OverTemperature_B1.h: 96: void getTemp_AD(char channel);
+[; ;OverTemperature_B1.h: 97: void setOverTemp_Exceptions(char command);
+[; ;OverTemperature_B1.h: 98: void setTemp_Enable(char command);
+[; ;OverTemperature_B1.h: 99: char getTemp_Safe();
+[; ;OverTemperature_B1.h: 100: char getTemp_ERROR();
 "161 ../src/../1-2.Switch_2Key_Dimmer.X/../src/CC2500_B1.h
 [v _CC2500_rfSettings `Cuc ~T0 @X0 -> 47 `i e ]
 [i _CC2500_rfSettings
@@ -3065,9 +3067,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.h: 789: void WDT_Set();
 [; ;MCU_B1.h: 790: void WDT_Main();
 [; ;MCU_B1.h: 791: void WDT_Clearing();
-[v F374 `(v ~T0 @X0 1 tf ]
+[v F376 `(v ~T0 @X0 1 tf ]
 "9 ../src/OverTemperature_B1.c
-[v _Temp_Initialization `TF374 ~T0 @X0 1 e ]
+[v _Temp_Initialization `TF376 ~T0 @X0 1 e ]
 {
 [; ;OverTemperature_B1.c: 9: inline void Temp_Initialization() {
 [e :U _Temp_Initialization ]
@@ -3086,9 +3088,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U _setTemp_Enable ]
 [v _command `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;OverTemperature_B1.c: 17: Temp1.Enable = command;
+[; ;OverTemperature_B1.c: 17: Temp.Enable = command;
 "17
-[e = . . . _Temp1 0 0 0 _command ]
+[e = . . . _Temp 0 0 0 _command ]
 [; ;OverTemperature_B1.c: 18: }
 "18
 [e :UE 292 ]
@@ -3101,8 +3103,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 "22
 [v _result `uc ~T0 @X0 1 a ]
-[; ;OverTemperature_B1.c: 22: char result = Temp1.Safe;
-[e = _result . . . _Temp1 0 0 4 ]
+[; ;OverTemperature_B1.c: 22: char result = Temp.Safe;
+[e = _result . . . _Temp 0 0 4 ]
 [; ;OverTemperature_B1.c: 23: return result;
 "23
 [e ) _result ]
@@ -3119,8 +3121,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 "28
 [v _result `uc ~T0 @X0 1 a ]
-[; ;OverTemperature_B1.c: 28: char result = Temp1.ERROR;
-[e = _result . . . _Temp1 0 0 1 ]
+[; ;OverTemperature_B1.c: 28: char result = Temp.ERROR;
+[e = _result . . . _Temp 0 0 1 ]
 [; ;OverTemperature_B1.c: 29: return result;
 "29
 [e ) _result ]
@@ -3136,30 +3138,30 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U _getTemp_AD ]
 [v _channel `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;OverTemperature_B1.c: 34: if (Temp1.ADtoGO == 1) {
+[; ;OverTemperature_B1.c: 34: if (Temp.ADtoGO == 1) {
 "34
-[e $ ! == -> . . . _Temp1 0 0 2 `i -> 1 `i 296  ]
+[e $ ! == -> . . . _Temp 0 0 2 `i -> 1 `i 296  ]
 {
-[; ;OverTemperature_B1.c: 35: Temp1.ADRES = getAD(channel, 0xf0);
+[; ;OverTemperature_B1.c: 35: Temp.ADRES = getAD(channel, 0xf0);
 "35
-[e = . _Temp1 7 -> ( _getAD (2 , _channel -> -> 240 `i `uc `ui ]
-[; ;OverTemperature_B1.c: 36: if (Temp1.ADH[0] < Temp1.ADRES) {
+[e = . _Temp 7 -> ( _getAD (2 , _channel -> -> 240 `i `uc `ui ]
+[; ;OverTemperature_B1.c: 36: if (Temp.ADH[0] < Temp.ADRES) {
 "36
-[e $ ! < *U + &U . _Temp1 6 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _Temp1 6 `ui `ux . _Temp1 7 297  ]
+[e $ ! < *U + &U . _Temp 6 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux . _Temp 7 297  ]
 {
-[; ;OverTemperature_B1.c: 37: Temp1.ADH[0] = Temp1.ADRES;
+[; ;OverTemperature_B1.c: 37: Temp.ADH[0] = Temp.ADRES;
 "37
-[e = *U + &U . _Temp1 6 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _Temp1 6 `ui `ux . _Temp1 7 ]
+[e = *U + &U . _Temp 6 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux . _Temp 7 ]
 "38
 }
-[; ;OverTemperature_B1.c: 38: } else if (Temp1.ADH[1] < Temp1.ADRES) {
+[; ;OverTemperature_B1.c: 38: } else if (Temp.ADH[1] < Temp.ADRES) {
 [e $U 298  ]
 [e :U 297 ]
-[e $ ! < *U + &U . _Temp1 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp1 6 `ui `ux . _Temp1 7 299  ]
+[e $ ! < *U + &U . _Temp 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux . _Temp 7 299  ]
 {
-[; ;OverTemperature_B1.c: 39: Temp1.ADH[1] = Temp1.ADRES;
+[; ;OverTemperature_B1.c: 39: Temp.ADH[1] = Temp.ADRES;
 "39
-[e = *U + &U . _Temp1 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp1 6 `ui `ux . _Temp1 7 ]
+[e = *U + &U . _Temp 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux . _Temp 7 ]
 "40
 }
 [e :U 299 ]
@@ -3179,16 +3181,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.c: 45: void setTemp_Initialization() {
 [e :U _setTemp_Initialization ]
 [f ]
-[; ;OverTemperature_B1.c: 46: Temp1.Safe = 1;
+[; ;OverTemperature_B1.c: 46: Temp.Safe = 1;
 "46
-[e = . . . _Temp1 0 0 4 -> -> 1 `i `uc ]
+[e = . . . _Temp 0 0 4 -> -> 1 `i `uc ]
 [; ;OverTemperature_B1.c: 47: }
 "47
 [e :UE 300 ]
 }
-[v F376 `(v ~T0 @X0 1 tf ]
+[v F378 `(v ~T0 @X0 1 tf ]
 "50
-[v _Temp_Main `TF376 ~T0 @X0 1 e ]
+[v _Temp_Main `TF378 ~T0 @X0 1 e ]
 {
 [; ;OverTemperature_B1.c: 50: inline void Temp_Main() {
 [e :U _Temp_Main ]
@@ -3206,245 +3208,243 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.c: 57: void setTemp_Main() {
 [e :U _setTemp_Main ]
 [f ]
-[; ;OverTemperature_B1.c: 58: if (Temp1.Enable == 1) {
+[; ;OverTemperature_B1.c: 58: if (Temp.Enable == 1) {
 "58
-[e $ ! == -> . . . _Temp1 0 0 0 `i -> 1 `i 303  ]
+[e $ ! == -> . . . _Temp 0 0 0 `i -> 1 `i 303  ]
 {
-[; ;OverTemperature_B1.c: 59: if (Temp1.ADtoGO == 0) {
+[; ;OverTemperature_B1.c: 59: if (Temp.ADtoGO == 0) {
 "59
-[e $ ! == -> . . . _Temp1 0 0 2 `i -> 0 `i 304  ]
+[e $ ! == -> . . . _Temp 0 0 2 `i -> 0 `i 304  ]
 {
-[; ;OverTemperature_B1.c: 60: Temp1.Time++;
+[; ;OverTemperature_B1.c: 60: Temp.Time++;
 "60
-[e ++ . _Temp1 1 -> -> 1 `i `ui ]
-[; ;OverTemperature_B1.c: 61: if (Temp1.Time >= 500)
+[e ++ . _Temp 1 -> -> 1 `i `ui ]
+[; ;OverTemperature_B1.c: 61: if (Temp.Time >= 500) {
 "61
-[e $ ! >= . _Temp1 1 -> -> 500 `i `ui 305  ]
-[; ;OverTemperature_B1.c: 62: {
+[e $ ! >= . _Temp 1 -> -> 500 `i `ui 305  ]
+{
+[; ;OverTemperature_B1.c: 62: if (getLoad_Safe() == 1) {
 "62
+[e $ ! == -> ( _getLoad_Safe ..  `i -> 1 `i 306  ]
 {
-[; ;OverTemperature_B1.c: 63: if (getLoad_Safe() == 1 && 1 == 1) {
+[; ;OverTemperature_B1.c: 63: Temp.Time = 0;
 "63
-[e $ ! && == -> ( _getLoad_Safe ..  `i -> 1 `i == -> 1 `i -> 1 `i 306  ]
-{
-[; ;OverTemperature_B1.c: 64: Temp1.Time = 0;
+[e = . _Temp 1 -> -> 0 `i `ui ]
+[; ;OverTemperature_B1.c: 64: Temp.ADtoGO = 1;
 "64
-[e = . _Temp1 1 -> -> 0 `i `ui ]
-[; ;OverTemperature_B1.c: 65: Temp1.ADtoGO = 1;
+[e = . . . _Temp 0 0 2 -> -> 1 `i `uc ]
+[; ;OverTemperature_B1.c: 65: Temp.Safe = 0;
 "65
-[e = . . . _Temp1 0 0 2 -> -> 1 `i `uc ]
-[; ;OverTemperature_B1.c: 66: Temp1.Safe = 0;
-"66
-[e = . . . _Temp1 0 0 4 -> -> 0 `i `uc ]
-"68
+[e = . . . _Temp 0 0 4 -> -> 0 `i `uc ]
+"67
 }
-[; ;OverTemperature_B1.c: 68: } else {
+[; ;OverTemperature_B1.c: 67: } else {
 [e $U 307  ]
 [e :U 306 ]
 {
-[; ;OverTemperature_B1.c: 69: Temp1.Time = 1000;
+[; ;OverTemperature_B1.c: 68: Temp.Time = 500;
+"68
+[e = . _Temp 1 -> -> 500 `i `ui ]
 "69
-[e = . _Temp1 1 -> -> 1000 `i `ui ]
-"70
 }
 [e :U 307 ]
-"71
+"70
 }
 [e :U 305 ]
-"72
+"71
 }
+[; ;OverTemperature_B1.c: 69: }
 [; ;OverTemperature_B1.c: 70: }
-[; ;OverTemperature_B1.c: 71: }
-[; ;OverTemperature_B1.c: 72: } else {
+[; ;OverTemperature_B1.c: 71: } else {
 [e $U 308  ]
 [e :U 304 ]
 {
-[; ;OverTemperature_B1.c: 73: Temp1.Time++;
+[; ;OverTemperature_B1.c: 72: Temp.Time++;
+"72
+[e ++ . _Temp 1 -> -> 1 `i `ui ]
+[; ;OverTemperature_B1.c: 73: if (Temp.Time >= 4) {
 "73
-[e ++ . _Temp1 1 -> -> 1 `i `ui ]
-[; ;OverTemperature_B1.c: 74: if (Temp1.Time >= 4) {
+[e $ ! >= . _Temp 1 -> -> 4 `i `ui 309  ]
+{
+[; ;OverTemperature_B1.c: 74: Temp.Time = 0;
 "74
-[e $ ! >= . _Temp1 1 -> -> 4 `i `ui 309  ]
-{
-[; ;OverTemperature_B1.c: 75: Temp1.Time = 0;
+[e = . _Temp 1 -> -> 0 `i `ui ]
+[; ;OverTemperature_B1.c: 75: Temp.ADtoGO = 0;
 "75
-[e = . _Temp1 1 -> -> 0 `i `ui ]
-[; ;OverTemperature_B1.c: 76: Temp1.ADtoGO = 0;
+[e = . . . _Temp 0 0 2 -> -> 0 `i `uc ]
+[; ;OverTemperature_B1.c: 76: Temp.AD = Temp.ADH[1];
 "76
-[e = . . . _Temp1 0 0 2 -> -> 0 `i `uc ]
-[; ;OverTemperature_B1.c: 77: Temp1.AD = Temp1.ADH[1];
+[e = . _Temp 5 *U + &U . _Temp 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux ]
+[; ;OverTemperature_B1.c: 77: if (Temp.ERROR == 1) {
 "77
-[e = . _Temp1 5 *U + &U . _Temp1 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp1 6 `ui `ux ]
-[; ;OverTemperature_B1.c: 78: if (Temp1.ERROR == 1) {
+[e $ ! == -> . . . _Temp 0 0 1 `i -> 1 `i 310  ]
+{
+[; ;OverTemperature_B1.c: 78: if (Temp.AD >= 600) {
 "78
-[e $ ! == -> . . . _Temp1 0 0 1 `i -> 1 `i 310  ]
+[e $ ! >= . _Temp 5 -> -> 600 `i `ui 311  ]
 {
-[; ;OverTemperature_B1.c: 79: if (Temp1.AD >= 600) {
+[; ;OverTemperature_B1.c: 79: Temp.Count++;
 "79
-[e $ ! >= . _Temp1 5 -> -> 600 `i `ui 311  ]
-{
-[; ;OverTemperature_B1.c: 80: Temp1.Count++;
+[e ++ . _Temp 2 -> -> 1 `i `uc ]
+[; ;OverTemperature_B1.c: 80: if (Temp.Count >= 3) {
 "80
-[e ++ . _Temp1 2 -> -> 1 `i `uc ]
-[; ;OverTemperature_B1.c: 81: if (Temp1.Count >= 3) {
-"81
-[e $ ! >= -> . _Temp1 2 `i -> 3 `i 312  ]
+[e $ ! >= -> . _Temp 2 `i -> 3 `i 312  ]
 {
-[; ;OverTemperature_B1.c: 82: Temp1.Count = 0;
+[; ;OverTemperature_B1.c: 81: Temp.Count = 0;
+"81
+[e = . _Temp 2 -> -> 0 `i `uc ]
+[; ;OverTemperature_B1.c: 82: setOverTemp_Exceptions(0);
 "82
-[e = . _Temp1 2 -> -> 0 `i `uc ]
-[; ;OverTemperature_B1.c: 83: setOverTemp_Exceptions(0);
-"83
 [e ( _setOverTemp_Exceptions (1 -> -> 0 `i `uc ]
-"84
+"83
 }
 [e :U 312 ]
-"85
+"84
 }
-[; ;OverTemperature_B1.c: 84: }
-[; ;OverTemperature_B1.c: 85: } else {
+[; ;OverTemperature_B1.c: 83: }
+[; ;OverTemperature_B1.c: 84: } else {
 [e $U 313  ]
 [e :U 311 ]
 {
-[; ;OverTemperature_B1.c: 86: Temp1.Count = 0;
+[; ;OverTemperature_B1.c: 85: Temp.Count = 0;
+"85
+[e = . _Temp 2 -> -> 0 `i `uc ]
 "86
-[e = . _Temp1 2 -> -> 0 `i `uc ]
-"87
 }
 [e :U 313 ]
-"88
+"87
 }
-[; ;OverTemperature_B1.c: 87: }
-[; ;OverTemperature_B1.c: 88: } else {
+[; ;OverTemperature_B1.c: 86: }
+[; ;OverTemperature_B1.c: 87: } else {
 [e $U 314  ]
 [e :U 310 ]
 {
-[; ;OverTemperature_B1.c: 89: if (Temp1.AD <= 550) {
+[; ;OverTemperature_B1.c: 88: if (Temp.AD <= 550) {
+"88
+[e $ ! <= . _Temp 5 -> -> 550 `i `ui 315  ]
+{
+[; ;OverTemperature_B1.c: 89: Temp.Count++;
 "89
-[e $ ! <= . _Temp1 5 -> -> 550 `i `ui 315  ]
-{
-[; ;OverTemperature_B1.c: 90: Temp1.Count++;
+[e ++ . _Temp 2 -> -> 1 `i `uc ]
+[; ;OverTemperature_B1.c: 90: if (Temp.Count >= 3) {
 "90
-[e ++ . _Temp1 2 -> -> 1 `i `uc ]
-[; ;OverTemperature_B1.c: 91: if (Temp1.Count >= 3) {
-"91
-[e $ ! >= -> . _Temp1 2 `i -> 3 `i 316  ]
+[e $ ! >= -> . _Temp 2 `i -> 3 `i 316  ]
 {
-[; ;OverTemperature_B1.c: 92: Temp1.Count = 0;
+[; ;OverTemperature_B1.c: 91: Temp.Count = 0;
+"91
+[e = . _Temp 2 -> -> 0 `i `uc ]
+[; ;OverTemperature_B1.c: 92: setOverTemp_Exceptions(1);
 "92
-[e = . _Temp1 2 -> -> 0 `i `uc ]
-[; ;OverTemperature_B1.c: 93: setOverTemp_Exceptions(1);
-"93
 [e ( _setOverTemp_Exceptions (1 -> -> 1 `i `uc ]
-"94
+"93
 }
 [e :U 316 ]
-"95
+"94
 }
-[; ;OverTemperature_B1.c: 94: }
-[; ;OverTemperature_B1.c: 95: } else {
+[; ;OverTemperature_B1.c: 93: }
+[; ;OverTemperature_B1.c: 94: } else {
 [e $U 317  ]
 [e :U 315 ]
 {
-[; ;OverTemperature_B1.c: 96: Temp1.Count = 0;
+[; ;OverTemperature_B1.c: 95: Temp.Count = 0;
+"95
+[e = . _Temp 2 -> -> 0 `i `uc ]
 "96
-[e = . _Temp1 2 -> -> 0 `i `uc ]
-"97
 }
 [e :U 317 ]
-"98
+"97
 }
 [e :U 314 ]
+[; ;OverTemperature_B1.c: 96: }
 [; ;OverTemperature_B1.c: 97: }
-[; ;OverTemperature_B1.c: 98: }
-[; ;OverTemperature_B1.c: 99: if (Temp1.ERROR == 0) {
-"99
-[e $ ! == -> . . . _Temp1 0 0 1 `i -> 0 `i 318  ]
+[; ;OverTemperature_B1.c: 98: if (Temp.ERROR == 0) {
+"98
+[e $ ! == -> . . . _Temp 0 0 1 `i -> 0 `i 318  ]
 {
-[; ;OverTemperature_B1.c: 100: Temp1.Safe = 1;
+[; ;OverTemperature_B1.c: 99: Temp.Safe = 1;
+"99
+[e = . . . _Temp 0 0 4 -> -> 1 `i `uc ]
 "100
-[e = . . . _Temp1 0 0 4 -> -> 1 `i `uc ]
-"101
 }
 [e :U 318 ]
-[; ;OverTemperature_B1.c: 101: }
-[; ;OverTemperature_B1.c: 102: product->Data[24]=Temp1.AD >> 8;
+[; ;OverTemperature_B1.c: 100: }
+[; ;OverTemperature_B1.c: 101: product->Data[24]=Temp.AD >> 8;
+"101
+[e = *U + &U . *U _product 0 * -> -> -> 24 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> >> . _Temp 5 -> 8 `i `uc ]
+[; ;OverTemperature_B1.c: 102: product->Data[25]=Temp.AD;
 "102
-[e = *U + &U . *U _product 0 * -> -> -> 24 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> >> . _Temp1 5 -> 8 `i `uc ]
-[; ;OverTemperature_B1.c: 103: product->Data[25]=Temp1.AD;
-"103
-[e = *U + &U . *U _product 0 * -> -> -> 25 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> . _Temp1 5 `uc ]
-[; ;OverTemperature_B1.c: 106: Temp1.ADH[0] = 0;
+[e = *U + &U . *U _product 0 * -> -> -> 25 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> . _Temp 5 `uc ]
+[; ;OverTemperature_B1.c: 105: Temp.ADH[0] = 0;
+"105
+[e = *U + &U . _Temp 6 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux -> -> 0 `i `ui ]
+[; ;OverTemperature_B1.c: 106: Temp.ADH[1] = 0;
 "106
-[e = *U + &U . _Temp1 6 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _Temp1 6 `ui `ux -> -> 0 `i `ui ]
-[; ;OverTemperature_B1.c: 107: Temp1.ADH[1] = 0;
+[e = *U + &U . _Temp 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux -> -> 0 `i `ui ]
 "107
-[e = *U + &U . _Temp1 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp1 6 `ui `ux -> -> 0 `i `ui ]
-"108
 }
 [e :U 309 ]
-"109
+"108
 }
 [e :U 308 ]
-"110
+"109
 }
 [e :U 303 ]
+[; ;OverTemperature_B1.c: 107: }
 [; ;OverTemperature_B1.c: 108: }
 [; ;OverTemperature_B1.c: 109: }
 [; ;OverTemperature_B1.c: 110: }
-[; ;OverTemperature_B1.c: 111: }
-"111
+"110
 [e :UE 302 ]
 }
-"114
+"113
 [v _setOverTemp_Exceptions `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;OverTemperature_B1.c: 114: void setOverTemp_Exceptions(char command) {
+[; ;OverTemperature_B1.c: 113: void setOverTemp_Exceptions(char command) {
 [e :U _setOverTemp_Exceptions ]
 [v _command `uc ~T0 @X0 1 r1 ]
 [f ]
-"115
+"114
 [v _i `uc ~T0 @X0 1 a ]
-[; ;OverTemperature_B1.c: 115: char i = command == 1 ? 0 : 1;
+[; ;OverTemperature_B1.c: 114: char i = command == 1 ? 0 : 1;
 [e = _i -> ? == -> _command `i -> 1 `i : -> 0 `i -> 1 `i `uc ]
-[; ;OverTemperature_B1.c: 116: Temp1.ERROR = command;
+[; ;OverTemperature_B1.c: 115: Temp.ERROR = command;
+"115
+[e = . . . _Temp 0 0 1 _command ]
+[; ;OverTemperature_B1.c: 116: Temp.Safe = i;
 "116
-[e = . . . _Temp1 0 0 1 _command ]
-[; ;OverTemperature_B1.c: 117: Temp1.Safe = i;
+[e = . . . _Temp 0 0 4 _i ]
+[; ;OverTemperature_B1.c: 117: if (command == 1) {
 "117
-[e = . . . _Temp1 0 0 4 _i ]
-[; ;OverTemperature_B1.c: 118: if (command == 1) {
-"118
 [e $ ! == -> _command `i -> 1 `i 320  ]
 {
-[; ;OverTemperature_B1.c: 119: DimmerLights_Exceptions(1);
-"119
+[; ;OverTemperature_B1.c: 118: DimmerLights_Exceptions(1);
+"118
 [e ( _DimmerLights_Exceptions (1 -> -> 1 `i `uc ]
-"123
+"122
 }
-[; ;OverTemperature_B1.c: 123: } else if (command == 0) {
+[; ;OverTemperature_B1.c: 122: } else if (command == 0) {
 [e $U 321  ]
 [e :U 320 ]
 [e $ ! == -> _command `i -> 0 `i 322  ]
 {
-[; ;OverTemperature_B1.c: 124: setBuz(2, 100);
-"124
+[; ;OverTemperature_B1.c: 123: setBuz(2, 100);
+"123
 [e ( _setBuz (2 , -> -> 2 `i `uc -> 100 `i ]
-"125
+"124
 }
 [e :U 322 ]
-"128
+"127
 [e :U 321 ]
-[; ;OverTemperature_B1.c: 125: }
-[; ;OverTemperature_B1.c: 128: setLED(99, command + 10);
+[; ;OverTemperature_B1.c: 124: }
+[; ;OverTemperature_B1.c: 127: setLED(99, command + 10);
 [e ( _setLED (2 , -> -> 99 `i `uc -> + -> _command `i -> 10 `i `uc ]
-[; ;OverTemperature_B1.c: 130: setSw_Enable(i);
-"130
+[; ;OverTemperature_B1.c: 129: setSw_Enable(i);
+"129
 [e ( _setSw_Enable (1 _i ]
-[; ;OverTemperature_B1.c: 132: setRF_Enable(i);
-"132
+[; ;OverTemperature_B1.c: 131: setRF_Enable(i);
+"131
 [e ( _setRF_Enable (1 _i ]
-[; ;OverTemperature_B1.c: 135: }
-"135
+[; ;OverTemperature_B1.c: 134: }
+"134
 [e :UE 319 ]
 }

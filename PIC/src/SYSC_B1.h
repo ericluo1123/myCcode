@@ -6,24 +6,30 @@
 #if SYSC_use == 1
 
 struct SYSC {
-    unsigned Enable : 1;
-    unsigned ERROR : 1;
-    unsigned PowerON : 1;
-    unsigned int Time;
-    unsigned int Count;
+
+    union {
+
+        struct {
+            unsigned Enable : 1;
+            unsigned ERROR : 1;
+            unsigned PowerON : 1;
+            unsigned Signal : 1;
+            unsigned empty : 4;
+        };
+    };
+    unsigned int Timer;
+    unsigned int Counter;
 };
-struct SYSC *SYSC;
 
 #ifdef SYSC1
-struct SYSC _SYSC1;
+struct SYSC SYSC;
 #endif
 
-void selectSYSCPoint(char);
-void SYSC_Initialization();
-void SYSC_Main();
-void setSYSC_Initialization(char);
-void setSYSC_Main(char);
-void DetectSYSC_Signal(char);
+inline void SYSC_Initialization();
+inline void SYSC_Main();
+void setSYSC_Initialization();
+void setSYSC_Main();
+inline void DetectSYSC_Signal();
 
 #else
 #define selectSYSCPoint(char) ;

@@ -10,11 +10,12 @@ void PIR_Initialization() {
     _PIR.CloseTimeValue = 150;
     _PIR.TriggerValue = 2;
 }
+//******************************************************************************
 
 void PIR_Main() {
     if (_PIR.Enable == true) {
 
-        if (getCDS_Status() == true) {
+        if (getCDS_Status() == true && getMain_Exception() == 0) {
             if (_PIR.Detect == false) {
                 _PIR.Detect = true;
                 _PIR.Available = true;
@@ -27,7 +28,7 @@ void PIR_Main() {
                 _PIR.Detect = false;
                 _PIR.Available = false;
                 _PIR.Status = false;
-                ErrLED = true;
+
                 //auto gain restore
                 _PIR.Time = 0;
                 _PIR.RangeTime1 = 0;
@@ -58,8 +59,12 @@ void PIR_Main() {
         if (_PIR.ADtoGO == false) {
             _PIR.Time++;
             if (_PIR.Time == 10) {//*10ms
-                _PIR.Time = 0;
-                _PIR.ADtoGO = true;
+                if (getLoad_Safe() == 1) {
+                    _PIR.Time = 0;
+                    _PIR.ADtoGO = true;
+                } else {
+                    _PIR.Time = 10;
+                }
             }
         } else {
             if (_PIR.GO == true) {
@@ -162,6 +167,7 @@ void PIR_Main() {
         }
     }
 }
+//******************************************************************************
 
 void getPIR_AD(char channel1, char channel2) {
     char i = 0, j = 0;

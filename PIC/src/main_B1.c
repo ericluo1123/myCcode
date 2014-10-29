@@ -28,39 +28,35 @@ int main(int argc, char** argv) {
 
     while (true) {
 
-        if (myMain.PowerON) {
-#ifdef SYSC1
-            DetectSYSC_Signal(1);
+        if (myMain.PowerON == true) {
+#if SYSC_use == 1
+            DetectSYSC_Signal();
 #endif
 
-#ifdef OverLoad1
+#if OverLoad_use == 1
             getLoad_AD(OverLoad_Channel);
 #endif
 
-#ifdef SYSC1
+#if OverTemperature_use == 1
             getTemp_AD(OverTemp_Channel);
 #endif
 
-#ifdef PFV1
+#if PowerFault_use == 1
             getPowerFault_AD(PFV_Channel);
 #endif
 
-#ifdef CDS_1
+#if CDS_use == 1
             getCDS_AD(CDS_VR_Channel, CDS_Signal_Channel);
 #endif
 
-#ifdef PIR_1
+#if PIR_use == 1
             getPIR_AD(PIR_VR_Channel, PIR_Signal_Channel);
 #endif
 
-            //                        while (true && myMain.Timeout == false) {
-            //                            Timeout_Counter();
-            //                        }
-            //                        set_TimeoutCleared();
         }
         //TMR0
 #if Timer0_use == 1
-        if (myMain.T0_Timerout) {//10ms
+        if (myMain.T0_Timerout == true) {//10ms
             myMain.T0_Timerout = 0;
             my_MainTime();
             WDT_Main();
@@ -93,7 +89,7 @@ int main(int argc, char** argv) {
 
 #if Timer1_use == 1
         //TMR1
-        if (myMain.T1_Timerout) { //10ms
+        if (myMain.T1_Timerout == true) { //10ms
             myMain.T1_Timerout = 0;
             my_MainTime();
             WDT_Main();
@@ -131,7 +127,7 @@ int main(int argc, char** argv) {
 #endif 
 
 #if Timer2_use == 1
-        if (myMain.T2_Timerout) {//10ms
+        if (myMain.T2_Timerout == true) {//10ms
             myMain.T2_Timerout = false;
             my_MainTime();
             WDT_Main();
@@ -165,7 +161,7 @@ int main(int argc, char** argv) {
     return (EXIT_SUCCESS);
 }
 
-
+//*****************************************************************************
 //Tmain initial
 
 inline void myMain_Initialization() {
@@ -179,6 +175,7 @@ inline void myMain_Initialization() {
     //TMain->First=1;
 }
 //T main
+//*****************************************************************************
 
 inline void my_MainTime() {
     //Power
@@ -262,10 +259,11 @@ inline void my_MainTime() {
     myMain.Count2++;
     if (myMain.Count2 == 50) {
         myMain.Count2 = 0;
-        Relay1 = true;
+
     }
 #endif
 }
+//*****************************************************************************
 
 inline void Timeout_Counter() {
     myMain.Timeout_Counter++;
@@ -275,10 +273,37 @@ inline void Timeout_Counter() {
         //        ErrLED = ErrLED == true ? false : true;
     }
 }
+//*****************************************************************************
 
 inline void set_TimeoutCleared() {
     myMain.Timeout = false;
     myMain.Timeout_Counter = 0;
+}
+//*****************************************************************************
+
+char getMain_Exception() {
+    char result = 0;
+#if SYSC_use == 1
+    if (result == 0) {
+        result = SYSC.ERROR == true ? 1 : 0;
+    }
+#endif
+
+#if OverTemperature_use == 1
+    if (result == 0) {
+        result = Temp.ERROR == true ? 1 : 0;
+    }
+#endif
+    return result;
+}
+//*****************************************************************************
+
+char getMain_AD_Safe() {
+    char result = 0;
+#if OverTemperature_use == 1
+
+#endif
+    return result;
 }
 //End file
 
