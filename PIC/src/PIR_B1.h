@@ -9,7 +9,9 @@
 //detect range
 #define RangeMaximum	35
 #define RangeMedium	25
-#define RangeMinimum	15
+#define RangeMinimum	7
+
+#define Hunder_Average 1
 
 struct PIR {
 
@@ -41,19 +43,22 @@ struct PIR {
 
 
     unsigned char Time;
-    unsigned char TenCount;
-    unsigned char HundreCount;
     unsigned char ReferenceVoltage;
+
+    unsigned char TenCount;
     unsigned char TenAverage[10];
     unsigned int TenAverageValue;
+#if Hunder_Average == 1
+    unsigned char HundreCount;
     unsigned char HundredAverage[10];
     unsigned int HundredAverageValue;
+#endif
 
     //main
 
     unsigned int Count;
     unsigned char TriggerValue;
-    unsigned int CloseTimeMinutes ;
+    unsigned int CloseTimeMinutes;
     unsigned char CloseTimeSeconds;
     unsigned int CloseTimeValue;
 

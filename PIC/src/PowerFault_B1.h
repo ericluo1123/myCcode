@@ -39,7 +39,7 @@ struct PF PF1;
 
 inline void PowerFault_Initialization();
 inline inline void PowerFault_Main();
-void getPowerFault_AD(char channel);
+inline void getPowerFault_AD(char channel);
 void setPowerFault_Initialization();
 void setPowerFault_Main();
 void setPowerFault_Exceptions(char command);

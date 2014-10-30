@@ -147,7 +147,8 @@
 #define LoadLimitValue 0x42
 #endif
 #endif
-
+#else
+#define LoadLimitValue 0x42
 #endif
 
 //Global extern variable declaration
@@ -173,8 +174,8 @@ struct OverLoad {
 
 #ifdef MCU_16F723A
     unsigned char TotalLoad;
-    unsigned char AH[9];
-    unsigned char AL[9];
+    unsigned char AH[5];
+    unsigned char AL[5];
     unsigned char AD;
     unsigned char ADH;
     unsigned char ADL;
@@ -183,8 +184,8 @@ struct OverLoad {
 
 #ifdef MCU_16F1516
     unsigned int TotalLoad;
-    unsigned int AH[9];
-    unsigned int AL[9];
+    unsigned int AH[5];
+    unsigned int AL[5];
     unsigned int AD;
     unsigned int ADH;
     unsigned int ADL;
@@ -193,8 +194,8 @@ struct OverLoad {
 
 #ifdef MCU_16F1518
     unsigned int TotalLoad;
-    unsigned int AH[9];
-    unsigned int AL[9];
+    unsigned int AH[5];
+    unsigned int AL[5];
     unsigned int AD;
     unsigned int ADH;
     unsigned int ADL;
@@ -207,13 +208,9 @@ struct OverLoad {
     unsigned int Judge;
 
     unsigned char Count;
-    unsigned char OffCount;
     unsigned char ErrorCount;
-    unsigned char UpdateCount;
     unsigned char LightsCount;
     unsigned char NumberCount;
-    unsigned char CloseCount;
-    unsigned char ADCount;
     unsigned char SafeCount;
 
     unsigned char Lights1Status;

@@ -30,7 +30,20 @@ char getTemp_ERROR() {
 }
 //*********************************************************
 
-void getTemp_AD(char channel) {
+inline void getTemp_AD(char channel) {
+#if SYSC_use == 1
+    if (SYSC1 == true) {
+        if (Temp.ADtoGO == true) {
+            Temp.ADRES = getAD(channel, ADCON1_VDD);
+            if (Temp.ADH[0] < Temp.ADRES) {
+                Temp.ADH[0] = Temp.ADRES;
+            } else if (Temp.ADH[1] < Temp.ADRES) {
+                Temp.ADH[1] = Temp.ADRES;
+            }
+        }
+    }
+
+#else
     if (Temp.ADtoGO == true) {
         Temp.ADRES = getAD(channel, ADCON1_VDD);
         if (Temp.ADH[0] < Temp.ADRES) {
@@ -39,6 +52,7 @@ void getTemp_AD(char channel) {
             Temp.ADH[1] = Temp.ADRES;
         }
     }
+#endif
 }
 //*********************************************************
 
@@ -59,7 +73,7 @@ void setTemp_Main() {
         if (Temp.ADtoGO == false) {
             Temp.Time++;
             if (Temp.Time >= 500) {//*10ms
-                if (getLoad_Safe() == 1) {
+                if (getMain_AD_Safe() == 1) {
                     Temp.Time = 0;
                     Temp.ADtoGO = true;
                     Temp.Safe = false;
@@ -70,12 +84,28 @@ void setTemp_Main() {
             }
         } else {
             Temp.Time++;
-            if (Temp.Time >= 4) {//*10ms
+            if (Temp.Time >= 5) {//*10ms
                 Temp.Time = 0;
                 Temp.ADtoGO = false;
-                Temp.AD = Temp.ADH[1];
+                Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
+#if PIR_use == 1
+                if (getMain_LightsStatus() == 1) {
+                    Temp.SafeValue = TempSafeValueH;
+                    Temp.DangerValue = TempDangerValueH;
+                } else {
+                    Temp.SafeValue = TempSafeValueL;
+                    Temp.DangerValue = TempDangerValueL;
+                }
+#elif Dimmer_use == 1
+                Temp.SafeValue = TempSafeValue;
+                Temp.DangerValue = TempDangerValue;
+#else
+                Temp.SafeValue = 0;
+                Temp.DangerValue = 0;
+#endif
+
                 if (Temp.ERROR == true) {
-                    if (Temp.AD >= TempSafeValue) {
+                    if (Temp.AD >= Temp.SafeValue) {
                         Temp.Count++;
                         if (Temp.Count >= TempCountValue) {
                             Temp.Count = 0;
@@ -85,7 +115,7 @@ void setTemp_Main() {
                         Temp.Count = 0;
                     }
                 } else {
-                    if (Temp.AD <= TempDangerValue) {
+                    if (Temp.AD <= Temp.DangerValue) {
                         Temp.Count++;
                         if (Temp.Count >= TempCountValue) {
                             Temp.Count = 0;
@@ -124,7 +154,11 @@ void setOverTemp_Exceptions(char command) {
     }
     //Lights_ERROR();
 
+#if PIR_use == 1
+    setLED(2, command + 10);
+#else
     setLED(99, command + 10);
+#endif
 
     setSw_Enable(i);
 #ifdef RadioFrequency1

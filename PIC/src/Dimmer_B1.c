@@ -587,7 +587,7 @@ void setDimmerLights_ERROR(char lights) {
         setRFSW_Status(lights, 0);
     }
 }
-
+ 
 void setDimmerLights_TriggerERROR(char lights, char command) {
 
     DimmerLightsPointSelect(lights);

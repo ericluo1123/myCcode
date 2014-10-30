@@ -89,6 +89,7 @@ inline void Load_Main() {
 #endif
                         }
                     } else {
+                        ErrLED = ErrLED == true ? false : true;
                         Load1.ErrorCount = 0;
                         if (Load1.SafeCount < SafeCountValue) {
                             Load1.SafeCount++;
@@ -97,31 +98,31 @@ inline void Load_Main() {
                             Load1.Safe = 1;
 
 #ifdef use_1KEY			
-#ifdef Dimmer_use == 1
+#if Dimmer_use == 1
                             setDimmerLights_Clear(1, 1);
 #endif
 
-#ifdef LightsControl_use == 1
+#if LightsControl_use == 1
                             setLights_Clear(1, 1);
 #endif
 #endif
 
 #ifdef use_2KEY
-#ifdef Dimmer_use == 1
+#if Dimmer_use == 1
                             setDimmerLights_Clear(2, 1);
 #endif
 
-#ifdef LightsControl_use == 1
+#if LightsControl_use == 1
                             setLights_Clear(2, 1);
 #endif
 #endif
 
 #ifdef use_3KEY		
-#ifdef Dimmer_use == 1
+#if Dimmer_use == 1
                             setDimmerLights_Clear(3, 1);
 #endif	
 
-#ifdef LightsControl_use == 1
+#if LightsControl_use == 1
                             setLights_Clear(3, 1);
 #endif
 #endif	
@@ -169,18 +170,17 @@ inline void Load_Main() {
                     Load1.ErrorCount = 0;
                     Load1.Count = 0;
                     Load1.TotalLoad = 0;
-                    Load1.NumberCount = 0;
                     Load1.StatusOn = 0;
                     Load1.StatusOff = 0;
                     Load1.AD = 0;
                     setLoad_AH_AL_Restore();
 
 #ifdef use_1KEY			
-#ifdef Dimmer_use == 1
+#if Dimmer_use == 1
                     setDimmerLights_Clear(1, 1);
 #endif
 
-#ifdef LightsControl_use == 1
+#if LightsControl_use == 1
                     setLights_Clear(1, 1);
 #endif
 #endif
@@ -215,7 +215,6 @@ inline void Load_Main() {
                     //setProductData(5,Load1.ADH);
                     //setProductData(6,(Load1.ADL >> 8));
                     //setProductData(7,Load1.ADL);
-                    //                    setProductData(8, Load1.NumberCount);
                     setProductData(10, Load1.TotalLoad);
 
                     setProductData(18, Load1.ErrorStatus);
@@ -268,29 +267,42 @@ void setLoad_StatusOn(char lights, char command) {
     Load1.GO = true;
     Load1.StatusOn = command;
 
+#ifdef use_1KEY
     if (lights == 1) {
         Load1.Lights1Status = 1;
     }
-    if (lights == 2) {
+#endif
+#ifdef use_2KEY
+    else if (lights == 2) {
         Load1.Lights2Status = 1;
     }
-    if (lights == 3) {
+#endif
+#ifdef use_3KEY
+    else if (lights == 3) {
         Load1.Lights3Status = 1;
     }
+#endif
 }
 
 void setLoad_StatusOff(char lights, char command) {
     Load1.StatusOff = command;
     Load1.SafeCount -= 2;
+
+#ifdef use_1KEY
     if (lights == 1) {
         Load1.Lights1Status = 0;
     }
-    if (lights == 2) {
+#endif
+#ifdef use_2KEY
+    else if (lights == 2) {
         Load1.Lights2Status = 0;
     }
-    if (lights == 3) {
+#endif
+#ifdef use_3KEY
+    else if (lights == 3) {
         Load1.Lights3Status = 0;
     }
+#endif
 }
 
 char getLoad_Safe() {

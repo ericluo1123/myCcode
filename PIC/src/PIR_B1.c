@@ -59,7 +59,7 @@ void PIR_Main() {
         if (_PIR.ADtoGO == false) {
             _PIR.Time++;
             if (_PIR.Time == 10) {//*10ms
-                if (getLoad_Safe() == 1) {
+                if (getMain_AD_Safe() == 1) {
                     _PIR.Time = 0;
                     _PIR.ADtoGO = true;
                 } else {
@@ -202,6 +202,7 @@ void getPIR_AD(char channel1, char channel2) {
                 break;
         }
 
+#if Hunder_Average == 1
         _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
         for (i = 0; i < 10; i++) {
             _PIR.TenAverageValue += _PIR.TenAverage[i];
@@ -224,6 +225,20 @@ void getPIR_AD(char channel1, char channel2) {
             else
                 _PIR.HundreCount = 0;
         }
+#else
+        _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
+        for (i = 0; i < 10; i++) {
+            _PIR.TenAverageValue += _PIR.TenAverage[i];
+        }
+        _PIR.ReferenceVoltage = (_PIR.TenAverageValue / 10);
+        _PIR.TenAverageValue = 0;
+
+        if (_PIR.TenCount < 10) {
+            _PIR.TenCount++;
+        } else {
+            _PIR.TenCount = 0;
+        }
+#endif
     }
 }
 

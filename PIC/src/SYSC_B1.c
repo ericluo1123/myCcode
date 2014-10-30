@@ -36,12 +36,12 @@ void setSYSC_Main() {
             }
         } else {
             SYSC.Timer++;
-            if (SYSC.Timer == 16) {//*10ms
+            if (SYSC.Timer == 50) {//*10ms
                 SYSC.Timer = 0;
                 SYSC.Counter = 0;
             } else {
                 SYSC.Counter++;
-                if (SYSC.Counter == 160) {
+                if (SYSC.Counter == 1000) {
                     SYSC.Counter = 0;
                     SYSC.ERROR = false;
                     setLED(2, 10);

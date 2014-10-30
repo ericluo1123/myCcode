@@ -18,6 +18,16 @@
 #if LightsControl_use == 1 
 
 //Global extern variable declaration
+struct LightsControl{
+    union{
+        struct{
+            unsigned Detect:1;
+            unsigned empty:7;
+        };
+        unsigned char Load:1;
+    };
+};
+struct LightsControl LightsControl;
 
 struct Lights {
 
@@ -50,8 +60,6 @@ struct Lights {
     unsigned char TriacValue;
     unsigned char RelayTime;
     unsigned char RelayValue;
-    unsigned char Number;
-
 };
 struct Lights *Lights;
 
@@ -80,7 +88,8 @@ void setLights_Main(char);
 void setLights_ERROR(char);
 void setLights_TriggerERROR(char, char);
 void Lights_Control(char);
-
+void Lights_Close();
+    
 void setLights_Clear(char, char);
 void setLights_Trigger(char, char);
 void setLights_Switch(char, char);

@@ -27,18 +27,24 @@ struct OverTemp {
     unsigned char AD;
     unsigned char ADH[2];
     unsigned char ADRES;
+    unsigned char SafeValue;
+    unsigned char DangerValue;
 #endif
 
 #ifdef MCU_16F1516
     unsigned int AD;
     unsigned int ADH[2];
     unsigned int ADRES;
+    unsigned int SafeValue;
+    unsigned int DangerValue;
 #endif
 
 #ifdef MCU_16F1518
     unsigned int AD;
     unsigned int ADH[2];
     unsigned int ADRES;
+    unsigned int SafeValue;
+    unsigned int DangerValue;
 #endif
 
 };
@@ -47,12 +53,13 @@ struct OverTemp Temp;
 #endif
 
 #ifdef MCU_16F723A
-#define TempDangerValue	137		//NTC 68 value 500
+#define TempDangerValueH 170		//NTC 68 value 500
+#define TempDangerValueL 100		//NTC 68 value 500
 //NTC 71 value 490
 //NTC 73.5 value 480	
 //65,600
-
-#define TempSafeValue	150		//NTC 47 value 600
+#define TempSafeValueH	190		//NTC 47 value 600
+#define TempSafeValueL	120		//NTC 47 value 600
 //NTC 61.2 value 540
 //NTC 58 value 535
 //51,700
@@ -93,7 +100,7 @@ inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
 void setTemp_Initialization();
-void getTemp_AD(char channel);
+inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
 void setTemp_Enable(char command);
 char getTemp_Safe();

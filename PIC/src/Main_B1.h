@@ -77,14 +77,15 @@ struct myMain {
     };
     unsigned int PowerCount;
 
-
+#if Debug == 1
     unsigned int Count;
     unsigned int Count1;
     unsigned int Count2;
     unsigned int Count3;
-    unsigned char IOC_Count;
-    unsigned char Test;
-    unsigned char ClockCount;
+#endif
+//    unsigned char IOC_Count;
+//    unsigned char Test;
+//    unsigned char ClockCount;
 
     union {
 
@@ -139,5 +140,6 @@ inline void my_MainTime();
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 char getMain_Exception();
-char getMain_AD_Status();
+char getMain_AD_Safe();
+char getMain_LightsStatus();
 #endif		

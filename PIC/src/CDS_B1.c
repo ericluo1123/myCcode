@@ -4,11 +4,11 @@
 
 #if CDS_use == 1
 
-void CDS_Initialization() {
+inline void CDS_Initialization() {
     _CDS.Enable = true;
 }
 
-void CDS_Main() {
+inline void CDS_Main() {
     //setCDSPoint(cds);
     if (_CDS.Enable == true) {
         if (_CDS.GO == false) {
@@ -16,7 +16,7 @@ void CDS_Main() {
                 _CDS.Time++;
                 if (_CDS.Time >= 10)//*10ms
                 {
-                    if (getLoad_Safe() == 1) {
+                    if (getMain_AD_Safe() == 1) {
                         _CDS.Time = 0;
                         _CDS.ADtoGO = true;
                     } else {
@@ -46,7 +46,7 @@ char getCDS_Status() {
     return result;
 }
 
-void getCDS_AD(char channel1, char channel2) {
+inline void getCDS_AD(char channel1, char channel2) {
     char i = 0, j = 0;
     if (_CDS.ADtoGO == true) {
         _CDS.GO = true;

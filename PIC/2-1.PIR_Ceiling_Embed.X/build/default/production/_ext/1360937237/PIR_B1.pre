@@ -1938,15 +1938,7 @@ unsigned First : 1;
 };
 unsigned int PowerCount;
 
-
-unsigned int Count;
-unsigned int Count1;
-unsigned int Count2;
-unsigned int Count3;
-unsigned char IOC_Count;
-unsigned char Test;
-unsigned char ClockCount;
-
+# 90
 union {
 
 struct {
@@ -1975,20 +1967,21 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 124
+# 125
 inline void myMain_Initialization();
 
-# 129
+# 130
 inline void my_Main();
 
-# 134
+# 135
 inline void my_MainTime();
 
-# 139
+# 140
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 char getMain_Exception();
-char getMain_AD_Status();
+char getMain_AD_Safe();
+char getMain_LightsStatus();
 
 # 10 "../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h"
 struct LED {
@@ -2061,22 +2054,89 @@ unsigned char AD2;
 unsigned char AD;
 unsigned char ADH[2];
 unsigned char ADRES;
+unsigned char SafeValue;
+unsigned char DangerValue;
 
-# 44
+# 50
 };
 
 struct OverTemp Temp;
 
-# 92
+# 99
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
 void setTemp_Initialization();
-void getTemp_AD(char channel);
+inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
 void setTemp_Enable(char command);
 char getTemp_Safe();
 char getTemp_ERROR();
+
+# 156 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Safe : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned StatusOn : 1;
+unsigned StatusOff : 1;
+};
+};
+unsigned int Time;
+unsigned int ErrorTime;
+unsigned char ErrorStatus;
+
+
+unsigned char TotalLoad;
+unsigned char AH[5];
+unsigned char AL[5];
+unsigned char AD;
+unsigned char ADH;
+unsigned char ADL;
+unsigned char ADRES;
+
+# 206
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char ErrorCount;
+unsigned char LightsCount;
+unsigned char NumberCount;
+unsigned char SafeCount;
+
+unsigned char Lights1Status;
+unsigned char Lights2Status;
+unsigned char Lights3Status;
+};
+
+
+struct OverLoad Load1;
+
+
+
+
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_Enable(char command);
+void setLoad_AH_AL_Restore();
+
+void setLoad_Count(char command);
+void setLoad_GO(char command);
+void setLoad_StatusOn(char lights, char command);
+void setLoad_StatusOff(char lights, char command);
+char getLoad_Safe();
+char getLoad_ERROR();
 
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
@@ -2107,12 +2167,12 @@ unsigned char ADRES;
 struct CDS _CDS;
 
 
-void CDS_Initialization();
-void CDS_Main();
-void getCDS_AD(char channel1, char channel2);
+inline void CDS_Initialization();
+inline void CDS_Main();
+inline void getCDS_AD(char channel1, char channel2);
 char getCDS_Status();
 
-# 14 "../src/../2-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
+# 16 "../src/../2-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
 struct PIR {
 
 union {
@@ -2135,21 +2195,24 @@ unsigned char ADRES;
 unsigned char VRAD;
 unsigned char VRAD1;
 
-# 43
+# 45
 unsigned char Time;
-unsigned char TenCount;
-unsigned char HundreCount;
 unsigned char ReferenceVoltage;
+
+unsigned char TenCount;
 unsigned char TenAverage[10];
 unsigned int TenAverageValue;
+
+unsigned char HundreCount;
 unsigned char HundredAverage[10];
 unsigned int HundredAverageValue;
 
 
 
+
 unsigned int Count;
 unsigned char TriggerValue;
-unsigned int CloseTimeMinutes ;
+unsigned int CloseTimeMinutes;
 unsigned char CloseTimeSeconds;
 unsigned int CloseTimeValue;
 
@@ -2172,7 +2235,45 @@ void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
 
-# 22 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
+# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/SYSC_B1.h"
+struct SYSC {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned PowerON : 1;
+unsigned Signal : 1;
+unsigned empty : 4;
+};
+};
+unsigned int Timer;
+unsigned int Counter;
+};
+
+
+struct SYSC SYSC;
+
+
+inline void SYSC_Initialization();
+inline void SYSC_Main();
+void setSYSC_Initialization();
+void setSYSC_Main();
+inline void DetectSYSC_Signal();
+
+# 21 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
+struct LightsControl{
+union{
+struct{
+unsigned Detect:1;
+unsigned empty:7;
+};
+unsigned char Load:1;
+};
+};
+struct LightsControl LightsControl;
+
 struct Lights {
 
 union {
@@ -2204,8 +2305,6 @@ unsigned char TriacTime;
 unsigned char TriacValue;
 unsigned char RelayTime;
 unsigned char RelayValue;
-unsigned char Number;
-
 };
 struct Lights *Lights;
 
@@ -2213,7 +2312,7 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 71
+# 79
 void LightsPointSelect(char);
 void Lights_Initialization();
 void Lights_Main();
@@ -2226,6 +2325,7 @@ void setLights_Main(char);
 void setLights_ERROR(char);
 void setLights_TriggerERROR(char, char);
 void Lights_Control(char);
+void Lights_Close();
 
 void setLights_Clear(char, char);
 void setLights_Trigger(char, char);
@@ -2240,7 +2340,7 @@ char getLights_Status(char lights);
 # 7 "../src/PIR_B1.c"
 void PIR_Initialization() {
 _PIR.Enable = 1;
-_PIR.RangeValue = 15;
+_PIR.RangeValue = 7;
 _PIR.CloseTimeValue = 150;
 _PIR.TriggerValue = 2;
 }
@@ -2266,7 +2366,7 @@ _PIR.Status = 0;
 
 _PIR.Time = 0;
 _PIR.RangeTime1 = 0;
-_PIR.RangeValue = 15;
+_PIR.RangeValue = 7;
 _PIR.RangeCount = 0;
 
 setLED(1, 0);
@@ -2293,7 +2393,7 @@ setLights_Switch(1, 0);
 if (_PIR.ADtoGO == 0) {
 _PIR.Time++;
 if (_PIR.Time == 10) {
-if (1 == 1) {
+if (getMain_AD_Safe() == 1) {
 _PIR.Time = 0;
 _PIR.ADtoGO = 1;
 } else {
@@ -2312,7 +2412,7 @@ _PIR.Time = 0;
 if (_PIR.RangeCount >= 90) {
 _PIR.RangeTime1 = 0;
 
-if (_PIR.RangeValue == 15) {
+if (_PIR.RangeValue == 7) {
 _PIR.RangeValue = 25;
 } else if (_PIR.RangeValue == 25) {
 _PIR.RangeValue = 35;
@@ -2325,7 +2425,7 @@ _PIR.RangeTime1 = 0;
 if (_PIR.RangeValue == 35) {
 _PIR.RangeValue = 25;
 } else if (_PIR.RangeValue == 25) {
-_PIR.RangeValue = 15;
+_PIR.RangeValue = 7;
 }
 }
 }
@@ -2436,6 +2536,7 @@ _PIR.CloseTimeValue = 1200;
 break;
 }
 
+
 _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
 for (i = 0; i < 10; i++) {
 _PIR.TenAverageValue += _PIR.TenAverage[i];
@@ -2458,6 +2559,8 @@ _PIR.HundreCount++;
 else
 _PIR.HundreCount = 0;
 }
+
+# 242
 }
 }
 

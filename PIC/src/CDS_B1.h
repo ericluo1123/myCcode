@@ -37,9 +37,9 @@ struct CDS {
 struct CDS _CDS;
 #endif
 
-void CDS_Initialization();
-void CDS_Main();
-void getCDS_AD(char channel1, char channel2);
+inline void CDS_Initialization();
+inline void CDS_Main();
+inline void getCDS_AD(char channel1, char channel2);
 char getCDS_Status();
 
 #else

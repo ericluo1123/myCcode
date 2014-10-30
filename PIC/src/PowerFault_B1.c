@@ -42,7 +42,7 @@ char getPF_ERROR() {
 }
 //*********************************************************
 
-void getPowerFault_AD(char channel) {
+inline void getPowerFault_AD(char channel) {
     if (PF1.ADtoGO == true) {
         PF1.ADRES = getAD(channel, ADCON1_VDD);
         if (PF1.AD < PF1.ADRES) {
@@ -58,7 +58,7 @@ void setPowerFault_Main() {
             PF1.Time++;
             if (PF1.Time >= 700)//*10ms
             {
-                if (getLoad_Safe() == 1 && getTemp_Safe() == 1) {
+                if (getMain_AD_Safe() == 1) {
                     PF1.Time = 0;
                     PF1.ADtoGO = true;
                     PF1.Safe = false;

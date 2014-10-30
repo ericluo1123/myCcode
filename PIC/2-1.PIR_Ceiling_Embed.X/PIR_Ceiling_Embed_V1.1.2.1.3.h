@@ -37,13 +37,13 @@
 #define Control_Method_TriacRelay	1
 #define Properties_Neutral		0
 #define Properties_Dimmer		0
-#define Debug                           1
+#define Debug                           0
 #define Create_Date "2014/10/20"
 #define PCB_Name "TH-302PV11-1-Dim(20140722)"
 
 #define MCU_16F723A
 //MCU define
-#define	Overload1			RA0		//pin2  1
+#define	OverLoad1			RA0		//pin2  1
 #define PIR1_VR				RA1		//pin3	1	
 #define CDS1_VR				RA2		//pin4	1		
 #define	PIR_1				RA3		//pin5	1
@@ -125,11 +125,12 @@
 //Function Option
 
 //SYSC
-#define SYSC_use 0
+#define SYSC_use 1
 //OverTemperature
 #define OverTemperature_use 1
+#define Cut_Off_electricity 1
 //OverLoad
-#define OverLoad_use 0
+#define OverLoad_use 1
 //LED
 #define LED_use 1
 //Buzzer

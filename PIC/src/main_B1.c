@@ -299,8 +299,37 @@ char getMain_Exception() {
 //*****************************************************************************
 
 char getMain_AD_Safe() {
-    char result = 0;
-#if OverTemperature_use == 1
+    char result = 1;
+    //#if OverTemperature_use == 1
+    //    result = Temp.Safe == true ? 1 : 0;
+    //#endif
+ 
+#if OverLoad_use == 1 
+    if (result == 1) {
+        result = Load1.Safe == true ? 1 : 0;
+    }
+#endif
+    return result;
+}
+
+char getMain_LightsStatus() {
+    char result = 1, count = 0;
+#if LightsControl_use == 1
+#ifdef use_1KEY
+    count = 1;
+#endif
+#ifdef use_2KEY
+    count = 2;
+#endif
+#ifdef use_3KEY
+    count = 3;
+#endif
+    for (int i = 0; i < count; i++) {
+        if (result == 1) {
+            LightsPointSelect(i + 1);
+            result = Lights->Status == true ? 1 : 0;
+        }
+    }
 
 #endif
     return result;
