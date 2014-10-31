@@ -89,30 +89,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 "8
 [s S163 `S164 1 `ui 1 `ui 1 ]
 [n S163 SYSC . Timer Counter ]
-"23 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[s S168 :1 `uc 1 :7 `uc 1 ]
-[n S168 . Detect empty ]
-"22
-[u S167 `S168 1 :1 `uc 1 ]
-[n S167 . . Load ]
-"21
-[s S166 `S167 1 ]
-[n S166 LightsControl . ]
-"36
-[s S171 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S171 . Enable GO Status Open Close Trigger Switch Relay ]
-"34
-[u S170 `S171 1 ]
-[n S170 . . ]
-"50
-[s S173 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
-[n S173 . Triac Clear RelaySet empty ]
-"48
-[u S172 `S173 1 ]
-[n S172 . . ]
-"32
-[s S169 `S170 1 `S172 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
-[n S169 Lights . . Time TriacTime TriacValue RelayTime RelayValue ]
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -1737,69 +1713,3 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;SYSC_B1.h: 30: void setSYSC_Initialization();
 [; ;SYSC_B1.h: 31: void setSYSC_Main();
 [; ;SYSC_B1.h: 32: inline void DetectSYSC_Signal();
-[; ;TriacRelay_B1.h: 21: struct LightsControl{
-[; ;TriacRelay_B1.h: 22: union{
-[; ;TriacRelay_B1.h: 23: struct{
-[; ;TriacRelay_B1.h: 24: unsigned Detect:1;
-[; ;TriacRelay_B1.h: 25: unsigned empty:7;
-[; ;TriacRelay_B1.h: 26: };
-[; ;TriacRelay_B1.h: 27: unsigned char Load:1;
-[; ;TriacRelay_B1.h: 28: };
-[; ;TriacRelay_B1.h: 29: };
-"30 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[v _LightsControl `S166 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 30: struct LightsControl LightsControl;
-[; ;TriacRelay_B1.h: 32: struct Lights {
-[; ;TriacRelay_B1.h: 34: union {
-[; ;TriacRelay_B1.h: 36: struct {
-[; ;TriacRelay_B1.h: 37: unsigned Enable : 1;
-[; ;TriacRelay_B1.h: 38: unsigned GO : 1;
-[; ;TriacRelay_B1.h: 39: unsigned Status : 1;
-[; ;TriacRelay_B1.h: 40: unsigned Open : 1;
-[; ;TriacRelay_B1.h: 41: unsigned Close : 1;
-[; ;TriacRelay_B1.h: 42: unsigned Trigger : 1;
-[; ;TriacRelay_B1.h: 43: unsigned Switch : 1;
-[; ;TriacRelay_B1.h: 44: unsigned Relay : 1;
-[; ;TriacRelay_B1.h: 45: };
-[; ;TriacRelay_B1.h: 46: };
-[; ;TriacRelay_B1.h: 48: union {
-[; ;TriacRelay_B1.h: 50: struct {
-[; ;TriacRelay_B1.h: 51: unsigned Triac : 1;
-[; ;TriacRelay_B1.h: 52: unsigned Clear : 1;
-[; ;TriacRelay_B1.h: 53: unsigned RelaySet : 1;
-[; ;TriacRelay_B1.h: 54: unsigned empty : 5;
-[; ;TriacRelay_B1.h: 55: };
-[; ;TriacRelay_B1.h: 56: };
-[; ;TriacRelay_B1.h: 58: unsigned char Time;
-[; ;TriacRelay_B1.h: 59: unsigned char TriacTime;
-[; ;TriacRelay_B1.h: 60: unsigned char TriacValue;
-[; ;TriacRelay_B1.h: 61: unsigned char RelayTime;
-[; ;TriacRelay_B1.h: 62: unsigned char RelayValue;
-[; ;TriacRelay_B1.h: 63: };
-"64
-[v _Lights `*S169 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 64: struct Lights *Lights;
-"68
-[v _Lights1 `S169 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 68: struct Lights Lights1;
-[; ;TriacRelay_B1.h: 79: void LightsPointSelect(char);
-[; ;TriacRelay_B1.h: 80: void Lights_Initialization();
-[; ;TriacRelay_B1.h: 81: void Lights_Main();
-[; ;TriacRelay_B1.h: 82: void Lights_ERROR();
-[; ;TriacRelay_B1.h: 83: void Lights_Close();
-[; ;TriacRelay_B1.h: 85: void setLights_Initialization(char);
-[; ;TriacRelay_B1.h: 86: void setLights_GO(char, char);
-[; ;TriacRelay_B1.h: 87: void setLights_Main(char);
-[; ;TriacRelay_B1.h: 88: void setLights_ERROR(char);
-[; ;TriacRelay_B1.h: 89: void setLights_TriggerERROR(char, char);
-[; ;TriacRelay_B1.h: 90: void Lights_Control(char);
-[; ;TriacRelay_B1.h: 91: void Lights_Close();
-[; ;TriacRelay_B1.h: 93: void setLights_Clear(char, char);
-[; ;TriacRelay_B1.h: 94: void setLights_Trigger(char, char);
-[; ;TriacRelay_B1.h: 95: void setLights_Switch(char, char);
-[; ;TriacRelay_B1.h: 96: void setLights_Open(char, char);
-[; ;TriacRelay_B1.h: 97: char getLights_Open(char);
-[; ;TriacRelay_B1.h: 98: void setLights_Close(char, char);
-[; ;TriacRelay_B1.h: 99: char getLights_Close(char);
-[; ;TriacRelay_B1.h: 100: void setLights(char, char);
-[; ;TriacRelay_B1.h: 101: char getLights_Status(char lights);

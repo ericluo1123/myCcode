@@ -89,30 +89,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 "8
 [s S163 `S164 1 `ui 1 `ui 1 ]
 [n S163 SYSC . Timer Counter ]
-"23 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[s S168 :1 `uc 1 :7 `uc 1 ]
-[n S168 . Detect empty ]
-"22
-[u S167 `S168 1 :1 `uc 1 ]
-[n S167 . . Load ]
-"21
-[s S166 `S167 1 ]
-[n S166 LightsControl . ]
-"36
-[s S171 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S171 . Enable GO Status Open Close Trigger Switch Relay ]
-"34
-[u S170 `S171 1 ]
-[n S170 . . ]
-"50
-[s S173 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
-[n S173 . Triac Clear RelaySet empty ]
-"48
-[u S172 `S173 1 ]
-[n S172 . . ]
-"32
-[s S169 `S170 1 `S172 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
-[n S169 Lights . . Time TriacTime TriacValue RelayTime RelayValue ]
 [p mainexit ]
 [v F1598 `(v ~T0 @X0 1 tf ]
 "125 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
@@ -131,8 +107,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v F1709 `(v ~T0 @X0 1 tf ]
 "227 ../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h
 [v _Load_Initialization `TF1709 ~T0 @X0 0 e ]
-"80 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[v _Lights_Initialization `(v ~T0 @X0 0 ef ]
 [v F1750 `(v ~T0 @X0 1 tf ]
 "40 ../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h
 [v _CDS_Initialization `TF1750 ~T0 @X0 0 e ]
@@ -172,8 +146,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v F1711 `(v ~T0 @X0 1 tf ]
 "228 ../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h
 [v _Load_Main `TF1711 ~T0 @X0 0 e ]
-"81 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[v _Lights_Main `(v ~T0 @X0 0 ef ]
 [v F1752 `(v ~T0 @X0 1 tf ]
 "41 ../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h
 [v _CDS_Main `TF1752 ~T0 @X0 0 e ]
@@ -183,8 +155,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _setTemp_Enable `(v ~T0 @X0 0 ef1`uc ]
 "231 ../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h
 [v _setLoad_Enable `(v ~T0 @X0 0 ef1`uc ]
-"79 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[v _LightsPointSelect `(v ~T0 @X0 0 ef1`uc ]
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -1809,72 +1779,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;SYSC_B1.h: 30: void setSYSC_Initialization();
 [; ;SYSC_B1.h: 31: void setSYSC_Main();
 [; ;SYSC_B1.h: 32: inline void DetectSYSC_Signal();
-[; ;TriacRelay_B1.h: 21: struct LightsControl{
-[; ;TriacRelay_B1.h: 22: union{
-[; ;TriacRelay_B1.h: 23: struct{
-[; ;TriacRelay_B1.h: 24: unsigned Detect:1;
-[; ;TriacRelay_B1.h: 25: unsigned empty:7;
-[; ;TriacRelay_B1.h: 26: };
-[; ;TriacRelay_B1.h: 27: unsigned char Load:1;
-[; ;TriacRelay_B1.h: 28: };
-[; ;TriacRelay_B1.h: 29: };
-"30 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[v _LightsControl `S166 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 30: struct LightsControl LightsControl;
-[; ;TriacRelay_B1.h: 32: struct Lights {
-[; ;TriacRelay_B1.h: 34: union {
-[; ;TriacRelay_B1.h: 36: struct {
-[; ;TriacRelay_B1.h: 37: unsigned Enable : 1;
-[; ;TriacRelay_B1.h: 38: unsigned GO : 1;
-[; ;TriacRelay_B1.h: 39: unsigned Status : 1;
-[; ;TriacRelay_B1.h: 40: unsigned Open : 1;
-[; ;TriacRelay_B1.h: 41: unsigned Close : 1;
-[; ;TriacRelay_B1.h: 42: unsigned Trigger : 1;
-[; ;TriacRelay_B1.h: 43: unsigned Switch : 1;
-[; ;TriacRelay_B1.h: 44: unsigned Relay : 1;
-[; ;TriacRelay_B1.h: 45: };
-[; ;TriacRelay_B1.h: 46: };
-[; ;TriacRelay_B1.h: 48: union {
-[; ;TriacRelay_B1.h: 50: struct {
-[; ;TriacRelay_B1.h: 51: unsigned Triac : 1;
-[; ;TriacRelay_B1.h: 52: unsigned Clear : 1;
-[; ;TriacRelay_B1.h: 53: unsigned RelaySet : 1;
-[; ;TriacRelay_B1.h: 54: unsigned empty : 5;
-[; ;TriacRelay_B1.h: 55: };
-[; ;TriacRelay_B1.h: 56: };
-[; ;TriacRelay_B1.h: 58: unsigned char Time;
-[; ;TriacRelay_B1.h: 59: unsigned char TriacTime;
-[; ;TriacRelay_B1.h: 60: unsigned char TriacValue;
-[; ;TriacRelay_B1.h: 61: unsigned char RelayTime;
-[; ;TriacRelay_B1.h: 62: unsigned char RelayValue;
-[; ;TriacRelay_B1.h: 63: };
-"64
-[v _Lights `*S169 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 64: struct Lights *Lights;
-"68
-[v _Lights1 `S169 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 68: struct Lights Lights1;
-[; ;TriacRelay_B1.h: 79: void LightsPointSelect(char);
-[; ;TriacRelay_B1.h: 80: void Lights_Initialization();
-[; ;TriacRelay_B1.h: 81: void Lights_Main();
-[; ;TriacRelay_B1.h: 82: void Lights_ERROR();
-[; ;TriacRelay_B1.h: 83: void Lights_Close();
-[; ;TriacRelay_B1.h: 85: void setLights_Initialization(char);
-[; ;TriacRelay_B1.h: 86: void setLights_GO(char, char);
-[; ;TriacRelay_B1.h: 87: void setLights_Main(char);
-[; ;TriacRelay_B1.h: 88: void setLights_ERROR(char);
-[; ;TriacRelay_B1.h: 89: void setLights_TriggerERROR(char, char);
-[; ;TriacRelay_B1.h: 90: void Lights_Control(char);
-[; ;TriacRelay_B1.h: 91: void Lights_Close();
-[; ;TriacRelay_B1.h: 93: void setLights_Clear(char, char);
-[; ;TriacRelay_B1.h: 94: void setLights_Trigger(char, char);
-[; ;TriacRelay_B1.h: 95: void setLights_Switch(char, char);
-[; ;TriacRelay_B1.h: 96: void setLights_Open(char, char);
-[; ;TriacRelay_B1.h: 97: char getLights_Open(char);
-[; ;TriacRelay_B1.h: 98: void setLights_Close(char, char);
-[; ;TriacRelay_B1.h: 99: char getLights_Close(char);
-[; ;TriacRelay_B1.h: 100: void setLights(char, char);
-[; ;TriacRelay_B1.h: 101: char getLights_Status(char lights);
 "7 ../src/Main_B1.c
 [v _main `(i ~T0 @X0 1 ef2`i`**uc ]
 {
@@ -1906,9 +1810,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.c: 17: ;;
 [; ;Main_B1.c: 18: ;;
 [; ;Main_B1.c: 20: ;;
-[; ;Main_B1.c: 21: Lights_Initialization();
-"21
-[e ( _Lights_Initialization ..  ]
+[; ;Main_B1.c: 21: ;;
 [; ;Main_B1.c: 22: CDS_Initialization();
 "22
 [e ( _CDS_Initialization ..  ]
@@ -1923,11 +1825,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.c: 27: ;;
 [; ;Main_B1.c: 29: while (1) {
 "29
-[e :U 176 ]
+[e :U 168 ]
 {
 [; ;Main_B1.c: 31: if (myMain.PowerON == 1) {
 "31
-[e $ ! == -> . . . _myMain 0 0 0 `i -> 1 `i 178  ]
+[e $ ! == -> . . . _myMain 0 0 0 `i -> 1 `i 170  ]
 {
 [; ;Main_B1.c: 33: DetectSYSC_Signal();
 "33
@@ -1946,11 +1848,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _getPIR_AD (2 , -> -> 5 `i `uc -> -> 13 `i `uc ]
 "56
 }
-[e :U 178 ]
+[e :U 170 ]
 [; ;Main_B1.c: 56: }
 [; ;Main_B1.c: 92: if (myMain.T1_Timerout == 1) {
 "92
-[e $ ! == -> . . . _myMain 0 0 2 `i -> 1 `i 179  ]
+[e $ ! == -> . . . _myMain 0 0 2 `i -> 1 `i 171  ]
 {
 [; ;Main_B1.c: 93: myMain.T1_Timerout = 0;
 "93
@@ -1965,7 +1867,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.c: 97: ;;
 [; ;Main_B1.c: 98: if (myMain.PowerON) {
 "98
-[e $ ! != -> . . . _myMain 0 0 0 `i -> -> -> 0 `i `uc `i 180  ]
+[e $ ! != -> . . . _myMain 0 0 0 `i -> -> -> 0 `i `uc `i 172  ]
 {
 [; ;Main_B1.c: 99: ;;
 [; ;Main_B1.c: 101: LED_Main();
@@ -1982,9 +1884,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "106
 [e ( _Load_Main ..  ]
 [; ;Main_B1.c: 107: ;;
-[; ;Main_B1.c: 109: Lights_Main();
-"109
-[e ( _Lights_Main ..  ]
+[; ;Main_B1.c: 109: ;;
 [; ;Main_B1.c: 110: ;;
 [; ;Main_B1.c: 111: ;;
 [; ;Main_B1.c: 112: CDS_Main();
@@ -1998,26 +1898,26 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.c: 117: ;;
 "125
 }
-[e :U 180 ]
+[e :U 172 ]
 "126
 }
-[e :U 179 ]
+[e :U 171 ]
 "160
 }
-[e :U 175 ]
+[e :U 167 ]
 "29
-[e $U 176  ]
-[e :U 177 ]
+[e $U 168  ]
+[e :U 169 ]
 [; ;Main_B1.c: 125: }
 [; ;Main_B1.c: 126: }
 [; ;Main_B1.c: 160: }
 [; ;Main_B1.c: 161: return (0);
 "161
 [e ) -> 0 `i ]
-[e $UE 174  ]
+[e $UE 166  ]
 [; ;Main_B1.c: 162: }
 "162
-[e :UE 174 ]
+[e :UE 166 ]
 }
 "167
 [v _myMain_Initialization `TF1598 ~T0 @X0 1 e ]
@@ -2027,7 +1927,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;Main_B1.c: 176: }
 "176
-[e :UE 181 ]
+[e :UE 173 ]
 }
 "180
 [v _my_MainTime `TF1602 ~T0 @X0 1 e ]
@@ -2037,14 +1937,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;Main_B1.c: 182: if (myMain.PowerON == 0) {
 "182
-[e $ ! == -> . . . _myMain 0 0 0 `i -> 0 `i 183  ]
+[e $ ! == -> . . . _myMain 0 0 0 `i -> 0 `i 175  ]
 {
 [; ;Main_B1.c: 183: myMain.PowerCount++;
 "183
 [e ++ . _myMain 1 -> -> 1 `i `ui ]
 [; ;Main_B1.c: 184: if (myMain.PowerCount == 150)
 "184
-[e $ ! == . _myMain 1 -> -> 150 `i `ui 184  ]
+[e $ ! == . _myMain 1 -> -> 150 `i `ui 176  ]
 [; ;Main_B1.c: 185: {
 "185
 {
@@ -2067,21 +1967,21 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.c: 203: ;;
 "210
 }
-[e :U 184 ]
+[e :U 176 ]
 "211
 }
 [; ;Main_B1.c: 210: }
 [; ;Main_B1.c: 211: } else {
-[e $U 185  ]
-[e :U 183 ]
+[e $U 177  ]
+[e :U 175 ]
 {
 "257
 }
-[e :U 185 ]
+[e :U 177 ]
 [; ;Main_B1.c: 257: }
 [; ;Main_B1.c: 265: }
 "265
-[e :UE 182 ]
+[e :UE 174 ]
 }
 [v F1604 `(v ~T0 @X0 1 tf ]
 "268
@@ -2095,7 +1995,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ++ . _myMain 4 -> -> 1 `i `ui ]
 [; ;Main_B1.c: 270: if (myMain.Timeout_Counter == 10000) {
 "270
-[e $ ! == . _myMain 4 -> -> 10000 `i `ui 187  ]
+[e $ ! == . _myMain 4 -> -> 10000 `i `ui 179  ]
 {
 [; ;Main_B1.c: 271: myMain.Timeout_Counter = 0;
 "271
@@ -2105,11 +2005,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . . _myMain 3 0 2 -> -> 1 `i `uc ]
 "274
 }
-[e :U 187 ]
+[e :U 179 ]
 [; ;Main_B1.c: 274: }
 [; ;Main_B1.c: 275: }
 "275
-[e :UE 186 ]
+[e :UE 178 ]
 }
 [v F1606 `(v ~T0 @X0 1 tf ]
 "278
@@ -2126,7 +2026,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . _myMain 4 -> -> 0 `i `ui ]
 [; ;Main_B1.c: 281: }
 "281
-[e :UE 188 ]
+[e :UE 180 ]
 }
 "284
 [v _getMain_Exception `(uc ~T0 @X0 1 ef ]
@@ -2140,33 +2040,33 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _result -> -> 0 `i `uc ]
 [; ;Main_B1.c: 287: if (result == 0) {
 "287
-[e $ ! == -> _result `i -> 0 `i 190  ]
+[e $ ! == -> _result `i -> 0 `i 182  ]
 {
 [; ;Main_B1.c: 288: result = SYSC.ERROR == 1 ? 1 : 0;
 "288
 [e = _result -> ? == -> . . . _SYSC 0 0 1 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
 "289
 }
-[e :U 190 ]
+[e :U 182 ]
 [; ;Main_B1.c: 289: }
 [; ;Main_B1.c: 293: if (result == 0) {
 "293
-[e $ ! == -> _result `i -> 0 `i 191  ]
+[e $ ! == -> _result `i -> 0 `i 183  ]
 {
 [; ;Main_B1.c: 294: result = Temp.ERROR == 1 ? 1 : 0;
 "294
 [e = _result -> ? == -> . . . _Temp 0 0 1 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
 "295
 }
-[e :U 191 ]
+[e :U 183 ]
 [; ;Main_B1.c: 295: }
 [; ;Main_B1.c: 297: return result;
 "297
 [e ) _result ]
-[e $UE 189  ]
+[e $UE 181  ]
 [; ;Main_B1.c: 298: }
 "298
-[e :UE 189 ]
+[e :UE 181 ]
 }
 "301
 [v _getMain_AD_Safe `(uc ~T0 @X0 1 ef ]
@@ -2180,22 +2080,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _result -> -> 1 `i `uc ]
 [; ;Main_B1.c: 308: if (result == 1) {
 "308
-[e $ ! == -> _result `i -> 1 `i 193  ]
+[e $ ! == -> _result `i -> 1 `i 185  ]
 {
 [; ;Main_B1.c: 309: result = Load1.Safe == 1 ? 1 : 0;
 "309
 [e = _result -> ? == -> . . . _Load1 0 0 3 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
 "310
 }
-[e :U 193 ]
+[e :U 185 ]
 [; ;Main_B1.c: 310: }
 [; ;Main_B1.c: 312: return result;
 "312
 [e ) _result ]
-[e $UE 192  ]
+[e $UE 184  ]
 [; ;Main_B1.c: 313: }
 "313
-[e :UE 192 ]
+[e :UE 184 ]
 }
 "315
 [v _getMain_LightsStatus `(uc ~T0 @X0 1 ef ]
@@ -2209,46 +2109,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _result -> -> 1 `i `uc ]
 [v _count `uc ~T0 @X0 1 a ]
 [e = _count -> -> 0 `i `uc ]
-[; ;Main_B1.c: 319: count = 1;
-"319
-[e = _count -> -> 1 `i `uc ]
-[; ;Main_B1.c: 327: for (int i = 0; i < count; i++) {
-"327
-{
-[v _i `i ~T0 @X0 1 a ]
-[e = _i -> 0 `i ]
-[e $U 198  ]
-[e :U 195 ]
-{
-[; ;Main_B1.c: 328: if (result == 1) {
-"328
-[e $ ! == -> _result `i -> 1 `i 199  ]
-{
-[; ;Main_B1.c: 329: LightsPointSelect(i + 1);
-"329
-[e ( _LightsPointSelect (1 -> + _i -> 1 `i `uc ]
-[; ;Main_B1.c: 330: result = Lights->Status == 1 ? 1 : 0;
-"330
-[e = _result -> ? == -> . . . *U _Lights 0 0 2 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-"331
-}
-[e :U 199 ]
-"332
-}
-"327
-[e ++ _i -> 1 `i ]
-[e :U 198 ]
-[e $ < _i -> _count `i 195  ]
-[e :U 196 ]
-"332
-}
-[; ;Main_B1.c: 331: }
-[; ;Main_B1.c: 332: }
 [; ;Main_B1.c: 335: return result;
 "335
 [e ) _result ]
-[e $UE 194  ]
+[e $UE 186  ]
 [; ;Main_B1.c: 336: }
 "336
-[e :UE 194 ]
+[e :UE 186 ]
 }

@@ -89,30 +89,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 "8
 [s S163 `S164 1 `ui 1 `ui 1 ]
 [n S163 SYSC . Timer Counter ]
-"23 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[s S168 :1 `uc 1 :7 `uc 1 ]
-[n S168 . Detect empty ]
-"22
-[u S167 `S168 1 :1 `uc 1 ]
-[n S167 . . Load ]
-"21
-[s S166 `S167 1 ]
-[n S166 LightsControl . ]
-"36
-[s S171 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S171 . Enable GO Status Open Close Trigger Switch Relay ]
-"34
-[u S170 `S171 1 ]
-[n S170 . . ]
-"50
-[s S173 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
-[n S173 . Triac Clear RelaySet empty ]
-"48
-[u S172 `S173 1 ]
-[n S172 . . ]
-"32
-[s S169 `S170 1 `S172 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
-[n S169 Lights . . Time TriacTime TriacValue RelayTime RelayValue ]
 "102 ../src/../2-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h
 [v _setTemp_Initialization `(v ~T0 @X0 0 ef ]
 "3222 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f723a.h
@@ -1754,72 +1730,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;SYSC_B1.h: 30: void setSYSC_Initialization();
 [; ;SYSC_B1.h: 31: void setSYSC_Main();
 [; ;SYSC_B1.h: 32: inline void DetectSYSC_Signal();
-[; ;TriacRelay_B1.h: 21: struct LightsControl{
-[; ;TriacRelay_B1.h: 22: union{
-[; ;TriacRelay_B1.h: 23: struct{
-[; ;TriacRelay_B1.h: 24: unsigned Detect:1;
-[; ;TriacRelay_B1.h: 25: unsigned empty:7;
-[; ;TriacRelay_B1.h: 26: };
-[; ;TriacRelay_B1.h: 27: unsigned char Load:1;
-[; ;TriacRelay_B1.h: 28: };
-[; ;TriacRelay_B1.h: 29: };
-"30 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[v _LightsControl `S166 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 30: struct LightsControl LightsControl;
-[; ;TriacRelay_B1.h: 32: struct Lights {
-[; ;TriacRelay_B1.h: 34: union {
-[; ;TriacRelay_B1.h: 36: struct {
-[; ;TriacRelay_B1.h: 37: unsigned Enable : 1;
-[; ;TriacRelay_B1.h: 38: unsigned GO : 1;
-[; ;TriacRelay_B1.h: 39: unsigned Status : 1;
-[; ;TriacRelay_B1.h: 40: unsigned Open : 1;
-[; ;TriacRelay_B1.h: 41: unsigned Close : 1;
-[; ;TriacRelay_B1.h: 42: unsigned Trigger : 1;
-[; ;TriacRelay_B1.h: 43: unsigned Switch : 1;
-[; ;TriacRelay_B1.h: 44: unsigned Relay : 1;
-[; ;TriacRelay_B1.h: 45: };
-[; ;TriacRelay_B1.h: 46: };
-[; ;TriacRelay_B1.h: 48: union {
-[; ;TriacRelay_B1.h: 50: struct {
-[; ;TriacRelay_B1.h: 51: unsigned Triac : 1;
-[; ;TriacRelay_B1.h: 52: unsigned Clear : 1;
-[; ;TriacRelay_B1.h: 53: unsigned RelaySet : 1;
-[; ;TriacRelay_B1.h: 54: unsigned empty : 5;
-[; ;TriacRelay_B1.h: 55: };
-[; ;TriacRelay_B1.h: 56: };
-[; ;TriacRelay_B1.h: 58: unsigned char Time;
-[; ;TriacRelay_B1.h: 59: unsigned char TriacTime;
-[; ;TriacRelay_B1.h: 60: unsigned char TriacValue;
-[; ;TriacRelay_B1.h: 61: unsigned char RelayTime;
-[; ;TriacRelay_B1.h: 62: unsigned char RelayValue;
-[; ;TriacRelay_B1.h: 63: };
-"64
-[v _Lights `*S169 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 64: struct Lights *Lights;
-"68
-[v _Lights1 `S169 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 68: struct Lights Lights1;
-[; ;TriacRelay_B1.h: 79: void LightsPointSelect(char);
-[; ;TriacRelay_B1.h: 80: void Lights_Initialization();
-[; ;TriacRelay_B1.h: 81: void Lights_Main();
-[; ;TriacRelay_B1.h: 82: void Lights_ERROR();
-[; ;TriacRelay_B1.h: 83: void Lights_Close();
-[; ;TriacRelay_B1.h: 85: void setLights_Initialization(char);
-[; ;TriacRelay_B1.h: 86: void setLights_GO(char, char);
-[; ;TriacRelay_B1.h: 87: void setLights_Main(char);
-[; ;TriacRelay_B1.h: 88: void setLights_ERROR(char);
-[; ;TriacRelay_B1.h: 89: void setLights_TriggerERROR(char, char);
-[; ;TriacRelay_B1.h: 90: void Lights_Control(char);
-[; ;TriacRelay_B1.h: 91: void Lights_Close();
-[; ;TriacRelay_B1.h: 93: void setLights_Clear(char, char);
-[; ;TriacRelay_B1.h: 94: void setLights_Trigger(char, char);
-[; ;TriacRelay_B1.h: 95: void setLights_Switch(char, char);
-[; ;TriacRelay_B1.h: 96: void setLights_Open(char, char);
-[; ;TriacRelay_B1.h: 97: char getLights_Open(char);
-[; ;TriacRelay_B1.h: 98: void setLights_Close(char, char);
-[; ;TriacRelay_B1.h: 99: char getLights_Close(char);
-[; ;TriacRelay_B1.h: 100: void setLights(char, char);
-[; ;TriacRelay_B1.h: 101: char getLights_Status(char lights);
 [v F1659 `(v ~T0 @X0 1 tf ]
 "9 ../src/OverTemperature_B1.c
 [v _Temp_Initialization `TF1659 ~T0 @X0 1 e ]
@@ -1832,7 +1742,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setTemp_Initialization ..  ]
 [; ;OverTemperature_B1.c: 13: }
 "13
-[e :UE 174 ]
+[e :UE 166 ]
 }
 "16
 [v _setTemp_Enable `(v ~T0 @X0 1 ef1`uc ]
@@ -1846,7 +1756,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . . _Temp 0 0 0 _command ]
 [; ;OverTemperature_B1.c: 18: }
 "18
-[e :UE 175 ]
+[e :UE 167 ]
 }
 "21
 [v _getTemp_Safe `(uc ~T0 @X0 1 ef ]
@@ -1861,10 +1771,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.c: 23: return result;
 "23
 [e ) _result ]
-[e $UE 176  ]
+[e $UE 168  ]
 [; ;OverTemperature_B1.c: 24: }
 "24
-[e :UE 176 ]
+[e :UE 168 ]
 }
 "27
 [v _getTemp_ERROR `(uc ~T0 @X0 1 ef ]
@@ -1879,10 +1789,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.c: 29: return result;
 "29
 [e ) _result ]
-[e $UE 177  ]
+[e $UE 169  ]
 [; ;OverTemperature_B1.c: 30: }
 "30
-[e :UE 177 ]
+[e :UE 169 ]
 }
 [v F1666 `(v ~T0 @X0 1 tf1`uc ]
 "33
@@ -1894,18 +1804,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;OverTemperature_B1.c: 35: if (RA5 == 1) {
 "35
-[e $ ! == -> _RA5 `i -> 1 `i 179  ]
+[e $ ! == -> _RA5 `i -> 1 `i 171  ]
 {
 [; ;OverTemperature_B1.c: 36: if (Temp.ADtoGO == 1) {
 "36
-[e $ ! == -> . . . _Temp 0 0 2 `i -> 1 `i 180  ]
+[e $ ! == -> . . . _Temp 0 0 2 `i -> 1 `i 172  ]
 {
 [; ;OverTemperature_B1.c: 37: Temp.ADRES = getAD(channel, 0x70);
 "37
 [e = . _Temp 7 ( _getAD (2 , _channel -> -> 112 `i `uc ]
 [; ;OverTemperature_B1.c: 38: if (Temp.ADH[0] < Temp.ADRES) {
 "38
-[e $ ! < -> *U + &U . _Temp 6 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux `i -> . _Temp 7 `i 181  ]
+[e $ ! < -> *U + &U . _Temp 6 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux `i -> . _Temp 7 `i 173  ]
 {
 [; ;OverTemperature_B1.c: 39: Temp.ADH[0] = Temp.ADRES;
 "39
@@ -1913,29 +1823,29 @@ Version 3.2 HI-TECH Software Intermediate Code
 "40
 }
 [; ;OverTemperature_B1.c: 40: } else if (Temp.ADH[1] < Temp.ADRES) {
-[e $U 182  ]
-[e :U 181 ]
-[e $ ! < -> *U + &U . _Temp 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux `i -> . _Temp 7 `i 183  ]
+[e $U 174  ]
+[e :U 173 ]
+[e $ ! < -> *U + &U . _Temp 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux `i -> . _Temp 7 `i 175  ]
 {
 [; ;OverTemperature_B1.c: 41: Temp.ADH[1] = Temp.ADRES;
 "41
 [e = *U + &U . _Temp 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux . _Temp 7 ]
 "42
 }
-[e :U 183 ]
+[e :U 175 ]
 "43
-[e :U 182 ]
+[e :U 174 ]
 }
-[e :U 180 ]
+[e :U 172 ]
 "44
 }
-[e :U 179 ]
+[e :U 171 ]
 [; ;OverTemperature_B1.c: 42: }
 [; ;OverTemperature_B1.c: 43: }
 [; ;OverTemperature_B1.c: 44: }
 [; ;OverTemperature_B1.c: 56: }
 "56
-[e :UE 178 ]
+[e :UE 170 ]
 }
 "59
 [v _setTemp_Initialization `(v ~T0 @X0 1 ef ]
@@ -1948,7 +1858,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . . _Temp 0 0 4 -> -> 1 `i `uc ]
 [; ;OverTemperature_B1.c: 61: }
 "61
-[e :UE 184 ]
+[e :UE 176 ]
 }
 [v F1661 `(v ~T0 @X0 1 tf ]
 "64
@@ -1962,7 +1872,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setTemp_Main ..  ]
 [; ;OverTemperature_B1.c: 68: }
 "68
-[e :UE 185 ]
+[e :UE 177 ]
 }
 "71
 [v _setTemp_Main `(v ~T0 @X0 1 ef ]
@@ -1972,22 +1882,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;OverTemperature_B1.c: 72: if (Temp.Enable == 1) {
 "72
-[e $ ! == -> . . . _Temp 0 0 0 `i -> 1 `i 187  ]
+[e $ ! == -> . . . _Temp 0 0 0 `i -> 1 `i 179  ]
 {
 [; ;OverTemperature_B1.c: 73: if (Temp.ADtoGO == 0) {
 "73
-[e $ ! == -> . . . _Temp 0 0 2 `i -> 0 `i 188  ]
+[e $ ! == -> . . . _Temp 0 0 2 `i -> 0 `i 180  ]
 {
 [; ;OverTemperature_B1.c: 74: Temp.Time++;
 "74
 [e ++ . _Temp 1 -> -> 1 `i `ui ]
 [; ;OverTemperature_B1.c: 75: if (Temp.Time >= 500) {
 "75
-[e $ ! >= . _Temp 1 -> -> 500 `i `ui 189  ]
+[e $ ! >= . _Temp 1 -> -> 500 `i `ui 181  ]
 {
 [; ;OverTemperature_B1.c: 76: if (getMain_AD_Safe() == 1) {
 "76
-[e $ ! == -> ( _getMain_AD_Safe ..  `i -> 1 `i 190  ]
+[e $ ! == -> ( _getMain_AD_Safe ..  `i -> 1 `i 182  ]
 {
 [; ;OverTemperature_B1.c: 77: Temp.Time = 0;
 "77
@@ -2001,32 +1911,32 @@ Version 3.2 HI-TECH Software Intermediate Code
 "81
 }
 [; ;OverTemperature_B1.c: 81: } else {
-[e $U 191  ]
-[e :U 190 ]
+[e $U 183  ]
+[e :U 182 ]
 {
 [; ;OverTemperature_B1.c: 82: Temp.Time = 500;
 "82
 [e = . _Temp 1 -> -> 500 `i `ui ]
 "83
 }
-[e :U 191 ]
+[e :U 183 ]
 "84
 }
-[e :U 189 ]
+[e :U 181 ]
 "85
 }
 [; ;OverTemperature_B1.c: 83: }
 [; ;OverTemperature_B1.c: 84: }
 [; ;OverTemperature_B1.c: 85: } else {
-[e $U 192  ]
-[e :U 188 ]
+[e $U 184  ]
+[e :U 180 ]
 {
 [; ;OverTemperature_B1.c: 86: Temp.Time++;
 "86
 [e ++ . _Temp 1 -> -> 1 `i `ui ]
 [; ;OverTemperature_B1.c: 87: if (Temp.Time >= 5) {
 "87
-[e $ ! >= . _Temp 1 -> -> 5 `i `ui 193  ]
+[e $ ! >= . _Temp 1 -> -> 5 `i `ui 185  ]
 {
 [; ;OverTemperature_B1.c: 88: Temp.Time = 0;
 "88
@@ -2039,7 +1949,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . _Temp 5 -> / + -> *U + &U . _Temp 6 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux `i -> *U + &U . _Temp 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux `i -> 2 `i `uc ]
 [; ;OverTemperature_B1.c: 92: if (getMain_LightsStatus() == 1) {
 "92
-[e $ ! == -> ( _getMain_LightsStatus ..  `i -> 1 `i 194  ]
+[e $ ! == -> ( _getMain_LightsStatus ..  `i -> 1 `i 186  ]
 {
 [; ;OverTemperature_B1.c: 93: Temp.SafeValue = 190;
 "93
@@ -2050,8 +1960,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 "95
 }
 [; ;OverTemperature_B1.c: 95: } else {
-[e $U 195  ]
-[e :U 194 ]
+[e $U 187  ]
+[e :U 186 ]
 {
 [; ;OverTemperature_B1.c: 96: Temp.SafeValue = 120;
 "96
@@ -2061,22 +1971,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . _Temp 9 -> -> 100 `i `uc ]
 "98
 }
-[e :U 195 ]
+[e :U 187 ]
 [; ;OverTemperature_B1.c: 98: }
 [; ;OverTemperature_B1.c: 107: if (Temp.ERROR == 1) {
 "107
-[e $ ! == -> . . . _Temp 0 0 1 `i -> 1 `i 196  ]
+[e $ ! == -> . . . _Temp 0 0 1 `i -> 1 `i 188  ]
 {
 [; ;OverTemperature_B1.c: 108: if (Temp.AD >= Temp.SafeValue) {
 "108
-[e $ ! >= -> . _Temp 5 `i -> . _Temp 8 `i 197  ]
+[e $ ! >= -> . _Temp 5 `i -> . _Temp 8 `i 189  ]
 {
 [; ;OverTemperature_B1.c: 109: Temp.Count++;
 "109
 [e ++ . _Temp 2 -> -> 1 `i `uc ]
 [; ;OverTemperature_B1.c: 110: if (Temp.Count >= 3) {
 "110
-[e $ ! >= -> . _Temp 2 `i -> 3 `i 198  ]
+[e $ ! >= -> . _Temp 2 `i -> 3 `i 190  ]
 {
 [; ;OverTemperature_B1.c: 111: Temp.Count = 0;
 "111
@@ -2086,37 +1996,37 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setOverTemp_Exceptions (1 -> -> 0 `i `uc ]
 "113
 }
-[e :U 198 ]
+[e :U 190 ]
 "114
 }
 [; ;OverTemperature_B1.c: 113: }
 [; ;OverTemperature_B1.c: 114: } else {
-[e $U 199  ]
-[e :U 197 ]
+[e $U 191  ]
+[e :U 189 ]
 {
 [; ;OverTemperature_B1.c: 115: Temp.Count = 0;
 "115
 [e = . _Temp 2 -> -> 0 `i `uc ]
 "116
 }
-[e :U 199 ]
+[e :U 191 ]
 "117
 }
 [; ;OverTemperature_B1.c: 116: }
 [; ;OverTemperature_B1.c: 117: } else {
-[e $U 200  ]
-[e :U 196 ]
+[e $U 192  ]
+[e :U 188 ]
 {
 [; ;OverTemperature_B1.c: 118: if (Temp.AD <= Temp.DangerValue) {
 "118
-[e $ ! <= -> . _Temp 5 `i -> . _Temp 9 `i 201  ]
+[e $ ! <= -> . _Temp 5 `i -> . _Temp 9 `i 193  ]
 {
 [; ;OverTemperature_B1.c: 119: Temp.Count++;
 "119
 [e ++ . _Temp 2 -> -> 1 `i `uc ]
 [; ;OverTemperature_B1.c: 120: if (Temp.Count >= 3) {
 "120
-[e $ ! >= -> . _Temp 2 `i -> 3 `i 202  ]
+[e $ ! >= -> . _Temp 2 `i -> 3 `i 194  ]
 {
 [; ;OverTemperature_B1.c: 121: Temp.Count = 0;
 "121
@@ -2126,35 +2036,35 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setOverTemp_Exceptions (1 -> -> 1 `i `uc ]
 "123
 }
-[e :U 202 ]
+[e :U 194 ]
 "124
 }
 [; ;OverTemperature_B1.c: 123: }
 [; ;OverTemperature_B1.c: 124: } else {
-[e $U 203  ]
-[e :U 201 ]
+[e $U 195  ]
+[e :U 193 ]
 {
 [; ;OverTemperature_B1.c: 125: Temp.Count = 0;
 "125
 [e = . _Temp 2 -> -> 0 `i `uc ]
 "126
 }
-[e :U 203 ]
+[e :U 195 ]
 "127
 }
-[e :U 200 ]
+[e :U 192 ]
 [; ;OverTemperature_B1.c: 126: }
 [; ;OverTemperature_B1.c: 127: }
 [; ;OverTemperature_B1.c: 128: if (Temp.ERROR == 0) {
 "128
-[e $ ! == -> . . . _Temp 0 0 1 `i -> 0 `i 204  ]
+[e $ ! == -> . . . _Temp 0 0 1 `i -> 0 `i 196  ]
 {
 [; ;OverTemperature_B1.c: 129: Temp.Safe = 1;
 "129
 [e = . . . _Temp 0 0 4 -> -> 1 `i `uc ]
 "130
 }
-[e :U 204 ]
+[e :U 196 ]
 [; ;OverTemperature_B1.c: 130: }
 [; ;OverTemperature_B1.c: 131: ;;
 [; ;OverTemperature_B1.c: 132: ;;
@@ -2166,19 +2076,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = *U + &U . _Temp 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux -> -> 0 `i `uc ]
 "137
 }
-[e :U 193 ]
+[e :U 185 ]
 "138
 }
-[e :U 192 ]
+[e :U 184 ]
 "139
 }
-[e :U 187 ]
+[e :U 179 ]
 [; ;OverTemperature_B1.c: 137: }
 [; ;OverTemperature_B1.c: 138: }
 [; ;OverTemperature_B1.c: 139: }
 [; ;OverTemperature_B1.c: 140: }
 "140
-[e :UE 186 ]
+[e :UE 178 ]
 }
 "143
 [v _setOverTemp_Exceptions `(v ~T0 @X0 1 ef1`uc ]
@@ -2199,27 +2109,27 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . . _Temp 0 0 4 _i ]
 [; ;OverTemperature_B1.c: 147: if (command == 1) {
 "147
-[e $ ! == -> _command `i -> 1 `i 206  ]
+[e $ ! == -> _command `i -> 1 `i 198  ]
 {
 [; ;OverTemperature_B1.c: 148: ;;
 "152
 }
 [; ;OverTemperature_B1.c: 152: } else if (command == 0) {
-[e $U 207  ]
-[e :U 206 ]
-[e $ ! == -> _command `i -> 0 `i 208  ]
+[e $U 199  ]
+[e :U 198 ]
+[e $ ! == -> _command `i -> 0 `i 200  ]
 {
 [; ;OverTemperature_B1.c: 153: ;;
 "154
 }
-[e :U 208 ]
+[e :U 200 ]
 "158
-[e :U 207 ]
+[e :U 199 ]
 [; ;OverTemperature_B1.c: 154: }
 [; ;OverTemperature_B1.c: 158: setLED(2, command + 10);
 [e ( _setLED (2 , -> -> 2 `i `uc -> + -> _command `i -> 10 `i `uc ]
 [; ;OverTemperature_B1.c: 163: ;;
 [; ;OverTemperature_B1.c: 168: }
 "168
-[e :UE 205 ]
+[e :UE 197 ]
 }

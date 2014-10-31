@@ -95,7 +95,7 @@
 //ADC
 #define ADC_use 1
 //Oscillator (System FOSC)
-#define	System_Fosc_16M				//_16M
+#define	System_Fosc_16M		//_16M
 //Timer0
 #define Timer0_use	0
 #define TMR0_IntrTime_100us

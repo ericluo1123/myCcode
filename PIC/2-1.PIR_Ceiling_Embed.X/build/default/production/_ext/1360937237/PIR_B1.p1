@@ -89,42 +89,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 "8
 [s S163 `S164 1 `ui 1 `ui 1 ]
 [n S163 SYSC . Timer Counter ]
-"23 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[s S168 :1 `uc 1 :7 `uc 1 ]
-[n S168 . Detect empty ]
-"22
-[u S167 `S168 1 :1 `uc 1 ]
-[n S167 . . Load ]
-"21
-[s S166 `S167 1 ]
-[n S166 LightsControl . ]
-"36
-[s S171 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S171 . Enable GO Status Open Close Trigger Switch Relay ]
-"34
-[u S170 `S171 1 ]
-[n S170 . . ]
-"50
-[s S173 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
-[n S173 . Triac Clear RelaySet empty ]
-"48
-[u S172 `S173 1 ]
-[n S172 . . ]
-"32
-[s S169 `S170 1 `S172 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
-[n S169 Lights . . Time TriacTime TriacValue RelayTime RelayValue ]
 "43 ../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h
 [v _getCDS_Status `(uc ~T0 @X0 0 ef ]
 "142 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
 [v _getMain_Exception `(uc ~T0 @X0 0 ef ]
 "94 ../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h
 [v _setLED `(v ~T0 @X0 0 ef2`uc`uc ]
-"101 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[v _getLights_Status `(uc ~T0 @X0 0 ef1`uc ]
-"94
-[v _setLights_Trigger `(v ~T0 @X0 0 ef2`uc`uc ]
-"95
-[v _setLights_Switch `(v ~T0 @X0 0 ef2`uc`uc ]
 "143 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
 [v _getMain_AD_Safe `(uc ~T0 @X0 0 ef ]
 [v F1534 `(uc ~T0 @X0 1 tf2`uc`uc ]
@@ -1754,72 +1724,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;SYSC_B1.h: 30: void setSYSC_Initialization();
 [; ;SYSC_B1.h: 31: void setSYSC_Main();
 [; ;SYSC_B1.h: 32: inline void DetectSYSC_Signal();
-[; ;TriacRelay_B1.h: 21: struct LightsControl{
-[; ;TriacRelay_B1.h: 22: union{
-[; ;TriacRelay_B1.h: 23: struct{
-[; ;TriacRelay_B1.h: 24: unsigned Detect:1;
-[; ;TriacRelay_B1.h: 25: unsigned empty:7;
-[; ;TriacRelay_B1.h: 26: };
-[; ;TriacRelay_B1.h: 27: unsigned char Load:1;
-[; ;TriacRelay_B1.h: 28: };
-[; ;TriacRelay_B1.h: 29: };
-"30 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[v _LightsControl `S166 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 30: struct LightsControl LightsControl;
-[; ;TriacRelay_B1.h: 32: struct Lights {
-[; ;TriacRelay_B1.h: 34: union {
-[; ;TriacRelay_B1.h: 36: struct {
-[; ;TriacRelay_B1.h: 37: unsigned Enable : 1;
-[; ;TriacRelay_B1.h: 38: unsigned GO : 1;
-[; ;TriacRelay_B1.h: 39: unsigned Status : 1;
-[; ;TriacRelay_B1.h: 40: unsigned Open : 1;
-[; ;TriacRelay_B1.h: 41: unsigned Close : 1;
-[; ;TriacRelay_B1.h: 42: unsigned Trigger : 1;
-[; ;TriacRelay_B1.h: 43: unsigned Switch : 1;
-[; ;TriacRelay_B1.h: 44: unsigned Relay : 1;
-[; ;TriacRelay_B1.h: 45: };
-[; ;TriacRelay_B1.h: 46: };
-[; ;TriacRelay_B1.h: 48: union {
-[; ;TriacRelay_B1.h: 50: struct {
-[; ;TriacRelay_B1.h: 51: unsigned Triac : 1;
-[; ;TriacRelay_B1.h: 52: unsigned Clear : 1;
-[; ;TriacRelay_B1.h: 53: unsigned RelaySet : 1;
-[; ;TriacRelay_B1.h: 54: unsigned empty : 5;
-[; ;TriacRelay_B1.h: 55: };
-[; ;TriacRelay_B1.h: 56: };
-[; ;TriacRelay_B1.h: 58: unsigned char Time;
-[; ;TriacRelay_B1.h: 59: unsigned char TriacTime;
-[; ;TriacRelay_B1.h: 60: unsigned char TriacValue;
-[; ;TriacRelay_B1.h: 61: unsigned char RelayTime;
-[; ;TriacRelay_B1.h: 62: unsigned char RelayValue;
-[; ;TriacRelay_B1.h: 63: };
-"64
-[v _Lights `*S169 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 64: struct Lights *Lights;
-"68
-[v _Lights1 `S169 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 68: struct Lights Lights1;
-[; ;TriacRelay_B1.h: 79: void LightsPointSelect(char);
-[; ;TriacRelay_B1.h: 80: void Lights_Initialization();
-[; ;TriacRelay_B1.h: 81: void Lights_Main();
-[; ;TriacRelay_B1.h: 82: void Lights_ERROR();
-[; ;TriacRelay_B1.h: 83: void Lights_Close();
-[; ;TriacRelay_B1.h: 85: void setLights_Initialization(char);
-[; ;TriacRelay_B1.h: 86: void setLights_GO(char, char);
-[; ;TriacRelay_B1.h: 87: void setLights_Main(char);
-[; ;TriacRelay_B1.h: 88: void setLights_ERROR(char);
-[; ;TriacRelay_B1.h: 89: void setLights_TriggerERROR(char, char);
-[; ;TriacRelay_B1.h: 90: void Lights_Control(char);
-[; ;TriacRelay_B1.h: 91: void Lights_Close();
-[; ;TriacRelay_B1.h: 93: void setLights_Clear(char, char);
-[; ;TriacRelay_B1.h: 94: void setLights_Trigger(char, char);
-[; ;TriacRelay_B1.h: 95: void setLights_Switch(char, char);
-[; ;TriacRelay_B1.h: 96: void setLights_Open(char, char);
-[; ;TriacRelay_B1.h: 97: char getLights_Open(char);
-[; ;TriacRelay_B1.h: 98: void setLights_Close(char, char);
-[; ;TriacRelay_B1.h: 99: char getLights_Close(char);
-[; ;TriacRelay_B1.h: 100: void setLights(char, char);
-[; ;TriacRelay_B1.h: 101: char getLights_Status(char lights);
 "7 ../src/PIR_B1.c
 [v _PIR_Initialization `(v ~T0 @X0 1 ef ]
 {
@@ -1840,7 +1744,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . __PIR 14 -> -> 2 `i `uc ]
 [; ;PIR_B1.c: 12: }
 "12
-[e :UE 174 ]
+[e :UE 166 ]
 }
 "15
 [v _PIR_Main `(v ~T0 @X0 1 ef ]
@@ -1850,15 +1754,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;PIR_B1.c: 16: if (_PIR.Enable == 1) {
 "16
-[e $ ! == -> . . . __PIR 0 0 0 `i -> 1 `i 176  ]
+[e $ ! == -> . . . __PIR 0 0 0 `i -> 1 `i 168  ]
 {
 [; ;PIR_B1.c: 18: if (getCDS_Status() == 1 && getMain_Exception() == 0) {
 "18
-[e $ ! && == -> ( _getCDS_Status ..  `i -> 1 `i == -> ( _getMain_Exception ..  `i -> 0 `i 177  ]
+[e $ ! && == -> ( _getCDS_Status ..  `i -> 1 `i == -> ( _getMain_Exception ..  `i -> 0 `i 169  ]
 {
 [; ;PIR_B1.c: 19: if (_PIR.Detect == 0) {
 "19
-[e $ ! == -> . . . __PIR 0 0 4 `i -> 0 `i 178  ]
+[e $ ! == -> . . . __PIR 0 0 4 `i -> 0 `i 170  ]
 {
 [; ;PIR_B1.c: 20: _PIR.Detect = 1;
 "20
@@ -1868,28 +1772,28 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . . __PIR 0 0 7 -> -> 1 `i `uc ]
 [; ;PIR_B1.c: 22: if (_PIR.OK == 0) {
 "22
-[e $ ! == -> . . . __PIR 0 0 3 `i -> 0 `i 179  ]
+[e $ ! == -> . . . __PIR 0 0 3 `i -> 0 `i 171  ]
 {
 [; ;PIR_B1.c: 23: setLED(2, 1);
 "23
 [e ( _setLED (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
 "24
 }
-[e :U 179 ]
+[e :U 171 ]
 "25
 }
-[e :U 178 ]
+[e :U 170 ]
 "26
 }
 [; ;PIR_B1.c: 24: }
 [; ;PIR_B1.c: 25: }
 [; ;PIR_B1.c: 26: } else {
-[e $U 180  ]
-[e :U 177 ]
+[e $U 172  ]
+[e :U 169 ]
 {
 [; ;PIR_B1.c: 27: if (_PIR.Detect == 1) {
 "27
-[e $ ! == -> . . . __PIR 0 0 4 `i -> 1 `i 181  ]
+[e $ ! == -> . . . __PIR 0 0 4 `i -> 1 `i 173  ]
 {
 [; ;PIR_B1.c: 28: _PIR.Detect = 0;
 "28
@@ -1923,14 +1827,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . . __PIR 0 0 6 -> -> 0 `i `uc ]
 [; ;PIR_B1.c: 41: if (_PIR.OK == 1) {
 "41
-[e $ ! == -> . . . __PIR 0 0 3 `i -> 1 `i 182  ]
+[e $ ! == -> . . . __PIR 0 0 3 `i -> 1 `i 174  ]
 {
 [; ;PIR_B1.c: 42: _PIR.Count = 0;
 "42
 [e = . __PIR 13 -> -> 0 `i `ui ]
 "43
 }
-[e :U 182 ]
+[e :U 174 ]
 [; ;PIR_B1.c: 43: }
 [; ;PIR_B1.c: 44: _PIR.CloseTimeSeconds = 0;
 "44
@@ -1938,42 +1842,28 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;PIR_B1.c: 45: _PIR.CloseTimeMinutes = 0;
 "45
 [e = . __PIR 15 -> -> 0 `i `ui ]
-[; ;PIR_B1.c: 50: if (getLights_Status(1) == 1) {
-"50
-[e $ ! == -> ( _getLights_Status (1 -> -> 1 `i `uc `i -> 1 `i 183  ]
-{
-[; ;PIR_B1.c: 51: setLights_Trigger(1, 1);
-"51
-[e ( _setLights_Trigger (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 52: setLights_Switch(1, 0);
-"52
-[e ( _setLights_Switch (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
-"53
-}
-[e :U 183 ]
 "56
 }
-[e :U 181 ]
+[e :U 173 ]
 "57
 }
-[e :U 180 ]
-[; ;PIR_B1.c: 53: }
+[e :U 172 ]
 [; ;PIR_B1.c: 56: }
 [; ;PIR_B1.c: 57: }
 [; ;PIR_B1.c: 59: if (_PIR.ADtoGO == 0) {
 "59
-[e $ ! == -> . . . __PIR 0 0 1 `i -> 0 `i 184  ]
+[e $ ! == -> . . . __PIR 0 0 1 `i -> 0 `i 175  ]
 {
 [; ;PIR_B1.c: 60: _PIR.Time++;
 "60
 [e ++ . __PIR 5 -> -> 1 `i `uc ]
 [; ;PIR_B1.c: 61: if (_PIR.Time == 10) {
 "61
-[e $ ! == -> . __PIR 5 `i -> 10 `i 185  ]
+[e $ ! == -> . __PIR 5 `i -> 10 `i 176  ]
 {
 [; ;PIR_B1.c: 62: if (getMain_AD_Safe() == 1) {
 "62
-[e $ ! == -> ( _getMain_AD_Safe ..  `i -> 1 `i 186  ]
+[e $ ! == -> ( _getMain_AD_Safe ..  `i -> 1 `i 177  ]
 {
 [; ;PIR_B1.c: 63: _PIR.Time = 0;
 "63
@@ -1984,61 +1874,61 @@ Version 3.2 HI-TECH Software Intermediate Code
 "65
 }
 [; ;PIR_B1.c: 65: } else {
-[e $U 187  ]
-[e :U 186 ]
+[e $U 178  ]
+[e :U 177 ]
 {
 [; ;PIR_B1.c: 66: _PIR.Time = 10;
 "66
 [e = . __PIR 5 -> -> 10 `i `uc ]
 "67
 }
-[e :U 187 ]
+[e :U 178 ]
 "68
 }
-[e :U 185 ]
+[e :U 176 ]
 "69
 }
 [; ;PIR_B1.c: 67: }
 [; ;PIR_B1.c: 68: }
 [; ;PIR_B1.c: 69: } else {
-[e $U 188  ]
-[e :U 184 ]
+[e $U 179  ]
+[e :U 175 ]
 {
 [; ;PIR_B1.c: 70: if (_PIR.GO == 1) {
 "70
-[e $ ! == -> . . . __PIR 0 0 2 `i -> 1 `i 189  ]
+[e $ ! == -> . . . __PIR 0 0 2 `i -> 1 `i 180  ]
 {
 [; ;PIR_B1.c: 71: _PIR.GO = 0;
 "71
 [e = . . . __PIR 0 0 2 -> -> 0 `i `uc ]
 [; ;PIR_B1.c: 72: if (_PIR.Available == 1) {
 "72
-[e $ ! == -> . . . __PIR 0 0 7 `i -> 1 `i 190  ]
+[e $ ! == -> . . . __PIR 0 0 7 `i -> 1 `i 181  ]
 {
 [; ;PIR_B1.c: 73: if (_PIR.OK == 1) {
 "73
-[e $ ! == -> . . . __PIR 0 0 3 `i -> 1 `i 191  ]
+[e $ ! == -> . . . __PIR 0 0 3 `i -> 1 `i 182  ]
 {
 [; ;PIR_B1.c: 75: _PIR.Time++;
 "75
 [e ++ . __PIR 5 -> -> 1 `i `uc ]
 [; ;PIR_B1.c: 76: if (_PIR.Time == 60) {
 "76
-[e $ ! == -> . __PIR 5 `i -> 60 `i 192  ]
+[e $ ! == -> . __PIR 5 `i -> 60 `i 183  ]
 {
 [; ;PIR_B1.c: 77: _PIR.Time = 0;
 "77
 [e = . __PIR 5 -> -> 0 `i `uc ]
 [; ;PIR_B1.c: 78: if (_PIR.RangeCount >= 90) {
 "78
-[e $ ! >= -> . __PIR 20 `i -> 90 `i 193  ]
+[e $ ! >= -> . __PIR 20 `i -> 90 `i 184  ]
 {
 [; ;PIR_B1.c: 79: _PIR.RangeTime1 = 0;
 "79
 [e = . __PIR 19 -> -> 0 `i `uc ]
 [; ;PIR_B1.c: 81: if (_PIR.RangeValue == 7) {
 "81
-[e $ ! == -> . __PIR 21 `i -> 7 `i 194  ]
+[e $ ! == -> . __PIR 21 `i -> 7 `i 185  ]
 {
 [; ;PIR_B1.c: 82: _PIR.RangeValue = 25;
 "82
@@ -2046,38 +1936,38 @@ Version 3.2 HI-TECH Software Intermediate Code
 "83
 }
 [; ;PIR_B1.c: 83: } else if (_PIR.RangeValue == 25) {
-[e $U 195  ]
-[e :U 194 ]
-[e $ ! == -> . __PIR 21 `i -> 25 `i 196  ]
+[e $U 186  ]
+[e :U 185 ]
+[e $ ! == -> . __PIR 21 `i -> 25 `i 187  ]
 {
 [; ;PIR_B1.c: 84: _PIR.RangeValue = 35;
 "84
 [e = . __PIR 21 -> -> 35 `i `uc ]
 "85
 }
-[e :U 196 ]
+[e :U 187 ]
 "86
-[e :U 195 ]
+[e :U 186 ]
 }
 [; ;PIR_B1.c: 85: }
 [; ;PIR_B1.c: 86: } else if (_PIR.RangeCount <= 10) {
-[e $U 197  ]
-[e :U 193 ]
-[e $ ! <= -> . __PIR 20 `i -> 10 `i 198  ]
+[e $U 188  ]
+[e :U 184 ]
+[e $ ! <= -> . __PIR 20 `i -> 10 `i 189  ]
 {
 [; ;PIR_B1.c: 87: _PIR.RangeTime1++;
 "87
 [e ++ . __PIR 19 -> -> 1 `i `uc ]
 [; ;PIR_B1.c: 88: if (_PIR.RangeTime1 == 2) {
 "88
-[e $ ! == -> . __PIR 19 `i -> 2 `i 199  ]
+[e $ ! == -> . __PIR 19 `i -> 2 `i 190  ]
 {
 [; ;PIR_B1.c: 89: _PIR.RangeTime1 = 0;
 "89
 [e = . __PIR 19 -> -> 0 `i `uc ]
 [; ;PIR_B1.c: 91: if (_PIR.RangeValue == 35) {
 "91
-[e $ ! == -> . __PIR 21 `i -> 35 `i 200  ]
+[e $ ! == -> . __PIR 21 `i -> 35 `i 191  ]
 {
 [; ;PIR_B1.c: 92: _PIR.RangeValue = 25;
 "92
@@ -2085,25 +1975,25 @@ Version 3.2 HI-TECH Software Intermediate Code
 "93
 }
 [; ;PIR_B1.c: 93: } else if (_PIR.RangeValue == 25) {
-[e $U 201  ]
-[e :U 200 ]
-[e $ ! == -> . __PIR 21 `i -> 25 `i 202  ]
+[e $U 192  ]
+[e :U 191 ]
+[e $ ! == -> . __PIR 21 `i -> 25 `i 193  ]
 {
 [; ;PIR_B1.c: 94: _PIR.RangeValue = 7;
 "94
 [e = . __PIR 21 -> -> 7 `i `uc ]
 "95
 }
-[e :U 202 ]
+[e :U 193 ]
 "96
-[e :U 201 ]
+[e :U 192 ]
 }
-[e :U 199 ]
+[e :U 190 ]
 "97
 }
-[e :U 198 ]
+[e :U 189 ]
 "98
-[e :U 197 ]
+[e :U 188 ]
 [; ;PIR_B1.c: 95: }
 [; ;PIR_B1.c: 96: }
 [; ;PIR_B1.c: 97: }
@@ -2111,12 +2001,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . __PIR 20 -> -> 0 `i `uc ]
 "99
 }
-[e :U 192 ]
+[e :U 183 ]
 [; ;PIR_B1.c: 99: }
 [; ;PIR_B1.c: 102: if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))
 [; ;PIR_B1.c: 103: && (_PIR.SignalAD <= (_PIR.ReferenceVoltage + (_PIR.RangeValue + _PIR.Offset)))) {
 "103
-[e $ ! && >= -> . __PIR 1 `i - -> . __PIR 6 `i + -> . __PIR 21 `i -> . __PIR 23 `i <= -> . __PIR 1 `i + -> . __PIR 6 `i + -> . __PIR 21 `i -> . __PIR 23 `i 203  ]
+[e $ ! && >= -> . __PIR 1 `i - -> . __PIR 6 `i + -> . __PIR 21 `i -> . __PIR 23 `i <= -> . __PIR 1 `i + -> . __PIR 6 `i + -> . __PIR 21 `i -> . __PIR 23 `i 194  ]
 {
 [; ;PIR_B1.c: 104: _PIR.Count = 0;
 "104
@@ -2130,8 +2020,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 "107
 }
 [; ;PIR_B1.c: 107: } else {
-[e $U 204  ]
-[e :U 203 ]
+[e $U 195  ]
+[e :U 194 ]
 {
 [; ;PIR_B1.c: 108: _PIR.RangeCount++;
 "108
@@ -2141,7 +2031,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ++ . __PIR 13 -> -> 1 `i `ui ]
 [; ;PIR_B1.c: 110: if (_PIR.Count == _PIR.TriggerValue) {
 "110
-[e $ ! == . __PIR 13 -> . __PIR 14 `ui 205  ]
+[e $ ! == . __PIR 13 -> . __PIR 14 `ui 196  ]
 {
 [; ;PIR_B1.c: 111: _PIR.Count = 0;
 "111
@@ -2152,26 +2042,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;PIR_B1.c: 113: _PIR.CloseTimeMinutes = 0;
 "113
 [e = . __PIR 15 -> -> 0 `i `ui ]
-[; ;PIR_B1.c: 117: if (getLights_Status(1) == 0) {
-"117
-[e $ ! == -> ( _getLights_Status (1 -> -> 1 `i `uc `i -> 0 `i 206  ]
-{
-[; ;PIR_B1.c: 118: setLights_Trigger(1, 1);
-"118
-[e ( _setLights_Trigger (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 119: setLights_Switch(1, 1);
-"119
-[e ( _setLights_Switch (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"120
-}
-[e :U 206 ]
-[; ;PIR_B1.c: 120: }
 [; ;PIR_B1.c: 124: _PIR.Status = 1;
 "124
 [e = . . . __PIR 0 0 6 -> -> 1 `i `uc ]
 [; ;PIR_B1.c: 126: if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
 "126
-[e $ ! <= -> . __PIR 1 `i - -> . __PIR 6 `i + -> . __PIR 21 `i -> . __PIR 23 `i 207  ]
+[e $ ! <= -> . __PIR 1 `i - -> . __PIR 6 `i + -> . __PIR 21 `i -> . __PIR 23 `i 197  ]
 {
 [; ;PIR_B1.c: 127: setLED(1, 1);
 "127
@@ -2182,8 +2058,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 "129
 }
 [; ;PIR_B1.c: 129: } else {
-[e $U 208  ]
-[e :U 207 ]
+[e $U 198  ]
+[e :U 197 ]
 {
 [; ;PIR_B1.c: 130: setLED(1, 0);
 "130
@@ -2193,25 +2069,25 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setLED (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
 "132
 }
-[e :U 208 ]
+[e :U 198 ]
 "133
 }
-[e :U 205 ]
+[e :U 196 ]
 "134
 }
-[e :U 204 ]
+[e :U 195 ]
 "135
 }
-[e :U 191 ]
+[e :U 182 ]
 "136
 }
-[e :U 190 ]
+[e :U 181 ]
 "137
 }
-[e :U 189 ]
+[e :U 180 ]
 "138
 }
-[e :U 188 ]
+[e :U 179 ]
 [; ;PIR_B1.c: 132: }
 [; ;PIR_B1.c: 133: }
 [; ;PIR_B1.c: 134: }
@@ -2221,14 +2097,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;PIR_B1.c: 138: }
 [; ;PIR_B1.c: 139: if (_PIR.OK == 0) {
 "139
-[e $ ! == -> . . . __PIR 0 0 3 `i -> 0 `i 209  ]
+[e $ ! == -> . . . __PIR 0 0 3 `i -> 0 `i 199  ]
 {
 [; ;PIR_B1.c: 140: _PIR.Count++;
 "140
 [e ++ . __PIR 13 -> -> 1 `i `ui ]
 [; ;PIR_B1.c: 141: if (_PIR.Count == 3000) {
 "141
-[e $ ! == . __PIR 13 -> -> 3000 `i `ui 210  ]
+[e $ ! == . __PIR 13 -> -> 3000 `i `ui 200  ]
 {
 [; ;PIR_B1.c: 142: _PIR.Count = 0;
 "142
@@ -2241,22 +2117,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setLED (2 , -> -> 2 `i `uc -> -> 0 `i `uc ]
 "145
 }
-[e :U 210 ]
+[e :U 200 ]
 "146
 }
-[e :U 209 ]
+[e :U 199 ]
 [; ;PIR_B1.c: 145: }
 [; ;PIR_B1.c: 146: }
 [; ;PIR_B1.c: 147: if (_PIR.Status == 1) {
 "147
-[e $ ! == -> . . . __PIR 0 0 6 `i -> 1 `i 211  ]
+[e $ ! == -> . . . __PIR 0 0 6 `i -> 1 `i 201  ]
 {
 [; ;PIR_B1.c: 148: _PIR.CloseTimeSeconds++;
 "148
 [e ++ . __PIR 16 -> -> 1 `i `uc ]
 [; ;PIR_B1.c: 149: if (_PIR.CloseTimeSeconds == 100) {
 "149
-[e $ ! == -> . __PIR 16 `i -> 100 `i 212  ]
+[e $ ! == -> . __PIR 16 `i -> 100 `i 202  ]
 {
 [; ;PIR_B1.c: 150: _PIR.CloseTimeSeconds = 0;
 "150
@@ -2266,7 +2142,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ++ . __PIR 15 -> -> 1 `i `ui ]
 [; ;PIR_B1.c: 152: if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
 "152
-[e $ ! == . __PIR 15 . __PIR 17 213  ]
+[e $ ! == . __PIR 15 . __PIR 17 203  ]
 {
 [; ;PIR_B1.c: 153: _PIR.CloseTimeMinutes = 0;
 "153
@@ -2274,39 +2150,25 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;PIR_B1.c: 154: _PIR.Status = 0;
 "154
 [e = . . . __PIR 0 0 6 -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 158: if (getLights_Status(1) == 1) {
-"158
-[e $ ! == -> ( _getLights_Status (1 -> -> 1 `i `uc `i -> 1 `i 214  ]
-{
-[; ;PIR_B1.c: 159: setLights_Trigger(1, 1);
-"159
-[e ( _setLights_Trigger (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 160: setLights_Switch(1, 0);
-"160
-[e ( _setLights_Switch (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
-"161
-}
-[e :U 214 ]
 "165
 }
-[e :U 213 ]
+[e :U 203 ]
 "166
 }
-[e :U 212 ]
+[e :U 202 ]
 "167
 }
-[e :U 211 ]
+[e :U 201 ]
 "168
 }
-[e :U 176 ]
-[; ;PIR_B1.c: 161: }
+[e :U 168 ]
 [; ;PIR_B1.c: 165: }
 [; ;PIR_B1.c: 166: }
 [; ;PIR_B1.c: 167: }
 [; ;PIR_B1.c: 168: }
 [; ;PIR_B1.c: 169: }
 "169
-[e :UE 175 ]
+[e :UE 167 ]
 }
 "172
 [v _getPIR_AD `(v ~T0 @X0 1 ef2`uc`uc ]
@@ -2324,7 +2186,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _j -> -> 0 `i `uc ]
 [; ;PIR_B1.c: 175: if (_PIR.ADtoGO == 1) {
 "175
-[e $ ! == -> . . . __PIR 0 0 1 `i -> 1 `i 216  ]
+[e $ ! == -> . . . __PIR 0 0 1 `i -> 1 `i 205  ]
 {
 [; ;PIR_B1.c: 176: _PIR.GO = 1;
 "176
@@ -2346,14 +2208,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . __PIR 1 . __PIR 2 ]
 [; ;PIR_B1.c: 183: switch (_PIR.VRAD) {
 "183
-[e $U 218  ]
+[e $U 207  ]
 {
 [; ;PIR_B1.c: 184: case 0:
 "184
-[e :U 219 ]
+[e :U 208 ]
 [; ;PIR_B1.c: 185: if (_PIR.VRAD1 < 10) {
 "185
-[e $ ! < -> . __PIR 4 `i -> 10 `i 220  ]
+[e $ ! < -> . __PIR 4 `i -> 10 `i 209  ]
 {
 [; ;PIR_B1.c: 186: _PIR.CloseTimeValue = 5;
 "186
@@ -2361,69 +2223,69 @@ Version 3.2 HI-TECH Software Intermediate Code
 "187
 }
 [; ;PIR_B1.c: 187: } else {
-[e $U 221  ]
-[e :U 220 ]
+[e $U 210  ]
+[e :U 209 ]
 {
 [; ;PIR_B1.c: 188: _PIR.CloseTimeValue = 60;
 "188
 [e = . __PIR 17 -> -> 60 `i `ui ]
 "189
 }
-[e :U 221 ]
+[e :U 210 ]
 [; ;PIR_B1.c: 189: }
 [; ;PIR_B1.c: 190: break;
 "190
-[e $U 217  ]
+[e $U 206  ]
 [; ;PIR_B1.c: 191: case 1:
 "191
-[e :U 222 ]
+[e :U 211 ]
 [; ;PIR_B1.c: 192: _PIR.CloseTimeValue = 300;
 "192
 [e = . __PIR 17 -> -> 300 `i `ui ]
 [; ;PIR_B1.c: 193: break;
 "193
-[e $U 217  ]
+[e $U 206  ]
 [; ;PIR_B1.c: 194: case 2:
 "194
-[e :U 223 ]
+[e :U 212 ]
 [; ;PIR_B1.c: 195: _PIR.CloseTimeValue = 600;
 "195
 [e = . __PIR 17 -> -> 600 `i `ui ]
 [; ;PIR_B1.c: 196: break;
 "196
-[e $U 217  ]
+[e $U 206  ]
 [; ;PIR_B1.c: 197: case 3:
 "197
-[e :U 224 ]
+[e :U 213 ]
 [; ;PIR_B1.c: 198: _PIR.CloseTimeValue = 900;
 "198
 [e = . __PIR 17 -> -> 900 `i `ui ]
 [; ;PIR_B1.c: 199: break;
 "199
-[e $U 217  ]
+[e $U 206  ]
 [; ;PIR_B1.c: 200: case 4:
 "200
-[e :U 225 ]
+[e :U 214 ]
 [; ;PIR_B1.c: 201: _PIR.CloseTimeValue = 1200;
 "201
 [e = . __PIR 17 -> -> 1200 `i `ui ]
 [; ;PIR_B1.c: 202: break;
 "202
-[e $U 217  ]
+[e $U 206  ]
 "203
 }
 [; ;PIR_B1.c: 203: }
-[e $U 217  ]
+[e $U 206  ]
 "183
-[e :U 218 ]
-[e [\ . __PIR 3 , $ -> -> 0 `i `uc 219
- , $ -> -> 1 `i `uc 222
- , $ -> -> 2 `i `uc 223
- , $ -> -> 3 `i `uc 224
- , $ -> -> 4 `i `uc 225
- 217 ]
+[e :U 207 ]
+[e [\ . __PIR 3 , $ -> -> 0 `i `uc 208
+ , $ -> -> 1 `i `uc 211
+ , $ -> -> 2 `i `uc 212
+ , $ -> -> 3 `i `uc 213
+ , $ -> -> 4 `i `uc 214
+ 206 ]
 "203
-[e :U 217 ]
+[e :U 206 ]
 [; ;PIR_B1.c: 206: _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
 "206
 [e = *U + &U . __PIR 8 * -> . __PIR 7 `ux -> -> # *U &U . __PIR 8 `ui `ux . __PIR 1 ]
@@ -2431,9 +2293,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "207
 {
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 10 `i 226  ]
-[e $U 227  ]
-[e :U 226 ]
+[e $ < -> _i `i -> 10 `i 215  ]
+[e $U 216  ]
+[e :U 215 ]
 {
 [; ;PIR_B1.c: 208: _PIR.TenAverageValue += _PIR.TenAverage[i];
 "208
@@ -2442,8 +2304,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 "207
 [e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 10 `i 226  ]
-[e :U 227 ]
+[e $ < -> _i `i -> 10 `i 215  ]
+[e :U 216 ]
 "209
 }
 [; ;PIR_B1.c: 209: }
@@ -2457,9 +2319,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "213
 {
 [e = _i -> -> 0 `i `uc ]
-[e $ <= -> _i `i -> 9 `i 229  ]
-[e $U 230  ]
-[e :U 229 ]
+[e $ <= -> _i `i -> 9 `i 218  ]
+[e $U 219  ]
+[e :U 218 ]
 {
 [; ;PIR_B1.c: 214: _PIR.HundredAverageValue += _PIR.HundredAverage[i];
 "214
@@ -2468,8 +2330,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 "213
 [e ++ _i -> -> 1 `i `uc ]
-[e $ <= -> _i `i -> 9 `i 229  ]
-[e :U 230 ]
+[e $ <= -> _i `i -> 9 `i 218  ]
+[e :U 219 ]
 "215
 }
 [; ;PIR_B1.c: 215: }
@@ -2481,7 +2343,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . __PIR 12 -> -> 0 `i `ui ]
 [; ;PIR_B1.c: 219: if (_PIR.TenCount < 10) {
 "219
-[e $ ! < -> . __PIR 7 `i -> 10 `i 232  ]
+[e $ ! < -> . __PIR 7 `i -> 10 `i 221  ]
 {
 [; ;PIR_B1.c: 220: _PIR.TenCount++;
 "220
@@ -2489,35 +2351,35 @@ Version 3.2 HI-TECH Software Intermediate Code
 "221
 }
 [; ;PIR_B1.c: 221: } else {
-[e $U 233  ]
-[e :U 232 ]
+[e $U 222  ]
+[e :U 221 ]
 {
 [; ;PIR_B1.c: 222: _PIR.TenCount = 0;
 "222
 [e = . __PIR 7 -> -> 0 `i `uc ]
 [; ;PIR_B1.c: 223: if (_PIR.HundreCount < 10)
 "223
-[e $ ! < -> . __PIR 10 `i -> 10 `i 234  ]
+[e $ ! < -> . __PIR 10 `i -> 10 `i 223  ]
 [; ;PIR_B1.c: 224: _PIR.HundreCount++;
 "224
 [e ++ . __PIR 10 -> -> 1 `i `uc ]
-[e $U 235  ]
+[e $U 224  ]
 "225
-[e :U 234 ]
+[e :U 223 ]
 [; ;PIR_B1.c: 225: else
 [; ;PIR_B1.c: 226: _PIR.HundreCount = 0;
 "226
 [e = . __PIR 10 -> -> 0 `i `uc ]
-[e :U 235 ]
+[e :U 224 ]
 "227
 }
-[e :U 233 ]
+[e :U 222 ]
 "242
 }
-[e :U 216 ]
+[e :U 205 ]
 [; ;PIR_B1.c: 227: }
 [; ;PIR_B1.c: 242: }
 [; ;PIR_B1.c: 243: }
 "243
-[e :UE 215 ]
+[e :UE 204 ]
 }

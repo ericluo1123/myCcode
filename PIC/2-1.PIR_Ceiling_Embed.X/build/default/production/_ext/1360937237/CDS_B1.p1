@@ -89,30 +89,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 "8
 [s S163 `S164 1 `ui 1 `ui 1 ]
 [n S163 SYSC . Timer Counter ]
-"23 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[s S168 :1 `uc 1 :7 `uc 1 ]
-[n S168 . Detect empty ]
-"22
-[u S167 `S168 1 :1 `uc 1 ]
-[n S167 . . Load ]
-"21
-[s S166 `S167 1 ]
-[n S166 LightsControl . ]
-"36
-[s S171 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S171 . Enable GO Status Open Close Trigger Switch Relay ]
-"34
-[u S170 `S171 1 ]
-[n S170 . . ]
-"50
-[s S173 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
-[n S173 . Triac Clear RelaySet empty ]
-"48
-[u S172 `S173 1 ]
-[n S172 . . ]
-"32
-[s S169 `S170 1 `S172 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
-[n S169 Lights . . Time TriacTime TriacValue RelayTime RelayValue ]
 "143 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
 [v _getMain_AD_Safe `(uc ~T0 @X0 0 ef ]
 [v F1534 `(uc ~T0 @X0 1 tf2`uc`uc ]
@@ -1742,72 +1718,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;SYSC_B1.h: 30: void setSYSC_Initialization();
 [; ;SYSC_B1.h: 31: void setSYSC_Main();
 [; ;SYSC_B1.h: 32: inline void DetectSYSC_Signal();
-[; ;TriacRelay_B1.h: 21: struct LightsControl{
-[; ;TriacRelay_B1.h: 22: union{
-[; ;TriacRelay_B1.h: 23: struct{
-[; ;TriacRelay_B1.h: 24: unsigned Detect:1;
-[; ;TriacRelay_B1.h: 25: unsigned empty:7;
-[; ;TriacRelay_B1.h: 26: };
-[; ;TriacRelay_B1.h: 27: unsigned char Load:1;
-[; ;TriacRelay_B1.h: 28: };
-[; ;TriacRelay_B1.h: 29: };
-"30 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
-[v _LightsControl `S166 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 30: struct LightsControl LightsControl;
-[; ;TriacRelay_B1.h: 32: struct Lights {
-[; ;TriacRelay_B1.h: 34: union {
-[; ;TriacRelay_B1.h: 36: struct {
-[; ;TriacRelay_B1.h: 37: unsigned Enable : 1;
-[; ;TriacRelay_B1.h: 38: unsigned GO : 1;
-[; ;TriacRelay_B1.h: 39: unsigned Status : 1;
-[; ;TriacRelay_B1.h: 40: unsigned Open : 1;
-[; ;TriacRelay_B1.h: 41: unsigned Close : 1;
-[; ;TriacRelay_B1.h: 42: unsigned Trigger : 1;
-[; ;TriacRelay_B1.h: 43: unsigned Switch : 1;
-[; ;TriacRelay_B1.h: 44: unsigned Relay : 1;
-[; ;TriacRelay_B1.h: 45: };
-[; ;TriacRelay_B1.h: 46: };
-[; ;TriacRelay_B1.h: 48: union {
-[; ;TriacRelay_B1.h: 50: struct {
-[; ;TriacRelay_B1.h: 51: unsigned Triac : 1;
-[; ;TriacRelay_B1.h: 52: unsigned Clear : 1;
-[; ;TriacRelay_B1.h: 53: unsigned RelaySet : 1;
-[; ;TriacRelay_B1.h: 54: unsigned empty : 5;
-[; ;TriacRelay_B1.h: 55: };
-[; ;TriacRelay_B1.h: 56: };
-[; ;TriacRelay_B1.h: 58: unsigned char Time;
-[; ;TriacRelay_B1.h: 59: unsigned char TriacTime;
-[; ;TriacRelay_B1.h: 60: unsigned char TriacValue;
-[; ;TriacRelay_B1.h: 61: unsigned char RelayTime;
-[; ;TriacRelay_B1.h: 62: unsigned char RelayValue;
-[; ;TriacRelay_B1.h: 63: };
-"64
-[v _Lights `*S169 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 64: struct Lights *Lights;
-"68
-[v _Lights1 `S169 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 68: struct Lights Lights1;
-[; ;TriacRelay_B1.h: 79: void LightsPointSelect(char);
-[; ;TriacRelay_B1.h: 80: void Lights_Initialization();
-[; ;TriacRelay_B1.h: 81: void Lights_Main();
-[; ;TriacRelay_B1.h: 82: void Lights_ERROR();
-[; ;TriacRelay_B1.h: 83: void Lights_Close();
-[; ;TriacRelay_B1.h: 85: void setLights_Initialization(char);
-[; ;TriacRelay_B1.h: 86: void setLights_GO(char, char);
-[; ;TriacRelay_B1.h: 87: void setLights_Main(char);
-[; ;TriacRelay_B1.h: 88: void setLights_ERROR(char);
-[; ;TriacRelay_B1.h: 89: void setLights_TriggerERROR(char, char);
-[; ;TriacRelay_B1.h: 90: void Lights_Control(char);
-[; ;TriacRelay_B1.h: 91: void Lights_Close();
-[; ;TriacRelay_B1.h: 93: void setLights_Clear(char, char);
-[; ;TriacRelay_B1.h: 94: void setLights_Trigger(char, char);
-[; ;TriacRelay_B1.h: 95: void setLights_Switch(char, char);
-[; ;TriacRelay_B1.h: 96: void setLights_Open(char, char);
-[; ;TriacRelay_B1.h: 97: char getLights_Open(char);
-[; ;TriacRelay_B1.h: 98: void setLights_Close(char, char);
-[; ;TriacRelay_B1.h: 99: char getLights_Close(char);
-[; ;TriacRelay_B1.h: 100: void setLights(char, char);
-[; ;TriacRelay_B1.h: 101: char getLights_Status(char lights);
 [v F1750 `(v ~T0 @X0 1 tf ]
 "7 ../src/CDS_B1.c
 [v _CDS_Initialization `TF1750 ~T0 @X0 1 e ]
@@ -1820,7 +1730,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . . __CDS 0 0 0 -> -> 1 `i `uc ]
 [; ;CDS_B1.c: 9: }
 "9
-[e :UE 174 ]
+[e :UE 166 ]
 }
 [v F1752 `(v ~T0 @X0 1 tf ]
 "11
@@ -1831,28 +1741,28 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;CDS_B1.c: 13: if (_CDS.Enable == 1) {
 "13
-[e $ ! == -> . . . __CDS 0 0 0 `i -> 1 `i 176  ]
+[e $ ! == -> . . . __CDS 0 0 0 `i -> 1 `i 168  ]
 {
 [; ;CDS_B1.c: 14: if (_CDS.GO == 0) {
 "14
-[e $ ! == -> . . . __CDS 0 0 1 `i -> 0 `i 177  ]
+[e $ ! == -> . . . __CDS 0 0 1 `i -> 0 `i 169  ]
 {
 [; ;CDS_B1.c: 15: if (_CDS.ADtoGO == 0) {
 "15
-[e $ ! == -> . . . __CDS 0 0 3 `i -> 0 `i 178  ]
+[e $ ! == -> . . . __CDS 0 0 3 `i -> 0 `i 170  ]
 {
 [; ;CDS_B1.c: 16: _CDS.Time++;
 "16
 [e ++ . __CDS 1 -> -> 1 `i `uc ]
 [; ;CDS_B1.c: 17: if (_CDS.Time >= 10)
 "17
-[e $ ! >= -> . __CDS 1 `i -> 10 `i 179  ]
+[e $ ! >= -> . __CDS 1 `i -> 10 `i 171  ]
 [; ;CDS_B1.c: 18: {
 "18
 {
 [; ;CDS_B1.c: 19: if (getMain_AD_Safe() == 1) {
 "19
-[e $ ! == -> ( _getMain_AD_Safe ..  `i -> 1 `i 180  ]
+[e $ ! == -> ( _getMain_AD_Safe ..  `i -> 1 `i 172  ]
 {
 [; ;CDS_B1.c: 20: _CDS.Time = 0;
 "20
@@ -1863,80 +1773,80 @@ Version 3.2 HI-TECH Software Intermediate Code
 "22
 }
 [; ;CDS_B1.c: 22: } else {
-[e $U 181  ]
-[e :U 180 ]
+[e $U 173  ]
+[e :U 172 ]
 {
 [; ;CDS_B1.c: 23: _CDS.Time = 10;
 "23
 [e = . __CDS 1 -> -> 10 `i `uc ]
 "24
 }
-[e :U 181 ]
+[e :U 173 ]
 "25
 }
-[e :U 179 ]
+[e :U 171 ]
 "26
 }
-[e :U 178 ]
+[e :U 170 ]
 "27
 }
 [; ;CDS_B1.c: 24: }
 [; ;CDS_B1.c: 25: }
 [; ;CDS_B1.c: 26: }
 [; ;CDS_B1.c: 27: } else {
-[e $U 182  ]
-[e :U 177 ]
+[e $U 174  ]
+[e :U 169 ]
 {
 [; ;CDS_B1.c: 28: if (_CDS.GO == 1) {
 "28
-[e $ ! == -> . . . __CDS 0 0 1 `i -> 1 `i 183  ]
+[e $ ! == -> . . . __CDS 0 0 1 `i -> 1 `i 175  ]
 {
 [; ;CDS_B1.c: 29: _CDS.GO = 0;
 "29
 [e = . . . __CDS 0 0 1 -> -> 0 `i `uc ]
 [; ;CDS_B1.c: 30: if (_CDS.Status == 0) {
 "30
-[e $ ! == -> . . . __CDS 0 0 4 `i -> 0 `i 184  ]
+[e $ ! == -> . . . __CDS 0 0 4 `i -> 0 `i 176  ]
 {
 [; ;CDS_B1.c: 31: if (_CDS.SignalAD >= _CDS.VRAD) {
 "31
-[e $ ! >= -> . __CDS 3 `i -> . __CDS 2 `i 185  ]
+[e $ ! >= -> . __CDS 3 `i -> . __CDS 2 `i 177  ]
 {
 [; ;CDS_B1.c: 32: _CDS.Status = 1;
 "32
 [e = . . . __CDS 0 0 4 -> -> 1 `i `uc ]
 "33
 }
-[e :U 185 ]
+[e :U 177 ]
 "34
 }
 [; ;CDS_B1.c: 33: }
 [; ;CDS_B1.c: 34: } else {
-[e $U 186  ]
-[e :U 184 ]
+[e $U 178  ]
+[e :U 176 ]
 {
 [; ;CDS_B1.c: 35: if (_CDS.SignalAD <= (_CDS.VRAD - 100)) {
 "35
-[e $ ! <= -> . __CDS 3 `i - -> . __CDS 2 `i -> 100 `i 187  ]
+[e $ ! <= -> . __CDS 3 `i - -> . __CDS 2 `i -> 100 `i 179  ]
 {
 [; ;CDS_B1.c: 36: _CDS.Status = 0;
 "36
 [e = . . . __CDS 0 0 4 -> -> 0 `i `uc ]
 "37
 }
-[e :U 187 ]
+[e :U 179 ]
 "38
 }
-[e :U 186 ]
+[e :U 178 ]
 "39
 }
-[e :U 183 ]
+[e :U 175 ]
 "40
 }
-[e :U 182 ]
+[e :U 174 ]
 "41
 }
-[e :U 176 ]
+[e :U 168 ]
 [; ;CDS_B1.c: 37: }
 [; ;CDS_B1.c: 38: }
 [; ;CDS_B1.c: 39: }
@@ -1944,7 +1854,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;CDS_B1.c: 41: }
 [; ;CDS_B1.c: 42: }
 "42
-[e :UE 175 ]
+[e :UE 167 ]
 }
 "44
 [v _getCDS_Status `(uc ~T0 @X0 1 ef ]
@@ -1959,10 +1869,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;CDS_B1.c: 46: return result;
 "46
 [e ) _result ]
-[e $UE 188  ]
+[e $UE 180  ]
 [; ;CDS_B1.c: 47: }
 "47
-[e :UE 188 ]
+[e :UE 180 ]
 }
 [v F1756 `(v ~T0 @X0 1 tf2`uc`uc ]
 "49
@@ -1981,7 +1891,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _j -> -> 0 `i `uc ]
 [; ;CDS_B1.c: 51: if (_CDS.ADtoGO == 1) {
 "51
-[e $ ! == -> . . . __CDS 0 0 3 `i -> 1 `i 190  ]
+[e $ ! == -> . . . __CDS 0 0 3 `i -> 1 `i 182  ]
 {
 [; ;CDS_B1.c: 52: _CDS.GO = 1;
 "52
@@ -2000,9 +1910,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . __CDS 3 . __CDS 4 ]
 "57
 }
-[e :U 190 ]
+[e :U 182 ]
 [; ;CDS_B1.c: 57: }
 [; ;CDS_B1.c: 58: }
 "58
-[e :UE 189 ]
+[e :UE 181 ]
 }
