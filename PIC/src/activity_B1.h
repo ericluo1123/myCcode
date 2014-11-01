@@ -186,7 +186,7 @@
  * close mosfet delay time to allow recook
  */
 #define MosfetOpenToCloseValue			10
-
+ 
 #if Properties_Neutral == 1
 #define Max_Percent 90
 #define Med_Percent 35
@@ -224,7 +224,7 @@
 
 
 //Percent define
-#ifdef TMR0_IntrTime_50us
+#ifdef IntrTime_50us
 #define TotalCount		166
 #define One_Percent		1.5
 #define Tune_Percent		40
@@ -235,7 +235,7 @@
 #define TriacCountValue 87
 #endif
 
-#ifdef TMR0_IntrTime_100us
+#ifdef IntrTime_100us
 #define TotalCount		86
 #define One_Percent		0.8
 #define Tune_Percent		40
@@ -246,7 +246,7 @@
 #define TriacCountValue 70
 #endif
 
-#ifdef TMR0_IntrTime_150us
+#ifdef IntrTime_150us
 #define TotalCount		55
 #define One_Percent		0.55
 #define Tune_Percent		40
@@ -257,7 +257,7 @@
 #define DimmingDelayTime 10
 #endif
 
-#ifdef TMR0_IntrTime_200us
+#ifdef IntrTime_200us
 #define TotalCount		41
 #define One_Percent		0.4
 #define Tune_Percent            40

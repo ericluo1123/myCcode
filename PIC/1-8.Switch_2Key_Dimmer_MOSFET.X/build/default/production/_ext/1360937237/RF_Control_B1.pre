@@ -2740,14 +2740,12 @@ union {
 
 struct {
 unsigned PowerON : 1;
-unsigned T0_Timerout : 1;
-unsigned T1_Timerout : 1;
-unsigned T2_Timerout : 1;
 unsigned Flag : 1;
 unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
+unsigned Tempty:3;
 };
 };
 unsigned int PowerCount;
@@ -2757,10 +2755,8 @@ unsigned int Count;
 unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
-unsigned char IOC_Count;
-unsigned char Test;
-unsigned char ClockCount;
 
+# 88
 union {
 
 struct {
@@ -2789,20 +2785,21 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 124
+# 123
 inline void myMain_Initialization();
 
-# 129
+# 128
 inline void my_Main();
 
-# 134
+# 133
 inline void my_MainTime();
 
-# 139
+# 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 char getMain_Exception();
-char getMain_AD_Status();
+char getMain_AD_Safe();
+char getMain_LightsStatus();
 
 # 14 "../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
 struct Switch {
@@ -3742,7 +3739,7 @@ status <<= (lights - 1);
 product->Data[11]=lights;
 
 
-product->Data[(20 + lights)]=setPercentValue(((char)(65*0.8)));
+product->Data[(20 + lights)]=setPercentValue(((char)(90*0.8)));
 
 
 product->Data[9]=product->Data[20 + lights];

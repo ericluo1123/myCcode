@@ -336,7 +336,7 @@ inline int getAD(char, char);
 //TMR0 Clock Source Select Internal instruction cycle clock (FOSC/4)
 //Prescaler is assigned to the Timer0 module
 
-#ifdef TMR0_IntrTime_50us	//interrupt time= (1/(System_Fosc/4)) * T0PS * TMR0_Count
+#ifdef IntrTime_50us	//interrupt time= (1/(System_Fosc/4)) * T0PS * TMR0_Count
 #define  OPTION_REG_Value T0PS_1x2
 #define TMR0_Count	90	
 #define TMR0_1ms	20	
@@ -344,7 +344,7 @@ inline int getAD(char, char);
 #define TMR0_10ms	200
 #endif
 
-#ifdef TMR0_IntrTime_100us
+#ifdef IntrTime_100us
 #define  OPTION_REG_Value T0PS_1x2
 #define TMR0_Count	190
 #define TMR0_1ms	10
@@ -352,7 +352,7 @@ inline int getAD(char, char);
 #define TMR0_10ms	100
 #endif
 
-#ifdef TMR0_IntrTime_150us
+#ifdef IntrTime_150us
 #define  OPTION_REG_Value T0PS_1x4
 #define TMR0_Count	140
 #define TMR0_1ms	6
@@ -360,7 +360,7 @@ inline int getAD(char, char);
 #define TMR0_10ms	66
 #endif
 
-#ifdef TMR0_IntrTime_200us
+#ifdef IntrTime_200us
 #define  OPTION_REG_Value T0PS_1x4
 #define TMR0_Count	190
 #define TMR0_1ms	5
@@ -380,7 +380,7 @@ struct Timer0 {
         struct {
             unsigned Timeout : 1;
             unsigned Reset : 1;
-            unsigned empty : 6;
+            unsigned empty : 5;
         };
     };
 
@@ -424,20 +424,20 @@ inline void setDimmerReClock();
 #ifdef System_Fosc_16M	
 #define _CKPS T1PS_1x1
 
-#ifdef TMR1_IntrTime_50us	//interrupt time= (1/System_Fosc) * T1PS * TMR1_Count
+#ifdef IntrTime_50us	//interrupt time= (1/System_Fosc) * T1PS * TMR1_Count
 #define TMR1_Count	700	
 #define TMR1_1ms	20
 #define TMR1_5ms	100
 #endif
 
-#ifdef TMR1_IntrTime_100us	
+#ifdef IntrTime_100us	
 #define TMR1_Count	1480
 #define TMR1_1ms	10
 #define TMR1_5ms	50
 #define TMR1_10ms	100
 #endif
 
-#ifdef TMR1_IntrTime_500us	
+#ifdef IntrTime_500us	
 #define TMR1_Count	7500
 #define TMR1_1ms	2
 #endif
@@ -490,7 +490,7 @@ inline void setDimmerReClock();
 #define T2CKPS_1x4  0x10
 #define T2CKPS_1x16 0x11
 
-#ifdef TMR2_IntrTime_100us
+#ifdef IntrTime_100us
 #define _TMR2 168
 #define _PR2 0
 #define _TMR2ON 0x04

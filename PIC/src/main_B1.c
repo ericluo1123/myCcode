@@ -56,8 +56,8 @@ int main(int argc, char** argv) {
         }
         //TMR0
 #if Timer0_use == 1
-        if (myMain.T0_Timerout == true) {//10ms
-            myMain.T0_Timerout = 0;
+        if (Timer0.Timerout == true) {//10ms
+            Timer0.Timerout = false;
             my_MainTime();
             WDT_Main();
             I2C_Main();
@@ -89,8 +89,8 @@ int main(int argc, char** argv) {
 
 #if Timer1_use == 1
         //TMR1
-        if (myMain.T1_Timerout == true) { //10ms
-            myMain.T1_Timerout = 0;
+        if (Timer1.Timeout == true) { //10ms
+            Timer1.Timeout = false;
             my_MainTime();
             WDT_Main();
             I2C_Main();
@@ -127,8 +127,8 @@ int main(int argc, char** argv) {
 #endif 
 
 #if Timer2_use == 1
-        if (myMain.T2_Timerout == true) {//10ms
-            myMain.T2_Timerout = false;
+        if (Timer2.Timerout == true) {//10ms
+            Timer2.Timerout = false;
             my_MainTime();
             WDT_Main();
             I2C_Main();

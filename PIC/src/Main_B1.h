@@ -65,14 +65,12 @@ struct myMain {
 
         struct {
             unsigned PowerON : 1;
-            unsigned T0_Timerout : 1;
-            unsigned T1_Timerout : 1;
-            unsigned T2_Timerout : 1;
             unsigned Flag : 1;
             unsigned GO : 1;
             unsigned FirstOpen : 1;
             unsigned SelfTest : 1;
             unsigned First : 1;
+            unsigned Tempty:3;
         };
     };
     unsigned int PowerCount;

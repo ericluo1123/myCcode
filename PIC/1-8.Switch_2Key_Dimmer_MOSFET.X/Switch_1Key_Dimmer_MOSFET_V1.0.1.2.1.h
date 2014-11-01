@@ -31,7 +31,7 @@
 #define Control_Method_Triac		0
 #define Control_Method_Relay		0
 #define Control_Method_TriacRelay	0
-#define Properties_Neutral		0
+#define Properties_Neutral		1
 #define Properties_Dimmer		1
 #define Debug 1
 #define Create_Date "2014/10/29"
@@ -93,13 +93,12 @@
 #define ADC_use             true											
 //Timer0
 #define Timer0_use          false
-#define TMR0_IntrTime_100us
 //Timer1
 #define Timer1_use          true
-#define TMR1_IntrTime_100us
 //Timer2
 #define Timer2_use	false
-#define TMR2_IntrTime_100us
+//Interrupt Time
+#define IntrTime_100us
 //INT
 #define INT_use             true
 //UART

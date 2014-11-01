@@ -27,26 +27,26 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S246 `uc -> 32 `i ]
 [n S246 Product Data ]
 "66
-[s S249 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S249 . PowerON T0_Timerout T1_Timerout T2_Timerout Flag GO FirstOpen SelfTest First ]
+[s S249 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
+[n S249 . PowerON Flag GO FirstOpen SelfTest First Tempty ]
 "64
 [u S248 `S249 1 ]
 [n S248 . . ]
-"91
+"90
 [s S251 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S251 . i j k l m n o p ]
-"89
+"88
 [u S250 `S251 1 ]
 [n S250 . . ]
-"105
+"104
 [s S253 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
 [n S253 . q r Timeout empty ]
-"103
+"102
 [u S252 `S253 1 ]
 [n S252 . . ]
 "62
-[s S247 `S248 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `uc 1 `uc 1 `uc 1 `S250 1 `S252 1 `ui 1 ]
-[n S247 myMain . PowerCount Count Count1 Count2 Count3 IOC_Count Test ClockCount . . Timeout_Counter ]
+[s S247 `S248 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `S250 1 `S252 1 `ui 1 ]
+[n S247 myMain . PowerCount Count Count1 Count2 Count3 . . Timeout_Counter ]
 "18 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/Switch_B1.h
 [s S256 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S256 . Enable Touch Debounce Hold1 Hold2 Hold3 Status Flag ]
@@ -154,18 +154,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _RA0 `Vb ~T0 @X0 0 e@96 ]
 "4525
 [v _RB1 `Vb ~T0 @X0 0 e@105 ]
-[v F2280 `(v ~T0 @X0 1 tf1`uc ]
+[v F2276 `(v ~T0 @X0 1 tf1`uc ]
 "306 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/CC2500_B1.h
-[v _CC2500_ReadStatus `TF2280 ~T0 @X0 0 e ]
-[v F2283 `(v ~T0 @X0 1 tf1`uc ]
+[v _CC2500_ReadStatus `TF2276 ~T0 @X0 0 e ]
+[v F2279 `(v ~T0 @X0 1 tf1`uc ]
 "307
-[v _CC2500_WriteCommand `TF2283 ~T0 @X0 0 e ]
-[v F2285 `(v ~T0 @X0 1 tf ]
+[v _CC2500_WriteCommand `TF2279 ~T0 @X0 0 e ]
+[v F2281 `(v ~T0 @X0 1 tf ]
 "308
-[v _CC2500_TxData `TF2285 ~T0 @X0 0 e ]
-[v F2288 `(v ~T0 @X0 1 tf ]
+[v _CC2500_TxData `TF2281 ~T0 @X0 0 e ]
+[v F2284 `(v ~T0 @X0 1 tf ]
 "309
-[v _CC2500_RxData `TF2288 ~T0 @X0 0 e ]
+[v _CC2500_RxData `TF2284 ~T0 @X0 0 e ]
 "57 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h
 [v _getRxData `(v ~T0 @X0 0 ef ]
 "4533 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
@@ -2284,56 +2284,52 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 64: union {
 [; ;Main_B1.h: 66: struct {
 [; ;Main_B1.h: 67: unsigned PowerON : 1;
-[; ;Main_B1.h: 68: unsigned T0_Timerout : 1;
-[; ;Main_B1.h: 69: unsigned T1_Timerout : 1;
-[; ;Main_B1.h: 70: unsigned T2_Timerout : 1;
-[; ;Main_B1.h: 71: unsigned Flag : 1;
-[; ;Main_B1.h: 72: unsigned GO : 1;
-[; ;Main_B1.h: 73: unsigned FirstOpen : 1;
-[; ;Main_B1.h: 74: unsigned SelfTest : 1;
-[; ;Main_B1.h: 75: unsigned First : 1;
-[; ;Main_B1.h: 76: };
-[; ;Main_B1.h: 77: };
-[; ;Main_B1.h: 78: unsigned int PowerCount;
-[; ;Main_B1.h: 81: unsigned int Count;
-[; ;Main_B1.h: 82: unsigned int Count1;
-[; ;Main_B1.h: 83: unsigned int Count2;
-[; ;Main_B1.h: 84: unsigned int Count3;
-[; ;Main_B1.h: 85: unsigned char IOC_Count;
-[; ;Main_B1.h: 86: unsigned char Test;
-[; ;Main_B1.h: 87: unsigned char ClockCount;
-[; ;Main_B1.h: 89: union {
-[; ;Main_B1.h: 91: struct {
-[; ;Main_B1.h: 92: unsigned i : 1;
-[; ;Main_B1.h: 93: unsigned j : 1;
-[; ;Main_B1.h: 94: unsigned k : 1;
-[; ;Main_B1.h: 95: unsigned l : 1;
-[; ;Main_B1.h: 96: unsigned m : 1;
-[; ;Main_B1.h: 97: unsigned n : 1;
-[; ;Main_B1.h: 98: unsigned o : 1;
-[; ;Main_B1.h: 99: unsigned p : 1;
+[; ;Main_B1.h: 68: unsigned Flag : 1;
+[; ;Main_B1.h: 69: unsigned GO : 1;
+[; ;Main_B1.h: 70: unsigned FirstOpen : 1;
+[; ;Main_B1.h: 71: unsigned SelfTest : 1;
+[; ;Main_B1.h: 72: unsigned First : 1;
+[; ;Main_B1.h: 73: unsigned Tempty:3;
+[; ;Main_B1.h: 74: };
+[; ;Main_B1.h: 75: };
+[; ;Main_B1.h: 76: unsigned int PowerCount;
+[; ;Main_B1.h: 79: unsigned int Count;
+[; ;Main_B1.h: 80: unsigned int Count1;
+[; ;Main_B1.h: 81: unsigned int Count2;
+[; ;Main_B1.h: 82: unsigned int Count3;
+[; ;Main_B1.h: 88: union {
+[; ;Main_B1.h: 90: struct {
+[; ;Main_B1.h: 91: unsigned i : 1;
+[; ;Main_B1.h: 92: unsigned j : 1;
+[; ;Main_B1.h: 93: unsigned k : 1;
+[; ;Main_B1.h: 94: unsigned l : 1;
+[; ;Main_B1.h: 95: unsigned m : 1;
+[; ;Main_B1.h: 96: unsigned n : 1;
+[; ;Main_B1.h: 97: unsigned o : 1;
+[; ;Main_B1.h: 98: unsigned p : 1;
+[; ;Main_B1.h: 99: };
 [; ;Main_B1.h: 100: };
-[; ;Main_B1.h: 101: };
-[; ;Main_B1.h: 103: union {
-[; ;Main_B1.h: 105: struct {
-[; ;Main_B1.h: 106: unsigned q : 1;
-[; ;Main_B1.h: 107: unsigned r : 1;
-[; ;Main_B1.h: 108: unsigned Timeout : 1;
-[; ;Main_B1.h: 109: unsigned empty : 5;
+[; ;Main_B1.h: 102: union {
+[; ;Main_B1.h: 104: struct {
+[; ;Main_B1.h: 105: unsigned q : 1;
+[; ;Main_B1.h: 106: unsigned r : 1;
+[; ;Main_B1.h: 107: unsigned Timeout : 1;
+[; ;Main_B1.h: 108: unsigned empty : 5;
+[; ;Main_B1.h: 109: };
 [; ;Main_B1.h: 110: };
-[; ;Main_B1.h: 111: };
-[; ;Main_B1.h: 112: unsigned int Timeout_Counter;
-[; ;Main_B1.h: 114: };
-"115
+[; ;Main_B1.h: 111: unsigned int Timeout_Counter;
+[; ;Main_B1.h: 113: };
+"114
 [v _myMain `S247 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 115: struct myMain myMain;
-[; ;Main_B1.h: 124: inline void myMain_Initialization();
-[; ;Main_B1.h: 129: inline void my_Main();
-[; ;Main_B1.h: 134: inline void my_MainTime();
-[; ;Main_B1.h: 139: inline void Timeout_Counter();
-[; ;Main_B1.h: 140: inline void set_TimeoutCleared();
-[; ;Main_B1.h: 141: char getMain_Exception();
-[; ;Main_B1.h: 142: char getMain_AD_Status();
+[; ;Main_B1.h: 114: struct myMain myMain;
+[; ;Main_B1.h: 123: inline void myMain_Initialization();
+[; ;Main_B1.h: 128: inline void my_Main();
+[; ;Main_B1.h: 133: inline void my_MainTime();
+[; ;Main_B1.h: 138: inline void Timeout_Counter();
+[; ;Main_B1.h: 139: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 140: char getMain_Exception();
+[; ;Main_B1.h: 141: char getMain_AD_Safe();
+[; ;Main_B1.h: 142: char getMain_LightsStatus();
 [; ;Switch_B1.h: 14: struct Switch {
 [; ;Switch_B1.h: 16: union {
 [; ;Switch_B1.h: 18: struct {
@@ -3009,9 +3005,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;DelayOff_B1.h: 52: void DlyOff_Initialization(char sw);
 [; ;DelayOff_B1.h: 53: void DlyOff_Main(char sw);
 [; ;DelayOff_B1.h: 54: void setDelayOff_GO(char sw, char command, char value);
-[v F2323 `(v ~T0 @X0 1 tf ]
+[v F2319 `(v ~T0 @X0 1 tf ]
 "9 ../src/RF_Control_B1.c
-[v _RF_Initialization `TF2323 ~T0 @X0 1 e ]
+[v _RF_Initialization `TF2319 ~T0 @X0 1 e ]
 {
 [; ;RF_Control_B1.c: 9: inline void RF_Initialization() {
 [e :U _RF_Initialization ]
@@ -3023,9 +3019,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "13
 [e :UE 285 ]
 }
-[v F2325 `(v ~T0 @X0 1 tf ]
+[v F2321 `(v ~T0 @X0 1 tf ]
 "16
-[v _RF_Main `TF2325 ~T0 @X0 1 e ]
+[v _RF_Main `TF2321 ~T0 @X0 1 e ]
 {
 [; ;RF_Control_B1.c: 16: inline void RF_Main() {
 [e :U _RF_Main ]
@@ -3738,7 +3734,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . . _RF1 0 0 6 -> -> 0 `i `uc ]
 [; ;RF_Control_B1.c: 293: if (myMain.First) {
 "293
-[e $ ! != -> . . . _myMain 0 0 8 `i -> -> -> 0 `i `uc `i 337  ]
+[e $ ! != -> . . . _myMain 0 0 5 `i -> -> -> 0 `i `uc `i 337  ]
 {
 [; ;RF_Control_B1.c: 294: Memory.LoopSave=1;
 "294
@@ -4126,9 +4122,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;RF_Control_B1.c: 456: product->Data[11]=lights;
 "456
 [e = *U + &U . *U _product 0 * -> -> -> 11 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux _lights ]
-[; ;RF_Control_B1.c: 459: product->Data[(20 + lights)]=setPercentValue(((char)(65*0.8)));
+[; ;RF_Control_B1.c: 459: product->Data[(20 + lights)]=setPercentValue(((char)(90*0.8)));
 "459
-[e = *U + &U . *U _product 0 * -> -> + -> 20 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ( _setPercentValue (1 -> * -> -> 65 `i `d .0.8 `uc ]
+[e = *U + &U . *U _product 0 * -> -> + -> 20 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ( _setPercentValue (1 -> * -> -> 90 `i `d .0.8 `uc ]
 [; ;RF_Control_B1.c: 462: product->Data[9]=product->Data[20 + lights];
 "462
 [e = *U + &U . *U _product 0 * -> -> -> 9 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . *U _product 0 * -> -> + -> 20 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]

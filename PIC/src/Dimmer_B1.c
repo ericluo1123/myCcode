@@ -1,7 +1,7 @@
 
 // Includes
 #include "Select_File.h"
- 
+
 #if Dimmer_use == 1
 
 /*****************************************************************************/
@@ -225,7 +225,7 @@ inline void setDimmerLights_IntrControl(char lights) {
     }
 #endif
 #if Control_Method_Mosfet == 1
-#if Dimmer_Half_Wave == 1
+
     DimmerIntrPointSelect(lights);
     if (DimmerLightsIntr->GO == true) {
         DimmerLightsIntr->Count++;
@@ -306,15 +306,17 @@ inline void setDimmerLights_IntrControl(char lights) {
     }
     if (DimmerLightsIntr->MosfetSignal == true) {
         DimmerLightsIntr->MosfetSignalCount++;
-        if (DimmerLightsIntr->MosfetSignalCount == 110) {
+        if (DimmerLightsIntr->MosfetSignalCount == TriacCountValue) {
 
             DimmerLightsIntr->MosfetSignalCount = 0;
             DimmerLightsIntr->MosfetSignal = false;
-            //            ErrLED = 0;
+//            if (lights == 1) {
+//                ErrLED = ErrLED == true ? false : true;
+//            }
         }
     }
 #endif
-#endif
+
 }
 
 
@@ -587,7 +589,7 @@ void setDimmerLights_ERROR(char lights) {
         setRFSW_Status(lights, 0);
     }
 }
- 
+
 void setDimmerLights_TriggerERROR(char lights, char command) {
 
     DimmerLightsPointSelect(lights);

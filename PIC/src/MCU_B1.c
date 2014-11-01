@@ -2,7 +2,7 @@
 
 // Includes
 #include "Select_File.h"
- 
+
 //config
 #ifdef MCU_16F723A
 #pragma config FOSC = INTOSCIO ,WDTE = _WDTE, BOREN = OFF , PLLEN = ON
@@ -68,7 +68,7 @@ void IO_Set() {
     PORTB = _PORTB;
     PORTC = _PORTC;
 #endif
- 
+
 #ifdef MCU_16F1516
     TRISA = _TRISA;
     TRISB = _TRISB;
@@ -160,7 +160,7 @@ inline void TMR0_ISR() {
         Timer0.Count++;
         if (Timer0.Count == TMR0_10ms) {
             Timer0.Count = 0;
-            myMain.T0_Timerout = true;
+            Timer0.Timerout = true;
         }
         //        ErrLED = ErrLED == true ? false : true;
     }
@@ -195,7 +195,7 @@ inline void setDimmerReClock() {
 
 //*********************************************************
 #if Timer1_use == 1
- 
+
 inline void TMR1_Set() {
     T1CON = (_CS | _CKPS | _TMR1ON);
     TMR1H = TMR1H_Value;
@@ -208,7 +208,7 @@ inline void TMR1_Set() {
 
 inline void TMR1_ISR() {
     if (TMR1IE == true && TMR1IF == true) {
- 
+
         TMR1H = TMR1H_Value;
         TMR1L = TMR1L_Value;
         TMR1IF = false;
@@ -235,12 +235,12 @@ inline void TMR1_ISR() {
         if (Timer1.Count == TMR1_10ms)//10ms
         {
             Timer1.Count = 0;
-            myMain.T1_Timerout = true;
+            Timer1.Timeout = true;
         }
         //        ErrLED = ErrLED == false ? true : false;
     }
-} 
- 
+}
+
 inline void setDimmerReClock() {
 
 #if Dimmer_use == true
@@ -265,7 +265,7 @@ inline void setDimmerReClock() {
 #endif
 //*********************************************************
 #if Timer2_use == 1
-  
+
 inline void TMR2_Set() {
     T2CON = (_T2CKPS | _TOUTPS | _TMR2ON);
     TMR2 = _TMR2;
@@ -303,7 +303,7 @@ inline void TMR2_ISR() {
         Timer2.Count++;
         if (Timer2.Count == TMR2_10ms) {
             Timer2.Count = 0;
-            myMain.T2_Timerout = true;
+            Timer2.Timeout = true;
         }
         ErrLED = ErrLED == true ? false : true;
     }
