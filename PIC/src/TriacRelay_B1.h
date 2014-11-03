@@ -76,29 +76,29 @@ struct Lights Lights2;
 struct Lights Lights3;
 #endif
 
-void LightsPointSelect(char);
+void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
 void Lights_ERROR();
 void Lights_Close();
 
-void setLights_Initialization(char);
+void setLights_Initialization(char lights);
 void setLights_GO(char, char);
-void setLights_Main(char);
+void setLights_Main(char lights);
 void setLights_ERROR(char);
 void setLights_TriggerERROR(char, char);
-void Lights_Control(char);
+void Lights_Control(char lights);
 void Lights_Close();
     
-void setLights_Clear(char, char);
-void setLights_Trigger(char, char);
-void setLights_Switch(char, char);
-void setLights_Open(char, char);
-char getLights_Open(char);
-void setLights_Close(char, char);
-char getLights_Close(char);
-void setLights(char, char);
+void setLights_Clear(char lights, char command);
+void setLights_Trigger(char lights, char command);
+void setLights_Open(char lights, char command);
+char getLights_Open(char lights);
+void setLights_Close(char lights, char command);
+char getLights_Close(char lights);
+void setLights(char lights, char status);
 char getLights_Status(char lights);
+//char getAll_Lights_Status();
 #else
 
 #define LightsPointSelect(char) ;

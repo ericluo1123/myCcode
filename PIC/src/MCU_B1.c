@@ -399,7 +399,7 @@ void IOC_Set() {
 //*********************************************************
 
 inline void IOC_ISR() {
-    if (IOCIE == true && IOCBF2 == true) {
+    if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
         IOCBF2 = false;
         IOCIF = false;
         if (myMain.PowerON == true) {

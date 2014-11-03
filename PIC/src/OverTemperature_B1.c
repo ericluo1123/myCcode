@@ -136,6 +136,10 @@ void setTemp_Main() {
                 Temp.ADH[1] = 0;
             }
         }
+    } else {
+        if (myMain.PowerON == true) {
+            Temp.Enable = true;
+        }
     }
 }
 //*********************************************************

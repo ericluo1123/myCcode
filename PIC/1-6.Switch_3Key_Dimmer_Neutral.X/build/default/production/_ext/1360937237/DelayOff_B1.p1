@@ -2,10 +2,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Main_B1.h
 [s S1 `uc -> 32 `i ]
 [n S1 Product Data ]
-"65
-[s S4 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S4 . PowerON T0_Timerout T1_Timerout T2_Timerout Flag GO FirstOpen SelfTest First ]
-"63
+"66
+[s S4 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
+[n S4 . PowerON Flag GO FirstOpen SelfTest First Tempty ]
+"64
 [u S3 `S4 1 ]
 [n S3 . . ]
 "90
@@ -20,9 +20,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "102
 [u S7 `S8 1 ]
 [n S7 . . ]
-"61
-[s S2 `S3 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `uc 1 `uc 1 `uc 1 `S5 1 `S7 1 `ui 1 ]
-[n S2 myMain . PowerCount Count Count1 Count2 Count3 IOC_Count Test ClockCount . . Timeout_Counter ]
+"62
+[s S2 `S3 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `S5 1 `S7 1 `ui 1 ]
+[n S2 myMain . PowerCount Count Count1 Count2 Count3 . . Timeout_Counter ]
 "18 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Switch_B1.h
 [s S16 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S16 . Enable Touch Debounce Hold1 Hold2 Hold3 Status Flag ]
@@ -221,28 +221,23 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 22: 0x00, 0x00
 [; ;Main_B1.h: 23: }
 [; ;Main_B1.h: 24: };
-[; ;Main_B1.h: 61: struct myMain {
-[; ;Main_B1.h: 63: union {
-[; ;Main_B1.h: 65: struct {
-[; ;Main_B1.h: 66: unsigned PowerON : 1;
-[; ;Main_B1.h: 67: unsigned T0_Timerout : 1;
-[; ;Main_B1.h: 68: unsigned T1_Timerout : 1;
-[; ;Main_B1.h: 69: unsigned T2_Timerout : 1;
-[; ;Main_B1.h: 70: unsigned Flag : 1;
-[; ;Main_B1.h: 71: unsigned GO : 1;
-[; ;Main_B1.h: 72: unsigned FirstOpen : 1;
-[; ;Main_B1.h: 73: unsigned SelfTest : 1;
-[; ;Main_B1.h: 74: unsigned First : 1;
+[; ;Main_B1.h: 62: struct myMain {
+[; ;Main_B1.h: 64: union {
+[; ;Main_B1.h: 66: struct {
+[; ;Main_B1.h: 67: unsigned PowerON : 1;
+[; ;Main_B1.h: 68: unsigned Flag : 1;
+[; ;Main_B1.h: 69: unsigned GO : 1;
+[; ;Main_B1.h: 70: unsigned FirstOpen : 1;
+[; ;Main_B1.h: 71: unsigned SelfTest : 1;
+[; ;Main_B1.h: 72: unsigned First : 1;
+[; ;Main_B1.h: 73: unsigned Tempty:3;
+[; ;Main_B1.h: 74: };
 [; ;Main_B1.h: 75: };
-[; ;Main_B1.h: 76: };
-[; ;Main_B1.h: 77: unsigned int PowerCount;
-[; ;Main_B1.h: 80: unsigned int Count;
-[; ;Main_B1.h: 81: unsigned int Count1;
-[; ;Main_B1.h: 82: unsigned int Count2;
-[; ;Main_B1.h: 83: unsigned int Count3;
-[; ;Main_B1.h: 84: unsigned char IOC_Count;
-[; ;Main_B1.h: 85: unsigned char Test;
-[; ;Main_B1.h: 86: unsigned char ClockCount;
+[; ;Main_B1.h: 76: unsigned int PowerCount;
+[; ;Main_B1.h: 79: unsigned int Count;
+[; ;Main_B1.h: 80: unsigned int Count1;
+[; ;Main_B1.h: 81: unsigned int Count2;
+[; ;Main_B1.h: 82: unsigned int Count3;
 [; ;Main_B1.h: 88: union {
 [; ;Main_B1.h: 90: struct {
 [; ;Main_B1.h: 91: unsigned i : 1;
@@ -270,9 +265,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 114: struct myMain myMain;
 [; ;Main_B1.h: 123: inline void myMain_Initialization();
 [; ;Main_B1.h: 128: inline void my_Main();
-[; ;Main_B1.h: 133: inline void my_MainTime();
+[; ;Main_B1.h: 133: inline void my_MainTimer();
 [; ;Main_B1.h: 138: inline void Timeout_Counter();
 [; ;Main_B1.h: 139: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 140: char getMain_Exception();
+[; ;Main_B1.h: 141: char getMain_AD_Safe();
+[; ;Main_B1.h: 142: char getMain_LightsStatus();
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -780,8 +778,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _r_address `uc ~T0 @X0 1 e ]
 [; ;CC2500_B1.h: 281: unsigned char r_address;
 "282
-[v _RF_Data `uc ~T0 @X0 -> 21 `i e ]
-[; ;CC2500_B1.h: 282: unsigned char RF_Data[21];
+[v _RF_Data `uc ~T0 @X0 -> 30 `i e ]
+[; ;CC2500_B1.h: 282: unsigned char RF_Data[30];
 "283
 [v _RSSI `uc ~T0 @X0 1 e ]
 [; ;CC2500_B1.h: 283: unsigned char RSSI;
@@ -3027,9 +3025,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;DelayOff_B1.c: 23: }
 [e :UE 285 ]
 }
-[v F635 `(v ~T0 @X0 1 tf ]
+[v F633 `(v ~T0 @X0 1 tf ]
 "26
-[v _DelayOff_Initialization `TF635 ~T0 @X0 1 e ]
+[v _DelayOff_Initialization `TF633 ~T0 @X0 1 e ]
 {
 [; ;DelayOff_B1.c: 26: inline void DelayOff_Initialization() {
 [e :U _DelayOff_Initialization ]
@@ -3047,9 +3045,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "38
 [e :UE 291 ]
 }
-[v F637 `(v ~T0 @X0 1 tf ]
+[v F635 `(v ~T0 @X0 1 tf ]
 "41
-[v _DelayOff_Main `TF637 ~T0 @X0 1 e ]
+[v _DelayOff_Main `TF635 ~T0 @X0 1 e ]
 {
 [; ;DelayOff_B1.c: 41: inline void DelayOff_Main() {
 [e :U _DelayOff_Main ]

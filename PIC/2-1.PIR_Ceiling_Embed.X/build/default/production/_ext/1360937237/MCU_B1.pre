@@ -1926,19 +1926,17 @@ union {
 
 struct {
 unsigned PowerON : 1;
-unsigned T0_Timerout : 1;
-unsigned T1_Timerout : 1;
-unsigned T2_Timerout : 1;
 unsigned Flag : 1;
 unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
+unsigned Tempty : 3;
 };
 };
 unsigned int PowerCount;
 
-# 90
+# 88
 union {
 
 struct {
@@ -1967,21 +1965,23 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 125
+# 123
 inline void myMain_Initialization();
 
-# 130
+# 128
 inline void my_Main();
 
-# 135
-inline void my_MainTime();
+# 133
+inline void my_MainTimer();
 
-# 140
+# 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 char getMain_Exception();
 char getMain_AD_Safe();
 char getMain_LightsStatus();
+char getMain_All_Error_Status(char command);
+char getMain_Lights_Count();
 
 # 10 "../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h"
 struct LED {
@@ -2030,49 +2030,6 @@ void setLED_Main(char led);
 # 94
 void setLED(char led, char command);
 
-# 7 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h"
-struct OverTemp {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned ADtoGO : 1;
-unsigned LoadADGO : 1;
-unsigned Safe : 1;
-unsigned empty : 3;
-};
-};
-unsigned int Time;
-unsigned char Count;
-
-unsigned char AD1;
-unsigned char AD2;
-
-
-unsigned char AD;
-unsigned char ADH[2];
-unsigned char ADRES;
-unsigned char SafeValue;
-unsigned char DangerValue;
-
-# 50
-};
-
-struct OverTemp Temp;
-
-# 99
-inline void Temp_Initialization();
-inline void Temp_Main();
-void setTemp_Main();
-void setTemp_Initialization();
-inline void getTemp_AD(char channel);
-void setOverTemp_Exceptions(char command);
-void setTemp_Enable(char command);
-char getTemp_Safe();
-char getTemp_ERROR();
-
 # 156 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
 struct OverLoad {
 
@@ -2085,24 +2042,35 @@ unsigned LightsON : 1;
 unsigned Safe : 1;
 unsigned ADtoGO : 1;
 unsigned ERROR : 1;
-unsigned StatusOn : 1;
-unsigned StatusOff : 1;
+unsigned Status : 1;
+unsigned OK : 1;
+};
+};
+
+union {
+
+struct {
+unsigned status1 : 1;
+unsigned status2 : 1;
+unsigned status3 : 1;
+unsigned empty : 5;
+
 };
 };
 unsigned int Time;
 unsigned int ErrorTime;
 unsigned char ErrorStatus;
+unsigned int ADH;
+unsigned int ADL;
 
 
 unsigned char TotalLoad;
 unsigned char AH[5];
 unsigned char AL[5];
 unsigned char AD;
-unsigned char ADH;
-unsigned char ADL;
 unsigned char ADRES;
 
-# 206
+# 213
 unsigned int LightsJudgeValue;
 unsigned int JudgeValue;
 unsigned int Judge;
@@ -2110,16 +2078,16 @@ unsigned int Judge;
 unsigned char Count;
 unsigned char ErrorCount;
 unsigned char LightsCount;
-unsigned char NumberCount;
+
 unsigned char SafeCount;
 
-unsigned char Lights1Status;
-unsigned char Lights2Status;
-unsigned char Lights3Status;
+
+
+
 };
 
 
-struct OverLoad Load1;
+struct OverLoad Load;
 
 
 
@@ -2128,7 +2096,6 @@ inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
-void setLoad_Enable(char command);
 void setLoad_AH_AL_Restore();
 
 void setLoad_Count(char command);
@@ -2137,6 +2104,7 @@ void setLoad_StatusOn(char lights, char command);
 void setLoad_StatusOff(char lights, char command);
 char getLoad_Safe();
 char getLoad_ERROR();
+char getLoad_Status();
 
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
@@ -2230,37 +2198,83 @@ unsigned char Offset;
 struct PIR _PIR;
 
 
-void selectPIRPoint(char);
 void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
 
-# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/SYSC_B1.h"
-struct SYSC {
+# 21 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
+struct LightsControl{
+union{
+struct{
+unsigned Detect:1;
+unsigned empty:7;
+};
+unsigned char Load:1;
+};
+};
+struct LightsControl LightsControl;
+
+struct Lights {
 
 union {
 
 struct {
 unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned PowerON : 1;
-unsigned Signal : 1;
-unsigned empty : 4;
+unsigned GO : 1;
+unsigned Status : 1;
+unsigned Open : 1;
+unsigned Close : 1;
+unsigned Trigger : 1;
+unsigned Switch : 1;
+unsigned Relay : 1;
 };
 };
-unsigned int Timer;
-unsigned int Counter;
+
+union {
+
+struct {
+unsigned Triac : 1;
+unsigned Clear : 1;
+unsigned RelaySet : 1;
+unsigned empty : 5;
+};
 };
 
+unsigned char Time;
+unsigned char TriacTime;
+unsigned char TriacValue;
+unsigned char RelayTime;
+unsigned char RelayValue;
+};
+struct Lights *Lights;
 
-struct SYSC SYSC;
 
 
-inline void SYSC_Initialization();
-inline void SYSC_Main();
-void setSYSC_Initialization();
-void setSYSC_Main();
-inline void DetectSYSC_Signal();
+struct Lights Lights1;
+
+# 79
+void LightsPointSelect(char lights);
+void Lights_Initialization();
+void Lights_Main();
+void Lights_ERROR();
+void Lights_Close();
+
+void setLights_Initialization(char lights);
+void setLights_GO(char, char);
+void setLights_Main(char lights);
+void setLights_ERROR(char);
+void setLights_TriggerERROR(char, char);
+void Lights_Control(char lights);
+void Lights_Close();
+
+void setLights_Clear(char lights, char command);
+void setLights_Trigger(char lights, char command);
+void setLights_Open(char lights, char command);
+char getLights_Open(char lights);
+void setLights_Close(char lights, char command);
+char getLights_Close(char lights);
+void setLights(char lights, char status);
+char getLights_Status(char lights);
 
 
 # 8 "../src/MCU_B1.c"
@@ -2353,7 +2367,7 @@ Timer1.Count++;
 if (Timer1.Count == 100)
 {
 Timer1.Count = 0;
-myMain.T1_Timerout = 1;
+Timer1.Timeout = 1;
 }
 
 }

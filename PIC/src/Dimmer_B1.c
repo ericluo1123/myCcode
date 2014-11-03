@@ -310,9 +310,9 @@ inline void setDimmerLights_IntrControl(char lights) {
 
             DimmerLightsIntr->MosfetSignalCount = 0;
             DimmerLightsIntr->MosfetSignal = false;
-//            if (lights == 1) {
-//                ErrLED = ErrLED == true ? false : true;
-//            }
+            //            if (lights == 1) {
+            //                ErrLED = ErrLED == true ? false : true;
+            //            }
         }
     }
 #endif

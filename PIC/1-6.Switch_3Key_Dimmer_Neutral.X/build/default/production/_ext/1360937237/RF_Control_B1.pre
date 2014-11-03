@@ -17,21 +17,19 @@ Product _product = {
 }
 };
 
-# 61
+# 62
 struct myMain {
 
 union {
 
 struct {
 unsigned PowerON : 1;
-unsigned T0_Timerout : 1;
-unsigned T1_Timerout : 1;
-unsigned T2_Timerout : 1;
 unsigned Flag : 1;
 unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
+unsigned Tempty:3;
 };
 };
 unsigned int PowerCount;
@@ -41,10 +39,8 @@ unsigned int Count;
 unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
-unsigned char IOC_Count;
-unsigned char Test;
-unsigned char ClockCount;
 
+# 88
 union {
 
 struct {
@@ -80,11 +76,14 @@ inline void myMain_Initialization();
 inline void my_Main();
 
 # 133
-inline void my_MainTime();
+inline void my_MainTimer();
 
 # 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
+char getMain_Exception();
+char getMain_AD_Safe();
+char getMain_LightsStatus();
 
 # 8 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
 typedef int ptrdiff_t;
@@ -496,7 +495,7 @@ unsigned char SPI0Buffer;
 unsigned char r_data;
 unsigned char s_data;
 unsigned char r_address;
-unsigned char RF_Data[21];
+unsigned char RF_Data[30];
 unsigned char RSSI;
 unsigned char CRC;
 unsigned char Rx_Length;
@@ -3394,7 +3393,7 @@ RF1.RxStatus = command;
 void setRF_Initialization() {
 
 Tx_Length = 21;
-RF1.RunTime = 20;
+RF1.RunTime = 10;
 
 
 }
@@ -3457,8 +3456,8 @@ RB5 = RB5 == 1 ? 0 : 1;
 RF1.Run = 1;
 
 if (RF1.Checked == 1) {
-if (RF1.RunTime > 20) {
-RF1.RunTime = 20;
+if (RF1.RunTime > 10) {
+RF1.RunTime = 10;
 }
 RF1.CheckCount = 0;
 } else {
@@ -3466,7 +3465,7 @@ RF1.CheckCount++;
 if (RF1.CheckCount == 2) {
 RF1.CheckCount = 0;
 RF1.CheckedCounter = 0;
-if (RF1.RunTime < 300) {
+if (RF1.RunTime < 200) {
 RF1.RunTime += 10;
 }
 }
@@ -3493,7 +3492,7 @@ RF1.CheckedCounter++;
 if (RF1.CheckedCounter == 100) {
 RF1.CheckedCounter = 0;
 RF1.CheckCount = 0;
-if (RF1.RunTime > 20) {
+if (RF1.RunTime > 10) {
 RF1.RunTime -= 10;
 }
 }

@@ -15,7 +15,7 @@ void PIR_Initialization() {
 void PIR_Main() {
     if (_PIR.Enable == true) {
 
-        if (getCDS_Status() == true && getMain_Exception() == 0) {
+        if (getCDS_Status() == true && getMain_All_Error_Status(0) == 0) {
             if (_PIR.Detect == false) {
                 _PIR.Detect = true;
                 _PIR.Available = true;
@@ -48,8 +48,7 @@ void PIR_Main() {
 #ifdef use_1KEY
 #if LightsControl_use == 1
                 if (getLights_Status(1) == true) {
-                    setLights_Trigger(1, 1);
-                    setLights_Switch(1, 0);
+                    setLights_Trigger(1, 0);
                 }
 #endif
 #endif
@@ -116,7 +115,6 @@ void PIR_Main() {
 #if LightsControl_use == 1
                                 if (getLights_Status(1) == false) {
                                     setLights_Trigger(1, 1);
-                                    setLights_Switch(1, 1);
                                 }
 #endif
 #endif
@@ -156,8 +154,7 @@ void PIR_Main() {
 #ifdef use_1KEY
 #if LightsControl_use == 1
                     if (getLights_Status(1) == true) {
-                        setLights_Trigger(1, 1);
-                        setLights_Switch(1, 0);
+                        setLights_Trigger(1, 0);
                     }
 #endif
 #endif

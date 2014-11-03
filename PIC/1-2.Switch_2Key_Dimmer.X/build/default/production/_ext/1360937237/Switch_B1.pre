@@ -1,93 +1,6 @@
 
 # 1 "../src/Switch_B1.c"
 
-# 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Main_B1.h"
-typedef struct Product {
-unsigned char Data[32];
-} Product;
-
-Product *product;
-
-Product _product = {
-{
-0x63, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00
-}
-};
-
-# 62
-struct myMain {
-
-union {
-
-struct {
-unsigned PowerON : 1;
-unsigned T0_Timerout : 1;
-unsigned T1_Timerout : 1;
-unsigned T2_Timerout : 1;
-unsigned Flag : 1;
-unsigned GO : 1;
-unsigned FirstOpen : 1;
-unsigned SelfTest : 1;
-unsigned First : 1;
-};
-};
-unsigned int PowerCount;
-
-
-unsigned int Count;
-unsigned int Count1;
-unsigned int Count2;
-unsigned int Count3;
-unsigned char IOC_Count;
-unsigned char Test;
-unsigned char ClockCount;
-
-union {
-
-struct {
-unsigned i : 1;
-unsigned j : 1;
-unsigned k : 1;
-unsigned l : 1;
-unsigned m : 1;
-unsigned n : 1;
-unsigned o : 1;
-unsigned p : 1;
-};
-};
-
-union {
-
-struct {
-unsigned q : 1;
-unsigned r : 1;
-unsigned Timeout : 1;
-unsigned empty : 5;
-};
-};
-unsigned int Timeout_Counter;
-
-};
-struct myMain myMain;
-
-# 124
-inline void myMain_Initialization();
-
-# 129
-inline void my_Main();
-
-# 134
-inline void my_MainTime();
-
-# 139
-inline void Timeout_Counter();
-inline void set_TimeoutCleared();
-char getMain_Exception();
-char getMain_AD_Status();
-
 # 8 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
 typedef int ptrdiff_t;
 typedef unsigned size_t;
@@ -223,654 +136,6 @@ extern char * ltoa(char * buf, long val, int base);
 extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
-
-# 14 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Switch_B1.h"
-struct Switch {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned Touch : 1;
-unsigned Debounce : 1;
-unsigned Hold1 : 1;
-unsigned Hold2 : 1;
-unsigned Hold3 : 1;
-unsigned Status : 1;
-unsigned Flag : 1;
-};
-};
-
-union {
-
-struct {
-unsigned Adj : 1;
-unsigned empty : 7;
-};
-};
-
-unsigned char DebounceTime;
-unsigned int Hold1Time;
-unsigned int Hold2Time;
-unsigned int Hold3Time;
-
-
-};
-struct Switch *Sw;
-
-
-
-struct Switch Sw1;
-
-
-struct Switch Sw2;
-
-# 59
-void SwPointSelect(char sw);
-inline void Switch_Initialization();
-inline void Switch_Main();
-void setSw_Initialization(char sw);
-void setSw_Main(char sw);
-void setSw_Enable(char command);
-void Switch_Exception(char command);
-void setSw_Status(char sw, char command);
-void Sw_Detect();
-
-void Sw_DimmerOnFunc(char sw);
-void Sw_DimmerOffFunc(char sw);
-void Sw_DimmerAdjFunc(char sw);
-
-
-
-void TouchPower();
-
-# 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Buzzer_B1.h"
-struct Buzzer {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned PowerON : 1;
-unsigned BufferStatus1 : 1;
-unsigned BufferStatus2 : 1;
-unsigned Switch : 1;
-unsigned empty1 : 2;
-
-};
-};
-
-unsigned int Counter;
-unsigned char Count;
-unsigned char CountBuffer1;
-unsigned char CountBuffer2;
-unsigned int TimeValue;
-unsigned int TimeValueBuffer1;
-unsigned int TimeValueBuffer2;
-};
-
-struct Buzzer Buz1;
-
-# 48
-inline void Buzzer_Initialization();
-
-# 53
-inline void Buzzer_Main();
-
-# 62
-void setBuz(char count, int time);
-
-# 70
-void setBuz_Enable(char command);
-
-# 74
-int getBuz_GO();
-
-# 10 "../src/../1-2.Switch_2Key_Dimmer.X/../src/LED_B1.h"
-struct LED {
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned empty : 6;
-};
-};
-unsigned int Time;
-unsigned char Number;
-};
-struct LED *LED;
-
-
-
-struct LED VarErrLED;
-
-
-
-
-struct LED VarLED1;
-
-
-
-
-struct LED VarLED2;
-
-# 48
-inline void LED_Initialization();
-
-# 53
-inline void LED_Main();
-
-# 62
-void LedPointSelect(char led);
-
-# 71
-void setLED_Initialization(char led);
-
-# 80
-void setLED_Main(char led);
-
-# 94
-void setLED(char led, char command);
-
-# 7 "../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h"
-struct OverTemp {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned ADtoGO : 1;
-unsigned LoadADGO : 1;
-unsigned Safe : 1;
-unsigned empty : 3;
-};
-};
-unsigned int Time;
-unsigned char Count;
-
-unsigned char AD1;
-unsigned char AD2;
-
-# 39
-unsigned int AD;
-unsigned int ADH[2];
-unsigned int ADRES;
-
-
-};
-
-struct OverTemp Temp;
-
-# 92
-inline void Temp_Initialization();
-inline void Temp_Main();
-void setTemp_Main();
-void setTemp_Initialization();
-void getTemp_AD(char channel);
-void setOverTemp_Exceptions(char command);
-void setTemp_Enable(char command);
-char getTemp_Safe();
-char getTemp_ERROR();
-
-# 161 "../src/../1-2.Switch_2Key_Dimmer.X/../src/CC2500_B1.h"
-const unsigned char CC2500_rfSettings[47] ={
-
-
-0x07,
-0x07,
-0x30,
-0x87,
-0x6B,
-0xF8,
-0x7F,
-0x3F,
-
-0x09,
-0x00,
-0x5C,
-0xA7,
-0x62,
-0x86,
-0x83,
-0x03,
-0x22,
-0xF8,
-0x00,
-0x44,
-0xB6,
-0x10,
-0x18,
-0x1D,
-0x1C,
-0xC7,
-0x00,
-0xB2,
-0xEA,
-0x0A,
-0x00,
-0x11,
-0x59,
-0x88,
-0x31,
-0x0B,
-0x2F,
-0x2E,
-0x06,
-0x04,
-0x05,
-0x00,
-0x30,
-0xD3,
-0x91,
-0x41,
-0x00
-
-};
-
-
-
-const unsigned char CC2500_registers_address[47] ={
-
-0x03,
-0x16,
-0x17,
-0x1E,
-0x1F,
-0x20,
-0x2A,
-0x2B,
-
-0x0B,
-0x0C,
-0x0D,
-0x0E,
-0x0F,
-0x10,
-0x11,
-0x12,
-0x13,
-0x14,
-0x0A,
-0x15,
-0x21,
-0x22,
-0x18,
-0x19,
-0x1A,
-0x1B,
-0x1C,
-0x1D,
-0x23,
-0x24,
-0x25,
-0x26,
-0x29,
-0x2C,
-0x2D,
-0x2E,
-0x00,
-0x01,
-0x02,
-0x07,
-0x08,
-0x09,
-0x06,
-0x04,
-0x05,
-0x27,
-0x28
-};
-
-# 277
-unsigned int RF_Count;
-unsigned char SPI0Buffer;
-unsigned char r_data;
-unsigned char s_data;
-unsigned char r_address;
-unsigned char RF_Data[21];
-unsigned char RSSI;
-unsigned char CRC;
-unsigned char Rx_Length;
-unsigned char Tx_Length;
-
-
-
-
-const unsigned char CC2500_patable_vaule[8] = {0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE};
-
-void CC2500_PowerOnInitial();
-void CC2500_PowerRST(void);
-void CC2500_InitSetREG(void);
-void CC2500_InitPATable(void);
-void CC2500_ClearTXFIFO(void);
-void CC2500_ClearRXFIFO(void);
-void CC2500_FrequencyCabr(void);
-inline void CC2500_SIDLEMode(void);
-
-inline void CC2500_WriteByte(void);
-inline void CC2500_WriteREG(unsigned char addr, unsigned char value);
-inline void CC2500_ReadByte(void);
-inline void CC2500_ReadREG(unsigned char addr);
-inline void CC2500_ReadStatus(unsigned char s_addr);
-inline void CC2500_WriteCommand(unsigned char command);
-inline void CC2500_TxData();
-inline void CC2500_RxData(void);
-void DelayTime_1us(int count);
-
-# 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/RF_Control_B1.h"
-struct RF {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned ReceiveGO : 1;
-unsigned TransceiveGO : 1;
-unsigned RxStatus : 1;
-unsigned TxStatus : 1;
-unsigned Debounce : 1;
-unsigned Learn : 1;
-unsigned Key : 1;
-};
-};
-
-union {
-
-struct {
-unsigned Sleep : 1;
-unsigned Run : 1;
-unsigned Bus : 1;
-unsigned Checked : 1;
-unsigned RxChecked : 1;
-unsigned Correction : 1;
-unsigned empty : 2;
-};
-};
-unsigned int Count;
-unsigned char CheckCount;
-unsigned int CheckedCounter;
-unsigned int RunTime;
-unsigned char DebounceTime;
-unsigned int CorrectionCounter;
-
-};
-
-
-struct RF RF1;
-
-
-inline void RF_Initialization();
-inline void RF_Main();
-void setRF_Initialization();
-void setRF_Main();
-void setTxData();
-void getRxData();
-void setRF_Enable(char command);
-void setLog_Code();
-void setControl_Lights_Table();
-void RF_RxDisable();
-void setRF_Learn(char command);
-void setRF_ReceiveGO(char command);
-void setRF_RxStatus(char command);
-
-
-
-struct RFSW {
-
-struct {
-unsigned Status : 1;
-unsigned empty : 7;
-};
-};
-struct RFSW *RFSW;
-
-
-struct RFSW RFSW1;
-
-
-
-struct RFSW RFSW2;
-
-# 89
-void RfSWPointSelect(char sw);
-void setRFSW_Control(char sw);
-void setRFSW_AdjControl(char sw);
-void setRFSW_Status(char sw, char command);
-
-
-void setRF_DimmerValue(char lights);
-void setRF_DimmerLights(char lights, char on);
-
-# 155 "../src/../1-2.Switch_2Key_Dimmer.X/../src/OverLoad_B1.h"
-struct OverLoad {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned LightsON : 1;
-unsigned Safe : 1;
-unsigned ADtoGO : 1;
-unsigned ERROR : 1;
-unsigned StatusOn : 1;
-unsigned StatusOff : 1;
-};
-};
-unsigned int Time;
-unsigned int ErrorTime;
-unsigned char ErrorStatus;
-
-# 195
-unsigned int TotalLoad;
-unsigned int AH[9];
-unsigned int AL[9];
-unsigned int AD;
-unsigned int ADH;
-unsigned int ADL;
-unsigned int ADRES;
-
-
-
-unsigned int LightsJudgeValue;
-unsigned int JudgeValue;
-unsigned int Judge;
-
-unsigned char Count;
-unsigned char OffCount;
-unsigned char ErrorCount;
-unsigned char UpdateCount;
-unsigned char LightsCount;
-unsigned char NumberCount;
-unsigned char CloseCount;
-unsigned char ADCount;
-unsigned char SafeCount;
-
-unsigned char Lights1Status;
-unsigned char Lights2Status;
-unsigned char Lights3Status;
-};
-
-
-struct OverLoad Load1;
-
-
-
-
-inline void Load_Initialization();
-inline void Load_Main();
-inline void getLoad_AD(char channel);
-void setLoad_Exceptions(char command);
-void setLoad_Enable(char command);
-void setLoad_AH_AL_Restore();
-
-void setLoad_Count(char command);
-void setLoad_GO(char command);
-void setLoad_StatusOn(char lights, char command);
-void setLoad_StatusOff(char lights, char command);
-char getLoad_Safe();
-char getLoad_ERROR();
-
-# 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h"
-struct DimmerLights
-{
-union{
-struct{
-unsigned GO:1;
-unsigned Signal:1;
-unsigned AdjRF:1;
-unsigned AdjFlag:1;
-unsigned AdjStatus:1;
-unsigned Status:1;
-unsigned StatusFlag:1;
-unsigned OverLoad:1;
-};
-};
-unsigned char DimmingTime;
-unsigned char DimmingTimeValue;
-unsigned char Count;
-unsigned char DimmingValue;
-unsigned char MaxmumValue;
-unsigned char MinimumValue;
-
-unsigned char TriacTime;
-union{
-struct{
-unsigned Flag:1;
-unsigned Switch:1;
-unsigned Trigger:1;
-unsigned AdjGo:1;
-unsigned TriggerAdj:1;
-unsigned Triac:1;
-unsigned MosfetOpen:1;
-unsigned MosfetClose:1;
-};
-};
-union{
-struct{
-unsigned DetectOpen:1;
-unsigned DetectClose:1;
-unsigned Clear:1;
-unsigned MosfetSignal:1;
-unsigned MosfetOK:1;
-unsigned TriacFlag:1;
-unsigned empty:2;
-};
-};
-unsigned char TriacCount;
-unsigned char DetectCount;
-unsigned char MosfetSignalCount;
-unsigned char TuneValue;
-unsigned char MosfetOK_Count;
-
-
-};
-struct DimmerLights *DimmerLights;
-struct DimmerLights *DimmerLightsIntr;
-struct DimmerLights *DimmerLightsIntrIOC;
-
-# 80
-struct DimmerLights *DimmerLights11;
-struct DimmerLights DimmerLights1;
-
-
-
-struct DimmerLights *DimmerLights22;
-struct DimmerLights DimmerLights2;
-
-# 102
-inline void DimmerIntrIOCPointSelect(char lights);
-inline void setDimmerLights_IntrIOC_GO(char lights);
-
-inline void setDimmerLights_IntrControl(char lights);
-inline void DimmerIntrPointSelect(char lights);
-
-
-void DimmerLightsPointSelect(char lights);
-void DimmerLights_Initialization();
-void DimmerLights_Main();
-void DimmerLights_Exceptions(char status);
-void DimmerLights_Close();
-
-void setDimmerLights_Initialization(char lights);
-void setDimmerLights_GO(char lights,char command);
-void setDimmerLights_Main(char lights);
-void setDimmerLights_ERROR(char lights);
-void setDimmerLights_TriggerERROR(char lights,char command);
-void setDimmerLights(char lights,char status);
-void setDimmerLights_Adj(char lights,char status);
-void setDimmerLights_AdjRF(char lights);
-char getPercentValue(char value);
-char setPercentValue(char value);
-
-void setDimmerLights_MaxmumValue(char,char);
-void setDimmerLights_Trigger(char,char);
-void setDimmerLights_Switch(char,char);
-void setDimmerLights_AdjGo(char,char);
-void setDimmerLights_TriggerAdj(char,char);
-char getDimmerLights_StatusFlag();
-char getDimmerLights_Trigger();
-
-void setDimmerLights_Clear(char,char);
-inline void setDimmerLights_IntrControl(char lights);
-
-# 142
-struct Dimmer
-{
-
-
-
-union{
-struct{
-unsigned Detect:1;
-unsigned empty:7;
-};
-};
-unsigned char Load;
-unsigned char Correction;
-};
-struct Dimmer *Dimmer;
-
-
-struct Dimmer Dimmer1;
-
-
-inline void Dimmer_Initialization();
-
-# 21 "../src/../1-2.Switch_2Key_Dimmer.X/../src/DelayOff_B1.h"
-struct DelayOff {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned empty : 6;
-};
-unsigned char Value;
-unsigned int SecondTime;
-unsigned char MinuteTime;
-};
-};
-struct DelayOff *DelayOff;
-
-
-struct DelayOff DlySw1;
-
-
-
-struct DelayOff DlySw2;
-
-# 49
-inline void DelayOff_Initialization();
-inline void DelayOff_Main();
-char DelayTimejudge(char value);
-void DlyOff_Initialization(char sw);
-void DlyOff_Main(char sw);
-void setDelayOff_GO(char sw, char command, char value);
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
@@ -3446,6 +2711,736 @@ struct WDT WDT;
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
+
+# 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Main_B1.h"
+typedef struct Product {
+unsigned char Data[32];
+} Product;
+
+Product *product;
+
+Product _product = {
+{
+0x63, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00, 0x00
+}
+};
+
+# 62
+struct myMain {
+
+union {
+
+struct {
+unsigned PowerON : 1;
+unsigned Flag : 1;
+unsigned GO : 1;
+unsigned FirstOpen : 1;
+unsigned SelfTest : 1;
+unsigned First : 1;
+unsigned Tempty:3;
+};
+};
+unsigned int PowerCount;
+
+
+unsigned int Count;
+unsigned int Count1;
+unsigned int Count2;
+unsigned int Count3;
+
+# 88
+union {
+
+struct {
+unsigned i : 1;
+unsigned j : 1;
+unsigned k : 1;
+unsigned l : 1;
+unsigned m : 1;
+unsigned n : 1;
+unsigned o : 1;
+unsigned p : 1;
+};
+};
+
+union {
+
+struct {
+unsigned q : 1;
+unsigned r : 1;
+unsigned Timeout : 1;
+unsigned empty : 5;
+};
+};
+unsigned int Timeout_Counter;
+
+};
+struct myMain myMain;
+
+# 123
+inline void myMain_Initialization();
+
+# 128
+inline void my_Main();
+
+# 133
+inline void my_MainTimer();
+
+# 138
+inline void Timeout_Counter();
+inline void set_TimeoutCleared();
+char getMain_Exception();
+char getMain_AD_Safe();
+char getMain_LightsStatus();
+
+# 14 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Switch_B1.h"
+struct Switch {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned Touch : 1;
+unsigned Debounce : 1;
+unsigned Hold1 : 1;
+unsigned Hold2 : 1;
+unsigned Hold3 : 1;
+unsigned Status : 1;
+unsigned Flag : 1;
+};
+};
+
+union {
+
+struct {
+unsigned Adj : 1;
+unsigned empty : 7;
+};
+};
+
+unsigned char DebounceTime;
+unsigned int Hold1Time;
+unsigned int Hold2Time;
+unsigned int Hold3Time;
+
+
+};
+struct Switch *Sw;
+
+
+
+struct Switch Sw1;
+
+
+struct Switch Sw2;
+
+# 59
+void SwPointSelect(char sw);
+inline void Switch_Initialization();
+inline void Switch_Main();
+void setSw_Initialization(char sw);
+void setSw_Main(char sw);
+void setSw_Enable(char command);
+void Switch_Exception(char command);
+void setSw_Status(char sw, char command);
+void Sw_Detect();
+
+void Sw_DimmerOnFunc(char sw);
+void Sw_DimmerOffFunc(char sw);
+void Sw_DimmerAdjFunc(char sw);
+
+
+
+void TouchPower();
+
+# 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Buzzer_B1.h"
+struct Buzzer {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned PowerON : 1;
+unsigned BufferStatus1 : 1;
+unsigned BufferStatus2 : 1;
+unsigned Switch : 1;
+unsigned empty1 : 2;
+
+};
+};
+
+unsigned int Counter;
+unsigned char Count;
+unsigned char CountBuffer1;
+unsigned char CountBuffer2;
+unsigned int TimeValue;
+unsigned int TimeValueBuffer1;
+unsigned int TimeValueBuffer2;
+};
+
+struct Buzzer Buz1;
+
+# 48
+inline void Buzzer_Initialization();
+
+# 53
+inline void Buzzer_Main();
+
+# 62
+void setBuz(char count, int time);
+
+# 70
+void setBuz_Enable(char command);
+
+# 74
+int getBuz_GO();
+
+# 10 "../src/../1-2.Switch_2Key_Dimmer.X/../src/LED_B1.h"
+struct LED {
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned empty : 6;
+};
+};
+unsigned int Time;
+unsigned char Number;
+};
+struct LED *LED;
+
+
+
+struct LED VarErrLED;
+
+
+
+
+struct LED VarLED1;
+
+
+
+
+struct LED VarLED2;
+
+# 48
+inline void LED_Initialization();
+
+# 53
+inline void LED_Main();
+
+# 62
+void LedPointSelect(char led);
+
+# 71
+void setLED_Initialization(char led);
+
+# 80
+void setLED_Main(char led);
+
+# 94
+void setLED(char led, char command);
+
+# 7 "../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h"
+struct OverTemp {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned ADtoGO : 1;
+unsigned LoadADGO : 1;
+unsigned Safe : 1;
+unsigned empty : 3;
+};
+};
+unsigned int Time;
+unsigned char Count;
+
+unsigned char AD1;
+unsigned char AD2;
+
+# 43
+unsigned int AD;
+unsigned int ADH[2];
+unsigned int ADRES;
+unsigned int SafeValue;
+unsigned int DangerValue;
+
+
+};
+
+struct OverTemp Temp;
+
+# 99
+inline void Temp_Initialization();
+inline void Temp_Main();
+void setTemp_Main();
+void setTemp_Initialization();
+inline void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+void setTemp_Enable(char command);
+char getTemp_Safe();
+char getTemp_ERROR();
+
+# 161 "../src/../1-2.Switch_2Key_Dimmer.X/../src/CC2500_B1.h"
+const unsigned char CC2500_rfSettings[47] ={
+
+
+0x07,
+0x07,
+0x30,
+0x87,
+0x6B,
+0xF8,
+0x7F,
+0x3F,
+
+0x09,
+0x00,
+0x5C,
+0xA7,
+0x62,
+0x86,
+0x83,
+0x03,
+0x22,
+0xF8,
+0x00,
+0x44,
+0xB6,
+0x10,
+0x18,
+0x1D,
+0x1C,
+0xC7,
+0x00,
+0xB2,
+0xEA,
+0x0A,
+0x00,
+0x11,
+0x59,
+0x88,
+0x31,
+0x0B,
+0x2F,
+0x2E,
+0x06,
+0x04,
+0x05,
+0x00,
+0x30,
+0xD3,
+0x91,
+0x41,
+0x00
+
+};
+
+
+
+const unsigned char CC2500_registers_address[47] ={
+
+0x03,
+0x16,
+0x17,
+0x1E,
+0x1F,
+0x20,
+0x2A,
+0x2B,
+
+0x0B,
+0x0C,
+0x0D,
+0x0E,
+0x0F,
+0x10,
+0x11,
+0x12,
+0x13,
+0x14,
+0x0A,
+0x15,
+0x21,
+0x22,
+0x18,
+0x19,
+0x1A,
+0x1B,
+0x1C,
+0x1D,
+0x23,
+0x24,
+0x25,
+0x26,
+0x29,
+0x2C,
+0x2D,
+0x2E,
+0x00,
+0x01,
+0x02,
+0x07,
+0x08,
+0x09,
+0x06,
+0x04,
+0x05,
+0x27,
+0x28
+};
+
+# 277
+unsigned int RF_Count;
+unsigned char SPI0Buffer;
+unsigned char r_data;
+unsigned char s_data;
+unsigned char r_address;
+unsigned char RF_Data[30];
+unsigned char RSSI;
+unsigned char CRC;
+unsigned char Rx_Length;
+unsigned char Tx_Length;
+
+
+
+
+const unsigned char CC2500_patable_vaule[8] = {0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE};
+
+void CC2500_PowerOnInitial();
+void CC2500_PowerRST(void);
+void CC2500_InitSetREG(void);
+void CC2500_InitPATable(void);
+void CC2500_ClearTXFIFO(void);
+void CC2500_ClearRXFIFO(void);
+void CC2500_FrequencyCabr(void);
+inline void CC2500_SIDLEMode(void);
+
+inline void CC2500_WriteByte(void);
+inline void CC2500_WriteREG(unsigned char addr, unsigned char value);
+inline void CC2500_ReadByte(void);
+inline void CC2500_ReadREG(unsigned char addr);
+inline void CC2500_ReadStatus(unsigned char s_addr);
+inline void CC2500_WriteCommand(unsigned char command);
+inline void CC2500_TxData();
+inline void CC2500_RxData(void);
+void DelayTime_1us(int count);
+
+# 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/RF_Control_B1.h"
+struct RF {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned ReceiveGO : 1;
+unsigned TransceiveGO : 1;
+unsigned RxStatus : 1;
+unsigned TxStatus : 1;
+unsigned Debounce : 1;
+unsigned Learn : 1;
+unsigned Key : 1;
+};
+};
+
+union {
+
+struct {
+unsigned Sleep : 1;
+unsigned Run : 1;
+unsigned Bus : 1;
+unsigned Checked : 1;
+unsigned RxChecked : 1;
+unsigned Correction : 1;
+unsigned empty : 2;
+};
+};
+unsigned int Count;
+unsigned char CheckCount;
+unsigned int CheckedCounter;
+unsigned int RunTime;
+unsigned char DebounceTime;
+unsigned int CorrectionCounter;
+
+};
+
+
+struct RF RF1;
+
+
+inline void RF_Initialization();
+inline void RF_Main();
+void setRF_Initialization();
+void setRF_Main();
+void setTxData();
+void getRxData();
+void setRF_Enable(char command);
+void setLog_Code();
+void setControl_Lights_Table();
+void RF_RxDisable();
+void setRF_Learn(char command);
+void setRF_ReceiveGO(char command);
+void setRF_RxStatus(char command);
+
+
+
+struct RFSW {
+
+struct {
+unsigned Status : 1;
+unsigned empty : 7;
+};
+};
+struct RFSW *RFSW;
+
+
+struct RFSW RFSW1;
+
+
+
+struct RFSW RFSW2;
+
+# 89
+void RfSWPointSelect(char sw);
+void setRFSW_Control(char sw);
+void setRFSW_AdjControl(char sw);
+void setRFSW_Status(char sw, char command);
+
+
+void setRF_DimmerValue(char lights);
+void setRF_DimmerLights(char lights, char on);
+
+# 156 "../src/../1-2.Switch_2Key_Dimmer.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Safe : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned StatusOn : 1;
+unsigned StatusOff : 1;
+};
+};
+unsigned int Time;
+unsigned int ErrorTime;
+unsigned char ErrorStatus;
+
+# 196
+unsigned int TotalLoad;
+unsigned int AH[5];
+unsigned int AL[5];
+unsigned int AD;
+unsigned int ADH;
+unsigned int ADL;
+unsigned int ADRES;
+
+
+
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char ErrorCount;
+unsigned char LightsCount;
+unsigned char NumberCount;
+unsigned char SafeCount;
+
+unsigned char Lights1Status;
+unsigned char Lights2Status;
+unsigned char Lights3Status;
+};
+
+
+struct OverLoad Load1;
+
+
+
+
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_Enable(char command);
+void setLoad_AH_AL_Restore();
+
+void setLoad_Count(char command);
+void setLoad_GO(char command);
+void setLoad_StatusOn(char lights, char command);
+void setLoad_StatusOff(char lights, char command);
+char getLoad_Safe();
+char getLoad_ERROR();
+
+# 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h"
+struct DimmerLights
+{
+union{
+struct{
+unsigned GO:1;
+unsigned Signal:1;
+unsigned AdjRF:1;
+unsigned AdjFlag:1;
+unsigned AdjStatus:1;
+unsigned Status:1;
+unsigned StatusFlag:1;
+unsigned OverLoad:1;
+};
+};
+unsigned char DimmingTime;
+unsigned char DimmingTimeValue;
+unsigned char Count;
+unsigned char DimmingValue;
+unsigned char MaxmumValue;
+unsigned char MinimumValue;
+
+unsigned char TriacTime;
+union{
+struct{
+unsigned Flag:1;
+unsigned Switch:1;
+unsigned Trigger:1;
+unsigned AdjGo:1;
+unsigned TriggerAdj:1;
+unsigned Triac:1;
+unsigned MosfetOpen:1;
+unsigned MosfetClose:1;
+};
+};
+union{
+struct{
+unsigned DetectOpen:1;
+unsigned DetectClose:1;
+unsigned Clear:1;
+unsigned MosfetSignal:1;
+unsigned MosfetOK:1;
+unsigned TriacFlag:1;
+unsigned empty:2;
+};
+};
+unsigned char TriacCount;
+unsigned char DetectCount;
+unsigned char MosfetSignalCount;
+unsigned char TuneValue;
+unsigned char MosfetOK_Count;
+
+
+};
+struct DimmerLights *DimmerLights;
+struct DimmerLights *DimmerLightsIntr;
+struct DimmerLights *DimmerLightsIntrIOC;
+
+# 80
+struct DimmerLights *DimmerLights11;
+struct DimmerLights DimmerLights1;
+
+
+
+struct DimmerLights *DimmerLights22;
+struct DimmerLights DimmerLights2;
+
+# 102
+inline void DimmerIntrIOCPointSelect(char lights);
+inline void setDimmerLights_IntrIOC_GO(char lights);
+
+inline void setDimmerLights_IntrControl(char lights);
+inline void DimmerIntrPointSelect(char lights);
+
+
+void DimmerLightsPointSelect(char lights);
+void DimmerLights_Initialization();
+void DimmerLights_Main();
+void DimmerLights_Exceptions(char status);
+void DimmerLights_Close();
+
+void setDimmerLights_Initialization(char lights);
+void setDimmerLights_GO(char lights,char command);
+void setDimmerLights_Main(char lights);
+void setDimmerLights_ERROR(char lights);
+void setDimmerLights_TriggerERROR(char lights,char command);
+void setDimmerLights(char lights,char status);
+void setDimmerLights_Adj(char lights,char status);
+void setDimmerLights_AdjRF(char lights);
+char getPercentValue(char value);
+char setPercentValue(char value);
+
+void setDimmerLights_MaxmumValue(char,char);
+void setDimmerLights_Trigger(char,char);
+void setDimmerLights_Switch(char,char);
+void setDimmerLights_AdjGo(char,char);
+void setDimmerLights_TriggerAdj(char,char);
+char getDimmerLights_StatusFlag();
+char getDimmerLights_Trigger();
+
+void setDimmerLights_Clear(char,char);
+inline void setDimmerLights_IntrControl(char lights);
+
+# 142
+struct Dimmer
+{
+
+
+
+union{
+struct{
+unsigned Detect:1;
+unsigned empty:7;
+};
+};
+unsigned char Load;
+unsigned char Correction;
+};
+struct Dimmer *Dimmer;
+
+
+struct Dimmer Dimmer1;
+
+
+inline void Dimmer_Initialization();
+
+# 21 "../src/../1-2.Switch_2Key_Dimmer.X/../src/DelayOff_B1.h"
+struct DelayOff {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned empty : 6;
+};
+unsigned char Value;
+unsigned int SecondTime;
+unsigned char MinuteTime;
+};
+};
+struct DelayOff *DelayOff;
+
+
+struct DelayOff DlySw1;
+
+
+
+struct DelayOff DlySw2;
+
+# 49
+inline void DelayOff_Initialization();
+inline void DelayOff_Main();
+char DelayTimejudge(char value);
+void DlyOff_Initialization(char sw);
+void DlyOff_Main(char sw);
+void setDelayOff_GO(char sw, char command, char value);
 
 # 10 "../src/Switch_B1.c"
 void TouchPower() {

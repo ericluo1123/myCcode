@@ -102,7 +102,6 @@ void setTemp_Main();
 void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
-void setTemp_Enable(char command);
 char getTemp_Safe();
 char getTemp_ERROR();
 #else
@@ -116,7 +115,6 @@ char getTemp_ERROR();
 #define setTemp_Initialization() ;
 #define getTemp_AD(char) ;
 #define setOverTemp_Exceptions(char) ;
-#define setTemp_Enable(char) ;
 
 #endif
 

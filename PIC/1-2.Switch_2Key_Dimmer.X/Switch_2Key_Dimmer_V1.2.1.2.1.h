@@ -94,13 +94,12 @@
 #define ADC_use true
 //Timer0
 #define Timer0_use	false
-#define TMR0_IntrTime_100us
 //Timer1
 #define Timer1_use	true
-#define TMR1_IntrTime_100us
 //Timer2 
 #define Timer2_use	false
-#define TMR2_IntrTime_100us
+//interrupt time
+#define IntrTime_100us
 //INT
 #define INT_use false
 //UART

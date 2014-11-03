@@ -43,7 +43,7 @@ void setRF_RxStatus(char command) {
 void setRF_Initialization() {
 #ifdef RadioFrequency1
     Tx_Length = 21;
-    RF1.RunTime = 20;
+    RF1.RunTime = 10;
     //    INTE = true;
 #endif
 }
@@ -120,8 +120,8 @@ void setRF_Main() {
                                 RF1.Run = true;
 
                                 if (RF1.Checked == true) {
-                                    if (RF1.RunTime > 20) {
-                                        RF1.RunTime = 20;
+                                    if (RF1.RunTime > 10) {
+                                        RF1.RunTime = 10;
                                     }
                                     RF1.CheckCount = 0;
                                 } else {
@@ -129,7 +129,7 @@ void setRF_Main() {
                                     if (RF1.CheckCount == 2) {
                                         RF1.CheckCount = 0;
                                         RF1.CheckedCounter = 0;
-                                        if (RF1.RunTime < 300) {
+                                        if (RF1.RunTime < 200) {
                                             RF1.RunTime += 10;
                                         }
                                     }
@@ -156,7 +156,7 @@ void setRF_Main() {
                     if (RF1.CheckedCounter == 100) {
                         RF1.CheckedCounter = 0;
                         RF1.CheckCount = 0;
-                        if (RF1.RunTime > 20) {
+                        if (RF1.RunTime > 10) {
                             RF1.RunTime -= 10;
                         }
                     }

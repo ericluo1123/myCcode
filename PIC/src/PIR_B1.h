@@ -76,7 +76,6 @@ struct PIR {
 struct PIR _PIR;
 #endif
 
-void selectPIRPoint(char);
 void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);

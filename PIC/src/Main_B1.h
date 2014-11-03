@@ -70,7 +70,7 @@ struct myMain {
             unsigned FirstOpen : 1;
             unsigned SelfTest : 1;
             unsigned First : 1;
-            unsigned Tempty:3;
+            unsigned Tempty : 3;
         };
     };
     unsigned int PowerCount;
@@ -81,9 +81,9 @@ struct myMain {
     unsigned int Count2;
     unsigned int Count3;
 #endif
-//    unsigned char IOC_Count;
-//    unsigned char Test;
-//    unsigned char ClockCount;
+    //    unsigned char IOC_Count;
+    //    unsigned char Test;
+    //    unsigned char ClockCount;
 
     union {
 
@@ -130,7 +130,7 @@ inline void my_Main();
  * void my_Main()\n
  * my main time\n
  */
-inline void my_MainTime();
+inline void my_MainTimer();
 //end
 /**
  * Test Point cleared
@@ -140,4 +140,7 @@ inline void set_TimeoutCleared();
 char getMain_Exception();
 char getMain_AD_Safe();
 char getMain_LightsStatus();
+char getMain_All_Error_Status(char command);
+char getMain_Lights_Count();
+
 #endif		

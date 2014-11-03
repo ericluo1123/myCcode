@@ -98,13 +98,12 @@
 #define	System_Fosc_16M		//_16M
 //Timer0
 #define Timer0_use	false
-#define TMR0_IntrTime_100us
 //Timer1
 #define Timer1_use	true
-#define TMR1_IntrTime_100us
 //Timer2
 #define Timer2_use	false
-#define TMR2_IntrTime_100us
+//interrupt time
+#define IntrTime_100us
 //INT
 #define INT_use false
 //UART
@@ -125,9 +124,9 @@
 //Function Option
 
 //SYSC
-#define SYSC_use true
+#define SYSC_use false
 //OverTemperature
-#define OverTemperature_use true
+#define OverTemperature_use false
 #define Cut_Off_electricity true
 //OverLoad
 #define OverLoad_use true

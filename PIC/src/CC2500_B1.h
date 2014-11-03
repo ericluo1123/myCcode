@@ -269,7 +269,7 @@ const unsigned char CC2500_registers_address[47] ={
 //-----------------------------------------------------------------------------
 // Global VARIABLES
 //-----------------------------------------------------------------------------
-
+ 
 //bit CC2500_Enable;
 
 //bit Transceive_GO, Receive_GO;
@@ -279,7 +279,7 @@ unsigned char SPI0Buffer;
 unsigned char r_data; //register data
 unsigned char s_data; //status data
 unsigned char r_address;
-unsigned char RF_Data[21];
+unsigned char RF_Data[30];
 unsigned char RSSI;
 unsigned char CRC;
 unsigned char Rx_Length;

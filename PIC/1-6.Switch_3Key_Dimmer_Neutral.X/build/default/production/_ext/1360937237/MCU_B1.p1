@@ -2,10 +2,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Main_B1.h
 [s S1 `uc -> 32 `i ]
 [n S1 Product Data ]
-"65
-[s S4 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S4 . PowerON T0_Timerout T1_Timerout T2_Timerout Flag GO FirstOpen SelfTest First ]
-"63
+"66
+[s S4 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
+[n S4 . PowerON Flag GO FirstOpen SelfTest First Tempty ]
+"64
 [u S3 `S4 1 ]
 [n S3 . . ]
 "90
@@ -20,9 +20,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "102
 [u S7 `S8 1 ]
 [n S7 . . ]
-"61
-[s S2 `S3 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `uc 1 `uc 1 `uc 1 `S5 1 `S7 1 `ui 1 ]
-[n S2 myMain . PowerCount Count Count1 Count2 Count3 IOC_Count Test ClockCount . . Timeout_Counter ]
+"62
+[s S2 `S3 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `S5 1 `S7 1 `ui 1 ]
+[n S2 myMain . PowerCount Count Count1 Count2 Count3 . . Timeout_Counter ]
 "18 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Switch_B1.h
 [s S16 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S16 . Enable Touch Debounce Hold1 Hold2 Hold3 Status Flag ]
@@ -144,9 +144,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _Fosc_Set `(v ~T0 @X0 0 ef ]
 "20
 [v _IO_Set `(v ~T0 @X0 0 ef ]
-[v F2479 `(v ~T0 @X0 1 tf ]
+[v F2477 `(v ~T0 @X0 1 tf ]
 "462
-[v _TMR1_Set `TF2479 ~T0 @X0 0 e ]
+[v _TMR1_Set `TF2477 ~T0 @X0 0 e ]
 "301
 [v _ADC_Set `(v ~T0 @X0 0 ef ]
 "543
@@ -179,12 +179,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _PORTB `Vuc ~T0 @X0 0 e@13 ]
 "534
 [v _PORTC `Vuc ~T0 @X0 0 e@14 ]
-[v F2486 `(v ~T0 @X0 1 tf ]
+[v F2484 `(v ~T0 @X0 1 tf ]
 "544 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/MCU_B1.h
-[v _IOC_ISR `TF2486 ~T0 @X0 0 e ]
-[v F2481 `(v ~T0 @X0 1 tf ]
+[v _IOC_ISR `TF2484 ~T0 @X0 0 e ]
+[v F2479 `(v ~T0 @X0 1 tf ]
 "463
-[v _TMR1_ISR `TF2481 ~T0 @X0 0 e ]
+[v _TMR1_ISR `TF2479 ~T0 @X0 0 e ]
 "772 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _T1CON `Vuc ~T0 @X0 0 e@24 ]
 "753
@@ -199,12 +199,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _GIE `Vb ~T0 @X0 0 e@95 ]
 "4689
 [v _TMR1IF `Vb ~T0 @X0 0 e@136 ]
-[v F549 `(v ~T0 @X0 1 tf1`uc ]
+[v F547 `(v ~T0 @X0 1 tf1`uc ]
 "105 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Dimmer_B1.h
-[v _setDimmerLights_IntrControl `TF549 ~T0 @X0 0 e ]
-[v F546 `(v ~T0 @X0 1 tf1`uc ]
+[v _setDimmerLights_IntrControl `TF547 ~T0 @X0 0 e ]
+[v F544 `(v ~T0 @X0 1 tf1`uc ]
 "103
-[v _setDimmerLights_IntrIOC_GO `TF546 ~T0 @X0 0 e ]
+[v _setDimmerLights_IntrIOC_GO `TF544 ~T0 @X0 0 e ]
 "4783 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _WPUB2 `Vb ~T0 @X0 0 e@4202 ]
 "3743
@@ -227,12 +227,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _ADCON0 `Vuc ~T0 @X0 0 e@157 ]
 "4361
 [v _GO_nDONE `Vb ~T0 @X0 0 e@1257 ]
-[v F57 `(v ~T0 @X0 1 tf ]
+[v F52 `(v ~T0 @X0 1 tf ]
 "138 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Main_B1.h
-[v _Timeout_Counter `TF57 ~T0 @X0 0 e ]
-[v F59 `(v ~T0 @X0 1 tf ]
+[v _Timeout_Counter `TF52 ~T0 @X0 0 e ]
+[v F54 `(v ~T0 @X0 1 tf ]
 "139
-[v _set_TimeoutCleared `TF59 ~T0 @X0 0 e ]
+[v _set_TimeoutCleared `TF54 ~T0 @X0 0 e ]
 "1643 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _ADRESH `Vuc ~T0 @X0 0 e@156 ]
 "1624
@@ -335,28 +335,23 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 22: 0x00, 0x00
 [; ;Main_B1.h: 23: }
 [; ;Main_B1.h: 24: };
-[; ;Main_B1.h: 61: struct myMain {
-[; ;Main_B1.h: 63: union {
-[; ;Main_B1.h: 65: struct {
-[; ;Main_B1.h: 66: unsigned PowerON : 1;
-[; ;Main_B1.h: 67: unsigned T0_Timerout : 1;
-[; ;Main_B1.h: 68: unsigned T1_Timerout : 1;
-[; ;Main_B1.h: 69: unsigned T2_Timerout : 1;
-[; ;Main_B1.h: 70: unsigned Flag : 1;
-[; ;Main_B1.h: 71: unsigned GO : 1;
-[; ;Main_B1.h: 72: unsigned FirstOpen : 1;
-[; ;Main_B1.h: 73: unsigned SelfTest : 1;
-[; ;Main_B1.h: 74: unsigned First : 1;
+[; ;Main_B1.h: 62: struct myMain {
+[; ;Main_B1.h: 64: union {
+[; ;Main_B1.h: 66: struct {
+[; ;Main_B1.h: 67: unsigned PowerON : 1;
+[; ;Main_B1.h: 68: unsigned Flag : 1;
+[; ;Main_B1.h: 69: unsigned GO : 1;
+[; ;Main_B1.h: 70: unsigned FirstOpen : 1;
+[; ;Main_B1.h: 71: unsigned SelfTest : 1;
+[; ;Main_B1.h: 72: unsigned First : 1;
+[; ;Main_B1.h: 73: unsigned Tempty:3;
+[; ;Main_B1.h: 74: };
 [; ;Main_B1.h: 75: };
-[; ;Main_B1.h: 76: };
-[; ;Main_B1.h: 77: unsigned int PowerCount;
-[; ;Main_B1.h: 80: unsigned int Count;
-[; ;Main_B1.h: 81: unsigned int Count1;
-[; ;Main_B1.h: 82: unsigned int Count2;
-[; ;Main_B1.h: 83: unsigned int Count3;
-[; ;Main_B1.h: 84: unsigned char IOC_Count;
-[; ;Main_B1.h: 85: unsigned char Test;
-[; ;Main_B1.h: 86: unsigned char ClockCount;
+[; ;Main_B1.h: 76: unsigned int PowerCount;
+[; ;Main_B1.h: 79: unsigned int Count;
+[; ;Main_B1.h: 80: unsigned int Count1;
+[; ;Main_B1.h: 81: unsigned int Count2;
+[; ;Main_B1.h: 82: unsigned int Count3;
 [; ;Main_B1.h: 88: union {
 [; ;Main_B1.h: 90: struct {
 [; ;Main_B1.h: 91: unsigned i : 1;
@@ -384,9 +379,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 114: struct myMain myMain;
 [; ;Main_B1.h: 123: inline void myMain_Initialization();
 [; ;Main_B1.h: 128: inline void my_Main();
-[; ;Main_B1.h: 133: inline void my_MainTime();
+[; ;Main_B1.h: 133: inline void my_MainTimer();
 [; ;Main_B1.h: 138: inline void Timeout_Counter();
 [; ;Main_B1.h: 139: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 140: char getMain_Exception();
+[; ;Main_B1.h: 141: char getMain_AD_Safe();
+[; ;Main_B1.h: 142: char getMain_LightsStatus();
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -894,8 +892,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _r_address `uc ~T0 @X0 1 e ]
 [; ;CC2500_B1.h: 281: unsigned char r_address;
 "282
-[v _RF_Data `uc ~T0 @X0 -> 21 `i e ]
-[; ;CC2500_B1.h: 282: unsigned char RF_Data[21];
+[v _RF_Data `uc ~T0 @X0 -> 30 `i e ]
+[; ;CC2500_B1.h: 282: unsigned char RF_Data[30];
 "283
 [v _RSSI `uc ~T0 @X0 1 e ]
 [; ;CC2500_B1.h: 283: unsigned char RSSI;
@@ -3192,9 +3190,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "101
 [e :UE 287 ]
 }
-[v F2525 `(v ~T0 @X0 1 tf ]
+[v F2523 `(v ~T0 @X0 1 tf ]
 "107
-[v _ISR `IF2525 ~T0 @X0 1 e ]
+[v _ISR `IF2523 ~T0 @X0 1 e ]
 {
 [; ;MCU_B1.c: 107: void interrupt ISR(void) {
 [e :U _ISR ]
@@ -3215,7 +3213,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :UE 288 ]
 }
 "199
-[v _TMR1_Set `TF2479 ~T0 @X0 1 e ]
+[v _TMR1_Set `TF2477 ~T0 @X0 1 e ]
 {
 [; ;MCU_B1.c: 199: inline void TMR1_Set() {
 [e :U _TMR1_Set ]
@@ -3243,7 +3241,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :UE 289 ]
 }
 "209
-[v _TMR1_ISR `TF2481 ~T0 @X0 1 e ]
+[v _TMR1_ISR `TF2479 ~T0 @X0 1 e ]
 {
 [; ;MCU_B1.c: 209: inline void TMR1_ISR() {
 [e :U _TMR1_ISR ]
@@ -3282,9 +3280,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.c: 237: Timer1.Count = 0;
 "237
 [e = . _Timer1 1 -> -> 0 `i `ui ]
-[; ;MCU_B1.c: 238: myMain.T1_Timerout = 1;
+[; ;MCU_B1.c: 238: Timer1.Timeout = 1;
 "238
-[e = . . . _myMain 0 0 2 -> -> 1 `i `uc ]
+[e = . . _Timer1 0 0 -> -> 1 `i `uc ]
 "239
 }
 [e :U 292 ]
@@ -3297,9 +3295,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "242
 [e :UE 290 ]
 }
-[v F2483 `(v ~T0 @X0 1 tf ]
+[v F2481 `(v ~T0 @X0 1 tf ]
 "244
-[v _setDimmerReClock `TF2483 ~T0 @X0 1 e ]
+[v _setDimmerReClock `TF2481 ~T0 @X0 1 e ]
 {
 [; ;MCU_B1.c: 244: inline void setDimmerReClock() {
 [e :U _setDimmerReClock ]
@@ -3352,14 +3350,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :UE 294 ]
 }
 "401
-[v _IOC_ISR `TF2486 ~T0 @X0 1 e ]
+[v _IOC_ISR `TF2484 ~T0 @X0 1 e ]
 {
 [; ;MCU_B1.c: 401: inline void IOC_ISR() {
 [e :U _IOC_ISR ]
 [f ]
-[; ;MCU_B1.c: 402: if (IOCIE == 1 && IOCBF2 == 1) {
+[; ;MCU_B1.c: 402: if (IOCIE == 1 && IOCIF == 1 && IOCBF2 == 1) {
 "402
-[e $ ! && == -> _IOCIE `i -> 1 `i == -> _IOCBF2 `i -> 1 `i 296  ]
+[e $ ! && && == -> _IOCIE `i -> 1 `i == -> _IOCIF `i -> 1 `i == -> _IOCBF2 `i -> 1 `i 296  ]
 {
 [; ;MCU_B1.c: 403: IOCBF2 = 0;
 "403
@@ -3402,9 +3400,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "422
 [e :UE 298 ]
 }
-[v F2470 `(i ~T0 @X0 1 tf2`uc`uc ]
+[v F2468 `(i ~T0 @X0 1 tf2`uc`uc ]
 "453
-[v _getAD `TF2470 ~T0 @X0 1 e ]
+[v _getAD `TF2468 ~T0 @X0 1 e ]
 {
 [; ;MCU_B1.c: 453: inline int getAD(char adcon0, char adcon1) {
 [e :U _getAD ]
@@ -3432,7 +3430,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 [e :U 300 ]
 "457
-[e $ && == -> _GO_nDONE `i -> 1 `i == -> . . . _myMain 10 0 2 `i -> 0 `i 301  ]
+[e $ && == -> _GO_nDONE `i -> 1 `i == -> . . . _myMain 7 0 2 `i -> 0 `i 301  ]
 [e :U 302 ]
 [; ;MCU_B1.c: 459: };
 [; ;MCU_B1.c: 460: set_TimeoutCleared();
@@ -3487,10 +3485,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 {
 [; ;MCU_B1.c: 876: myMain.FirstOpen = 1;
 "876
-[e = . . . _myMain 0 0 6 -> -> 1 `i `uc ]
+[e = . . . _myMain 0 0 3 -> -> 1 `i `uc ]
 [; ;MCU_B1.c: 877: myMain.First = 1;
 "877
-[e = . . . _myMain 0 0 8 -> -> 1 `i `uc ]
+[e = . . . _myMain 0 0 5 -> -> 1 `i `uc ]
 "878
 }
 [e :U 305 ]
@@ -3545,10 +3543,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _GIE -> -> 1 `i `b ]
 [; ;MCU_B1.c: 894: myMain.FirstOpen = 1;
 "894
-[e = . . . _myMain 0 0 6 -> -> 1 `i `uc ]
+[e = . . . _myMain 0 0 3 -> -> 1 `i `uc ]
 [; ;MCU_B1.c: 895: myMain.First = 1;
 "895
-[e = . . . _myMain 0 0 8 -> -> 1 `i `uc ]
+[e = . . . _myMain 0 0 5 -> -> 1 `i `uc ]
 "896
 }
 [e :U 306 ]
@@ -3827,10 +3825,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . . _Memory 4 0 2 -> -> 0 `i `uc ]
 [; ;MCU_B1.c: 984: myMain.FirstOpen = 0;
 "984
-[e = . . . _myMain 0 0 6 -> -> 0 `i `uc ]
+[e = . . . _myMain 0 0 3 -> -> 0 `i `uc ]
 [; ;MCU_B1.c: 985: myMain.First = 0;
 "985
-[e = . . . _myMain 0 0 8 -> -> 0 `i `uc ]
+[e = . . . _myMain 0 0 5 -> -> 0 `i `uc ]
 "987
 }
 [e :U 323 ]

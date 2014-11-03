@@ -130,7 +130,7 @@
 #if Properties_Dimmer == 1
 #define SafeCountValue 10
 #else
-#define SafeCountValue 10
+#define SafeCountValue 3
 #endif
 #endif
 
@@ -186,7 +186,7 @@
  * close mosfet delay time to allow recook
  */
 #define MosfetOpenToCloseValue			10
- 
+
 #if Properties_Neutral == 1
 #define Max_Percent 90
 #define Med_Percent 35
@@ -276,7 +276,7 @@
 #define DimmerTuneValue 157
 
 #if Control_Method_Triac == 1
-//maxum
+//maxum 
 #define Dimmer_Maxum 	((char)((100-Max_Percent)*One_Percent))
 
 //medium

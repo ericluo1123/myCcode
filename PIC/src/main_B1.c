@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
 #if Timer0_use == 1
         if (Timer0.Timerout == true) {//10ms
             Timer0.Timerout = false;
-            my_MainTime();
+            my_MainTimer();
             WDT_Main();
             I2C_Main();
             UART_Main();
@@ -91,11 +91,11 @@ int main(int argc, char** argv) {
         //TMR1
         if (Timer1.Timeout == true) { //10ms
             Timer1.Timeout = false;
-            my_MainTime();
+            my_MainTimer();
             WDT_Main();
             I2C_Main();
             UART_Main();
-            if (myMain.PowerON) {
+            if (myMain.PowerON == true) {
                 Flash_Memory_Main();
 
                 LED_Main();
@@ -129,7 +129,7 @@ int main(int argc, char** argv) {
 #if Timer2_use == 1
         if (Timer2.Timerout == true) {//10ms
             Timer2.Timerout = false;
-            my_MainTime();
+            my_MainTimer();
             WDT_Main();
             I2C_Main();
             UART_Main();
@@ -177,22 +177,15 @@ inline void myMain_Initialization() {
 //T main
 //*****************************************************************************
 
-inline void my_MainTime() {
+inline void my_MainTimer() {
     //Power
     if (myMain.PowerON == false) {
         myMain.PowerCount++;
         if (myMain.PowerCount == 150)//*10ms
         {
             myMain.PowerCount = 0;
-            myMain.PowerON = 1;
+            myMain.PowerON = true;
 
-#ifdef SYSC1
-            setTemp_Enable(1);
-#endif
-
-#ifdef OverLoad1
-            setLoad_Enable(1);
-#endif
 
 #if Self_Test == true
             myMain.k = 1;
@@ -303,17 +296,18 @@ char getMain_AD_Safe() {
     //#if OverTemperature_use == 1
     //    result = Temp.Safe == true ? 1 : 0;
     //#endif
- 
+
 #if OverLoad_use == 1 
     if (result == 1) {
-        result = Load1.Safe == true ? 1 : 0;
+        result = Load.Safe == true ? 1 : 0;
     }
 #endif
     return result;
 }
+//*****************************************************************************
 
 char getMain_LightsStatus() {
-    char result = 1, count = 0;
+    char status = 0, count = 0;
 #if LightsControl_use == 1
 #ifdef use_1KEY
     count = 1;
@@ -325,14 +319,55 @@ char getMain_LightsStatus() {
     count = 3;
 #endif
     for (int i = 0; i < count; i++) {
-        if (result == 1) {
+        if (status == 0) {
             LightsPointSelect(i + 1);
-            result = Lights->Status == true ? 1 : 0;
+            status = Lights->Status == true ? 1 : 0;
         }
     }
 
 #endif
-    return result;
+    return status;
 }
+//*****************************************************************************
+
+char getMain_All_Error_Status(char command) {
+    char status = 0;
+#if SYSC_use == true
+#endif
+
+#if OverTemperature_use == true
+#endif
+
+if(command != 3){
+#if OverLoad_use == true
+    status = Load.ERROR == true ? 3 : 0;
+#endif
+}
+
+#if PowerFault_use == true
+#endif
+return status;
+}
+//*****************************************************************************
+
+char getMain_Lights_Count() {
+    char status1 = 0, status2 = 0, status3 = 0, count = 0;
+#if Dimmer_use == true
+#endif
+
+#if LightsControl_use == true
+#ifdef use_1KEY
+    status1 = Lights1.Status == true ? 1 : 0;
+#endif
+#ifdef use_2KEY
+    status2 = Lights2.Status == true ? 1 : 0;
+#endif
+#ifdef use_3KEY
+    status2 = Lights3.Status == true ? 1 : 0;
+#endif
+#endif
+    return count = (status1 + status2 + status3);
+}
+//*****************************************************************************
 //End file
 

@@ -82,25 +82,26 @@ void Lights_Close() {
     char status = 0;
     if (LightsControl.Detect == true) {
         LightsControl.Detect = false;
-#ifdef use_1KEY
-        if (status == 0) {
-            status = getLights_Status(1) == 1 ? 1 : 0;
-        }
-#endif
-#ifdef use_2KEY
-        if (status == 0) {
-            status = getLights_Status(2) == 1 ? 1 : 0;
-        }
-#endif
-#ifdef use_3KEY
-        if (status == 0) {
-            status = getLights_Status31) == 1 ? 1 : 0;
-        }
-#endif
+        status = getMain_LightsStatus();
+        //#ifdef use_1KEY
+        //        if (status == 0) {
+        //            status = getLights_Status(1) == 1 ? 1 : 0;
+        //        }
+        //#endif
+        //#ifdef use_2KEY
+        //        if (status == 0) {
+        //            status = getLights_Status(2) == 1 ? 1 : 0;
+        //        }
+        //#endif
+        //#ifdef use_3KEY
+        //        if (status == 0) {
+        //            status = getLights_Status31) == 1 ? 1 : 0;
+        //        }
+        //#endif
 
-        if (status == 0) {
-            setLoad_GO(0);
-        }
+        //        if (status == 0) {
+        //            setLoad_GO(0);
+        //        }
     }
 }
 
@@ -152,6 +153,34 @@ void setLights_Main(char lights) {
     }
 }
 
+char getLights_Status(char lights) {
+    LightsPointSelect(lights);
+    char result = Lights->Status == true ? 1 : 0;
+    return result;
+}
+
+//char getAll_Lights_Status() {
+//    char status = 0;
+//#ifdef use_1KEY
+//    if (status == 0) {
+//        status = getLights_Status(1) == 1 ? 1 : 0;
+//    }
+//#endif
+//
+//#ifdef use_2KEY
+//    if (status == 0) {
+//        status = getLights_Status(2) == 1 ? 1 : 0;
+//    }
+//#endif
+//
+//#ifdef use_3KEY
+//    if (status == 0) {
+//        status = getLights_Status31) == 1 ? 1 : 0;
+//    }
+//#endif
+//    return status;
+//}
+
 void setLights_Clear(char lights, char command) {
     LightsPointSelect(lights);
     Lights->Clear = command;
@@ -159,12 +188,8 @@ void setLights_Clear(char lights, char command) {
 
 void setLights_Trigger(char lights, char command) {
     LightsPointSelect(lights);
-    Lights->Trigger = command;
-}
-
-void setLights_Switch(char lights, char command) {
-    LightsPointSelect(lights);
-    Lights->Switch = command;
+    Lights->Trigger = true;
+    Lights->Switch = command == 1 ? true : false;
 }
 
 void setLights_Open(char lights, char command) {
@@ -192,31 +217,25 @@ char getLights_Close(char lights) {
 
 }
 
-char getLights_Status(char lights) {
-    LightsPointSelect(lights);
-    char result = Lights->Status;
-    return result;
-}
-
 void setLights(char lights, char status) {
 
     LightsPointSelect(lights);
-    LightsControl.Load=lights;
+    LightsControl.Load = lights;
     Lights->GO = true;
     if (status == 1) {
         if (Lights->Status == false) {
             Lights->Status = true;
             Lights->RelayValue = 7;
             Lights->TriacValue = 14;
-            setLoad_StatusOn(lights, 1);
-            setLoad_Count(0);
+            //            setLoad_StatusOn(lights, 1);
+            //            setLoad_Count(0);
         }
     } else {
         if (Lights->Status == true) {
             Lights->Status = false;
             Lights->RelayValue = 4;
-            Lights->TriacValue = 8;
-            setLoad_StatusOff(lights, 1);
+            Lights->TriacValue = 7;
+            //            setLoad_StatusOff(lights, 1);
         }
     }
 #ifdef use_1KEY

@@ -164,21 +164,32 @@ struct OverLoad {
             unsigned Safe : 1;
             unsigned ADtoGO : 1;
             unsigned ERROR : 1;
-            unsigned StatusOn : 1;
-            unsigned StatusOff : 1;
+            unsigned Status : 1;
+            unsigned OK : 1;
+        };
+    };
+
+    union {
+
+        struct {
+            unsigned status1 : 1;
+            unsigned status2 : 1;
+            unsigned status3 : 1;
+            unsigned empty : 5;
+
         };
     };
     unsigned int Time;
     unsigned int ErrorTime;
     unsigned char ErrorStatus;
+    unsigned int ADH;
+    unsigned int ADL;
 
 #ifdef MCU_16F723A
     unsigned char TotalLoad;
     unsigned char AH[5];
     unsigned char AL[5];
     unsigned char AD;
-    unsigned char ADH;
-    unsigned char ADL;
     unsigned char ADRES;
 #endif 
 
@@ -187,8 +198,6 @@ struct OverLoad {
     unsigned int AH[5];
     unsigned int AL[5];
     unsigned int AD;
-    unsigned int ADH;
-    unsigned int ADL;
     unsigned int ADRES;
 #endif
 
@@ -197,8 +206,6 @@ struct OverLoad {
     unsigned int AH[5];
     unsigned int AL[5];
     unsigned int AD;
-    unsigned int ADH;
-    unsigned int ADL;
     unsigned int ADRES;
 #endif
 
@@ -210,16 +217,16 @@ struct OverLoad {
     unsigned char Count;
     unsigned char ErrorCount;
     unsigned char LightsCount;
-    unsigned char NumberCount;
+    //    unsigned char NumberCount;
     unsigned char SafeCount;
 
-    unsigned char Lights1Status;
-    unsigned char Lights2Status;
-    unsigned char Lights3Status;
+    //    unsigned char Lights1Status;
+    //    unsigned char Lights2Status;
+    //    unsigned char Lights3Status;
 };
 
 #ifdef OverLoad1
-struct OverLoad Load1;
+struct OverLoad Load;
 #endif
 
 #define DetectCountValue 30
@@ -228,7 +235,6 @@ inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
-void setLoad_Enable(char command);
 void setLoad_AH_AL_Restore();
 //	void setLoad_LightsStatus(char,char);
 void setLoad_Count(char command);
@@ -237,13 +243,12 @@ void setLoad_StatusOn(char lights, char command);
 void setLoad_StatusOff(char lights, char command);
 char getLoad_Safe();
 char getLoad_ERROR();
-
+char getLoad_Status();
 #else
 #define Load_Initialization() ;
 #define Load_Main() ;
 #define getLoad_AD(char) ;
 #define setLoad_Exceptions(char) ;
-#define setLoad_Enable(char) ;
 #define setLoad_AH_AL_Restore() ;
 #define setLoad_Count(char) ;
 #define setLoad_GO(char) ;

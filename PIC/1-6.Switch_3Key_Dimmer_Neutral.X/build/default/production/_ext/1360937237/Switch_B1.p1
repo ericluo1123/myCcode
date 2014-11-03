@@ -2,10 +2,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Main_B1.h
 [s S1 `uc -> 32 `i ]
 [n S1 Product Data ]
-"65
-[s S4 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S4 . PowerON T0_Timerout T1_Timerout T2_Timerout Flag GO FirstOpen SelfTest First ]
-"63
+"66
+[s S4 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
+[n S4 . PowerON Flag GO FirstOpen SelfTest First Tempty ]
+"64
 [u S3 `S4 1 ]
 [n S3 . . ]
 "90
@@ -20,9 +20,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "102
 [u S7 `S8 1 ]
 [n S7 . . ]
-"61
-[s S2 `S3 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `uc 1 `uc 1 `uc 1 `S5 1 `S7 1 `ui 1 ]
-[n S2 myMain . PowerCount Count Count1 Count2 Count3 IOC_Count Test ClockCount . . Timeout_Counter ]
+"62
+[s S2 `S3 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `S5 1 `S7 1 `ui 1 ]
+[n S2 myMain . PowerCount Count Count1 Count2 Count3 . . Timeout_Counter ]
 "18 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Switch_B1.h
 [s S16 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S16 . Enable Touch Debounce Hold1 Hold2 Hold3 Status Flag ]
@@ -142,12 +142,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S282 WDT . Timer ]
 "4549 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _RC5 `Vb ~T0 @X0 0 e@117 ]
-[v F57 `(v ~T0 @X0 1 tf ]
+[v F52 `(v ~T0 @X0 1 tf ]
 "138 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Main_B1.h
-[v _Timeout_Counter `TF57 ~T0 @X0 0 e ]
-[v F59 `(v ~T0 @X0 1 tf ]
+[v _Timeout_Counter `TF52 ~T0 @X0 0 e ]
+[v F54 `(v ~T0 @X0 1 tf ]
 "139
-[v _set_TimeoutCleared `TF59 ~T0 @X0 0 e ]
+[v _set_TimeoutCleared `TF54 ~T0 @X0 0 e ]
 "4781 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _WPUB1 `Vb ~T0 @X0 0 e@4201 ]
 "62 ../src/../1-6.Switch_3Key_Dimmer_Neutral.X/../src/Switch_B1.h
@@ -249,28 +249,23 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 22: 0x00, 0x00
 [; ;Main_B1.h: 23: }
 [; ;Main_B1.h: 24: };
-[; ;Main_B1.h: 61: struct myMain {
-[; ;Main_B1.h: 63: union {
-[; ;Main_B1.h: 65: struct {
-[; ;Main_B1.h: 66: unsigned PowerON : 1;
-[; ;Main_B1.h: 67: unsigned T0_Timerout : 1;
-[; ;Main_B1.h: 68: unsigned T1_Timerout : 1;
-[; ;Main_B1.h: 69: unsigned T2_Timerout : 1;
-[; ;Main_B1.h: 70: unsigned Flag : 1;
-[; ;Main_B1.h: 71: unsigned GO : 1;
-[; ;Main_B1.h: 72: unsigned FirstOpen : 1;
-[; ;Main_B1.h: 73: unsigned SelfTest : 1;
-[; ;Main_B1.h: 74: unsigned First : 1;
+[; ;Main_B1.h: 62: struct myMain {
+[; ;Main_B1.h: 64: union {
+[; ;Main_B1.h: 66: struct {
+[; ;Main_B1.h: 67: unsigned PowerON : 1;
+[; ;Main_B1.h: 68: unsigned Flag : 1;
+[; ;Main_B1.h: 69: unsigned GO : 1;
+[; ;Main_B1.h: 70: unsigned FirstOpen : 1;
+[; ;Main_B1.h: 71: unsigned SelfTest : 1;
+[; ;Main_B1.h: 72: unsigned First : 1;
+[; ;Main_B1.h: 73: unsigned Tempty:3;
+[; ;Main_B1.h: 74: };
 [; ;Main_B1.h: 75: };
-[; ;Main_B1.h: 76: };
-[; ;Main_B1.h: 77: unsigned int PowerCount;
-[; ;Main_B1.h: 80: unsigned int Count;
-[; ;Main_B1.h: 81: unsigned int Count1;
-[; ;Main_B1.h: 82: unsigned int Count2;
-[; ;Main_B1.h: 83: unsigned int Count3;
-[; ;Main_B1.h: 84: unsigned char IOC_Count;
-[; ;Main_B1.h: 85: unsigned char Test;
-[; ;Main_B1.h: 86: unsigned char ClockCount;
+[; ;Main_B1.h: 76: unsigned int PowerCount;
+[; ;Main_B1.h: 79: unsigned int Count;
+[; ;Main_B1.h: 80: unsigned int Count1;
+[; ;Main_B1.h: 81: unsigned int Count2;
+[; ;Main_B1.h: 82: unsigned int Count3;
 [; ;Main_B1.h: 88: union {
 [; ;Main_B1.h: 90: struct {
 [; ;Main_B1.h: 91: unsigned i : 1;
@@ -298,9 +293,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 114: struct myMain myMain;
 [; ;Main_B1.h: 123: inline void myMain_Initialization();
 [; ;Main_B1.h: 128: inline void my_Main();
-[; ;Main_B1.h: 133: inline void my_MainTime();
+[; ;Main_B1.h: 133: inline void my_MainTimer();
 [; ;Main_B1.h: 138: inline void Timeout_Counter();
 [; ;Main_B1.h: 139: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 140: char getMain_Exception();
+[; ;Main_B1.h: 141: char getMain_AD_Safe();
+[; ;Main_B1.h: 142: char getMain_LightsStatus();
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -808,8 +806,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _r_address `uc ~T0 @X0 1 e ]
 [; ;CC2500_B1.h: 281: unsigned char r_address;
 "282
-[v _RF_Data `uc ~T0 @X0 -> 21 `i e ]
-[; ;CC2500_B1.h: 282: unsigned char RF_Data[21];
+[v _RF_Data `uc ~T0 @X0 -> 30 `i e ]
+[; ;CC2500_B1.h: 282: unsigned char RF_Data[30];
 "283
 [v _RSSI `uc ~T0 @X0 1 e ]
 [; ;CC2500_B1.h: 283: unsigned char RSSI;
@@ -3028,7 +3026,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 [e :U 286 ]
 "11
-[e $ && == -> _RC5 `i -> 0 `i == -> . . . _myMain 10 0 2 `i -> 0 `i 287  ]
+[e $ && == -> _RC5 `i -> 0 `i == -> . . . _myMain 7 0 2 `i -> 0 `i 287  ]
 [e :U 288 ]
 [; ;Switch_B1.c: 14: }
 [; ;Switch_B1.c: 15: set_TimeoutCleared();
@@ -3086,9 +3084,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Switch_B1.c: 38: }
 [e :UE 289 ]
 }
-[v F276 `(v ~T0 @X0 1 tf ]
+[v F274 `(v ~T0 @X0 1 tf ]
 "41
-[v _Switch_Initialization `TF276 ~T0 @X0 1 e ]
+[v _Switch_Initialization `TF274 ~T0 @X0 1 e ]
 {
 [; ;Switch_B1.c: 41: inline void Switch_Initialization() {
 [e :U _Switch_Initialization ]
@@ -3112,9 +3110,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "64
 [e :UE 295 ]
 }
-[v F278 `(v ~T0 @X0 1 tf ]
+[v F276 `(v ~T0 @X0 1 tf ]
 "67
-[v _Switch_Main `TF278 ~T0 @X0 1 e ]
+[v _Switch_Main `TF276 ~T0 @X0 1 e ]
 {
 [; ;Switch_B1.c: 67: inline void Switch_Main() {
 [e :U _Switch_Main ]
@@ -3323,7 +3321,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setRF_Learn (1 -> -> 1 `i `uc ]
 [; ;Switch_B1.c: 195: if (myMain.First == 1) {
 "195
-[e $ ! == -> . . . _myMain 0 0 8 `i -> 1 `i 316  ]
+[e $ ! == -> . . . _myMain 0 0 5 `i -> 1 `i 316  ]
 {
 [; ;Switch_B1.c: 196: setBuz(2, 100);
 "196
@@ -3716,7 +3714,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;Switch_B1.c: 347: if (0 == 0 && 0 == 0 && 0 == 0 && myMain.SelfTest == 1) {
 "347
-[e $ ! && && && == -> 0 `i -> 0 `i == -> 0 `i -> 0 `i == -> 0 `i -> 0 `i == -> . . . _myMain 0 0 7 `i -> 1 `i 346  ]
+[e $ ! && && && == -> 0 `i -> 0 `i == -> 0 `i -> 0 `i == -> 0 `i -> 0 `i == -> . . . _myMain 0 0 4 `i -> 1 `i 346  ]
 {
 [; ;Switch_B1.c: 349: SwPointSelect(1);
 "349

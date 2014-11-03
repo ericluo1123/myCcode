@@ -17,21 +17,19 @@ Product _product = {
 }
 };
 
-# 61
+# 62
 struct myMain {
 
 union {
 
 struct {
 unsigned PowerON : 1;
-unsigned T0_Timerout : 1;
-unsigned T1_Timerout : 1;
-unsigned T2_Timerout : 1;
 unsigned Flag : 1;
 unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
+unsigned Tempty:3;
 };
 };
 unsigned int PowerCount;
@@ -41,10 +39,8 @@ unsigned int Count;
 unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
-unsigned char IOC_Count;
-unsigned char Test;
-unsigned char ClockCount;
 
+# 88
 union {
 
 struct {
@@ -80,11 +76,14 @@ inline void myMain_Initialization();
 inline void my_Main();
 
 # 133
-inline void my_MainTime();
+inline void my_MainTimer();
 
 # 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
+char getMain_Exception();
+char getMain_AD_Safe();
+char getMain_LightsStatus();
 
 # 8 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
 typedef int ptrdiff_t;
@@ -496,7 +495,7 @@ unsigned char SPI0Buffer;
 unsigned char r_data;
 unsigned char s_data;
 unsigned char r_address;
-unsigned char RF_Data[21];
+unsigned char RF_Data[30];
 unsigned char RSSI;
 unsigned char CRC;
 unsigned char Rx_Length;
@@ -3468,7 +3467,7 @@ Timer1.Count++;
 if (Timer1.Count == 100)
 {
 Timer1.Count = 0;
-myMain.T1_Timerout = 1;
+Timer1.Timeout = 1;
 }
 
 }
@@ -3511,7 +3510,7 @@ GIE = 1;
 
 
 inline void IOC_ISR() {
-if (IOCIE == 1 && IOCBF2 == 1) {
+if (IOCIE == 1 && IOCIF == 1 && IOCBF2 == 1) {
 IOCBF2 = 0;
 IOCIF = 0;
 if (myMain.PowerON == 1) {

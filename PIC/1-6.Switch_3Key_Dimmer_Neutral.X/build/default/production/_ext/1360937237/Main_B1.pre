@@ -17,21 +17,19 @@ Product _product = {
 }
 };
 
-# 61
+# 62
 struct myMain {
 
 union {
 
 struct {
 unsigned PowerON : 1;
-unsigned T0_Timerout : 1;
-unsigned T1_Timerout : 1;
-unsigned T2_Timerout : 1;
 unsigned Flag : 1;
 unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
+unsigned Tempty:3;
 };
 };
 unsigned int PowerCount;
@@ -41,10 +39,8 @@ unsigned int Count;
 unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
-unsigned char IOC_Count;
-unsigned char Test;
-unsigned char ClockCount;
 
+# 88
 union {
 
 struct {
@@ -80,11 +76,14 @@ inline void myMain_Initialization();
 inline void my_Main();
 
 # 133
-inline void my_MainTime();
+inline void my_MainTimer();
 
 # 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
+char getMain_Exception();
+char getMain_AD_Safe();
+char getMain_LightsStatus();
 
 # 8 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\stdio.h"
 typedef int ptrdiff_t;
@@ -496,7 +495,7 @@ unsigned char SPI0Buffer;
 unsigned char r_data;
 unsigned char s_data;
 unsigned char r_address;
-unsigned char RF_Data[21];
+unsigned char RF_Data[30];
 unsigned char RSSI;
 unsigned char CRC;
 unsigned char Rx_Length;
@@ -3381,33 +3380,19 @@ CC2500_PowerOnInitial();
 
 while (1) {
 
-if (myMain.PowerON) {
+if (myMain.PowerON == 1) {
 
-;;
-
-
-
-;;
-
-
-
-;;
-
-
-
-;;
-
-# 60
+# 56
 }
 
-# 96
-if (myMain.T1_Timerout) {
-myMain.T1_Timerout = 0;
-my_MainTime();
+# 92
+if (Timer1.Timeout == 1) {
+Timer1.Timeout = 0;
+my_MainTimer();
 WDT_Main();
 ;;
 ;;
-if (myMain.PowerON) {
+if (myMain.PowerON == 1) {
 Flash_Memory_Main();
 
 LED_Main();
@@ -3428,11 +3413,11 @@ RF_Main();
 DelayOff_Main();
 ;;
 
-# 129
+# 125
 }
 }
 
-# 164
+# 160
 }
 return (0);
 }
@@ -3445,11 +3430,12 @@ inline void myMain_Initialization() {
 product = &_product;
 product->Data[20] = 211;
 
-# 180
+# 176
 }
 
 
-inline void my_MainTime() {
+
+inline void my_MainTimer() {
 
 if (myMain.PowerON == 0) {
 myMain.PowerCount++;
@@ -3465,7 +3451,7 @@ myMain.PowerON = 1;
 
 ;;
 
-# 203
+# 200
 setBuz(3, 50);
 myMain.SelfTest = 1;
 
@@ -3479,21 +3465,21 @@ setRF_Enable(1);
 }
 } else {
 
-# 222
+# 219
 myMain.Count1++;
 if (myMain.Count1 == 100)
 {
 myMain.Count1 = 0;
 
-# 237
+# 234
 if (myMain.Flag) {
 myMain.Flag = 0;
 
-# 247
+# 244
 } else {
 myMain.Flag = 1;
 
-# 257
+# 254
 }
 }
 
@@ -3507,6 +3493,7 @@ myMain.Count2 = 0;
 
 }
 
+
 inline void Timeout_Counter() {
 myMain.Timeout_Counter++;
 if (myMain.Timeout_Counter == 10000) {
@@ -3516,8 +3503,32 @@ myMain.Timeout = 1;
 }
 }
 
+
 inline void set_TimeoutCleared() {
 myMain.Timeout = 0;
 myMain.Timeout_Counter = 0;
+}
+
+
+char getMain_Exception() {
+char result = 0;
+
+# 297
+return result;
+}
+
+
+char getMain_AD_Safe() {
+char result = 1;
+
+# 312
+return result;
+}
+
+char getMain_LightsStatus() {
+char result = 1, count = 0;
+
+# 335
+return result;
 }
 
