@@ -24,28 +24,26 @@ void setSYSC_Main() {
 
     if (SYSC.Enable == true) {
         if (SYSC.ERROR == false) {
-
             SYSC.Timer++;
             if (SYSC.Timer >= 16)//*10ms
             {
                 SYSC.Timer = 0;
                 SYSC.ERROR = true;
-                setLED(1, 0);
-                setLED(2, 11);
-                setLED(99, 11);
+                setLED(1, 11);
             }
         } else {
-            SYSC.Timer++;
-            if (SYSC.Timer == 50) {//*10ms
-                SYSC.Timer = 0;
-                SYSC.Counter = 0;
-            } else {
-                SYSC.Counter++;
-                if (SYSC.Counter == 1000) {
+            if (getMain_All_Error_Status(1) == 0) {
+                SYSC.Timer++;
+                if (SYSC.Timer == 50) {//*10ms
+                    SYSC.Timer = 0;
                     SYSC.Counter = 0;
-                    SYSC.ERROR = false;
-                    setLED(2, 10);
-                    setLED(99, 10);
+                } else {
+                    SYSC.Counter++;
+                    if (SYSC.Counter == 1000) {
+                        SYSC.Counter = 0;
+                        SYSC.ERROR = false;
+                        setLED(1, 10);
+                    }
                 }
             }
         }

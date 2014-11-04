@@ -83,57 +83,63 @@ void setTemp_Main() {
                 }
             }
         } else {
-            Temp.Time++;
-            if (Temp.Time >= 5) {//*10ms
-                Temp.Time = 0;
-                Temp.ADtoGO = false;
-                Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
+            if (getMain_All_Error_Status(2) == 0) {
+                Temp.Time++;
+                if (Temp.Time >= 5) {//*10ms
+                    Temp.Time = 0;
+                    Temp.ADtoGO = false;
+                    Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
 #if PIR_use == 1
-                if (getMain_LightsStatus() == 1) {
-                    Temp.SafeValue = TempSafeValueH;
-                    Temp.DangerValue = TempDangerValueH;
-                } else {
-                    Temp.SafeValue = TempSafeValueL;
-                    Temp.DangerValue = TempDangerValueL;
-                }
+                    if (getMain_LightsStatus() == 1) {
+                        Temp.SafeValue = TempSafeValueH;
+                        Temp.DangerValue = TempDangerValueH;
+                    } else {
+                        Temp.SafeValue = TempSafeValueL;
+                        Temp.DangerValue = TempDangerValueL;
+                    }
 #elif Dimmer_use == 1
-                Temp.SafeValue = TempSafeValue;
-                Temp.DangerValue = TempDangerValue;
+                    Temp.SafeValue = TempSafeValue;
+                    Temp.DangerValue = TempDangerValue;
 #else
-                Temp.SafeValue = 0;
-                Temp.DangerValue = 0;
+                    Temp.SafeValue = 0;
+                    Temp.DangerValue = 0;
 #endif
 
-                if (Temp.ERROR == true) {
-                    if (Temp.AD >= Temp.SafeValue) {
-                        Temp.Count++;
-                        if (Temp.Count >= TempCountValue) {
+                    if (Temp.ERROR == true) {
+                        if (Temp.AD >= Temp.SafeValue) {
+                            Temp.Count++;
+                            if (Temp.Count >= TempCountValue) {
+                                Temp.Count = 0;
+                                // setOverTemp_Exceptions(0);
+                                Temp.ERROR = false;
+                                setLED(1, 10);
+                            }
+                        } else {
                             Temp.Count = 0;
-                            setOverTemp_Exceptions(0);
                         }
                     } else {
-                        Temp.Count = 0;
-                    }
-                } else {
-                    if (Temp.AD <= Temp.DangerValue) {
-                        Temp.Count++;
-                        if (Temp.Count >= TempCountValue) {
+                        if (Temp.AD <= Temp.DangerValue) {
+                            Temp.Count++;
+                            if (Temp.Count >= TempCountValue) {
+                                Temp.Count = 0;
+                                Temp.ERROR = true;
+                                setLED(1, 11);
+                                //setOverTemp_Exceptions(1);
+                            }
+                        } else {
                             Temp.Count = 0;
-                            setOverTemp_Exceptions(1);
                         }
-                    } else {
-                        Temp.Count = 0;
                     }
+                    if (Temp.ERROR == 0) {
+                        Temp.Safe = true;
+                    }
+                    setProductData(24, Temp.AD >> 8);
+                    setProductData(25, Temp.AD);
+                    //                setProductData(2, Temp1.AD >> 8);
+                    //                setProductData(3, Temp1.AD);
+                    Temp.ADH[0] = 0;
+                    Temp.ADH[1] = 0;
                 }
-                if (Temp.ERROR == 0) {
-                    Temp.Safe = true;
-                }
-                setProductData(24, Temp.AD >> 8);
-                setProductData(25, Temp.AD);
-                //                setProductData(2, Temp1.AD >> 8);
-                //                setProductData(3, Temp1.AD);
-                Temp.ADH[0] = 0;
-                Temp.ADH[1] = 0;
             }
         }
     } else {

@@ -332,21 +332,32 @@ char getMain_LightsStatus() {
 
 char getMain_All_Error_Status(char command) {
     char status = 0;
+    if (command != 1) {
 #if SYSC_use == true
-#endif
-
+        if (status == 0) {
+            status = SYSC.ERROR == true ? 1 : 0;
+        }
+#endif 
+    }
+    if (command != 2) {
 #if OverTemperature_use == true
+        if (status == 0) {
+            status = Temp.ERROR == true ? 2 : 0;
+        }
 #endif
+    }
 
-if(command != 3){
+    if (command != 3) {
 #if OverLoad_use == true
-    status = Load.ERROR == true ? 3 : 0;
+        if (status == 0) {
+            status = Load.ERROR == true ? 3 : 0;
+        }
 #endif
-}
+    }
 
 #if PowerFault_use == true
 #endif
-return status;
+    return status;
 }
 //*****************************************************************************
 
