@@ -18,13 +18,18 @@
 #if LightsControl_use == 1 
 
 //Global extern variable declaration
-struct LightsControl{
-    union{
-        struct{
-            unsigned Detect:1;
-            unsigned empty:7;
+
+struct LightsControl {
+
+    union {
+
+        struct {
+            unsigned Detect : 1;
+            unsigned LoadGO : 1;
+            unsigned LoadOK : 1;
+            unsigned empty : 5;
         };
-        unsigned char Load:1;
+        unsigned char Load : 1;
     };
 };
 struct LightsControl LightsControl;
@@ -37,21 +42,19 @@ struct Lights {
             unsigned Enable : 1;
             unsigned GO : 1;
             unsigned Status : 1;
-            unsigned Open : 1;
-            unsigned Close : 1;
             unsigned Trigger : 1;
             unsigned Switch : 1;
             unsigned Relay : 1;
+            unsigned Triac : 1;
+            unsigned RelaySet : 1;
         };
     };
 
     union {
 
         struct {
-            unsigned Triac : 1;
-            unsigned Clear : 1;
-            unsigned RelaySet : 1;
-            unsigned empty : 5;
+            unsigned Line : 1;
+            unsigned empty : 7;
         };
     };
 
@@ -79,25 +82,18 @@ struct Lights Lights3;
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
-void Lights_ERROR();
 void Lights_Close();
-
 void setLights_Initialization(char lights);
-void setLights_GO(char, char);
 void setLights_Main(char lights);
-void setLights_ERROR(char);
-void setLights_TriggerERROR(char, char);
 void Lights_Control(char lights);
-void Lights_Close();
-    
-void setLights_Clear(char lights, char command);
 void setLights_Trigger(char lights, char command);
-void setLights_Open(char lights, char command);
-char getLights_Open(char lights);
-void setLights_Close(char lights, char command);
-char getLights_Close(char lights);
 void setLights(char lights, char status);
 char getLights_Status(char lights);
+void setLights_Line(char lights);
+char getLights_Line(char lights);
+char getLightsControl_GO();
+char getLightsControl_OK();
+
 //char getAll_Lights_Status();
 #else
 

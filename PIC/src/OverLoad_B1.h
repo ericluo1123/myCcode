@@ -2,6 +2,9 @@
 #ifndef _OverLoad_H_
 #define _OverLoad_H_
 
+#include "Activity_B1.h"
+
+
 #if OverLoad_use == 1
 #define Load_Debug 0
 #if Dimmer_use == 1
@@ -175,7 +178,10 @@ struct OverLoad {
             unsigned status1 : 1;
             unsigned status2 : 1;
             unsigned status3 : 1;
-            unsigned empty : 5;
+            unsigned Line1 : 1;
+            unsigned Line2 : 1;
+            unsigned LIne3 : 1;
+            unsigned empty : 2;
 
         };
     };
@@ -185,30 +191,11 @@ struct OverLoad {
     unsigned int ADH;
     unsigned int ADL;
 
-#ifdef MCU_16F723A
-    unsigned char TotalLoad;
-    unsigned char AH[5];
-    unsigned char AL[5];
-    unsigned char AD;
-    unsigned char ADRES;
-#endif 
-
-#ifdef MCU_16F1516
-    unsigned int TotalLoad;
-    unsigned int AH[5];
-    unsigned int AL[5];
-    unsigned int AD;
-    unsigned int ADRES;
-#endif
-
-#ifdef MCU_16F1518
-    unsigned int TotalLoad;
-    unsigned int AH[5];
-    unsigned int AL[5];
-    unsigned int AD;
-    unsigned int ADRES;
-#endif
-
+    ADtype TotalLoad;
+    ADtype AH[5];
+    ADtype AL[5];
+    ADtype AD;
+    ADtype ADRES;
 
     unsigned int LightsJudgeValue;
     unsigned int JudgeValue;
@@ -231,6 +218,7 @@ struct OverLoad Load;
 
 #define DetectCountValue 30
 
+
 inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
@@ -243,7 +231,9 @@ void setLoad_StatusOn(char lights, char command);
 void setLoad_StatusOff(char lights, char command);
 char getLoad_Safe();
 char getLoad_ERROR();
-char getLoad_Status();
+char getLoad_OK();
+void setLoad_OK();
+
 #else
 #define Load_Initialization() ;
 #define Load_Main() ;
@@ -256,6 +246,8 @@ char getLoad_Status();
 #define setLoad_StatusOff(char,char) ; 
 #define getLoad_Safe() 1
 #define getLoad_ERROR() 0
+#define  getLoad_OK() 1
+#define  setLoad_OK() ;
 #endif
 
 #endif

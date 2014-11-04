@@ -51,20 +51,21 @@
 #define _ADCON1	ADCON1_RA3		
 #define _FVRCON FVRCON_1V		
 
-#ifdef _16F723A
-//typedef char ADtype;
+#ifdef MCU_16F723A
+typedef unsigned char ADtype;
 #define ADH_Restore 0
 #define ADL_Restore 0xff
 #endif
 
-#ifdef _16F1516
-//typedef int ADtype;
+
+#ifdef MCU_16F1516
+typedef unsigned int ADtype;
 #define ADH_Restore 0
 #define ADL_Restore 0xffff
 #endif
 
-#ifdef _16F1518
-//typedef int ADtype;
+#ifdef MCU_16F1518
+typedef unsigned int ADtype;
 #define ADH_Restore 0
 #define ADL_Restore 0xffff
 #endif

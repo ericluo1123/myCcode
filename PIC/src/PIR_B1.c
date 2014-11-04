@@ -43,13 +43,9 @@ void PIR_Main() {
                 }
                 _PIR.CloseTimeSeconds = 0;
                 _PIR.CloseTimeMinutes = 0;
-
-                //Lights
+#if LightsControl_use == true
 #ifdef use_1KEY
-#if LightsControl_use == 1
-                if (getLights_Status(1) == true) {
-                    setLights_Trigger(1, 0);
-                }
+                setLights_Trigger(1, 0);
 #endif
 #endif
             }
