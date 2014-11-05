@@ -2,17 +2,6 @@
 #ifndef _TriacRelay_H_
 #define _TriacRelay_H_
 
-/*
-        Description:
-
-        setLights1(x)
-                        x = 0		Lights1 OFF
-                          =	1		Lights1 ON
-        setLights2(x)
-                        x = 0		Lights2 OFF
-                                1		Lights2 ON
- */
-
 
 //=================================================================
 #if LightsControl_use == 1 
@@ -29,7 +18,6 @@ struct LightsControl {
             unsigned LoadOK : 1;
             unsigned empty : 5;
         };
-        unsigned char Load : 1;
     };
 };
 struct LightsControl LightsControl;
@@ -90,7 +78,7 @@ void setLights_Trigger(char lights, char command);
 void setLights(char lights, char status);
 char getLights_Status(char lights);
 void setLights_Line(char lights);
-char getLights_Line(char lights);
+char getAll_Lights_Line();
 char getLightsControl_GO();
 char getLightsControl_OK();
 

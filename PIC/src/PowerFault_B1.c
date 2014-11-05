@@ -58,13 +58,8 @@ void setPowerFault_Main() {
             PF1.Time++;
             if (PF1.Time >= 700)//*10ms
             {
-                if (getMain_AD_Safe() == 1) {
-                    PF1.Time = 0;
-                    PF1.ADtoGO = true;
-                    PF1.Safe = false;
-                } else {
-                    PF1.Time = 700;
-                }
+                PF1.Time = 0;
+                PF1.ADtoGO = true;
             }
         } else {
             PF1.Time++;
@@ -94,9 +89,6 @@ void setPowerFault_Main() {
                         PF1.Count = 0;
                     }
 
-                }
-                if (PF1.ERROR == 0) {
-                    PF1.Safe = true;
                 }
                 PF1.AD = 0;
             }

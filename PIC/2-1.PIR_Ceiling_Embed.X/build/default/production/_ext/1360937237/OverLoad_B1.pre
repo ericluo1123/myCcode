@@ -1882,13 +1882,13 @@ void IO_Set();
 # 228
 void Fosc_Set();
 
-# 301
+# 296
 void ADC_Set();
 void setADCGO();
 
 inline char getAD(char, char);
 
-# 452
+# 447
 struct Timer1 {
 
 struct {
@@ -1903,7 +1903,7 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 761
+# 756
 struct WDT {
 
 union {
@@ -1917,7 +1917,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 789
+# 784
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -1980,8 +1980,8 @@ inline void my_MainTimer();
 # 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
-char getMain_Exception();
-char getMain_AD_Safe();
+void getMain_Exception(char command);
+char getMain_AD_OK();
 char getMain_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
@@ -2065,7 +2065,7 @@ unsigned char DangerValue;
 
 struct OverTemp Temp;
 
-# 99
+# 100
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -2074,6 +2074,59 @@ inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
 char getTemp_Safe();
 char getTemp_ERROR();
+
+# 168 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Safe : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
+};
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+
+unsigned int ADH;
+unsigned int ADL;
+
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
+ADtype AD;
+ADtype ADRES;
+
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char ErrorCount;
+unsigned char LightsCount;
+unsigned char SafeCount;
+};
+
+
+struct OverLoad Load;
+
+# 213
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 225
+char getLoad_OK();
+void setLoad_OK();
 
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
@@ -2171,7 +2224,34 @@ void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
 
-# 22 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
+# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/SYSC_B1.h"
+struct SYSC {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned PowerON : 1;
+unsigned Signal : 1;
+unsigned empty : 4;
+};
+};
+unsigned int Timer;
+unsigned int Counter;
+};
+
+
+struct SYSC SYSC;
+
+
+inline void SYSC_Initialization();
+inline void SYSC_Main();
+void setSYSC_Initialization();
+void setSYSC_Main();
+inline void DetectSYSC_Signal();
+
+# 11 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
 struct LightsControl {
 
 union {
@@ -2182,7 +2262,6 @@ unsigned LoadGO : 1;
 unsigned LoadOK : 1;
 unsigned empty : 5;
 };
-unsigned char Load : 1;
 };
 };
 struct LightsControl LightsControl;
@@ -2223,7 +2302,7 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 82
+# 70
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2235,7 +2314,184 @@ void setLights_Trigger(char lights, char command);
 void setLights(char lights, char status);
 char getLights_Status(char lights);
 void setLights_Line(char lights);
-char getLights_Line(char lights);
+char getAll_Lights_Line();
 char getLightsControl_GO();
 char getLightsControl_OK();
+
+# 9 "../src/OverLoad_B1.c"
+inline void Load_Initialization() {
+Load.OK = 1;
+setLoad_AH_AL_Restore();
+}
+
+
+inline void getLoad_AD(char channel) {
+char i = 0, j = 0, k = 0;
+
+if (Load.ADtoGO == 1) {
+Load.ADRES = getAD(channel, 0x73);
+
+for (i = 0; i < 4; i++) {
+if (Load.AH[i] < Load.ADRES && j == 0) {
+Load.AH[i] = Load.ADRES;
+j = 1;
+}
+}
+if (j == 0) {
+for (i = 0; i < 4; i++) {
+if (Load.AL[i] > Load.ADRES && k == 0) {
+Load.AL[i] = Load.ADRES;
+k = 1;
+}
+}
+}
+}
+}
+
+
+inline void Load_Main() {
+char i = 0, j = 0, error = 0;
+if (Load.Enable == 1) {
+Load.GO = 0;
+
+
+Load.GO = getLightsControl_GO() == 1 && getMain_All_Error_Status(0) == 0 ? 1 : 0;
+
+if (Load.OK == 1) {
+if (getLightsControl_OK() == 1) {
+Load.OK = 0;
+Load.Count = 0;
+}
+}
+
+if (Load.GO == 1) {
+Load.LightsON = 1;
+
+if (Load.ADtoGO == 1) {
+
+Load.Time++;
+if (Load.Time >= 5) {
+Load.Time = 0;
+Load.ADtoGO = 0;
+Load.LightsCount = getMain_Lights_Count();
+
+
+for (i = 0; i < 4; i++) {
+Load.ADH += Load.AH[i];
+Load.ADL += Load.AL[i];
+}
+setLoad_AH_AL_Restore();
+Load.ADH /= 4;
+Load.ADL /= 4;
+
+if (Load.ADH > Load.ADL) {
+Load.AD = (Load.ADH - Load.ADL);
+
+Load.ADH = 0;
+Load.ADL = 0;
+if (Load.Count < 2) {
+Load.Count++;
+if (Load.Count == 1) {
+Load.JudgeValue = 80;
+} else if (Load.Count == 2) {
+if (Load.LightsCount == 1) {
+Load.JudgeValue = 15;
+} else {
+Load.JudgeValue = (15 + Load.TotalLoad) - 0x08;
+}
+}
+}
+
+if (Load.AD >= Load.JudgeValue) {
+Load.ErrorCount++;
+if (Load.ErrorCount > 2) {
+Load.ErrorCount = 0;
+
+Load.ERROR = 1;
+setLED(1, 11);
+
+# 106
+}
+} else {
+Load.ErrorCount = 0;
+if (Load.OK == 0) {
+Load.SafeCount++;
+if (Load.SafeCount >= 3) {
+Load.SafeCount = 0;
+Load.OK = 1;
+Load.TotalLoad = Load.AD;
+if (Load.LightsCount == 1) {
+Load.JudgeValue = 15;
+} else {
+Load.JudgeValue = (15 + Load.TotalLoad) - 0x08;
+}
+}
+}
+}
+}
+}
+} else {
+Load.ADtoGO = 1;
+}
+} else {
+Load.OK = 1;
+if (Load.LightsON == 1) {
+Load.LightsON = 0;
+
+Load.Time = 0;
+Load.ADtoGO = 0;
+setLoad_AH_AL_Restore();
+Load.Count = 0;
+Load.ErrorCount = 0;
+Load.SafeCount = 0;
+
+Load.ADH = 0;
+Load.ADL = 0;
+}
+if (Load.ERROR == 1) {
+Load.ErrorTime++;
+if (Load.ErrorTime >= 1000)
+{
+Load.ErrorTime = 0;
+
+setLED(1, 10);
+Load.ERROR = 0;
+}
+}
+}
+} else {
+if (myMain.PowerON == 1) {
+Load.Enable = 1;
+}
+}
+}
+
+# 196
+char getLoad_OK() {
+char ok = Load.OK == 1 ? 1 : 0;
+
+return ok;
+}
+
+void setLoad_OK() {
+
+Load.OK = 0;
+Load.SafeCount = 0;
+}
+
+# 256
+char getLoad_ERROR() {
+char result = Load.ERROR;
+
+return result;
+}
+
+
+void setLoad_AH_AL_Restore() {
+char i;
+for (i = 0; i < 5; i++) {
+Load.AH[i] = 0;
+Load.AL[i] = 0xff;
+}
+}
 

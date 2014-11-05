@@ -53,13 +53,14 @@ struct OverTemp Temp;
 #endif
 
 #ifdef MCU_16F723A
-#define TempDangerValueH 170		//NTC 68 value 500
-#define TempDangerValueL 100		//NTC 68 value 500
+#define TempDangerValueH    140		//NTC 68 value 500
+#define TempDangerValueL    70		//NTC 68 value 500
+
 //NTC 71 value 490
 //NTC 73.5 value 480	
 //65,600
-#define TempSafeValueH	190		//NTC 47 value 600
-#define TempSafeValueL	120		//NTC 47 value 600
+#define TempSafeValueH	170		//NTC 47 value 600
+#define TempSafeValueL	100		//NTC 47 value 600
 //NTC 61.2 value 540
 //NTC 58 value 535
 //51,700

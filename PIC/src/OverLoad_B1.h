@@ -7,151 +7,160 @@
 
 #if OverLoad_use == 1
 #define Load_Debug 0
+#if PIR_use == false
 #if Dimmer_use == 1
 
 #if Max_Percent == 45
 #if Switch_Class == 3
-#define LoadLimitValue 0x22
+#define SecondLimitValue 0x22
 #endif
 
 #if Switch_Class == 2
-#define LoadLimitValue 0x32//1a
+#define SecondLimitValue 0x32//1a
 #endif
 
 #if Switch_Class == 1
-#define LoadLimitValue 0x42
+#define SecondLimitValue 0x42
 #endif
 #endif
 
 
 #if Max_Percent == 50
 #if Switch_Class == 3		
-#define LoadLimitValue 0x22
+#define SecondLimitValue 0x22
 #endif
 
 #if Switch_Class == 2			
-#define LoadLimitValue 0x32
+#define SecondLimitValue 0x32
 #endif
 
 #if Switch_Class == 1			
-#define LoadLimitValue 0x42
+#define SecondLimitValue 0x42
 #endif
 #endif
 
 #if Max_Percent == 55				//clear
 #if Switch_Class == 3		
-#define LoadLimitValue 0x22
+#define SecondLimitValue 0x22
 #endif
 
 #if Switch_Class == 2			
-#define LoadLimitValue 0x32
+#define SecondLimitValue 0x32
 #endif
 
 #if Switch_Class == 1			
-#define LoadLimitValue 0x42
+#define SecondLimitValue 0x42
 #endif
 #endif
 
 #if Max_Percent == 60
 #if Switch_Class == 3		
-#define LoadLimitValue 0x22
+#define SecondLimitValue 0x22
 #endif
 
 #if Switch_Class == 2			
-#define LoadLimitValue 0x32
+#define SecondLimitValue 0x32
 #endif
 
 #if Switch_Class == 1			
-#define LoadLimitValue 0x42
+#define SecondLimitValue 0x42
 #endif
 #endif
 
 #if Max_Percent == 65
 #if Switch_Class == 3		
-#define LoadLimitValue 0x22
+#define SecondLimitValue 0x22
 #endif
 
 #if Switch_Class == 2			
-#define LoadLimitValue 0x32//1a
+#define SecondLimitValue 0x32//1a
 #endif
 
 #if Switch_Class == 1			
-#define LoadLimitValue 0x42
+#define SecondLimitValue 0x42
 #endif
 #endif
 
 #if Max_Percent == 70
 #if Switch_Class == 3		
-#define LoadLimitValue 0x22
+#define SecondLimitValue 0x22
 #endif
 
 #if Switch_Class == 2			
-#define LoadLimitValue 0x32//1a
+#define SecondLimitValue 0x32//1a
 #endif
 
 #if Switch_Class == 1			
-#define LoadLimitValue 0x42
+#define SecondLimitValue 0x42
 #endif
 #endif
 
 
 #if Max_Percent == 75
 #if Switch_Class == 3		
-#define LoadLimitValue 0x22
+#define SecondLimitValue 0x22
 #endif
 
 #if Switch_Class == 2			
-#define LoadLimitValue 0x32//1a
+#define SecondLimitValue 0x32//1a
 #endif
 
 #if Switch_Class == 1			
-#define LoadLimitValue 0x42
+#define SecondLimitValue 0x42
 #endif
 #endif
 
 #if Max_Percent == 80
 #if Switch_Class == 3		
-#define LoadLimitValue 0x22
+#define SecondLimitValue 0x22
 #endif
 
 #if Switch_Class == 2			
-#define LoadLimitValue 0x32//1a
+#define SecondLimitValue 0x32//1a
 #endif
 
 #if Switch_Class == 1			
-#define LoadLimitValue 0x42
+#define SecondLimitValue 0x42
 #endif
 #endif
 
 #if Max_Percent == 85
 #if Switch_Class == 3		
-#define LoadLimitValue 0x22
+#define SecondLimitValue 0x22
 #endif
 
 #if Switch_Class == 2			
-#define LoadLimitValue 0x32//1a
+#define SecondLimitValue 0x32//1a
 #endif
 
 #if Switch_Class == 1			
-#define LoadLimitValue 0x42
+#define SecondLimitValue 0x42
 #endif
 #endif
 
 #if Max_Percent == 90
 #if Switch_Class == 3		
-#define LoadLimitValue 0x22
+#define SecondLimitValue 0x22
 #endif
 
 #if Switch_Class == 2
-#define LoadLimitValue 0x32//1a
+#define SecondLimitValue 0x32//1a
 #endif
 
 #if Switch_Class == 1	
-#define LoadLimitValue 0x42
+#define SecondLimitValue 0x42
 #endif
+#endif
+
+#else
+#define SecondLimitValue 0x42
+
+#define FirstLimitValue 80
 #endif
 #else
-#define LoadLimitValue 0x42
+
+#define FirstLimitValue 80
+#define SecondLimitValue 15
 #endif
 
 //Global extern variable declaration
@@ -172,22 +181,9 @@ struct OverLoad {
         };
     };
 
-    union {
-
-        struct {
-            unsigned status1 : 1;
-            unsigned status2 : 1;
-            unsigned status3 : 1;
-            unsigned Line1 : 1;
-            unsigned Line2 : 1;
-            unsigned LIne3 : 1;
-            unsigned empty : 2;
-
-        };
-    };
     unsigned int Time;
     unsigned int ErrorTime;
-    unsigned char ErrorStatus;
+    //   unsigned char ErrorStatus;
     unsigned int ADH;
     unsigned int ADL;
 
@@ -204,12 +200,7 @@ struct OverLoad {
     unsigned char Count;
     unsigned char ErrorCount;
     unsigned char LightsCount;
-    //    unsigned char NumberCount;
     unsigned char SafeCount;
-
-    //    unsigned char Lights1Status;
-    //    unsigned char Lights2Status;
-    //    unsigned char Lights3Status;
 };
 
 #ifdef OverLoad1
@@ -225,12 +216,12 @@ inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
 void setLoad_AH_AL_Restore();
 //	void setLoad_LightsStatus(char,char);
-void setLoad_Count(char command);
-void setLoad_GO(char command);
-void setLoad_StatusOn(char lights, char command);
-void setLoad_StatusOff(char lights, char command);
-char getLoad_Safe();
-char getLoad_ERROR();
+//void setLoad_Count(char command);
+//void setLoad_GO(char command);
+//void setLoad_StatusOn(char lights, char command);
+//void setLoad_StatusOff(char lights, char command);
+//char getLoad_Safe();
+//char getLoad_ERROR();
 char getLoad_OK();
 void setLoad_OK();
 

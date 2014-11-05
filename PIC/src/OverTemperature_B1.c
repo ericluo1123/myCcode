@@ -73,14 +73,8 @@ void setTemp_Main() {
         if (Temp.ADtoGO == false) {
             Temp.Time++;
             if (Temp.Time >= 500) {//*10ms
-                if (getMain_AD_Safe() == 1) {
-                    Temp.Time = 0;
-                    Temp.ADtoGO = true;
-                    Temp.Safe = false;
-
-                } else {
-                    Temp.Time = 500; //*10ms
-                }
+                Temp.Time = 0;
+                Temp.ADtoGO = true;
             }
         } else {
             if (getMain_All_Error_Status(2) == 0) {
@@ -129,9 +123,6 @@ void setTemp_Main() {
                         } else {
                             Temp.Count = 0;
                         }
-                    }
-                    if (Temp.ERROR == 0) {
-                        Temp.Safe = true;
                     }
                     setProductData(24, Temp.AD >> 8);
                     setProductData(25, Temp.AD);

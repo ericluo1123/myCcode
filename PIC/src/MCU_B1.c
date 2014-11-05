@@ -438,8 +438,8 @@ inline char getAD(char adcon0, char adcon1) {
 #ifdef _16F1516
 
 inline int getAD(char adcon0, char adcon1) {
-    ADCON0 = adcon0;
     ADCON1 = adcon1;
+    ADCON0 = adcon0;
     ADGO = true;
     while (ADGO == true && myMain.Timeout == false) {
         Timeout_Counter();

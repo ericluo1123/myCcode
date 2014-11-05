@@ -137,8 +137,8 @@ inline void my_MainTimer();
  */
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
-char getMain_Exception();
-char getMain_AD_Safe();
+void getMain_Exception(char command);
+char getMain_AD_OK();
 char getMain_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();

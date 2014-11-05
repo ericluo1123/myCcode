@@ -48,7 +48,7 @@
 //ADC 
 #if ADC_use == 1
 
-#define _ADCON1	ADCON1_RA3		
+#define _ADCON1	ADCON1_Fixed
 #define _FVRCON FVRCON_1V		
 
 #ifdef MCU_16F723A

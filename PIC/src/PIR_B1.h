@@ -9,7 +9,7 @@
 //detect range
 #define RangeMaximum	35
 #define RangeMedium	25
-#define RangeMinimum	7
+#define RangeMinimum	15
 
 #define Hunder_Average 1
 

@@ -5,26 +5,29 @@
 #if PIR_use == 1
 
 void PIR_Initialization() {
-    _PIR.Enable = true;
     _PIR.RangeValue = RangeMinimum;
-    _PIR.CloseTimeValue = 150;
-    _PIR.TriggerValue = 2;
+    _PIR.CloseTimeValue = 5;
 }
 //******************************************************************************
 
 void PIR_Main() {
+    char error = getMain_All_Error_Status(0);
     if (_PIR.Enable == true) {
 
-        if (getCDS_Status() == true && getMain_All_Error_Status(0) == 0) {
+        if (error == 0) {
+
             if (_PIR.Detect == false) {
                 _PIR.Detect = true;
                 _PIR.Available = true;
+                setLED(1, 0);
                 if (_PIR.OK == false) {
                     setLED(2, 1);
                 }
             }
         } else {
             if (_PIR.Detect == true) {
+                getMain_Exception(error);
+
                 _PIR.Detect = false;
                 _PIR.Available = false;
                 _PIR.Status = false;
@@ -35,31 +38,22 @@ void PIR_Main() {
                 _PIR.RangeValue = RangeMinimum;
                 _PIR.RangeCount = 0;
                 //PIR
-                setLED(1, 0);
+                setLED(1, 1);
                 setLED(2, 0);
-                _PIR.Status = false;
+
                 if (_PIR.OK == true) {
                     _PIR.Count = 0;
                 }
                 _PIR.CloseTimeSeconds = 0;
                 _PIR.CloseTimeMinutes = 0;
-#if LightsControl_use == true
-#ifdef use_1KEY
-                setLights_Trigger(1, 0);
-#endif
-#endif
             }
         }
 
         if (_PIR.ADtoGO == false) {
             _PIR.Time++;
             if (_PIR.Time == 10) {//*10ms
-                if (getMain_AD_Safe() == 1) {
-                    _PIR.Time = 0;
-                    _PIR.ADtoGO = true;
-                } else {
-                    _PIR.Time = 10;
-                }
+                _PIR.Time = 0;
+                _PIR.ADtoGO = true;
             }
         } else {
             if (_PIR.GO == true) {
@@ -102,28 +96,28 @@ void PIR_Main() {
                         } else {
                             _PIR.RangeCount++;
                             _PIR.Count++;
+
+                            _PIR.TriggerValue = _PIR.Status == true ? 4 : 2;
+
                             if (_PIR.Count == _PIR.TriggerValue) {
                                 _PIR.Count = 0;
                                 _PIR.CloseTimeSeconds = 0;
                                 _PIR.CloseTimeMinutes = 0;
-                                //  Turn_On_Lights();
+                                _PIR.Status = true;
 #ifdef use_1KEY
 #if LightsControl_use == 1
                                 if (getLights_Status(1) == false) {
                                     setLights_Trigger(1, 1);
                                 }
 #endif
-#endif
-
-                                _PIR.Status = true;
-
-                                if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
-                                    setLED(1, 1);
-                                    setLED(2, 0);
-                                } else {
-                                    setLED(1, 0);
-                                    setLED(2, 1);
-                                }
+#endif                             
+                            }
+                            if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
+                                setLED(1, 1);
+                                setLED(2, 0);
+                            } else {
+                                setLED(1, 0);
+                                setLED(2, 1);
                             }
                         }
                     }
@@ -146,17 +140,19 @@ void PIR_Main() {
                 if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
                     _PIR.CloseTimeMinutes = 0;
                     _PIR.Status = false;
-                    //Turn_Off_Lights();
-#ifdef use_1KEY
 #if LightsControl_use == 1
-                    if (getLights_Status(1) == true) {
+#ifdef use_1KEY
+                    if (getLights_Status(1) == 1) {
                         setLights_Trigger(1, 0);
                     }
 #endif
 #endif
-
                 }
             }
+        }
+    } else {
+        if (myMain.PowerON == true) {
+            _PIR.Enable = true;
         }
     }
 }

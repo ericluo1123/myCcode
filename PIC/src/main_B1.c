@@ -263,7 +263,6 @@ inline void Timeout_Counter() {
     if (myMain.Timeout_Counter == 10000) {
         myMain.Timeout_Counter = 0;
         myMain.Timeout = true;
-        //        ErrLED = ErrLED == true ? false : true;
     }
 }
 //*****************************************************************************
@@ -274,32 +273,43 @@ inline void set_TimeoutCleared() {
 }
 //*****************************************************************************
 
-char getMain_Exception() {
-    char result = 0;
-#if SYSC_use == 1
-    if (result == 0) {
-        result = SYSC.ERROR == true ? 1 : 0;
+void getMain_Exception(char command) {
+    char status = 0;
+    if (command == 3) {
+        status = getAll_Lights_Line();
+    } else {
+        status = 255;
+    }
+#if LightsControl_use == true
+#ifdef use_1KEY
+    if (status == 1 || status == 255) {
+        setLights_Trigger(1, 0);
+    }
+#endif
+#ifdef use_2KEY
+    if (status == 2 || status == 255) {
+        setLights_Trigger(2, 0);
+    }
+#endif
+#ifdef use_3KEY
+    if (status == 3 || status == 255) {
+        setLights_Trigger(3, 0);
     }
 #endif
 
-#if OverTemperature_use == 1
-    if (result == 0) {
-        result = Temp.ERROR == true ? 1 : 0;
-    }
 #endif
-    return result;
 }
 //*****************************************************************************
 
-char getMain_AD_Safe() {
-    char result = 1;
+char getMain_AD_OK() {
+    char result = 0;
     //#if OverTemperature_use == 1
     //    result = Temp.Safe == true ? 1 : 0;
     //#endif
 
-#if OverLoad_use == 1 
-    if (result == 1) {
-        result = Load.Safe == true ? 1 : 0;
+#if OverLoad_use == 1  
+    if (result == 0) {
+
     }
 #endif
     return result;
@@ -307,23 +317,23 @@ char getMain_AD_Safe() {
 //*****************************************************************************
 
 char getMain_LightsStatus() {
-    char status = 0, count = 0;
+    char status = 0;
 #if LightsControl_use == 1
 #ifdef use_1KEY
-    count = 1;
+    if (status == 0) {
+        status = getLights_Status(1) == true ? 1 : 0;
+    }
 #endif
 #ifdef use_2KEY
-    count = 2;
+    if (status == 0) {
+        status = getLights_Status(2) == true ? 1 : 0;
+    }
 #endif
 #ifdef use_3KEY
-    count = 3;
-#endif
-    for (int i = 0; i < count; i++) {
-        if (status == 0) {
-            LightsPointSelect(i + 1);
-            status = Lights->Status == true ? 1 : 0;
-        }
+    if (status == 0) {
+        status = getLights_Status(3) == true ? 1 : 0;
     }
+#endif
 
 #endif
     return status;
@@ -356,6 +366,12 @@ char getMain_All_Error_Status(char command) {
     }
 
 #if PowerFault_use == true
+#endif
+
+#if CDS_use == true
+    if (status == 0) {
+        status = getCDS_Status() == false ? 5 : 0;
+    }
 #endif
     return status;
 }

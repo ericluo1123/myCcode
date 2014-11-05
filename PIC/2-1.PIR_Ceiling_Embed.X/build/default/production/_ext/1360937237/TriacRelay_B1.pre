@@ -1882,13 +1882,13 @@ void IO_Set();
 # 228
 void Fosc_Set();
 
-# 301
+# 296
 void ADC_Set();
 void setADCGO();
 
 inline char getAD(char, char);
 
-# 452
+# 447
 struct Timer1 {
 
 struct {
@@ -1903,7 +1903,7 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 761
+# 756
 struct WDT {
 
 union {
@@ -1917,7 +1917,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 789
+# 784
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -1980,8 +1980,8 @@ inline void my_MainTimer();
 # 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
-char getMain_Exception();
-char getMain_AD_Safe();
+void getMain_Exception(char command);
+char getMain_AD_OK();
 char getMain_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
@@ -2065,7 +2065,7 @@ unsigned char DangerValue;
 
 struct OverTemp Temp;
 
-# 99
+# 100
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -2074,6 +2074,59 @@ inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
 char getTemp_Safe();
 char getTemp_ERROR();
+
+# 168 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Safe : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
+};
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+
+unsigned int ADH;
+unsigned int ADL;
+
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
+ADtype AD;
+ADtype ADRES;
+
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char ErrorCount;
+unsigned char LightsCount;
+unsigned char SafeCount;
+};
+
+
+struct OverLoad Load;
+
+# 213
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 225
+char getLoad_OK();
+void setLoad_OK();
 
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
@@ -2171,7 +2224,34 @@ void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
 
-# 22 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
+# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/SYSC_B1.h"
+struct SYSC {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned PowerON : 1;
+unsigned Signal : 1;
+unsigned empty : 4;
+};
+};
+unsigned int Timer;
+unsigned int Counter;
+};
+
+
+struct SYSC SYSC;
+
+
+inline void SYSC_Initialization();
+inline void SYSC_Main();
+void setSYSC_Initialization();
+void setSYSC_Main();
+inline void DetectSYSC_Signal();
+
+# 11 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
 struct LightsControl {
 
 union {
@@ -2182,7 +2262,6 @@ unsigned LoadGO : 1;
 unsigned LoadOK : 1;
 unsigned empty : 5;
 };
-unsigned char Load : 1;
 };
 };
 struct LightsControl LightsControl;
@@ -2223,7 +2302,7 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 82
+# 70
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2235,7 +2314,7 @@ void setLights_Trigger(char lights, char command);
 void setLights(char lights, char status);
 char getLights_Status(char lights);
 void setLights_Line(char lights);
-char getLights_Line(char lights);
+char getAll_Lights_Line();
 char getLightsControl_GO();
 char getLightsControl_OK();
 
@@ -2278,9 +2357,7 @@ Lights_Close();
 void Lights_Close() {
 if (LightsControl.Detect == 1) {
 LightsControl.Detect = 0;
-
-LightsControl.LoadGO = getMain_LightsStatus() == 0 ? 0 : LightsControl.LoadGO;
-
+LightsControl.LoadGO = getMain_LightsStatus() == 0 ? 0 : 1;
 }
 }
 
@@ -2290,13 +2367,15 @@ LightsPointSelect(lights);
 if (Lights->GO == 0) {
 if (Lights->Trigger == 1) {
 if (getMain_All_Error_Status(0) == 0) {
-LightsControl.LoadOK = 1 == 1 ? 0 : LightsControl.LoadOK;
+if (LightsControl.LoadOK == 1) {
+LightsControl.LoadOK = getLoad_OK() == 1 ? 0 : LightsControl.LoadOK;
+}
 } else {
 LightsControl.LoadOK = 0;
 }
+
 if (LightsControl.LoadOK == 0) {
 Lights->Trigger = 0;
-;;
 
 if (Lights->Switch == 1) {
 setLights(lights, 1);
@@ -2313,7 +2392,9 @@ void setLights(char lights, char status) {
 
 LightsPointSelect(lights);
 
-# 116
+LightsControl.LoadOK = getMain_All_Error_Status(0) == 0 ? 1 : 0;
+LightsControl.LoadGO = status == 1 ? 1 : LightsControl.LoadGO;
+
 Lights->GO = 1;
 if (status == 1) {
 if (Lights->Status == 0) {
@@ -2321,16 +2402,12 @@ Lights->Status = 1;
 Lights->RelayValue = 10;
 Lights->TriacValue = 13;
 setLights_Line(lights);
-
-
 }
 } else {
 if (Lights->Status == 1) {
 Lights->Status = 0;
 Lights->RelayValue = 4;
 Lights->TriacValue = 7;
-
-
 }
 }
 
@@ -2338,7 +2415,7 @@ if (lights == 1) {
 RB2 = 1;
 }
 
-# 150
+# 145
 }
 
 
@@ -2350,23 +2427,25 @@ if (Lights->Time >= Lights->RelayValue && Lights->RelaySet == 0) {
 Lights->RelaySet = 1;
 
 if (lights == 1) {
-
-RA4 = Lights->Status ? 1 : 0;
-
+RA4 = Lights->Status == 1 ? 1 : 0;
 }
 
-# 179
+# 170
 } else if (Lights->Time >= Lights->TriacValue) {
 Lights->Time = 0;
 Lights->GO = 0;
 Lights->RelaySet = 0;
 
-# 187
+
+LightsControl.Detect = Lights->Status == 0 ? 1 : LightsControl.Detect;
+
+
+
 if (lights == 1) {
 RB2 = 0;
 }
 
-# 202
+# 195
 }
 }
 }
@@ -2390,15 +2469,19 @@ void setLights_Line(char lights) {
 
 Lights1.Line = 0;
 
-# 231
+# 224
 LightsPointSelect(lights);
 Lights->Line = 1;
 }
 
 
-char getLights_Line(char lights) {
-LightsPointSelect(lights);
-char line = Lights->Line == 1 ? 1 : 0;
+char getAll_Lights_Line() {
+char line = 0;
+
+LightsPointSelect(1);
+line = Lights->Line == 1 ? 1 : 0;
+
+# 243
 return line;
 }
 

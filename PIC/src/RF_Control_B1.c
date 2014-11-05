@@ -37,7 +37,7 @@ void setRF_ReceiveGO(char command) {
 void setRF_RxStatus(char command) {
     RF1.RxStatus = command;
 }
-
+ 
 //*********************************************************
 
 void setRF_Initialization() {

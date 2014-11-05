@@ -74,9 +74,7 @@ void Lights_Main() {
 void Lights_Close() {
     if (LightsControl.Detect == true) {
         LightsControl.Detect = false;
-
-        LightsControl.LoadGO = getMain_LightsStatus() == 0 ? false : LightsControl.LoadGO;
-
+        LightsControl.LoadGO = getMain_LightsStatus() == 0 ? false : true;
     }
 }
 //*****************************************************************************
@@ -86,13 +84,15 @@ void setLights_Main(char lights) {
     if (Lights->GO == false) {
         if (Lights->Trigger == true) {
             if (getMain_All_Error_Status(0) == 0) {
-                LightsControl.LoadOK = getLoad_OK() == 1 ? false : LightsControl.LoadOK;
+                if (LightsControl.LoadOK == true) {
+                    LightsControl.LoadOK = getLoad_OK() == 1 ? false : LightsControl.LoadOK;
+                }
             } else {
                 LightsControl.LoadOK = false;
             }
+
             if (LightsControl.LoadOK == false) {
                 Lights->Trigger = false;
-                setLoad_OK();
 
                 if (Lights->Switch == true) {
                     setLights(lights, 1);
@@ -109,8 +109,7 @@ void setLights(char lights, char status) {
 
     LightsPointSelect(lights);
 #if OverLoad_use == true
-    LightsControl.Load = lights;
-    LightsControl.LoadOK = true;
+    LightsControl.LoadOK = getMain_All_Error_Status(0) == 0 ? true : false;
     LightsControl.LoadGO = status == 1 ? true : LightsControl.LoadGO;
 #endif
     Lights->GO = true;
@@ -120,16 +119,12 @@ void setLights(char lights, char status) {
             Lights->RelayValue = 10;
             Lights->TriacValue = 13;
             setLights_Line(lights);
-            //            setLoad_StatusOn(lights, 1);
-            //            setLoad_Count(0);
         }
     } else {
         if (Lights->Status == true) {
             Lights->Status = false;
             Lights->RelayValue = 4;
             Lights->TriacValue = 7;
-
-            //            setLoad_StatusOff(lights, 1);
         }
     }
 #ifdef use_1KEY
@@ -158,21 +153,17 @@ void Lights_Control(char lights) {
             Lights->RelaySet = true;
 #ifdef use_1KEY
             if (lights == 1) {
-
-                Relay1 = Lights->Status ? true : false;
-
+                Relay1 = Lights->Status == true ? true : false;
             }
 #endif
 #ifdef use_2KEY
             else if (lights == 2) {
-
-                Relay2 = Lights->Status ? true : false;
-
+                Relay2 = Lights->Status == true ? true : false;
             }
 #endif
 #ifdef use_3KEY
             else if (lights == 3) {
-                Relay3 = Lights->Status ? true : false;
+                Relay3 = Lights->Status == true ? true : false;
             }
 #endif
 
@@ -181,7 +172,9 @@ void Lights_Control(char lights) {
             Lights->GO = false;
             Lights->RelaySet = false;
 #if OverLoad_use == true
-            LightsControl.Detect = true;
+
+            LightsControl.Detect = Lights->Status == false ? true : LightsControl.Detect;
+
 #endif
 #ifdef use_1KEY
             if (lights == 1) {
@@ -233,9 +226,20 @@ void setLights_Line(char lights) {
 }
 //*****************************************************************************
 
-char getLights_Line(char lights) {
-    LightsPointSelect(lights);
-    char line = Lights->Line == true ? 1 : 0;
+char getAll_Lights_Line() {
+    char line = 0;
+#ifdef use_1KEY
+    LightsPointSelect(1);
+    line = Lights->Line == true ? 1 : 0;
+#endif
+#ifdef use_2KEY
+    LightsPointSelect(2);
+    line = Lights->Line == true ? 1 : 0;
+#endif
+#ifdef use_3KEY
+    LightsPointSelect(3);
+    line = Lights->Line == true ? 1 : 0;
+#endif
     return line;
 }
 //*****************************************************************************

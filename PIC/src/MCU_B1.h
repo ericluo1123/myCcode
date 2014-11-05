@@ -293,11 +293,6 @@ void Fosc_Set();
 #define ADC_ADRES ((ADRESH*256)+ADRESL)
 #endif
 
-
-#define setADCON1(value)	ADCON1=value		
-#define setADCON0(value)	ADCON0=value	
-
-
 void ADC_Set();
 void setADCGO();
 #ifdef MCU_16F723A

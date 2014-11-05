@@ -16,12 +16,8 @@ inline void CDS_Main() {
                 _CDS.Time++;
                 if (_CDS.Time >= 10)//*10ms
                 {
-                    if (getMain_AD_Safe() == 1) {
-                        _CDS.Time = 0;
-                        _CDS.ADtoGO = true;
-                    } else {
-                        _CDS.Time = 10;
-                    }
+                    _CDS.Time = 0;
+                    _CDS.ADtoGO = true;
                 }
             }
         } else {
@@ -42,8 +38,8 @@ inline void CDS_Main() {
 }
 
 char getCDS_Status() {
-    char result = _CDS.Status;
-    return result;
+    char status = _CDS.Status == true ? true : false;
+    return status;
 }
 
 inline void getCDS_AD(char channel1, char channel2) {

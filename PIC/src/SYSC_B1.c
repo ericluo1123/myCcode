@@ -9,7 +9,7 @@ inline void SYSC_Initialization() {
     setSYSC_Initialization();
 #endif
 }
-
+ 
 void setSYSC_Initialization() {
     SYSC.Enable = true;
 }

@@ -124,9 +124,9 @@
 //Function Option
 
 //SYSC
-#define SYSC_use false
+#define SYSC_use true
 //OverTemperature
-#define OverTemperature_use false
+#define OverTemperature_use true
 #define Cut_Off_electricity true
 //OverLoad
 #define OverLoad_use true
