@@ -21,7 +21,7 @@ inline void RF_Main() {
 //*********************************************************
 
 void setRF_Learn(char command) {
-    RF1.Learn = command;
+    RF1.Learn = command == 1 ? true : false;
 }
 //*********************************************************
 
@@ -29,15 +29,15 @@ void setRF_ReceiveGO(char command) {
     if (RF1.RxStatus == true) {
         RF1.RxStatus = false;
         RF1.Run = true;
-        RF1.ReceiveGO = command;
+        RF1.ReceiveGO = command == 1 ? true : false;
     }
 }
 //*********************************************************
 
 void setRF_RxStatus(char command) {
-    RF1.RxStatus = command;
+    RF1.RxStatus = command == 1 ? true : false;
 }
- 
+
 //*********************************************************
 
 void setRF_Initialization() {
@@ -50,23 +50,25 @@ void setRF_Initialization() {
 //*********************************************************
 
 void setRF_Main() {
-    char loop_f, Receive_OK;
+    char loop_f = 0, Receive_OK = 0, error = 0;
     if (RF1.Enable == true) {
 
 #if Sleep_Mode == 0
 
         if (getBuz_GO() == 0) {
-#if	Switch_Class == 3
-            RF1.Key = (Key1 == true || Key2 == true || Key3 == true) ? true : false;
+            if (getMain_All_Error_Status(0) == 0) {
+#if Switch_use == 1
+                RF1.Key = getRF_KeyStatus() == 1 ? true : false;
+#else
+                RF1.Key = false;
 #endif
+            } else {
+#if PIR_use == 0 && Switch_use == 0
+                setMain_Exception();
+#endif
+                RF1.Key = false;
+            }
 
-#if	Switch_Class == 2
-            RF1.Key = (Key1_1 == true || Key1_2 == true || Key2_1 == true || Key2_2 == true) ? true : false;
-#endif
-
-#if	Switch_Class == 1
-            RF1.Key = (Key1_1 == true || Key1_2 == true || Key1_3 == true || Key1_4 == true) ? true : false;
-#endif
 
             if (RF1.Key == true && RF1.Learn == false) {
                 RF1.Count = 0;
@@ -177,10 +179,29 @@ void setRF_Main() {
             CC2500_WriteCommand(CC2500_SIDLE); // idle
         }
 #endif
+    } else {
+        if (myMain.PowerON == true) {
+            RF1.Enable = true;
+        }
     }
 }
+//*********************************************************
 
+char getRF_KeyStatus() {
+    char key = 0;
+#if	Switch_Class == 3
+    key = (Key1 == true || Key2 == true || Key3 == true) ? 1 : 0;
+#endif
 
+#if	Switch_Class == 2
+    key = (Key1_1 == true || Key1_2 == true || Key2_1 == true || Key2_2 == true) ? 1 : 0;
+#endif
+
+#if	Switch_Class == 1
+    key = (Key1_1 == true || Key1_2 == true || Key1_3 == true || Key1_4 == true) ? 1 : 0;
+#endif
+    return key;
+}
 //*********************************************************
 
 void setTxData() {
@@ -225,7 +246,7 @@ void setTxData() {
 //*********************************************************
 
 void setRF_Enable(char command) {
-    RF1.Enable = command;
+    RF1.Enable = command == 1 ? true : false;
     RF1.Learn = false;
     RF1.TransceiveGO = false;
     RF1.RxStatus = false;
@@ -290,7 +311,7 @@ void setLog_Code() {
     setProductData(14, RF_Data[14]);
     setBuz(1, BuzzerOnOffTime);
     RF1.Learn = 0;
-    if (myMain.First) {
+    if (myMain.First == true) {
         setMemory_LoopSave(1);
     }
     setMemory_Modify(1);
@@ -395,7 +416,6 @@ void setRFSW_Control(char sw) {
         setSw_Status(sw, 1);
 
         setDimmerLights_Trigger(sw, 1);
-        setDimmerLights_Switch(sw, 1);
 
         setRF_DimmerLights(sw, RFSW->Status);
     } else {
@@ -406,8 +426,7 @@ void setRFSW_Control(char sw) {
             RFSW->Status = false;
             setSw_Status(sw, 0);
 
-            setDimmerLights_Trigger(sw, 1);
-            setDimmerLights_Switch(sw, RFSW->Status);
+            setDimmerLights_Trigger(sw, 0);
 
             setDelayOff_GO(sw, 0, 0);
             setRF_DimmerLights(sw, 0);
@@ -433,7 +452,7 @@ void setRFSW_AdjControl(char sw) {
 
 void setRFSW_Status(char sw, char command) {
     RfSWPointSelect(sw);
-    RFSW->Status = command;
+    RFSW->Status = command == 1 ? true : false;
 }
 //*********************************************************
 #if Dimmer_use == 1
@@ -450,8 +469,7 @@ void setRF_DimmerValue(char lights) {
 //*********************************************************
 
 void setRF_DimmerLights(char lights, char on) {
-    char status;
-    status = 1;
+    char status = 1;
     status <<= (lights - 1);
     setProductData(11, lights);
 

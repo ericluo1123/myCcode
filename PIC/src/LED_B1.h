@@ -8,6 +8,7 @@
 //Global ariable declaration
 
 struct LED {
+
     union {
 
         struct {
@@ -99,6 +100,30 @@ void setLED(char led, char command);
 #define setLED_Initialization(char) ;
 #define setLED_Main(char) ;
 #define setLED(char,char) ;
+#endif
+
+#if PIR_use == true
+
+struct PIRLED {
+
+    union {
+
+        struct {
+            unsigned GO : 1;
+            unsigned GO1 : 1;
+            unsigned GO2 : 1;
+            unsigned GO3 : 1;
+            unsigned status:1;
+            unsigned empty : 3;
+        };
+    };
+    unsigned char Count;
+    unsigned int Time;
+};
+struct PIRLED PIRLED;
+
+void setPIRLED_Main();
+#else
 #endif
 
 #endif

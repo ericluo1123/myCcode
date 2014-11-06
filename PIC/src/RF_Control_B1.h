@@ -62,7 +62,7 @@ void RF_RxDisable();
 void setRF_Learn(char command);
 void setRF_ReceiveGO(char command);
 void setRF_RxStatus(char command);
-
+char getRF_KeyStatus();
 #define setRF_Data(location,value) RF_Data[location]=value
 
 struct RFSW {

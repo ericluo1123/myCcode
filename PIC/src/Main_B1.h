@@ -74,7 +74,6 @@ struct myMain {
         };
     };
     unsigned int PowerCount;
-
 #if Debug == 1
     unsigned int Count;
     unsigned int Count1;
@@ -137,7 +136,7 @@ inline void my_MainTimer();
  */
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
-void getMain_Exception(char command);
+void setMain_Exception(char command);
 char getMain_AD_OK();
 char getMain_LightsStatus();
 char getMain_All_Error_Status(char command);

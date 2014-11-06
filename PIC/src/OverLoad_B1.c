@@ -95,7 +95,11 @@ inline void Load_Main() {
                                 Load.ErrorCount = 0;
                                 //                                    setLoad_Exceptions(1);
                                 Load.ERROR = true;
+#if PIR_use == true
+                                setLED(3, 111);
+#else
                                 setLED(1, 11);
+#endif
 #if Load_Debug == 1
                                 setProductData(4, (Load.AD >> 8));
                                 setProductData(5, Load.AD);
@@ -146,7 +150,11 @@ inline void Load_Main() {
                 {
                     Load.ErrorTime = 0;
                     //                    setLoad_Exceptions(0);
+#if PIR_use == true
+                    setLED(3, 110);
+#else
                     setLED(1, 10);
+#endif
                     Load.ERROR = false;
                 }
             }

@@ -13,7 +13,7 @@ struct OverTemp {
             unsigned ERROR : 1;
             unsigned ADtoGO : 1;
             unsigned LoadADGO : 1;
-            unsigned Safe : 1;
+            unsigned GO : 1;
             unsigned empty : 3;
         };
     };
@@ -23,29 +23,12 @@ struct OverTemp {
     unsigned char AD1;
     unsigned char AD2;
 
-#ifdef MCU_16F723A
-    unsigned char AD;
-    unsigned char ADH[2];
-    unsigned char ADRES;
-    unsigned char SafeValue;
-    unsigned char DangerValue;
-#endif
 
-#ifdef MCU_16F1516
-    unsigned int AD;
-    unsigned int ADH[2];
-    unsigned int ADRES;
-    unsigned int SafeValue;
-    unsigned int DangerValue;
-#endif
-
-#ifdef MCU_16F1518
-    unsigned int AD;
-    unsigned int ADH[2];
-    unsigned int ADRES;
-    unsigned int SafeValue;
-    unsigned int DangerValue;
-#endif
+    ADtype AD;
+    ADtype ADH[2];
+    ADtype ADRES;
+    ADtype SafeValue;
+    ADtype DangerValue;
 
 };
 #ifdef SYSC1
@@ -103,16 +86,12 @@ void setTemp_Main();
 void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
-char getTemp_Safe();
-char getTemp_ERROR();
 #else
 //NOP
 #define getTemp_Safe() 1
 #define getTemp_ERROR() 0
 #define TempPointSelect() ;
 #define Temp_Initialization() ;
-#define Temp_Main() ;
-#define setTemp_Main() ;
 #define setTemp_Initialization() ;
 #define getTemp_AD(char) ;
 #define setOverTemp_Exceptions(char) ;

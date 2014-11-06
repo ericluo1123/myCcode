@@ -57,6 +57,9 @@ inline void LED_Main() {
 #ifdef ErrLED
     setLED_Main(99);
 #endif
+#if PIR_use == true
+    setPIRLED_Main();
+#endif
 }
 //*********************************************************
 
@@ -185,6 +188,26 @@ void setLED(char led, char command) {
     } else if (command == 11) {
         LED->GO = true;
     }
+#if PIR_use == true
+    else if (command == 111) {
+        PIRLED.Count = 0;
+        PIRLED.Time = 0;
+        PIRLED.status = false;
+        PIRLED.GO = true;
+        PIRLED.GO1 = false;
+        PIRLED.GO2 = false;
+        PIRLED.GO3 = false;
+        if (led == 1) {
+            PIRLED.GO1 = true;
+        } else if (led == 2) {
+            PIRLED.GO2 = true;
+        } else if (led == 3) {
+            PIRLED.GO3 = true;
+        }
+    } else if (command == 110) {
+        PIRLED.GO = false;
+    }
+#endif
 }
 
 //*********************************************************
@@ -218,8 +241,40 @@ void setLED_Main(char led) {
         }
     }
 }
-//*********************************************************	
+//*********************************************************
+#if PIR_use == true
 
-
+void setPIRLED_Main() {
+    char count;
+    if (PIRLED.GO == true) {
+        PIRLED.Time++;
+        if (PIRLED.Time >= PIRLEDTime / 10) {
+            PIRLED.Time = 0;
+            setLED(1, 0);
+            setLED(2, 0);
+            if (PIRLED.GO1 == true) {
+                count = 4;
+            }
+            if (PIRLED.GO2 == true) {
+                count = 6;
+            }
+            if (PIRLED.GO3 == true) {
+                count = 8;
+            }
+            PIRLED.Count++;
+            if (PIRLED.Count == 1 || PIRLED.Count == 2) {
+                PIRLED.status = PIRLED.status == true ? false : true;
+                setLED(2, PIRLED.status);
+            } else {
+                PIRLED.status = PIRLED.status == true ? false : true;
+                setLED(1, PIRLED.status);
+                if (PIRLED.Count == count) {
+                    PIRLED.Count = 0;
+                }
+            }
+        }
+    }
+}
+#endif
 //end file
 #endif

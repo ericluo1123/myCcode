@@ -187,17 +187,17 @@ inline void my_MainTimer() {
             myMain.PowerON = true;
 
 
-#if Self_Test == true
+#if Self_Test == 1
             myMain.k = 1;
 #else
             setBuz(3, BuzzerPowerOnTime);
             myMain.SelfTest = 1;
 
-            setSw_Enable(1);
+            //            setSw_Enable(1);
 
-#ifdef RadioFrequency1
-            setRF_Enable(1);
-#endif
+            //#ifdef RadioFrequency1
+            //            setRF_Enable(1);
+            //#endif
 
 #endif
         }
@@ -248,7 +248,7 @@ inline void my_MainTimer() {
         }
 #endif
     }
-#if Debug == true
+#if Debug == 1
     myMain.Count2++;
     if (myMain.Count2 == 50) {
         myMain.Count2 = 0;
@@ -273,31 +273,70 @@ inline void set_TimeoutCleared() {
 }
 //*****************************************************************************
 
-void getMain_Exception(char command) {
+void setMain_Exception(char command) {
     char status = 0;
-    if (command == 3) {
-        status = getAll_Lights_Line();
+#if LightsControl_use == 1
+    status = command == 3 ? getAll_Lights_Line() : 255;
+    if (command == 0) {
+        setLED(command, 110);
     } else {
-        status = 255;
+        setLED(command, 111);
     }
-#if LightsControl_use == true
+#endif
+#if Dimmer_use == 1
+    status = command == 3 ? 1 : 255;
+    if (command == 0) {
+        setLED(99, 10);
+    } else {
+        setLED(99, 11);
+    }
+#endif
+    
+    if (status != 0) {
 #ifdef use_1KEY
-    if (status == 1 || status == 255) {
-        setLights_Trigger(1, 0);
-    }
+        if (status == 1 || status == 255) {
+#if LightsControl_use == 1
+            setLights_Trigger(1, 0);
 #endif
+
+#if Dimmer_use == 1
+            if (getDimmerLights_Status(1) == 1) {
+                setDimmerLights_Trigger(1, 0);
+            }
+
+#endif
+        }
+#endif
+
 #ifdef use_2KEY
-    if (status == 2 || status == 255) {
-        setLights_Trigger(2, 0);
-    }
+        if (status == 2 || status == 255) {
+#if LightsControl_use == 1
+            setLights_Trigger(2, 0);
 #endif
-#ifdef use_3KEY
-    if (status == 3 || status == 255) {
-        setLights_Trigger(3, 0);
+#if Dimmer_use == 1
+            if (getDimmerLights_Status(2) == 1) {
+                setDimmerLights_Trigger(2, 0);
+            }
+#endif
+        }
     }
 #endif
 
+
+#ifdef use_3KEY
+    if (status == 3 || status == 255) {
+#if LightsControl_use == 1
+        setLights_Trigger(3, 0);
 #endif
+#if Dimmer_use == 1
+        if (getDimmerLights_Status(3) == 1) {
+            setDimmerLights_Trigger(3 0);
+        }
+#endif
+    }
+#endif
+
+
 }
 //*****************************************************************************
 
@@ -318,58 +357,78 @@ char getMain_AD_OK() {
 
 char getMain_LightsStatus() {
     char status = 0;
-#if LightsControl_use == 1
+
 #ifdef use_1KEY
     if (status == 0) {
+#if LightsControl_use == 1
         status = getLights_Status(1) == true ? 1 : 0;
+#endif
+#if Dimmer_use == 1
+        status = getDimmerLights_Status(1) == true ? 1 : 0;
+#endif
     }
 #endif
 #ifdef use_2KEY
     if (status == 0) {
+#if LightsControl_use == 1
         status = getLights_Status(2) == true ? 1 : 0;
+#endif
+#if Dimmer_use == 1
+        status = getDimmerLights_Status(2) == true ? 1 : 0;
+#endif
     }
 #endif
 #ifdef use_3KEY
+#if LightsControl_use == 1
     if (status == 0) {
         status = getLights_Status(3) == true ? 1 : 0;
+        status = getDimmerLights_Status(3) == true ? 1 : 0;
     }
 #endif
-
+#if Dimmer_use == 1
 #endif
+#endif
+
+
+
     return status;
 }
 //*****************************************************************************
 
 char getMain_All_Error_Status(char command) {
     char status = 0;
-    if (command != 1) {
-#if SYSC_use == true
-        if (status == 0) {
-            status = SYSC.ERROR == true ? 1 : 0;
-        }
+
+#if SYSC_use == 1
+    if (status == 0 && command != 1) {
+        status = SYSC.ERROR == true ? 1 : 0;
+    }
 #endif 
-    }
-    if (command != 2) {
-#if OverTemperature_use == true
-        if (status == 0) {
-            status = Temp.ERROR == true ? 2 : 0;
-        }
-#endif
-    }
 
-    if (command != 3) {
-#if OverLoad_use == true
-        if (status == 0) {
-            status = Load.ERROR == true ? 3 : 0;
-        }
-#endif
-    }
 
-#if PowerFault_use == true
+#if OverTemperature_use == 1
+
+    if (status == 0 && command != 2) {
+        status = Temp.ERROR == true ? 2 : 0;
+    }
 #endif
 
-#if CDS_use == true
-    if (status == 0) {
+
+#if OverLoad_use == 1
+    if (status == 0 && command != 3) {
+        status = Load.ERROR == true ? 3 : 0;
+    }
+#endif
+
+
+#if PowerFault_use == 1
+    if (status == 0 && command != 4 s) {
+
+    }
+#endif
+
+
+#if CDS_use == 1
+    if (status == 0 && command != 5) {
         status = getCDS_Status() == false ? 5 : 0;
     }
 #endif
@@ -379,10 +438,10 @@ char getMain_All_Error_Status(char command) {
 
 char getMain_Lights_Count() {
     char status1 = 0, status2 = 0, status3 = 0, count = 0;
-#if Dimmer_use == true
+#if Dimmer_use == 1
 #endif
 
-#if LightsControl_use == true
+#if LightsControl_use == 1
 #ifdef use_1KEY
     status1 = Lights1.Status == true ? 1 : 0;
 #endif

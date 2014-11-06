@@ -33,9 +33,9 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
         DimmerLightsIntrIOC->GO = true;
         DimmerLightsIntrIOC->TriacFlag = true;
         if (DimmerReference1 == true) {
-            Dimmer->Correction = 1;
+            Dimmer.Correction = 1;
         } else {
-            Dimmer->Correction = 0;
+            Dimmer.Correction = 0;
         }
         //        if (lights == 1) {
         //            ErrLED = ErrLED == true ? false : true;
@@ -96,7 +96,7 @@ inline void setDimmerLights_IntrControl(char lights) {
     DimmerIntrPointSelect(lights);
     if (DimmerLightsIntr->GO == true) {
         DimmerLightsIntr->Count++;
-        if (DimmerLightsIntr->Count >= (DimmerLightsIntr->DimmingValue + Dimmer->Correction)) {
+        if (DimmerLightsIntr->Count >= (DimmerLightsIntr->DimmingValue + Dimmer.Correction)) {
             DimmerLightsIntr->Count = 0;
             DimmerLightsIntr->GO = false;
 
@@ -164,7 +164,7 @@ inline void setDimmerLights_IntrControl(char lights) {
                                 DimmerLightsIntr->Signal = false;
                                 DimmerLightsIntr->StatusFlag = false;
                                 DimmerLightsIntr->Clear = true;
-                                Dimmer->Detect = true;
+                                Dimmer.Detect = true;
 #ifdef use_1KEY
                                 if (lights == 1) {
                                     LED1 = 0;
@@ -230,7 +230,7 @@ inline void setDimmerLights_IntrControl(char lights) {
     if (DimmerLightsIntr->GO == true) {
         DimmerLightsIntr->Count++;
         if (DimmerLightsIntr->Count
-                >= (DimmerLightsIntr->DimmingValue - Dimmer->Correction)) {
+                >= (DimmerLightsIntr->DimmingValue - Dimmer.Correction)) {
             DimmerLightsIntr->Count = 0;
             DimmerLightsIntr->GO = false;
             DimmerLightsIntr->Flag = true;
@@ -261,7 +261,7 @@ inline void setDimmerLights_IntrControl(char lights) {
                         LED2 = 0;
                     }
 #endif
-                    Dimmer->Detect = 1;
+                    Dimmer.Detect = 1;
                     setLoad_StatusOff(lights, 1);
                 }
             }
@@ -405,8 +405,8 @@ void setDimmerLights_Initialization(char lights) {
 //*********************************************************
 
 void DimmerLights_Close() {
-    if (Dimmer->Detect == true) {
-        Dimmer->Detect = false;
+    if (Dimmer.Detect == true) {
+        Dimmer.Detect = false;
         if (getDimmerLights_StatusFlag() == false) {
             setLoad_GO(0);
             setMemory_GO(1);
@@ -437,6 +437,7 @@ void setDimmerLights_Main(char lights) {
     char clear = 1;
     DimmerLightsPointSelect(lights);
 
+#if OverLoad_use == 1
 #if Switch_Class == 3
     if (lights == 1) {
         clear = (DimmerLights2.Clear == false || DimmerLights3.Clear == false) ? 0 : 1;
@@ -453,6 +454,7 @@ void setDimmerLights_Main(char lights) {
     } else if (lights == 2) {
         clear = (DimmerLights1.Clear == false) ? 0 : 1;
     }
+#endif
 #endif
 
     if (DimmerLights->Trigger == true) {
@@ -480,6 +482,13 @@ void setDimmerLights_Main(char lights) {
             }
         }
     }
+}
+//*********************************************************
+
+char getDimmerLights_Status(char lights) {
+    DimmerLightsPointSelect(lights);
+    char status = DimmerLights->Status == true ? 1 : 0;
+    return status;
 }
 //*********************************************************
 
@@ -539,7 +548,7 @@ void DimmerLights_Exceptions(char status) {
     } else if (status == 2)//Load
     {
         setBuz(5, BuzzerErrorTime);
-        setDimmerLights_ERROR(Dimmer->Load);
+        setDimmerLights_ERROR(Dimmer.Load);
     } else if (status == 3)//power fail
     {
 #ifdef use_1KEY
@@ -582,7 +591,7 @@ void setDimmerLights_ERROR(char lights) {
         DimmerLights->StatusFlag = false;
         DimmerLights->DimmingTimeValue = DimmingDelayTime;
         DimmerLights->DimmingValue = DimmerLights->MinimumValue;
-        Dimmer->Detect = true;
+        Dimmer.Detect = true;
         setLoad_StatusOff(lights, 1);
         setLED(lights, 1);
         setSw_Status(lights, 0);
@@ -603,7 +612,7 @@ void setDimmerLights_TriggerERROR(char lights, char command) {
 
 void setDimmerLights(char lights, char status) {
     DimmerLightsPointSelect(lights);
-    Dimmer->Load = lights;
+    Dimmer.Load = lights;
     if (status == 1) {
         DimmerLights->Status = true;
         setLED(lights, 0);
@@ -644,7 +653,7 @@ void setDimmerLights(char lights, char status) {
 #else
         DimmerLights->StatusFlag = false;
         DimmerLights->Close = true;
-        Dimmer->Detect = true;
+        Dimmer.Detect = true;
         setLoad_StatusOff(lights, 1);
         setLED(lights, 1);
         setLED2(1);
@@ -683,7 +692,7 @@ void setDimmerLights_Adj(char lights, char status) {
 void setDimmerLights_GO(char lights, char command) {
 
     DimmerLightsPointSelect(lights);
-    DimmerLights->GO = command;
+    DimmerLights->GO = command == 1 ? true : false;
 }
 //*********************************************************
 
@@ -701,28 +710,16 @@ void setDimmerLights_MaxmumValue(char lights, char data) {
     DimmerLights->MaxmumValue = data;
 }
 
-void setDimmerLights_Switch(char lights, char command) {
-
-    DimmerLightsPointSelect(lights);
-    DimmerLights->Switch = command;
-}
-
-void setDimmerLights_AdjGo(char lights, char command) {
-
-    DimmerLightsPointSelect(lights);
-    DimmerLights->AdjGo = command;
-}
-
 void setDimmerLights_Trigger(char lights, char command) {
-
     DimmerLightsPointSelect(lights);
-    DimmerLights->Trigger = command;
+    DimmerLights->Trigger = true;
+    DimmerLights->Switch = command == 1 ? true : false;
 }
 
 void setDimmerLights_TriggerAdj(char lights, char command) {
-
     DimmerLightsPointSelect(lights);
-    DimmerLights->TriggerAdj = command;
+    DimmerLights->TriggerAdj = true;
+    DimmerLights->AdjGo = command == 1 ? true : false;
 }
 
 void setDimmerLights_Clear(char lights, char command) {
@@ -796,7 +793,6 @@ char setPercentValue(char value) {
 
 inline void Dimmer_Initialization() {
 
-    Dimmer = &Dimmer1;
 }
 /*	void DimmerPointSelect(char dimmer)
         {
@@ -812,44 +808,44 @@ inline void Dimmer_Initialization() {
 /*	void setDimmer_TempERROR(char dimmer,char command)
         {
                 DimmerPointSelect(dimmer);
-                Dimmer->TempERROR=command;
+                Dimmer.TempERROR=command;
         }
         void setDimmer_LoadERROR(char dimmer,char command)
         {
                 DimmerPointSelect(dimmer);
-                Dimmer->LoadERROR=command;
+                Dimmer.LoadERROR=command;
         }
         void setDimmer_PFERROR(char dimmer,char command)
         {
                 DimmerPointSelect(dimmer);
-                Dimmer->PFERROR=command;
+                Dimmer.PFERROR=command;
         }
  */
 /*	void setDimmer_Detect(char dimmer,char command)
         {
                 DimmerPointSelect(dimmer);
-                Dimmer->Detect=command;
+                Dimmer.Detect=command;
         }*/
 /*	char getDimmer_TempERROR(char dimmer)
         {
                 DimmerPointSelect(dimmer);
-                return Dimmer->TempERROR;
+                return Dimmer.TempERROR;
         }
         char getDimmer_LoadERROR(char dimmer)
         {
                 DimmerPointSelect(dimmer);
-                return Dimmer->LoadERROR;
+                return Dimmer.LoadERROR;
         }
         char getDimmer_PFERROR(char dimmer)
         {
                 DimmerPointSelect(dimmer);
-                return Dimmer->PFERROR;
+                return Dimmer.PFERROR;
         }
  */
 /*	char getDimmer_Detect(char dimmer)
         {
                 DimmerPointSelect(dimmer);
-                return Dimmer->Detect;
+                return Dimmer.Detect;
         }*/
 #if Self_Test == true
 

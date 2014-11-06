@@ -9,7 +9,7 @@ inline void SYSC_Initialization() {
     setSYSC_Initialization();
 #endif
 }
- 
+
 void setSYSC_Initialization() {
     SYSC.Enable = true;
 }
@@ -29,7 +29,9 @@ void setSYSC_Main() {
             {
                 SYSC.Timer = 0;
                 SYSC.ERROR = true;
-                setLED(1, 11);
+#if PIR_use == true
+                setLED(1, 111);
+#endif
             }
         } else {
             if (getMain_All_Error_Status(1) == 0) {
@@ -42,7 +44,9 @@ void setSYSC_Main() {
                     if (SYSC.Counter == 1000) {
                         SYSC.Counter = 0;
                         SYSC.ERROR = false;
-                        setLED(1, 10);
+#if PIR_use == true
+                        setLED(1, 110);
+#endif
                     }
                 }
             }

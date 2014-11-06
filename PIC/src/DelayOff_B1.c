@@ -73,8 +73,7 @@ void DlyOff_Main(char sw) {
                 setSw_Status(sw, 0);
                 setRFSW_Status(sw, 0);
                 setRF_DimmerLights(sw, 0);
-                setDimmerLights_Trigger(sw, 1);
-                setDimmerLights_Switch(sw, 0);
+                setDimmerLights_Trigger(sw, 0);
                 setTxData();
                 setBuz(1, BuzzerOnOffTime);
             }

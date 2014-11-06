@@ -1938,6 +1938,7 @@ unsigned Tempty : 3;
 };
 };
 unsigned int PowerCount;
+unsigned char Error;
 
 # 88
 union {
@@ -1980,14 +1981,28 @@ inline void my_MainTimer();
 # 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
-void getMain_Exception(char command);
+void setMain_Exception(char command);
 char getMain_AD_OK();
 char getMain_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 
+# 101 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
+struct SwitchDetect {
+
+union {
+
+struct {
+unsigned Error : 1;
+unsigned empty : 7;
+};
+};
+};
+struct SwitchDetect SwDetect;
+
 # 10 "../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h"
 struct LED {
+
 union {
 
 struct {
@@ -2015,23 +2030,44 @@ struct LED VarLED1;
 
 struct LED VarLED2;
 
-# 48
+# 49
 inline void LED_Initialization();
 
-# 53
+# 54
 inline void LED_Main();
 
-# 62
+# 63
 void LedPointSelect(char led);
 
-# 71
+# 72
 void setLED_Initialization(char led);
 
-# 80
+# 81
 void setLED_Main(char led);
 
-# 94
+# 95
 void setLED(char led, char command);
+
+# 107
+struct PIRLED {
+
+union {
+
+struct {
+unsigned GO : 1;
+unsigned GO1 : 1;
+unsigned GO2 : 1;
+unsigned GO3 : 1;
+unsigned status:1;
+unsigned empty : 3;
+};
+};
+unsigned char Count;
+unsigned int Time;
+};
+struct PIRLED PIRLED;
+
+void setPIRLED_Main();
 
 # 7 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h"
 struct OverTemp {
@@ -2043,7 +2079,7 @@ unsigned Enable : 1;
 unsigned ERROR : 1;
 unsigned ADtoGO : 1;
 unsigned LoadADGO : 1;
-unsigned Safe : 1;
+unsigned GO : 1;
 unsigned empty : 3;
 };
 };
@@ -2054,26 +2090,23 @@ unsigned char AD1;
 unsigned char AD2;
 
 
-unsigned char AD;
-unsigned char ADH[2];
-unsigned char ADRES;
-unsigned char SafeValue;
-unsigned char DangerValue;
+ADtype AD;
+ADtype ADH[2];
+ADtype ADRES;
+ADtype SafeValue;
+ADtype DangerValue;
 
-# 50
 };
 
 struct OverTemp Temp;
 
-# 100
+# 83
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
 void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
-char getTemp_Safe();
-char getTemp_ERROR();
 
 # 168 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
 struct OverLoad {
@@ -2408,9 +2441,10 @@ if (Load.ErrorCount > 2) {
 Load.ErrorCount = 0;
 
 Load.ERROR = 1;
-setLED(1, 11);
 
-# 106
+setLED(3, 111);
+
+# 110
 }
 } else {
 Load.ErrorCount = 0;
@@ -2454,7 +2488,10 @@ if (Load.ErrorTime >= 1000)
 {
 Load.ErrorTime = 0;
 
-setLED(1, 10);
+
+setLED(3, 110);
+
+# 158
 Load.ERROR = 0;
 }
 }
@@ -2466,7 +2503,7 @@ Load.Enable = 1;
 }
 }
 
-# 196
+# 204
 char getLoad_OK() {
 char ok = Load.OK == 1 ? 1 : 0;
 
@@ -2479,7 +2516,7 @@ Load.OK = 0;
 Load.SafeCount = 0;
 }
 
-# 256
+# 264
 char getLoad_ERROR() {
 char result = Load.ERROR;
 

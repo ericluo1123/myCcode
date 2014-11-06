@@ -125,11 +125,10 @@
 
 		void setDimmerLights_MaxmumValue(char,char); 
 		void setDimmerLights_Trigger(char,char); 
-		void setDimmerLights_Switch(char,char); 
-		void setDimmerLights_AdjGo(char,char); 
 		void setDimmerLights_TriggerAdj(char,char);
 		char getDimmerLights_StatusFlag();
 		char getDimmerLights_Trigger();
+                char getDimmerLights_Status(char lights);
 
 		void setDimmerLights_Clear(char,char);
                 inline void setDimmerLights_IntrControl(char lights);
@@ -153,10 +152,8 @@
 			unsigned char Load;
 			unsigned char Correction;
 		};
-		struct Dimmer *Dimmer;
-
 		#ifdef DimmerReference1
-			struct Dimmer Dimmer1;	
+			struct Dimmer Dimmer;
 		#endif
 	
 		inline void Dimmer_Initialization();
@@ -815,11 +812,11 @@
 									}\
 									else\
  {\
-										DimmerLights22->Signal = 0;                                                            \
-									                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
-								                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
-							                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
-						                                                                                                                                                                                                                                                }\
+										DimmerLights22->Signal = 0;                                                              \
+									                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
+								                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }\
+							                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
+						                                                                                                                                                                                                                                                        }\
 					}\
 					;
 #endif

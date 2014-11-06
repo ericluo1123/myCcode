@@ -5,6 +5,7 @@
 #if PIR_use == 1
 
 void PIR_Initialization() {
+    setLED(1, 1);
     _PIR.RangeValue = RangeMinimum;
     _PIR.CloseTimeValue = 5;
 }
@@ -26,7 +27,7 @@ void PIR_Main() {
             }
         } else {
             if (_PIR.Detect == true) {
-                getMain_Exception(error);
+                setMain_Exception(error);
 
                 _PIR.Detect = false;
                 _PIR.Available = false;
@@ -97,7 +98,7 @@ void PIR_Main() {
                             _PIR.RangeCount++;
                             _PIR.Count++;
 
-                            _PIR.TriggerValue = _PIR.Status == true ? 4 : 2;
+                            _PIR.TriggerValue = _PIR.Status == true ? 3 : 2;
 
                             if (_PIR.Count == _PIR.TriggerValue) {
                                 _PIR.Count = 0;
@@ -110,14 +111,14 @@ void PIR_Main() {
                                     setLights_Trigger(1, 1);
                                 }
 #endif
-#endif                             
-                            }
-                            if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
-                                setLED(1, 1);
-                                setLED(2, 0);
-                            } else {
-                                setLED(1, 0);
-                                setLED(2, 1);
+#endif
+                                if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
+                                    setLED(1, 1);
+                                    setLED(2, 0);
+                                } else {
+                                    setLED(1, 0);
+                                    setLED(2, 1);
+                                }
                             }
                         }
                     }

@@ -147,6 +147,7 @@ typedef unsigned int ADtype;
 #define	LED3_ON				0
 
 #define LEDTime				500//ms
+#define PIRLEDTime                      500//ms
 #endif
 
 //Buzzer

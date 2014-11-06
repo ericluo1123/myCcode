@@ -31,7 +31,8 @@ struct Switch {
 
         struct {
             unsigned Adj : 1;
-            unsigned empty : 7;
+            unsigned Detect : 1;
+            unsigned empty : 6;
         };
     };
 
@@ -64,7 +65,8 @@ void setSw_Main(char sw);
 void setSw_Enable(char command);
 void Switch_Exception(char command);
 void setSw_Status(char sw, char command);
-void Sw_Detect();
+char getSw_KeyStatus(char sw);
+//void Sw_Detect();
 
 void Sw_DimmerOnFunc(char sw);
 void Sw_DimmerOffFunc(char sw);
@@ -96,5 +98,16 @@ void TouchPower();
 #define TouchPower() ;
 #endif
 
+struct SwitchDetect {
+
+    union {
+
+        struct {
+            unsigned Error : 1;
+            unsigned empty : 7;
+        };
+    };
+};
+struct SwitchDetect SwDetect;
 //End file
 #endif
