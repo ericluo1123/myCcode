@@ -878,38 +878,42 @@ void Flash_Memory_Initialization() {
         }
     } else {
         i = setPercentValue(Dimmer_Maxum);
-        setMemoryData(0, 0xff);
-        setMemoryData(1, 0xff);
-        setMemoryData(2, 0xff);
-        setMemoryData(3, 0xff);
-        setMemoryData(4, 0xff);
-        setMemoryData(5, 0xff);
-        setMemoryData(31, 0xaa);
+        setMemory_Data(0, 0xff);
+        setMemory_Data(1, 0xff);
+        setMemory_Data(2, 0xff);
+        setMemory_Data(3, 0xff);
+        setMemory_Data(4, 0xff);
+        setMemory_Data(5, 0xff);
+        setMemory_Data(31, 0xaa);
         product->Data[21] = i;
         product->Data[22] = i;
         product->Data[23] = i;
-        GIE = 0;
+        GIE = false;
         Flash_Memory_Write();
-        GIE = 1;
-        myMain.FirstOpen = 1;
-        myMain.First = 1;
+        GIE = true;
+        myMain.FirstOpen = true;
+        myMain.First = true;
     }
 }
 //*********************************************************
 
 void Flash_Memory_Main() {
-    if (Memory.GO == true) {
-        if (Memory.Modify == true) {
+    if (Memory.Modify == true) {
+        Memory.GO = getMain_LightsStatus() == 0 ? true : false;
+        if (Memory.GO == true) {
+            Memory.Runtime = true;
             Memory.Time++;
-            if (Memory.Time == 25)//*10ms
-            {
+            if (Memory.Time == 25) {//*10ms
                 Memory.Time = 0;
                 Memory.Modify = false;
                 Memory.GO = false;
                 Flash_Memory_Modify();
             }
         } else {
-            Memory.GO = false;
+            if (Memory.Runtime == true) {
+                Memory.Runtime = false;
+                Memory.Time = 0;
+            }
         }
     }
 }
@@ -971,19 +975,19 @@ void Flash_Memory_Modify() {
     for (i = 0; i < 32; i++) {
         Memory.Data[i] = Flash_Memory_Read(i);
     }
-    setMemoryData(0, product->Data[12]);
-    setMemoryData(1, product->Data[13]);
-    setMemoryData(2, product->Data[14]);
+    setMemory_Data(0, product->Data[12]);
+    setMemory_Data(1, product->Data[13]);
+    setMemory_Data(2, product->Data[14]);
 #if DimmerValue_SaveMemory  == true
-    setMemoryData(3, product->Data[21]);
-    setMemoryData(4, product->Data[22]);
-    setMemoryData(5, product->Data[23]);
+    setMemory_Data(3, product->Data[21]);
+    setMemory_Data(4, product->Data[22]);
+    setMemory_Data(5, product->Data[23]);
 #endif
     if (Memory.LoopSave == true) {
         Memory.LoopSave = false;
         myMain.FirstOpen = false;
         myMain.First = false;
-        //setMemoryData(30,1);
+        //setMemory_Data(30,1);
     }
     GIE = false;
     Flash_Memory_Erasing();
@@ -992,13 +996,22 @@ void Flash_Memory_Modify() {
 }
 //*********************************************************
 
-void setMemory_GO(char command) {
-    Memory.GO = command;
-    if (command == false) {
-        Memory.Time = command;
-    }
+void setMemory_Modify(char command) {
+    Memory.Modify = command == 1 ? true : false;
+    Memory.Time = 0;
+}
+//*********************************************************
+
+void setMemory_LoopSave(char command) {
+    Memory.LoopSave = command == 1 ? true : false;
+}
+//*********************************************************
+
+void setMemory_Data(char address, char data) {
+    Memory.Data[address] = data;
 }
 #endif
+
 //*********************************************************
 #if WDT_use == 1
 

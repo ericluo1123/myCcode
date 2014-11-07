@@ -274,25 +274,41 @@ inline void set_TimeoutCleared() {
 //*****************************************************************************
 
 void setMain_Exception(char command) {
-    char status = 0;
+    char status = 0, buz = 0;
 #if LightsControl_use == 1
     status = command == 3 ? getAll_Lights_Line() : 255;
+
     if (command == 0) {
         setLED(command, 110);
     } else {
         setLED(command, 111);
     }
+    if (command != 0) {
+    }
 #endif
 #if Dimmer_use == 1
     status = command == 3 ? 1 : 255;
+
     if (command == 0) {
         setLED(99, 10);
     } else {
         setLED(99, 11);
     }
+    if (command != 0) {
+        switch (command) {
+            case 2:
+                if (getMain_LightsStatus() == 1) {
+                    setBuz(10, BuzzerErrorTime);
+                }
+                break;
+            case 3:
+                setBuz(5, BuzzerErrorTime);
+                break;
+        }
+    }
 #endif
-    
-    if (status != 0) {
+
+    if (command != 0) {
 #ifdef use_1KEY
         if (status == 1 || status == 255) {
 #if LightsControl_use == 1
@@ -301,7 +317,7 @@ void setMain_Exception(char command) {
 
 #if Dimmer_use == 1
             if (getDimmerLights_Status(1) == 1) {
-                setDimmerLights_Trigger(1, 0);
+                setDimmerLights_ErrorClose(1);
             }
 
 #endif
@@ -315,7 +331,7 @@ void setMain_Exception(char command) {
 #endif
 #if Dimmer_use == 1
             if (getDimmerLights_Status(2) == 1) {
-                setDimmerLights_Trigger(2, 0);
+                setDimmerLights_ErrorClose(2);
             }
 #endif
         }
@@ -330,13 +346,11 @@ void setMain_Exception(char command) {
 #endif
 #if Dimmer_use == 1
         if (getDimmerLights_Status(3) == 1) {
-            setDimmerLights_Trigger(3 0);
+            setDimmerLights_ErrorClose(3);
         }
 #endif
     }
 #endif
-
-
 }
 //*****************************************************************************
 

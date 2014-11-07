@@ -42,7 +42,7 @@ inline void Load_Main() {
         Load.GO = false;
 
 #if LightsControl_use == true    
-        Load.GO = getLightsControl_GO() == 1 && getMain_All_Error_Status(0) == 0 ? true : false;
+        Load.GO = getDimmerLights_StatusFlag() == 1 && getMain_All_Error_Status(0) == 0 ? true : false;
 #endif
         if (Load.OK == true) {
             if (getLightsControl_OK() == true) {

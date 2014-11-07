@@ -217,7 +217,6 @@ void setLoad_Exceptions(char command);
 void setLoad_AH_AL_Restore();
 //	void setLoad_LightsStatus(char,char);
 //void setLoad_Count(char command);
-//void setLoad_GO(char command);
 //void setLoad_StatusOn(char lights, char command);
 //void setLoad_StatusOff(char lights, char command);
 //char getLoad_Safe();
@@ -232,7 +231,6 @@ void setLoad_OK();
 #define setLoad_Exceptions(char) ;
 #define setLoad_AH_AL_Restore() ;
 #define setLoad_Count(char) ;
-#define setLoad_GO(char) ;
 #define setLoad_StatusOn(char,char) ;
 #define setLoad_StatusOff(char,char) ; 
 #define getLoad_Safe() 1

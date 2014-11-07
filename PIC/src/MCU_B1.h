@@ -705,11 +705,11 @@ struct FlashMemory {
             unsigned Modify : 1;
             unsigned GO : 1;
             unsigned LoopSave : 1;
-            unsigned empty : 5;
+            unsigned Runtime:1;
+            unsigned empty : 4;
         };
     };
 };
-//struct FlashMemory *Memory;
 struct FlashMemory Memory = {
     {
         0, 0, 0, 0, 0, 0, 0, 0,
@@ -720,10 +720,9 @@ struct FlashMemory Memory = {
 };
 #define PMADRH_Value 0x30
 
-//#define Flash_Memory_Set()	Memory=&Memory
-#define setMemoryData(address,data) Memory.Data[address]=data
-#define setMemory_Modify(command) Memory.Modify=command
-#define setMemory_LoopSave(command) Memory.LoopSave=command
+//#define setMemoryData(address,data) Memory.Data[address]=data
+//#define setMemory_Modify(command) Memory.Modify=command
+//#define setMemory_LoopSave(command) Memory.LoopSave=command
 
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
@@ -732,7 +731,9 @@ void Flash_Memory_Write();
 void Flash_Memory_Erasing();
 void Flash_Memory_Modify();
 void Flash_Memory_Main();
-void setMemory_GO(char command);
+void setMemory_Modify(char command);
+void setMemory_LoopSave(char command);
+void setMemory_Data(char address, char data);
 #else
 //NOP
 #define Flash_Memory_Set() ;

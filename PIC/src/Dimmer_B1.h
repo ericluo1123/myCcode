@@ -50,7 +50,8 @@
                                 unsigned MosfetSignal:1;
                                 unsigned MosfetOK:1;
                                 unsigned TriacFlag:1;
-                                unsigned empty:2;
+                                unsigned SwFlag:1;
+                                unsigned SwAdj:1;
                             };
                         };
                         unsigned char TriacCount;
@@ -132,6 +133,13 @@
 
 		void setDimmerLights_Clear(char,char);
                 inline void setDimmerLights_IntrControl(char lights);
+                char getAll_DimmerLights_AdjGO();
+                void setDimmerLights_SwOn(char sw);
+                void setDimmerLights_SwOff(char sw);
+                void setDimmerLights_AdjControl(char sw);
+                char getSw_KeyStatus(char sw);
+                void setDimmerLights_ErrorClose(char lights);
+                void setDimmerLights_Status(char lights,char command);
 	//	char getDimmerLights_Clear(char);
 	/*	void setDimmerLights_Close(char,char);
 		char getDimmerLights_Close(char);
@@ -812,12 +820,12 @@
 									}\
 									else\
  {\
-										DimmerLights22->Signal = 0;                                                              \
-									                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
-								                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }\
-							                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }\
-						                                                                                                                                                                                                                                                        }\
-					}\
+										DimmerLights22->Signal = 0;                                                                  \
+									                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }\
+								                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }\
+							                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }\
+						                                                                                                                                                                                                                                                                            }\
+					    }\
 					;
 #endif
 

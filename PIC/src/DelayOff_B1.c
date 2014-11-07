@@ -70,12 +70,13 @@ void DlyOff_Main(char sw) {
                 DelayOff->MinuteTime = 0;
                 DelayOff->GO = false;
                 //關燈
-                setSw_Status(sw, 0);
-                setRFSW_Status(sw, 0);
+#if Dimmer_use == 1
+                setDimmerLights_SwOn(sw);
+                if (getDimmerLights_Status(sw) == 1) {
+                    setDimmerLights_SwOff(sw);
+                }
                 setRF_DimmerLights(sw, 0);
-                setDimmerLights_Trigger(sw, 0);
-                setTxData();
-                setBuz(1, BuzzerOnOffTime);
+#endif
             }
         }
     }
@@ -93,7 +94,7 @@ void setDelayOff_GO(char sw, char command, char value) {
             } else {
                 setProductData(26 + sw, 0x05);
             }
-        } else if (command == 0) {
+        } else {
             setProductData(sw + 26, 0);
         }
         DelayOff->SecondTime = 0;

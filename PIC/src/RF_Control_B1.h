@@ -65,28 +65,8 @@ void setRF_RxStatus(char command);
 char getRF_KeyStatus();
 #define setRF_Data(location,value) RF_Data[location]=value
 
-struct RFSW {
 
-    struct {
-        unsigned Status : 1;
-        unsigned empty : 7;
-    };
-};
-struct RFSW *RFSW;
 
-#ifdef use_1KEY
-struct RFSW RFSW1;
-#endif
-
-#ifdef use_2KEY
-struct RFSW RFSW2;
-#endif
-
-#ifdef use_3KEY
-struct RFSW RFSW3;
-#endif
-
-void RfSWPointSelect(char sw);
 void setRFSW_Control(char sw);
 void setRFSW_AdjControl(char sw);
 void setRFSW_Status(char sw, char command);
