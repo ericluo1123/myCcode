@@ -41,11 +41,10 @@ inline void Load_Main() {
     if (Load.Enable == true) {
         Load.GO = false;
 
-#if LightsControl_use == true    
-        Load.GO = getDimmerLights_StatusFlag() == 1 && getMain_All_Error_Status(0) == 0 ? true : false;
-#endif
+        Load.GO = getMain_LightsStatus() == 1 && getMain_All_Error_Status(0) == 0 ? true : false;
+
         if (Load.OK == true) {
-            if (getLightsControl_OK() == true) {
+            if (getMain_LoadOK() == 1) {
                 Load.OK = false;
                 Load.Count = 0;
             }
@@ -55,7 +54,6 @@ inline void Load_Main() {
             Load.LightsON = true;
 
             if (Load.ADtoGO == true) {
-
                 Load.Time++;
                 if (Load.Time >= 5) {//*10ms
                     Load.Time = 0;
@@ -70,7 +68,7 @@ inline void Load_Main() {
                     setLoad_AH_AL_Restore();
                     Load.ADH /= 4;
                     Load.ADL /= 4;
-
+                    ErrLED = 0;
                     if (Load.ADH > Load.ADL) {
                         Load.AD = (Load.ADH - Load.ADL);
 
@@ -95,11 +93,11 @@ inline void Load_Main() {
                                 Load.ErrorCount = 0;
                                 //                                    setLoad_Exceptions(1);
                                 Load.ERROR = true;
-#if PIR_use == true
-                                setLED(3, 111);
-#else
-                                setLED(1, 11);
-#endif
+                                //#if PIR_use == true
+                                //                                setLED(3, 111);
+                                //#else
+                                //                                setLED(1, 11);
+                                //#endif
 #if Load_Debug == 1
                                 setProductData(4, (Load.AD >> 8));
                                 setProductData(5, Load.AD);
@@ -121,6 +119,16 @@ inline void Load_Main() {
                                     } else {
                                         Load.JudgeValue = (SecondLimitValue + Load.TotalLoad) - 0x08;
                                     }
+#if Load_Debug == 1
+                                    Load.AD = 0;
+                                    Load.JudgeValue = 0;
+                                    Load.LightsCount = 0;
+                                    setProductData(4, (Load.AD >> 8));
+                                    setProductData(5, Load.AD);
+                                    setProductData(6, (Load.JudgeValue >> 8));
+                                    setProductData(7, Load.JudgeValue);
+                                    setProductData(8, Load.LightsCount);
+#endif
                                 }
                             }
                         }
@@ -143,6 +151,14 @@ inline void Load_Main() {
 
                 Load.ADH = 0;
                 Load.ADL = 0;
+
+#if Load_Debug == 1
+                setProductData(4, (Load.AD >> 8));
+                setProductData(5, Load.AD);
+                setProductData(6, (Load.JudgeValue >> 8));
+                setProductData(7, Load.JudgeValue);
+                setProductData(8, Load.LightsCount);
+#endif
             }
             if (Load.ERROR == true) {
                 Load.ErrorTime++;
@@ -150,11 +166,11 @@ inline void Load_Main() {
                 {
                     Load.ErrorTime = 0;
                     //                    setLoad_Exceptions(0);
-#if PIR_use == true
-                    setLED(3, 110);
-#else
-                    setLED(1, 10);
-#endif
+                    //#if PIR_use == true
+                    //                    setLED(3, 110);
+                    //#else
+                    //                    setLED(1, 10);
+                    //#endif
                     Load.ERROR = false;
                 }
             }
@@ -203,7 +219,6 @@ inline void Load_Main() {
 
 char getLoad_OK() {
     char ok = Load.OK == true ? 1 : 0;
-
     return ok;
 }
 

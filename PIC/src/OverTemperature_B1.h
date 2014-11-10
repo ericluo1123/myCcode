@@ -85,9 +85,10 @@ inline void Temp_Main();
 void setTemp_Main();
 void setTemp_Initialization();
 inline void getTemp_AD(char channel);
-void setOverTemp_Exceptions(char command);
+void setOverTemp_Exceptions(char command); 
 #else
 //NOP
+#define Temp_Main() ;
 #define getTemp_Safe() 1
 #define getTemp_ERROR() 0
 #define TempPointSelect() ;

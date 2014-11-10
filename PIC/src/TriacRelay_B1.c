@@ -108,10 +108,12 @@ void setLights_Main(char lights) {
 void setLights(char lights, char status) {
 
     LightsPointSelect(lights);
+
 #if OverLoad_use == true
     LightsControl.LoadOK = getMain_All_Error_Status(0) == 0 ? true : false;
     LightsControl.LoadGO = status == 1 ? true : LightsControl.LoadGO;
 #endif
+
     Lights->GO = true;
     if (status == 1) {
         if (Lights->Status == false) {

@@ -191,7 +191,7 @@ inline void setDimmerReClock() {
 //end Tim0
 #endif
 //*********************************************************
-
+  
 
 //*********************************************************
 #if Timer1_use == 1
@@ -366,18 +366,19 @@ void setINT_GO(char command) {
 
 void IOC_Set() {
     WPUB2 = false;
-#if Control_Method_Triac == true
-#ifdef  Dimmer_Half_Wave
+#if Control_Method_Triac == true 
+#if  Dimmer_Half_Wave == 1
     IOCBP = 0b00000100;
     IOCBN = 0b00000100;
 #endif
-#if Dimmer_Full_Wave == true
+
+#if Dimmer_Full_Wave == 1
     IOCBP = 0b00000000;
     IOCBN = 0b00000100;
 #endif
 #endif
 
-#if Control_Method_Mosfet == true
+#if Control_Method_Mosfet == 1
 #if Dimmer_Half_Wave == true
     IOCBP = 0b00000100;
     IOCBN = 0b00000100;
@@ -876,7 +877,7 @@ void Flash_Memory_Initialization() {
             myMain.FirstOpen = true;
             myMain.First = true;
         }
-    } else {
+    } else { 
         i = setPercentValue(Dimmer_Maxum);
         setMemory_Data(0, 0xff);
         setMemory_Data(1, 0xff);

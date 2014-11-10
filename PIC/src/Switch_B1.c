@@ -143,7 +143,7 @@ void setSw_Main(char sw) {
         } else {
             if (Sw->Detect == false) {
                 Sw->Detect = true;
-                Sw->Touch = true;
+                Sw->Touch = false;
                 Sw->Debounce = true;
             }
         }

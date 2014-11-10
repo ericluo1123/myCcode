@@ -116,7 +116,7 @@ void setRF_Main() {
                                 //LED2=~LED2;
 #else
                                 getRxData();
-                                ErrLED = ErrLED == true ? false : true;
+                                //                                ErrLED = ErrLED == true ? false : true;
 #endif
 
                                 RF1.Run = true;
@@ -340,10 +340,8 @@ void setControl_Lights_Table() {
 #ifdef use_3KEY
 #if Dimmer_use == 1
             setRFSW_Control(3);
-
 #endif
 #endif
-
             setProductData(9, 0);
             setProductData(11, 0);
             setProductData(15, 0);
@@ -368,7 +366,7 @@ void setControl_Lights_Table() {
 #endif
             break;
         case 0x03:
-#if use_3KEY
+#ifdef use_3KEY
             setRFSW_Control(3);
 #endif
             break;

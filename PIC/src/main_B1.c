@@ -250,9 +250,9 @@ inline void my_MainTimer() {
     }
 #if Debug == 1
     myMain.Count2++;
-    if (myMain.Count2 == 50) {
+    if (myMain.Count2 == 100) {
         myMain.Count2 = 0;
-
+        setTxData();
     }
 #endif
 }
@@ -283,7 +283,9 @@ void setMain_Exception(char command) {
     } else {
         setLED(command, 111);
     }
+
     if (command != 0) {
+        setLights_Trigger(1, 0);
     }
 #endif
 #if Dimmer_use == 1
@@ -302,53 +304,12 @@ void setMain_Exception(char command) {
                 }
                 break;
             case 3:
-                setBuz(5, BuzzerErrorTime);
+                if (getMain_LightsStatus() == 1) {
+                    setBuz(5, BuzzerErrorTime);
+                }
                 break;
         }
-    }
-#endif
-
-    if (command != 0) {
-#ifdef use_1KEY
-        if (status == 1 || status == 255) {
-#if LightsControl_use == 1
-            setLights_Trigger(1, 0);
-#endif
-
-#if Dimmer_use == 1
-            if (getDimmerLights_Status(1) == 1) {
-                setDimmerLights_ErrorClose(1);
-            }
-
-#endif
-        }
-#endif
-
-#ifdef use_2KEY
-        if (status == 2 || status == 255) {
-#if LightsControl_use == 1
-            setLights_Trigger(2, 0);
-#endif
-#if Dimmer_use == 1
-            if (getDimmerLights_Status(2) == 1) {
-                setDimmerLights_ErrorClose(2);
-            }
-#endif
-        }
-    }
-#endif
-
-
-#ifdef use_3KEY
-    if (status == 3 || status == 255) {
-#if LightsControl_use == 1
-        setLights_Trigger(3, 0);
-#endif
-#if Dimmer_use == 1
-        if (getDimmerLights_Status(3) == 1) {
-            setDimmerLights_ErrorClose(3);
-        }
-#endif
+        setDimmerLights_ErrorClose(status);
     }
 #endif
 }
@@ -372,39 +333,26 @@ char getMain_AD_OK() {
 char getMain_LightsStatus() {
     char status = 0;
 
-#ifdef use_1KEY
-    if (status == 0) {
-#if LightsControl_use == 1
-        status = getLights_Status(1) == true ? 1 : 0;
+#ifdef Switch_Class == 1
+    char count = 1;
 #endif
-#if Dimmer_use == 1
-        status = getDimmerLights_Status(1) == true ? 1 : 0;
+#ifdef Switch_Class == 2
+    char count = 2;
 #endif
-    }
-#endif
-#ifdef use_2KEY
-    if (status == 0) {
-#if LightsControl_use == 1
-        status = getLights_Status(2) == true ? 1 : 0;
-#endif
-#if Dimmer_use == 1
-        status = getDimmerLights_Status(2) == true ? 1 : 0;
-#endif
-    }
-#endif
-#ifdef use_3KEY
-#if LightsControl_use == 1
-    if (status == 0) {
-        status = getLights_Status(3) == true ? 1 : 0;
-        status = getDimmerLights_Status(3) == true ? 1 : 0;
-    }
-#endif
-#if Dimmer_use == 1
-#endif
+#ifdef Switch_Class == 3
+    char count = 3;
 #endif
 
-
-
+    for (int i = 0; i < count; i++) {
+        if (status == 0) {
+#if LightsControl_use == 1
+            status = getLights_Status(i + 1) == 1 ? 1 : 0;
+#endif
+#if Dimmer_use == 1
+            status = getDimmerLights_Status(i + 1) == 1 ? 1 : 0;
+#endif
+        }
+    }
     return status;
 }
 //*****************************************************************************
@@ -452,7 +400,17 @@ char getMain_All_Error_Status(char command) {
 
 char getMain_Lights_Count() {
     char status1 = 0, status2 = 0, status3 = 0, count = 0;
+
 #if Dimmer_use == 1
+#ifdef use_1KEY
+    status1 = DimmerLights1.Status == true ? 1 : 0;
+#endif
+#ifdef use_2KEY
+    status2 = DimmerLights2.Status == true ? 1 : 0;
+#endif
+#ifdef use_3KEY
+    status2 = DimmerLights3.Status == true ? 1 : 0;
+#endif
 #endif
 
 #if LightsControl_use == 1
@@ -469,5 +427,17 @@ char getMain_Lights_Count() {
     return count = (status1 + status2 + status3);
 }
 //*****************************************************************************
-//End file
 
+char getMain_LoadOK() {
+    char ok = 0;
+
+#if LightsControl_use == 1
+    ok = getLightsControl_OK() == 1 ? 1 : 0;
+#endif
+#if Dimmer_use == 1
+    ok = getDimmer_LoadOK() == 1 ? 1 : 0;
+#endif
+    return ok;
+}
+//*****************************************************************************
+//End file

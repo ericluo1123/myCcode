@@ -6,10 +6,10 @@
 
 
 #if OverLoad_use == 1
-#define Load_Debug 0
+#define Load_Debug 1
 #if PIR_use == false
 #if Dimmer_use == 1
-
+#define FirstLimitValue 500
 #if Max_Percent == 45
 #if Switch_Class == 3
 #define SecondLimitValue 0x22
@@ -139,6 +139,7 @@
 #endif
 
 #if Max_Percent == 90
+
 #if Switch_Class == 3		
 #define SecondLimitValue 0x22
 #endif
@@ -152,10 +153,13 @@
 #endif
 #endif
 
-#else
-#define SecondLimitValue 0x42
+#endif
+
+#if LightsControl_use == 1
 
 #define FirstLimitValue 80
+#define SecondLimitValue 0x42
+
 #endif
 #else
 

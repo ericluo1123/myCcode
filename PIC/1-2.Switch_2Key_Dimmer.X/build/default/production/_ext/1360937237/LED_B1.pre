@@ -2801,6 +2801,7 @@ char getMain_AD_OK();
 char getMain_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
+char getMain_LoadOK();
 
 # 14 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Switch_B1.h"
 struct Switch {
@@ -3215,19 +3216,73 @@ void setRFSW_Status(char sw, char command);
 void setRF_DimmerValue(char lights);
 void setRF_DimmerLights(char lights, char on);
 
+# 172 "../src/../1-2.Switch_2Key_Dimmer.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Safe : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
+};
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+
+unsigned int ADH;
+unsigned int ADL;
+
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
+ADtype AD;
+ADtype ADRES;
+
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char ErrorCount;
+unsigned char LightsCount;
+unsigned char SafeCount;
+};
+
+
+struct OverLoad Load;
+
+# 217
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 228
+char getLoad_OK();
+void setLoad_OK();
+
 # 11 "../src/../1-2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h"
-struct DimmerLights
-{
-union{
-struct{
-unsigned GO:1;
-unsigned Signal:1;
-unsigned AdjRF:1;
-unsigned AdjFlag:1;
-unsigned AdjStatus:1;
-unsigned Status:1;
-unsigned StatusFlag:1;
-unsigned OverLoad:1;
+struct DimmerLights {
+
+union {
+
+struct {
+unsigned GO : 1;
+unsigned Signal : 1;
+unsigned AdjRF : 1;
+unsigned AdjFlag : 1;
+unsigned AdjStatus : 1;
+unsigned Status : 1;
+unsigned StatusFlag : 1;
+unsigned OverLoad : 1;
 };
 };
 unsigned char DimmingTime;
@@ -3238,28 +3293,32 @@ unsigned char MaxmumValue;
 unsigned char MinimumValue;
 
 unsigned char TriacTime;
-union{
-struct{
-unsigned Flag:1;
-unsigned Switch:1;
-unsigned Trigger:1;
-unsigned AdjGo:1;
-unsigned TriggerAdj:1;
-unsigned Triac:1;
-unsigned MosfetOpen:1;
-unsigned MosfetClose:1;
+
+union {
+
+struct {
+unsigned Flag : 1;
+unsigned Switch : 1;
+unsigned Trigger : 1;
+unsigned AdjGo : 1;
+unsigned TriggerAdj : 1;
+unsigned Triac : 1;
+unsigned MosfetOpen : 1;
+unsigned MosfetClose : 1;
 };
 };
-union{
-struct{
-unsigned DetectOpen:1;
-unsigned DetectClose:1;
-unsigned Clear:1;
-unsigned MosfetSignal:1;
-unsigned MosfetOK:1;
-unsigned TriacFlag:1;
-unsigned SwFlag:1;
-unsigned SwAdj:1;
+
+union {
+
+struct {
+unsigned DetectOpen : 1;
+unsigned DetectClose : 1;
+unsigned OK : 1;
+unsigned MosfetSignal : 1;
+unsigned MosfetOK : 1;
+unsigned TriacFlag : 1;
+unsigned SwFlag : 1;
+unsigned SwAdj : 1;
 };
 };
 unsigned char TriacCount;
@@ -3267,14 +3326,12 @@ unsigned char DetectCount;
 unsigned char MosfetSignalCount;
 unsigned char TuneValue;
 unsigned char MosfetOK_Count;
-
-
 };
 struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
-# 81
+# 84
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
@@ -3283,7 +3340,7 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 103
+# 106
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -3298,24 +3355,24 @@ void DimmerLights_Exceptions(char status);
 void DimmerLights_Close();
 
 void setDimmerLights_Initialization(char lights);
-void setDimmerLights_GO(char lights,char command);
+void setDimmerLights_GO(char lights, char command);
 void setDimmerLights_Main(char lights);
 void setDimmerLights_ERROR(char lights);
-void setDimmerLights_TriggerERROR(char lights,char command);
-void setDimmerLights(char lights,char status);
-void setDimmerLights_Adj(char lights,char status);
+void setDimmerLights_TriggerERROR(char lights, char command);
+void setDimmerLights(char lights, char status);
+void setDimmerLights_Adj(char lights, char status);
 void setDimmerLights_AdjRF(char lights);
 char getPercentValue(char value);
 char setPercentValue(char value);
 
-void setDimmerLights_MaxmumValue(char,char);
-void setDimmerLights_Trigger(char,char);
-void setDimmerLights_TriggerAdj(char,char);
+void setDimmerLights_MaxmumValue(char, char);
+void setDimmerLights_Trigger(char, char);
+void setDimmerLights_TriggerAdj(char, char);
 char getDimmerLights_StatusFlag();
 char getDimmerLights_Trigger();
 char getDimmerLights_Status(char lights);
 
-void setDimmerLights_Clear(char,char);
+void setDimmerLights_Clear(char, char);
 inline void setDimmerLights_IntrControl(char lights);
 char getAll_DimmerLights_AdjGO();
 void setDimmerLights_SwOn(char sw);
@@ -3323,18 +3380,21 @@ void setDimmerLights_SwOff(char sw);
 void setDimmerLights_AdjControl(char sw);
 char getSw_KeyStatus(char sw);
 void setDimmerLights_ErrorClose(char lights);
-void setDimmerLights_Status(char lights,char command);
+void setDimmerLights_Status(char lights, char command);
 
-# 149
-struct Dimmer
-{
-
+# 154
+struct Dimmer {
 
 
-union{
-struct{
-unsigned Detect:1;
-unsigned empty:7;
+
+
+union {
+
+struct {
+unsigned Detect : 1;
+unsigned LoadOK : 1;
+unsigned LoadGO : 1;
+unsigned empty : 5;
 };
 };
 unsigned char Load;
@@ -3343,7 +3403,7 @@ unsigned char Correction;
 
 struct Dimmer Dimmer;
 
-
+char getDimmer_LoadOK();
 inline void Dimmer_Initialization();
 
 # 21 "../src/../1-2.Switch_2Key_Dimmer.X/../src/DelayOff_B1.h"

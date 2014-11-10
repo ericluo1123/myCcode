@@ -245,7 +245,7 @@ typedef unsigned int ADtype;
  * dimmer delay time
  */
 #define DimmingDelayTime 7
-#define TriacCountValue 70
+#define TriacCountValue 60
 #endif
 
 #ifdef IntrTime_150us
@@ -276,7 +276,7 @@ typedef unsigned int ADtype;
 #define TriacTimeValue	1
 #define DetectTime 50
 #define DimmerTuneValue 157
-
+ 
 #if Control_Method_Triac == 1
 //maxum 
 #define Dimmer_Maxum 	((char)((100-Max_Percent)*One_Percent))

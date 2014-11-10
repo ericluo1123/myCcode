@@ -2,8 +2,6 @@
 #ifndef _Switch_3Key_Dimmer_V1.3.1.3.1_H_
 #define	_Switch_3Key_Dimmer_V1.3.1.3.1_H_
 
-//Include
-#include <stdio.h>
 /**Version information
                 Name_Version 			:	1~255
 
@@ -39,7 +37,7 @@
 #define Create_Date "2014/10/9"
 #define PCB_Name "TH-302PV11-1-Dim(20140722)"
 
-
+#define MCU_16F1518
 //MCU define
 #define	Key1				RA0		//pin2  1
 #define OverLoad1			RA1		//pin3	1
@@ -89,18 +87,21 @@
 
 //Mcu Function Option
 
-//ADC 
-#define ADC_use 1	
+
 //Oscillator (System FOSC)
-#define	System_Fosc_16M			//_16M														
+#define	System_Fosc_16M			//_16M
+//ADC
+#define ADC_use 1	
 //Timer0
-#define Timer0_use	1
-#define TMR0_IntrTime_100us
+#define Timer0_use	0
 //Timer1
-#define Timer1_use	0
-#define TMR1_IntrTime_50us
+#define Timer1_use	1
+//Timer2
+#define Timer2_use	0
+//interrupt time
+#define IntrTime_100us
 //INT
-#define INT_use 1
+#define INT_use 0
 //UART
 #define UART_use 0
 #define UART_Master 1
@@ -114,7 +115,7 @@
 //FlashMemory
 #define FlashMemory_use 1
 //Watchdog timer 
-#define WDT_use 0
+#define WDT_use 1
 
 
 //Function Option
@@ -122,7 +123,7 @@
 //SYSC
 #define SYSC_use 0
 //OverTemperature
-#define OverTemperature_use 0
+#define OverTemperature_use 1
 //OverLoad
 #define OverLoad_use 0
 //LED
@@ -134,19 +135,26 @@
 //Lights
 #define LightsControl_use 	0
 //RF cc2500
-#define CC2500_use	0
+#define CC2500_use	1
 //DelayOff
-#define DelayOff_use 0
+#define DelayOff_use 1
 //PowerFault
 #define PowerFault_use 0
 //Dimmer Lights
-#define Dimmer_use 1
+#define Dimmer_use              1
+#define Dimmer_Half_Wave	1
+#define Dimmer_Full_Wave	0
 //SegmentDisplay
 #define SegmentDisplay_use 0
+//CDS
+#define CDS_use             0
+//PIR
+#define PIR_use             0
 
 //include
-#include "../src/Main_B1.h"
 #include "../src/Activity_B1.h"
+#include "../src/MCU_B1.h"
+#include "../src/Main_B1.h"
 #include "../src/Switch_B1.h"
 #include "../src/Buzzer_B1.h"
 #include "../src/LED_B1.h"
@@ -161,7 +169,6 @@
 #include "../src/PIR_B1.h"
 #include "../src/SYSC_B1.h"
 #include "../src/TriacRelay_B1.h"
-#include "../src/MCU_B1.h"
 #include "../src/SegmentDisplay_A2.h"
 
 //end file
