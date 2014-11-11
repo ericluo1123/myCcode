@@ -429,7 +429,6 @@ void DimmerLights_Main() {
 //*********************************************************
 
 void setDimmerLights_Main(char lights) {
-    char clear = 1;
     DimmerLightsPointSelect(lights);
     if (DimmerLights->Trigger == true) {
         if (getMain_All_Error_Status(0) == 0) {
@@ -450,13 +449,6 @@ void setDimmerLights_Main(char lights) {
         }
     } else {
         if (DimmerLights->TriggerAdj == true) {
-            if (getMain_All_Error_Status(0) == 0) {
-                if (Dimmer.LoadOK == true) {
-                    Dimmer.LoadOK = getLoad_OK() == 1 ? false : Dimmer.LoadOK;
-                }
-            } else {
-                Dimmer.LoadOK = false;
-            }
             if (Dimmer.LoadOK == false) {
                 DimmerLights->TriggerAdj = false;
                 if (DimmerLights->AdjGo == true) {
@@ -552,7 +544,7 @@ char getAll_DimmerLights_AdjGO() {
 #if Switch_Class == 2
     adjgo = DimmerLights1.AdjGo == true || DimmerLights2.AdjGo == true ? 1 : 0;
 #endif
-#if Switch_Class == 2
+#if Switch_Class == 1
     adjgo = DimmerLights1.AdjGo == true;
 #endif
     return adjgo;
@@ -563,7 +555,7 @@ void setDimmerLights_SwOn(char sw) {
     DimmerLightsPointSelect(sw);
     char idle = 0;
 #if Dimmer_use == 1
-    idle = getAll_DimmerLights_AdjGO();
+    idle = getAll_DimmerLights_AdjGO() == 1 ? 1 : 0;
 #endif
     if (idle == 0) {
         DimmerLights->SwFlag = true;
@@ -596,6 +588,8 @@ void setDimmerLights_SwOff(char sw) {
         } else {
             setDimmerLights_Trigger(sw, 0);
             setDelayOff_GO(sw, 0, 0);
+            //                setRF_DimmerLights(sw, command);
+            //                setTxData();
         }
         setRF_DimmerLights(sw, command);
         setTxData();
@@ -607,7 +601,7 @@ void setDimmerLights_AdjControl(char sw) {
     DimmerLightsPointSelect(sw);
     char idle = 0;
 #if Dimmer_use == true
-    idle = getAll_DimmerLights_AdjGO();
+    idle = getAll_DimmerLights_AdjGO() == 1 ? 1 : 0;
 #endif
     if (idle == 0) {
         if (DimmerLights->SwFlag == true) {
@@ -647,7 +641,6 @@ void setDimmerLights_ErrorClose(char lights) {
         }
     }
 
-
     //    if (DimmerLights->SwAdj == true) {
     //        DimmerLights->SwFlag = true;
     //        setDimmerLights_SwOff(lights);
@@ -676,14 +669,10 @@ void setDimmerLights(char lights, char status) {
     Dimmer.LoadOK = getMain_All_Error_Status(0) == 0 ? true : false;
     Dimmer.LoadGO = status == 1 ? true : Dimmer.LoadGO;
 #endif
-    //    Dimmer.Load = lights;
     if (status == 1) {
-        //        DimmerLights->Status = true;
         setLED(lights, 0);
         setLED2(0);
 
-
-        //            setLoad_StatusOn(lights, 1);
         DimmerLights->StatusFlag = true;
 #if Dimmer_Smooth == 0
         DimmerLights->DimmingValue = DimmerLights->MaxmumValue;
@@ -698,7 +687,6 @@ void setDimmerLights(char lights, char status) {
         DimmerLights->DimmingTimeValue = DimmingDelayTime;
 #endif
     } else {
-        //        DimmerLights->Status = false;
 #if Dimmer_Smooth == 0
         DimmerLights->DimmingValue = DimmerLights->MinimumValue;
 #endif
@@ -721,8 +709,6 @@ void setDimmerLights(char lights, char status) {
         setLED(lights, 1);
         setLED2(1);
 #endif
-
-
     }
 }
 //*********************************************************
@@ -734,10 +720,8 @@ void setDimmerLights_Adj(char lights, char status) {
         DimmerLights->Signal = true;
     } else {
         if (DimmerLights->AdjFlag == true) {
-
             DimmerLights->Signal = false;
             DimmerLights->AdjFlag = false;
-            //            setLoad_StatusOff(0, 1);
             DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
 
 #if DimmerValue_CloseLightsSave == true

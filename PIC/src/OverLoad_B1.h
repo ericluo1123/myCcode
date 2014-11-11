@@ -229,6 +229,7 @@ char getLoad_OK();
 void setLoad_OK();
 
 #else
+#define Load_Debug 0
 #define Load_Initialization() ;
 #define Load_Main() ;
 #define getLoad_AD(char) ;

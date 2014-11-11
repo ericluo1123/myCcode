@@ -3477,11 +3477,12 @@ Load.GO = 0;
 Load.GO = getMain_LightsStatus() == 1 && getMain_All_Error_Status(0) == 0 ? 1 : 0;
 
 if (Load.OK == 1) {
-if (getMain_LoadOK() == 1) {
+if (getMain_LoadOK() == 0) {
 Load.OK = 0;
 Load.Count = 0;
 }
 }
+
 
 if (Load.GO == 1) {
 Load.LightsON = 1;
@@ -3498,15 +3499,16 @@ for (i = 0; i < 4; i++) {
 Load.ADH += Load.AH[i];
 Load.ADL += Load.AL[i];
 }
-setLoad_AH_AL_Restore();
 Load.ADH /= 4;
 Load.ADL /= 4;
-RB5 = 0;
+product->Data[16]=Load.ADH >> 8;
+product->Data[17]=Load.ADH;
 if (Load.ADH > Load.ADL) {
 Load.AD = (Load.ADH - Load.ADL);
-
+RB5 = 0;
 Load.ADH = 0;
 Load.ADL = 0;
+
 if (Load.Count < 2) {
 Load.Count++;
 if (Load.Count == 1) {
@@ -3527,7 +3529,7 @@ Load.ErrorCount = 0;
 
 Load.ERROR = 1;
 
-# 102
+# 104
 product->Data[4]=(Load.AD >> 8);
 product->Data[5]=Load.AD;
 product->Data[6]=(Load.JudgeValue >> 8);
@@ -3549,6 +3551,9 @@ Load.JudgeValue = 0x32;
 Load.JudgeValue = (0x32 + Load.TotalLoad) - 0x08;
 }
 
+Load.AD = 0;
+Load.JudgeValue = 0;
+Load.LightsCount = 0;
 product->Data[4]=(Load.AD >> 8);
 product->Data[5]=Load.AD;
 product->Data[6]=(Load.JudgeValue >> 8);
@@ -3559,6 +3564,7 @@ product->Data[8]=Load.LightsCount;
 }
 }
 }
+setLoad_AH_AL_Restore();
 }
 } else {
 Load.ADtoGO = 1;
@@ -3577,7 +3583,9 @@ Load.SafeCount = 0;
 
 Load.ADH = 0;
 Load.ADL = 0;
-
+Load.AD = 0;
+Load.JudgeValue = 0;
+Load.LightsCount = 0;
 
 product->Data[4]=(Load.AD >> 8);
 product->Data[5]=Load.AD;
@@ -3592,7 +3600,7 @@ if (Load.ErrorTime >= 1000)
 {
 Load.ErrorTime = 0;
 
-# 171
+# 179
 Load.ERROR = 0;
 }
 }
@@ -3604,7 +3612,7 @@ Load.Enable = 1;
 }
 }
 
-# 217
+# 225
 char getLoad_OK() {
 char ok = Load.OK == 1 ? 1 : 0;
 return ok;
@@ -3616,7 +3624,7 @@ Load.OK = 0;
 Load.SafeCount = 0;
 }
 
-# 276
+# 284
 char getLoad_ERROR() {
 char result = Load.ERROR;
 

@@ -44,11 +44,12 @@ inline void Load_Main() {
         Load.GO = getMain_LightsStatus() == 1 && getMain_All_Error_Status(0) == 0 ? true : false;
 
         if (Load.OK == true) {
-            if (getMain_LoadOK() == 1) {
+            if (getMain_LoadOK() == 0) {
                 Load.OK = false;
                 Load.Count = 0;
             }
         }
+
         //load main
         if (Load.GO == true) {
             Load.LightsON = true;
@@ -65,15 +66,16 @@ inline void Load_Main() {
                         Load.ADH += Load.AH[i];
                         Load.ADL += Load.AL[i];
                     }
-                    setLoad_AH_AL_Restore();
                     Load.ADH /= 4;
                     Load.ADL /= 4;
-                    ErrLED = 0;
+                    setProductData(16, Load.ADH >> 8);
+                    setProductData(17, Load.ADH);
                     if (Load.ADH > Load.ADL) {
                         Load.AD = (Load.ADH - Load.ADL);
-
+                        ErrLED = 0;
                         Load.ADH = 0;
                         Load.ADL = 0;
+                        //                        ErrLED = ErrLED == true ? false : true;
                         if (Load.Count < 2) {
                             Load.Count++;
                             if (Load.Count == 1) {
@@ -133,6 +135,7 @@ inline void Load_Main() {
                             }
                         }
                     }
+                    setLoad_AH_AL_Restore();
                 }
             } else {
                 Load.ADtoGO = true;
@@ -151,7 +154,9 @@ inline void Load_Main() {
 
                 Load.ADH = 0;
                 Load.ADL = 0;
-
+                Load.AD = 0;
+                Load.JudgeValue = 0;
+                Load.LightsCount = 0;
 #if Load_Debug == 1
                 setProductData(4, (Load.AD >> 8));
                 setProductData(5, Load.AD);

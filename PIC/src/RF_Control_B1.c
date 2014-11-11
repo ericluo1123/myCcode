@@ -211,13 +211,12 @@ void setTxData() {
         RF1.TransceiveGO = true;
         RF1.RunTime = 20;
         //ErrLED = 0;
-        /*	Product->Data[0]=0x63;		//Command
-                Product->Data[1]=0x02;	//Command
-                Product->Data[20]=KeyID;	//Key ID*/
-        /*	for(i=2 ;i< 20 ;i++)
-                {
-                        RF_Data[i]=Product->Data[i];
-                }*/
+        //        	Product->Data[0]=0x63;		//Command
+        //                Product->Data[1]=0x02;	//Command
+        //                Product->Data[20]=KeyID;	//Key ID*/
+        //        for (i = 0; i < 20; i++) {
+        //            RF_Data[i] = product->Data[i];
+        //        }
 
         RF_Data[0] = 0x63; //Product->Data[0];		//Command
         RF_Data[1] = 0x02; //Product->Data[1];		//Command

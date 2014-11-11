@@ -3675,7 +3675,6 @@ setDimmerLights_Main(2);
 
 
 void setDimmerLights_Main(char lights) {
-char clear = 1;
 DimmerLightsPointSelect(lights);
 if (DimmerLights->Trigger == 1) {
 if (getMain_All_Error_Status(0) == 0) {
@@ -3696,13 +3695,6 @@ setDimmerLights(lights, 0);
 }
 } else {
 if (DimmerLights->TriggerAdj == 1) {
-if (getMain_All_Error_Status(0) == 0) {
-if (Dimmer.LoadOK == 1) {
-Dimmer.LoadOK = getLoad_OK() == 1 ? 0 : Dimmer.LoadOK;
-}
-} else {
-Dimmer.LoadOK = 0;
-}
 if (Dimmer.LoadOK == 0) {
 DimmerLights->TriggerAdj = 0;
 if (DimmerLights->AdjGo == 1) {
@@ -3727,10 +3719,10 @@ return status;
 char getDimmerLights_StatusFlag() {
 char Status = 0;
 
-# 489
+# 481
 Status = (DimmerLights1.StatusFlag == 1 || DimmerLights2.StatusFlag == 1) ? 1 : 0;
 
-# 496
+# 488
 return Status;
 }
 
@@ -3738,10 +3730,10 @@ return Status;
 char getDimmerLights_Trigger() {
 char Status = 0;
 
-# 508
+# 500
 Status = (DimmerLights1.Trigger == 1 || DimmerLights2.Trigger == 1) ? 1 : 0;
 
-# 515
+# 507
 return Status;
 }
 
@@ -3749,14 +3741,14 @@ return Status;
 char getSw_KeyStatus(char sw) {
 char status = 0;
 
-# 532
+# 524
 if (sw == 1) {
 status = (RA6 == 1 || RA4 == 1) ? 1 : 0;
 } else if (sw == 2) {
 status = (RA0 == 1 || RB1 == 1) ? 1 : 0;
 }
 
-# 543
+# 535
 return status;
 }
 
@@ -3764,12 +3756,10 @@ return status;
 char getAll_DimmerLights_AdjGO() {
 char adjgo = 0;
 
-# 553
+# 545
 adjgo = DimmerLights1.AdjGo == 1 || DimmerLights2.AdjGo == 1 ? 1 : 0;
 
-
-adjgo = DimmerLights1.AdjGo == 1;
-
+# 550
 return adjgo;
 }
 
@@ -3778,7 +3768,7 @@ void setDimmerLights_SwOn(char sw) {
 DimmerLightsPointSelect(sw);
 char idle = 0;
 
-idle = getAll_DimmerLights_AdjGO();
+idle = getAll_DimmerLights_AdjGO() == 1 ? 1 : 0;
 
 if (idle == 0) {
 DimmerLights->SwFlag = 1;
@@ -3811,6 +3801,8 @@ product->Data[17]=product->Data[26 + sw];
 } else {
 setDimmerLights_Trigger(sw, 0);
 setDelayOff_GO(sw, 0, 0);
+
+
 }
 setRF_DimmerLights(sw, command);
 setTxData();
@@ -3822,7 +3814,7 @@ void setDimmerLights_AdjControl(char sw) {
 DimmerLightsPointSelect(sw);
 char idle = 0;
 
-idle = getAll_DimmerLights_AdjGO();
+idle = getAll_DimmerLights_AdjGO() == 1 ? 1 : 0;
 
 if (idle == 0) {
 if (DimmerLights->SwFlag == 1) {
@@ -3837,10 +3829,10 @@ setDimmerLights_TriggerAdj(sw, 1);
 void setDimmerLights_ErrorClose(char lights) {
 if (lights == 255) {
 
-# 628
+# 622
 char count = 2;
 
-# 633
+# 627
 for (int i = 0; i < count; i++) {
 DimmerLightsPointSelect(i + 1);
 if (getDimmerLights_Status(i + 1) == 1) {
@@ -3858,7 +3850,7 @@ setDimmerLights_SwOff(lights);
 }
 }
 
-# 658
+# 651
 }
 
 char getDimmer_LoadOK() {
@@ -3880,13 +3872,9 @@ DimmerLightsPointSelect(lights);
 Dimmer.LoadOK = getMain_All_Error_Status(0) == 0 ? 1 : 0;
 Dimmer.LoadGO = status == 1 ? 1 : Dimmer.LoadGO;
 
-
 if (status == 1) {
-
 setLED(lights, 0);
 ;(0);
-
-
 
 DimmerLights->StatusFlag = 1;
 
@@ -3903,17 +3891,16 @@ DimmerLights->DimmingTimeValue = 7;
 
 } else {
 
-
 DimmerLights->DimmingValue = DimmerLights->MinimumValue;
 
-# 710
+# 698
 DimmerLights->Signal = 1;
 DimmerLights->AdjFlag = 0;
 DimmerLights->AdjStatus = 0;
 DimmerLights->AdjRF = 0;
 DimmerLights->DimmingTimeValue = 7;
 
-# 726
+# 712
 }
 }
 
@@ -3925,13 +3912,11 @@ DimmerLights->AdjFlag = 1;
 DimmerLights->Signal = 1;
 } else {
 if (DimmerLights->AdjFlag == 1) {
-
 DimmerLights->Signal = 0;
 DimmerLights->AdjFlag = 0;
-
 DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
 
-# 749
+# 733
 setRF_DimmerLights(lights, 1);
 setTxData();
 }
@@ -3972,14 +3957,14 @@ DimmerLights->TriggerAdj = 1;
 DimmerLights->AdjGo = command == 1 ? 1 : 0;
 }
 
-# 902
+# 886
 char getPercentValue(char value) {
 
 float i = ((char)((100-25)*0.8)) - ((char)((100-60)*0.8));
 i /= 100;
 return (char) (((100 - value) * i) + ((char)((100-60)*0.8)));
 
-# 915
+# 899
 }
 
 
@@ -3989,7 +3974,7 @@ float i = ((char)((100-25)*0.8)) - ((char)((100-60)*0.8));
 i /= 100;
 return (100 - (char) ((value - ((char)((100-60)*0.8))) / i));
 
-# 931
+# 915
 }
 
 

@@ -247,8 +247,8 @@ inline void my_MainTimer() {
             }
         }
 #endif
-    }
-#if Debug == 1
+    } 
+#if Load_Debug == 1
     myMain.Count2++;
     if (myMain.Count2 == 100) {
         myMain.Count2 = 0;
@@ -333,15 +333,15 @@ char getMain_AD_OK() {
 char getMain_LightsStatus() {
     char status = 0;
 
-#ifdef Switch_Class == 1
+#if Switch_Class == 1
     char count = 1;
 #endif
-#ifdef Switch_Class == 2
+#if Switch_Class == 2
     char count = 2;
 #endif
-#ifdef Switch_Class == 3
+#if Switch_Class == 3
     char count = 3;
-#endif
+#endif 
 
     for (int i = 0; i < count; i++) {
         if (status == 0) {
@@ -400,7 +400,7 @@ char getMain_All_Error_Status(char command) {
 
 char getMain_Lights_Count() {
     char status1 = 0, status2 = 0, status3 = 0, count = 0;
-
+ 
 #if Dimmer_use == 1
 #ifdef use_1KEY
     status1 = DimmerLights1.Status == true ? 1 : 0;
