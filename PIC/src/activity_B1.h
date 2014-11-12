@@ -129,7 +129,7 @@ typedef unsigned int ADtype;
 //OverLoad
 #if OverLoad_use == 1
 #if Properties_Dimmer == 1
-#define SafeCountValue 10
+#define SafeCountValue 3
 #else
 #define SafeCountValue 3
 #endif

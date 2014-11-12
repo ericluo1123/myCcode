@@ -115,7 +115,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S271 RF . . Count CheckCount CheckedCounter RunTime DebounceTime CorrectionCounter ]
 "176 ../src/../1-2.Switch_2Key_Dimmer.X/../src/OverLoad_B1.h
 [s S278 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S278 . Enable GO LightsON Safe ADtoGO ERROR Status OK ]
+[n S278 . Enable GO LightsON Run ADtoGO ERROR Status OK ]
 "174
 [u S277 `S278 1 ]
 [n S277 . . ]
@@ -136,20 +136,20 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S282 . . ]
 "51
 [s S285 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S285 . DetectOpen DetectClose OK MosfetSignal MosfetOK TriacFlag SwFlag SwAdj ]
+[n S285 . Line DetectClose OK MosfetSignal MosfetOK TriacFlag SwFlag SwAdj ]
 "49
 [u S284 `S285 1 ]
 [n S284 . . ]
 "11
 [s S279 `S280 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `S282 1 `S284 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
 [n S279 DimmerLights . DimmingTime DimmingTimeValue Count DimmingValue MaxmumValue MinimumValue TriacTime . . TriacCount DetectCount MosfetSignalCount TuneValue MosfetOK_Count ]
-"161
+"163
 [s S288 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
-[n S288 . Detect LoadOK LoadGO empty ]
-"159
+[n S288 . AdjGO LoadOK LoadGO empty ]
+"161
 [u S287 `S288 1 ]
 [n S287 . . ]
-"154
+"156
 [s S286 `S287 1 `uc 1 `uc 1 ]
 [n S286 Dimmer . Load Correction ]
 "25 ../src/../1-2.Switch_2Key_Dimmer.X/../src/DelayOff_B1.h
@@ -181,9 +181,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v F2422 `(v ~T0 @X0 1 tf ]
 "217 ../src/../1-2.Switch_2Key_Dimmer.X/../src/OverLoad_B1.h
 [v _Load_Initialization `TF2422 ~T0 @X0 0 e ]
-[v F2594 `(v ~T0 @X0 1 tf ]
+[v F2597 `(v ~T0 @X0 1 tf ]
 "49 ../src/../1-2.Switch_2Key_Dimmer.X/../src/DelayOff_B1.h
-[v _DelayOff_Initialization `TF2594 ~T0 @X0 0 e ]
+[v _DelayOff_Initialization `TF2597 ~T0 @X0 0 e ]
 "114 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h
 [v _DimmerLights_Initialization `(v ~T0 @X0 0 ef ]
 [v F2161 `(v ~T0 @X0 1 tf ]
@@ -227,13 +227,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v F2362 `(v ~T0 @X0 1 tf ]
 "53 ../src/../1-2.Switch_2Key_Dimmer.X/../src/RF_Control_B1.h
 [v _RF_Main `TF2362 ~T0 @X0 0 e ]
-[v F2596 `(v ~T0 @X0 1 tf ]
+[v F2599 `(v ~T0 @X0 1 tf ]
 "50 ../src/../1-2.Switch_2Key_Dimmer.X/../src/DelayOff_B1.h
-[v _DelayOff_Main `TF2596 ~T0 @X0 0 e ]
+[v _DelayOff_Main `TF2599 ~T0 @X0 0 e ]
 "62 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Buzzer_B1.h
 [v _setBuz `(v ~T0 @X0 0 ef2`uc`i ]
 "56 ../src/../1-2.Switch_2Key_Dimmer.X/../src/RF_Control_B1.h
 [v _setTxData `(v ~T0 @X0 0 ef ]
+"147 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h
+[v _getDimmerLights_Line `(uc ~T0 @X0 0 ef ]
 "95 ../src/../1-2.Switch_2Key_Dimmer.X/../src/LED_B1.h
 [v _setLED `(v ~T0 @X0 0 ef2`uc`uc ]
 "141 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Main_B1.h
@@ -242,7 +244,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _setDimmerLights_ErrorClose `(v ~T0 @X0 0 ef1`uc ]
 "135
 [v _getDimmerLights_Status `(uc ~T0 @X0 0 ef1`uc ]
-"174
+"176
 [v _getDimmer_LoadOK `(uc ~T0 @X0 0 ef ]
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
@@ -2935,7 +2937,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverLoad_B1.h: 177: unsigned Enable : 1;
 [; ;OverLoad_B1.h: 178: unsigned GO : 1;
 [; ;OverLoad_B1.h: 179: unsigned LightsON : 1;
-[; ;OverLoad_B1.h: 180: unsigned Safe : 1;
+[; ;OverLoad_B1.h: 180: unsigned Run : 1;
 [; ;OverLoad_B1.h: 181: unsigned ADtoGO : 1;
 [; ;OverLoad_B1.h: 182: unsigned ERROR : 1;
 [; ;OverLoad_B1.h: 183: unsigned Status : 1;
@@ -3003,7 +3005,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.h: 47: };
 [; ;Dimmer_B1.h: 49: union {
 [; ;Dimmer_B1.h: 51: struct {
-[; ;Dimmer_B1.h: 52: unsigned DetectOpen : 1;
+[; ;Dimmer_B1.h: 52: unsigned Line : 1;
 [; ;Dimmer_B1.h: 53: unsigned DetectClose : 1;
 [; ;Dimmer_B1.h: 54: unsigned OK : 1;
 [; ;Dimmer_B1.h: 55: unsigned MosfetSignal : 1;
@@ -3074,23 +3076,25 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.h: 143: char getSw_KeyStatus(char sw);
 [; ;Dimmer_B1.h: 144: void setDimmerLights_ErrorClose(char lights);
 [; ;Dimmer_B1.h: 145: void setDimmerLights_Status(char lights, char command);
-[; ;Dimmer_B1.h: 154: struct Dimmer {
-[; ;Dimmer_B1.h: 159: union {
-[; ;Dimmer_B1.h: 161: struct {
-[; ;Dimmer_B1.h: 162: unsigned Detect : 1;
-[; ;Dimmer_B1.h: 163: unsigned LoadOK : 1;
-[; ;Dimmer_B1.h: 164: unsigned LoadGO : 1;
-[; ;Dimmer_B1.h: 165: unsigned empty : 5;
-[; ;Dimmer_B1.h: 166: };
-[; ;Dimmer_B1.h: 167: };
-[; ;Dimmer_B1.h: 168: unsigned char Load;
-[; ;Dimmer_B1.h: 169: unsigned char Correction;
-[; ;Dimmer_B1.h: 170: };
-"172
+[; ;Dimmer_B1.h: 146: void setDimmerLights_Line(char lights);
+[; ;Dimmer_B1.h: 147: char getDimmerLights_Line();
+[; ;Dimmer_B1.h: 156: struct Dimmer {
+[; ;Dimmer_B1.h: 161: union {
+[; ;Dimmer_B1.h: 163: struct {
+[; ;Dimmer_B1.h: 164: unsigned AdjGO : 1;
+[; ;Dimmer_B1.h: 165: unsigned LoadOK : 1;
+[; ;Dimmer_B1.h: 166: unsigned LoadGO : 1;
+[; ;Dimmer_B1.h: 167: unsigned empty : 5;
+[; ;Dimmer_B1.h: 168: };
+[; ;Dimmer_B1.h: 169: };
+[; ;Dimmer_B1.h: 170: unsigned char Load;
+[; ;Dimmer_B1.h: 171: unsigned char Correction;
+[; ;Dimmer_B1.h: 172: };
+"174
 [v _Dimmer `S286 ~T0 @X0 1 e ]
-[; ;Dimmer_B1.h: 172: struct Dimmer Dimmer;
-[; ;Dimmer_B1.h: 174: char getDimmer_LoadOK();
-[; ;Dimmer_B1.h: 175: inline void Dimmer_Initialization();
+[; ;Dimmer_B1.h: 174: struct Dimmer Dimmer;
+[; ;Dimmer_B1.h: 176: char getDimmer_LoadOK();
+[; ;Dimmer_B1.h: 177: inline void Dimmer_Initialization();
 [; ;DelayOff_B1.h: 21: struct DelayOff {
 [; ;DelayOff_B1.h: 23: union {
 [; ;DelayOff_B1.h: 25: struct {
@@ -3437,9 +3441,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _status -> -> 0 `i `uc ]
 [v _buz `uc ~T0 @X0 1 a ]
 [e = _buz -> -> 0 `i `uc ]
-[; ;Main_B1.c: 292: status = command == 3 ? 1 : 255;
+[; ;Main_B1.c: 292: status = command == 3 ? getDimmerLights_Line() : 255;
 "292
-[e = _status -> ? == -> _command `i -> 3 `i : -> 1 `i -> 255 `i `uc ]
+[e = _status -> ? == -> _command `i -> 3 `i : -> ( _getDimmerLights_Line ..  `i -> 255 `i `uc ]
 [; ;Main_B1.c: 294: if (command == 0) {
 "294
 [e $ ! == -> _command `i -> 0 `i 312  ]
@@ -3460,197 +3464,197 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 [e :U 313 ]
 [; ;Main_B1.c: 298: }
-[; ;Main_B1.c: 299: if (command != 0) {
-"299
+[; ;Main_B1.c: 300: if (command != 0) {
+"300
 [e $ ! != -> _command `i -> 0 `i 314  ]
 {
-[; ;Main_B1.c: 300: switch (command) {
-"300
+[; ;Main_B1.c: 301: switch (command) {
+"301
 [e $U 316  ]
 {
-[; ;Main_B1.c: 301: case 2:
-"301
-[e :U 317 ]
-[; ;Main_B1.c: 302: if (getMain_LightsStatus() == 1) {
+[; ;Main_B1.c: 302: case 2:
 "302
+[e :U 317 ]
+[; ;Main_B1.c: 303: if (getMain_LightsStatus() == 1) {
+"303
 [e $ ! == -> ( _getMain_LightsStatus ..  `i -> 1 `i 318  ]
 {
-[; ;Main_B1.c: 303: setBuz(10, 300);
-"303
-[e ( _setBuz (2 , -> -> 10 `i `uc -> 300 `i ]
+[; ;Main_B1.c: 304: setBuz(10, 300);
 "304
+[e ( _setBuz (2 , -> -> 10 `i `uc -> 300 `i ]
+"305
 }
 [e :U 318 ]
-[; ;Main_B1.c: 304: }
-[; ;Main_B1.c: 305: break;
-"305
-[e $U 315  ]
-[; ;Main_B1.c: 306: case 3:
+[; ;Main_B1.c: 305: }
+[; ;Main_B1.c: 306: break;
 "306
-[e :U 319 ]
-[; ;Main_B1.c: 307: if (getMain_LightsStatus() == 1) {
+[e $U 315  ]
+[; ;Main_B1.c: 307: case 3:
 "307
+[e :U 319 ]
+[; ;Main_B1.c: 308: if (getMain_LightsStatus() == 1) {
+"308
 [e $ ! == -> ( _getMain_LightsStatus ..  `i -> 1 `i 320  ]
 {
-[; ;Main_B1.c: 308: setBuz(5, 300);
-"308
-[e ( _setBuz (2 , -> -> 5 `i `uc -> 300 `i ]
+[; ;Main_B1.c: 309: setBuz(5, 300);
 "309
+[e ( _setBuz (2 , -> -> 5 `i `uc -> 300 `i ]
+"310
 }
 [e :U 320 ]
-[; ;Main_B1.c: 309: }
-[; ;Main_B1.c: 310: break;
-"310
-[e $U 315  ]
+[; ;Main_B1.c: 310: }
+[; ;Main_B1.c: 311: break;
 "311
-}
-[; ;Main_B1.c: 311: }
 [e $U 315  ]
-"300
+"312
+}
+[; ;Main_B1.c: 312: }
+[e $U 315  ]
+"301
 [e :U 316 ]
 [e [\ _command , $ -> -> 2 `i `uc 317
  , $ -> -> 3 `i `uc 319
  315 ]
-"311
-[e :U 315 ]
-[; ;Main_B1.c: 312: setDimmerLights_ErrorClose(status);
 "312
-[e ( _setDimmerLights_ErrorClose (1 _status ]
+[e :U 315 ]
+[; ;Main_B1.c: 313: setDimmerLights_ErrorClose(status);
 "313
+[e ( _setDimmerLights_ErrorClose (1 _status ]
+"314
 }
 [e :U 314 ]
-[; ;Main_B1.c: 313: }
-[; ;Main_B1.c: 315: }
-"315
+[; ;Main_B1.c: 314: }
+[; ;Main_B1.c: 316: }
+"316
 [e :UE 311 ]
 }
-"318
+"319
 [v _getMain_AD_OK `(uc ~T0 @X0 1 ef ]
 {
-[; ;Main_B1.c: 318: char getMain_AD_OK() {
+[; ;Main_B1.c: 319: char getMain_AD_OK() {
 [e :U _getMain_AD_OK ]
 [f ]
-"319
+"320
 [v _result `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 319: char result = 0;
+[; ;Main_B1.c: 320: char result = 0;
 [e = _result -> -> 0 `i `uc ]
-[; ;Main_B1.c: 325: if (result == 0) {
-"325
+[; ;Main_B1.c: 326: if (result == 0) {
+"326
 [e $ ! == -> _result `i -> 0 `i 322  ]
 {
-"327
+"328
 }
 [e :U 322 ]
-[; ;Main_B1.c: 327: }
-[; ;Main_B1.c: 329: return result;
-"329
+[; ;Main_B1.c: 328: }
+[; ;Main_B1.c: 330: return result;
+"330
 [e ) _result ]
 [e $UE 321  ]
-[; ;Main_B1.c: 330: }
-"330
+[; ;Main_B1.c: 331: }
+"331
 [e :UE 321 ]
 }
-"333
+"334
 [v _getMain_LightsStatus `(uc ~T0 @X0 1 ef ]
 {
-[; ;Main_B1.c: 333: char getMain_LightsStatus() {
+[; ;Main_B1.c: 334: char getMain_LightsStatus() {
 [e :U _getMain_LightsStatus ]
 [f ]
-"334
+"335
 [v _status `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 334: char status = 0;
+[; ;Main_B1.c: 335: char status = 0;
 [e = _status -> -> 0 `i `uc ]
-"340
+"341
 [v _count `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 340: char count = 2;
+[; ;Main_B1.c: 341: char count = 2;
 [e = _count -> -> 2 `i `uc ]
-[; ;Main_B1.c: 346: for (int i = 0; i < count; i++) {
-"346
+[; ;Main_B1.c: 347: for (int i = 0; i < count; i++) {
+"347
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
 [e $U 327  ]
 [e :U 324 ]
 {
-[; ;Main_B1.c: 347: if (status == 0) {
-"347
+[; ;Main_B1.c: 348: if (status == 0) {
+"348
 [e $ ! == -> _status `i -> 0 `i 328  ]
 {
-[; ;Main_B1.c: 352: status = getDimmerLights_Status(i + 1) == 1 ? 1 : 0;
-"352
+[; ;Main_B1.c: 353: status = getDimmerLights_Status(i + 1) == 1 ? 1 : 0;
+"353
 [e = _status -> ? == -> ( _getDimmerLights_Status (1 -> + _i -> 1 `i `uc `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-"354
-}
-[e :U 328 ]
 "355
 }
-"346
+[e :U 328 ]
+"356
+}
+"347
 [e ++ _i -> 1 `i ]
 [e :U 327 ]
 [e $ < _i -> _count `i 324  ]
 [e :U 325 ]
-"355
-}
-[; ;Main_B1.c: 354: }
-[; ;Main_B1.c: 355: }
-[; ;Main_B1.c: 356: return status;
 "356
+}
+[; ;Main_B1.c: 355: }
+[; ;Main_B1.c: 356: }
+[; ;Main_B1.c: 357: return status;
+"357
 [e ) _status ]
 [e $UE 323  ]
-[; ;Main_B1.c: 357: }
-"357
+[; ;Main_B1.c: 358: }
+"358
 [e :UE 323 ]
 }
-"360
+"361
 [v _getMain_All_Error_Status `(uc ~T0 @X0 1 ef1`uc ]
 {
-[; ;Main_B1.c: 360: char getMain_All_Error_Status(char command) {
+[; ;Main_B1.c: 361: char getMain_All_Error_Status(char command) {
 [e :U _getMain_All_Error_Status ]
 [v _command `uc ~T0 @X0 1 r1 ]
 [f ]
-"361
+"362
 [v _status `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 361: char status = 0;
+[; ;Main_B1.c: 362: char status = 0;
 [e = _status -> -> 0 `i `uc ]
-[; ;Main_B1.c: 372: if (status == 0 && command != 2) {
-"372
+[; ;Main_B1.c: 373: if (status == 0 && command != 2) {
+"373
 [e $ ! && == -> _status `i -> 0 `i != -> _command `i -> 2 `i 330  ]
 {
-[; ;Main_B1.c: 373: status = Temp.ERROR == 1 ? 2 : 0;
-"373
-[e = _status -> ? == -> . . . _Temp 0 0 1 `i -> 1 `i : -> 2 `i -> 0 `i `uc ]
+[; ;Main_B1.c: 374: status = Temp.ERROR == 1 ? 2 : 0;
 "374
+[e = _status -> ? == -> . . . _Temp 0 0 1 `i -> 1 `i : -> 2 `i -> 0 `i `uc ]
+"375
 }
 [e :U 330 ]
-[; ;Main_B1.c: 374: }
-[; ;Main_B1.c: 379: if (status == 0 && command != 3) {
-"379
+[; ;Main_B1.c: 375: }
+[; ;Main_B1.c: 380: if (status == 0 && command != 3) {
+"380
 [e $ ! && == -> _status `i -> 0 `i != -> _command `i -> 3 `i 331  ]
 {
-[; ;Main_B1.c: 380: status = Load.ERROR == 1 ? 3 : 0;
-"380
-[e = _status -> ? == -> . . . _Load 0 0 5 `i -> 1 `i : -> 3 `i -> 0 `i `uc ]
+[; ;Main_B1.c: 381: status = Load.ERROR == 1 ? 3 : 0;
 "381
+[e = _status -> ? == -> . . . _Load 0 0 5 `i -> 1 `i : -> 3 `i -> 0 `i `uc ]
+"382
 }
 [e :U 331 ]
-[; ;Main_B1.c: 381: }
-[; ;Main_B1.c: 397: return status;
-"397
+[; ;Main_B1.c: 382: }
+[; ;Main_B1.c: 398: return status;
+"398
 [e ) _status ]
 [e $UE 329  ]
-[; ;Main_B1.c: 398: }
-"398
+[; ;Main_B1.c: 399: }
+"399
 [e :UE 329 ]
 }
-"401
+"402
 [v _getMain_Lights_Count `(uc ~T0 @X0 1 ef ]
 {
-[; ;Main_B1.c: 401: char getMain_Lights_Count() {
+[; ;Main_B1.c: 402: char getMain_Lights_Count() {
 [e :U _getMain_Lights_Count ]
 [f ]
-"402
+"403
 [v _status1 `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 402: char status1 = 0, status2 = 0, status3 = 0, count = 0;
+[; ;Main_B1.c: 403: char status1 = 0, status2 = 0, status3 = 0, count = 0;
 [e = _status1 -> -> 0 `i `uc ]
 [v _status2 `uc ~T0 @X0 1 a ]
 [e = _status2 -> -> 0 `i `uc ]
@@ -3658,38 +3662,38 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _status3 -> -> 0 `i `uc ]
 [v _count `uc ~T0 @X0 1 a ]
 [e = _count -> -> 0 `i `uc ]
-[; ;Main_B1.c: 406: status1 = DimmerLights1.Status == 1 ? 1 : 0;
-"406
+[; ;Main_B1.c: 407: status1 = DimmerLights1.Status == 1 ? 1 : 0;
+"407
 [e = _status1 -> ? == -> . . . _DimmerLights1 0 0 5 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Main_B1.c: 409: status2 = DimmerLights2.Status == 1 ? 1 : 0;
-"409
+[; ;Main_B1.c: 410: status2 = DimmerLights2.Status == 1 ? 1 : 0;
+"410
 [e = _status2 -> ? == -> . . . _DimmerLights2 0 0 5 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Main_B1.c: 427: return count = (status1 + status2 + status3);
-"427
+[; ;Main_B1.c: 428: return count = (status1 + status2 + status3);
+"428
 [e ) = _count -> + + -> _status1 `i -> _status2 `i -> _status3 `i `uc ]
 [e $UE 332  ]
-[; ;Main_B1.c: 428: }
-"428
+[; ;Main_B1.c: 429: }
+"429
 [e :UE 332 ]
 }
-"431
+"432
 [v _getMain_LoadOK `(uc ~T0 @X0 1 ef ]
 {
-[; ;Main_B1.c: 431: char getMain_LoadOK() {
+[; ;Main_B1.c: 432: char getMain_LoadOK() {
 [e :U _getMain_LoadOK ]
 [f ]
-"432
+"433
 [v _ok `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 432: char ok = 0;
+[; ;Main_B1.c: 433: char ok = 0;
 [e = _ok -> -> 0 `i `uc ]
-[; ;Main_B1.c: 438: ok = getDimmer_LoadOK() == 1 ? 1 : 0;
-"438
+[; ;Main_B1.c: 439: ok = getDimmer_LoadOK() == 1 ? 1 : 0;
+"439
 [e = _ok -> ? == -> ( _getDimmer_LoadOK ..  `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Main_B1.c: 440: return ok;
-"440
+[; ;Main_B1.c: 441: return ok;
+"441
 [e ) _ok ]
 [e $UE 333  ]
-[; ;Main_B1.c: 441: }
-"441
+[; ;Main_B1.c: 442: }
+"442
 [e :UE 333 ]
 }

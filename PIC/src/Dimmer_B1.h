@@ -49,7 +49,7 @@ struct DimmerLights {
     union {
 
         struct {
-            unsigned DetectOpen : 1;
+            unsigned Line : 1;
             unsigned DetectClose : 1;
             unsigned OK : 1;
             unsigned MosfetSignal : 1;
@@ -143,6 +143,8 @@ void setDimmerLights_AdjControl(char sw);
 char getSw_KeyStatus(char sw);
 void setDimmerLights_ErrorClose(char lights);
 void setDimmerLights_Status(char lights, char command);
+void setDimmerLights_Line(char lights);
+char getDimmerLights_Line();
 
 //	char getDimmerLights_Clear(char);
 /*	void setDimmerLights_Close(char,char);
@@ -159,7 +161,7 @@ struct Dimmer {
     union {
 
         struct {
-            unsigned Detect : 1;
+            unsigned AdjGO : 1;
             unsigned LoadOK : 1;
             unsigned LoadGO : 1;
             unsigned empty : 5;

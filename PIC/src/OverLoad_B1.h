@@ -9,7 +9,7 @@
 #define Load_Debug 1
 #if PIR_use == false
 #if Dimmer_use == 1
-#define FirstLimitValue 500
+#define FirstLimitValue 0x400
 #if Max_Percent == 45
 #if Switch_Class == 3
 #define SecondLimitValue 0x22
@@ -59,7 +59,7 @@
 #endif
 
 #if Switch_Class == 2			
-#define SecondLimitValue 0x32
+#define SecondLimitValue 0x48
 #endif
 
 #if Switch_Class == 1			
@@ -89,7 +89,7 @@
 #if Switch_Class == 2			
 #define SecondLimitValue 0x32//1a
 #endif
-
+ 
 #if Switch_Class == 1			
 #define SecondLimitValue 0x42
 #endif
@@ -177,7 +177,7 @@ struct OverLoad {
             unsigned Enable : 1;
             unsigned GO : 1;
             unsigned LightsON : 1;
-            unsigned Safe : 1;
+            unsigned Run : 1;
             unsigned ADtoGO : 1;
             unsigned ERROR : 1;
             unsigned Status : 1;

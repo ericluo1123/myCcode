@@ -413,6 +413,16 @@ void setDimmerLights_Initialization(char lights) {
 //*********************************************************
 
 void DimmerLights_Main() {
+#if OverLoad_use == 1
+    if (getMain_All_Error_Status(0) == 0) {
+        if (Dimmer.LoadOK == true) {
+            Dimmer.LoadOK = getLoad_OK() == 1 || getMain_LightsStatus() == 0 ? false : Dimmer.LoadOK;
+        }
+    } else {
+        Dimmer.LoadOK = false;
+    }
+#endif
+
 #ifdef use_1KEY
     setDimmerLights_Main(1);
 #endif
@@ -431,13 +441,7 @@ void DimmerLights_Main() {
 void setDimmerLights_Main(char lights) {
     DimmerLightsPointSelect(lights);
     if (DimmerLights->Trigger == true) {
-        if (getMain_All_Error_Status(0) == 0) {
-            if (Dimmer.LoadOK == true) {
-                Dimmer.LoadOK = getLoad_OK() == 1 ? false : Dimmer.LoadOK;
-            }
-        } else {
-            Dimmer.LoadOK = false;
-        }
+
         if (Dimmer.LoadOK == false) {
             DimmerLights->Trigger = false;
 
@@ -601,7 +605,7 @@ void setDimmerLights_AdjControl(char sw) {
     DimmerLightsPointSelect(sw);
     char idle = 0;
 #if Dimmer_use == true
-    idle = getAll_DimmerLights_AdjGO() == 1 ? 1 : 0;
+    idle = getAll_DimmerLights_AdjGO() == 1 && Dimmer.LoadOK == true ? 1 : 0;
 #endif
     if (idle == 0) {
         if (DimmerLights->SwFlag == true) {
@@ -651,7 +655,7 @@ void setDimmerLights_ErrorClose(char lights) {
 }
 
 char getDimmer_LoadOK() {
-    char status = Dimmer.Load == true ? 1 : 0;
+    char status = Dimmer.LoadOK == true ? 1 : 0;
     return status;
 }
 //******************************************************************************
@@ -667,12 +671,13 @@ void setDimmerLights(char lights, char status) {
 
 #if OverLoad_use == true
     Dimmer.LoadOK = getMain_All_Error_Status(0) == 0 ? true : false;
-    Dimmer.LoadGO = status == 1 ? true : Dimmer.LoadGO;
+    //    Dimmer.LoadGO = status == 1 ? true : Dimmer.LoadGO;
 #endif
+
     if (status == 1) {
         setLED(lights, 0);
         setLED2(0);
-
+        setDimmerLights_Line(lights);
         DimmerLights->StatusFlag = true;
 #if Dimmer_Smooth == 0
         DimmerLights->DimmingValue = DimmerLights->MaxmumValue;
@@ -713,6 +718,55 @@ void setDimmerLights(char lights, char status) {
 }
 //*********************************************************
 
+void setDimmerLights_Line(char lights) {
+#ifdef use_1KEY
+    DimmerLights1.Line = false;
+#endif
+#ifdef use_2KEY
+    DimmerLights2.Line = false;
+#endif
+#ifdef use_3KEY
+    DimmerLights3.Line = false;
+#endif
+#ifdef use_1KEY
+    if (lights == 1) {
+        DimmerLights1.Line = true;
+    }
+#endif
+#ifdef use_2KEY
+    else if (lights == 2) {
+        DimmerLights2.Line = true;
+    }
+#endif
+#ifdef use_3KEY
+    else if (lights == 3) {
+        DimmerLights3.Line = true;
+    }
+#endif
+}
+//*********************************************************
+
+char getDimmerLights_Line() {
+    char line = 0;
+#ifdef use_1KEY
+    if (DimmerLights1.Line == true) {
+        line = 1;
+    }
+#endif
+#ifdef use_2KEY
+    else if (DimmerLights2.Line == true) {
+        line = 2;
+    }
+#endif
+#ifdef use_3KEY
+    else if (DimmerLights3.Line == true) {
+        line = 3;
+    }
+#endif
+    return line;
+}
+//*********************************************************
+
 void setDimmerLights_Adj(char lights, char status) {
     DimmerLightsPointSelect(lights);
     if (status == 1) {
@@ -729,6 +783,11 @@ void setDimmerLights_Adj(char lights, char status) {
 #if DimmerValue_SaveMemory == true
             setMemory_Modify(1);
 #endif
+#endif
+
+#if OverLoad_use == true
+            Dimmer.LoadOK = getMain_All_Error_Status(0) == 0 ? true : false;
+            //    Dimmer.LoadGO = status == 1 ? true : Dimmer.LoadGO;
 #endif
             setRF_DimmerLights(lights, 1);
             setTxData();
@@ -770,39 +829,6 @@ void setDimmerLights_TriggerAdj(char lights, char command) {
     DimmerLights->AdjGo = command == 1 ? true : false;
 }
 
-//void setDimmerLights_Clear(char lights, char command) {
-//
-//    DimmerLightsPointSelect(lights);
-//    DimmerLights->Clear = command;
-//}
-/*	char getDimmerLights_Clear(char lights)
-        {
-                DimmerLightsPointSelect(lights);
-                return DimmerLights->Clear;
-        }*/
-
-/*
-        void setDimmerLights_Open(char lights,char command)
-        {
-                DimmerLightsPointSelect(lights);
-                DimmerLights->Open=command;
-        }
-        char getDimmerLights_Open(char lights)
-        {
-                DimmerLightsPointSelect(lights);
-                return DimmerLights->Open;
-        }
-        void setDimmerLights_Close(char lights,char command)
-        {
-                DimmerLightsPointSelect(lights);
-                DimmerLights->Close=command;
-        }
-        char getDimmerLights_Close(char lights)
-        {
-                DimmerLightsPointSelect(lights);
-                return DimmerLights->Close;
-        }
- */
 //*********************************************************
 
 //void DimmerLights_Exceptions(char status) {

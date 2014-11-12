@@ -259,7 +259,7 @@ void Fosc_Set();
 #define	ADCON1_RA3		0x72
 #define	ADCON1_Fixed		0x73
 
-#define	FVRCON_Reserved		0x00	
+#define	FVRCON_Off		0x00
 #define	FVRCON_1V		0xc1
 #define	FVRCON_2V		0xc2
 #define	FVRCON_4V		0xc3
@@ -272,8 +272,8 @@ void Fosc_Set();
 #define	ADCON1_RA3		0xf2
 #define	ADCON1_Fixed		0xf3
 
-#define	FVRCON_1V		0xc0
-#define	FVRCON_Reserved		0xc1
+#define	FVRCON_Off      	0xc0
+#define	FVRCON_1V               0xc1
 #define	FVRCON_2V		0xc2
 #define	FVRCON_4V		0xc3
 
@@ -285,8 +285,8 @@ void Fosc_Set();
 #define	ADCON1_RA3		0xf2
 #define	ADCON1_Fixed		0xf3
 
-#define	FVRCON_1V		0xc0
-#define	FVRCON_Reserved		0xc1
+#define	FVRCON_Off      	0xc0
+#define	FVRCON_1V               0xc1
 #define	FVRCON_2V		0xc2
 #define	FVRCON_4V		0xc3
 

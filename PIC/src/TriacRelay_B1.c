@@ -236,11 +236,11 @@ char getAll_Lights_Line() {
 #endif
 #ifdef use_2KEY
     LightsPointSelect(2);
-    line = Lights->Line == true ? 1 : 0;
+    line = Lights->Line == true ? 2 : 0;
 #endif
 #ifdef use_3KEY
     LightsPointSelect(3);
-    line = Lights->Line == true ? 1 : 0;
+    line = Lights->Line == true ? 3 : 0;
 #endif
     return line;
 }

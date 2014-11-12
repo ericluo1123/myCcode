@@ -247,7 +247,7 @@ inline void my_MainTimer() {
             }
         }
 #endif
-    } 
+    }
 #if Load_Debug == 1
     myMain.Count2++;
     if (myMain.Count2 == 100) {
@@ -289,13 +289,14 @@ void setMain_Exception(char command) {
     }
 #endif
 #if Dimmer_use == 1
-    status = command == 3 ? 1 : 255;
+    status = command == 3 ? getDimmerLights_Line() : 255;
 
     if (command == 0) {
         setLED(99, 10);
     } else {
         setLED(99, 11);
     }
+
     if (command != 0) {
         switch (command) {
             case 2:
@@ -400,7 +401,7 @@ char getMain_All_Error_Status(char command) {
 
 char getMain_Lights_Count() {
     char status1 = 0, status2 = 0, status3 = 0, count = 0;
- 
+
 #if Dimmer_use == 1
 #ifdef use_1KEY
     status1 = DimmerLights1.Status == true ? 1 : 0;

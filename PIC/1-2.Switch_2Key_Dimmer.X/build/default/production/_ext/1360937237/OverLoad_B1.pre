@@ -3225,7 +3225,7 @@ struct {
 unsigned Enable : 1;
 unsigned GO : 1;
 unsigned LightsON : 1;
-unsigned Safe : 1;
+unsigned Run : 1;
 unsigned ADtoGO : 1;
 unsigned ERROR : 1;
 unsigned Status : 1;
@@ -3311,7 +3311,7 @@ unsigned MosfetClose : 1;
 union {
 
 struct {
-unsigned DetectOpen : 1;
+unsigned Line : 1;
 unsigned DetectClose : 1;
 unsigned OK : 1;
 unsigned MosfetSignal : 1;
@@ -3381,8 +3381,10 @@ void setDimmerLights_AdjControl(char sw);
 char getSw_KeyStatus(char sw);
 void setDimmerLights_ErrorClose(char lights);
 void setDimmerLights_Status(char lights, char command);
+void setDimmerLights_Line(char lights);
+char getDimmerLights_Line();
 
-# 154
+# 156
 struct Dimmer {
 
 
@@ -3391,7 +3393,7 @@ struct Dimmer {
 union {
 
 struct {
-unsigned Detect : 1;
+unsigned AdjGO : 1;
 unsigned LoadOK : 1;
 unsigned LoadGO : 1;
 unsigned empty : 5;
@@ -3470,18 +3472,18 @@ k = 1;
 
 
 inline void Load_Main() {
-char i = 0, j = 0, error = 0;
+char i = 0, j = 0, error = getMain_All_Error_Status(0), adjgo = 0;
+
 if (Load.Enable == 1) {
-Load.GO = 0;
 
-Load.GO = getMain_LightsStatus() == 1 && getMain_All_Error_Status(0) == 0 ? 1 : 0;
+adjgo = getAll_DimmerLights_AdjGO();
 
-if (Load.OK == 1) {
-if (getMain_LoadOK() == 0) {
+Load.GO = getMain_LightsStatus() == 1 && error == 0 ? 1 : 0;
+if (getMain_LoadOK() == 1 && Load.Run == 0 && adjgo == 0) {
+Load.Run = 1;
 Load.OK = 0;
-Load.Count = 0;
 }
-}
+
 
 
 if (Load.GO == 1) {
@@ -3492,8 +3494,6 @@ Load.Time++;
 if (Load.Time >= 5) {
 Load.Time = 0;
 Load.ADtoGO = 0;
-Load.LightsCount = getMain_Lights_Count();
-
 
 for (i = 0; i < 4; i++) {
 Load.ADH += Load.AH[i];
@@ -3501,35 +3501,35 @@ Load.ADL += Load.AL[i];
 }
 Load.ADH /= 4;
 Load.ADL /= 4;
-product->Data[16]=Load.ADH >> 8;
-product->Data[17]=Load.ADH;
+setLoad_AH_AL_Restore();
 if (Load.ADH > Load.ADL) {
-Load.AD = (Load.ADH - Load.ADL);
-RB5 = 0;
+Load.AD = Load.ADH - Load.ADL;
 Load.ADH = 0;
 Load.ADL = 0;
+Load.LightsCount = getMain_Lights_Count();
 
+if (Load.Run == 1) {
 if (Load.Count < 2) {
 Load.Count++;
 if (Load.Count == 1) {
-Load.JudgeValue = 500;
+Load.JudgeValue = 0x400;
 } else if (Load.Count == 2) {
 if (Load.LightsCount == 1) {
-Load.JudgeValue = 0x32;
+Load.JudgeValue = 0x48;
 } else {
-Load.JudgeValue = (0x32 + Load.TotalLoad) - 0x08;
+Load.JudgeValue = 0x48 + Load.TotalLoad;
+}
 }
 }
 }
 
-if (Load.AD >= Load.JudgeValue) {
+if (Load.AD >= Load.JudgeValue && adjgo == 0) {
 Load.ErrorCount++;
 if (Load.ErrorCount > 2) {
 Load.ErrorCount = 0;
-
 Load.ERROR = 1;
 
-# 104
+# 102
 product->Data[4]=(Load.AD >> 8);
 product->Data[5]=Load.AD;
 product->Data[6]=(Load.JudgeValue >> 8);
@@ -3539,21 +3539,17 @@ product->Data[8]=Load.LightsCount;
 }
 } else {
 Load.ErrorCount = 0;
+if (Load.Run == 1) {
 if (Load.OK == 0) {
 Load.SafeCount++;
-if (Load.SafeCount >= 10) {
+if (Load.SafeCount >= 3) {
 Load.SafeCount = 0;
 Load.OK = 1;
+Load.Run = 0;
+Load.Count = 0;
 Load.TotalLoad = Load.AD;
-if (Load.LightsCount == 1) {
-Load.JudgeValue = 0x32;
-} else {
-Load.JudgeValue = (0x32 + Load.TotalLoad) - 0x08;
-}
 
-Load.AD = 0;
-Load.JudgeValue = 0;
-Load.LightsCount = 0;
+
 product->Data[4]=(Load.AD >> 8);
 product->Data[5]=Load.AD;
 product->Data[6]=(Load.JudgeValue >> 8);
@@ -3564,14 +3560,13 @@ product->Data[8]=Load.LightsCount;
 }
 }
 }
-setLoad_AH_AL_Restore();
+}
 }
 } else {
 Load.ADtoGO = 1;
 }
 } else {
-Load.OK = 1;
-if (Load.LightsON == 1) {
+if (Load.LightsON == 1 && error != 3) {
 Load.LightsON = 0;
 
 Load.Time = 0;
@@ -3586,6 +3581,8 @@ Load.ADL = 0;
 Load.AD = 0;
 Load.JudgeValue = 0;
 Load.LightsCount = 0;
+Load.Run = 0;
+Load.OK = 1;
 
 product->Data[4]=(Load.AD >> 8);
 product->Data[5]=Load.AD;
@@ -3596,11 +3593,10 @@ product->Data[8]=Load.LightsCount;
 }
 if (Load.ERROR == 1) {
 Load.ErrorTime++;
-if (Load.ErrorTime >= 1000)
-{
+if (Load.ErrorTime >= 1000) {
 Load.ErrorTime = 0;
 
-# 179
+# 173
 Load.ERROR = 0;
 }
 }
@@ -3612,7 +3608,7 @@ Load.Enable = 1;
 }
 }
 
-# 225
+# 219
 char getLoad_OK() {
 char ok = Load.OK == 1 ? 1 : 0;
 return ok;
@@ -3624,7 +3620,7 @@ Load.OK = 0;
 Load.SafeCount = 0;
 }
 
-# 284
+# 278
 char getLoad_ERROR() {
 char result = Load.ERROR;
 

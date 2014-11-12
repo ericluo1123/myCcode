@@ -3225,7 +3225,7 @@ struct {
 unsigned Enable : 1;
 unsigned GO : 1;
 unsigned LightsON : 1;
-unsigned Safe : 1;
+unsigned Run : 1;
 unsigned ADtoGO : 1;
 unsigned ERROR : 1;
 unsigned Status : 1;
@@ -3311,7 +3311,7 @@ unsigned MosfetClose : 1;
 union {
 
 struct {
-unsigned DetectOpen : 1;
+unsigned Line : 1;
 unsigned DetectClose : 1;
 unsigned OK : 1;
 unsigned MosfetSignal : 1;
@@ -3381,8 +3381,10 @@ void setDimmerLights_AdjControl(char sw);
 char getSw_KeyStatus(char sw);
 void setDimmerLights_ErrorClose(char lights);
 void setDimmerLights_Status(char lights, char command);
+void setDimmerLights_Line(char lights);
+char getDimmerLights_Line();
 
-# 154
+# 156
 struct Dimmer {
 
 
@@ -3391,7 +3393,7 @@ struct Dimmer {
 union {
 
 struct {
-unsigned Detect : 1;
+unsigned AdjGO : 1;
 unsigned LoadOK : 1;
 unsigned LoadGO : 1;
 unsigned empty : 5;
@@ -3596,7 +3598,7 @@ setDimmerReClock();
 # 420
 void ADC_Set() {
 ADCON1 = 0xf3;
-FVRCON = 0xc0;
+FVRCON = 0xc1;
 }
 
 # 454
