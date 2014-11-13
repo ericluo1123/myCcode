@@ -1903,7 +1903,7 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 756
+# 757
 struct WDT {
 
 union {
@@ -1917,7 +1917,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 784
+# 785
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -1938,9 +1938,8 @@ unsigned Tempty : 3;
 };
 };
 unsigned int PowerCount;
-unsigned char Error;
 
-# 88
+# 87
 union {
 
 struct {
@@ -1969,16 +1968,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 123
+# 122
 inline void myMain_Initialization();
 
-# 128
+# 127
 inline void my_Main();
 
-# 133
+# 132
 inline void my_MainTimer();
 
-# 138
+# 137
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -1986,8 +1985,9 @@ char getMain_AD_OK();
 char getMain_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
+char getMain_LoadOK();
 
-# 101 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
+# 96 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2020,9 +2020,7 @@ struct LED *LED;
 
 struct LED VarErrLED;
 
-
-
-
+# 34
 struct LED VarLED1;
 
 
@@ -2030,25 +2028,25 @@ struct LED VarLED1;
 
 struct LED VarLED2;
 
-# 49
+# 51
 inline void LED_Initialization();
 
-# 54
+# 56
 inline void LED_Main();
 
-# 63
+# 65
 void LedPointSelect(char led);
 
-# 72
+# 74
 void setLED_Initialization(char led);
 
-# 81
+# 83
 void setLED_Main(char led);
 
-# 95
+# 97
 void setLED(char led, char command);
 
-# 107
+# 109
 struct PIRLED {
 
 union {
@@ -2108,7 +2106,7 @@ void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
 
-# 168 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
+# 172 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
 struct OverLoad {
 
 union {
@@ -2117,7 +2115,7 @@ struct {
 unsigned Enable : 1;
 unsigned GO : 1;
 unsigned LightsON : 1;
-unsigned Safe : 1;
+unsigned Run : 1;
 unsigned ADtoGO : 1;
 unsigned ERROR : 1;
 unsigned Status : 1;
@@ -2150,14 +2148,14 @@ unsigned char SafeCount;
 
 struct OverLoad Load;
 
-# 213
+# 217
 inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
 void setLoad_AH_AL_Restore();
 
-# 225
+# 228
 char getLoad_OK();
 void setLoad_OK();
 
@@ -2383,45 +2381,42 @@ k = 1;
 
 
 inline void Load_Main() {
-char i = 0, j = 0, error = 0;
+char i = 0, j = 0, error = getMain_All_Error_Status(0), adjgo = 0;
+
 if (Load.Enable == 1) {
-Load.GO = 0;
 
-
-Load.GO = getLightsControl_GO() == 1 && getMain_All_Error_Status(0) == 0 ? 1 : 0;
-
-if (Load.OK == 1) {
-if (getLightsControl_OK() == 1) {
+# 46
+Load.GO = getMain_LightsStatus() == 1 && error == 0 && adjgo == 0 ? 1 : 0;
+if (getMain_LoadOK() == 1 && Load.Run == 0) {
+Load.Run = 1;
 Load.OK = 0;
-Load.Count = 0;
 }
-}
+
+
 
 if (Load.GO == 1) {
 Load.LightsON = 1;
 
 if (Load.ADtoGO == 1) {
-
 Load.Time++;
 if (Load.Time >= 5) {
 Load.Time = 0;
 Load.ADtoGO = 0;
-Load.LightsCount = getMain_Lights_Count();
-
 
 for (i = 0; i < 4; i++) {
 Load.ADH += Load.AH[i];
 Load.ADL += Load.AL[i];
 }
-setLoad_AH_AL_Restore();
 Load.ADH /= 4;
 Load.ADL /= 4;
-
+setLoad_AH_AL_Restore();
 if (Load.ADH > Load.ADL) {
-Load.AD = (Load.ADH - Load.ADL);
-
+Load.AD = Load.ADH - Load.ADL;
 Load.ADH = 0;
 Load.ADL = 0;
+Load.LightsCount = getMain_Lights_Count();
+
+if (Load.Run == 1) {
 if (Load.Count < 2) {
 Load.Count++;
 if (Load.Count == 1) {
@@ -2430,7 +2425,8 @@ Load.JudgeValue = 80;
 if (Load.LightsCount == 1) {
 Load.JudgeValue = 15;
 } else {
-Load.JudgeValue = (15 + Load.TotalLoad) - 0x08;
+Load.JudgeValue = 15 + Load.TotalLoad;
+}
 }
 }
 }
@@ -2439,25 +2435,23 @@ if (Load.AD >= Load.JudgeValue) {
 Load.ErrorCount++;
 if (Load.ErrorCount > 2) {
 Load.ErrorCount = 0;
-
 Load.ERROR = 1;
 
-setLED(3, 111);
-
-# 110
+# 108
 }
 } else {
 Load.ErrorCount = 0;
+if (Load.Run == 1) {
 if (Load.OK == 0) {
 Load.SafeCount++;
 if (Load.SafeCount >= 3) {
 Load.SafeCount = 0;
 Load.OK = 1;
+Load.Run = 0;
+Load.Count = 0;
 Load.TotalLoad = Load.AD;
-if (Load.LightsCount == 1) {
-Load.JudgeValue = 15;
-} else {
-Load.JudgeValue = (15 + Load.TotalLoad) - 0x08;
+
+# 128
 }
 }
 }
@@ -2468,8 +2462,7 @@ Load.JudgeValue = (15 + Load.TotalLoad) - 0x08;
 Load.ADtoGO = 1;
 }
 } else {
-Load.OK = 1;
-if (Load.LightsON == 1) {
+if (Load.LightsON == 1 && error != 3) {
 Load.LightsON = 0;
 
 Load.Time = 0;
@@ -2481,17 +2474,20 @@ Load.SafeCount = 0;
 
 Load.ADH = 0;
 Load.ADL = 0;
+Load.AD = 0;
+Load.JudgeValue = 0;
+Load.LightsCount = 0;
+Load.Run = 0;
+Load.OK = 1;
+
+# 162
 }
 if (Load.ERROR == 1) {
 Load.ErrorTime++;
-if (Load.ErrorTime >= 1000)
-{
+if (Load.ErrorTime >= 1000) {
 Load.ErrorTime = 0;
 
-
-setLED(3, 110);
-
-# 158
+# 173
 Load.ERROR = 0;
 }
 }
@@ -2503,10 +2499,9 @@ Load.Enable = 1;
 }
 }
 
-# 204
+# 219
 char getLoad_OK() {
 char ok = Load.OK == 1 ? 1 : 0;
-
 return ok;
 }
 
@@ -2516,7 +2511,7 @@ Load.OK = 0;
 Load.SafeCount = 0;
 }
 
-# 264
+# 278
 char getLoad_ERROR() {
 char result = Load.ERROR;
 

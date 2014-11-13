@@ -3312,7 +3312,7 @@ union {
 
 struct {
 unsigned Line : 1;
-unsigned DetectClose : 1;
+unsigned Loop : 1;
 unsigned OK : 1;
 unsigned MosfetSignal : 1;
 unsigned MosfetOK : 1;
@@ -3564,12 +3564,7 @@ myMain.Flag = 1;
 
 }
 
-myMain.Count2++;
-if (myMain.Count2 == 100) {
-myMain.Count2 = 0;
-setTxData();
-}
-
+# 258
 }
 
 
@@ -3675,10 +3670,10 @@ char status1 = 0, status2 = 0, status3 = 0, count = 0;
 
 
 
-status1 = DimmerLights1.Status == 1 ? 1 : 0;
+status1 = DimmerLights1.Loop == 1 ? 1 : 0;
 
 
-status2 = DimmerLights2.Status == 1 ? 1 : 0;
+status2 = DimmerLights2.Loop == 1 ? 1 : 0;
 
 # 428
 return count = (status1 + status2 + status3);

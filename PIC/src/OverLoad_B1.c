@@ -43,8 +43,8 @@ inline void Load_Main() {
 #if Dimmer_use == 1
         adjgo = getAll_DimmerLights_AdjGO();
 #endif
-        Load.GO = getMain_LightsStatus() == 1 && error == 0 ? true : false;
-        if (getMain_LoadOK() == 1 && Load.Run == false && adjgo == 0) {
+        Load.GO = getMain_LightsStatus() == 1 && error == 0 && adjgo == 0 ? true : false;
+        if (getMain_LoadOK() == 1 && Load.Run == false) {
             Load.Run = true;
             Load.OK = false;
         }
@@ -88,7 +88,7 @@ inline void Load_Main() {
                             }
                         }
 
-                        if (Load.AD >= Load.JudgeValue && adjgo == 0) {
+                        if (Load.AD >= Load.JudgeValue) {
                             Load.ErrorCount++;
                             if (Load.ErrorCount > 2) {
                                 Load.ErrorCount = 0;

@@ -69,12 +69,10 @@ void setRF_Main() {
                 RF1.Key = false;
             }
 
-
             if (RF1.Key == true && RF1.Learn == false) {
                 RF1.Count = 0;
                 RF1.Run = true;
                 RF1.RxStatus = false;
-
             } else {
                 if (RF1.Run == true && RF1.Learn == false) {
                     RF1.Count++;
@@ -102,6 +100,7 @@ void setRF_Main() {
                     } else {
 
                         if (RF1.RxStatus == true) { // Check whether have data
+
                             CC2500_RxData();
                             if (RF1.ReceiveGO == true) {
                                 RF1.ReceiveGO = false;
@@ -116,7 +115,6 @@ void setRF_Main() {
                                 //LED2=~LED2;
 #else
                                 getRxData();
-                                //                                ErrLED = ErrLED == true ? false : true;
 #endif
 
                                 RF1.Run = true;
@@ -147,7 +145,6 @@ void setRF_Main() {
                                 CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
                                 CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
                                 CC2500_WriteCommand(CC2500_SRX); // set receive mode
-
                             }
 #endif
                         }
@@ -474,11 +471,15 @@ void setControl_Lights_Table() {
 //*********************************************************
 
 void setRFSW_Control(char sw) {
+    char status = 0;
+#if Dimmer_use == 1
+    status = getDimmerLights_Status(sw);
+#endif
     //    RfSWPointSelect(sw);
 #if Dimmer_use == true
     setDimmerLights_SwOn(sw);
 #endif
-    if (getDimmerLights_Status(sw) == 1) {
+    if (status == 1) {
         if (RF_Data[16] == 0x80) {
             setDelayOff_GO(sw, 1, RF_Data[17]);
         }
@@ -501,8 +502,12 @@ void setRFSW_Control(char sw) {
 //*********************************************************
 
 void setRFSW_AdjControl(char sw) {
+    char status = 0;
+#if Dimmer_use == 1
+    status = getDimmerLights_Status(sw);
+#endif
     //    RfSWPointSelect(sw);
-    if (getDimmerLights_Status(sw) == 1) {
+    if (status == 1) {
         setMemory_Modify(1);
         setRF_DimmerValue(sw);
     } else {

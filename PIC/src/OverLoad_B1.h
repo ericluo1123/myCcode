@@ -6,7 +6,7 @@
 
 
 #if OverLoad_use == 1
-#define Load_Debug 1
+#define Load_Debug 0
 #if PIR_use == false
 #if Dimmer_use == 1
 #define FirstLimitValue 0x400
@@ -59,7 +59,7 @@
 #endif
 
 #if Switch_Class == 2			
-#define SecondLimitValue 0x48
+#define SecondLimitValue 0x56
 #endif
 
 #if Switch_Class == 1			

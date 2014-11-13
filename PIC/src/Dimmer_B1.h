@@ -50,7 +50,7 @@ struct DimmerLights {
 
         struct {
             unsigned Line : 1;
-            unsigned DetectClose : 1;
+            unsigned Loop : 1;
             unsigned OK : 1;
             unsigned MosfetSignal : 1;
             unsigned MosfetOK : 1;
@@ -72,7 +72,11 @@ struct DimmerLights *DimmerLightsIntrIOC;
 #if Switch_Class == 1
 #define ID_1KEY_1 RB4=1
 #define ID_1KEY_0 RB4=0
+#if Switch_Optrion == 1
 #define setLED2(command) LED2=!command
+#else
+#define setLED2(command) ;
+#endif
 #else
 #define ID_1KEY_1 ;
 #define ID_1KEY_0 ;
@@ -140,7 +144,6 @@ char getAll_DimmerLights_AdjGO();
 void setDimmerLights_SwOn(char sw);
 void setDimmerLights_SwOff(char sw);
 void setDimmerLights_AdjControl(char sw);
-char getSw_KeyStatus(char sw);
 void setDimmerLights_ErrorClose(char lights);
 void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);

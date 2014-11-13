@@ -136,7 +136,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S282 . . ]
 "51
 [s S285 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S285 . Line DetectClose OK MosfetSignal MosfetOK TriacFlag SwFlag SwAdj ]
+[n S285 . Line Loop OK MosfetSignal MosfetOK TriacFlag SwFlag SwAdj ]
 "49
 [u S284 `S285 1 ]
 [n S284 . . ]
@@ -232,8 +232,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _DelayOff_Main `TF2599 ~T0 @X0 0 e ]
 "62 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Buzzer_B1.h
 [v _setBuz `(v ~T0 @X0 0 ef2`uc`i ]
-"56 ../src/../1-2.Switch_2Key_Dimmer.X/../src/RF_Control_B1.h
-[v _setTxData `(v ~T0 @X0 0 ef ]
 "147 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h
 [v _getDimmerLights_Line `(uc ~T0 @X0 0 ef ]
 "95 ../src/../1-2.Switch_2Key_Dimmer.X/../src/LED_B1.h
@@ -3006,7 +3004,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.h: 49: union {
 [; ;Dimmer_B1.h: 51: struct {
 [; ;Dimmer_B1.h: 52: unsigned Line : 1;
-[; ;Dimmer_B1.h: 53: unsigned DetectClose : 1;
+[; ;Dimmer_B1.h: 53: unsigned Loop : 1;
 [; ;Dimmer_B1.h: 54: unsigned OK : 1;
 [; ;Dimmer_B1.h: 55: unsigned MosfetSignal : 1;
 [; ;Dimmer_B1.h: 56: unsigned MosfetOK : 1;
@@ -3362,23 +3360,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.c: 247: }
 [; ;Main_B1.c: 248: }
 [; ;Main_B1.c: 250: }
-[; ;Main_B1.c: 252: myMain.Count2++;
-"252
-[e ++ . _myMain 4 -> -> 1 `i `ui ]
-[; ;Main_B1.c: 253: if (myMain.Count2 == 100) {
-"253
-[e $ ! == . _myMain 4 -> -> 100 `i `ui 307  ]
-{
-[; ;Main_B1.c: 254: myMain.Count2 = 0;
-"254
-[e = . _myMain 4 -> -> 0 `i `ui ]
-[; ;Main_B1.c: 255: setTxData();
-"255
-[e ( _setTxData ..  ]
-"256
-}
-[e :U 307 ]
-[; ;Main_B1.c: 256: }
 [; ;Main_B1.c: 258: }
 "258
 [e :UE 300 ]
@@ -3395,7 +3376,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ++ . _myMain 8 -> -> 1 `i `ui ]
 [; ;Main_B1.c: 263: if (myMain.Timeout_Counter == 10000) {
 "263
-[e $ ! == . _myMain 8 -> -> 10000 `i `ui 309  ]
+[e $ ! == . _myMain 8 -> -> 10000 `i `ui 308  ]
 {
 [; ;Main_B1.c: 264: myMain.Timeout_Counter = 0;
 "264
@@ -3405,11 +3386,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . . _myMain 7 0 2 -> -> 1 `i `uc ]
 "266
 }
-[e :U 309 ]
+[e :U 308 ]
 [; ;Main_B1.c: 266: }
 [; ;Main_B1.c: 267: }
 "267
-[e :UE 308 ]
+[e :UE 307 ]
 }
 [v F2122 `(v ~T0 @X0 1 tf ]
 "270
@@ -3426,7 +3407,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . _myMain 8 -> -> 0 `i `ui ]
 [; ;Main_B1.c: 273: }
 "273
-[e :UE 310 ]
+[e :UE 309 ]
 }
 "276
 [v _setMain_Exception `(v ~T0 @X0 1 ef1`uc ]
@@ -3446,7 +3427,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _status -> ? == -> _command `i -> 3 `i : -> ( _getDimmerLights_Line ..  `i -> 255 `i `uc ]
 [; ;Main_B1.c: 294: if (command == 0) {
 "294
-[e $ ! == -> _command `i -> 0 `i 312  ]
+[e $ ! == -> _command `i -> 0 `i 311  ]
 {
 [; ;Main_B1.c: 295: setLED(99, 10);
 "295
@@ -3454,79 +3435,79 @@ Version 3.2 HI-TECH Software Intermediate Code
 "296
 }
 [; ;Main_B1.c: 296: } else {
-[e $U 313  ]
-[e :U 312 ]
+[e $U 312  ]
+[e :U 311 ]
 {
 [; ;Main_B1.c: 297: setLED(99, 11);
 "297
 [e ( _setLED (2 , -> -> 99 `i `uc -> -> 11 `i `uc ]
 "298
 }
-[e :U 313 ]
+[e :U 312 ]
 [; ;Main_B1.c: 298: }
 [; ;Main_B1.c: 300: if (command != 0) {
 "300
-[e $ ! != -> _command `i -> 0 `i 314  ]
+[e $ ! != -> _command `i -> 0 `i 313  ]
 {
 [; ;Main_B1.c: 301: switch (command) {
 "301
-[e $U 316  ]
+[e $U 315  ]
 {
 [; ;Main_B1.c: 302: case 2:
 "302
-[e :U 317 ]
+[e :U 316 ]
 [; ;Main_B1.c: 303: if (getMain_LightsStatus() == 1) {
 "303
-[e $ ! == -> ( _getMain_LightsStatus ..  `i -> 1 `i 318  ]
+[e $ ! == -> ( _getMain_LightsStatus ..  `i -> 1 `i 317  ]
 {
 [; ;Main_B1.c: 304: setBuz(10, 300);
 "304
 [e ( _setBuz (2 , -> -> 10 `i `uc -> 300 `i ]
 "305
 }
-[e :U 318 ]
+[e :U 317 ]
 [; ;Main_B1.c: 305: }
 [; ;Main_B1.c: 306: break;
 "306
-[e $U 315  ]
+[e $U 314  ]
 [; ;Main_B1.c: 307: case 3:
 "307
-[e :U 319 ]
+[e :U 318 ]
 [; ;Main_B1.c: 308: if (getMain_LightsStatus() == 1) {
 "308
-[e $ ! == -> ( _getMain_LightsStatus ..  `i -> 1 `i 320  ]
+[e $ ! == -> ( _getMain_LightsStatus ..  `i -> 1 `i 319  ]
 {
 [; ;Main_B1.c: 309: setBuz(5, 300);
 "309
 [e ( _setBuz (2 , -> -> 5 `i `uc -> 300 `i ]
 "310
 }
-[e :U 320 ]
+[e :U 319 ]
 [; ;Main_B1.c: 310: }
 [; ;Main_B1.c: 311: break;
 "311
-[e $U 315  ]
+[e $U 314  ]
 "312
 }
 [; ;Main_B1.c: 312: }
-[e $U 315  ]
+[e $U 314  ]
 "301
-[e :U 316 ]
-[e [\ _command , $ -> -> 2 `i `uc 317
- , $ -> -> 3 `i `uc 319
- 315 ]
-"312
 [e :U 315 ]
+[e [\ _command , $ -> -> 2 `i `uc 316
+ , $ -> -> 3 `i `uc 318
+ 314 ]
+"312
+[e :U 314 ]
 [; ;Main_B1.c: 313: setDimmerLights_ErrorClose(status);
 "313
 [e ( _setDimmerLights_ErrorClose (1 _status ]
 "314
 }
-[e :U 314 ]
+[e :U 313 ]
 [; ;Main_B1.c: 314: }
 [; ;Main_B1.c: 316: }
 "316
-[e :UE 311 ]
+[e :UE 310 ]
 }
 "319
 [v _getMain_AD_OK `(uc ~T0 @X0 1 ef ]
@@ -3540,19 +3521,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _result -> -> 0 `i `uc ]
 [; ;Main_B1.c: 326: if (result == 0) {
 "326
-[e $ ! == -> _result `i -> 0 `i 322  ]
+[e $ ! == -> _result `i -> 0 `i 321  ]
 {
 "328
 }
-[e :U 322 ]
+[e :U 321 ]
 [; ;Main_B1.c: 328: }
 [; ;Main_B1.c: 330: return result;
 "330
 [e ) _result ]
-[e $UE 321  ]
+[e $UE 320  ]
 [; ;Main_B1.c: 331: }
 "331
-[e :UE 321 ]
+[e :UE 320 ]
 }
 "334
 [v _getMain_LightsStatus `(uc ~T0 @X0 1 ef ]
@@ -3573,26 +3554,26 @@ Version 3.2 HI-TECH Software Intermediate Code
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
-[e $U 327  ]
-[e :U 324 ]
+[e $U 326  ]
+[e :U 323 ]
 {
 [; ;Main_B1.c: 348: if (status == 0) {
 "348
-[e $ ! == -> _status `i -> 0 `i 328  ]
+[e $ ! == -> _status `i -> 0 `i 327  ]
 {
 [; ;Main_B1.c: 353: status = getDimmerLights_Status(i + 1) == 1 ? 1 : 0;
 "353
 [e = _status -> ? == -> ( _getDimmerLights_Status (1 -> + _i -> 1 `i `uc `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
 "355
 }
-[e :U 328 ]
+[e :U 327 ]
 "356
 }
 "347
 [e ++ _i -> 1 `i ]
-[e :U 327 ]
-[e $ < _i -> _count `i 324  ]
-[e :U 325 ]
+[e :U 326 ]
+[e $ < _i -> _count `i 323  ]
+[e :U 324 ]
 "356
 }
 [; ;Main_B1.c: 355: }
@@ -3600,10 +3581,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.c: 357: return status;
 "357
 [e ) _status ]
-[e $UE 323  ]
+[e $UE 322  ]
 [; ;Main_B1.c: 358: }
 "358
-[e :UE 323 ]
+[e :UE 322 ]
 }
 "361
 [v _getMain_All_Error_Status `(uc ~T0 @X0 1 ef1`uc ]
@@ -3618,33 +3599,33 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _status -> -> 0 `i `uc ]
 [; ;Main_B1.c: 373: if (status == 0 && command != 2) {
 "373
-[e $ ! && == -> _status `i -> 0 `i != -> _command `i -> 2 `i 330  ]
+[e $ ! && == -> _status `i -> 0 `i != -> _command `i -> 2 `i 329  ]
 {
 [; ;Main_B1.c: 374: status = Temp.ERROR == 1 ? 2 : 0;
 "374
 [e = _status -> ? == -> . . . _Temp 0 0 1 `i -> 1 `i : -> 2 `i -> 0 `i `uc ]
 "375
 }
-[e :U 330 ]
+[e :U 329 ]
 [; ;Main_B1.c: 375: }
 [; ;Main_B1.c: 380: if (status == 0 && command != 3) {
 "380
-[e $ ! && == -> _status `i -> 0 `i != -> _command `i -> 3 `i 331  ]
+[e $ ! && == -> _status `i -> 0 `i != -> _command `i -> 3 `i 330  ]
 {
 [; ;Main_B1.c: 381: status = Load.ERROR == 1 ? 3 : 0;
 "381
 [e = _status -> ? == -> . . . _Load 0 0 5 `i -> 1 `i : -> 3 `i -> 0 `i `uc ]
 "382
 }
-[e :U 331 ]
+[e :U 330 ]
 [; ;Main_B1.c: 382: }
 [; ;Main_B1.c: 398: return status;
 "398
 [e ) _status ]
-[e $UE 329  ]
+[e $UE 328  ]
 [; ;Main_B1.c: 399: }
 "399
-[e :UE 329 ]
+[e :UE 328 ]
 }
 "402
 [v _getMain_Lights_Count `(uc ~T0 @X0 1 ef ]
@@ -3662,19 +3643,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _status3 -> -> 0 `i `uc ]
 [v _count `uc ~T0 @X0 1 a ]
 [e = _count -> -> 0 `i `uc ]
-[; ;Main_B1.c: 407: status1 = DimmerLights1.Status == 1 ? 1 : 0;
+[; ;Main_B1.c: 407: status1 = DimmerLights1.Loop == 1 ? 1 : 0;
 "407
-[e = _status1 -> ? == -> . . . _DimmerLights1 0 0 5 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Main_B1.c: 410: status2 = DimmerLights2.Status == 1 ? 1 : 0;
+[e = _status1 -> ? == -> . . . _DimmerLights1 9 0 1 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
+[; ;Main_B1.c: 410: status2 = DimmerLights2.Loop == 1 ? 1 : 0;
 "410
-[e = _status2 -> ? == -> . . . _DimmerLights2 0 0 5 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
+[e = _status2 -> ? == -> . . . _DimmerLights2 9 0 1 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
 [; ;Main_B1.c: 428: return count = (status1 + status2 + status3);
 "428
 [e ) = _count -> + + -> _status1 `i -> _status2 `i -> _status3 `i `uc ]
-[e $UE 332  ]
+[e $UE 331  ]
 [; ;Main_B1.c: 429: }
 "429
-[e :UE 332 ]
+[e :UE 331 ]
 }
 "432
 [v _getMain_LoadOK `(uc ~T0 @X0 1 ef ]
@@ -3692,8 +3673,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.c: 441: return ok;
 "441
 [e ) _ok ]
-[e $UE 333  ]
+[e $UE 332  ]
 [; ;Main_B1.c: 442: }
 "442
-[e :UE 333 ]
+[e :UE 332 ]
 }

@@ -404,13 +404,13 @@ char getMain_Lights_Count() {
 
 #if Dimmer_use == 1
 #ifdef use_1KEY
-    status1 = DimmerLights1.Status == true ? 1 : 0;
+    status1 = DimmerLights1.Loop == true ? 1 : 0;
 #endif
 #ifdef use_2KEY
-    status2 = DimmerLights2.Status == true ? 1 : 0;
+    status2 = DimmerLights2.Loop == true ? 1 : 0;
 #endif
 #ifdef use_3KEY
-    status2 = DimmerLights3.Status == true ? 1 : 0;
+    status2 = DimmerLights3.Loop == true ? 1 : 0;
 #endif
 #endif
 

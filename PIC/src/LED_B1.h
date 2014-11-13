@@ -25,6 +25,8 @@ struct LED *LED;
 //ErrLED
 #ifdef ErrLED
 struct LED VarErrLED;
+#else
+#define ErrLED ;
 #endif
 
 //LED1

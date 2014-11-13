@@ -232,7 +232,34 @@ void setSw_Main(char sw) {
         }
     }
 }
+//******************************************************************************
 
+char getSw_KeyStatus(char sw) {
+    char status = 0;
+#if Switch_Class == 3
+    if (sw == 1) {
+        status = (Key1 == true) ? 1 : 0;
+    } else if (sw == 2) {
+        status = (Key2 == true) ? 1 : 0;
+    } else if (sw == 3) {
+        status = (Key3 == true) ? 1 : 0;
+    }
+#endif
+
+#if Switch_Class == 2
+    if (sw == 1) {
+        status = Key1_1 == true || Key1_2 == true ? 1 : 0;
+    } else if (sw == 2) {
+        status = Key2_1 == true || Key2_2 == true ? 1 : 0;
+    }
+#endif
+
+#if Switch_Class == 1
+    status = Key1_1 == true || Key1_2 == true || Key1_3 == true || Key1_4 == true ? 1 : 0;
+#endif
+
+    return status;
+}
 //******************************************************************************
 
 //void Sw_Detect() {

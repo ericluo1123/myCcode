@@ -3312,7 +3312,7 @@ union {
 
 struct {
 unsigned Line : 1;
-unsigned DetectClose : 1;
+unsigned Loop : 1;
 unsigned OK : 1;
 unsigned MosfetSignal : 1;
 unsigned MosfetOK : 1;
@@ -3478,8 +3478,8 @@ if (Load.Enable == 1) {
 
 adjgo = getAll_DimmerLights_AdjGO();
 
-Load.GO = getMain_LightsStatus() == 1 && error == 0 ? 1 : 0;
-if (getMain_LoadOK() == 1 && Load.Run == 0 && adjgo == 0) {
+Load.GO = getMain_LightsStatus() == 1 && error == 0 && adjgo == 0 ? 1 : 0;
+if (getMain_LoadOK() == 1 && Load.Run == 0) {
 Load.Run = 1;
 Load.OK = 0;
 }
@@ -3515,27 +3515,21 @@ if (Load.Count == 1) {
 Load.JudgeValue = 0x400;
 } else if (Load.Count == 2) {
 if (Load.LightsCount == 1) {
-Load.JudgeValue = 0x48;
+Load.JudgeValue = 0x56;
 } else {
-Load.JudgeValue = 0x48 + Load.TotalLoad;
+Load.JudgeValue = 0x56 + Load.TotalLoad;
 }
 }
 }
 }
 
-if (Load.AD >= Load.JudgeValue && adjgo == 0) {
+if (Load.AD >= Load.JudgeValue) {
 Load.ErrorCount++;
 if (Load.ErrorCount > 2) {
 Load.ErrorCount = 0;
 Load.ERROR = 1;
 
-# 102
-product->Data[4]=(Load.AD >> 8);
-product->Data[5]=Load.AD;
-product->Data[6]=(Load.JudgeValue >> 8);
-product->Data[7]=Load.JudgeValue;
-product->Data[8]=Load.LightsCount;
-
+# 108
 }
 } else {
 Load.ErrorCount = 0;
@@ -3549,13 +3543,7 @@ Load.Run = 0;
 Load.Count = 0;
 Load.TotalLoad = Load.AD;
 
-
-product->Data[4]=(Load.AD >> 8);
-product->Data[5]=Load.AD;
-product->Data[6]=(Load.JudgeValue >> 8);
-product->Data[7]=Load.JudgeValue;
-product->Data[8]=Load.LightsCount;
-
+# 128
 }
 }
 }
@@ -3584,12 +3572,7 @@ Load.LightsCount = 0;
 Load.Run = 0;
 Load.OK = 1;
 
-product->Data[4]=(Load.AD >> 8);
-product->Data[5]=Load.AD;
-product->Data[6]=(Load.JudgeValue >> 8);
-product->Data[7]=Load.JudgeValue;
-product->Data[8]=Load.LightsCount;
-
+# 162
 }
 if (Load.ERROR == 1) {
 Load.ErrorTime++;

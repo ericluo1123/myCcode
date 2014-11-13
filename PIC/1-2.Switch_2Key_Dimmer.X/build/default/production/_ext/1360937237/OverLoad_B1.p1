@@ -136,7 +136,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S282 . . ]
 "51
 [s S285 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S285 . Line DetectClose OK MosfetSignal MosfetOK TriacFlag SwFlag SwAdj ]
+[n S285 . Line Loop OK MosfetSignal MosfetOK TriacFlag SwFlag SwAdj ]
 "49
 [u S284 `S285 1 ]
 [n S284 . . ]
@@ -2936,7 +2936,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.h: 49: union {
 [; ;Dimmer_B1.h: 51: struct {
 [; ;Dimmer_B1.h: 52: unsigned Line : 1;
-[; ;Dimmer_B1.h: 53: unsigned DetectClose : 1;
+[; ;Dimmer_B1.h: 53: unsigned Loop : 1;
 [; ;Dimmer_B1.h: 54: unsigned OK : 1;
 [; ;Dimmer_B1.h: 55: unsigned MosfetSignal : 1;
 [; ;Dimmer_B1.h: 56: unsigned MosfetOK : 1;
@@ -3194,12 +3194,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverLoad_B1.c: 44: adjgo = getAll_DimmerLights_AdjGO();
 "44
 [e = _adjgo ( _getAll_DimmerLights_AdjGO ..  ]
-[; ;OverLoad_B1.c: 46: Load.GO = getMain_LightsStatus() == 1 && error == 0 ? 1 : 0;
+[; ;OverLoad_B1.c: 46: Load.GO = getMain_LightsStatus() == 1 && error == 0 && adjgo == 0 ? 1 : 0;
 "46
-[e = . . . _Load 0 0 1 -> ? && == -> ( _getMain_LightsStatus ..  `i -> 1 `i == -> _error `i -> 0 `i : -> 1 `i -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 47: if (getMain_LoadOK() == 1 && Load.Run == 0 && adjgo == 0) {
+[e = . . . _Load 0 0 1 -> ? && && == -> ( _getMain_LightsStatus ..  `i -> 1 `i == -> _error `i -> 0 `i == -> _adjgo `i -> 0 `i : -> 1 `i -> 0 `i `uc ]
+[; ;OverLoad_B1.c: 47: if (getMain_LoadOK() == 1 && Load.Run == 0) {
 "47
-[e $ ! && && == -> ( _getMain_LoadOK ..  `i -> 1 `i == -> . . . _Load 0 0 3 `i -> 0 `i == -> _adjgo `i -> 0 `i 306  ]
+[e $ ! && == -> ( _getMain_LoadOK ..  `i -> 1 `i == -> . . . _Load 0 0 3 `i -> 0 `i 306  ]
 {
 [; ;OverLoad_B1.c: 48: Load.Run = 1;
 "48
@@ -3312,18 +3312,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 "82
 [e $ ! == -> . _Load 15 `i -> 1 `i 319  ]
 {
-[; ;OverLoad_B1.c: 83: Load.JudgeValue = 0x48;
+[; ;OverLoad_B1.c: 83: Load.JudgeValue = 0x56;
 "83
-[e = . _Load 11 -> -> 72 `i `ui ]
+[e = . _Load 11 -> -> 86 `i `ui ]
 "84
 }
 [; ;OverLoad_B1.c: 84: } else {
 [e $U 320  ]
 [e :U 319 ]
 {
-[; ;OverLoad_B1.c: 85: Load.JudgeValue = 0x48 + Load.TotalLoad;
+[; ;OverLoad_B1.c: 85: Load.JudgeValue = 0x56 + Load.TotalLoad;
 "85
-[e = . _Load 11 + -> -> 72 `i `ui . _Load 5 ]
+[e = . _Load 11 + -> -> 86 `i `ui . _Load 5 ]
 "86
 }
 [e :U 320 ]
@@ -3341,9 +3341,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverLoad_B1.c: 87: }
 [; ;OverLoad_B1.c: 88: }
 [; ;OverLoad_B1.c: 89: }
-[; ;OverLoad_B1.c: 91: if (Load.AD >= Load.JudgeValue && adjgo == 0) {
+[; ;OverLoad_B1.c: 91: if (Load.AD >= Load.JudgeValue) {
 "91
-[e $ ! && >= . _Load 8 . _Load 11 == -> _adjgo `i -> 0 `i 321  ]
+[e $ ! >= . _Load 8 . _Load 11 321  ]
 {
 [; ;OverLoad_B1.c: 92: Load.ErrorCount++;
 "92
@@ -3358,21 +3358,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverLoad_B1.c: 95: Load.ERROR = 1;
 "95
 [e = . . . _Load 0 0 5 -> -> 1 `i `uc ]
-[; ;OverLoad_B1.c: 102: product->Data[4]=(Load.AD >> 8);
-"102
-[e = *U + &U . *U _product 0 * -> -> -> 4 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> >> . _Load 8 -> 8 `i `uc ]
-[; ;OverLoad_B1.c: 103: product->Data[5]=Load.AD;
-"103
-[e = *U + &U . *U _product 0 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> . _Load 8 `uc ]
-[; ;OverLoad_B1.c: 104: product->Data[6]=(Load.JudgeValue >> 8);
-"104
-[e = *U + &U . *U _product 0 * -> -> -> 6 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> >> . _Load 11 -> 8 `i `uc ]
-[; ;OverLoad_B1.c: 105: product->Data[7]=Load.JudgeValue;
-"105
-[e = *U + &U . *U _product 0 * -> -> -> 7 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> . _Load 11 `uc ]
-[; ;OverLoad_B1.c: 106: product->Data[8]=Load.LightsCount;
-"106
-[e = *U + &U . *U _product 0 * -> -> -> 8 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux . _Load 15 ]
 "108
 }
 [e :U 322 ]
@@ -3416,21 +3401,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverLoad_B1.c: 119: Load.TotalLoad = Load.AD;
 "119
 [e = . _Load 5 . _Load 8 ]
-[; ;OverLoad_B1.c: 122: product->Data[4]=(Load.AD >> 8);
-"122
-[e = *U + &U . *U _product 0 * -> -> -> 4 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> >> . _Load 8 -> 8 `i `uc ]
-[; ;OverLoad_B1.c: 123: product->Data[5]=Load.AD;
-"123
-[e = *U + &U . *U _product 0 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> . _Load 8 `uc ]
-[; ;OverLoad_B1.c: 124: product->Data[6]=(Load.JudgeValue >> 8);
-"124
-[e = *U + &U . *U _product 0 * -> -> -> 6 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> >> . _Load 11 -> 8 `i `uc ]
-[; ;OverLoad_B1.c: 125: product->Data[7]=Load.JudgeValue;
-"125
-[e = *U + &U . *U _product 0 * -> -> -> 7 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> . _Load 11 `uc ]
-[; ;OverLoad_B1.c: 126: product->Data[8]=Load.LightsCount;
-"126
-[e = *U + &U . *U _product 0 * -> -> -> 8 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux . _Load 15 ]
 "128
 }
 [e :U 326 ]
@@ -3520,21 +3490,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverLoad_B1.c: 154: Load.OK = 1;
 "154
 [e = . . . _Load 0 0 7 -> -> 1 `i `uc ]
-[; ;OverLoad_B1.c: 156: product->Data[4]=(Load.AD >> 8);
-"156
-[e = *U + &U . *U _product 0 * -> -> -> 4 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> >> . _Load 8 -> 8 `i `uc ]
-[; ;OverLoad_B1.c: 157: product->Data[5]=Load.AD;
-"157
-[e = *U + &U . *U _product 0 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> . _Load 8 `uc ]
-[; ;OverLoad_B1.c: 158: product->Data[6]=(Load.JudgeValue >> 8);
-"158
-[e = *U + &U . *U _product 0 * -> -> -> 6 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> >> . _Load 11 -> 8 `i `uc ]
-[; ;OverLoad_B1.c: 159: product->Data[7]=Load.JudgeValue;
-"159
-[e = *U + &U . *U _product 0 * -> -> -> 7 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> . _Load 11 `uc ]
-[; ;OverLoad_B1.c: 160: product->Data[8]=Load.LightsCount;
-"160
-[e = *U + &U . *U _product 0 * -> -> -> 8 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux . _Load 15 ]
 "162
 }
 [e :U 329 ]

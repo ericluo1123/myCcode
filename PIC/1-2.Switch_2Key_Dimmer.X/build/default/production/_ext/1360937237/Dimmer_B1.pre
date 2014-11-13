@@ -3312,7 +3312,7 @@ union {
 
 struct {
 unsigned Line : 1;
-unsigned DetectClose : 1;
+unsigned Loop : 1;
 unsigned OK : 1;
 unsigned MosfetSignal : 1;
 unsigned MosfetOK : 1;
@@ -3562,6 +3562,7 @@ DimmerLightsIntr->DimmingValue++;
 if (DimmerLightsIntr->DimmingValue >= DimmerLightsIntr->MinimumValue) {
 DimmerLightsIntr->Signal = 0;
 DimmerLightsIntr->StatusFlag = 0;
+DimmerLights->Loop = 0;
 
 if (lights == 1) {
 RA3 = 0;
@@ -3573,7 +3574,7 @@ if (lights == 2) {
 RC7 = 0;
 }
 
-# 182
+# 183
 }
 }
 }
@@ -3598,7 +3599,7 @@ if (lights == 2) {
 RB4 = 0;
 }
 
-# 211
+# 212
 }
 }
 if (DimmerLightsIntr->TriacFlag == 1) {
@@ -3612,10 +3613,10 @@ DimmerLightsIntr->TriacFlag = 0;
 }
 }
 
-# 317
+# 318
 }
 
-# 323
+# 324
 void DimmerLightsPointSelect(char lights) {
 
 if (lights == 1) {
@@ -3627,7 +3628,7 @@ if (lights == 2) {
 DimmerLights = &DimmerLights2;
 }
 
-# 339
+# 340
 }
 
 
@@ -3642,7 +3643,7 @@ setDimmerLights_Initialization(1);
 DimmerLights22 = &DimmerLights2;
 setDimmerLights_Initialization(2);
 
-# 360
+# 361
 Dimmer_Initialization();
 
 
@@ -3653,17 +3654,17 @@ void setDimmerLights_Initialization(char lights) {
 
 DimmerLightsPointSelect(lights);
 
-# 374
+# 375
 DimmerLights->MaxmumValue = ((char)((100-60)*0.8));
 DimmerLights->MinimumValue = ((char)((100-25)*0.8));
 
-# 385
+# 386
 DimmerLights->DimmingValue = DimmerLights->MinimumValue;
 
-# 401
+# 402
 }
 
-# 415
+# 416
 void DimmerLights_Main() {
 
 if (getMain_All_Error_Status(0) == 0) {
@@ -3682,7 +3683,7 @@ setDimmerLights_Main(1);
 
 setDimmerLights_Main(2);
 
-# 438
+# 439
 }
 
 
@@ -3725,10 +3726,10 @@ return status;
 char getDimmerLights_StatusFlag() {
 char Status = 0;
 
-# 485
+# 486
 Status = (DimmerLights1.StatusFlag == 1 || DimmerLights2.StatusFlag == 1) ? 1 : 0;
 
-# 492
+# 493
 return Status;
 }
 
@@ -3736,10 +3737,10 @@ return Status;
 char getDimmerLights_Trigger() {
 char Status = 0;
 
-# 504
+# 505
 Status = (DimmerLights1.Trigger == 1 || DimmerLights2.Trigger == 1) ? 1 : 0;
 
-# 511
+# 512
 return Status;
 }
 
@@ -3747,14 +3748,14 @@ return Status;
 char getSw_KeyStatus(char sw) {
 char status = 0;
 
-# 528
+# 529
 if (sw == 1) {
 status = (RA6 == 1 || RA4 == 1) ? 1 : 0;
 } else if (sw == 2) {
 status = (RA0 == 1 || RB1 == 1) ? 1 : 0;
 }
 
-# 539
+# 540
 return status;
 }
 
@@ -3762,10 +3763,10 @@ return status;
 char getAll_DimmerLights_AdjGO() {
 char adjgo = 0;
 
-# 549
+# 550
 adjgo = DimmerLights1.AdjGo == 1 || DimmerLights2.AdjGo == 1 ? 1 : 0;
 
-# 554
+# 555
 return adjgo;
 }
 
@@ -3781,6 +3782,7 @@ DimmerLights->SwFlag = 1;
 setBuz(1, 100);
 if (DimmerLights->Status == 0) {
 DimmerLights->Status = 1;
+DimmerLights->Loop = 1;
 setDimmerLights_Trigger(sw, 1);
 setRF_DimmerLights(sw, 1);
 setTxData();
@@ -3835,10 +3837,10 @@ setDimmerLights_TriggerAdj(sw, 1);
 void setDimmerLights_ErrorClose(char lights) {
 if (lights == 255) {
 
-# 626
+# 628
 char count = 2;
 
-# 631
+# 633
 for (int i = 0; i < count; i++) {
 DimmerLightsPointSelect(i + 1);
 if (getDimmerLights_Status(i + 1) == 1) {
@@ -3856,7 +3858,7 @@ setDimmerLights_SwOff(lights);
 }
 }
 
-# 655
+# 657
 }
 
 char getDimmer_LoadOK() {
@@ -3900,14 +3902,14 @@ DimmerLights->DimmingTimeValue = 7;
 
 DimmerLights->DimmingValue = DimmerLights->MinimumValue;
 
-# 703
+# 705
 DimmerLights->Signal = 1;
 DimmerLights->AdjFlag = 0;
 DimmerLights->AdjStatus = 0;
 DimmerLights->AdjRF = 0;
 DimmerLights->DimmingTimeValue = 7;
 
-# 717
+# 718
 }
 }
 
@@ -3919,7 +3921,7 @@ DimmerLights1.Line = 0;
 
 DimmerLights2.Line = 0;
 
-# 732
+# 733
 if (lights == 1) {
 DimmerLights1.Line = 1;
 }
@@ -3929,7 +3931,7 @@ else if (lights == 2) {
 DimmerLights2.Line = 1;
 }
 
-# 746
+# 747
 }
 
 
@@ -3945,7 +3947,7 @@ else if (DimmerLights2.Line == 1) {
 line = 2;
 }
 
-# 766
+# 767
 return line;
 }
 
@@ -3961,7 +3963,7 @@ DimmerLights->Signal = 0;
 DimmerLights->AdjFlag = 0;
 DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
 
-# 789
+# 790
 Dimmer.LoadOK = getMain_All_Error_Status(0) == 0 ? 1 : 0;
 
 
@@ -4005,14 +4007,14 @@ DimmerLights->TriggerAdj = 1;
 DimmerLights->AdjGo = command == 1 ? 1 : 0;
 }
 
-# 912
+# 913
 char getPercentValue(char value) {
 
 float i = ((char)((100-25)*0.8)) - ((char)((100-60)*0.8));
 i /= 100;
 return (char) (((100 - value) * i) + ((char)((100-60)*0.8)));
 
-# 925
+# 926
 }
 
 
@@ -4022,7 +4024,7 @@ float i = ((char)((100-25)*0.8)) - ((char)((100-60)*0.8));
 i /= 100;
 return (100 - (char) ((value - ((char)((100-60)*0.8))) / i));
 
-# 941
+# 942
 }
 
 

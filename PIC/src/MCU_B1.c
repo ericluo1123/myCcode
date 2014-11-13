@@ -191,7 +191,7 @@ inline void setDimmerReClock() {
 //end Tim0
 #endif
 //*********************************************************
-  
+
 
 //*********************************************************
 #if Timer1_use == 1
@@ -309,7 +309,6 @@ inline void TMR2_ISR() {
     }
 }
 
-
 //*********************************************************
 
 inline void setDimmerReClock() {
@@ -404,6 +403,7 @@ inline void IOC_ISR() {
         IOCBF2 = false;
         IOCIF = false;
         if (myMain.PowerON == true) {
+
 #if Dimmer_use == true
             setDimmerReClock();
 #endif
@@ -877,7 +877,7 @@ void Flash_Memory_Initialization() {
             myMain.FirstOpen = true;
             myMain.First = true;
         }
-    } else { 
+    } else {
         i = setPercentValue(Dimmer_Maxum);
         setMemory_Data(0, 0xff);
         setMemory_Data(1, 0xff);

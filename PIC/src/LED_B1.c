@@ -11,17 +11,17 @@ void LedPointSelect(char led) {
     }
 #endif
 #ifdef LED2
-    else if (led == 2) {
+    if (led == 2) {
         LED = &VarLED2;
     }
 #endif
 #ifdef LED3
-    else if (led == 3) {
+   if (led == 3) {
         LED = &VarLED3;
     }
 #endif
 #ifdef ErrLED
-    else if (led == 99) {
+    if (led == 99) {
         LED = &VarErrLED;
     }
 #endif
@@ -83,7 +83,7 @@ void setLED(char led, char command) {
         }
 #endif
 #ifdef LED2
-        else if (led == 2) {
+        if (led == 2) {
 #if LED2_ON == true
             LED2 = false;
 #else
@@ -92,7 +92,7 @@ void setLED(char led, char command) {
         }
 #endif
 #ifdef LED3
-        else if (led == 3) {
+        if (led == 3) {
 #if LED3_ON == true
             LED3 = false;
 #else
@@ -101,7 +101,7 @@ void setLED(char led, char command) {
         }
 #endif
 #ifdef ErrLED
-        else if (led == 99) {
+        if (led == 99) {
 #if ErrLED_ON == true
             ErrLED = false;
 #else
@@ -109,7 +109,7 @@ void setLED(char led, char command) {
 #endif
         }
 #endif
-    } else if (command == 1) {
+    } if (command == 1) {
 #ifdef LED1
         if (led == 1) {
 #if LED1_ON == true
@@ -120,7 +120,7 @@ void setLED(char led, char command) {
         }
 #endif
 #ifdef LED2
-        else if (led == 2) {
+        if (led == 2) {
 #if LED2_ON == true
             LED2 = true;
 #else
@@ -129,7 +129,7 @@ void setLED(char led, char command) {
         }
 #endif
 #ifdef LED3
-        else if (led == 3) {
+        if (led == 3) {
 #if LED3_ON == true
             LED3 = true;
 #else
@@ -138,7 +138,7 @@ void setLED(char led, char command) {
         }
 #endif
 #ifdef ErrLED
-        else if (led == 99) {
+        if (led == 99) {
 #if ErrLED_ON == true
             ErrLED = true;
 #else
@@ -146,7 +146,7 @@ void setLED(char led, char command) {
 #endif
         }
 #endif
-    } else if (command == 10) {
+    } if (command == 10) {
         LED->GO = false;
         LED->Time = 0;
 #ifdef LED1
@@ -177,7 +177,7 @@ void setLED(char led, char command) {
         }
 #endif
 #ifdef ErrLED
-        else if (led == 99) {
+        if (led == 99) {
 #if ErrLED_ON == true
             ErrLED = false;
 #else
@@ -185,11 +185,12 @@ void setLED(char led, char command) {
 #endif
         }
 #endif
-    } else if (command == 11) {
+    }
+    if (command == 11) {
         LED->GO = true;
     }
 #if PIR_use == true
-    else if (command == 111) {
+    if (command == 111) {
         PIRLED.Count = 0;
         PIRLED.Time = 0;
         PIRLED.status = false;
@@ -224,17 +225,17 @@ void setLED_Main(char led) {
             }
 #endif
 #ifdef LED2
-            else if (led == 2) {
+            if (led == 2) {
                 LED2 = LED2 == true ? false : true;
             }
 #endif
 #ifdef LED3
-            else if (led == 3) {
+            if (led == 3) {
                 LED3 = LED3 == true ? false : true;
             }
 #endif
 #ifdef ErrLED
-            else if (led == 99) {
+            if (led == 99) {
                 ErrLED = ErrLED == true ? false : true;
             }
 #endif

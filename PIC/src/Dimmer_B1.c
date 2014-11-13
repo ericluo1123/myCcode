@@ -26,7 +26,6 @@ inline void DimmerIntrIOCPointSelect(char lights) {
 
 /*****************************************************************************/
 inline void setDimmerLights_IntrIOC_GO(char lights) {
-
     DimmerIntrIOCPointSelect(lights);
 #if Control_Method_Triac == 1
     if (DimmerLightsIntrIOC->GO == false && DimmerLightsIntrIOC->TriacFlag == false) {
@@ -43,11 +42,9 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
     }
 #endif
 #if Control_Method_Mosfet == 1
-    if (DimmerLightsIntrIOC->MosfetSignal == false) {
-        DimmerLightsIntrIOC->MosfetSignal = true;
-        //        ErrLED = true;
-
+    if (DimmerLightsIntrIOC->GO == false && DimmerLightsIntrIOC->MosfetSignal == false) {
         DimmerLightsIntrIOC->GO = true;
+        DimmerLightsIntrIOC->MosfetSignal = true;
         if (DimmerLightsIntrIOC->StatusFlag == true) {
 
 #ifdef use_1KEY
@@ -58,11 +55,13 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
 #endif
 #ifdef use_2KEY
             if (lights == 2) {
-
                 Mosfet2 = true;
-
             }
 #endif
+        }
+
+        if (lights == 1) {
+            ErrLED = ErrLED == true ? false : true;
         }
     }
 #endif
@@ -163,9 +162,10 @@ inline void setDimmerLights_IntrControl(char lights) {
                             if (DimmerLightsIntr->DimmingValue >= DimmerLightsIntr->MinimumValue) {
                                 DimmerLightsIntr->Signal = false;
                                 DimmerLightsIntr->StatusFlag = false;
-#ifdef use_1KEY
+                                DimmerLights->Loop = false;
+#ifdef use_1KEY 
                                 if (lights == 1) {
-                                    LED1 = 0;
+                                    setLED(1, 0);
                                     setLED2(1);
                                 }
 #endif
@@ -231,71 +231,66 @@ inline void setDimmerLights_IntrControl(char lights) {
             DimmerLightsIntr->Count = 0;
             DimmerLightsIntr->GO = false;
             DimmerLightsIntr->Flag = true;
-            if (DimmerLightsIntr->StatusFlag) {
+            if (DimmerLightsIntr->StatusFlag == true) {
 #ifdef use_1KEY
                 if (lights == 1) {
-                    Mosfet1 = 0;
+                    Mosfet1 = false;
                     ID_1KEY_0;
                 }
 #endif
 #ifdef use_2KEY
                 if (lights == 2) {
-                    Mosfet2 = 0;
+                    Mosfet2 = false;
                 }
 #endif
-                if (DimmerLightsIntr->MosfetClose) {
-                    DimmerLightsIntr->MosfetClose = 0;
-                    DimmerLightsIntr->StatusFlag = 0;
-                    DimmerLightsIntr->Clear = 1;
-#ifdef use_1KEY
-                    if (lights == 1) {
-                        LED1 = 0;
-                        setLED2(1);
-                    }
-#endif
-#ifdef use_2KEY
-                    if (lights == 2) {
-                        LED2 = 0;
-                    }
-#endif
-                    Dimmer.Detect = 1;
-                    setLoad_StatusOff(lights, 1);
-                }
             }
         }
     } else {
         if (DimmerLightsIntr->Flag == true) {
             DimmerLightsIntr->Flag = false;
-            if (DimmerLightsIntr->Signal) {
+            if (DimmerLightsIntr->Signal == true) {
                 DimmerLightsIntr->DimmingTime++;
                 if (DimmerLightsIntr->DimmingTime >= DimmerLightsIntr->DimmingTimeValue) {
                     DimmerLightsIntr->DimmingTime = 0;
-                    if (DimmerLightsIntr->AdjFlag) {
-                        if (DimmerLightsIntr->AdjStatus == 0) {
+                    if (DimmerLightsIntr->AdjFlag == true) {
+                        if (DimmerLightsIntr->AdjStatus == false) {
                             if (DimmerLightsIntr->DimmingValue < Dimmer_Maxum) {
                                 DimmerLightsIntr->DimmingValue++;
                             } else {
-                                DimmerLightsIntr->AdjStatus = 1;
+                                DimmerLightsIntr->AdjStatus = true;
                             }
                         } else {
                             if (DimmerLightsIntr->DimmingValue > Dimmer_Minimum) {
                                 DimmerLightsIntr->DimmingValue--;
                             } else {
-                                DimmerLightsIntr->AdjStatus = 0;
+                                DimmerLightsIntr->AdjStatus = false;
                             }
                         }
-                    } else if (DimmerLightsIntr->AdjRF) {
+                    } else if (DimmerLightsIntr->AdjRF == true) {
                         if (DimmerLightsIntr->DimmingValue < DimmerLightsIntr->MaxmumValue) {
                             DimmerLightsIntr->DimmingValue++;
                         } else if (DimmerLightsIntr->DimmingValue > DimmerLightsIntr->MaxmumValue) {
                             DimmerLightsIntr->DimmingValue--;
                         }
                         if (DimmerLightsIntr->DimmingValue == DimmerLightsIntr->MaxmumValue) {
-                            DimmerLightsIntr->AdjRF = 0;
-                            DimmerLightsIntr->Signal = 0;
+                            DimmerLightsIntr->AdjRF = false;
+                            DimmerLightsIntr->Signal = false;
                         }
                     } else {
-                        DimmerLightsIntr->Signal = 0;
+                        DimmerLightsIntr->Signal = false;
+                        DimmerLightsIntr->StatusFlag = false;
+                        DimmerLights->Loop = false;
+#ifdef use_1KEY
+                        if (lights == 1) {
+                            setLED(1, 0);
+                            setLED2(1);
+                        }
+#endif
+#ifdef use_2KEY
+                        if (lights == 2) {
+                            LED2 = 0;
+                        }
+#endif
                     }
                 }
             }
@@ -304,7 +299,6 @@ inline void setDimmerLights_IntrControl(char lights) {
     if (DimmerLightsIntr->MosfetSignal == true) {
         DimmerLightsIntr->MosfetSignalCount++;
         if (DimmerLightsIntr->MosfetSignalCount == TriacCountValue) {
-
             DimmerLightsIntr->MosfetSignalCount = 0;
             DimmerLightsIntr->MosfetSignal = false;
             //            if (lights == 1) {
@@ -399,17 +393,6 @@ void setDimmerLights_Initialization(char lights) {
 #endif											
 #endif
 }
-//*********************************************************
-
-//void DimmerLights_Close() {
-//    if (Dimmer.Detect == true) {
-//        Dimmer.Detect = false;
-//        if (getDimmerLights_StatusFlag() == 0) {
-//            setLoad_GO(0);
-//            setMemory_GO(1);
-//        }
-//    }
-//}
 //*********************************************************
 
 void DimmerLights_Main() {
@@ -512,34 +495,6 @@ char getDimmerLights_Trigger() {
 }
 //******************************************************************************
 
-char getSw_KeyStatus(char sw) {
-    char status = 0;
-#if	Switch_Class == 3
-    if (sw == 1) {
-        status = (Key1 == true) ? 1 : 0;
-    } else if (sw == 2) {
-        status = (Key2 == true) ? 1 : 0;
-    } else if (sw == 3) {
-        status = (Key3 == true) ? 1 : 0;
-    }
-#endif
-
-#if Switch_Class == 2
-    if (sw == 1) {
-        status = (Key1_1 == true || Key1_2 == true) ? 1 : 0;
-    } else if (sw == 2) {
-        status = (Key2_1 == true || Key2_2 == true) ? 1 : 0;
-    }
-#endif
-
-#if Switch_Class == 1
-    status = (Key1_1 == true || Key1_2 == true || Key1_3 == true || Key1_4 == true) ? 1 : 0;
-#endif
-
-    return status;
-}
-//******************************************************************************
-
 char getAll_DimmerLights_AdjGO() {
     char adjgo = 0;
 #if Switch_Class == 3
@@ -566,6 +521,7 @@ void setDimmerLights_SwOn(char sw) {
         setBuz(1, BuzzerOnOffTime);
         if (DimmerLights->Status == false) {
             DimmerLights->Status = true;
+            DimmerLights->Loop = true;
             setDimmerLights_Trigger(sw, 1);
             setRF_DimmerLights(sw, 1);
             setTxData();
@@ -688,7 +644,9 @@ void setDimmerLights(char lights, char status) {
 #endif
 
 #if Dimmable_Func == 1
+#if Control_Method_Triac == 1
         DimmerLights->Signal = 1;
+#endif
         DimmerLights->DimmingTimeValue = DimmingDelayTime;
 #endif
     } else {
@@ -705,11 +663,9 @@ void setDimmerLights(char lights, char status) {
         DimmerLights->AdjStatus = false;
         DimmerLights->AdjRF = false;
         DimmerLights->DimmingTimeValue = DimmingDelayTime;
-
 #else
         DimmerLights->StatusFlag = false;
         DimmerLights->Close = true;
-        Dimmer.Detect = true;
         setLoad_StatusOff(lights, 1);
         setLED(lights, 1);
         setLED2(1);
@@ -892,7 +848,6 @@ void setDimmerLights_TriggerAdj(char lights, char command) {
 //        DimmerLights->StatusFlag = false;
 //        DimmerLights->DimmingTimeValue = DimmingDelayTime;
 //        DimmerLights->DimmingValue = DimmerLights->MinimumValue;
-//        Dimmer.Detect = true;
 //        setLoad_StatusOff(lights, 1);
 //        setLED(lights, 1);
 //        setSw_Status(lights, 0);
@@ -973,11 +928,6 @@ inline void Dimmer_Initialization() {
                 Dimmer.PFERROR=command;
         }
  */
-/*	void setDimmer_Detect(char dimmer,char command)
-        {
-                DimmerPointSelect(dimmer);
-                Dimmer.Detect=command;
-        }*/
 /*	char getDimmer_TempERROR(char dimmer)
         {
                 DimmerPointSelect(dimmer);
@@ -994,11 +944,6 @@ inline void Dimmer_Initialization() {
                 return Dimmer.PFERROR;
         }
  */
-/*	char getDimmer_Detect(char dimmer)
-        {
-                DimmerPointSelect(dimmer);
-                return Dimmer.Detect;
-        }*/
 #if Self_Test == true
 
 void DimmerLightsOpenShow() {
