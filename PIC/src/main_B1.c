@@ -416,13 +416,13 @@ char getMain_Lights_Count() {
 
 #if LightsControl_use == 1
 #ifdef use_1KEY
-    status1 = Lights1.Status == true ? 1 : 0;
+    status1 = Lights1.Loop == true ? 1 : 0;
 #endif
 #ifdef use_2KEY
-    status2 = Lights2.Status == true ? 1 : 0;
+    status2 = Lights2.Loop == true ? 1 : 0;
 #endif
 #ifdef use_3KEY
-    status2 = Lights3.Status == true ? 1 : 0;
+    status2 = Lights3.Loop == true ? 1 : 0;
 #endif
 #endif
     return count = (status1 + status2 + status3);

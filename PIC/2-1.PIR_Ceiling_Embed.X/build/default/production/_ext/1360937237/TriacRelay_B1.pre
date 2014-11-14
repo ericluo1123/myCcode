@@ -2317,7 +2317,8 @@ union {
 
 struct {
 unsigned Line : 1;
-unsigned empty : 7;
+unsigned Loop:1;
+unsigned empty : 6;
 };
 };
 
@@ -2333,7 +2334,7 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 70
+# 71
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2377,10 +2378,21 @@ LightsPointSelect(lights);
 
 void Lights_Main() {
 
+
+if (getMain_All_Error_Status(0) == 0) {
+if (LightsControl.LoadOK == 1) {
+LightsControl.LoadOK = getLoad_OK() == 1 || getMain_LightsStatus() == 0 ? 0 : LightsControl.LoadOK;
+}
+} else {
+LightsControl.LoadOK = 0;
+}
+
+
+
 setLights_Main(1);
 Lights_Control(1);
 
-# 70
+# 81
 Lights_Close();
 }
 
@@ -2397,14 +2409,6 @@ void setLights_Main(char lights) {
 LightsPointSelect(lights);
 if (Lights->GO == 0) {
 if (Lights->Trigger == 1) {
-if (getMain_All_Error_Status(0) == 0) {
-if (LightsControl.LoadOK == 1) {
-LightsControl.LoadOK = getLoad_OK() == 1 ? 0 : LightsControl.LoadOK;
-}
-} else {
-LightsControl.LoadOK = 0;
-}
-
 if (LightsControl.LoadOK == 0) {
 Lights->Trigger = 0;
 
@@ -2425,13 +2429,14 @@ LightsPointSelect(lights);
 
 
 LightsControl.LoadOK = getMain_All_Error_Status(0) == 0 ? 1 : 0;
-LightsControl.LoadGO = status == 1 ? 1 : LightsControl.LoadGO;
+
 
 
 Lights->GO = 1;
 if (status == 1) {
 if (Lights->Status == 0) {
 Lights->Status = 1;
+Lights->Loop = 1;
 Lights->RelayValue = 10;
 Lights->TriacValue = 13;
 setLights_Line(lights);
@@ -2439,6 +2444,7 @@ setLights_Line(lights);
 } else {
 if (Lights->Status == 1) {
 Lights->Status = 0;
+Lights->Loop = 0;
 Lights->RelayValue = 4;
 Lights->TriacValue = 7;
 }
@@ -2448,7 +2454,7 @@ if (lights == 1) {
 RB2 = 1;
 }
 
-# 147
+# 152
 }
 
 
@@ -2463,7 +2469,7 @@ if (lights == 1) {
 RA4 = Lights->Status == 1 ? 1 : 0;
 }
 
-# 172
+# 177
 } else if (Lights->Time >= Lights->TriacValue) {
 Lights->Time = 0;
 Lights->GO = 0;
@@ -2478,7 +2484,7 @@ if (lights == 1) {
 RB2 = 0;
 }
 
-# 197
+# 202
 }
 }
 }
@@ -2502,7 +2508,7 @@ void setLights_Line(char lights) {
 
 Lights1.Line = 0;
 
-# 226
+# 231
 LightsPointSelect(lights);
 Lights->Line = 1;
 }
@@ -2514,7 +2520,7 @@ char line = 0;
 LightsPointSelect(1);
 line = Lights->Line == 1 ? 1 : 0;
 
-# 245
+# 250
 return line;
 }
 

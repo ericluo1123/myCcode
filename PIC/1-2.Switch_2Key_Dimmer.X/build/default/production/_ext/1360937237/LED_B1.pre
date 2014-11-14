@@ -2854,7 +2854,7 @@ void setSw_Main(char sw);
 void setSw_Enable(char command);
 void Switch_Exception(char command);
 void setSw_Status(char sw, char command);
-
+char getSw_KeyStatus(char sw);
 
 
 
@@ -2936,9 +2936,7 @@ struct LED *LED;
 
 struct LED VarErrLED;
 
-
-
-
+# 34
 struct LED VarLED1;
 
 
@@ -2946,22 +2944,22 @@ struct LED VarLED1;
 
 struct LED VarLED2;
 
-# 49
+# 51
 inline void LED_Initialization();
 
-# 54
+# 56
 inline void LED_Main();
 
-# 63
+# 65
 void LedPointSelect(char led);
 
-# 72
+# 74
 void setLED_Initialization(char led);
 
-# 81
+# 83
 void setLED_Main(char led);
 
-# 95
+# 97
 void setLED(char led, char command);
 
 # 7 "../src/../1-2.Switch_2Key_Dimmer.X/../src/OverTemperature_B1.h"
@@ -3331,7 +3329,7 @@ struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
-# 84
+# 88
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
@@ -3340,7 +3338,7 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 106
+# 110
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -3378,13 +3376,12 @@ char getAll_DimmerLights_AdjGO();
 void setDimmerLights_SwOn(char sw);
 void setDimmerLights_SwOff(char sw);
 void setDimmerLights_AdjControl(char sw);
-char getSw_KeyStatus(char sw);
 void setDimmerLights_ErrorClose(char lights);
 void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 
-# 156
+# 159
 struct Dimmer {
 
 
@@ -3448,12 +3445,12 @@ LED = &VarLED1;
 }
 
 
-else if (led == 2) {
+if (led == 2) {
 LED = &VarLED2;
 }
 
 # 24
-else if (led == 99) {
+if (led == 99) {
 LED = &VarErrLED;
 }
 
@@ -3507,7 +3504,7 @@ RA3 = 1;
 }
 
 
-else if (led == 2) {
+if (led == 2) {
 
 
 
@@ -3516,7 +3513,7 @@ RC7 = 1;
 }
 
 # 104
-else if (led == 99) {
+if (led == 99) {
 
 
 
@@ -3524,7 +3521,7 @@ RB5 = 1;
 
 }
 
-} else if (command == 1) {
+} if (command == 1) {
 
 if (led == 1) {
 
@@ -3535,7 +3532,7 @@ RA3 = 0;
 }
 
 
-else if (led == 2) {
+if (led == 2) {
 
 
 
@@ -3544,7 +3541,7 @@ RC7 = 0;
 }
 
 # 141
-else if (led == 99) {
+if (led == 99) {
 
 
 
@@ -3552,7 +3549,7 @@ RB5 = 0;
 
 }
 
-} else if (command == 10) {
+} if (command == 10) {
 LED->GO = 0;
 LED->Time = 0;
 
@@ -3574,7 +3571,7 @@ RC7 = 1;
 }
 
 # 180
-else if (led == 99) {
+if (led == 99) {
 
 
 
@@ -3582,11 +3579,12 @@ RB5 = 1;
 
 }
 
-} else if (command == 11) {
+}
+if (command == 11) {
 LED->GO = 1;
 }
 
-# 211
+# 212
 }
 
 
@@ -3603,12 +3601,12 @@ RA3 = RA3 == 1 ? 0 : 1;
 }
 
 
-else if (led == 2) {
+if (led == 2) {
 RC7 = RC7 == 1 ? 0 : 1;
 }
 
-# 237
-else if (led == 99) {
+# 238
+if (led == 99) {
 RB5 = RB5 == 1 ? 0 : 1;
 }
 

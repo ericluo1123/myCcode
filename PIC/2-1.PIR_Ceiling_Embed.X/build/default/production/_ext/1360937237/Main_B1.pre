@@ -2317,7 +2317,8 @@ union {
 
 struct {
 unsigned Line : 1;
-unsigned empty : 7;
+unsigned Loop:1;
+unsigned empty : 6;
 };
 };
 
@@ -2333,7 +2334,7 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 70
+# 71
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2565,7 +2566,7 @@ char getMain_Lights_Count() {
 char status1 = 0, status2 = 0, status3 = 0, count = 0;
 
 # 419
-status1 = Lights1.Status == 1 ? 1 : 0;
+status1 = Lights1.Loop == 1 ? 1 : 0;
 
 # 428
 return count = (status1 + status2 + status3);

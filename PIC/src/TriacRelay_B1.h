@@ -42,7 +42,8 @@ struct Lights {
 
         struct {
             unsigned Line : 1;
-            unsigned empty : 7;
+            unsigned Loop:1;
+            unsigned empty : 6;
         };
     };
 

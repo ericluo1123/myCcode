@@ -472,12 +472,11 @@ void setControl_Lights_Table() {
 
 void setRFSW_Control(char sw) {
     char status = 0;
-#if Dimmer_use == 1
-    status = getDimmerLights_Status(sw);
-#endif
+
     //    RfSWPointSelect(sw);
 #if Dimmer_use == true
     setDimmerLights_SwOn(sw);
+    status = getDimmerLights_Status(sw);
 #endif
     if (status == 1) {
         if (RF_Data[16] == 0x80) {

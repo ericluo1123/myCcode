@@ -143,13 +143,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11
 [s S279 `S280 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `S282 1 `S284 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
 [n S279 DimmerLights . DimmingTime DimmingTimeValue Count DimmingValue MaxmumValue MinimumValue TriacTime . . TriacCount DetectCount MosfetSignalCount TuneValue MosfetOK_Count ]
-"163
+"166
 [s S288 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
 [n S288 . AdjGO LoadOK LoadGO empty ]
-"161
+"164
 [u S287 `S288 1 ]
 [n S287 . . ]
-"156
+"159
 [s S286 `S287 1 `uc 1 `uc 1 ]
 [n S286 Dimmer . Load Correction ]
 "25 ../src/../1-2.Switch_2Key_Dimmer.X/../src/DelayOff_B1.h
@@ -165,11 +165,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _DlyOff_Initialization `(v ~T0 @X0 0 ef1`uc ]
 "53
 [v _DlyOff_Main `(v ~T0 @X0 0 ef1`uc ]
-"140 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h
+"144 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h
 [v _setDimmerLights_SwOn `(v ~T0 @X0 0 ef1`uc ]
-"135
+"139
 [v _getDimmerLights_Status `(uc ~T0 @X0 0 ef1`uc ]
-"141
+"145
 [v _setDimmerLights_SwOff `(v ~T0 @X0 0 ef1`uc ]
 "76 ../src/../1-2.Switch_2Key_Dimmer.X/../src/RF_Control_B1.h
 [v _setRF_DimmerLights `(v ~T0 @X0 0 ef2`uc`uc ]
@@ -2348,6 +2348,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Switch_B1.h: 65: void setSw_Enable(char command);
 [; ;Switch_B1.h: 66: void Switch_Exception(char command);
 [; ;Switch_B1.h: 67: void setSw_Status(char sw, char command);
+[; ;Switch_B1.h: 68: char getSw_KeyStatus(char sw);
 [; ;Switch_B1.h: 72: void TouchPower();
 [; ;Switch_B1.h: 96: struct SwitchDetect {
 [; ;Switch_B1.h: 98: union {
@@ -2405,18 +2406,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 "27
 [v _VarErrLED `S265 ~T0 @X0 1 e ]
 [; ;LED_B1.h: 27: struct LED VarErrLED;
-"32
+"34
 [v _VarLED1 `S265 ~T0 @X0 1 e ]
-[; ;LED_B1.h: 32: struct LED VarLED1;
-"37
+[; ;LED_B1.h: 34: struct LED VarLED1;
+"39
 [v _VarLED2 `S265 ~T0 @X0 1 e ]
-[; ;LED_B1.h: 37: struct LED VarLED2;
-[; ;LED_B1.h: 49: inline void LED_Initialization();
-[; ;LED_B1.h: 54: inline void LED_Main();
-[; ;LED_B1.h: 63: void LedPointSelect(char led);
-[; ;LED_B1.h: 72: void setLED_Initialization(char led);
-[; ;LED_B1.h: 81: void setLED_Main(char led);
-[; ;LED_B1.h: 95: void setLED(char led, char command);
+[; ;LED_B1.h: 39: struct LED VarLED2;
+[; ;LED_B1.h: 51: inline void LED_Initialization();
+[; ;LED_B1.h: 56: inline void LED_Main();
+[; ;LED_B1.h: 65: void LedPointSelect(char led);
+[; ;LED_B1.h: 74: void setLED_Initialization(char led);
+[; ;LED_B1.h: 83: void setLED_Main(char led);
+[; ;LED_B1.h: 97: void setLED(char led, char command);
 [; ;OverTemperature_B1.h: 7: struct OverTemp {
 [; ;OverTemperature_B1.h: 9: union {
 [; ;OverTemperature_B1.h: 11: struct {
@@ -2959,71 +2960,70 @@ Version 3.2 HI-TECH Software Intermediate Code
 "70
 [v _DimmerLightsIntrIOC `*S279 ~T0 @X0 1 e ]
 [; ;Dimmer_B1.h: 70: struct DimmerLights *DimmerLightsIntrIOC;
-"84
+"88
 [v _DimmerLights11 `*S279 ~T0 @X0 1 e ]
-[; ;Dimmer_B1.h: 84: struct DimmerLights *DimmerLights11;
-"85
-[v _DimmerLights1 `S279 ~T0 @X0 1 e ]
-[; ;Dimmer_B1.h: 85: struct DimmerLights DimmerLights1;
+[; ;Dimmer_B1.h: 88: struct DimmerLights *DimmerLights11;
 "89
+[v _DimmerLights1 `S279 ~T0 @X0 1 e ]
+[; ;Dimmer_B1.h: 89: struct DimmerLights DimmerLights1;
+"93
 [v _DimmerLights22 `*S279 ~T0 @X0 1 e ]
-[; ;Dimmer_B1.h: 89: struct DimmerLights *DimmerLights22;
-"90
+[; ;Dimmer_B1.h: 93: struct DimmerLights *DimmerLights22;
+"94
 [v _DimmerLights2 `S279 ~T0 @X0 1 e ]
-[; ;Dimmer_B1.h: 90: struct DimmerLights DimmerLights2;
-[; ;Dimmer_B1.h: 106: inline void DimmerIntrIOCPointSelect(char lights);
-[; ;Dimmer_B1.h: 107: inline void setDimmerLights_IntrIOC_GO(char lights);
-[; ;Dimmer_B1.h: 109: inline void setDimmerLights_IntrControl(char lights);
-[; ;Dimmer_B1.h: 110: inline void DimmerIntrPointSelect(char lights);
-[; ;Dimmer_B1.h: 113: void DimmerLightsPointSelect(char lights);
-[; ;Dimmer_B1.h: 114: void DimmerLights_Initialization();
-[; ;Dimmer_B1.h: 115: void DimmerLights_Main();
-[; ;Dimmer_B1.h: 116: void DimmerLights_Exceptions(char status);
-[; ;Dimmer_B1.h: 117: void DimmerLights_Close();
-[; ;Dimmer_B1.h: 119: void setDimmerLights_Initialization(char lights);
-[; ;Dimmer_B1.h: 120: void setDimmerLights_GO(char lights, char command);
-[; ;Dimmer_B1.h: 121: void setDimmerLights_Main(char lights);
-[; ;Dimmer_B1.h: 122: void setDimmerLights_ERROR(char lights);
-[; ;Dimmer_B1.h: 123: void setDimmerLights_TriggerERROR(char lights, char command);
-[; ;Dimmer_B1.h: 124: void setDimmerLights(char lights, char status);
-[; ;Dimmer_B1.h: 125: void setDimmerLights_Adj(char lights, char status);
-[; ;Dimmer_B1.h: 126: void setDimmerLights_AdjRF(char lights);
-[; ;Dimmer_B1.h: 127: char getPercentValue(char value);
-[; ;Dimmer_B1.h: 128: char setPercentValue(char value);
-[; ;Dimmer_B1.h: 130: void setDimmerLights_MaxmumValue(char, char);
-[; ;Dimmer_B1.h: 131: void setDimmerLights_Trigger(char, char);
-[; ;Dimmer_B1.h: 132: void setDimmerLights_TriggerAdj(char, char);
-[; ;Dimmer_B1.h: 133: char getDimmerLights_StatusFlag();
-[; ;Dimmer_B1.h: 134: char getDimmerLights_Trigger();
-[; ;Dimmer_B1.h: 135: char getDimmerLights_Status(char lights);
-[; ;Dimmer_B1.h: 137: void setDimmerLights_Clear(char, char);
-[; ;Dimmer_B1.h: 138: inline void setDimmerLights_IntrControl(char lights);
-[; ;Dimmer_B1.h: 139: char getAll_DimmerLights_AdjGO();
-[; ;Dimmer_B1.h: 140: void setDimmerLights_SwOn(char sw);
-[; ;Dimmer_B1.h: 141: void setDimmerLights_SwOff(char sw);
-[; ;Dimmer_B1.h: 142: void setDimmerLights_AdjControl(char sw);
-[; ;Dimmer_B1.h: 143: char getSw_KeyStatus(char sw);
-[; ;Dimmer_B1.h: 144: void setDimmerLights_ErrorClose(char lights);
-[; ;Dimmer_B1.h: 145: void setDimmerLights_Status(char lights, char command);
-[; ;Dimmer_B1.h: 146: void setDimmerLights_Line(char lights);
-[; ;Dimmer_B1.h: 147: char getDimmerLights_Line();
-[; ;Dimmer_B1.h: 156: struct Dimmer {
-[; ;Dimmer_B1.h: 161: union {
-[; ;Dimmer_B1.h: 163: struct {
-[; ;Dimmer_B1.h: 164: unsigned AdjGO : 1;
-[; ;Dimmer_B1.h: 165: unsigned LoadOK : 1;
-[; ;Dimmer_B1.h: 166: unsigned LoadGO : 1;
-[; ;Dimmer_B1.h: 167: unsigned empty : 5;
-[; ;Dimmer_B1.h: 168: };
-[; ;Dimmer_B1.h: 169: };
-[; ;Dimmer_B1.h: 170: unsigned char Load;
-[; ;Dimmer_B1.h: 171: unsigned char Correction;
+[; ;Dimmer_B1.h: 94: struct DimmerLights DimmerLights2;
+[; ;Dimmer_B1.h: 110: inline void DimmerIntrIOCPointSelect(char lights);
+[; ;Dimmer_B1.h: 111: inline void setDimmerLights_IntrIOC_GO(char lights);
+[; ;Dimmer_B1.h: 113: inline void setDimmerLights_IntrControl(char lights);
+[; ;Dimmer_B1.h: 114: inline void DimmerIntrPointSelect(char lights);
+[; ;Dimmer_B1.h: 117: void DimmerLightsPointSelect(char lights);
+[; ;Dimmer_B1.h: 118: void DimmerLights_Initialization();
+[; ;Dimmer_B1.h: 119: void DimmerLights_Main();
+[; ;Dimmer_B1.h: 120: void DimmerLights_Exceptions(char status);
+[; ;Dimmer_B1.h: 121: void DimmerLights_Close();
+[; ;Dimmer_B1.h: 123: void setDimmerLights_Initialization(char lights);
+[; ;Dimmer_B1.h: 124: void setDimmerLights_GO(char lights, char command);
+[; ;Dimmer_B1.h: 125: void setDimmerLights_Main(char lights);
+[; ;Dimmer_B1.h: 126: void setDimmerLights_ERROR(char lights);
+[; ;Dimmer_B1.h: 127: void setDimmerLights_TriggerERROR(char lights, char command);
+[; ;Dimmer_B1.h: 128: void setDimmerLights(char lights, char status);
+[; ;Dimmer_B1.h: 129: void setDimmerLights_Adj(char lights, char status);
+[; ;Dimmer_B1.h: 130: void setDimmerLights_AdjRF(char lights);
+[; ;Dimmer_B1.h: 131: char getPercentValue(char value);
+[; ;Dimmer_B1.h: 132: char setPercentValue(char value);
+[; ;Dimmer_B1.h: 134: void setDimmerLights_MaxmumValue(char, char);
+[; ;Dimmer_B1.h: 135: void setDimmerLights_Trigger(char, char);
+[; ;Dimmer_B1.h: 136: void setDimmerLights_TriggerAdj(char, char);
+[; ;Dimmer_B1.h: 137: char getDimmerLights_StatusFlag();
+[; ;Dimmer_B1.h: 138: char getDimmerLights_Trigger();
+[; ;Dimmer_B1.h: 139: char getDimmerLights_Status(char lights);
+[; ;Dimmer_B1.h: 141: void setDimmerLights_Clear(char, char);
+[; ;Dimmer_B1.h: 142: inline void setDimmerLights_IntrControl(char lights);
+[; ;Dimmer_B1.h: 143: char getAll_DimmerLights_AdjGO();
+[; ;Dimmer_B1.h: 144: void setDimmerLights_SwOn(char sw);
+[; ;Dimmer_B1.h: 145: void setDimmerLights_SwOff(char sw);
+[; ;Dimmer_B1.h: 146: void setDimmerLights_AdjControl(char sw);
+[; ;Dimmer_B1.h: 147: void setDimmerLights_ErrorClose(char lights);
+[; ;Dimmer_B1.h: 148: void setDimmerLights_Status(char lights, char command);
+[; ;Dimmer_B1.h: 149: void setDimmerLights_Line(char lights);
+[; ;Dimmer_B1.h: 150: char getDimmerLights_Line();
+[; ;Dimmer_B1.h: 159: struct Dimmer {
+[; ;Dimmer_B1.h: 164: union {
+[; ;Dimmer_B1.h: 166: struct {
+[; ;Dimmer_B1.h: 167: unsigned AdjGO : 1;
+[; ;Dimmer_B1.h: 168: unsigned LoadOK : 1;
+[; ;Dimmer_B1.h: 169: unsigned LoadGO : 1;
+[; ;Dimmer_B1.h: 170: unsigned empty : 5;
+[; ;Dimmer_B1.h: 171: };
 [; ;Dimmer_B1.h: 172: };
-"174
+[; ;Dimmer_B1.h: 173: unsigned char Load;
+[; ;Dimmer_B1.h: 174: unsigned char Correction;
+[; ;Dimmer_B1.h: 175: };
+"177
 [v _Dimmer `S286 ~T0 @X0 1 e ]
-[; ;Dimmer_B1.h: 174: struct Dimmer Dimmer;
-[; ;Dimmer_B1.h: 176: char getDimmer_LoadOK();
-[; ;Dimmer_B1.h: 177: inline void Dimmer_Initialization();
+[; ;Dimmer_B1.h: 177: struct Dimmer Dimmer;
+[; ;Dimmer_B1.h: 179: char getDimmer_LoadOK();
+[; ;Dimmer_B1.h: 180: inline void Dimmer_Initialization();
 [; ;DelayOff_B1.h: 21: struct DelayOff {
 [; ;DelayOff_B1.h: 23: union {
 [; ;DelayOff_B1.h: 25: struct {

@@ -52,6 +52,17 @@ void setLights_Initialization(char lights) {
 //*****************************************************************************
 
 void Lights_Main() {
+
+#if OverLoad_use == 1
+    if (getMain_All_Error_Status(0) == 0) {
+        if (LightsControl.LoadOK == true) {
+            LightsControl.LoadOK = getLoad_OK() == 1 || getMain_LightsStatus() == 0 ? false : LightsControl.LoadOK;
+        }
+    } else {
+        LightsControl.LoadOK = false;
+    }
+#endif
+
 #ifdef use_1KEY
     setLights_Main(1);
     Lights_Control(1);
@@ -83,14 +94,6 @@ void setLights_Main(char lights) {
     LightsPointSelect(lights);
     if (Lights->GO == false) {
         if (Lights->Trigger == true) {
-            if (getMain_All_Error_Status(0) == 0) {
-                if (LightsControl.LoadOK == true) {
-                    LightsControl.LoadOK = getLoad_OK() == 1 ? false : LightsControl.LoadOK;
-                }
-            } else {
-                LightsControl.LoadOK = false;
-            }
-
             if (LightsControl.LoadOK == false) {
                 Lights->Trigger = false;
 
@@ -111,13 +114,14 @@ void setLights(char lights, char status) {
 
 #if OverLoad_use == true
     LightsControl.LoadOK = getMain_All_Error_Status(0) == 0 ? true : false;
-    LightsControl.LoadGO = status == 1 ? true : LightsControl.LoadGO;
+    //    LightsControl.LoadGO = status == 1 ? true : LightsControl.LoadGO;
 #endif
 
     Lights->GO = true;
     if (status == 1) {
         if (Lights->Status == false) {
             Lights->Status = true;
+            Lights->Loop = true;
             Lights->RelayValue = 10;
             Lights->TriacValue = 13;
             setLights_Line(lights);
@@ -125,6 +129,7 @@ void setLights(char lights, char status) {
     } else {
         if (Lights->Status == true) {
             Lights->Status = false;
+            Lights->Loop = false;
             Lights->RelayValue = 4;
             Lights->TriacValue = 7;
         }

@@ -7,7 +7,7 @@
 
 #if OverLoad_use == 1
 #define Load_Debug 0
-#if PIR_use == false
+#if PIR_use == 0
 #if Dimmer_use == 1
 #define FirstLimitValue 0x400
 #if Max_Percent == 45

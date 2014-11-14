@@ -2317,7 +2317,8 @@ union {
 
 struct {
 unsigned Line : 1;
-unsigned empty : 7;
+unsigned Loop:1;
+unsigned empty : 6;
 };
 };
 
@@ -2333,7 +2334,7 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 70
+# 71
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2393,7 +2394,6 @@ Load.OK = 0;
 }
 
 
-
 if (Load.GO == 1) {
 Load.LightsON = 1;
 
@@ -2437,7 +2437,7 @@ if (Load.ErrorCount > 2) {
 Load.ErrorCount = 0;
 Load.ERROR = 1;
 
-# 108
+# 107
 }
 } else {
 Load.ErrorCount = 0;
@@ -2451,7 +2451,7 @@ Load.Run = 0;
 Load.Count = 0;
 Load.TotalLoad = Load.AD;
 
-# 128
+# 127
 }
 }
 }
@@ -2480,14 +2480,14 @@ Load.LightsCount = 0;
 Load.Run = 0;
 Load.OK = 1;
 
-# 162
+# 161
 }
 if (Load.ERROR == 1) {
 Load.ErrorTime++;
 if (Load.ErrorTime >= 1000) {
 Load.ErrorTime = 0;
 
-# 173
+# 172
 Load.ERROR = 0;
 }
 }
@@ -2499,7 +2499,7 @@ Load.Enable = 1;
 }
 }
 
-# 219
+# 218
 char getLoad_OK() {
 char ok = Load.OK == 1 ? 1 : 0;
 return ok;
@@ -2511,7 +2511,7 @@ Load.OK = 0;
 Load.SafeCount = 0;
 }
 
-# 278
+# 277
 char getLoad_ERROR() {
 char result = Load.ERROR;
 

@@ -123,31 +123,31 @@ Version 3.2 HI-TECH Software Intermediate Code
 [u S176 `S177 1 ]
 [n S176 . . ]
 "43
-[s S179 :1 `uc 1 :7 `uc 1 ]
-[n S179 . Line empty ]
+[s S179 :1 `uc 1 :1 `uc 1 :6 `uc 1 ]
+[n S179 . Line Loop empty ]
 "41
 [u S178 `S179 1 ]
 [n S178 . . ]
 "25
 [s S175 `S176 1 `S178 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
 [n S175 Lights . . Time TriacTime TriacValue RelayTime RelayValue ]
-"74
-[v _setLights_Initialization `(v ~T0 @X0 0 ef1`uc ]
 "75
-[v _setLights_Main `(v ~T0 @X0 0 ef1`uc ]
-"76
-[v _Lights_Control `(v ~T0 @X0 0 ef1`uc ]
-"73
-[v _Lights_Close `(v ~T0 @X0 0 ef ]
-"141 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
-[v _getMain_LightsStatus `(uc ~T0 @X0 0 ef ]
-"142
+[v _setLights_Initialization `(v ~T0 @X0 0 ef1`uc ]
+"142 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
 [v _getMain_All_Error_Status `(uc ~T0 @X0 0 ef1`uc ]
 "228 ../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h
 [v _getLoad_OK `(uc ~T0 @X0 0 ef ]
-"78 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
+"141 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
+[v _getMain_LightsStatus `(uc ~T0 @X0 0 ef ]
+"76 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
+[v _setLights_Main `(v ~T0 @X0 0 ef1`uc ]
+"77
+[v _Lights_Control `(v ~T0 @X0 0 ef1`uc ]
+"74
+[v _Lights_Close `(v ~T0 @X0 0 ef ]
+"79
 [v _setLights `(v ~T0 @X0 0 ef2`uc`uc ]
-"80
+"81
 [v _setLights_Line `(v ~T0 @X0 0 ef1`uc ]
 "3232 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f723a.h
 [v _RB2 `Vb ~T0 @X0 0 e@50 ]
@@ -1823,35 +1823,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;TriacRelay_B1.h: 41: union {
 [; ;TriacRelay_B1.h: 43: struct {
 [; ;TriacRelay_B1.h: 44: unsigned Line : 1;
-[; ;TriacRelay_B1.h: 45: unsigned empty : 7;
-[; ;TriacRelay_B1.h: 46: };
+[; ;TriacRelay_B1.h: 45: unsigned Loop:1;
+[; ;TriacRelay_B1.h: 46: unsigned empty : 6;
 [; ;TriacRelay_B1.h: 47: };
-[; ;TriacRelay_B1.h: 49: unsigned char Time;
-[; ;TriacRelay_B1.h: 50: unsigned char TriacTime;
-[; ;TriacRelay_B1.h: 51: unsigned char TriacValue;
-[; ;TriacRelay_B1.h: 52: unsigned char RelayTime;
-[; ;TriacRelay_B1.h: 53: unsigned char RelayValue;
-[; ;TriacRelay_B1.h: 54: };
-"55
+[; ;TriacRelay_B1.h: 48: };
+[; ;TriacRelay_B1.h: 50: unsigned char Time;
+[; ;TriacRelay_B1.h: 51: unsigned char TriacTime;
+[; ;TriacRelay_B1.h: 52: unsigned char TriacValue;
+[; ;TriacRelay_B1.h: 53: unsigned char RelayTime;
+[; ;TriacRelay_B1.h: 54: unsigned char RelayValue;
+[; ;TriacRelay_B1.h: 55: };
+"56
 [v _Lights `*S175 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 55: struct Lights *Lights;
-"59
+[; ;TriacRelay_B1.h: 56: struct Lights *Lights;
+"60
 [v _Lights1 `S175 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 59: struct Lights Lights1;
-[; ;TriacRelay_B1.h: 70: void LightsPointSelect(char lights);
-[; ;TriacRelay_B1.h: 71: void Lights_Initialization();
-[; ;TriacRelay_B1.h: 72: void Lights_Main();
-[; ;TriacRelay_B1.h: 73: void Lights_Close();
-[; ;TriacRelay_B1.h: 74: void setLights_Initialization(char lights);
-[; ;TriacRelay_B1.h: 75: void setLights_Main(char lights);
-[; ;TriacRelay_B1.h: 76: void Lights_Control(char lights);
-[; ;TriacRelay_B1.h: 77: void setLights_Trigger(char lights, char command);
-[; ;TriacRelay_B1.h: 78: void setLights(char lights, char status);
-[; ;TriacRelay_B1.h: 79: char getLights_Status(char lights);
-[; ;TriacRelay_B1.h: 80: void setLights_Line(char lights);
-[; ;TriacRelay_B1.h: 81: char getAll_Lights_Line();
-[; ;TriacRelay_B1.h: 82: char getLightsControl_GO();
-[; ;TriacRelay_B1.h: 83: char getLightsControl_OK();
+[; ;TriacRelay_B1.h: 60: struct Lights Lights1;
+[; ;TriacRelay_B1.h: 71: void LightsPointSelect(char lights);
+[; ;TriacRelay_B1.h: 72: void Lights_Initialization();
+[; ;TriacRelay_B1.h: 73: void Lights_Main();
+[; ;TriacRelay_B1.h: 74: void Lights_Close();
+[; ;TriacRelay_B1.h: 75: void setLights_Initialization(char lights);
+[; ;TriacRelay_B1.h: 76: void setLights_Main(char lights);
+[; ;TriacRelay_B1.h: 77: void Lights_Control(char lights);
+[; ;TriacRelay_B1.h: 78: void setLights_Trigger(char lights, char command);
+[; ;TriacRelay_B1.h: 79: void setLights(char lights, char status);
+[; ;TriacRelay_B1.h: 80: char getLights_Status(char lights);
+[; ;TriacRelay_B1.h: 81: void setLights_Line(char lights);
+[; ;TriacRelay_B1.h: 82: char getAll_Lights_Line();
+[; ;TriacRelay_B1.h: 83: char getLightsControl_GO();
+[; ;TriacRelay_B1.h: 84: char getLightsControl_OK();
 "10 ../src/TriacRelay_B1.c
 [v _LightsPointSelect `(v ~T0 @X0 1 ef1`uc ]
 {
@@ -1907,416 +1908,419 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;TriacRelay_B1.c: 54: void Lights_Main() {
 [e :U _Lights_Main ]
 [f ]
-[; ;TriacRelay_B1.c: 56: setLights_Main(1);
-"56
-[e ( _setLights_Main (1 -> -> 1 `i `uc ]
-[; ;TriacRelay_B1.c: 57: Lights_Control(1);
+[; ;TriacRelay_B1.c: 57: if (getMain_All_Error_Status(0) == 0) {
 "57
-[e ( _Lights_Control (1 -> -> 1 `i `uc ]
-[; ;TriacRelay_B1.c: 70: Lights_Close();
-"70
-[e ( _Lights_Close ..  ]
-[; ;TriacRelay_B1.c: 71: }
-"71
-[e :UE 184 ]
-}
-"74
-[v _Lights_Close `(v ~T0 @X0 1 ef ]
+[e $ ! == -> ( _getMain_All_Error_Status (1 -> -> 0 `i `uc `i -> 0 `i 185  ]
 {
-[; ;TriacRelay_B1.c: 74: void Lights_Close() {
-[e :U _Lights_Close ]
-[f ]
-[; ;TriacRelay_B1.c: 75: if (LightsControl.Detect == 1) {
-"75
-[e $ ! == -> . . . _LightsControl 0 0 0 `i -> 1 `i 186  ]
+[; ;TriacRelay_B1.c: 58: if (LightsControl.LoadOK == 1) {
+"58
+[e $ ! == -> . . . _LightsControl 0 0 2 `i -> 1 `i 186  ]
 {
-[; ;TriacRelay_B1.c: 76: LightsControl.Detect = 0;
-"76
-[e = . . . _LightsControl 0 0 0 -> -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 77: LightsControl.LoadGO = getMain_LightsStatus() == 0 ? 0 : 1;
-"77
-[e = . . . _LightsControl 0 0 1 -> ? == -> ( _getMain_LightsStatus ..  `i -> 0 `i : -> 0 `i -> 1 `i `uc ]
-"78
+[; ;TriacRelay_B1.c: 59: LightsControl.LoadOK = getLoad_OK() == 1 || getMain_LightsStatus() == 0 ? 0 : LightsControl.LoadOK;
+"59
+[e = . . . _LightsControl 0 0 2 -> ? || == -> ( _getLoad_OK ..  `i -> 1 `i == -> ( _getMain_LightsStatus ..  `i -> 0 `i : -> 0 `i -> . . . _LightsControl 0 0 2 `i `uc ]
+"60
 }
 [e :U 186 ]
-[; ;TriacRelay_B1.c: 78: }
-[; ;TriacRelay_B1.c: 79: }
-"79
-[e :UE 185 ]
+"61
 }
+[; ;TriacRelay_B1.c: 60: }
+[; ;TriacRelay_B1.c: 61: } else {
+[e $U 187  ]
+[e :U 185 ]
+{
+[; ;TriacRelay_B1.c: 62: LightsControl.LoadOK = 0;
+"62
+[e = . . . _LightsControl 0 0 2 -> -> 0 `i `uc ]
+"63
+}
+[e :U 187 ]
+[; ;TriacRelay_B1.c: 63: }
+[; ;TriacRelay_B1.c: 67: setLights_Main(1);
+"67
+[e ( _setLights_Main (1 -> -> 1 `i `uc ]
+[; ;TriacRelay_B1.c: 68: Lights_Control(1);
+"68
+[e ( _Lights_Control (1 -> -> 1 `i `uc ]
+[; ;TriacRelay_B1.c: 81: Lights_Close();
+"81
+[e ( _Lights_Close ..  ]
+[; ;TriacRelay_B1.c: 82: }
 "82
+[e :UE 184 ]
+}
+"85
+[v _Lights_Close `(v ~T0 @X0 1 ef ]
+{
+[; ;TriacRelay_B1.c: 85: void Lights_Close() {
+[e :U _Lights_Close ]
+[f ]
+[; ;TriacRelay_B1.c: 86: if (LightsControl.Detect == 1) {
+"86
+[e $ ! == -> . . . _LightsControl 0 0 0 `i -> 1 `i 189  ]
+{
+[; ;TriacRelay_B1.c: 87: LightsControl.Detect = 0;
+"87
+[e = . . . _LightsControl 0 0 0 -> -> 0 `i `uc ]
+[; ;TriacRelay_B1.c: 88: LightsControl.LoadGO = getMain_LightsStatus() == 0 ? 0 : 1;
+"88
+[e = . . . _LightsControl 0 0 1 -> ? == -> ( _getMain_LightsStatus ..  `i -> 0 `i : -> 0 `i -> 1 `i `uc ]
+"89
+}
+[e :U 189 ]
+[; ;TriacRelay_B1.c: 89: }
+[; ;TriacRelay_B1.c: 90: }
+"90
+[e :UE 188 ]
+}
+"93
 [v _setLights_Main `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;TriacRelay_B1.c: 82: void setLights_Main(char lights) {
+[; ;TriacRelay_B1.c: 93: void setLights_Main(char lights) {
 [e :U _setLights_Main ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;TriacRelay_B1.c: 83: LightsPointSelect(lights);
-"83
-[e ( _LightsPointSelect (1 _lights ]
-[; ;TriacRelay_B1.c: 84: if (Lights->GO == 0) {
-"84
-[e $ ! == -> . . . *U _Lights 0 0 1 `i -> 0 `i 188  ]
-{
-[; ;TriacRelay_B1.c: 85: if (Lights->Trigger == 1) {
-"85
-[e $ ! == -> . . . *U _Lights 0 0 3 `i -> 1 `i 189  ]
-{
-[; ;TriacRelay_B1.c: 86: if (getMain_All_Error_Status(0) == 0) {
-"86
-[e $ ! == -> ( _getMain_All_Error_Status (1 -> -> 0 `i `uc `i -> 0 `i 190  ]
-{
-[; ;TriacRelay_B1.c: 87: if (LightsControl.LoadOK == 1) {
-"87
-[e $ ! == -> . . . _LightsControl 0 0 2 `i -> 1 `i 191  ]
-{
-[; ;TriacRelay_B1.c: 88: LightsControl.LoadOK = getLoad_OK() == 1 ? 0 : LightsControl.LoadOK;
-"88
-[e = . . . _LightsControl 0 0 2 -> ? == -> ( _getLoad_OK ..  `i -> 1 `i : -> 0 `i -> . . . _LightsControl 0 0 2 `i `uc ]
-"89
-}
-[e :U 191 ]
-"90
-}
-[; ;TriacRelay_B1.c: 89: }
-[; ;TriacRelay_B1.c: 90: } else {
-[e $U 192  ]
-[e :U 190 ]
-{
-[; ;TriacRelay_B1.c: 91: LightsControl.LoadOK = 0;
-"91
-[e = . . . _LightsControl 0 0 2 -> -> 0 `i `uc ]
-"92
-}
-[e :U 192 ]
-[; ;TriacRelay_B1.c: 92: }
-[; ;TriacRelay_B1.c: 94: if (LightsControl.LoadOK == 0) {
+[; ;TriacRelay_B1.c: 94: LightsPointSelect(lights);
 "94
+[e ( _LightsPointSelect (1 _lights ]
+[; ;TriacRelay_B1.c: 95: if (Lights->GO == 0) {
+"95
+[e $ ! == -> . . . *U _Lights 0 0 1 `i -> 0 `i 191  ]
+{
+[; ;TriacRelay_B1.c: 96: if (Lights->Trigger == 1) {
+"96
+[e $ ! == -> . . . *U _Lights 0 0 3 `i -> 1 `i 192  ]
+{
+[; ;TriacRelay_B1.c: 97: if (LightsControl.LoadOK == 0) {
+"97
 [e $ ! == -> . . . _LightsControl 0 0 2 `i -> 0 `i 193  ]
 {
-[; ;TriacRelay_B1.c: 95: Lights->Trigger = 0;
-"95
+[; ;TriacRelay_B1.c: 98: Lights->Trigger = 0;
+"98
 [e = . . . *U _Lights 0 0 3 -> -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 97: if (Lights->Switch == 1) {
-"97
+[; ;TriacRelay_B1.c: 100: if (Lights->Switch == 1) {
+"100
 [e $ ! == -> . . . *U _Lights 0 0 4 `i -> 1 `i 194  ]
 {
-[; ;TriacRelay_B1.c: 98: setLights(lights, 1);
-"98
+[; ;TriacRelay_B1.c: 101: setLights(lights, 1);
+"101
 [e ( _setLights (2 , _lights -> -> 1 `i `uc ]
-"99
+"102
 }
-[; ;TriacRelay_B1.c: 99: } else {
+[; ;TriacRelay_B1.c: 102: } else {
 [e $U 195  ]
 [e :U 194 ]
 {
-[; ;TriacRelay_B1.c: 100: setLights(lights, 0);
-"100
-[e ( _setLights (2 , _lights -> -> 0 `i `uc ]
-"101
-}
-[e :U 195 ]
-"102
-}
-[e :U 193 ]
+[; ;TriacRelay_B1.c: 103: setLights(lights, 0);
 "103
-}
-[e :U 189 ]
+[e ( _setLights (2 , _lights -> -> 0 `i `uc ]
 "104
 }
-[e :U 188 ]
-[; ;TriacRelay_B1.c: 101: }
-[; ;TriacRelay_B1.c: 102: }
-[; ;TriacRelay_B1.c: 103: }
+[e :U 195 ]
+"105
+}
+[e :U 193 ]
+"106
+}
+[e :U 192 ]
+"107
+}
+[e :U 191 ]
 [; ;TriacRelay_B1.c: 104: }
 [; ;TriacRelay_B1.c: 105: }
-"105
-[e :UE 187 ]
-}
+[; ;TriacRelay_B1.c: 106: }
+[; ;TriacRelay_B1.c: 107: }
+[; ;TriacRelay_B1.c: 108: }
 "108
+[e :UE 190 ]
+}
+"111
 [v _setLights `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;TriacRelay_B1.c: 108: void setLights(char lights, char status) {
+[; ;TriacRelay_B1.c: 111: void setLights(char lights, char status) {
 [e :U _setLights ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [v _status `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;TriacRelay_B1.c: 110: LightsPointSelect(lights);
-"110
-[e ( _LightsPointSelect (1 _lights ]
-[; ;TriacRelay_B1.c: 113: LightsControl.LoadOK = getMain_All_Error_Status(0) == 0 ? 1 : 0;
+[; ;TriacRelay_B1.c: 113: LightsPointSelect(lights);
 "113
+[e ( _LightsPointSelect (1 _lights ]
+[; ;TriacRelay_B1.c: 116: LightsControl.LoadOK = getMain_All_Error_Status(0) == 0 ? 1 : 0;
+"116
 [e = . . . _LightsControl 0 0 2 -> ? == -> ( _getMain_All_Error_Status (1 -> -> 0 `i `uc `i -> 0 `i : -> 1 `i -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 114: LightsControl.LoadGO = status == 1 ? 1 : LightsControl.LoadGO;
-"114
-[e = . . . _LightsControl 0 0 1 -> ? == -> _status `i -> 1 `i : -> 1 `i -> . . . _LightsControl 0 0 1 `i `uc ]
-[; ;TriacRelay_B1.c: 117: Lights->GO = 1;
-"117
+[; ;TriacRelay_B1.c: 120: Lights->GO = 1;
+"120
 [e = . . . *U _Lights 0 0 1 -> -> 1 `i `uc ]
-[; ;TriacRelay_B1.c: 118: if (status == 1) {
-"118
+[; ;TriacRelay_B1.c: 121: if (status == 1) {
+"121
 [e $ ! == -> _status `i -> 1 `i 197  ]
 {
-[; ;TriacRelay_B1.c: 119: if (Lights->Status == 0) {
-"119
+[; ;TriacRelay_B1.c: 122: if (Lights->Status == 0) {
+"122
 [e $ ! == -> . . . *U _Lights 0 0 2 `i -> 0 `i 198  ]
 {
-[; ;TriacRelay_B1.c: 120: Lights->Status = 1;
-"120
-[e = . . . *U _Lights 0 0 2 -> -> 1 `i `uc ]
-[; ;TriacRelay_B1.c: 121: Lights->RelayValue = 10;
-"121
-[e = . *U _Lights 6 -> -> 10 `i `uc ]
-[; ;TriacRelay_B1.c: 122: Lights->TriacValue = 13;
-"122
-[e = . *U _Lights 4 -> -> 13 `i `uc ]
-[; ;TriacRelay_B1.c: 123: setLights_Line(lights);
+[; ;TriacRelay_B1.c: 123: Lights->Status = 1;
 "123
-[e ( _setLights_Line (1 _lights ]
+[e = . . . *U _Lights 0 0 2 -> -> 1 `i `uc ]
+[; ;TriacRelay_B1.c: 124: Lights->Loop = 1;
 "124
+[e = . . . *U _Lights 1 0 1 -> -> 1 `i `uc ]
+[; ;TriacRelay_B1.c: 125: Lights->RelayValue = 10;
+"125
+[e = . *U _Lights 6 -> -> 10 `i `uc ]
+[; ;TriacRelay_B1.c: 126: Lights->TriacValue = 13;
+"126
+[e = . *U _Lights 4 -> -> 13 `i `uc ]
+[; ;TriacRelay_B1.c: 127: setLights_Line(lights);
+"127
+[e ( _setLights_Line (1 _lights ]
+"128
 }
 [e :U 198 ]
-"125
+"129
 }
-[; ;TriacRelay_B1.c: 124: }
-[; ;TriacRelay_B1.c: 125: } else {
+[; ;TriacRelay_B1.c: 128: }
+[; ;TriacRelay_B1.c: 129: } else {
 [e $U 199  ]
 [e :U 197 ]
 {
-[; ;TriacRelay_B1.c: 126: if (Lights->Status == 1) {
-"126
+[; ;TriacRelay_B1.c: 130: if (Lights->Status == 1) {
+"130
 [e $ ! == -> . . . *U _Lights 0 0 2 `i -> 1 `i 200  ]
 {
-[; ;TriacRelay_B1.c: 127: Lights->Status = 0;
-"127
-[e = . . . *U _Lights 0 0 2 -> -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 128: Lights->RelayValue = 4;
-"128
-[e = . *U _Lights 6 -> -> 4 `i `uc ]
-[; ;TriacRelay_B1.c: 129: Lights->TriacValue = 7;
-"129
-[e = . *U _Lights 4 -> -> 7 `i `uc ]
-"130
-}
-[e :U 200 ]
+[; ;TriacRelay_B1.c: 131: Lights->Status = 0;
 "131
-}
-[e :U 199 ]
-[; ;TriacRelay_B1.c: 130: }
-[; ;TriacRelay_B1.c: 131: }
-[; ;TriacRelay_B1.c: 133: if (lights == 1) {
+[e = . . . *U _Lights 0 0 2 -> -> 0 `i `uc ]
+[; ;TriacRelay_B1.c: 132: Lights->Loop = 0;
+"132
+[e = . . . *U _Lights 1 0 1 -> -> 0 `i `uc ]
+[; ;TriacRelay_B1.c: 133: Lights->RelayValue = 4;
 "133
-[e $ ! == -> _lights `i -> 1 `i 201  ]
-{
-[; ;TriacRelay_B1.c: 134: RB2 = 1;
+[e = . *U _Lights 6 -> -> 4 `i `uc ]
+[; ;TriacRelay_B1.c: 134: Lights->TriacValue = 7;
 "134
-[e = _RB2 -> -> 1 `i `b ]
+[e = . *U _Lights 4 -> -> 7 `i `uc ]
 "135
 }
-[e :U 201 ]
+[e :U 200 ]
+"136
+}
+[e :U 199 ]
 [; ;TriacRelay_B1.c: 135: }
-[; ;TriacRelay_B1.c: 147: }
-"147
+[; ;TriacRelay_B1.c: 136: }
+[; ;TriacRelay_B1.c: 138: if (lights == 1) {
+"138
+[e $ ! == -> _lights `i -> 1 `i 201  ]
+{
+[; ;TriacRelay_B1.c: 139: RB2 = 1;
+"139
+[e = _RB2 -> -> 1 `i `b ]
+"140
+}
+[e :U 201 ]
+[; ;TriacRelay_B1.c: 140: }
+[; ;TriacRelay_B1.c: 152: }
+"152
 [e :UE 196 ]
 }
-"150
+"155
 [v _Lights_Control `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;TriacRelay_B1.c: 150: void Lights_Control(char lights) {
+[; ;TriacRelay_B1.c: 155: void Lights_Control(char lights) {
 [e :U _Lights_Control ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;TriacRelay_B1.c: 151: LightsPointSelect(lights);
-"151
+[; ;TriacRelay_B1.c: 156: LightsPointSelect(lights);
+"156
 [e ( _LightsPointSelect (1 _lights ]
-[; ;TriacRelay_B1.c: 152: if (Lights->GO == 1) {
-"152
+[; ;TriacRelay_B1.c: 157: if (Lights->GO == 1) {
+"157
 [e $ ! == -> . . . *U _Lights 0 0 1 `i -> 1 `i 203  ]
 {
-[; ;TriacRelay_B1.c: 153: Lights->Time++;
-"153
+[; ;TriacRelay_B1.c: 158: Lights->Time++;
+"158
 [e ++ . *U _Lights 2 -> -> 1 `i `uc ]
-[; ;TriacRelay_B1.c: 154: if (Lights->Time >= Lights->RelayValue && Lights->RelaySet == 0) {
-"154
+[; ;TriacRelay_B1.c: 159: if (Lights->Time >= Lights->RelayValue && Lights->RelaySet == 0) {
+"159
 [e $ ! && >= -> . *U _Lights 2 `i -> . *U _Lights 6 `i == -> . . . *U _Lights 0 0 7 `i -> 0 `i 204  ]
 {
-[; ;TriacRelay_B1.c: 155: Lights->RelaySet = 1;
-"155
+[; ;TriacRelay_B1.c: 160: Lights->RelaySet = 1;
+"160
 [e = . . . *U _Lights 0 0 7 -> -> 1 `i `uc ]
-[; ;TriacRelay_B1.c: 157: if (lights == 1) {
-"157
+[; ;TriacRelay_B1.c: 162: if (lights == 1) {
+"162
 [e $ ! == -> _lights `i -> 1 `i 205  ]
 {
-[; ;TriacRelay_B1.c: 158: RA4 = Lights->Status == 1 ? 1 : 0;
-"158
+[; ;TriacRelay_B1.c: 163: RA4 = Lights->Status == 1 ? 1 : 0;
+"163
 [e = _RA4 -> ? == -> . . . *U _Lights 0 0 2 `i -> 1 `i : -> 1 `i -> 0 `i `b ]
-"159
+"164
 }
 [e :U 205 ]
-"172
+"177
 }
-[; ;TriacRelay_B1.c: 159: }
-[; ;TriacRelay_B1.c: 172: } else if (Lights->Time >= Lights->TriacValue) {
+[; ;TriacRelay_B1.c: 164: }
+[; ;TriacRelay_B1.c: 177: } else if (Lights->Time >= Lights->TriacValue) {
 [e $U 206  ]
 [e :U 204 ]
 [e $ ! >= -> . *U _Lights 2 `i -> . *U _Lights 4 `i 207  ]
 {
-[; ;TriacRelay_B1.c: 173: Lights->Time = 0;
-"173
-[e = . *U _Lights 2 -> -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 174: Lights->GO = 0;
-"174
-[e = . . . *U _Lights 0 0 1 -> -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 175: Lights->RelaySet = 0;
-"175
-[e = . . . *U _Lights 0 0 7 -> -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 178: LightsControl.Detect = Lights->Status == 0 ? 1 : LightsControl.Detect;
+[; ;TriacRelay_B1.c: 178: Lights->Time = 0;
 "178
+[e = . *U _Lights 2 -> -> 0 `i `uc ]
+[; ;TriacRelay_B1.c: 179: Lights->GO = 0;
+"179
+[e = . . . *U _Lights 0 0 1 -> -> 0 `i `uc ]
+[; ;TriacRelay_B1.c: 180: Lights->RelaySet = 0;
+"180
+[e = . . . *U _Lights 0 0 7 -> -> 0 `i `uc ]
+[; ;TriacRelay_B1.c: 183: LightsControl.Detect = Lights->Status == 0 ? 1 : LightsControl.Detect;
+"183
 [e = . . . _LightsControl 0 0 0 -> ? == -> . . . *U _Lights 0 0 2 `i -> 0 `i : -> 1 `i -> . . . _LightsControl 0 0 0 `i `uc ]
-[; ;TriacRelay_B1.c: 182: if (lights == 1) {
-"182
+[; ;TriacRelay_B1.c: 187: if (lights == 1) {
+"187
 [e $ ! == -> _lights `i -> 1 `i 208  ]
 {
-[; ;TriacRelay_B1.c: 183: RB2 = 0;
-"183
+[; ;TriacRelay_B1.c: 188: RB2 = 0;
+"188
 [e = _RB2 -> -> 0 `i `b ]
-"184
+"189
 }
 [e :U 208 ]
-"197
+"202
 }
 [e :U 207 ]
-"198
+"203
 [e :U 206 ]
 }
 [e :U 203 ]
-[; ;TriacRelay_B1.c: 184: }
-[; ;TriacRelay_B1.c: 197: }
-[; ;TriacRelay_B1.c: 198: }
-[; ;TriacRelay_B1.c: 199: }
-"199
+[; ;TriacRelay_B1.c: 189: }
+[; ;TriacRelay_B1.c: 202: }
+[; ;TriacRelay_B1.c: 203: }
+[; ;TriacRelay_B1.c: 204: }
+"204
 [e :UE 202 ]
 }
-"202
+"207
 [v _getLights_Status `(uc ~T0 @X0 1 ef1`uc ]
 {
-[; ;TriacRelay_B1.c: 202: char getLights_Status(char lights) {
+[; ;TriacRelay_B1.c: 207: char getLights_Status(char lights) {
 [e :U _getLights_Status ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;TriacRelay_B1.c: 203: LightsPointSelect(lights);
-"203
+[; ;TriacRelay_B1.c: 208: LightsPointSelect(lights);
+"208
 [e ( _LightsPointSelect (1 _lights ]
-"204
+"209
 [v _status `uc ~T0 @X0 1 a ]
-[; ;TriacRelay_B1.c: 204: char status = Lights->Status == 1 ? 1 : 0;
+[; ;TriacRelay_B1.c: 209: char status = Lights->Status == 1 ? 1 : 0;
 [e = _status -> ? == -> . . . *U _Lights 0 0 2 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 205: return status;
-"205
+[; ;TriacRelay_B1.c: 210: return status;
+"210
 [e ) _status ]
 [e $UE 209  ]
-[; ;TriacRelay_B1.c: 206: }
-"206
+[; ;TriacRelay_B1.c: 211: }
+"211
 [e :UE 209 ]
 }
-"209
+"214
 [v _setLights_Trigger `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;TriacRelay_B1.c: 209: void setLights_Trigger(char lights, char command) {
+[; ;TriacRelay_B1.c: 214: void setLights_Trigger(char lights, char command) {
 [e :U _setLights_Trigger ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [v _command `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;TriacRelay_B1.c: 210: LightsPointSelect(lights);
-"210
+[; ;TriacRelay_B1.c: 215: LightsPointSelect(lights);
+"215
 [e ( _LightsPointSelect (1 _lights ]
-[; ;TriacRelay_B1.c: 211: Lights->Trigger = 1;
-"211
+[; ;TriacRelay_B1.c: 216: Lights->Trigger = 1;
+"216
 [e = . . . *U _Lights 0 0 3 -> -> 1 `i `uc ]
-[; ;TriacRelay_B1.c: 212: Lights->Switch = command == 1 ? 1 : 0;
-"212
+[; ;TriacRelay_B1.c: 217: Lights->Switch = command == 1 ? 1 : 0;
+"217
 [e = . . . *U _Lights 0 0 4 -> ? == -> _command `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 213: }
-"213
+[; ;TriacRelay_B1.c: 218: }
+"218
 [e :UE 210 ]
 }
-"216
+"221
 [v _setLights_Line `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;TriacRelay_B1.c: 216: void setLights_Line(char lights) {
+[; ;TriacRelay_B1.c: 221: void setLights_Line(char lights) {
 [e :U _setLights_Line ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;TriacRelay_B1.c: 218: Lights1.Line = 0;
-"218
+[; ;TriacRelay_B1.c: 223: Lights1.Line = 0;
+"223
 [e = . . . _Lights1 1 0 0 -> -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 226: LightsPointSelect(lights);
-"226
+[; ;TriacRelay_B1.c: 231: LightsPointSelect(lights);
+"231
 [e ( _LightsPointSelect (1 _lights ]
-[; ;TriacRelay_B1.c: 227: Lights->Line = 1;
-"227
+[; ;TriacRelay_B1.c: 232: Lights->Line = 1;
+"232
 [e = . . . *U _Lights 1 0 0 -> -> 1 `i `uc ]
-[; ;TriacRelay_B1.c: 228: }
-"228
+[; ;TriacRelay_B1.c: 233: }
+"233
 [e :UE 211 ]
 }
-"231
+"236
 [v _getAll_Lights_Line `(uc ~T0 @X0 1 ef ]
 {
-[; ;TriacRelay_B1.c: 231: char getAll_Lights_Line() {
+[; ;TriacRelay_B1.c: 236: char getAll_Lights_Line() {
 [e :U _getAll_Lights_Line ]
 [f ]
-"232
+"237
 [v _line `uc ~T0 @X0 1 a ]
-[; ;TriacRelay_B1.c: 232: char line = 0;
+[; ;TriacRelay_B1.c: 237: char line = 0;
 [e = _line -> -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 234: LightsPointSelect(1);
-"234
+[; ;TriacRelay_B1.c: 239: LightsPointSelect(1);
+"239
 [e ( _LightsPointSelect (1 -> -> 1 `i `uc ]
-[; ;TriacRelay_B1.c: 235: line = Lights->Line == 1 ? 1 : 0;
-"235
+[; ;TriacRelay_B1.c: 240: line = Lights->Line == 1 ? 1 : 0;
+"240
 [e = _line -> ? == -> . . . *U _Lights 1 0 0 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 245: return line;
-"245
+[; ;TriacRelay_B1.c: 250: return line;
+"250
 [e ) _line ]
 [e $UE 212  ]
-[; ;TriacRelay_B1.c: 246: }
-"246
+[; ;TriacRelay_B1.c: 251: }
+"251
 [e :UE 212 ]
 }
-"249
+"254
 [v _getLightsControl_GO `(uc ~T0 @X0 1 ef ]
 {
-[; ;TriacRelay_B1.c: 249: char getLightsControl_GO() {
+[; ;TriacRelay_B1.c: 254: char getLightsControl_GO() {
 [e :U _getLightsControl_GO ]
 [f ]
-"250
+"255
 [v _loadgo `uc ~T0 @X0 1 a ]
-[; ;TriacRelay_B1.c: 250: char loadgo = LightsControl.LoadGO == 1 ? 1 : 0;
+[; ;TriacRelay_B1.c: 255: char loadgo = LightsControl.LoadGO == 1 ? 1 : 0;
 [e = _loadgo -> ? == -> . . . _LightsControl 0 0 1 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 251: return loadgo;
-"251
+[; ;TriacRelay_B1.c: 256: return loadgo;
+"256
 [e ) _loadgo ]
 [e $UE 213  ]
-[; ;TriacRelay_B1.c: 252: }
-"252
+[; ;TriacRelay_B1.c: 257: }
+"257
 [e :UE 213 ]
 }
-"255
+"260
 [v _getLightsControl_OK `(uc ~T0 @X0 1 ef ]
 {
-[; ;TriacRelay_B1.c: 255: char getLightsControl_OK() {
+[; ;TriacRelay_B1.c: 260: char getLightsControl_OK() {
 [e :U _getLightsControl_OK ]
 [f ]
-"256
+"261
 [v _loadok `uc ~T0 @X0 1 a ]
-[; ;TriacRelay_B1.c: 256: char loadok = LightsControl.LoadOK == 1 ? 1 : 0;
+[; ;TriacRelay_B1.c: 261: char loadok = LightsControl.LoadOK == 1 ? 1 : 0;
 [e = _loadok -> ? == -> . . . _LightsControl 0 0 2 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;TriacRelay_B1.c: 257: return loadok;
-"257
+[; ;TriacRelay_B1.c: 262: return loadok;
+"262
 [e ) _loadok ]
 [e $UE 214  ]
-[; ;TriacRelay_B1.c: 258: }
-"258
+[; ;TriacRelay_B1.c: 263: }
+"263
 [e :UE 214 ]
 }

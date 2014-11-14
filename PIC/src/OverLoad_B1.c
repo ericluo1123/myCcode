@@ -49,7 +49,6 @@ inline void Load_Main() {
             Load.OK = false;
         }
 
-
         //load main
         if (Load.GO == true) {
             Load.LightsON = true;
