@@ -46,7 +46,7 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
         DimmerLightsIntrIOC->GO = true;
         DimmerLightsIntrIOC->MosfetSignal = true;
         if (DimmerLightsIntrIOC->StatusFlag == true) {
-
+            DimmerLightsIntrIOC->MOSFET = true;
 #ifdef use_1KEY
             if (lights == 1) {
                 Mosfet1 = true;
@@ -59,10 +59,9 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
             }
 #endif
         }
-
-        if (lights == 1) {
-            ErrLED = ErrLED == true ? false : true;
-        }
+        //        if (lights == 1) {
+        //            ErrLED = ErrLED == true ? false : true;
+        //        }
     }
 #endif
 }
@@ -211,14 +210,14 @@ inline void setDimmerLights_IntrControl(char lights) {
 #endif
         }
     } else {
-        if (DimmerLightsIntr->TriacFlag == true) {
+        if (DimmerLightsIntr->TriacFlag == true && DimmerLightsIntr->GO == false) {
             DimmerLightsIntr->TriacCount++;
-            if (DimmerLightsIntr->TriacCount == 10) {//TriacCountValue
+            if (DimmerLightsIntr->TriacCount == 5) {//TriacCountValue
                 DimmerLightsIntr->TriacCount = 0;
                 DimmerLightsIntr->TriacFlag = false;
-                if (lights == 1) {
-                    ErrLED = ErrLED == true ? false : true;
-                }
+                //                if (lights == 1) {
+                //                    ErrLED = ErrLED == true ? false : true;
+                //                }
             }
         }
     }
@@ -234,7 +233,8 @@ inline void setDimmerLights_IntrControl(char lights) {
             DimmerLightsIntr->Count = 0;
             DimmerLightsIntr->GO = false;
             DimmerLightsIntr->Flag = true;
-            if (DimmerLightsIntr->StatusFlag == true) {
+            if (DimmerLightsIntr->MOSFET == true) {
+                DimmerLightsIntr->MOSFET = false;
 #ifdef use_1KEY
                 if (lights == 1) {
                     Mosfet1 = false;
@@ -279,36 +279,40 @@ inline void setDimmerLights_IntrControl(char lights) {
                             DimmerLightsIntr->AdjRF = false;
                             DimmerLightsIntr->Signal = false;
                         }
-                    } else {
-                        DimmerLightsIntr->Signal = false;
-                        DimmerLightsIntr->StatusFlag = false;
-                        DimmerLights->Loop = false;
-#ifdef use_1KEY
-                        if (lights == 1) {
-                            setLED(1, 0);
-                            setLED2(1);
-                        }
-#endif
-#ifdef use_2KEY
-                        if (lights == 2) {
-                            LED2 = 0;
-                        }
-#endif
                     }
+
+                    //                    else {
+                    //                        DimmerLightsIntr->Signal = false;
+                    //                        DimmerLightsIntr->StatusFlag = false;
+                    //                        DimmerLights->Loop = false;
+                    //#ifdef use_1KEY
+                    //                        if (lights == 1) {
+                    //                            setLED(1, 0);
+                    //                            setLED2(1);
+                    //                        }
+                    //#endif
+                    //#ifdef use_2KEY
+                    //                        if (lights == 2) {
+                    //                            LED2 = 0;
+                    //                        }
+                    //#endif
+                    //                    }
                 }
             }
         }
-    }
-    if (DimmerLightsIntr->MosfetSignal == true) {
-        DimmerLightsIntr->MosfetSignalCount++;
-        if (DimmerLightsIntr->MosfetSignalCount == TriacCountValue) {
-            DimmerLightsIntr->MosfetSignalCount = 0;
-            DimmerLightsIntr->MosfetSignal = false;
-            //            if (lights == 1) {
-            //                ErrLED = ErrLED == true ? false : true;
-            //            }
+
+        if (DimmerLightsIntr->MosfetSignal == true) {
+            DimmerLightsIntr->MosfetSignalCount++;
+            if (DimmerLightsIntr->MosfetSignalCount == 5) {
+                DimmerLightsIntr->MosfetSignalCount = 0;
+                DimmerLightsIntr->MosfetSignal = false;
+                //            if (lights == 1) {
+                //                ErrLED = ErrLED == true ? false : true;
+                //            }
+            }
         }
     }
+
 #endif
 
 }

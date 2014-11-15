@@ -190,7 +190,7 @@ typedef unsigned int ADtype;
 #define MosfetOpenToCloseValue			10
 
 #if Properties_Neutral == 1
-#define Max_Percent 90
+#define Max_Percent 80
 #define Med_Percent 35
 #define Mini_Percent 25
 #else

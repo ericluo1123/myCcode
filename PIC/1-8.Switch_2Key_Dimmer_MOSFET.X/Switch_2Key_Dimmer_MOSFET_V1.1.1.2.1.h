@@ -1,6 +1,6 @@
 
-#ifndef _Switch_1Key_Dimmer_V1.0.1.2.1_H_	
-#define	_Switch_1Key_Dimmer_V1.0.1.2.1_H_		
+#ifndef _Switch_2Key_Dimmer_V1.1.1.2.1_H_
+#define	_Switch_2Key_Dimmer_V1.1.1.2.1_H_
 
 /**Version information
         Name_Version 			:	1~255
@@ -21,7 +21,7 @@
  **/
 
 #define	Name_Version 			1	//1
-#define Name_SerialNumber		0	//2
+#define Name_SerialNumber		1	//2
 #define Properties_Product		1	//3
 #define Properties_Keys			2	//4
 #define Properties_Country		1	//5
@@ -90,64 +90,64 @@
 //Oscillator (System FOSC)
 #define	System_Fosc_16M     //_16M
 //ADC 
-#define ADC_use             true											
+#define ADC_use             1
 //Timer0
-#define Timer0_use          false
+#define Timer0_use          0
 //Timer1
-#define Timer1_use          true
+#define Timer1_use          1
 //Timer2
-#define Timer2_use	false
+#define Timer2_use	0
 //Interrupt Time
 #define IntrTime_100us
 //INT
-#define INT_use             true
+#define INT_use             0
 //UART
-#define UART_use            false
-#define UART_Master         true
-#define UART_Slave          false
+#define UART_use            0
+#define UART_Master         1
+#define UART_Slave          0
 //I2C
-#define I2C_use             false
-#define Master_Mode         true
-#define Slave_Mode          false
+#define I2C_use             0
+#define Master_Mode         1
+#define Slave_Mode          0
 //IOC
-#define IOC_use             true
+#define IOC_use             1
 //FlashMemory_use
-#define FlashMemory_use     true
+#define FlashMemory_use     1
 //watchdog timer
-#define WDT_use             true
+#define WDT_use             1
 
 //Function Option
 
 //SYSC
-#define SYSC_use            false
+#define SYSC_use            0
 //OverTemperature
-#define OverTemperature_use false
+#define OverTemperature_use 1
 //OverLoad
-#define OverLoad_use        false
+#define OverLoad_use        1
 //LED
-#define LED_use             true
+#define LED_use             1
 //Buzzer
-#define Buzzer_use          true
+#define Buzzer_use          1
 //Switch
-#define Switch_use          true
+#define Switch_use          1
 //Lights
-#define LightsControl_use   false
+#define LightsControl_use   0
 //RF cc2500
-#define CC2500_use          true//false
+#define CC2500_use          1
 //DelayOff
-#define DelayOff_use        true
+#define DelayOff_use        1
 //PowerFault
-#define PowerFault_use      false
+#define PowerFault_use      0
 //Dimmer Lights
-#define Dimmer_use              true
-#define Dimmer_Half_Wave	true
-#define Dimmer_Full_Wave	false
+#define Dimmer_use              1
+#define Dimmer_Half_Wave	0
+#define Dimmer_Full_Wave	1
 //SegmentDisplay
-#define SegmentDisplay_use  false
+#define SegmentDisplay_use  0
 //CDS
-#define CDS_use             false
+#define CDS_use             0
 //PIR
-#define PIR_use             false
+#define PIR_use             0
 
 
 

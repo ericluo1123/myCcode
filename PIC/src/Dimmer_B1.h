@@ -53,7 +53,7 @@ struct DimmerLights {
             unsigned Loop : 1;
             unsigned OK : 1;
             unsigned MosfetSignal : 1;
-            unsigned MosfetOK : 1;
+            unsigned MOSFET : 1;
             unsigned TriacFlag : 1;
             unsigned SwFlag : 1;
             unsigned SwAdj : 1;

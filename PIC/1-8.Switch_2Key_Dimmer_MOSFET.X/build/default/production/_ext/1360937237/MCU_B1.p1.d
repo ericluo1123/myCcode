@@ -4,11 +4,11 @@
 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h  \
 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/Buzzer_B1.h  \
 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h  \
-../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/Switch_1Key_Dimmer_MOSFET_V1.0.1.2.1.h  \
 ../src/Select_File.h  \
 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/MCU_B1.h  \
 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/SegmentDisplay_A2.h  \
 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/OverTemperature_B1.h  \
+../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/Switch_2Key_Dimmer_MOSFET_V1.1.1.2.1.h  \
 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/CC2500_B1.h  \
 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/LED_B1.h  \
 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/CDS_B1.h  \

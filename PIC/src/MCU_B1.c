@@ -355,7 +355,7 @@ inline void INT_ISR() {
 
 void setINT_GO(char command) {
     INTF = false;
-    INTE = command;
+    INTE = command; 
 }
 #endif
 //*********************************************************
@@ -370,7 +370,7 @@ void IOC_Set() {
     IOCBP = 0b00000100;
     IOCBN = 0b00000100;
 #endif
-
+ 
 #if Dimmer_Full_Wave == 1
     IOCBP = 0b00000000;
     IOCBN = 0b00000100;
