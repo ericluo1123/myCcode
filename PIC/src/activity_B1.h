@@ -192,7 +192,7 @@ typedef unsigned int ADtype;
 #if Properties_Neutral == 1
 #define Max_Percent 80
 #define Med_Percent 35
-#define Mini_Percent 25
+#define Mini_Percent 10
 #else
 #if Control_Method_Mosfet == 1
 #if Switch_Class == 1
