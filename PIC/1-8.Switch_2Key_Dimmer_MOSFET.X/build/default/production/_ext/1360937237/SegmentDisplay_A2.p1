@@ -89,60 +89,78 @@ Version 3.2 HI-TECH Software Intermediate Code
 "10
 [s S265 `S266 1 `ui 1 `uc 1 ]
 [n S265 LED . Time Number ]
-"15 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h
-[s S270 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S270 . Enable ReceiveGO TransceiveGO RxStatus TxStatus Debounce Learn Key ]
-"13
+"11 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/OverTemperature_B1.h
+[s S270 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
+[n S270 . Enable ERROR ADtoGO LoadADGO GO empty ]
+"9
 [u S269 `S270 1 ]
 [n S269 . . ]
-"29
-[s S272 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :2 `uc 1 ]
-[n S272 . Sleep Run Bus Checked RxChecked Correction empty ]
-"27
-[u S271 `S272 1 ]
-[n S271 . . ]
-"11
-[s S268 `S269 1 `S271 1 `ui 1 `uc 1 `ui 1 `ui 1 `uc 1 `ui 1 ]
-[n S268 RF . . Count CheckCount CheckedCounter RunTime DebounceTime CorrectionCounter ]
-"15 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h
-[s S275 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S275 . GO Signal AdjRF AdjFlag AdjStatus Status StatusFlag OverLoad ]
+"7
+[s S268 `S269 1 `ui 1 `uc 1 `uc 1 `uc 1 `ui 1 `ui -> 2 `i `ui 1 `ui 1 `ui 1 ]
+[n S268 OverTemp . Time Count AD1 AD2 AD ADH ADRES SafeValue DangerValue ]
+"15 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h
+[s S273 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S273 . Enable ReceiveGO TransceiveGO RxStatus TxStatus Debounce Learn Key ]
 "13
+[u S272 `S273 1 ]
+[n S272 . . ]
+"29
+[s S275 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :2 `uc 1 ]
+[n S275 . Sleep Run Bus Checked RxChecked Correction empty ]
+"27
 [u S274 `S275 1 ]
 [n S274 . . ]
-"37
-[s S277 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S277 . Flag Switch Trigger AdjGo TriggerAdj Triac MosfetOpen MosfetClose ]
-"35
-[u S276 `S277 1 ]
-[n S276 . . ]
-"51
-[s S279 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S279 . Line Loop OK MosfetSignal MOSFET TriacFlag SwFlag SwAdj ]
-"49
-[u S278 `S279 1 ]
-[n S278 . . ]
 "11
-[s S273 `S274 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `S276 1 `S278 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
-[n S273 DimmerLights . DimmingTime DimmingTimeValue Count DimmingValue MaxmumValue MinimumValue TriacTime . . TriacCount DetectCount MosfetSignalCount TuneValue MosfetOK_Count ]
+[s S271 `S272 1 `S274 1 `ui 1 `uc 1 `ui 1 `ui 1 `uc 1 `ui 1 ]
+[n S271 RF . . Count CheckCount CheckedCounter RunTime DebounceTime CorrectionCounter ]
+"41 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h
+[s S278 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S278 . Enable GO LightsON Run ADtoGO ERROR Status OK ]
+"39
+[u S277 `S278 1 ]
+[n S277 . . ]
+"37
+[s S276 `S277 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui -> 5 `i `ui -> 5 `i `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
+[n S276 OverLoad . Time ErrorTime ADH ADL TotalLoad AH AL AD ADRES LightsJudgeValue JudgeValue Judge Count ErrorCount LightsCount SafeCount ]
+"15 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h
+[s S281 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S281 . GO Signal AdjRF AdjFlag AdjStatus Status StatusFlag OverLoad ]
+"13
+[u S280 `S281 1 ]
+[n S280 . . ]
+"37
+[s S283 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S283 . Flag Switch Trigger AdjGo TriggerAdj Triac MosfetOpen MosfetClose ]
+"35
+[u S282 `S283 1 ]
+[n S282 . . ]
+"51
+[s S285 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S285 . Line Loop OK MosfetSignal MOSFET TriacFlag SwFlag SwAdj ]
+"49
+[u S284 `S285 1 ]
+[n S284 . . ]
+"11
+[s S279 `S280 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `S282 1 `S284 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
+[n S279 DimmerLights . DimmingTime DimmingTimeValue Count DimmingValue MaxmumValue MinimumValue TriacTime . . TriacCount DetectCount MosfetSignalCount TuneValue MosfetOK_Count ]
 "166
-[s S282 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
-[n S282 . AdjGO LoadOK LoadGO empty ]
+[s S288 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
+[n S288 . AdjGO LoadOK LoadGO empty ]
 "164
-[u S281 `S282 1 ]
-[n S281 . . ]
+[u S287 `S288 1 ]
+[n S287 . . ]
 "159
-[s S280 `S281 1 `uc 1 `uc 1 ]
-[n S280 Dimmer . Load Correction ]
+[s S286 `S287 1 `uc 1 `uc 1 ]
+[n S286 Dimmer . Load Correction ]
 "25 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h
-[s S285 :1 `uc 1 :1 `uc 1 :6 `uc 1 ]
-[n S285 . Enable GO empty ]
+[s S291 :1 `uc 1 :1 `uc 1 :6 `uc 1 ]
+[n S291 . Enable GO empty ]
 "23
-[u S284 `S285 1 `uc 1 `ui 1 `uc 1 ]
-[n S284 . . Value SecondTime MinuteTime ]
+[u S290 `S291 1 `uc 1 `ui 1 `uc 1 ]
+[n S290 . . Value SecondTime MinuteTime ]
 "21
-[s S283 `S284 1 ]
-[n S283 DelayOff . ]
+[s S289 `S290 1 ]
+[n S289 DelayOff . ]
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -2386,6 +2404,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;LED_B1.h: 74: void setLED_Initialization(char led);
 [; ;LED_B1.h: 83: void setLED_Main(char led);
 [; ;LED_B1.h: 97: void setLED(char led, char command);
+[; ;OverTemperature_B1.h: 7: struct OverTemp {
+[; ;OverTemperature_B1.h: 9: union {
+[; ;OverTemperature_B1.h: 11: struct {
+[; ;OverTemperature_B1.h: 12: unsigned Enable : 1;
+[; ;OverTemperature_B1.h: 13: unsigned ERROR : 1;
+[; ;OverTemperature_B1.h: 14: unsigned ADtoGO : 1;
+[; ;OverTemperature_B1.h: 15: unsigned LoadADGO : 1;
+[; ;OverTemperature_B1.h: 16: unsigned GO : 1;
+[; ;OverTemperature_B1.h: 17: unsigned empty : 3;
+[; ;OverTemperature_B1.h: 18: };
+[; ;OverTemperature_B1.h: 19: };
+[; ;OverTemperature_B1.h: 20: unsigned int Time;
+[; ;OverTemperature_B1.h: 21: unsigned char Count;
+[; ;OverTemperature_B1.h: 23: unsigned char AD1;
+[; ;OverTemperature_B1.h: 24: unsigned char AD2;
+[; ;OverTemperature_B1.h: 27: ADtype AD;
+[; ;OverTemperature_B1.h: 28: ADtype ADH[2];
+[; ;OverTemperature_B1.h: 29: ADtype ADRES;
+[; ;OverTemperature_B1.h: 30: ADtype SafeValue;
+[; ;OverTemperature_B1.h: 31: ADtype DangerValue;
+[; ;OverTemperature_B1.h: 33: };
+"35 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/OverTemperature_B1.h
+[v _Temp `S268 ~T0 @X0 1 e ]
+[; ;OverTemperature_B1.h: 35: struct OverTemp Temp;
+[; ;OverTemperature_B1.h: 83: inline void Temp_Initialization();
+[; ;OverTemperature_B1.h: 84: inline void Temp_Main();
+[; ;OverTemperature_B1.h: 85: void setTemp_Main();
+[; ;OverTemperature_B1.h: 86: void setTemp_Initialization();
+[; ;OverTemperature_B1.h: 87: inline void getTemp_AD(char channel);
+[; ;OverTemperature_B1.h: 88: void setOverTemp_Exceptions(char command);
 "161 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/CC2500_B1.h
 [v _CC2500_rfSettings `Cuc ~T0 @X0 -> 47 `i e ]
 [i _CC2500_rfSettings
@@ -2778,7 +2826,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;RF_Control_B1.h: 44: unsigned int CorrectionCounter;
 [; ;RF_Control_B1.h: 46: };
 "49 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h
-[v _RF1 `S268 ~T0 @X0 1 e ]
+[v _RF1 `S271 ~T0 @X0 1 e ]
 [; ;RF_Control_B1.h: 49: struct RF RF1;
 [; ;RF_Control_B1.h: 52: inline void RF_Initialization();
 [; ;RF_Control_B1.h: 53: inline void RF_Main();
@@ -2799,6 +2847,46 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;RF_Control_B1.h: 72: void setRFSW_Status(char sw, char command);
 [; ;RF_Control_B1.h: 75: void setRF_DimmerValue(char lights);
 [; ;RF_Control_B1.h: 76: void setRF_DimmerLights(char lights, char on);
+[; ;OverLoad_B1.h: 37: struct OverLoad {
+[; ;OverLoad_B1.h: 39: union {
+[; ;OverLoad_B1.h: 41: struct {
+[; ;OverLoad_B1.h: 42: unsigned Enable : 1;
+[; ;OverLoad_B1.h: 43: unsigned GO : 1;
+[; ;OverLoad_B1.h: 44: unsigned LightsON : 1;
+[; ;OverLoad_B1.h: 45: unsigned Run : 1;
+[; ;OverLoad_B1.h: 46: unsigned ADtoGO : 1;
+[; ;OverLoad_B1.h: 47: unsigned ERROR : 1;
+[; ;OverLoad_B1.h: 48: unsigned Status : 1;
+[; ;OverLoad_B1.h: 49: unsigned OK : 1;
+[; ;OverLoad_B1.h: 50: };
+[; ;OverLoad_B1.h: 51: };
+[; ;OverLoad_B1.h: 53: unsigned int Time;
+[; ;OverLoad_B1.h: 54: unsigned int ErrorTime;
+[; ;OverLoad_B1.h: 56: unsigned int ADH;
+[; ;OverLoad_B1.h: 57: unsigned int ADL;
+[; ;OverLoad_B1.h: 59: ADtype TotalLoad;
+[; ;OverLoad_B1.h: 60: ADtype AH[5];
+[; ;OverLoad_B1.h: 61: ADtype AL[5];
+[; ;OverLoad_B1.h: 62: ADtype AD;
+[; ;OverLoad_B1.h: 63: ADtype ADRES;
+[; ;OverLoad_B1.h: 65: unsigned int LightsJudgeValue;
+[; ;OverLoad_B1.h: 66: unsigned int JudgeValue;
+[; ;OverLoad_B1.h: 67: unsigned int Judge;
+[; ;OverLoad_B1.h: 69: unsigned char Count;
+[; ;OverLoad_B1.h: 70: unsigned char ErrorCount;
+[; ;OverLoad_B1.h: 71: unsigned char LightsCount;
+[; ;OverLoad_B1.h: 72: unsigned char SafeCount;
+[; ;OverLoad_B1.h: 73: };
+"76 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h
+[v _Load `S276 ~T0 @X0 1 e ]
+[; ;OverLoad_B1.h: 76: struct OverLoad Load;
+[; ;OverLoad_B1.h: 82: inline void Load_Initialization();
+[; ;OverLoad_B1.h: 83: inline void Load_Main();
+[; ;OverLoad_B1.h: 84: inline void getLoad_AD(char channel);
+[; ;OverLoad_B1.h: 85: void setLoad_Exceptions(char command);
+[; ;OverLoad_B1.h: 86: void setLoad_AH_AL_Restore();
+[; ;OverLoad_B1.h: 93: char getLoad_OK();
+[; ;OverLoad_B1.h: 94: void setLoad_OK();
 [; ;Dimmer_B1.h: 11: struct DimmerLights {
 [; ;Dimmer_B1.h: 13: union {
 [; ;Dimmer_B1.h: 15: struct {
@@ -2850,25 +2938,25 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.h: 66: unsigned char MosfetOK_Count;
 [; ;Dimmer_B1.h: 67: };
 "68 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h
-[v _DimmerLights `*S273 ~T0 @X0 1 e ]
+[v _DimmerLights `*S279 ~T0 @X0 1 e ]
 [; ;Dimmer_B1.h: 68: struct DimmerLights *DimmerLights;
 "69
-[v _DimmerLightsIntr `*S273 ~T0 @X0 1 e ]
+[v _DimmerLightsIntr `*S279 ~T0 @X0 1 e ]
 [; ;Dimmer_B1.h: 69: struct DimmerLights *DimmerLightsIntr;
 "70
-[v _DimmerLightsIntrIOC `*S273 ~T0 @X0 1 e ]
+[v _DimmerLightsIntrIOC `*S279 ~T0 @X0 1 e ]
 [; ;Dimmer_B1.h: 70: struct DimmerLights *DimmerLightsIntrIOC;
 "88
-[v _DimmerLights11 `*S273 ~T0 @X0 1 e ]
+[v _DimmerLights11 `*S279 ~T0 @X0 1 e ]
 [; ;Dimmer_B1.h: 88: struct DimmerLights *DimmerLights11;
 "89
-[v _DimmerLights1 `S273 ~T0 @X0 1 e ]
+[v _DimmerLights1 `S279 ~T0 @X0 1 e ]
 [; ;Dimmer_B1.h: 89: struct DimmerLights DimmerLights1;
 "93
-[v _DimmerLights22 `*S273 ~T0 @X0 1 e ]
+[v _DimmerLights22 `*S279 ~T0 @X0 1 e ]
 [; ;Dimmer_B1.h: 93: struct DimmerLights *DimmerLights22;
 "94
-[v _DimmerLights2 `S273 ~T0 @X0 1 e ]
+[v _DimmerLights2 `S279 ~T0 @X0 1 e ]
 [; ;Dimmer_B1.h: 94: struct DimmerLights DimmerLights2;
 [; ;Dimmer_B1.h: 110: inline void DimmerIntrIOCPointSelect(char lights);
 [; ;Dimmer_B1.h: 111: inline void setDimmerLights_IntrIOC_GO(char lights);
@@ -2918,7 +3006,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.h: 174: unsigned char Correction;
 [; ;Dimmer_B1.h: 175: };
 "177
-[v _Dimmer `S280 ~T0 @X0 1 e ]
+[v _Dimmer `S286 ~T0 @X0 1 e ]
 [; ;Dimmer_B1.h: 177: struct Dimmer Dimmer;
 [; ;Dimmer_B1.h: 179: char getDimmer_LoadOK();
 [; ;Dimmer_B1.h: 180: inline void Dimmer_Initialization();
@@ -2935,13 +3023,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;DelayOff_B1.h: 33: };
 [; ;DelayOff_B1.h: 34: };
 "35 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h
-[v _DelayOff `*S283 ~T0 @X0 1 e ]
+[v _DelayOff `*S289 ~T0 @X0 1 e ]
 [; ;DelayOff_B1.h: 35: struct DelayOff *DelayOff;
 "38
-[v _DlySw1 `S283 ~T0 @X0 1 e ]
+[v _DlySw1 `S289 ~T0 @X0 1 e ]
 [; ;DelayOff_B1.h: 38: struct DelayOff DlySw1;
 "42
-[v _DlySw2 `S283 ~T0 @X0 1 e ]
+[v _DlySw2 `S289 ~T0 @X0 1 e ]
 [; ;DelayOff_B1.h: 42: struct DelayOff DlySw2;
 [; ;DelayOff_B1.h: 49: inline void DelayOff_Initialization();
 [; ;DelayOff_B1.h: 50: inline void DelayOff_Main();

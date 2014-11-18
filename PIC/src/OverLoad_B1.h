@@ -6,152 +6,13 @@
 
 
 #if OverLoad_use == 1
-#define Load_Debug 0
-#if PIR_use == 0
+
+#define Load_Debug 1
+
 #if Dimmer_use == 1
-#define FirstLimitValue 0x400
-#if Max_Percent == 45
-#if Switch_Class == 3
-#define SecondLimitValue 0x22
-#endif
 
-#if Switch_Class == 2
-#define SecondLimitValue 0x32//1a
-#endif
-
-#if Switch_Class == 1
-#define SecondLimitValue 0x42
-#endif
-#endif
-
-
-#if Max_Percent == 50
-#if Switch_Class == 3		
-#define SecondLimitValue 0x22
-#endif
-
-#if Switch_Class == 2			
-#define SecondLimitValue 0x32
-#endif
-
-#if Switch_Class == 1			
-#define SecondLimitValue 0x42
-#endif
-#endif
-
-#if Max_Percent == 55				//clear
-#if Switch_Class == 3		
-#define SecondLimitValue 0x22
-#endif
-
-#if Switch_Class == 2			
-#define SecondLimitValue 0x32
-#endif
-
-#if Switch_Class == 1			
-#define SecondLimitValue 0x42
-#endif
-#endif
-
-#if Max_Percent == 60
-#if Switch_Class == 3		
-#define SecondLimitValue 0x22
-#endif
-
-#if Switch_Class == 2			
-#define SecondLimitValue 0x56
-#endif
-
-#if Switch_Class == 1			
-#define SecondLimitValue 0x42
-#endif
-#endif
-
-#if Max_Percent == 65
-#if Switch_Class == 3		
-#define SecondLimitValue 0x22
-#endif
-
-#if Switch_Class == 2			
-#define SecondLimitValue 0x32//1a
-#endif
-
-#if Switch_Class == 1			
-#define SecondLimitValue 0x42
-#endif
-#endif
-
-#if Max_Percent == 70
-#if Switch_Class == 3		
-#define SecondLimitValue 0x22
-#endif
-
-#if Switch_Class == 2			
-#define SecondLimitValue 0x32//1a
-#endif
- 
-#if Switch_Class == 1			
-#define SecondLimitValue 0x42
-#endif
-#endif
-
-
-#if Max_Percent == 75
-#if Switch_Class == 3		
-#define SecondLimitValue 0x22
-#endif
-
-#if Switch_Class == 2			
-#define SecondLimitValue 0x32//1a
-#endif
-
-#if Switch_Class == 1			
-#define SecondLimitValue 0x42
-#endif
-#endif
-
-#if Max_Percent == 80
-#if Switch_Class == 3		
-#define SecondLimitValue 0x22
-#endif
-
-#if Switch_Class == 2			
-#define SecondLimitValue 0x32//1a
-#endif
-
-#if Switch_Class == 1			
-#define SecondLimitValue 0x42
-#endif
-#endif
-
-#if Max_Percent == 85
-#if Switch_Class == 3		
-#define SecondLimitValue 0x22
-#endif
-
-#if Switch_Class == 2			
-#define SecondLimitValue 0x32//1a
-#endif
-
-#if Switch_Class == 1			
-#define SecondLimitValue 0x42
-#endif
-#endif
-
-#if Max_Percent == 90
-
-#if Switch_Class == 3		
-#define SecondLimitValue 0x22
-#endif
-
-#if Switch_Class == 2
-#define SecondLimitValue 0x32//1a
-#endif
-
-#if Switch_Class == 1	
-#define SecondLimitValue 0x42
-#endif
-#endif
+#define FirstLimitValue (20*55)
+#define SecondLimitValue (int)(LimitCurrent*55)
 
 #endif
 
@@ -161,11 +22,15 @@
 #define SecondLimitValue 0x42
 
 #endif
-#else
+
+#if PIR_use == 1
 
 #define FirstLimitValue 80
 #define SecondLimitValue 15
+
 #endif
+
+
 
 //Global extern variable declaration
 
