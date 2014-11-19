@@ -534,9 +534,11 @@ void setRF_DimmerLights(char lights, char on) {
     status <<= (lights - 1);
     setProductData(11, lights);
 
-#if DimmerValue_CloseLightsSave == 0 && DimmerValue_SaveMemory == 0
-    setProductData((20 + lights), setPercentValue(Dimmer_Maxum));
-#endif
+    //#if DimmerValue_CloseLightsSave == 0 && DimmerValue_SaveMemory == 0
+    //    setProductData((20 + lights), setPercentValue(DimmerLights->MaxmumValue));
+    //#else
+    //    setProductData((20 + lights), setPercentValue(Dimmer_Maxum));
+    //#endif
 
     setProductData(9, product->Data[20 + lights]);
     setProductData(17, product->Data[26 + lights]);

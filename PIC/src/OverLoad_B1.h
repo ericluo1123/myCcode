@@ -7,7 +7,7 @@
 
 #if OverLoad_use == 1
 
-#define Load_Debug 1
+#define Load_Debug 0
 
 #if Dimmer_use == 1
 

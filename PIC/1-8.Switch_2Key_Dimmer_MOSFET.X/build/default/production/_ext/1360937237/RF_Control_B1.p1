@@ -224,8 +224,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _setRF_DimmerValue `(v ~T0 @X0 0 ef1`uc ]
 "130 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h
 [v _setDimmerLights_AdjRF `(v ~T0 @X0 0 ef1`uc ]
-"132
-[v _setPercentValue `(uc ~T0 @X0 0 ef1`uc ]
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -4226,36 +4224,33 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;RF_Control_B1.c: 535: product->Data[11]=lights;
 "535
 [e = *U + &U . *U _product 0 * -> -> -> 11 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux _lights ]
-[; ;RF_Control_B1.c: 538: product->Data[(20 + lights)]=setPercentValue(((char)(80*0.8)));
-"538
-[e = *U + &U . *U _product 0 * -> -> + -> 20 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ( _setPercentValue (1 -> * -> -> 80 `i `d .0.8 `uc ]
-[; ;RF_Control_B1.c: 541: product->Data[9]=product->Data[20 + lights];
-"541
-[e = *U + &U . *U _product 0 * -> -> -> 9 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . *U _product 0 * -> -> + -> 20 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-[; ;RF_Control_B1.c: 542: product->Data[17]=product->Data[26 + lights];
-"542
-[e = *U + &U . *U _product 0 * -> -> -> 17 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . *U _product 0 * -> -> + -> 26 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-[; ;RF_Control_B1.c: 543: if (on == 1) {
+[; ;RF_Control_B1.c: 543: product->Data[9]=product->Data[20 + lights];
 "543
+[e = *U + &U . *U _product 0 * -> -> -> 9 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . *U _product 0 * -> -> + -> 20 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
+[; ;RF_Control_B1.c: 544: product->Data[17]=product->Data[26 + lights];
+"544
+[e = *U + &U . *U _product 0 * -> -> -> 17 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . *U _product 0 * -> -> + -> 26 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
+[; ;RF_Control_B1.c: 545: if (on == 1) {
+"545
 [e $ ! == -> _on `i -> 1 `i 375  ]
 {
-[; ;RF_Control_B1.c: 544: product->Data[15]=(product->Data[15] | status);
-"544
+[; ;RF_Control_B1.c: 546: product->Data[15]=(product->Data[15] | status);
+"546
 [e = *U + &U . *U _product 0 * -> -> -> 15 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> | -> *U + &U . *U _product 0 * -> -> -> 15 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux `i -> _status `i `uc ]
-"545
+"547
 }
-[; ;RF_Control_B1.c: 545: } else {
+[; ;RF_Control_B1.c: 547: } else {
 [e $U 376  ]
 [e :U 375 ]
 {
-[; ;RF_Control_B1.c: 546: product->Data[15]=(product->Data[15]&(~status));
-"546
+[; ;RF_Control_B1.c: 548: product->Data[15]=(product->Data[15]&(~status));
+"548
 [e = *U + &U . *U _product 0 * -> -> -> 15 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux -> & -> *U + &U . *U _product 0 * -> -> -> 15 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux `i ~ -> _status `i `uc ]
-"547
+"549
 }
 [e :U 376 ]
-[; ;RF_Control_B1.c: 547: }
-[; ;RF_Control_B1.c: 548: }
-"548
+[; ;RF_Control_B1.c: 549: }
+[; ;RF_Control_B1.c: 550: }
+"550
 [e :UE 374 ]
 }

@@ -317,10 +317,8 @@ inline void setDimmerLights_IntrControl(char lights) {
 
 }
 
+//******************************************************************************
 
-/*****************************************************************************/
-
-/******************************************************************************/
 void DimmerLightsPointSelect(char lights) {
 #ifdef use_1KEY
     if (lights == 1) {
@@ -528,8 +526,6 @@ void setDimmerLights_SwOn(char sw) {
         if (DimmerLights->Status == false) {
             DimmerLights->Status = true;
             setDimmerLights_Trigger(sw, 1);
-            setRF_DimmerLights(sw, 1);
-            setTxData();
         } else {
             DimmerLights->Status = false;
         }
@@ -546,7 +542,7 @@ void setDimmerLights_SwOff(char sw) {
             if (DimmerLights->SwAdj == true) {
                 DimmerLights->SwAdj = false;
                 setDimmerLights_TriggerAdj(sw, 0);
-                setProductData(17, product->Data[26 + sw]);
+                //                setProductData(17, product->Data[26 + sw]);
                 //                setRF_DimmerLights(sw, command);
                 //                setTxData();
             }
@@ -556,8 +552,8 @@ void setDimmerLights_SwOff(char sw) {
             //                setRF_DimmerLights(sw, command);
             //                setTxData();
         }
-        setRF_DimmerLights(sw, command);
-        setTxData();
+        //        setRF_DimmerLights(sw, command);
+        //        setTxData();
     }
 }
 //******************************************************************************
@@ -641,12 +637,15 @@ void setDimmerLights(char lights, char status) {
         setLED2(0);
         setDimmerLights_Line(lights);
         DimmerLights->StatusFlag = true;
-#if Dimmer_Smooth == 0
-        DimmerLights->DimmingValue = DimmerLights->MaxmumValue;
-#endif
+
+        //#if Dimmer_Smooth == 0
+        //        DimmerLights->DimmingValue = DimmerLights->MaxmumValue;
+        //#endif
 
 #if DimmerValue_CloseLightsSave == 0 && DimmerValue_SaveMemory == 0
         DimmerLights->DimmingValue = Dimmer_Maxum;
+        setProductData((20 + lights), setPercentValue(Dimmer_Maxum));
+
 #endif
 
 #if Dimmable_Func == 1
@@ -660,24 +659,9 @@ void setDimmerLights(char lights, char status) {
         DimmerLights->Loop = false;
         setLED(lights, 1);
         setLED2(1);
-        //#ifdef use_1KEY
-        //        if (lights == 1) {
-        //            setLED(1, 0);
-        //        }
+        //#if Dimmer_Smooth == 0
+        //        DimmerLights->DimmingValue = DimmerLights->MinimumValue;
         //#endif
-        //#ifdef use_2KEY
-        //        if (lights == 2) {
-        //            LED2 = 0;
-        //        }
-        //#endif
-        //#ifdef use_3KEY
-        //        if (lights == 3) {
-        //            LED3 = 0;
-        //        }
-        //#endif
-#if Dimmer_Smooth == 0
-        DimmerLights->DimmingValue = DimmerLights->MinimumValue;
-#endif
 
 #if Dimmable_Func == 1
 #if Control_Method_Mosfet == 1
@@ -688,14 +672,10 @@ void setDimmerLights(char lights, char status) {
         DimmerLights->AdjStatus = false;
         DimmerLights->AdjRF = false;
         DimmerLights->DimmingTimeValue = DimmingDelayTime;
-#else
-        DimmerLights->StatusFlag = false;
-        DimmerLights->Close = true;
-        setLoad_StatusOff(lights, 1);
-        setLED(lights, 1);
-        setLED2(1);
 #endif
     }
+    setRF_DimmerLights(lights, status);
+    setTxData();
 }
 //*********************************************************
 
@@ -758,7 +738,8 @@ void setDimmerLights_Adj(char lights, char status) {
             DimmerLights->Signal = false;
             DimmerLights->AdjFlag = false;
             DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
-
+            setProductData((20 + lights), setPercentValue(DimmerLights->DimmingValue));
+            //            setProductData((20 + lights), DimmerLights->DimmingValue);
 #if DimmerValue_CloseLightsSave == true
             setProductData((20 + lights), setPercentValue(DimmerLights->MaxmumValue));
 #if DimmerValue_SaveMemory == true
@@ -916,7 +897,7 @@ char setPercentValue(char value) {
     float i = Dimmer_Maxum - Dimmer_Minimum;
     i /= 100;
 
-    return (100 - (char) ((value - Dimmer_Maxum) / i));
+    return (char) (100 - ((Dimmer_Maxum - value) / i));
 #endif
 }
 
