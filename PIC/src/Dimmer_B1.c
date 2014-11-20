@@ -542,18 +542,15 @@ void setDimmerLights_SwOff(char sw) {
             if (DimmerLights->SwAdj == true) {
                 DimmerLights->SwAdj = false;
                 setDimmerLights_TriggerAdj(sw, 0);
-                //                setProductData(17, product->Data[26 + sw]);
-                //                setRF_DimmerLights(sw, command);
-                //                setTxData();
             }
         } else {
             setDimmerLights_Trigger(sw, 0);
-            setDelayOff_GO(sw, 0, 0);
-            //                setRF_DimmerLights(sw, command);
-            //                setTxData();
+#if DelayOff_use == 1
+            if (getDelayOff_GO(sw) == 1) {
+                setDelayOff_GO(sw, 0, 0);
+            }
+#endif
         }
-        //        setRF_DimmerLights(sw, command);
-        //        setTxData();
     }
 }
 //******************************************************************************

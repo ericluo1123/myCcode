@@ -322,28 +322,15 @@ void setLog_Code() {
 void setControl_Lights_Table() {
     switch (RF_Data[15]) {
         case 0x00:
-#ifdef use_1KEY
 #if Dimmer_use == 1
-            setRFSW_Control(1);
-
-#endif
-#endif
-#ifdef use_2KEY
-#if Dimmer_use == 1
-            setRFSW_Control(2);
-#endif
-#endif
-#ifdef use_3KEY
-#if Dimmer_use == 1
-            setRFSW_Control(3);
-#endif
+            setDimmerLights_ErrorClose(255);
 #endif
             setProductData(9, 0);
             setProductData(11, 0);
             setProductData(15, 0);
             setProductData(17, 0);
             setBuz(1, BuzzerOnOffTime);
-            setTxData();
+            //            setTxData();
             break;
         case 0x20:
             setProductData(9, 0);
@@ -474,29 +461,52 @@ void setRFSW_Control(char sw) {
     char status = 0;
 
     //    RfSWPointSelect(sw);
-#if Dimmer_use == true
-    setDimmerLights_SwOn(sw);
-    status = getDimmerLights_Status(sw);
-#endif
-    if (status == 1) {
-        if (RF_Data[16] == 0x80) {
-            setDelayOff_GO(sw, 1, RF_Data[17]);
-        }
-#if Dimmer_use == true
-        setRF_DimmerLights(sw, 1);
-#endif
-    } else {
-        if (RF_Data[16] == 0x80) {
-            setDelayOff_GO(sw, 1, RF_Data[17]);
+    if (RF_Data[16] == 0x80) {
+        setDelayOff_GO(sw, 1, RF_Data[17]);
+        if (getDimmerLights_Status(sw) == 1) {
+            setBuz(1, BuzzerOnOffTime);
+            status = 1;
             setRF_DimmerLights(sw, 1);
-        } else {
-#if Dimmer_use == true
-            setDimmerLights_SwOff(sw);
-            setRF_DimmerLights(sw, 0);
-#endif
-            setDelayOff_GO(sw, 0, 0);
+            setTxData();
+
         }
+    } else {
+#if DelayOff_use == 1
+        if (getDelayOff_GO(sw) == 1) {
+            setDelayOff_GO(sw, 0, 0);
+
+        }
+#endif
     }
+
+    if (status == 0) {
+#if Dimmer_use == true
+        setDimmerLights_SwOn(sw);
+        setDimmerLights_SwOff(sw);
+#endif
+    }
+
+
+    //    status = getDimmerLights_Status(sw);
+    //    if (status == 1) {
+    //        if (RF_Data[16] == 0x80) {
+    //            setDelayOff_GO(sw, 1, RF_Data[17]);
+    //        }
+    //#if Dimmer_use == true
+    //        setRF_DimmerLights(sw, 1);
+    //#endif
+    //    } else {
+    //        if (RF_Data[16] == 0x80) {
+    //            setDelayOff_GO(sw, 1, RF_Data[17]);
+    //            setRF_DimmerLights(sw, 1);
+    //        } else {
+    //#if Dimmer_use == true
+    //            setDimmerLights_SwOff(sw);
+    //            setRF_DimmerLights(sw, 0);
+    //#endif
+    //            setDelayOff_GO(sw, 0, 0);
+    //        }
+    //    }
 }
 //*********************************************************
 

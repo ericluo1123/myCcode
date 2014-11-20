@@ -248,13 +248,15 @@ inline void my_MainTimer() {
         }
 #endif
     }
-#if Load_Debug == 1
+
     myMain.Count2++;
     if (myMain.Count2 == 100) {
         myMain.Count2 = 0;
+#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1
         setTxData();
-    }
 #endif
+    }
+ 
 }
 //*****************************************************************************
 

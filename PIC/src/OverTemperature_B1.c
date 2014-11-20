@@ -28,7 +28,7 @@ inline void getTemp_AD(char channel) {
             }
         }
     }
-
+ 
 #else
     if (Temp.ADtoGO == true) {
         Temp.GO = true;
@@ -93,6 +93,7 @@ void setTemp_Main() {
                                 if (Temp.Count >= TempCountValue) {
                                     Temp.Count = 0;
                                     Temp.ERROR = false;
+                                    setBuz(2, 100);
                                 }
                             } else {
                                 Temp.Count = 0;
@@ -110,8 +111,10 @@ void setTemp_Main() {
                         }
                         setProductData(24, Temp.AD >> 8);
                         setProductData(25, Temp.AD);
-                        //                setProductData(2, Temp1.AD >> 8);
-                        //                setProductData(3, Temp1.AD);
+#if Temp_Debug == 1
+                        setProductData(2, Temp.AD >> 8);
+                        setProductData(3, Temp.AD);
+#endif
                         Temp.ADH[0] = 0;
                         Temp.ADH[1] = 0;
                     }

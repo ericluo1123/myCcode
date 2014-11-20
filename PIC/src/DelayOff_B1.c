@@ -55,27 +55,25 @@ inline void DelayOff_Main() {
 
 void DlyOff_Initialization(char sw) {
     DelayOffPointSelect(sw);
-    DelayOff->Enable = true;
 }
 //*********************************************************
 
 void DlyOff_Main(char sw) {
+
     DelayOffPointSelect(sw);
     if (DelayOff->GO == true) {
+        ErrLED = 0;
         DelayOff->SecondTime++;
         if (DelayOff->SecondTime >= SecondTimeValue) {
             DelayOff->SecondTime = 0;
+            ErrLED = ErrLED == true ? false : true;
             DelayOff->MinuteTime++;
             if (DelayOff->MinuteTime >= DelayOff->Value) {
                 DelayOff->MinuteTime = 0;
                 DelayOff->GO = false;
                 //關燈
 #if Dimmer_use == 1
-                setDimmerLights_SwOn(sw);
-                if (getDimmerLights_Status(sw) == 1) {
-                    setDimmerLights_SwOff(sw);
-                }
-                setRF_DimmerLights(sw, 0);
+                setDimmerLights_ErrorClose(sw);
 #endif
             }
         }
@@ -85,23 +83,30 @@ void DlyOff_Main(char sw) {
 
 void setDelayOff_GO(char sw, char command, char value) {
     DelayOffPointSelect(sw);
-    if (DelayOff->Enable == true) {
-        DelayOff->GO = command == 1 ? true : false;
-        if (command == 1) {
-            DelayOff->Value = DelayTimejudge(value);
-            if (((value % 16) == 5 || (value % 16) == 0) && value <= 0x25) {
-                setProductData(26 + sw, value);
-            } else {
-                setProductData(26 + sw, 0x05);
-            }
+
+    DelayOff->GO = command == 1 ? true : false;
+    if (command == 1) {
+        DelayOff->Value = DelayTimejudge(value);
+        if (((value % 16) == 5 || (value % 16) == 0) && value <= 0x25) {
+            setProductData(26 + sw, value);
         } else {
-            setProductData(sw + 26, 0);
+            setProductData(26 + sw, 0x05);
         }
-        DelayOff->SecondTime = 0;
-        DelayOff->MinuteTime = 0;
+    } else {
+        setProductData(sw + 26, 0);
     }
+    DelayOff->SecondTime = 0;
+    DelayOff->MinuteTime = 0;
+
 }
-//*********************************************************
+//*****************************************************************************
+
+char getDelayOff_GO(char sw) {
+    DelayOffPointSelect(sw);
+    char go = DelayOff->GO == true ? 1 : 0;
+    return go;
+}
+//*****************************************************************************
 
 char DelayTimejudge(char value) {
     char i = 5, j = 0, k = 0;

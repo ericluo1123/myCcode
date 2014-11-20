@@ -5,6 +5,8 @@
 #define _DelayOff_H_
 
 #if DelayOff_use == 1
+#define DelayOff_Debug  0
+
 
 #if	Switch_Class == 1
 #define SecondTimeValue 5600	//*10ms
@@ -52,7 +54,7 @@ char DelayTimejudge(char value);
 void DlyOff_Initialization(char sw);
 void DlyOff_Main(char sw);
 void setDelayOff_GO(char sw, char command, char value);
-
+char getDelayOff_GO(char sw);
 #else
 //NOP
 #define DelayOff_Initialization() ;

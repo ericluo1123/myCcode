@@ -2962,45 +2962,6 @@ void setLED_Main(char led);
 # 97
 void setLED(char led, char command);
 
-# 7 "../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/OverTemperature_B1.h"
-struct OverTemp {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned ADtoGO : 1;
-unsigned LoadADGO : 1;
-unsigned GO : 1;
-unsigned empty : 3;
-};
-};
-unsigned int Time;
-unsigned char Count;
-
-unsigned char AD1;
-unsigned char AD2;
-
-
-ADtype AD;
-ADtype ADH[2];
-ADtype ADRES;
-ADtype SafeValue;
-ADtype DangerValue;
-
-};
-
-struct OverTemp Temp;
-
-# 83
-inline void Temp_Initialization();
-inline void Temp_Main();
-void setTemp_Main();
-void setTemp_Initialization();
-inline void getTemp_AD(char channel);
-void setOverTemp_Exceptions(char command);
-
 # 161 "../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/CC2500_B1.h"
 const unsigned char CC2500_rfSettings[47] ={
 
@@ -3214,59 +3175,6 @@ void setRFSW_Status(char sw, char command);
 void setRF_DimmerValue(char lights);
 void setRF_DimmerLights(char lights, char on);
 
-# 37 "../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h"
-struct OverLoad {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned LightsON : 1;
-unsigned Run : 1;
-unsigned ADtoGO : 1;
-unsigned ERROR : 1;
-unsigned Status : 1;
-unsigned OK : 1;
-};
-};
-
-unsigned int Time;
-unsigned int ErrorTime;
-
-unsigned int ADH;
-unsigned int ADL;
-
-ADtype TotalLoad;
-ADtype AH[5];
-ADtype AL[5];
-ADtype AD;
-ADtype ADRES;
-
-unsigned int LightsJudgeValue;
-unsigned int JudgeValue;
-unsigned int Judge;
-
-unsigned char Count;
-unsigned char ErrorCount;
-unsigned char LightsCount;
-unsigned char SafeCount;
-};
-
-
-struct OverLoad Load;
-
-# 82
-inline void Load_Initialization();
-inline void Load_Main();
-inline void getLoad_AD(char channel);
-void setLoad_Exceptions(char command);
-void setLoad_AH_AL_Restore();
-
-# 93
-char getLoad_OK();
-void setLoad_OK();
-
 # 11 "../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
@@ -3405,7 +3313,7 @@ struct Dimmer Dimmer;
 char getDimmer_LoadOK();
 inline void Dimmer_Initialization();
 
-# 21 "../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
+# 23 "../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
 struct DelayOff {
 
 union {
@@ -3429,13 +3337,14 @@ struct DelayOff DlySw1;
 
 struct DelayOff DlySw2;
 
-# 49
+# 51
 inline void DelayOff_Initialization();
 inline void DelayOff_Main();
 char DelayTimejudge(char value);
 void DlyOff_Initialization(char sw);
 void DlyOff_Main(char sw);
 void setDelayOff_GO(char sw, char command, char value);
+char getDelayOff_GO(char sw);
 
 # 7 "../src/LED_B1.c"
 void LedPointSelect(char led) {
