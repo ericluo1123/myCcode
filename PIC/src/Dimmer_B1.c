@@ -878,7 +878,7 @@ char getPercentValue(char value) {
     float i = Dimmer_Maxum - Dimmer_Minimum;
     i /= 100;
 
-    return (char) (((100 - value) * i) + Dimmer_Maxum);
+    return (char) (Dimmer_Maxum - ((100 - value) * i));
 #endif
 }
 //*********************************************************

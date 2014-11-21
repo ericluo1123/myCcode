@@ -16,7 +16,7 @@ void LedPointSelect(char led) {
     }
 #endif
 #ifdef LED3
-   if (led == 3) {
+    if (led == 3) {
         LED = &VarLED3;
     }
 #endif
@@ -45,6 +45,10 @@ inline void LED_Initialization() {
 //*********************************************************
 
 inline void LED_Main() {
+
+#if PIR_use == true
+    setPIRLED_Main();
+#else
 #ifdef LED1
     setLED_Main(1);
 #endif
@@ -57,8 +61,7 @@ inline void LED_Main() {
 #ifdef ErrLED
     setLED_Main(99);
 #endif
-#if PIR_use == true
-    setPIRLED_Main();
+
 #endif
 }
 //*********************************************************
@@ -109,7 +112,8 @@ void setLED(char led, char command) {
 #endif
         }
 #endif
-    } if (command == 1) {
+    }
+    if (command == 1) {
 #ifdef LED1
         if (led == 1) {
 #if LED1_ON == true
@@ -146,7 +150,8 @@ void setLED(char led, char command) {
 #endif
         }
 #endif
-    } if (command == 10) {
+    }
+    if (command == 10) {
         LED->GO = false;
         LED->Time = 0;
 #ifdef LED1

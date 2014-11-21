@@ -3,7 +3,7 @@
 #define _OverTemperature_H_
 
 #if OverTemperature_use == 1
-#define Temp_Debug 0
+#define Temp_Debug 1
 struct OverTemp {
 
     union {
@@ -23,7 +23,6 @@ struct OverTemp {
     unsigned char AD1;
     unsigned char AD2;
 
-
     ADtype AD;
     ADtype ADH[2];
     ADtype ADRES;
@@ -38,7 +37,7 @@ struct OverTemp Temp;
 #ifdef MCU_16F723A
 #define TempDangerValueH    140		//NTC 68 value 500
 #define TempDangerValueL    70		//NTC 68 value 500
-
+ 
 //NTC 71 value 490
 //NTC 73.5 value 480	
 //65,600
@@ -62,12 +61,12 @@ struct OverTemp Temp;
 #endif
 
 #ifdef MCU_16F1518
-#define TempDangerValue	390		//NTC 68 value 500
+#define TempDangerValue	430		//NTC 68 value 500
 //NTC 71 value 490
 //NTC 73.5 value 480
 //65,600
 
-#define TempSafeValue	430		//NTC 47 value 600
+#define TempSafeValue	450		//NTC 47 value 600
 //NTC 61.2 value 540
 //NTC 58 value 535
 //51,700
@@ -86,8 +85,10 @@ inline void Temp_Main();
 void setTemp_Main();
 void setTemp_Initialization();
 inline void getTemp_AD(char channel);
-void setOverTemp_Exceptions(char command); 
+void setOverTemp_Exceptions(char command);
+
 #else
+
 //NOP
 #define Temp_Main() ;
 #define getTemp_Safe() 1

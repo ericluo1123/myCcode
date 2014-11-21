@@ -375,62 +375,6 @@ void setControl_Lights_Table() {
 #endif
             break;
     }
-    //
-    //    if (RF_Data[15] == 0x00) {
-    //#ifdef use_1KEY
-    //        setDimmerLights_SwOff(1);
-    //#endif
-    //#ifdef use_2KEY
-    //        setDimmerLights_SwOff(2);
-    //#endif
-    //#ifdef use_3KEY
-    //        setDimmerLights_SwOff(3s);
-    //#endif
-    //
-    //        setProductData(9, 0);
-    //        setProductData(11, 0);
-    //        setProductData(15, 0);
-    //        setProductData(17, 0);
-    //        setBuz(1, BuzzerOnOffTime);
-    //        setTxData();
-    //    } else if (RF_Data[15] == 0x20) {
-    //        setProductData(9, 0);
-    //        setProductData(11, 0); //Lights Status
-    //        setProductData(17, 0);
-    //        setTxData();
-    //    }
-    //#ifdef use_1KEY
-    //    else if (RF_Data[15] == 0x01) {
-    //        setRFSW_Control(1);
-    //    }
-    //#if Dimmable_Func == 1 && Dimmer_use == 1
-    //    else if (RF_Data[15] == 0x11) {
-    //        setRFSW_AdjControl(1);
-    //    }
-    //#endif
-    //#endif
-    //
-    //#ifdef use_2KEY
-    //    else if (RF_Data[15] == 0x02) {
-    //        setRFSW_Control(2);
-    //    }
-    //#if Dimmable_Func == 1 && Dimmer_use == 1
-    //    else if (RF_Data[15] == 0x21) {
-    //        setRFSW_AdjControl(2);
-    //    }
-    //#endif
-    //#endif
-    //
-    //#ifdef use_3KEY
-    //    else if (RF_Data[15] == 0x03) {
-    //        setRFSW_Control(3);
-    //    }
-    //#if Dimmable_Func == 1 && Dimmer_use == 1
-    //    else if (RF_Data[15] == 0x31) {
-    //        setRFSW_AdjControl(3);
-    //    }
-    //#endif
-    //#endif
 }
 //*****************************************************************************
 //
@@ -474,39 +418,15 @@ void setRFSW_Control(char sw) {
 #if DelayOff_use == 1
         if (getDelayOff_GO(sw) == 1) {
             setDelayOff_GO(sw, 0, 0);
-
         }
 #endif
     }
-
     if (status == 0) {
 #if Dimmer_use == true
         setDimmerLights_SwOn(sw);
         setDimmerLights_SwOff(sw);
 #endif
     }
-
-
-    //    status = getDimmerLights_Status(sw);
-    //    if (status == 1) {
-    //        if (RF_Data[16] == 0x80) {
-    //            setDelayOff_GO(sw, 1, RF_Data[17]);
-    //        }
-    //#if Dimmer_use == true
-    //        setRF_DimmerLights(sw, 1);
-    //#endif
-    //    } else {
-    //        if (RF_Data[16] == 0x80) {
-    //            setDelayOff_GO(sw, 1, RF_Data[17]);
-    //            setRF_DimmerLights(sw, 1);
-    //        } else {
-    //#if Dimmer_use == true
-    //            setDimmerLights_SwOff(sw);
-    //            setRF_DimmerLights(sw, 0);
-    //#endif
-    //            setDelayOff_GO(sw, 0, 0);
-    //        }
-    //    }
 }
 //*********************************************************
 
@@ -534,7 +454,7 @@ void setRF_DimmerValue(char lights) {
     }
     setProductData(9, RF_Data[9]);
     setProductData(11, lights);
-    setProductData((20 + lights), product->Data[9]);
+    setProductData((20 + lights), RF_Data[9]);
     setDimmerLights_AdjRF(lights);
 }
 //*********************************************************

@@ -62,15 +62,14 @@ void DlyOff_Main(char sw) {
 
     DelayOffPointSelect(sw);
     if (DelayOff->GO == true) {
-        ErrLED = 0;
         DelayOff->SecondTime++;
         if (DelayOff->SecondTime >= SecondTimeValue) {
             DelayOff->SecondTime = 0;
-            ErrLED = ErrLED == true ? false : true;
             DelayOff->MinuteTime++;
             if (DelayOff->MinuteTime >= DelayOff->Value) {
                 DelayOff->MinuteTime = 0;
                 DelayOff->GO = false;
+                setBuz(1, BuzzerOnOffTime);
                 //關燈
 #if Dimmer_use == 1
                 setDimmerLights_ErrorClose(sw);
@@ -82,9 +81,11 @@ void DlyOff_Main(char sw) {
 //*********************************************************
 
 void setDelayOff_GO(char sw, char command, char value) {
-    DelayOffPointSelect(sw);
 
+
+    DelayOffPointSelect(sw);
     DelayOff->GO = command == 1 ? true : false;
+
     if (command == 1) {
         DelayOff->Value = DelayTimejudge(value);
         if (((value % 16) == 5 || (value % 16) == 0) && value <= 0x25) {

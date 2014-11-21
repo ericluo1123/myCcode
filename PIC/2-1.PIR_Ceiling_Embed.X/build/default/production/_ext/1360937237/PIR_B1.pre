@@ -2087,7 +2087,6 @@ unsigned char Count;
 unsigned char AD1;
 unsigned char AD2;
 
-
 ADtype AD;
 ADtype ADH[2];
 ADtype ADRES;
@@ -2105,59 +2104,6 @@ void setTemp_Main();
 void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
-
-# 172 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
-struct OverLoad {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned LightsON : 1;
-unsigned Run : 1;
-unsigned ADtoGO : 1;
-unsigned ERROR : 1;
-unsigned Status : 1;
-unsigned OK : 1;
-};
-};
-
-unsigned int Time;
-unsigned int ErrorTime;
-
-unsigned int ADH;
-unsigned int ADL;
-
-ADtype TotalLoad;
-ADtype AH[5];
-ADtype AL[5];
-ADtype AD;
-ADtype ADRES;
-
-unsigned int LightsJudgeValue;
-unsigned int JudgeValue;
-unsigned int Judge;
-
-unsigned char Count;
-unsigned char ErrorCount;
-unsigned char LightsCount;
-unsigned char SafeCount;
-};
-
-
-struct OverLoad Load;
-
-# 217
-inline void Load_Initialization();
-inline void Load_Main();
-inline void getLoad_AD(char channel);
-void setLoad_Exceptions(char command);
-void setLoad_AH_AL_Restore();
-
-# 228
-char getLoad_OK();
-void setLoad_OK();
 
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
@@ -2255,33 +2201,6 @@ void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
 
-# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/SYSC_B1.h"
-struct SYSC {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned PowerON : 1;
-unsigned Signal : 1;
-unsigned empty : 4;
-};
-};
-unsigned int Timer;
-unsigned int Counter;
-};
-
-
-struct SYSC SYSC;
-
-
-inline void SYSC_Initialization();
-inline void SYSC_Main();
-void setSYSC_Initialization();
-void setSYSC_Main();
-inline void DetectSYSC_Signal();
-
 # 11 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
 struct LightsControl {
 
@@ -2361,15 +2280,15 @@ _PIR.CloseTimeValue = 5;
 void PIR_Main() {
 char error = getMain_All_Error_Status(0);
 if (_PIR.Enable == 1) {
-
 if (error == 0) {
-
 if (_PIR.Detect == 0) {
 _PIR.Detect = 1;
 _PIR.Available = 1;
 setLED(1, 0);
 if (_PIR.OK == 0) {
 setLED(2, 1);
+
+# 31
 }
 }
 } else {
@@ -2563,7 +2482,7 @@ else
 _PIR.HundreCount = 0;
 }
 
-# 232
+# 237
 }
 }
 

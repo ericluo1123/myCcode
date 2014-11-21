@@ -9,27 +9,37 @@
 
 #define Load_Debug 0
 
-#if Dimmer_use == 1
+#ifdef MCU_16F723A
 
-#define FirstLimitValue (20*55)
+#define FirstLimitValue (20*12)
+#define SecondLimitValue (int)(LimitCurrent*12)
+
+#endif
+
+#ifdef MCU_16F1516
+#define FirstLimitValue (20*55)//(LimitCurrent*Proportion)
 #define SecondLimitValue (int)(LimitCurrent*55)
-
+#endif
+#ifdef MCU_16F1518
+#define FirstLimitValue (20*55)//(LimitCurrent*Proportion)
+#define SecondLimitValue (int)(LimitCurrent*55)
 #endif
 
-#if LightsControl_use == 1
-
-#define FirstLimitValue 80
-#define SecondLimitValue 0x42
-
-#endif
-
-#if PIR_use == 1
-
-#define FirstLimitValue 80
-#define SecondLimitValue 15
-
-#endif
-
+//#if Dimmer_use == 1
+//
+//#define FirstLimitValue (20*55)//(LimitCurrent*Proportion)
+//#define SecondLimitValue (int)(LimitCurrent*55)
+//
+//#endif
+//
+//#if LightsControl_use == 1
+//
+//#define FirstLimitValue (20*55)
+//#define SecondLimitValue (int)(LimitCurrent*55)
+////#define FirstLimitValue 80
+////#define SecondLimitValue 0x42
+//
+//#endif
 
 
 //Global extern variable declaration

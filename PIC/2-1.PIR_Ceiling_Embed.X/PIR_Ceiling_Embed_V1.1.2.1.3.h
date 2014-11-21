@@ -93,67 +93,68 @@
 //Mcu Function Option
 
 //ADC
-#define ADC_use true
+#define ADC_use 1
 //Oscillator (System FOSC)
 #define	System_Fosc_16M		//_16M
 //Timer0
-#define Timer0_use	false
+#define Timer0_use	0
 //Timer1
-#define Timer1_use	true
+#define Timer1_use	1
 //Timer2
-#define Timer2_use	false
+#define Timer2_use	0
 //interrupt time
 #define IntrTime_100us
 //INT
-#define INT_use false
+#define INT_use 0
 //UART
-#define UART_use false
-#define UART_Master true
-#define UART_Slave false
+#define UART_use 0
+#define UART_Master 1
+#define UART_Slave 0
 //I2C
-#define I2C_use false
-#define Master_Mode true
-#define Slave_Mode false
+#define I2C_use 0
+#define Master_Mode 1
+#define Slave_Mode 0
 //IOC
-#define IOC_use false
+#define IOC_use 0
 //FlashMemory
-#define FlashMemory_use false
+#define FlashMemory_use 0
 //watchdog timer
-#define WDT_use true
+#define WDT_use 1
 
 //Function Option
 
 //SYSC
-#define SYSC_use true
+#define SYSC_use 0
 //OverTemperature
-#define OverTemperature_use true
-#define Cut_Off_electricity true
+#define OverTemperature_use 1
+#define Cut_Off_electricity 1
 //OverLoad
-#define OverLoad_use true
+#define OverLoad_use 0
+#define LimitCurrent        7 //A
 //LED
-#define LED_use true
+#define LED_use 1
 //Buzzer
-#define Buzzer_use false
+#define Buzzer_use 0
 //Switch
-#define Switch_use false
+#define Switch_use 0
 //Lights
-#define LightsControl_use 	true
+#define LightsControl_use 	1
 //RF cc2500
-#define CC2500_use	false
+#define CC2500_use	0
 //DelayOff
-#define DelayOff_use false
+#define DelayOff_use 0
 //PowerFault
-#define PowerFault_use false
+#define PowerFault_use 0
 //Dimmer Lights
-#define Dimmer_use 	false
-#define Dimmer_Half_Wave	true
-#define Dimmer_Full_Wave	false
+#define Dimmer_use 	0
+#define Dimmer_Half_Wave	1
+#define Dimmer_Full_Wave	0
 //SegmentDisplay
-#define SegmentDisplay_use false
+#define SegmentDisplay_use 0
 //PIR
-#define  PIR_use  true
+#define  PIR_use  1
 //CDS
-#define CDS_use  true
+#define CDS_use  1
 
 
 //include

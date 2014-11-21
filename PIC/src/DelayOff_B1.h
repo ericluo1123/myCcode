@@ -7,18 +7,19 @@
 #if DelayOff_use == 1
 #define DelayOff_Debug  0
 
+#define SecondTimeValue 6000	//*10ms
 
-#if	Switch_Class == 1
-#define SecondTimeValue 5600	//*10ms
-#endif
-
-#if	Switch_Class == 2
-#define SecondTimeValue 5650	//*10ms
-#endif
-
-#if	Switch_Class == 3
-#define SecondTimeValue 5650	//*10ms
-#endif
+//#if	Switch_Class == 1
+//#define SecondTimeValue 5600	//*10ms
+//#endif
+//
+//#if	Switch_Class == 2
+//#define SecondTimeValue 5650	//*10ms
+//#endif
+//
+//#if	Switch_Class == 3
+//#define SecondTimeValue 5650	//*10ms
+//#endif
 
 struct DelayOff {
 
@@ -29,10 +30,11 @@ struct DelayOff {
             unsigned GO : 1;
             unsigned empty : 6;
         };
-        unsigned char Value;
-        unsigned int SecondTime;
-        unsigned char MinuteTime;
     };
+
+    unsigned char Value;
+    unsigned int SecondTime;
+    unsigned char MinuteTime;
 };
 struct DelayOff *DelayOff;
 
@@ -55,6 +57,7 @@ void DlyOff_Initialization(char sw);
 void DlyOff_Main(char sw);
 void setDelayOff_GO(char sw, char command, char value);
 char getDelayOff_GO(char sw);
+void DelayOffPointSelect(char sw);
 #else
 //NOP
 #define DelayOff_Initialization() ;
@@ -63,7 +66,7 @@ char getDelayOff_GO(char sw);
 #define DlyOff_Initialization(char) ;
 #define DlyOff_Main(char) ;
 #define setDelayOff_GO(char,char,char) ;
-
+#define DelayOffPointSelect(char) ;
 #endif
 
 #endif

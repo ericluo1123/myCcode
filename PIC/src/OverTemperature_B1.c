@@ -112,6 +112,7 @@ void setTemp_Main() {
                         setProductData(24, Temp.AD >> 8);
                         setProductData(25, Temp.AD);
 #if Temp_Debug == 1
+
                         setProductData(2, Temp.AD >> 8);
                         setProductData(3, Temp.AD);
 #endif

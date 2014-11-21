@@ -248,7 +248,7 @@ inline void my_MainTimer() {
         }
 #endif
     }
-
+#ifndef MCU_16F723A
     myMain.Count2++;
     if (myMain.Count2 == 100) {
         myMain.Count2 = 0;
@@ -256,7 +256,7 @@ inline void my_MainTimer() {
         setTxData();
 #endif
     }
- 
+#endif
 }
 //*****************************************************************************
 
@@ -282,6 +282,8 @@ void setMain_Exception(char command) {
 
     if (command == 0) {
         setLED(command, 110);
+    } else if (command == 5) {
+        NOP();
     } else {
         setLED(command, 111);
     }

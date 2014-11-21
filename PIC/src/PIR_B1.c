@@ -14,15 +14,20 @@ void PIR_Initialization() {
 void PIR_Main() {
     char error = getMain_All_Error_Status(0);
     if (_PIR.Enable == true) {
-
         if (error == 0) {
-
             if (_PIR.Detect == false) {
                 _PIR.Detect = true;
                 _PIR.Available = true;
                 setLED(1, 0);
                 if (_PIR.OK == false) {
                     setLED(2, 1);
+                    //#ifdef use_1KEY
+                    //#if LightsControl_use == 1
+                    //                    if (getLights_Status(1) == false) {
+                    //                        setLights_Trigger(1, 1);
+                    //                    }
+                    //#endif
+                    //#endif
                 }
             }
         } else {

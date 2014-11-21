@@ -155,7 +155,7 @@ void setSw_Main(char sw) {
                 if (Sw->DebounceTime >= DebounceTimeValue) {
                     Sw->DebounceTime = 0;
                     Sw->Debounce = true;
-
+                    
 #if Dimmer_use == 1
                     setDimmerLights_SwOn(sw); //key on function
 #endif

@@ -29,9 +29,6 @@ void setSYSC_Main() {
             {
                 SYSC.Timer = 0;
                 SYSC.ERROR = true;
-#if PIR_use == true
-                setLED(1, 111);
-#endif
             }
         } else {
             if (getMain_All_Error_Status(1) == 0) {
@@ -44,9 +41,6 @@ void setSYSC_Main() {
                     if (SYSC.Counter == 1000) {
                         SYSC.Counter = 0;
                         SYSC.ERROR = false;
-#if PIR_use == true
-                        setLED(1, 110);
-#endif
                     }
                 }
             }
