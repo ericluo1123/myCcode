@@ -122,6 +122,8 @@
 #define SYSC_use            0
 //OverTemperature
 #define OverTemperature_use 1
+#define TempDangerValue	415		//NTC 70度
+#define TempSafeValue	455		//NTC 61度
 //OverLoad
 #define OverLoad_use        1
 #define LimitCurrent        1.8//A

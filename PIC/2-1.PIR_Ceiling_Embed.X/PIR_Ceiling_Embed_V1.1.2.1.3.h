@@ -128,6 +128,10 @@
 //OverTemperature
 #define OverTemperature_use 1
 #define Cut_Off_electricity 1
+#define TempDangerValueH    100		//NTC 68 value 500
+#define TempDangerValueL    70		//NTC 68 value 500
+#define TempSafeValueH      140		//NTC 47 value 600
+#define TempSafeValueL      100		//NTC 47 value 600
 //OverLoad
 #define OverLoad_use 0
 #define LimitCurrent        7 //A

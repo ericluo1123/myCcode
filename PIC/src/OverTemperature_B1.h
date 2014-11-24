@@ -3,7 +3,7 @@
 #define _OverTemperature_H_
 
 #if OverTemperature_use == 1
-#define Temp_Debug 1
+#define Temp_Debug 0
 struct OverTemp {
 
     union {
@@ -34,43 +34,43 @@ struct OverTemp {
 struct OverTemp Temp;
 #endif
 
-#ifdef MCU_16F723A
-#define TempDangerValueH    140		//NTC 68 value 500
-#define TempDangerValueL    70		//NTC 68 value 500
- 
-//NTC 71 value 490
-//NTC 73.5 value 480	
-//65,600
-#define TempSafeValueH	170		//NTC 47 value 600
-#define TempSafeValueL	100		//NTC 47 value 600
-//NTC 61.2 value 540
-//NTC 58 value 535
-//51,700
-#endif
-
-#ifdef MCU_16F1516
-#define TempDangerValue	550		//NTC 68 value 500
-//NTC 71 value 490
-//NTC 73.5 value 480
-//65,600
-
-#define TempSafeValue	600		//NTC 47 value 600
-//NTC 61.2 value 540
-//NTC 58 value 535
-//51,700
-#endif
-
-#ifdef MCU_16F1518
-#define TempDangerValue	430		//NTC 68 value 500
-//NTC 71 value 490
-//NTC 73.5 value 480
-//65,600
-
-#define TempSafeValue	450		//NTC 47 value 600
-//NTC 61.2 value 540
-//NTC 58 value 535
-//51,700
-#endif
+//#ifdef MCU_16F723A
+//#define TempDangerValueH    140		//NTC 68 value 500
+//#define TempDangerValueL    70		//NTC 68 value 500
+//
+////NTC 71 value 490
+////NTC 73.5 value 480
+////65,600
+//#define TempSafeValueH	170		//NTC 47 value 600
+//#define TempSafeValueL	100		//NTC 47 value 600
+////NTC 61.2 value 540
+////NTC 58 value 535
+////51,700
+//#endif
+//
+//#ifdef MCU_16F1516
+//#define TempDangerValue	550		//NTC 68 value 500
+////NTC 71 value 490
+////NTC 73.5 value 480
+////65,600
+//
+//#define TempSafeValue	600		//NTC 47 value 600
+////NTC 61.2 value 540
+////NTC 58 value 535
+////51,700
+//#endif
+//
+//#ifdef MCU_16F1518
+////#define TempDangerValue	405		//NTC 68 value 500
+//////NTC 71 value 490
+//////NTC 73.5 value 480
+//////65,600
+////
+////#define TempSafeValue	430		//NTC 47 value 600
+//////NTC 61.2 value 540
+//////NTC 58 value 535
+//////51,700
+//#endif
 
 #define TempCountValue 	3
 
