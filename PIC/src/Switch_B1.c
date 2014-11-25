@@ -6,7 +6,7 @@
 #if Switch_use == 1
 
 #ifdef TTPW
-
+ 
 void TouchPower() {
     if (TTPW == false) {
         if (myMain.PowerON == true) {

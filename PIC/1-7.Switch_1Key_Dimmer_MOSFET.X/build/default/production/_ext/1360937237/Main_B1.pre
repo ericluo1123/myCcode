@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 62 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
+# 152 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -146,7 +146,7 @@ extern const char __xc8_OPTIM_SPEED;
 #pragma intrinsic(__builtin_software_breakpoint)
 extern void __builtin_software_breakpoint(void);
 
-# 47 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1516.h"
+# 47 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h"
 extern volatile unsigned char INDF0 @ 0x000;
 
 asm("INDF0 equ 00h");
@@ -2637,7 +2637,7 @@ void Fosc_Set();
 void ADC_Set();
 void setADCGO();
 
-# 302
+# 305
 inline int getAD(char, char);
 
 # 447
@@ -2997,7 +2997,7 @@ unsigned Line : 1;
 unsigned Loop : 1;
 unsigned OK : 1;
 unsigned MosfetSignal : 1;
-unsigned MosfetOK : 1;
+unsigned MOSFET : 1;
 unsigned TriacFlag : 1;
 unsigned SwFlag : 1;
 unsigned SwAdj : 1;
@@ -3201,7 +3201,13 @@ myMain.Flag = 1;
 
 }
 
+myMain.Count2++;
+if (myMain.Count2 == 100) {
+myMain.Count2 = 0;
+
 # 258
+}
+
 }
 
 
@@ -3223,7 +3229,7 @@ myMain.Timeout_Counter = 0;
 void setMain_Exception(char command) {
 char status = 0, buz = 0;
 
-# 292
+# 296
 status = command == 3 ? getDimmerLights_Line() : 255;
 
 if (command == 0) {
@@ -3254,7 +3260,7 @@ setDimmerLights_ErrorClose(status);
 char getMain_AD_OK() {
 char result = 0;
 
-# 330
+# 334
 return result;
 }
 
@@ -3265,11 +3271,11 @@ char status = 0;
 
 char count = 1;
 
-# 347
+# 351
 for (int i = 0; i < count; i++) {
 if (status == 0) {
 
-# 353
+# 357
 status = getDimmerLights_Status(i + 1) == 1 ? 1 : 0;
 
 }
@@ -3281,7 +3287,7 @@ return status;
 char getMain_All_Error_Status(char command) {
 char status = 0;
 
-# 398
+# 402
 return status;
 }
 
@@ -3293,7 +3299,7 @@ char status1 = 0, status2 = 0, status3 = 0, count = 0;
 
 status1 = DimmerLights1.Loop == 1 ? 1 : 0;
 
-# 428
+# 432
 return count = (status1 + status2 + status3);
 }
 
@@ -3301,7 +3307,7 @@ return count = (status1 + status2 + status3);
 char getMain_LoadOK() {
 char ok = 0;
 
-# 439
+# 443
 ok = getDimmer_LoadOK() == 1 ? 1 : 0;
 
 return ok;

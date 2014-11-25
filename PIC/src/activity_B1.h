@@ -8,6 +8,90 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//******************************************************************************
+//setting
+
+#define	Name_Version Name_Version_Value
+#define Name_SerialNumber Name_SerialNumber_Value
+#define Properties_Product Properties_Product_Value
+#define Properties_Keys	Properties_Keys_Value
+#define Properties_Country Properties_Country_Value
+
+#define Control_Method_Mosfet Control_Method_Mosfet_Value
+#define Control_Method_Triac Control_Method_Triac_Value
+#define Control_Method_Relay Control_Method_Relay_Value
+#define Control_Method_TriacRelay Control_Method_TriacRelay_Value
+#define Properties_Neutral Properties_Neutral_Value
+#define Properties_Dimmer Properties_Dimmer_Value
+#define Debug Debug_Value
+//******************************************************************************
+//Mcu Function Option
+
+//ADC
+#define ADC_use ADC_use_Value
+//Timer0
+#define Timer0_use Timer0_use_value
+//Timer1
+#define Timer1_use Timer1_use_Value
+//Timer2
+#define Timer2_use Timer2_use_Value
+//INT
+#define INT_use INT_use_Value
+//UART
+#define UART_use UART_use_Value
+#define UART_Master UART_Master_Value
+#define UART_Slave UART_Slave_Value
+//I2C
+#define I2C_use I2C_use_Value
+#define Master_Mode Master_Mode_Value
+#define Slave_Mode Slave_Mode_Value
+//IOC
+#define IOC_use IOC_use_Value
+//Flash Memory
+#define FlashMemory_use FlashMemory_use_Value
+//Watch Dog
+#define WDT_use WDT_use_Value
+
+//******************************************************************************
+//Function Option
+
+//SYSC
+#define SYSC_use SYSC_use_Value
+//Over Tempeature
+#define OverTemperature_use OverTemperature_use_Value
+#define TempDangerValue	TempDangerValue_Value
+#define TempSafeValue TempSafeValue_Value
+//Over Load
+#define OverLoad_use OverLoad_use_Value
+#define LimitCurrent LimitCurrent_Value
+#define LinearParam  LinearParam_Value
+//LED
+#define LED_use LED_use_Value
+//Buzzer 
+#define Buzzer_use Buzzer_use_Value
+//Switch
+#define Switch_use Switch_use_Value
+//Lights Control
+#define LightsControl_use LightsControl_use_Value
+//CC2500
+#define CC2500_use CC2500_use_Value
+//Delay Off
+#define DelayOff_use DelayOff_use_Value
+//Power Fault
+#define PowerFault_use PowerFault_use_Value
+//Dimmer
+#define Dimmer_use Dimmer_use_Value
+#define Dimmer_Half_Wave Dimmer_Half_Wave_Value
+#define Dimmer_Full_Wave Dimmer_Full_Wave_Value
+//Segment Display
+#define SegmentDisplay_use SegmentDisplay_use_Value
+//CDS
+#define CDS_use CDS_use_Value
+//PIR
+#define PIR_use PIR_use_Value
+
+//******************************************************************************
+
 #if Properties_Keys == 1
 #define Switch_Class 1
 #define use_1KEY
@@ -57,7 +141,7 @@ typedef unsigned char ADtype;
 #define ADL_Restore 0xff
 #endif
 
-
+ 
 #ifdef MCU_16F1516
 typedef unsigned int ADtype;
 #define ADH_Restore 0

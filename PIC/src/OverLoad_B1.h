@@ -21,8 +21,8 @@
 #define SecondLimitValue (int)(LimitCurrent*55)
 #endif
 #ifdef MCU_16F1518
-#define FirstLimitValue (20*55)//(LimitCurrent*Proportion)
-#define SecondLimitValue (int)(LimitCurrent*55)
+#define FirstLimitValue (20*LinearParam)//(LimitCurrent*LinearParam)
+#define SecondLimitValue (int)(LimitCurrent*LinearParam)
 #endif
 
 //#if Dimmer_use == 1

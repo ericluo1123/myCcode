@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 62 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
+# 152 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -146,7 +146,7 @@ extern const char __xc8_OPTIM_SPEED;
 #pragma intrinsic(__builtin_software_breakpoint)
 extern void __builtin_software_breakpoint(void);
 
-# 47 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1516.h"
+# 47 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h"
 extern volatile unsigned char INDF0 @ 0x000;
 
 asm("INDF0 equ 00h");
@@ -2637,7 +2637,7 @@ void Fosc_Set();
 void ADC_Set();
 void setADCGO();
 
-# 302
+# 305
 inline int getAD(char, char);
 
 # 447
@@ -2997,7 +2997,7 @@ unsigned Line : 1;
 unsigned Loop : 1;
 unsigned OK : 1;
 unsigned MosfetSignal : 1;
-unsigned MosfetOK : 1;
+unsigned MOSFET : 1;
 unsigned TriacFlag : 1;
 unsigned SwFlag : 1;
 unsigned SwAdj : 1;
@@ -3085,9 +3085,9 @@ char getDimmer_LoadOK();
 inline void Dimmer_Initialization();
 
 
-# 15 "../src/MCU_B1.c"
-#pragma config FOSC = INTOSC ,WDTE = ON,BOREN=OFF
-#pragma config VCAPEN = OFF,WRT = BOOT
+# 22 "../src/MCU_B1.c"
+#pragma config FOSC = INTOSC,WDTE = ON,BOREN=OFF
+#pragma config VCAPEN = OFF,WRT = HALF
 
 # 30
 void Mcu_Initialization() {
@@ -3122,7 +3122,7 @@ OSCCON = 0x78;
 
 void IO_Set() {
 
-# 73
+# 88
 TRISA = 0b11110111;;
 TRISB = 0b00000100;;
 TRISC = 0b00100110;;
@@ -3136,7 +3136,6 @@ PORTA = 0b11110111;;
 PORTB = 0b00000100;;
 PORTC = 0b00100110;;
 
-# 101
 }
 
 # 107
@@ -3238,10 +3237,10 @@ ADCON1 = 0xf3;
 FVRCON = 0xc1;
 }
 
-# 441
+# 454
 inline int getAD(char adcon0, char adcon1) {
-ADCON1 = adcon1;
 ADCON0 = adcon0;
+ADCON1 = adcon1;
 GO_nDONE = 1;
 while (GO_nDONE == 1 && myMain.Timeout == 0) {
 Timeout_Counter();
