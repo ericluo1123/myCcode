@@ -1,5 +1,4 @@
 
-
 // Includes
 #include "Select_File.h"
 
@@ -108,7 +107,7 @@ void setTemp_Main() {
                             } else {
                                 Temp.Count = 0;
                             }
-                        }
+                        } 
                         setProductData(24, Temp.AD >> 8);
                         setProductData(25, Temp.AD);
 #if Temp_Debug == 1

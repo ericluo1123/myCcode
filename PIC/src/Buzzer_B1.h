@@ -78,6 +78,7 @@ int getBuz_GO();
 #define setBuz_Main(char) ;
 #define setBuz(char,int) ;	
 #define setBuz_Enable(char) ;
+#define getBuz_GO() 0
 #endif
 
 //End file

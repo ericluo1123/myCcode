@@ -2951,6 +2951,310 @@ void setLED_Main(char led);
 # 97
 void setLED(char led, char command);
 
+# 7 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/OverTemperature_B1.h"
+struct OverTemp {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned ADtoGO : 1;
+unsigned LoadADGO : 1;
+unsigned GO : 1;
+unsigned empty : 3;
+};
+};
+unsigned int Time;
+unsigned char Count;
+
+unsigned char AD1;
+unsigned char AD2;
+
+ADtype AD;
+ADtype ADH[2];
+ADtype ADRES;
+ADtype SafeValue;
+ADtype DangerValue;
+
+};
+
+struct OverTemp Temp;
+
+# 83
+inline void Temp_Initialization();
+inline void Temp_Main();
+void setTemp_Main();
+void setTemp_Initialization();
+inline void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+
+# 161 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/CC2500_B1.h"
+const unsigned char CC2500_rfSettings[47] ={
+
+
+0x07,
+0x07,
+0x30,
+0x87,
+0x6B,
+0xF8,
+0x7F,
+0x3F,
+
+0x09,
+0x00,
+0x5C,
+0xA7,
+0x62,
+0x86,
+0x83,
+0x03,
+0x22,
+0xF8,
+0x00,
+0x44,
+0xB6,
+0x10,
+0x18,
+0x1D,
+0x1C,
+0xC7,
+0x00,
+0xB2,
+0xEA,
+0x0A,
+0x00,
+0x11,
+0x59,
+0x88,
+0x31,
+0x0B,
+0x2F,
+0x2E,
+0x06,
+0x04,
+0x05,
+0x00,
+0x30,
+0xD3,
+0x91,
+0x41,
+0x00
+
+};
+
+
+
+const unsigned char CC2500_registers_address[47] ={
+
+0x03,
+0x16,
+0x17,
+0x1E,
+0x1F,
+0x20,
+0x2A,
+0x2B,
+
+0x0B,
+0x0C,
+0x0D,
+0x0E,
+0x0F,
+0x10,
+0x11,
+0x12,
+0x13,
+0x14,
+0x0A,
+0x15,
+0x21,
+0x22,
+0x18,
+0x19,
+0x1A,
+0x1B,
+0x1C,
+0x1D,
+0x23,
+0x24,
+0x25,
+0x26,
+0x29,
+0x2C,
+0x2D,
+0x2E,
+0x00,
+0x01,
+0x02,
+0x07,
+0x08,
+0x09,
+0x06,
+0x04,
+0x05,
+0x27,
+0x28
+};
+
+# 277
+unsigned int RF_Count;
+unsigned char SPI0Buffer;
+unsigned char r_data;
+unsigned char s_data;
+unsigned char r_address;
+unsigned char RF_Data[30];
+unsigned char RSSI;
+unsigned char CRC;
+unsigned char Rx_Length;
+unsigned char Tx_Length;
+
+
+
+
+const unsigned char CC2500_patable_vaule[8] = {0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE};
+
+void CC2500_PowerOnInitial();
+void CC2500_PowerRST(void);
+void CC2500_InitSetREG(void);
+void CC2500_InitPATable(void);
+void CC2500_ClearTXFIFO(void);
+void CC2500_ClearRXFIFO(void);
+void CC2500_FrequencyCabr(void);
+inline void CC2500_SIDLEMode(void);
+
+inline void CC2500_WriteByte(void);
+inline void CC2500_WriteREG(unsigned char addr, unsigned char value);
+inline void CC2500_ReadByte(void);
+inline void CC2500_ReadREG(unsigned char addr);
+inline void CC2500_ReadStatus(unsigned char s_addr);
+inline void CC2500_WriteCommand(unsigned char command);
+inline void CC2500_TxData();
+inline void CC2500_RxData(void);
+void DelayTime_1us(int count);
+
+# 11 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h"
+struct RF {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned ReceiveGO : 1;
+unsigned TransceiveGO : 1;
+unsigned RxStatus : 1;
+unsigned TxStatus : 1;
+unsigned Debounce : 1;
+unsigned Learn : 1;
+unsigned Key : 1;
+};
+};
+
+union {
+
+struct {
+unsigned Sleep : 1;
+unsigned Run : 1;
+unsigned Bus : 1;
+unsigned Checked : 1;
+unsigned RxChecked : 1;
+unsigned Correction : 1;
+unsigned empty : 2;
+};
+};
+unsigned int Count;
+unsigned char CheckCount;
+unsigned int CheckedCounter;
+unsigned int RunTime;
+unsigned char DebounceTime;
+unsigned int CorrectionCounter;
+
+};
+
+
+struct RF RF1;
+
+
+inline void RF_Initialization();
+inline void RF_Main();
+void setRF_Initialization();
+void setRF_Main();
+void setTxData();
+void getRxData();
+void setRF_Enable(char command);
+void setLog_Code();
+void setControl_Lights_Table();
+void RF_RxDisable();
+void setRF_Learn(char command);
+void setRF_ReceiveGO(char command);
+void setRF_RxStatus(char command);
+char getRF_KeyStatus();
+
+
+
+
+void setRFSW_Control(char sw);
+void setRFSW_AdjControl(char sw);
+void setRFSW_Status(char sw, char command);
+
+
+void setRF_DimmerValue(char lights);
+void setRF_DimmerLights(char lights, char on);
+
+# 47 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Run : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
+};
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+
+unsigned int ADH;
+unsigned int ADL;
+
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
+ADtype AD;
+ADtype ADRES;
+
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char ErrorCount;
+unsigned char LightsCount;
+unsigned char SafeCount;
+};
+
+
+struct OverLoad Load;
+
+# 92
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 103
+char getLoad_OK();
+void setLoad_OK();
+
 # 11 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
@@ -3083,4 +3387,132 @@ struct Dimmer Dimmer;
 
 char getDimmer_LoadOK();
 inline void Dimmer_Initialization();
+
+# 24 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
+struct DelayOff {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned empty : 6;
+};
+};
+
+unsigned char Value;
+unsigned int SecondTime;
+unsigned char MinuteTime;
+};
+struct DelayOff *DelayOff;
+
+
+struct DelayOff DlySw1;
+
+# 53
+inline void DelayOff_Initialization();
+inline void DelayOff_Main();
+char DelayTimejudge(char value);
+void DlyOff_Initialization(char sw);
+void DlyOff_Main(char sw);
+void setDelayOff_GO(char sw, char command, char value);
+char getDelayOff_GO(char sw);
+void DelayOffPointSelect(char sw);
+
+# 8 "../src/OverTemperature_B1.c"
+inline void Temp_Initialization() {
+
+setTemp_Initialization();
+
+}
+
+
+inline void getTemp_AD(char channel) {
+
+# 32
+if (Temp.ADtoGO == 1) {
+Temp.GO = 1;
+Temp.ADRES = getAD(channel, 0xf0);
+if (Temp.ADH[0] < Temp.ADRES) {
+Temp.ADH[0] = Temp.ADRES;
+} else if (Temp.ADH[1] < Temp.ADRES) {
+Temp.ADH[1] = Temp.ADRES;
+}
+}
+
+}
+
+
+void setTemp_Initialization() {
+
+}
+
+
+inline void Temp_Main() {
+
+setTemp_Main();
+
+}
+
+
+void setTemp_Main() {
+if (Temp.Enable == 1) {
+if (Temp.ADtoGO == 0) {
+Temp.Time++;
+if (Temp.Time >= 500) {
+Temp.Time = 0;
+Temp.ADtoGO = 1;
+}
+} else {
+if (getMain_All_Error_Status(2) == 0) {
+Temp.Time++;
+if (Temp.Time >= 5) {
+Temp.Time = 0;
+if (Temp.GO == 1) {
+Temp.ADtoGO = 0;
+Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
+
+# 82
+Temp.SafeValue = 455;
+Temp.DangerValue = 415;
+
+# 89
+if (Temp.ERROR == 1) {
+if (Temp.AD >= Temp.SafeValue) {
+Temp.Count++;
+if (Temp.Count >= 3) {
+Temp.Count = 0;
+Temp.ERROR = 0;
+setBuz(2, 100);
+}
+} else {
+Temp.Count = 0;
+}
+} else {
+if (Temp.AD <= Temp.DangerValue) {
+Temp.Count++;
+if (Temp.Count >= 3) {
+Temp.Count = 0;
+Temp.ERROR = 1;
+}
+} else {
+Temp.Count = 0;
+}
+}
+product->Data[24]=Temp.AD >> 8;
+product->Data[25]=Temp.AD;
+
+# 118
+Temp.ADH[0] = 0;
+Temp.ADH[1] = 0;
+}
+}
+}
+}
+} else {
+if (myMain.PowerON == 1) {
+Temp.Enable = 1;
+}
+}
+}
 

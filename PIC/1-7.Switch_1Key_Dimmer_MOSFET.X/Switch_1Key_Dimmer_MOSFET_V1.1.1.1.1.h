@@ -31,7 +31,7 @@
 #define Control_Method_Triac_Value          0
 #define Control_Method_Relay_Value          0
 #define Control_Method_TriacRelay_Value     0
-#define Properties_Neutral_Value            0
+#define Properties_Neutral_Value            1
 #define Properties_Dimmer_Value             1
 #define Debug_Value                         1
 
@@ -87,7 +87,6 @@
 
 //Mcu Function Option
 
-
 //Oscillator (System FOSC)
 #define	System_Fosc_16M
 //MCU
@@ -125,9 +124,13 @@
 //SYSC
 #define SYSC_use_Value 0
 //OverTemperature
-#define OverTemperature_use_Value 0
+#define OverTemperature_use_Value   1
+#define TempDangerValue_Value       415   //NTC 70度
+#define TempSafeValue_Value         455   //NTC 61度
 //OverLoad
-#define OverLoad_use_Value 0
+#define OverLoad_use_Value 1
+#define LimitCurrent_Value  1.8//A
+#define LinearParam_Value   55
 //LED
 #define LED_use_Value 1
 //Buzzer
@@ -137,9 +140,9 @@
 //Lights
 #define LightsControl_use_Value 0
 //RF cc2500
-#define CC2500_use_Value        0
+#define CC2500_use_Value        1
 //DelayOff
-#define DelayOff_use_Value      0
+#define DelayOff_use_Value      1
 //PowerFault
 #define PowerFault_use_Value    0
 //Dimmer Lights

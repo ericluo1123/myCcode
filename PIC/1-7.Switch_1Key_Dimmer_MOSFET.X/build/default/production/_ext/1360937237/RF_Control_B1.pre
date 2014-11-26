@@ -2951,6 +2951,310 @@ void setLED_Main(char led);
 # 97
 void setLED(char led, char command);
 
+# 7 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/OverTemperature_B1.h"
+struct OverTemp {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned ADtoGO : 1;
+unsigned LoadADGO : 1;
+unsigned GO : 1;
+unsigned empty : 3;
+};
+};
+unsigned int Time;
+unsigned char Count;
+
+unsigned char AD1;
+unsigned char AD2;
+
+ADtype AD;
+ADtype ADH[2];
+ADtype ADRES;
+ADtype SafeValue;
+ADtype DangerValue;
+
+};
+
+struct OverTemp Temp;
+
+# 83
+inline void Temp_Initialization();
+inline void Temp_Main();
+void setTemp_Main();
+void setTemp_Initialization();
+inline void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+
+# 161 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/CC2500_B1.h"
+const unsigned char CC2500_rfSettings[47] ={
+
+
+0x07,
+0x07,
+0x30,
+0x87,
+0x6B,
+0xF8,
+0x7F,
+0x3F,
+
+0x09,
+0x00,
+0x5C,
+0xA7,
+0x62,
+0x86,
+0x83,
+0x03,
+0x22,
+0xF8,
+0x00,
+0x44,
+0xB6,
+0x10,
+0x18,
+0x1D,
+0x1C,
+0xC7,
+0x00,
+0xB2,
+0xEA,
+0x0A,
+0x00,
+0x11,
+0x59,
+0x88,
+0x31,
+0x0B,
+0x2F,
+0x2E,
+0x06,
+0x04,
+0x05,
+0x00,
+0x30,
+0xD3,
+0x91,
+0x41,
+0x00
+
+};
+
+
+
+const unsigned char CC2500_registers_address[47] ={
+
+0x03,
+0x16,
+0x17,
+0x1E,
+0x1F,
+0x20,
+0x2A,
+0x2B,
+
+0x0B,
+0x0C,
+0x0D,
+0x0E,
+0x0F,
+0x10,
+0x11,
+0x12,
+0x13,
+0x14,
+0x0A,
+0x15,
+0x21,
+0x22,
+0x18,
+0x19,
+0x1A,
+0x1B,
+0x1C,
+0x1D,
+0x23,
+0x24,
+0x25,
+0x26,
+0x29,
+0x2C,
+0x2D,
+0x2E,
+0x00,
+0x01,
+0x02,
+0x07,
+0x08,
+0x09,
+0x06,
+0x04,
+0x05,
+0x27,
+0x28
+};
+
+# 277
+unsigned int RF_Count;
+unsigned char SPI0Buffer;
+unsigned char r_data;
+unsigned char s_data;
+unsigned char r_address;
+unsigned char RF_Data[30];
+unsigned char RSSI;
+unsigned char CRC;
+unsigned char Rx_Length;
+unsigned char Tx_Length;
+
+
+
+
+const unsigned char CC2500_patable_vaule[8] = {0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE};
+
+void CC2500_PowerOnInitial();
+void CC2500_PowerRST(void);
+void CC2500_InitSetREG(void);
+void CC2500_InitPATable(void);
+void CC2500_ClearTXFIFO(void);
+void CC2500_ClearRXFIFO(void);
+void CC2500_FrequencyCabr(void);
+inline void CC2500_SIDLEMode(void);
+
+inline void CC2500_WriteByte(void);
+inline void CC2500_WriteREG(unsigned char addr, unsigned char value);
+inline void CC2500_ReadByte(void);
+inline void CC2500_ReadREG(unsigned char addr);
+inline void CC2500_ReadStatus(unsigned char s_addr);
+inline void CC2500_WriteCommand(unsigned char command);
+inline void CC2500_TxData();
+inline void CC2500_RxData(void);
+void DelayTime_1us(int count);
+
+# 11 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h"
+struct RF {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned ReceiveGO : 1;
+unsigned TransceiveGO : 1;
+unsigned RxStatus : 1;
+unsigned TxStatus : 1;
+unsigned Debounce : 1;
+unsigned Learn : 1;
+unsigned Key : 1;
+};
+};
+
+union {
+
+struct {
+unsigned Sleep : 1;
+unsigned Run : 1;
+unsigned Bus : 1;
+unsigned Checked : 1;
+unsigned RxChecked : 1;
+unsigned Correction : 1;
+unsigned empty : 2;
+};
+};
+unsigned int Count;
+unsigned char CheckCount;
+unsigned int CheckedCounter;
+unsigned int RunTime;
+unsigned char DebounceTime;
+unsigned int CorrectionCounter;
+
+};
+
+
+struct RF RF1;
+
+
+inline void RF_Initialization();
+inline void RF_Main();
+void setRF_Initialization();
+void setRF_Main();
+void setTxData();
+void getRxData();
+void setRF_Enable(char command);
+void setLog_Code();
+void setControl_Lights_Table();
+void RF_RxDisable();
+void setRF_Learn(char command);
+void setRF_ReceiveGO(char command);
+void setRF_RxStatus(char command);
+char getRF_KeyStatus();
+
+
+
+
+void setRFSW_Control(char sw);
+void setRFSW_AdjControl(char sw);
+void setRFSW_Status(char sw, char command);
+
+
+void setRF_DimmerValue(char lights);
+void setRF_DimmerLights(char lights, char on);
+
+# 47 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Run : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
+};
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+
+unsigned int ADH;
+unsigned int ADL;
+
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
+ADtype AD;
+ADtype ADRES;
+
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char ErrorCount;
+unsigned char LightsCount;
+unsigned char SafeCount;
+};
+
+
+struct OverLoad Load;
+
+# 92
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 103
+char getLoad_OK();
+void setLoad_OK();
+
 # 11 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
@@ -3083,4 +3387,446 @@ struct Dimmer Dimmer;
 
 char getDimmer_LoadOK();
 inline void Dimmer_Initialization();
+
+# 24 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
+struct DelayOff {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned empty : 6;
+};
+};
+
+unsigned char Value;
+unsigned int SecondTime;
+unsigned char MinuteTime;
+};
+struct DelayOff *DelayOff;
+
+
+struct DelayOff DlySw1;
+
+# 53
+inline void DelayOff_Initialization();
+inline void DelayOff_Main();
+char DelayTimejudge(char value);
+void DlyOff_Initialization(char sw);
+void DlyOff_Main(char sw);
+void setDelayOff_GO(char sw, char command, char value);
+char getDelayOff_GO(char sw);
+void DelayOffPointSelect(char sw);
+
+# 9 "../src/RF_Control_B1.c"
+inline void RF_Initialization() {
+
+setRF_Initialization();
+
+}
+
+
+inline void RF_Main() {
+
+setRF_Main();
+
+}
+
+
+void setRF_Learn(char command) {
+RF1.Learn = command == 1 ? 1 : 0;
+}
+
+
+void setRF_ReceiveGO(char command) {
+if (RF1.RxStatus == 1) {
+RF1.RxStatus = 0;
+RF1.Run = 1;
+RF1.ReceiveGO = command == 1 ? 1 : 0;
+}
+}
+
+
+void setRF_RxStatus(char command) {
+RF1.RxStatus = command == 1 ? 1 : 0;
+}
+
+
+
+void setRF_Initialization() {
+
+Tx_Length = 21;
+RF1.RunTime = 10;
+
+
+}
+
+
+void setRF_Main() {
+char loop_f = 0, Receive_OK = 0, error = 0;
+if (RF1.Enable == 1) {
+
+
+
+if (getBuz_GO() == 0) {
+if (getMain_All_Error_Status(0) == 0) {
+
+RF1.Key = getRF_KeyStatus() == 1 ? 1 : 0;
+
+# 65
+} else {
+
+# 69
+RF1.Key = 0;
+}
+
+if (RF1.Key == 1 && RF1.Learn == 0) {
+RF1.Count = 0;
+RF1.Run = 1;
+RF1.RxStatus = 0;
+} else {
+if (RF1.Run == 1 && RF1.Learn == 0) {
+RF1.Count++;
+if (RF1.Count == RF1.RunTime) {
+RF1.Count = 0;
+RF1.Run = 0;
+}
+} else {
+RF1.Count = 0;
+RF1.Run = 0;
+
+if (RF1.TransceiveGO == 1 && RF1.Learn == 0) {
+RF1.TransceiveGO = 0;
+RF1.RxStatus = 0;
+RF1.ReceiveGO = 0;
+
+CC2500_ReadStatus(0x3B);
+if (s_data != 0) {
+CC2500_WriteCommand(0x36);
+CC2500_WriteCommand(0x3B);
+CC2500_WriteCommand(0x3A);
+}
+CC2500_TxData();
+
+} else {
+
+if (RF1.RxStatus == 1) {
+
+CC2500_RxData();
+if (RF1.ReceiveGO == 1) {
+RF1.ReceiveGO = 0;
+RF1.Correction = 0;
+RF1.CorrectionCounter = 0;
+
+# 117
+getRxData();
+
+
+RF1.Run = 1;
+
+if (RF1.Checked == 1) {
+if (RF1.RunTime > 10) {
+RF1.RunTime = 10;
+}
+RF1.CheckCount = 0;
+} else {
+RF1.CheckCount++;
+if (RF1.CheckCount == 2) {
+RF1.CheckCount = 0;
+RF1.CheckedCounter = 0;
+if (RF1.RunTime < 200) {
+RF1.RunTime += 10;
+}
+}
+}
+}
+} else {
+
+if (RF1.RxStatus == 0 && RF1.ReceiveGO == 0) {
+RF1.RxStatus = 1;
+RF1.Correction = 1;
+
+CC2500_WriteCommand(0x36);
+CC2500_WriteCommand(0x3B);
+CC2500_WriteCommand(0x3A);
+CC2500_WriteCommand(0x34);
+}
+
+}
+}
+}
+if (RF1.RxStatus == 1) {
+RF1.CheckedCounter++;
+if (RF1.CheckedCounter == 100) {
+RF1.CheckedCounter = 0;
+RF1.CheckCount = 0;
+if (RF1.RunTime > 10) {
+RF1.RunTime -= 10;
+}
+}
+}
+if (RF1.Correction == 1) {
+RF1.CorrectionCounter++;
+if (RF1.CorrectionCounter >= 30000) {
+RF1.CorrectionCounter = 0;
+RF1.RxStatus = 0;
+RF1.ReceiveGO = 0;
+}
+}
+}
+}
+
+# 179
+} else {
+if (myMain.PowerON == 1) {
+RF1.Enable = 1;
+}
+}
+}
+
+
+char getRF_KeyStatus() {
+char key = 0;
+
+# 198
+key = (RA6 == 1 || RA4 == 1 || RA0 == 1 || RA7 == 1) ? 1 : 0;
+
+return key;
+}
+
+
+void setTxData() {
+char i;
+if (RF1.Enable == 1) {
+
+RF1.TransceiveGO = 1;
+RF1.RunTime = 20;
+
+# 218
+RF_Data[0] = 0x63;
+RF_Data[1] = 0x02;
+RF_Data[2] = product->Data[2];
+RF_Data[3] = product->Data[3];
+RF_Data[4] = product->Data[4];
+RF_Data[5] = product->Data[5];
+RF_Data[6] = product->Data[6];
+RF_Data[7] = product->Data[7];
+RF_Data[8] = product->Data[8];
+RF_Data[9] = product->Data[9];
+RF_Data[10] = product->Data[10];
+RF_Data[11] = product->Data[11];
+RF_Data[12] = product->Data[12];
+RF_Data[13] = product->Data[13];
+RF_Data[14] = product->Data[14];
+RF_Data[15] = product->Data[15];
+RF_Data[16] = product->Data[16];
+RF_Data[17] = product->Data[17];
+RF_Data[18] = product->Data[18];
+RF_Data[19] = product->Data[19];
+RF_Data[20] = 209;
+}
+
+}
+
+
+void setRF_Enable(char command) {
+RF1.Enable = command == 1 ? 1 : 0;
+RF1.Learn = 0;
+RF1.TransceiveGO = 0;
+RF1.RxStatus = 0;
+RF1.ReceiveGO = 0;
+RF1.DebounceTime = 0;
+RF1.Debounce = 0;
+
+}
+
+
+void RF_RxDisable() {
+if (RF1.ReceiveGO == 1 || RF1.RxStatus == 1) {
+RF1.RxStatus = 0;
+RF1.ReceiveGO = 0;
+CC2500_WriteCommand(0x36);
+CC2500_WriteCommand(0x36);
+CC2500_WriteCommand(0x3A);
+CC2500_WriteCommand(0x3B);
+
+}
+}
+
+
+void getRxData() {
+char error = getMain_All_Error_Status(0);
+if (error == 0) {
+if (RF1.Learn == 1) {
+if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) {
+setLog_Code();
+RF1.Checked = 1;
+} else {
+RF1.Checked = 0;
+}
+} else {
+if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {
+
+if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
+__nop();
+RF1.Checked = 0;
+} else {
+if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_Data[14] == product->Data[14]) {
+setControl_Lights_Table();
+RF1.Checked = 1;
+}
+}
+} else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02) {
+__nop();
+} else if (RF_Data[0] == 0x0 && RF_Data[1] == 0x65) {
+__nop();
+} else {
+RF1.Checked = 0;
+}
+
+# 302
+}
+} else {
+;
+}
+}
+
+
+void setLog_Code() {
+RF1.Learn = 0;
+product->Data[12]=RF_Data[12];
+product->Data[13]=RF_Data[13];
+product->Data[14]=RF_Data[14];
+setBuz(1, 100);
+if (myMain.First == 1) {
+setMemory_LoopSave(1);
+}
+setMemory_Modify(1);
+}
+
+
+void setControl_Lights_Table() {
+switch (RF_Data[15]) {
+case 0x00:
+
+setDimmerLights_ErrorClose(255);
+
+product->Data[9]=0;
+product->Data[11]=0;
+product->Data[15]=0;
+product->Data[17]=0;
+setBuz(1, 100);
+
+break;
+case 0x20:
+product->Data[9]=0;
+product->Data[11]=0;
+product->Data[17]=0;
+setTxData();
+break;
+case 0x01:
+
+setRFSW_Control(1);
+
+break;
+case 0x02:
+
+# 350
+break;
+case 0x03:
+
+# 355
+break;
+case 0x11:
+
+
+setRFSW_AdjControl(1);
+
+
+break;
+case 0x21:
+
+# 369
+break;
+case 0x31:
+
+# 376
+break;
+}
+}
+
+# 404
+void setRFSW_Control(char sw) {
+char status = 0;
+
+
+if (RF_Data[16] == 0x80) {
+setDelayOff_GO(sw, 1, RF_Data[17]);
+if (getDimmerLights_Status(sw) == 1) {
+setBuz(1, 100);
+status = 1;
+setRF_DimmerLights(sw, 1);
+setTxData();
+
+}
+} else {
+
+if (getDelayOff_GO(sw) == 1) {
+setDelayOff_GO(sw, 0, 0);
+}
+
+}
+if (status == 0) {
+
+setDimmerLights_SwOn(sw);
+setDimmerLights_SwOff(sw);
+
+}
+}
+
+
+void setRFSW_AdjControl(char sw) {
+char status = 0;
+
+status = getDimmerLights_Status(sw);
+
+
+if (status == 1) {
+setMemory_Modify(1);
+setRF_DimmerValue(sw);
+} else {
+product->Data[9]=product->Data[20 + sw];
+}
+product->Data[17]=product->Data[26 + sw];
+setTxData();
+}
+
+
+
+void setRF_DimmerValue(char lights) {
+if (RF_Data[9] > 0x64) {
+RF_Data[9] = 0x64;
+}
+product->Data[9]=RF_Data[9];
+product->Data[11]=lights;
+product->Data[(20 + lights)]=RF_Data[9];
+setDimmerLights_AdjRF(lights);
+}
+
+
+void setRF_DimmerLights(char lights, char on) {
+char status = 1;
+status <<= (lights - 1);
+product->Data[11]=lights;
+
+# 473
+product->Data[9]=product->Data[20 + lights];
+product->Data[17]=product->Data[26 + lights];
+if (on == 1) {
+product->Data[15]=(product->Data[15] | status);
+} else {
+product->Data[15]=(product->Data[15]&(~status));
+}
+}
 

@@ -92,39 +92,30 @@
 #define MCU_16F1518
 //Oscillator (System FOSC)
 #define	System_Fosc_16M     //_16M
-//ADC
-#define ADC_use_Value 1
-
-//Timer0
-#define Timer0_use_value 0
-
-//Timer1
-#define Timer1_use_Value 1
-
-//Timer2
-#define Timer2_use_Value 0
-
 //Interrupt Time
 #define IntrTime_100us
+//ADC
+#define ADC_use_Value 1
+//Timer0
+#define Timer0_use_value 0
+//Timer1
+#define Timer1_use_Value 1
+//Timer2
+#define Timer2_use_Value 0
 //INT
 #define INT_use_Value 0
-
 //UART
 #define UART_use_Value      0
 #define UART_Master_Value   1
 #define UART_Slave_Value    0
-
 //I2C
 #define I2C_use_Value 0
 #define Master_Mode_Value 1
 #define Slave_Mode_Value 0
-
 //IOC
 #define IOC_use_Value 1
-
 //FlashMemory_use
 #define FlashMemory_use_Value 1
-
 //watchdog timer
 #define WDT_use_Value 1
 
@@ -133,49 +124,36 @@
 
 //SYSC
 #define SYSC_use_Value 0
-
 //OverTemperature
 #define OverTemperature_use_Value   1
 #define TempDangerValue_Value       415   //NTC 70度
 #define TempSafeValue_Value         455     //NTC 61度
-
 //OverLoad
 #define OverLoad_use_Value  1
 #define LimitCurrent_Value  1.1//A
 #define LinearParam_Value   50
-
 //LED
 #define LED_use_Value 1
-
 //Buzzer
 #define Buzzer_use_Value 1
-
 //Switch
 #define Switch_use_Value 1
-
 //Lights
 #define LightsControl_use_Value 0
-
 //RF cc2500
 #define CC2500_use_Value 1
-
 //DelayOff
 #define DelayOff_use_Value 1
-
 //PowerFault
 #define PowerFault_use_Value 0
-
 //Dimmer Lights
 #define Dimmer_use_Value        1
 #define Dimmer_Half_Wave_Value  0
 #define Dimmer_Full_Wave_Value  1
-
 //SegmentDisplay
 #define SegmentDisplay_use_Value 0
-
 //CDS
 #define CDS_use_Value 0
-
 //PIR
 #define PIR_use_Value 0
 

@@ -59,6 +59,13 @@
 #define SYSC_use SYSC_use_Value
 //Over Tempeature
 #define OverTemperature_use OverTemperature_use_Value
+
+
+#define TempDangerValueH TempDangerValueH_Value
+#define TempDangerValueL TempDangerValueL_Value
+#define TempSafeValueH TempSafeValueH_Value
+#define TempSafeValueL TempSafeValueL_Value
+
 #define TempDangerValue	TempDangerValue_Value
 #define TempSafeValue TempSafeValue_Value
 //Over Load
@@ -89,7 +96,8 @@
 #define CDS_use CDS_use_Value
 //PIR
 #define PIR_use PIR_use_Value
-
+//UART to RFue
+#define myUARTtoRF_use myUARTtoRF_use_Value
 //******************************************************************************
 
 #if Properties_Keys == 1
@@ -129,6 +137,9 @@
 #endif
 #endif
 
+#ifndef KeyID
+#define KeyID 0xaa
+#endif
 //ADC 
 #if ADC_use == 1
 

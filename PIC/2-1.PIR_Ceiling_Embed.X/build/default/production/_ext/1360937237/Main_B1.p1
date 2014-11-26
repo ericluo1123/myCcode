@@ -257,7 +257,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;stdlib.h: 109: extern char * ltoa(char * buf, long val, int base);
 [; ;stdlib.h: 110: extern char * ultoa(char * buf, unsigned long val, int base);
 [; ;stdlib.h: 112: extern char * ftoa(float f, int * status);
-[; ;Activity_B1.h: 55: typedef unsigned char ADtype;
+[; ;Activity_B1.h: 150: typedef unsigned char ADtype;
 [; ;htc.h: 21: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 24: extern void __builtin_software_breakpoint(void);
 [; ;pic16f723a.h: 47: extern volatile unsigned char INDF @ 0x000;
@@ -2132,11 +2132,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 "339
 [v _status `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 339: char status = 0;
+[; ;Main_B1.c: 339: char status = 0, count = 0;
 [e = _status -> -> 0 `i `uc ]
-"342
 [v _count `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 342: char count = 1;
+[e = _count -> -> 0 `i `uc ]
+[; ;Main_B1.c: 342: count = 1;
+"342
 [e = _count -> -> 1 `i `uc ]
 [; ;Main_B1.c: 351: for (int i = 0; i < count; i++) {
 "351

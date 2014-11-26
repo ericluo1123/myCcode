@@ -236,7 +236,7 @@ inline void Dimmer_Initialization();
 //	#define setDimmer_PFERROR(char,char) ;
 //	#define setDimmer_Detect(char,char) ;
 //	#define getDimmer_Detect(char) ;
-
+#define getDimmerLights_Status(char) 0
 #endif
 
 //End file

@@ -19,7 +19,7 @@
 // Tool Chain: MicroChip MPLAB 
 // Copyright RIFO Technology Co.,Ltd.All Rights Reserved
 //-----------------------------------------------------------------------------
- 
+
 // Includes
 #include "Select_File.h"
 
@@ -60,7 +60,7 @@ inline void CC2500_TxData() {
 
     CC2500_WriteCommand(CC2500_SIDLE); // idle
     CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
-    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+    //    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
     Transceive_OK = 1;
 }
 //-----------------------------------------------------------------------------
@@ -104,7 +104,7 @@ inline void CC2500_RxData(void) {
             CC2500_CSN = 1;
             if (CRC & 0x80)
                 Receive_OK = 1;
-            
+
             RF1.RxStatus = false;
             RF1.ReceiveGO = true;
         } else {

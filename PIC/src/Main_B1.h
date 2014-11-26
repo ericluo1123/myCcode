@@ -70,7 +70,8 @@ struct myMain {
             unsigned FirstOpen : 1;
             unsigned SelfTest : 1;
             unsigned First : 1;
-            unsigned Tempty : 3;
+            unsigned Test:1;
+            unsigned Tempty : 1;
         };
     };
     unsigned int PowerCount;

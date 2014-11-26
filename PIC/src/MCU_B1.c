@@ -5,14 +5,14 @@
 
 //config
 #ifdef MCU_16F723A
-#pragma config FOSC = INTOSCIO ,WDTE = _WDTE, BOREN = OFF , PLLEN = ON
+#pragma config FOSC = INTOSCIO , WDTE = _WDTE, BOREN = OFF , PLLEN = ON
 #pragma config VCAPEN = DIS
 //__CONFIG(FOSC_INTOSCIO & _WDTE & BOREN_OFF & PLEEN_Value); // v8.84
 //__CONFIG(VCAPEN_DIS); // WRT_OFF
 #endif
 
 #ifdef MCU_16F1516
-#pragma config FOSC = INTOSC ,WDTE = _WDTE,BOREN=OFF
+#pragma config FOSC = INTOSC , WDTE = _WDTE , BOREN=OFF
 #pragma config VCAPEN = OFF,WRT = BOOT
 //__CONFIG(FOSC_INTOSC & _WDTE); // v8.84
 //__CONFIG(VCAPEN_OFF & WRT_BOOT); // WRT_OFF
@@ -355,7 +355,7 @@ inline void INT_ISR() {
 
 void setINT_GO(char command) {
     INTF = false;
-    INTE = command; 
+    INTE = command;
 }
 #endif
 //*********************************************************
@@ -370,7 +370,7 @@ void IOC_Set() {
     IOCBP = 0b00000100;
     IOCBN = 0b00000100;
 #endif
- 
+
 #if Dimmer_Full_Wave == 1
     IOCBP = 0b00000000;
     IOCBN = 0b00000100;
@@ -740,36 +740,20 @@ void UART_ISR() {
         RCIE = 0;
         for (i = 0; i < 32; i++) {
             UART->RxData[i] = getche();
-
         }
         UART->RxGO = 1;
-
-        /*	while(!RCIDL);
-                UART->RxData[UART->RxLength]=RCREG;
-        //	UART->RxData[1]=getche();
-	
-                UART->RxLength++;
-                if(UART->RxLength == 32)
-                {
-                        UART->RxLength=0;
-                        UART->RxGO=1;
-                        RCIE=0;
-                        setSegmentDisplayNumber(UART->RxData[1]);
-                }
-                LED2=~LED2;
-         */
     }
 }
 
 void UART_Main() {
-    if (UART->RxGO) {
-        UART->RxGO = 0;
+    if (UART->RxGO == true) {
+        UART->RxGO = false;
         UART_Receive();
         setSegmentDisplayNumber(UART->RxData[5]);
         RCIE = 1;
     } else {
-        if (UART->TxGO) {
-            UART->TxGO = 0;
+        if (UART->TxGO == true) {
+            UART->TxGO = false;
             UART_Transmit();
         }
     }
@@ -794,7 +778,7 @@ void UART_Transmit() {
 
 void UART_Receive() {
     char i;
-    LED2 = ~LED2;
+    //    LED2 = ~LED2;
 #if UART_Master == 1
     myMain.Test = 1;
 #if I2C_use == 1

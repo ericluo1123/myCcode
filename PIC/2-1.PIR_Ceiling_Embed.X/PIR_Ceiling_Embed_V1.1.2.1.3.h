@@ -24,24 +24,23 @@
                                                         4:CHI
  **/
 
-#define	Name_Version 			1	//1
-#define Name_SerialNumber		1	//2
-#define Properties_Product		2	//3
-#define Properties_Keys			1	//4
-#define Properties_Country		3	//5
+#define	Name_Version_Value 		1	//1
+#define Name_SerialNumber_Value		1	//2
+#define Properties_Product_Value	2	//3
+#define Properties_Keys_Value		1	//4
+#define Properties_Country_Value	3	//5
 
 //Control Option
-#define Control_Method_Mosfet		0
-#define Control_Method_Triac		0
-#define Control_Method_Relay		0
-#define Control_Method_TriacRelay	1
-#define Properties_Neutral		0
-#define Properties_Dimmer		0
-#define Debug                           0
+#define Control_Method_Mosfet_Value         0
+#define Control_Method_Triac_Value          0
+#define Control_Method_Relay_Value          0
+#define Control_Method_TriacRelay_Value     1
+#define Properties_Neutral_Value            0
+#define Properties_Dimmer_Value             0
+#define Debug_Value                         0
 #define Create_Date "2014/10/20"
 #define PCB_Name "TH-302PV11-1-Dim(20140722)"
 
-#define MCU_16F723A
 //MCU define
 #define	OverLoad1			RA0		//pin2  1
 #define PIR1_VR				RA1		//pin3	1	
@@ -91,74 +90,76 @@
 #define OverTemp_Channel		AN4
 
 //Mcu Function Option
-
+//MCU
+#define MCU_16F723A
+//interrupt time
+#define IntrTime_100us
 //ADC
-#define ADC_use 1
+#define ADC_use_Value 1
 //Oscillator (System FOSC)
 #define	System_Fosc_16M		//_16M
 //Timer0
-#define Timer0_use	0
+#define Timer0_use_Value	0
 //Timer1
-#define Timer1_use	1
+#define Timer1_use_Value	1
 //Timer2
-#define Timer2_use	0
-//interrupt time
-#define IntrTime_100us
+#define Timer2_use_Value	0
 //INT
-#define INT_use 0
+#define INT_use_Value 0
 //UART
-#define UART_use 0
-#define UART_Master 1
-#define UART_Slave 0
+#define UART_use_Value 0
+#define UART_Master_Value 1
+#define UART_Slave_Value 0
 //I2C
-#define I2C_use 0
-#define Master_Mode 1
-#define Slave_Mode 0
+#define I2C_use_Value 0
+#define Master_Mode_Value 1
+#define Slave_Mode_Value 0
 //IOC
-#define IOC_use 0
+#define IOC_use_Value 0
 //FlashMemory
-#define FlashMemory_use 0
+#define FlashMemory_use_Value 0
 //watchdog timer
-#define WDT_use 1
+#define WDT_use_Value 1
 
 //Function Option
 
 //SYSC
-#define SYSC_use 0
+#define SYSC_use_Value 0
 //OverTemperature
-#define OverTemperature_use 1
-#define Cut_Off_electricity 1
-#define TempDangerValueH    100		//NTC 68 value 500
-#define TempDangerValueL    70		//NTC 68 value 500
-#define TempSafeValueH      140		//NTC 47 value 600
-#define TempSafeValueL      100		//NTC 47 value 600
+#define OverTemperature_use_Value 1
+#define Cut_Off_electricity_Value 1
+#define TempDangerValueH_Value    100		//NTC 68 value 500
+#define TempDangerValueL_Value    70		//NTC 68 value 500
+#define TempSafeValueH_Value      140		//NTC 47 value 600
+#define TempSafeValueL_Value      100		//NTC 47 value 600
 //OverLoad
-#define OverLoad_use 0
-#define LimitCurrent        7 //A
+#define OverLoad_use_Value 0
+#define LimitCurrent_Value  7/A
+#define LinearParam_Value   55
 //LED
-#define LED_use 1
+#define LED_use_Value 1
 //Buzzer
-#define Buzzer_use 0
+#define Buzzer_use_Value 0
 //Switch
-#define Switch_use 0
+#define Switch_use_Value 0
 //Lights
-#define LightsControl_use 	1
+#define LightsControl_use_Value 	1
 //RF cc2500
-#define CC2500_use	0
+#define CC2500_use_Value	0
 //DelayOff
-#define DelayOff_use 0
+#define DelayOff_use_Value      0
 //PowerFault
-#define PowerFault_use 0
+#define PowerFault_use_Value    0
 //Dimmer Lights
-#define Dimmer_use 	0
-#define Dimmer_Half_Wave	1
-#define Dimmer_Full_Wave	0
+#define Dimmer_use_Value 	0
+#define Dimmer_Half_Wave_Value	1
+#define Dimmer_Full_Wave_Value	0
 //SegmentDisplay
-#define SegmentDisplay_use 0
+#define SegmentDisplay_use_Value 0
 //PIR
-#define  PIR_use  1
+#define  PIR_use_Value  1
 //CDS
-#define CDS_use  1
+#define CDS_use_Value  1
 
 
 //include

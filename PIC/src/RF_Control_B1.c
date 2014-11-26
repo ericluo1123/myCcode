@@ -63,9 +63,9 @@ void setRF_Main() {
                 RF1.Key = false;
 #endif
             } else {
-#if PIR_use == 0 && Switch_use == 0
-                setMain_Exception();
-#endif
+                //#if PIR_use == 0 && Switch_use == 0
+                //                setMain_Exception(0);
+                //#endif
                 RF1.Key = false;
             }
 
@@ -89,13 +89,16 @@ void setRF_Main() {
                         RF1.RxStatus = false;
                         RF1.ReceiveGO = false;
 
-                        CC2500_ReadStatus(CC2500_RXBYTES);
-                        if (s_data != 0) {
+                        //                        CC2500_ReadStatus(CC2500_RXBYTES);
+                        //                        if (s_data != 0) {
+                        if (RF1.RxStatus == true || RF1.ReceiveGO == true) {
                             CC2500_WriteCommand(CC2500_SIDLE); // idle
-                            CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+                            //                            CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
                             CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+                            //                        }
                         }
                         CC2500_TxData();
+                        LED1 = LED1 == true ? false : true;
 
                     } else {
 
@@ -142,7 +145,7 @@ void setRF_Main() {
                                 RF1.Correction = true;
 
                                 CC2500_WriteCommand(CC2500_SIDLE); // idle
-                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+                                //                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
                                 CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
                                 CC2500_WriteCommand(CC2500_SRX); // set receive mode
                             }

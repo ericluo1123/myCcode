@@ -25,6 +25,7 @@ int main(int argc, char** argv) {
     RF_Initialization();
     CC2500_PowerOnInitial();
     SegmentDisplay_Initial();
+    myUARTtoRF_Initialization();
 
     while (true) {
 
@@ -111,11 +112,11 @@ int main(int argc, char** argv) {
                 Switch_Main();
                 CDS_Main();
                 PIR_Main();
-
+ 
                 RF_Main();
                 DelayOff_Main();
                 SegmentDisplay_Main();
-
+                myUARTtoRF_Main();
                 //            my_MainTime();
                 //            if (myMain.PowerON) {
                 //                RF_Main();
@@ -252,7 +253,11 @@ inline void my_MainTimer() {
     myMain.Count2++;
     if (myMain.Count2 == 100) {
         myMain.Count2 = 0;
-#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1
+#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 
+        setTxData();
+#endif
+
+#if myUARTtoRF_use == 1
         setTxData();
 #endif
     }
@@ -336,16 +341,16 @@ char getMain_AD_OK() {
 //*****************************************************************************
 
 char getMain_LightsStatus() {
-    char status = 0;
+    char status = 0, count = 0;
 
 #if Switch_Class == 1
-    char count = 1;
+    count = 1;
 #endif
 #if Switch_Class == 2
-    char count = 2;
+    count = 2;
 #endif
 #if Switch_Class == 3
-    char count = 3;
+    count = 3;
 #endif 
 
     for (int i = 0; i < count; i++) {
@@ -379,7 +384,7 @@ char getMain_All_Error_Status(char command) {
     }
 #endif
 
- 
+
 #if OverLoad_use == 1
     if (status == 0 && command != 3) {
         status = Load.ERROR == true ? 3 : 0;
