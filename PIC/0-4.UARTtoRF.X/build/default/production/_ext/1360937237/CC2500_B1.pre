@@ -2645,6 +2645,36 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
+# 646
+struct UART {
+
+
+unsigned char Data[8];
+unsigned char Count;
+unsigned char TxLength;
+unsigned char RxLength;
+
+union {
+
+struct {
+unsigned TxGO : 1;
+unsigned RxGO : 1;
+unsigned empty : 6;
+};
+};
+};
+struct UART UART;
+
+void putch(unsigned char);
+unsigned char getch(void);
+unsigned char getche(void);
+void UART_Set();
+void UART_ISR();
+void UART_Main();
+void UART_Transmit();
+void UART_Receive();
+void UART_SetData();
+
 # 11 "../src/../0-4.UARTtoRF.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
@@ -2995,7 +3025,7 @@ set_TimeoutCleared();
 
 CC2500_WriteCommand(0x36);
 CC2500_WriteCommand(0x3B);
-CC2500_WriteCommand(0x3A);
+
 Transceive_OK = 1;
 }
 
@@ -3023,7 +3053,7 @@ SPI0Buffer = 0x3F + 0xC0;
 while (RC5 == 1 && myMain.Timeout == 0) {
 Timeout_Counter();
 };
-if (myMain.Timeout == 0) {
+set_TimeoutCleared();
 CC2500_WriteByte();
 
 CC2500_ReadByte();
@@ -3042,10 +3072,7 @@ Receive_OK = 1;
 
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 1;
-} else {
-RC0 = 1;
-}
-set_TimeoutCleared();
+
 }
 
 
@@ -3148,7 +3175,7 @@ inline void CC2500_SIDLEMode(void) {
 CC2500_WriteCommand(0x36);
 }
 
-# 222
+# 219
 inline void CC2500_WriteByte(void) {
 unsigned char loop_a;
 for (loop_a = 0; loop_a < 8; loop_a++) {

@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 150 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
+# 151 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -1903,7 +1903,7 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 757
+# 755
 struct WDT {
 
 union {
@@ -1917,7 +1917,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 785
+# 783
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -1934,12 +1934,13 @@ unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
-unsigned Tempty : 3;
+unsigned Test:1;
+unsigned Tempty : 1;
 };
 };
 unsigned int PowerCount;
 
-# 87
+# 88
 union {
 
 struct {
@@ -1968,16 +1969,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 122
+# 123
 inline void myMain_Initialization();
 
-# 127
+# 128
 inline void my_Main();
 
-# 132
+# 133
 inline void my_MainTimer();
 
-# 137
+# 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2291,15 +2292,16 @@ PIR_Initialization();
 ;;
 __nop();
 ;;
+;;
 
 while (1) {
 
 if (myMain.PowerON == 1) {
 
-# 41
+# 42
 getTemp_AD(0x11);
 
-# 49
+# 50
 getCDS_AD(0x09, 0x31);
 
 
@@ -2309,7 +2311,7 @@ getPIR_AD(0x05, 0x0d);
 
 }
 
-# 92
+# 93
 if (Timer1.Timeout == 1) {
 Timer1.Timeout = 0;
 my_MainTimer();
@@ -2336,12 +2338,13 @@ PIR_Main();
 ;;
 ;;
 ;;
+;;
 
-# 125
+# 126
 }
 }
 
-# 160
+# 161
 }
 return (0);
 }
@@ -2351,7 +2354,7 @@ return (0);
 
 inline void myMain_Initialization() {
 
-# 176
+# 177
 }
 
 
@@ -2365,18 +2368,25 @@ if (myMain.PowerCount == 150)
 myMain.PowerCount = 0;
 myMain.PowerON = 1;
 
-# 193
+# 194
 ;;
 myMain.SelfTest = 1;
 
-# 203
+# 204
 }
 } else {
+myMain.PowerCount++;
+if (myMain.PowerCount == 100) {
+myMain.PowerCount = 0;
 
-# 250
+;;
+
 }
 
-# 260
+# 258
+}
+
+# 268
 }
 
 
@@ -2412,14 +2422,14 @@ if (command != 0) {
 setLights_Trigger(1, 0);
 }
 
-# 320
+# 328
 }
 
 
 char getMain_AD_OK() {
 char result = 0;
 
-# 334
+# 342
 return result;
 }
 
@@ -2430,13 +2440,13 @@ char status = 0, count = 0;
 
 count = 1;
 
-# 351
+# 359
 for (int i = 0; i < count; i++) {
 if (status == 0) {
 
 status = getLights_Status(i + 1) == 1 ? 1 : 0;
 
-# 359
+# 367
 }
 }
 return status;
@@ -2446,12 +2456,12 @@ return status;
 char getMain_All_Error_Status(char command) {
 char status = 0;
 
-# 377
+# 385
 if (status == 0 && command != 2) {
 status = Temp.ERROR == 1 ? 2 : 0;
 }
 
-# 398
+# 406
 if (status == 0 && command != 5) {
 status = getCDS_Status() == 0 ? 5 : 0;
 }
@@ -2463,10 +2473,10 @@ return status;
 char getMain_Lights_Count() {
 char status1 = 0, status2 = 0, status3 = 0, count = 0;
 
-# 423
+# 431
 status1 = Lights1.Loop == 1 ? 1 : 0;
 
-# 432
+# 440
 return count = (status1 + status2 + status3);
 }
 
@@ -2477,7 +2487,7 @@ char ok = 0;
 
 ok = getLightsControl_OK() == 1 ? 1 : 0;
 
-# 445
+# 453
 return ok;
 }
 

@@ -5,43 +5,43 @@ Version 3.2 HI-TECH Software Intermediate Code
 "447
 [s S238 `S239 1 `ui 1 ]
 [n S238 Timer1 . Count ]
-"704
+"702
 [s S242 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :4 `uc 1 ]
 [n S242 . Modify GO LoopSave Runtime empty ]
-"702
+"700
 [u S241 `S242 1 ]
 [n S241 . . ]
-"696
+"694
 [s S240 `uc -> 32 `i `uc 1 `uc 1 `ui 1 `S241 1 ]
 [n S240 FlashMemory Data ReadDataH ReadDataL Time . ]
-"761
+"759
 [s S245 :1 `uc 1 :7 `uc 1 ]
 [n S245 . Enable empty ]
-"759
+"757
 [u S244 `S245 1 ]
 [n S244 . . ]
-"757
+"755
 [s S243 `S244 1 `uc 1 ]
 [n S243 WDT . Timer ]
 "11 ../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h
 [s S246 `uc -> 32 `i ]
 [n S246 Product Data ]
 "66
-[s S249 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
-[n S249 . PowerON Flag GO FirstOpen SelfTest First Tempty ]
+[s S249 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S249 . PowerON Flag GO FirstOpen SelfTest First Test Tempty ]
 "64
 [u S248 `S249 1 ]
 [n S248 . . ]
-"89
+"90
 [s S251 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S251 . i j k l m n o p ]
-"87
+"88
 [u S250 `S251 1 ]
 [n S250 . . ]
-"103
+"104
 [s S253 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
 [n S253 . q r Timeout empty ]
-"101
+"102
 [u S252 `S253 1 ]
 [n S252 . . ]
 "62
@@ -247,7 +247,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;stdlib.h: 109: extern char * ltoa(char * buf, long val, int base);
 [; ;stdlib.h: 110: extern char * ultoa(char * buf, unsigned long val, int base);
 [; ;stdlib.h: 112: extern char * ftoa(float f, int * status);
-[; ;Activity_B1.h: 152: typedef unsigned int ADtype;
+[; ;Activity_B1.h: 164: typedef unsigned int ADtype;
 [; ;htc.h: 21: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 24: extern void __builtin_software_breakpoint(void);
 [; ;pic16f1518.h: 47: extern volatile unsigned char INDF0 @ 0x000;
@@ -2086,27 +2086,45 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.h: 459: inline void setDimmerReClock();
 [; ;MCU_B1.h: 538: void IOC_Set();
 [; ;MCU_B1.h: 539: inline void IOC_ISR();
-[; ;MCU_B1.h: 696: struct FlashMemory {
-[; ;MCU_B1.h: 697: unsigned char Data[32];
-[; ;MCU_B1.h: 698: unsigned char ReadDataH;
-[; ;MCU_B1.h: 699: unsigned char ReadDataL;
-[; ;MCU_B1.h: 700: unsigned int Time;
-[; ;MCU_B1.h: 702: union {
-[; ;MCU_B1.h: 704: struct {
-[; ;MCU_B1.h: 705: unsigned Modify : 1;
-[; ;MCU_B1.h: 706: unsigned GO : 1;
-[; ;MCU_B1.h: 707: unsigned LoopSave : 1;
-[; ;MCU_B1.h: 708: unsigned Runtime:1;
-[; ;MCU_B1.h: 709: unsigned empty : 4;
+[; ;MCU_B1.h: 694: struct FlashMemory {
+[; ;MCU_B1.h: 695: unsigned char Data[32];
+[; ;MCU_B1.h: 696: unsigned char ReadDataH;
+[; ;MCU_B1.h: 697: unsigned char ReadDataL;
+[; ;MCU_B1.h: 698: unsigned int Time;
+[; ;MCU_B1.h: 700: union {
+[; ;MCU_B1.h: 702: struct {
+[; ;MCU_B1.h: 703: unsigned Modify : 1;
+[; ;MCU_B1.h: 704: unsigned GO : 1;
+[; ;MCU_B1.h: 705: unsigned LoopSave : 1;
+[; ;MCU_B1.h: 706: unsigned Runtime : 1;
+[; ;MCU_B1.h: 707: unsigned empty : 4;
+[; ;MCU_B1.h: 708: };
+[; ;MCU_B1.h: 709: };
 [; ;MCU_B1.h: 710: };
-[; ;MCU_B1.h: 711: };
-[; ;MCU_B1.h: 712: };
-"713
+"711
 [v _Memory `S240 ~T0 @X0 1 e ]
 [i _Memory
 :U ..
 :U ..
 :U ..
+"713
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+"714
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
 "715
 -> -> 0 `i `uc
 -> -> 0 `i `uc
@@ -2125,61 +2143,43 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
-"717
--> -> 0 `i `uc
--> -> 0 `i `uc
--> -> 0 `i `uc
--> -> 0 `i `uc
--> -> 0 `i `uc
--> -> 0 `i `uc
--> -> 0 `i `uc
--> -> 0 `i `uc
-"718
--> -> 0 `i `uc
--> -> 0 `i `uc
--> -> 0 `i `uc
--> -> 0 `i `uc
--> -> 0 `i `uc
--> -> 0 `i `uc
--> -> 0 `i `uc
--> -> 0 `i `uc
 ..
 ..
 ..
 ]
-[; ;MCU_B1.h: 713: struct FlashMemory Memory = {
-[; ;MCU_B1.h: 714: {
+[; ;MCU_B1.h: 711: struct FlashMemory Memory = {
+[; ;MCU_B1.h: 712: {
+[; ;MCU_B1.h: 713: 0, 0, 0, 0, 0, 0, 0, 0,
+[; ;MCU_B1.h: 714: 0, 0, 0, 0, 0, 0, 0, 0,
 [; ;MCU_B1.h: 715: 0, 0, 0, 0, 0, 0, 0, 0,
 [; ;MCU_B1.h: 716: 0, 0, 0, 0, 0, 0, 0, 0,
-[; ;MCU_B1.h: 717: 0, 0, 0, 0, 0, 0, 0, 0,
-[; ;MCU_B1.h: 718: 0, 0, 0, 0, 0, 0, 0, 0,
-[; ;MCU_B1.h: 719: }
-[; ;MCU_B1.h: 720: };
-[; ;MCU_B1.h: 727: void Flash_Memory_Initialization();
-[; ;MCU_B1.h: 728: void Flash_Memory_Unlock();
-[; ;MCU_B1.h: 729: char Flash_Memory_Read(char address);
-[; ;MCU_B1.h: 730: void Flash_Memory_Write();
-[; ;MCU_B1.h: 731: void Flash_Memory_Erasing();
-[; ;MCU_B1.h: 732: void Flash_Memory_Modify();
-[; ;MCU_B1.h: 733: void Flash_Memory_Main();
-[; ;MCU_B1.h: 734: void setMemory_Modify(char command);
-[; ;MCU_B1.h: 735: void setMemory_LoopSave(char command);
-[; ;MCU_B1.h: 736: void setMemory_Data(char address, char data);
-[; ;MCU_B1.h: 757: struct WDT {
-[; ;MCU_B1.h: 759: union {
-[; ;MCU_B1.h: 761: struct {
-[; ;MCU_B1.h: 762: unsigned Enable : 1;
-[; ;MCU_B1.h: 763: unsigned empty : 7;
-[; ;MCU_B1.h: 764: };
+[; ;MCU_B1.h: 717: }
+[; ;MCU_B1.h: 718: };
+[; ;MCU_B1.h: 725: void Flash_Memory_Initialization();
+[; ;MCU_B1.h: 726: void Flash_Memory_Unlock();
+[; ;MCU_B1.h: 727: char Flash_Memory_Read(char address);
+[; ;MCU_B1.h: 728: void Flash_Memory_Write();
+[; ;MCU_B1.h: 729: void Flash_Memory_Erasing();
+[; ;MCU_B1.h: 730: void Flash_Memory_Modify();
+[; ;MCU_B1.h: 731: void Flash_Memory_Main();
+[; ;MCU_B1.h: 732: void setMemory_Modify(char command);
+[; ;MCU_B1.h: 733: void setMemory_LoopSave(char command);
+[; ;MCU_B1.h: 734: void setMemory_Data(char address, char data);
+[; ;MCU_B1.h: 755: struct WDT {
+[; ;MCU_B1.h: 757: union {
+[; ;MCU_B1.h: 759: struct {
+[; ;MCU_B1.h: 760: unsigned Enable : 1;
+[; ;MCU_B1.h: 761: unsigned empty : 7;
+[; ;MCU_B1.h: 762: };
+[; ;MCU_B1.h: 763: };
+[; ;MCU_B1.h: 764: unsigned char Timer;
 [; ;MCU_B1.h: 765: };
-[; ;MCU_B1.h: 766: unsigned char Timer;
-[; ;MCU_B1.h: 767: };
-"768
+"766
 [v _WDT `S243 ~T0 @X0 1 e ]
-[; ;MCU_B1.h: 768: struct WDT WDT;
-[; ;MCU_B1.h: 785: void WDT_Set();
-[; ;MCU_B1.h: 786: void WDT_Main();
-[; ;MCU_B1.h: 787: void WDT_Clearing();
+[; ;MCU_B1.h: 766: struct WDT WDT;
+[; ;MCU_B1.h: 783: void WDT_Set();
+[; ;MCU_B1.h: 784: void WDT_Main();
+[; ;MCU_B1.h: 785: void WDT_Clearing();
 [; ;Main_B1.h: 11: typedef struct Product {
 [; ;Main_B1.h: 12: unsigned char Data[32];
 [; ;Main_B1.h: 13: } Product;
@@ -2250,50 +2250,51 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 70: unsigned FirstOpen : 1;
 [; ;Main_B1.h: 71: unsigned SelfTest : 1;
 [; ;Main_B1.h: 72: unsigned First : 1;
-[; ;Main_B1.h: 73: unsigned Tempty : 3;
-[; ;Main_B1.h: 74: };
+[; ;Main_B1.h: 73: unsigned Test:1;
+[; ;Main_B1.h: 74: unsigned Tempty : 1;
 [; ;Main_B1.h: 75: };
-[; ;Main_B1.h: 76: unsigned int PowerCount;
-[; ;Main_B1.h: 78: unsigned int Count;
-[; ;Main_B1.h: 79: unsigned int Count1;
-[; ;Main_B1.h: 80: unsigned int Count2;
-[; ;Main_B1.h: 81: unsigned int Count3;
-[; ;Main_B1.h: 87: union {
-[; ;Main_B1.h: 89: struct {
-[; ;Main_B1.h: 90: unsigned i : 1;
-[; ;Main_B1.h: 91: unsigned j : 1;
-[; ;Main_B1.h: 92: unsigned k : 1;
-[; ;Main_B1.h: 93: unsigned l : 1;
-[; ;Main_B1.h: 94: unsigned m : 1;
-[; ;Main_B1.h: 95: unsigned n : 1;
-[; ;Main_B1.h: 96: unsigned o : 1;
-[; ;Main_B1.h: 97: unsigned p : 1;
-[; ;Main_B1.h: 98: };
+[; ;Main_B1.h: 76: };
+[; ;Main_B1.h: 77: unsigned int PowerCount;
+[; ;Main_B1.h: 79: unsigned int Count;
+[; ;Main_B1.h: 80: unsigned int Count1;
+[; ;Main_B1.h: 81: unsigned int Count2;
+[; ;Main_B1.h: 82: unsigned int Count3;
+[; ;Main_B1.h: 88: union {
+[; ;Main_B1.h: 90: struct {
+[; ;Main_B1.h: 91: unsigned i : 1;
+[; ;Main_B1.h: 92: unsigned j : 1;
+[; ;Main_B1.h: 93: unsigned k : 1;
+[; ;Main_B1.h: 94: unsigned l : 1;
+[; ;Main_B1.h: 95: unsigned m : 1;
+[; ;Main_B1.h: 96: unsigned n : 1;
+[; ;Main_B1.h: 97: unsigned o : 1;
+[; ;Main_B1.h: 98: unsigned p : 1;
 [; ;Main_B1.h: 99: };
-[; ;Main_B1.h: 101: union {
-[; ;Main_B1.h: 103: struct {
-[; ;Main_B1.h: 104: unsigned q : 1;
-[; ;Main_B1.h: 105: unsigned r : 1;
-[; ;Main_B1.h: 106: unsigned Timeout : 1;
-[; ;Main_B1.h: 107: unsigned empty : 5;
-[; ;Main_B1.h: 108: };
+[; ;Main_B1.h: 100: };
+[; ;Main_B1.h: 102: union {
+[; ;Main_B1.h: 104: struct {
+[; ;Main_B1.h: 105: unsigned q : 1;
+[; ;Main_B1.h: 106: unsigned r : 1;
+[; ;Main_B1.h: 107: unsigned Timeout : 1;
+[; ;Main_B1.h: 108: unsigned empty : 5;
 [; ;Main_B1.h: 109: };
-[; ;Main_B1.h: 110: unsigned int Timeout_Counter;
-[; ;Main_B1.h: 112: };
-"113
+[; ;Main_B1.h: 110: };
+[; ;Main_B1.h: 111: unsigned int Timeout_Counter;
+[; ;Main_B1.h: 113: };
+"114
 [v _myMain `S247 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 113: struct myMain myMain;
-[; ;Main_B1.h: 122: inline void myMain_Initialization();
-[; ;Main_B1.h: 127: inline void my_Main();
-[; ;Main_B1.h: 132: inline void my_MainTimer();
-[; ;Main_B1.h: 137: inline void Timeout_Counter();
-[; ;Main_B1.h: 138: inline void set_TimeoutCleared();
-[; ;Main_B1.h: 139: void setMain_Exception(char command);
-[; ;Main_B1.h: 140: char getMain_AD_OK();
-[; ;Main_B1.h: 141: char getMain_LightsStatus();
-[; ;Main_B1.h: 142: char getMain_All_Error_Status(char command);
-[; ;Main_B1.h: 143: char getMain_Lights_Count();
-[; ;Main_B1.h: 144: char getMain_LoadOK();
+[; ;Main_B1.h: 114: struct myMain myMain;
+[; ;Main_B1.h: 123: inline void myMain_Initialization();
+[; ;Main_B1.h: 128: inline void my_Main();
+[; ;Main_B1.h: 133: inline void my_MainTimer();
+[; ;Main_B1.h: 138: inline void Timeout_Counter();
+[; ;Main_B1.h: 139: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 140: void setMain_Exception(char command);
+[; ;Main_B1.h: 141: char getMain_AD_OK();
+[; ;Main_B1.h: 142: char getMain_LightsStatus();
+[; ;Main_B1.h: 143: char getMain_All_Error_Status(char command);
+[; ;Main_B1.h: 144: char getMain_Lights_Count();
+[; ;Main_B1.h: 145: char getMain_LoadOK();
 [; ;Switch_B1.h: 14: struct Switch {
 [; ;Switch_B1.h: 16: union {
 [; ;Switch_B1.h: 18: struct {
@@ -3041,9 +3042,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;DelayOff_B1.h: 58: void setDelayOff_GO(char sw, char command, char value);
 [; ;DelayOff_B1.h: 59: char getDelayOff_GO(char sw);
 [; ;DelayOff_B1.h: 60: void DelayOffPointSelect(char sw);
-[v F2207 `(v ~T0 @X0 1 tf ]
+[v F2208 `(v ~T0 @X0 1 tf ]
 "11 ../src/Buzzer_B1.c
-[v _Buzzer_Initialization `TF2207 ~T0 @X0 1 e ]
+[v _Buzzer_Initialization `TF2208 ~T0 @X0 1 e ]
 {
 [; ;Buzzer_B1.c: 11: inline void Buzzer_Initialization() {
 [e :U _Buzzer_Initialization ]
@@ -3155,9 +3156,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "43
 [e :UE 294 ]
 }
-[v F2209 `(v ~T0 @X0 1 tf ]
+[v F2210 `(v ~T0 @X0 1 tf ]
 "46
-[v _Buzzer_Main `TF2209 ~T0 @X0 1 e ]
+[v _Buzzer_Main `TF2210 ~T0 @X0 1 e ]
 {
 [; ;Buzzer_B1.c: 46: inline void Buzzer_Main() {
 [e :U _Buzzer_Main ]

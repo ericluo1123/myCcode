@@ -5,31 +5,31 @@ Version 3.2 HI-TECH Software Intermediate Code
 "447
 [s S136 `S137 1 `ui 1 ]
 [n S136 Timer1 . Count ]
-"761
+"759
 [s S140 :1 `uc 1 :7 `uc 1 ]
 [n S140 . Enable empty ]
-"759
+"757
 [u S139 `S140 1 ]
 [n S139 . . ]
-"757
+"755
 [s S138 `S139 1 `uc 1 ]
 [n S138 WDT . Timer ]
 "66 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
-[s S143 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
-[n S143 . PowerON Flag GO FirstOpen SelfTest First Tempty ]
+[s S143 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S143 . PowerON Flag GO FirstOpen SelfTest First Test Tempty ]
 "64
 [u S142 `S143 1 ]
 [n S142 . . ]
-"89
+"90
 [s S145 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S145 . i j k l m n o p ]
-"87
+"88
 [u S144 `S145 1 ]
 [n S144 . . ]
-"103
+"104
 [s S147 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
 [n S147 . q r Timeout empty ]
-"101
+"102
 [u S146 `S147 1 ]
 [n S146 . . ]
 "62
@@ -121,7 +121,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _Lights_Control `(v ~T0 @X0 0 ef1`uc ]
 "74
 [v _Lights_Close `(v ~T0 @X0 0 ef ]
-"141 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
+"142 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
 [v _getMain_LightsStatus `(uc ~T0 @X0 0 ef ]
 "79 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
 [v _setLights `(v ~T0 @X0 0 ef2`uc`uc ]
@@ -215,7 +215,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;stdlib.h: 109: extern char * ltoa(char * buf, long val, int base);
 [; ;stdlib.h: 110: extern char * ultoa(char * buf, unsigned long val, int base);
 [; ;stdlib.h: 112: extern char * ftoa(float f, int * status);
-[; ;Activity_B1.h: 150: typedef unsigned char ADtype;
+[; ;Activity_B1.h: 151: typedef unsigned char ADtype;
 [; ;htc.h: 21: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 24: extern void __builtin_software_breakpoint(void);
 [; ;pic16f723a.h: 47: extern volatile unsigned char INDF @ 0x000;
@@ -1492,21 +1492,21 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.h: 457: inline void TMR1_Set();
 [; ;MCU_B1.h: 458: inline void TMR1_ISR();
 [; ;MCU_B1.h: 459: inline void setDimmerReClock();
-[; ;MCU_B1.h: 757: struct WDT {
-[; ;MCU_B1.h: 759: union {
-[; ;MCU_B1.h: 761: struct {
-[; ;MCU_B1.h: 762: unsigned Enable : 1;
-[; ;MCU_B1.h: 763: unsigned empty : 7;
-[; ;MCU_B1.h: 764: };
+[; ;MCU_B1.h: 755: struct WDT {
+[; ;MCU_B1.h: 757: union {
+[; ;MCU_B1.h: 759: struct {
+[; ;MCU_B1.h: 760: unsigned Enable : 1;
+[; ;MCU_B1.h: 761: unsigned empty : 7;
+[; ;MCU_B1.h: 762: };
+[; ;MCU_B1.h: 763: };
+[; ;MCU_B1.h: 764: unsigned char Timer;
 [; ;MCU_B1.h: 765: };
-[; ;MCU_B1.h: 766: unsigned char Timer;
-[; ;MCU_B1.h: 767: };
-"768
+"766
 [v _WDT `S138 ~T0 @X0 1 e ]
-[; ;MCU_B1.h: 768: struct WDT WDT;
-[; ;MCU_B1.h: 785: void WDT_Set();
-[; ;MCU_B1.h: 786: void WDT_Main();
-[; ;MCU_B1.h: 787: void WDT_Clearing();
+[; ;MCU_B1.h: 766: struct WDT WDT;
+[; ;MCU_B1.h: 783: void WDT_Set();
+[; ;MCU_B1.h: 784: void WDT_Main();
+[; ;MCU_B1.h: 785: void WDT_Clearing();
 [; ;Main_B1.h: 62: struct myMain {
 [; ;Main_B1.h: 64: union {
 [; ;Main_B1.h: 66: struct {
@@ -1516,46 +1516,47 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 70: unsigned FirstOpen : 1;
 [; ;Main_B1.h: 71: unsigned SelfTest : 1;
 [; ;Main_B1.h: 72: unsigned First : 1;
-[; ;Main_B1.h: 73: unsigned Tempty : 3;
-[; ;Main_B1.h: 74: };
+[; ;Main_B1.h: 73: unsigned Test:1;
+[; ;Main_B1.h: 74: unsigned Tempty : 1;
 [; ;Main_B1.h: 75: };
-[; ;Main_B1.h: 76: unsigned int PowerCount;
-[; ;Main_B1.h: 87: union {
-[; ;Main_B1.h: 89: struct {
-[; ;Main_B1.h: 90: unsigned i : 1;
-[; ;Main_B1.h: 91: unsigned j : 1;
-[; ;Main_B1.h: 92: unsigned k : 1;
-[; ;Main_B1.h: 93: unsigned l : 1;
-[; ;Main_B1.h: 94: unsigned m : 1;
-[; ;Main_B1.h: 95: unsigned n : 1;
-[; ;Main_B1.h: 96: unsigned o : 1;
-[; ;Main_B1.h: 97: unsigned p : 1;
-[; ;Main_B1.h: 98: };
+[; ;Main_B1.h: 76: };
+[; ;Main_B1.h: 77: unsigned int PowerCount;
+[; ;Main_B1.h: 88: union {
+[; ;Main_B1.h: 90: struct {
+[; ;Main_B1.h: 91: unsigned i : 1;
+[; ;Main_B1.h: 92: unsigned j : 1;
+[; ;Main_B1.h: 93: unsigned k : 1;
+[; ;Main_B1.h: 94: unsigned l : 1;
+[; ;Main_B1.h: 95: unsigned m : 1;
+[; ;Main_B1.h: 96: unsigned n : 1;
+[; ;Main_B1.h: 97: unsigned o : 1;
+[; ;Main_B1.h: 98: unsigned p : 1;
 [; ;Main_B1.h: 99: };
-[; ;Main_B1.h: 101: union {
-[; ;Main_B1.h: 103: struct {
-[; ;Main_B1.h: 104: unsigned q : 1;
-[; ;Main_B1.h: 105: unsigned r : 1;
-[; ;Main_B1.h: 106: unsigned Timeout : 1;
-[; ;Main_B1.h: 107: unsigned empty : 5;
-[; ;Main_B1.h: 108: };
+[; ;Main_B1.h: 100: };
+[; ;Main_B1.h: 102: union {
+[; ;Main_B1.h: 104: struct {
+[; ;Main_B1.h: 105: unsigned q : 1;
+[; ;Main_B1.h: 106: unsigned r : 1;
+[; ;Main_B1.h: 107: unsigned Timeout : 1;
+[; ;Main_B1.h: 108: unsigned empty : 5;
 [; ;Main_B1.h: 109: };
-[; ;Main_B1.h: 110: unsigned int Timeout_Counter;
-[; ;Main_B1.h: 112: };
-"113 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
+[; ;Main_B1.h: 110: };
+[; ;Main_B1.h: 111: unsigned int Timeout_Counter;
+[; ;Main_B1.h: 113: };
+"114 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
 [v _myMain `S141 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 113: struct myMain myMain;
-[; ;Main_B1.h: 122: inline void myMain_Initialization();
-[; ;Main_B1.h: 127: inline void my_Main();
-[; ;Main_B1.h: 132: inline void my_MainTimer();
-[; ;Main_B1.h: 137: inline void Timeout_Counter();
-[; ;Main_B1.h: 138: inline void set_TimeoutCleared();
-[; ;Main_B1.h: 139: void setMain_Exception(char command);
-[; ;Main_B1.h: 140: char getMain_AD_OK();
-[; ;Main_B1.h: 141: char getMain_LightsStatus();
-[; ;Main_B1.h: 142: char getMain_All_Error_Status(char command);
-[; ;Main_B1.h: 143: char getMain_Lights_Count();
-[; ;Main_B1.h: 144: char getMain_LoadOK();
+[; ;Main_B1.h: 114: struct myMain myMain;
+[; ;Main_B1.h: 123: inline void myMain_Initialization();
+[; ;Main_B1.h: 128: inline void my_Main();
+[; ;Main_B1.h: 133: inline void my_MainTimer();
+[; ;Main_B1.h: 138: inline void Timeout_Counter();
+[; ;Main_B1.h: 139: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 140: void setMain_Exception(char command);
+[; ;Main_B1.h: 141: char getMain_AD_OK();
+[; ;Main_B1.h: 142: char getMain_LightsStatus();
+[; ;Main_B1.h: 143: char getMain_All_Error_Status(char command);
+[; ;Main_B1.h: 144: char getMain_Lights_Count();
+[; ;Main_B1.h: 145: char getMain_LoadOK();
 [; ;Switch_B1.h: 96: struct SwitchDetect {
 [; ;Switch_B1.h: 98: union {
 [; ;Switch_B1.h: 100: struct {

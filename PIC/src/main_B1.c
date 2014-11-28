@@ -112,7 +112,7 @@ int main(int argc, char** argv) {
                 Switch_Main();
                 CDS_Main();
                 PIR_Main();
- 
+
                 RF_Main();
                 DelayOff_Main();
                 SegmentDisplay_Main();
@@ -203,6 +203,15 @@ inline void my_MainTimer() {
 #endif
         }
     } else {
+
+        myMain.PowerCount++;
+        if (myMain.PowerCount == 100) {//*10ms
+            myMain.PowerCount = 0;
+            ErrLED = ErrLED == true ? false : true;
+#ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
+            UART_SetData();
+#endif
+        }
 #if Dimmer_use == 1 && Serial_Number == 1
         DimmerLightsOpenShow();
 #endif
@@ -254,10 +263,6 @@ inline void my_MainTimer() {
     if (myMain.Count2 == 100) {
         myMain.Count2 = 0;
 #if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 
-        setTxData();
-#endif
-
-#if myUARTtoRF_use == 1
         setTxData();
 #endif
     }

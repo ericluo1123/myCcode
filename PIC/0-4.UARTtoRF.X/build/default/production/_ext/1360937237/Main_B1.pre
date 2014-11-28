@@ -2645,6 +2645,36 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
+# 646
+struct UART {
+
+
+unsigned char Data[8];
+unsigned char Count;
+unsigned char TxLength;
+unsigned char RxLength;
+
+union {
+
+struct {
+unsigned TxGO : 1;
+unsigned RxGO : 1;
+unsigned empty : 6;
+};
+};
+};
+struct UART UART;
+
+void putch(unsigned char);
+unsigned char getch(void);
+unsigned char getche(void);
+void UART_Set();
+void UART_ISR();
+void UART_Main();
+void UART_Transmit();
+void UART_Receive();
+void UART_SetData();
+
 # 11 "../src/../0-4.UARTtoRF.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
@@ -2995,7 +3025,7 @@ Timer1.Timeout = 0;
 my_MainTimer();
 ;;
 ;;
-;;
+UART_Main();
 if (myMain.PowerON == 1) {
 ;;
 
@@ -3056,22 +3086,28 @@ myMain.SelfTest = 1;
 # 204
 }
 } else {
+myMain.PowerCount++;
+if (myMain.PowerCount == 100) {
+myMain.PowerCount = 0;
 
-# 213
+# 212
+}
+
+# 220
 myMain.Count1++;
 if (myMain.Count1 == 100)
 {
 myMain.Count1 = 0;
 
-# 228
+# 235
 if (myMain.Flag) {
 myMain.Flag = 0;
 
-# 238
+# 245
 } else {
 myMain.Flag = 1;
 
-# 248
+# 255
 }
 }
 
@@ -3081,9 +3117,7 @@ myMain.Count2++;
 if (myMain.Count2 == 100) {
 myMain.Count2 = 0;
 
-# 261
-setTxData();
-
+# 266
 }
 
 }
@@ -3107,14 +3141,14 @@ myMain.Timeout_Counter = 0;
 void setMain_Exception(char command) {
 char status = 0, buz = 0;
 
-# 325
+# 328
 }
 
 
 char getMain_AD_OK() {
 char result = 0;
 
-# 339
+# 342
 return result;
 }
 
@@ -3122,11 +3156,11 @@ return result;
 char getMain_LightsStatus() {
 char status = 0, count = 0;
 
-# 356
+# 359
 for (int i = 0; i < count; i++) {
 if (status == 0) {
 
-# 364
+# 367
 }
 }
 return status;
@@ -3136,7 +3170,7 @@ return status;
 char getMain_All_Error_Status(char command) {
 char status = 0;
 
-# 407
+# 410
 return status;
 }
 
@@ -3144,7 +3178,7 @@ return status;
 char getMain_Lights_Count() {
 char status1 = 0, status2 = 0, status3 = 0, count = 0;
 
-# 437
+# 440
 return count = (status1 + status2 + status3);
 }
 
@@ -3152,7 +3186,7 @@ return count = (status1 + status2 + status3);
 char getMain_LoadOK() {
 char ok = 0;
 
-# 450
+# 453
 return ok;
 }
 

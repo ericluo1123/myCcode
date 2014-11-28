@@ -2645,6 +2645,36 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
+# 646
+struct UART {
+
+
+unsigned char Data[8];
+unsigned char Count;
+unsigned char TxLength;
+unsigned char RxLength;
+
+union {
+
+struct {
+unsigned TxGO : 1;
+unsigned RxGO : 1;
+unsigned empty : 6;
+};
+};
+};
+struct UART UART;
+
+void putch(unsigned char);
+unsigned char getch(void);
+unsigned char getche(void);
+void UART_Set();
+void UART_ISR();
+void UART_Main();
+void UART_Transmit();
+void UART_Receive();
+void UART_SetData();
+
 # 11 "../src/../0-4.UARTtoRF.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
@@ -2984,7 +3014,7 @@ TMR1_Set();
 
 ;;
 
-;;
+UART_Set();
 
 ;;
 }
@@ -2999,7 +3029,7 @@ void IO_Set() {
 # 73
 TRISA = 0b00000000;;
 TRISB = 0b00000000;;
-TRISC = 0b00100110;;
+TRISC = 0b11100110;;
 LATA = 0b00000000;;
 LATB = 0b00000000;;
 LATC = 0b00000000;;
@@ -3008,7 +3038,7 @@ ANSELB = 0b00000000;;
 ANSELC = 0b00000000;;
 PORTA = 0b00000000;;
 PORTB = 0b00000000;;
-PORTC = 0b00100110;;
+PORTC = 0b11100110;;
 
 # 101
 }
@@ -3026,7 +3056,7 @@ TMR1_ISR();
 
 ;;
 
-;;
+UART_ISR();
 
 ;;
 }
@@ -3063,5 +3093,107 @@ Timer1.Timeout = 1;
 inline void setDimmerReClock() {
 
 # 263
+}
+
+# 719
+void UART_Set() {
+
+TRISC7 = 1;
+TRISC6 = 1;
+SPBRG = ((int)(16000000L/(16UL * 19200) -1));
+
+SPBRGH = 0;
+BRG16 = 0;
+
+RCSTA = (0 | 0x90);
+TXSTA = (0x4 | 0 | 0x20);
+TX9 = 0;
+RX9 = 0;
+TXIE = 0;
+RCIE = 1;
+PEIE = 1;
+GIE = 1;
+}
+
+
+void UART_ISR() {
+char i;
+if (RCIE == 1 && RCIF == 1) {
+
+
+
+
+UART.Data[1] = getch();
+UART.RxGO = 1;
+RCIF = 0;
+
+}
+}
+
+void UART_Main() {
+if (UART.RxGO == 1) {
+UART.RxGO = 0;
+UART_Receive();
+;;
+
+
+} else {
+if (UART.TxGO == 1) {
+UART.TxGO = 0;
+UART_Transmit();
+}
+}
+}
+
+void UART_Transmit() {
+
+putch(UART.Data[0]);
+
+# 781
+}
+
+void UART_Receive() {
+char i;
+
+# 792
+RA1 = RA1 == 1 ? 0 : 1;
+product->Data[2] = UART.Data[1];
+setTxData();
+
+
+
+myMain.Test = 1;
+
+# 812
+}
+
+void UART_SetData() {
+
+# 829
+UART.Data[0] = 0x64;
+UART.TxGO = 1;
+}
+
+
+void putch(unsigned char byte) {
+
+while (!TXIF)
+continue;
+TXREG = byte;
+}
+
+
+unsigned char getch() {
+
+while (!RCIF)
+continue;
+return RCREG;
+}
+
+
+unsigned char getche(void) {
+unsigned char c;
+putch(c = getch());
+return c;
 }
 

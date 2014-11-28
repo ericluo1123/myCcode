@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 152 "../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
+# 164 "../src/../1-8.Switch_2Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2659,7 +2659,7 @@ inline void setDimmerReClock();
 void IOC_Set();
 inline void IOC_ISR();
 
-# 696
+# 694
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2672,7 +2672,7 @@ struct {
 unsigned Modify : 1;
 unsigned GO : 1;
 unsigned LoopSave : 1;
-unsigned Runtime:1;
+unsigned Runtime : 1;
 unsigned empty : 4;
 };
 };
@@ -2686,7 +2686,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 727
+# 725
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -2698,7 +2698,7 @@ void setMemory_Modify(char command);
 void setMemory_LoopSave(char command);
 void setMemory_Data(char address, char data);
 
-# 757
+# 755
 struct WDT {
 
 union {
@@ -2712,7 +2712,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 785
+# 783
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -2745,7 +2745,8 @@ unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
-unsigned Tempty : 3;
+unsigned Test:1;
+unsigned Tempty : 1;
 };
 };
 unsigned int PowerCount;
@@ -2755,7 +2756,7 @@ unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 87
+# 88
 union {
 
 struct {
@@ -2784,16 +2785,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 122
+# 123
 inline void myMain_Initialization();
 
-# 127
+# 128
 inline void my_Main();
 
-# 132
+# 133
 inline void my_MainTimer();
 
-# 137
+# 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -3461,22 +3462,23 @@ Switch_Initialization();
 RF_Initialization();
 CC2500_PowerOnInitial();
 ;;
+;;
 
 while (1) {
 
 if (myMain.PowerON == 1) {
 
-# 37
+# 38
 getLoad_AD(0x05);
 
 
 
 getTemp_AD(0x09);
 
-# 56
+# 57
 }
 
-# 92
+# 93
 if (Timer1.Timeout == 1) {
 Timer1.Timeout = 0;
 my_MainTimer();
@@ -3503,12 +3505,13 @@ Switch_Main();
 RF_Main();
 DelayOff_Main();
 ;;
+;;
 
-# 125
+# 126
 }
 }
 
-# 160
+# 161
 }
 return (0);
 }
@@ -3521,7 +3524,7 @@ inline void myMain_Initialization() {
 product = &_product;
 product->Data[20] = 210;
 
-# 176
+# 177
 }
 
 
@@ -3535,29 +3538,37 @@ if (myMain.PowerCount == 150)
 myMain.PowerCount = 0;
 myMain.PowerON = 1;
 
-# 193
+# 194
 setBuz(3, 50);
 myMain.SelfTest = 1;
 
-# 203
+# 204
 }
 } else {
 
-# 212
+myMain.PowerCount++;
+if (myMain.PowerCount == 100) {
+myMain.PowerCount = 0;
+RB5 = RB5 == 1 ? 0 : 1;
+
+# 214
+}
+
+# 222
 myMain.Count1++;
 if (myMain.Count1 == 100)
 {
 myMain.Count1 = 0;
 
-# 227
+# 237
 if (myMain.Flag) {
 myMain.Flag = 0;
 
-# 237
+# 247
 } else {
 myMain.Flag = 1;
 
-# 247
+# 257
 }
 }
 
@@ -3567,7 +3578,7 @@ myMain.Count2++;
 if (myMain.Count2 == 100) {
 myMain.Count2 = 0;
 
-# 258
+# 268
 }
 
 }
@@ -3591,7 +3602,7 @@ myMain.Timeout_Counter = 0;
 void setMain_Exception(char command) {
 char status = 0, buz = 0;
 
-# 296
+# 306
 status = command == 3 ? getDimmerLights_Line() : 255;
 
 if (command == 0) {
@@ -3622,7 +3633,7 @@ setDimmerLights_ErrorClose(status);
 char getMain_AD_OK() {
 char result = 0;
 
-# 330
+# 340
 if (result == 0) {
 
 }
@@ -3632,16 +3643,16 @@ return result;
 
 
 char getMain_LightsStatus() {
-char status = 0;
+char status = 0, count = 0;
 
-# 345
-char count = 2;
+# 355
+count = 2;
 
-# 351
+# 361
 for (int i = 0; i < count; i++) {
 if (status == 0) {
 
-# 357
+# 367
 status = getDimmerLights_Status(i + 1) == 1 ? 1 : 0;
 
 }
@@ -3653,7 +3664,7 @@ return status;
 char getMain_All_Error_Status(char command) {
 char status = 0;
 
-# 377
+# 387
 if (status == 0 && command != 2) {
 status = Temp.ERROR == 1 ? 2 : 0;
 }
@@ -3665,7 +3676,7 @@ if (status == 0 && command != 3) {
 status = Load.ERROR == 1 ? 3 : 0;
 }
 
-# 402
+# 412
 return status;
 }
 
@@ -3680,7 +3691,7 @@ status1 = DimmerLights1.Loop == 1 ? 1 : 0;
 
 status2 = DimmerLights2.Loop == 1 ? 1 : 0;
 
-# 432
+# 442
 return count = (status1 + status2 + status3);
 }
 
@@ -3688,7 +3699,7 @@ return count = (status1 + status2 + status3);
 char getMain_LoadOK() {
 char ok = 0;
 
-# 443
+# 453
 ok = getDimmer_LoadOK() == 1 ? 1 : 0;
 
 return ok;

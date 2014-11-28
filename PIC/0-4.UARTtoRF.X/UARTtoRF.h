@@ -69,7 +69,7 @@
 //I/O
 #define _TRISA 	0b00000000;
 #define _TRISB 	0b00000000;
-#define _TRISC 	0b00100110;
+#define _TRISC 	0b11100110;
 #define _LATA	0b00000000;
 #define _LATB	0b00000000;
 #define _LATC	0b00000000;
@@ -78,7 +78,7 @@
 #define _ANSELC 0b00000000;
 #define _PORTA 	0b00000000;
 #define _PORTB 	0b00000000;
-#define _PORTC 	0b00100110;
+#define _PORTC 	0b11100110;
 
 //ADC channel
 #define OverLoad_Channel		AN1
@@ -104,9 +104,11 @@
 //INT
 #define INT_use_Value   0
 //UART
-#define UART_use_Value      0
-#define UART_Master_Value   1
-#define UART_Slave_Value    0
+#define UART_use_Value              1
+#define UART_Master_Value           1
+#define UART_Slave_Value            0
+#define UART_Data_Length_Vallue     1
+#define BAUD 19200
 //I2C
 #define I2C_use_Value       0
 #define Master_Mode_Value   1

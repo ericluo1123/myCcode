@@ -644,8 +644,9 @@ void I2C_SetData(char command);
 //Global extern varitable declaration
 
 struct UART {
-    unsigned char TxData[32];
-    unsigned char RxData[32];
+//    unsigned char TxData[32];
+//    unsigned char RxData[32];
+    unsigned char Data[8];
     unsigned char Count;
     unsigned char TxLength;
     unsigned char RxLength;
@@ -659,10 +660,7 @@ struct UART {
         };
     };
 };
-struct UART *UART;
-struct UART VarUart;
-
-#define setUart_TxData(data) printf("%c",Uart->TxData[data])
+struct UART UART;
 
 void putch(unsigned char);
 unsigned char getch(void);
@@ -705,7 +703,7 @@ struct FlashMemory {
             unsigned Modify : 1;
             unsigned GO : 1;
             unsigned LoopSave : 1;
-            unsigned Runtime:1;
+            unsigned Runtime : 1;
             unsigned empty : 4;
         };
     };

@@ -12,6 +12,7 @@
 ../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h  \
 ../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h  \
 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h  \
+../src/../2-1.PIR_Ceiling_Embed.X/../src/myUARTtoRF.h  \
 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Dimmer_B1.h  \
 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h  \
 ../src/../2-1.PIR_Ceiling_Embed.X/../src/PowerFault_B1.h  \

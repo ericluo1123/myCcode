@@ -88,29 +88,26 @@ inline void CC2500_RxData(void) {
         while (CC2500_SO == 1 && myMain.Timeout == false) {
             Timeout_Counter();
         };
-        if (myMain.Timeout == false) {
-            CC2500_WriteByte();
-
-            CC2500_ReadByte();
-            Rx_Length = SPI0Buffer;
-            for (loop_f = 0; loop_f < Rx_Length; loop_f++) {
-                CC2500_ReadByte();
-                RF_Data[loop_f] = SPI0Buffer;
-            }
-            CC2500_ReadByte(); // Read RSSI data
-            RSSI = SPI0Buffer;
-            CC2500_ReadByte();
-            CRC = SPI0Buffer;
-            CC2500_CSN = 1;
-            if (CRC & 0x80)
-                Receive_OK = 1;
-
-            RF1.RxStatus = false;
-            RF1.ReceiveGO = true;
-        } else {
-            CC2500_CSN = 1;
-        }
         set_TimeoutCleared();
+        CC2500_WriteByte();
+
+        CC2500_ReadByte();
+        Rx_Length = SPI0Buffer;
+        for (loop_f = 0; loop_f < Rx_Length; loop_f++) {
+            CC2500_ReadByte();
+            RF_Data[loop_f] = SPI0Buffer;
+        }
+        CC2500_ReadByte(); // Read RSSI data
+        RSSI = SPI0Buffer;
+        CC2500_ReadByte();
+        CRC = SPI0Buffer;
+        CC2500_CSN = 1;
+        if (CRC & 0x80)
+            Receive_OK = 1;
+
+        RF1.RxStatus = false;
+        RF1.ReceiveGO = true;
+
     }
     //    CC2500_WriteCommand(CC2500_SIDLE); // idle
     //    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data

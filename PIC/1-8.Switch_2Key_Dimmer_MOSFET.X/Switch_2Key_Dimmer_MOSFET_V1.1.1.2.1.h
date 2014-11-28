@@ -156,6 +156,8 @@
 #define CDS_use_Value 0
 //PIR
 #define PIR_use_Value 0
+//UART to RF
+#define myUARTtoRF_use_Value 0
 
 
 
@@ -179,6 +181,7 @@
 #include "../src/SYSC_B1.h"
 #include "../src/TriacRelay_B1.h"
 #include "../src/SegmentDisplay_A2.h"
+#include "../src/myUARTtoRF.h"
 
 //end file
 #endif

@@ -12,6 +12,6 @@ void myUARTtoRF_Initialization() {
 //******************************************************************************
 
 void myUARTtoRF_Main() {
-
+    setTxData();
 }
 #endif

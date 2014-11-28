@@ -10,7 +10,7 @@ inline void DimmerIntrIOCPointSelect(char lights) {
     if (lights == 1) {
         DimmerLightsIntrIOC = &DimmerLights1;
     }
-#endif
+#endif 
 #ifdef use_2KEY
     if (lights == 2) {
         DimmerLightsIntrIOC = &DimmerLights2;

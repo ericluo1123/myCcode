@@ -13,6 +13,7 @@
 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/LED_B1.h  \
 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/CDS_B1.h  \
 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Switch_B1.h  \
+../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/myUARTtoRF.h  \
 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h  \
 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h  \
 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/PowerFault_B1.h  \

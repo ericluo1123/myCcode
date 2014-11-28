@@ -538,9 +538,9 @@ void I2C_Main() {
         LED2 = LED2 == true ? true : false;
 #if UART_use == true
         for (i = 0; i < 32; i++) {
-            UART->TxData[i] = I2C->BufferReader[i];
+            UART.TxData[i] = I2C->BufferReader[i];
         }
-        UART->TxGO = true;
+        UART.TxGO = true;
 #endif
     } else {
         if (SS1 == true) {
@@ -717,73 +717,88 @@ void I2C_Slave_Mode() {
 #if UART_use == true
 
 void UART_Set() {
-    UART = &VarUart;
+    //    UART = &VarUart;
     RX_PIN = 1;
     TX_PIN = 1;
     SPBRG = DIVIDER;
+#ifndef MCU_16F723A
     SPBRGH = DIVIDER_H;
     BRG16 = BRG_16;
+#endif
     RCSTA = (NINE_BITS | 0x90);
     TXSTA = (SPEED | NINE_BITS | 0x20);
     TX9 = 0;
     RX9 = 0;
-    TXIE = 0;
-    RCIE = 1;
-    PEIE = 1;
-    GIE = 1;
+    TXIE = false;
+    RCIE = true;
+    PEIE = true;
+    GIE = true;
 }
 //*********************************************************
 
 void UART_ISR() {
     char i;
-    if (RCIE && RCIF) {
-        RCIE = 0;
-        for (i = 0; i < 32; i++) {
-            UART->RxData[i] = getche();
-        }
-        UART->RxGO = 1;
+    if (RCIE == true && RCIF == true) {
+        //        RCIE = false;
+        //        for (i = 0; i < UART_Data_Length; i++) {
+        //            UART.Data[i] = getch();
+        //        }
+        UART.Data[1] = getch();
+        UART.RxGO = true;
+        RCIF = false;
+
     }
 }
 
 void UART_Main() {
-    if (UART->RxGO == true) {
-        UART->RxGO = false;
+    if (UART.RxGO == true) {
+        UART.RxGO = false;
         UART_Receive();
-        setSegmentDisplayNumber(UART->RxData[5]);
-        RCIE = 1;
+        setSegmentDisplayNumber(UART.RxData[5]);
+        //        RCIE = true;
+
     } else {
-        if (UART->TxGO == true) {
-            UART->TxGO = false;
+        if (UART.TxGO == true) {
+            UART.TxGO = false;
             UART_Transmit();
         }
     }
 }
 
 void UART_Transmit() {
-    char i;
-    int j;
-
-    for (i = 0; i < 32; i++) {
-        //	printf("%d,",i);
-        printf("%d,", UART->TxData[i]);
-        //	while(!TRMT);
-        //	while(!TXIF)	/* set when register is empty */
-        //		continue;
-        //	printf("%d,",i);
-        //	TXREG = UART->TxData[i];
-        //	TXREG=UART->TxData[i];
-        //	printf(",");
-    }
+    //    printf("%d,", UART.Data[0]);
+    putch(UART.Data[0]);
+    //    for (int i = 0; i < UART_Data_Length; i++) {
+    //        printf("%d,", UART.Data[i]);
+    //        //	while(!TRMT);
+    //        //	while(!TXIF)	/* set when register is empty */
+    //        //		continue;
+    //        //	printf("%d,",i);
+    //        //	TXREG = UART.TxData[i];
+    //        //	TXREG=UART.TxData[i];
+    //        //	printf(",");
+    //    }
 }
 
 void UART_Receive() {
     char i;
-    //    LED2 = ~LED2;
+#ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
+    if (UART.Data[1] == 0x64) {
+        ErrLED = ErrLED == true ? false : true;
+    }
+#endif
+#ifdef  _UARTtoRF_H_
+#if CC2500_use == 1
+    LED1 = LED1 == true ? false : true;
+    product->Data[2] = UART.Data[1];
+    setTxData();
+#endif
+#endif
 #if UART_Master == 1
     myMain.Test = 1;
 #if I2C_use == 1
     for (i = 0; i < 32; i++) {
-        I2C->BufferWriter[i] = UART->RxData[i];
+        I2C->BufferWriter[i] = UART.RxData[i];
     }
     I2C->MasterTxGO = 1;
 #endif
@@ -791,24 +806,28 @@ void UART_Receive() {
 
 #if UART_Slave == 1
     for (i = 0; i < 21; i++) {
-        RF_Data[i] = UART->RxData[i];
+        RF_Data[i] = UART.RxData[i];
     }
-#if CC2500_use == 1
-    RF->TransceiveGO = 1;
 #endif
-#endif
-
 }
 
 void UART_SetData() {
-    char i;
 #if UART_Slave == 1
-    for (i = 0; i < 21; i++) {
-        UART->TxData[i] = RF_Data[i];
+    for (int = 0; i < 21; i++) {
+        UART.TxData[i] = RF_Data[i];
     }
-    UART->TxGO = 1;
+    UART.TxGO = 1;
     LED2 = ~LED2;
-#endif		
+#endif
+
+    //    for (int i = 0; i < UART_Data_Length; i++) {
+    //        UART.Data[i] = 1;
+    //    }
+#ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
+        ErrLED = ErrLED == true ? false : true;
+#endif
+    UART.Data[0] = 0x64;
+    UART.TxGO = true;
 }
 //*********************************************************
 

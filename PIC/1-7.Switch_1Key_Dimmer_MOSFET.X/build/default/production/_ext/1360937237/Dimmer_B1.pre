@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 152 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
+# 164 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2659,7 +2659,7 @@ inline void setDimmerReClock();
 void IOC_Set();
 inline void IOC_ISR();
 
-# 696
+# 694
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2672,7 +2672,7 @@ struct {
 unsigned Modify : 1;
 unsigned GO : 1;
 unsigned LoopSave : 1;
-unsigned Runtime:1;
+unsigned Runtime : 1;
 unsigned empty : 4;
 };
 };
@@ -2686,7 +2686,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 727
+# 725
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -2698,7 +2698,7 @@ void setMemory_Modify(char command);
 void setMemory_LoopSave(char command);
 void setMemory_Data(char address, char data);
 
-# 757
+# 755
 struct WDT {
 
 union {
@@ -2712,7 +2712,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 785
+# 783
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -2745,7 +2745,8 @@ unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
-unsigned Tempty : 3;
+unsigned Test:1;
+unsigned Tempty : 1;
 };
 };
 unsigned int PowerCount;
@@ -2755,7 +2756,7 @@ unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 87
+# 88
 union {
 
 struct {
@@ -2784,16 +2785,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 122
+# 123
 inline void myMain_Initialization();
 
-# 127
+# 128
 inline void my_Main();
 
-# 132
+# 133
 inline void my_MainTimer();
 
-# 137
+# 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -3498,7 +3499,7 @@ if (DimmerLightsIntr->DimmingTime >= DimmerLightsIntr->DimmingTimeValue) {
 DimmerLightsIntr->DimmingTime = 0;
 if (DimmerLightsIntr->AdjFlag == 1) {
 if (DimmerLightsIntr->AdjStatus == 0) {
-if (DimmerLightsIntr->DimmingValue < ((char)(80*0.8))) {
+if (DimmerLightsIntr->DimmingValue < ((char)(90*0.8))) {
 DimmerLightsIntr->DimmingValue++;
 } else {
 DimmerLightsIntr->AdjStatus = 1;
@@ -3572,7 +3573,7 @@ void setDimmerLights_Initialization(char lights) {
 DimmerLightsPointSelect(lights);
 
 # 372
-DimmerLights->MaxmumValue = ((char)(80*0.8));
+DimmerLights->MaxmumValue = ((char)(90*0.8));
 DimmerLights->MinimumValue = ((char)(15*0.8));
 
 # 387
@@ -3779,8 +3780,8 @@ setDimmerLights_Line(lights);
 DimmerLights->StatusFlag = 1;
 
 # 643
-DimmerLights->DimmingValue = ((char)(80*0.8));
-product->Data[(20 + lights)]=setPercentValue(((char)(80*0.8)));
+DimmerLights->DimmingValue = ((char)(90*0.8));
+product->Data[(20 + lights)]=setPercentValue(((char)(90*0.8)));
 
 # 652
 DimmerLights->DimmingTimeValue = 7;
@@ -3891,10 +3892,10 @@ DimmerLights->AdjGo = command == 1 ? 1 : 0;
 char getPercentValue(char value) {
 
 # 878
-float i = ((char)(80*0.8)) - ((char)(15*0.8));
+float i = ((char)(90*0.8)) - ((char)(15*0.8));
 i /= 100;
 
-return (char) (((char)(80*0.8)) - ((100 - value) * i));
+return (char) (((char)(90*0.8)) - ((100 - value) * i));
 
 }
 
@@ -3902,10 +3903,10 @@ return (char) (((char)(80*0.8)) - ((100 - value) * i));
 char setPercentValue(char value) {
 
 # 894
-float i = ((char)(80*0.8)) - ((char)(15*0.8));
+float i = ((char)(90*0.8)) - ((char)(15*0.8));
 i /= 100;
 
-return (char) (100 - ((((char)(80*0.8)) - value) / i));
+return (char) (100 - ((((char)(90*0.8)) - value) / i));
 
 }
 

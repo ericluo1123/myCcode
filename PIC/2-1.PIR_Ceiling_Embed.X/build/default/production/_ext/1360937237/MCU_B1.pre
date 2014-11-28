@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 150 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
+# 151 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -1903,7 +1903,7 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 757
+# 755
 struct WDT {
 
 union {
@@ -1917,7 +1917,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 785
+# 783
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -1934,12 +1934,13 @@ unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
-unsigned Tempty : 3;
+unsigned Test:1;
+unsigned Tempty : 1;
 };
 };
 unsigned int PowerCount;
 
-# 87
+# 88
 union {
 
 struct {
@@ -1968,16 +1969,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 122
+# 123
 inline void myMain_Initialization();
 
-# 127
+# 128
 inline void my_Main();
 
-# 132
+# 133
 inline void my_MainTimer();
 
-# 137
+# 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2271,7 +2272,7 @@ char getLightsControl_OK();
 
 
 # 8 "../src/MCU_B1.c"
-#pragma config FOSC = INTOSCIO ,WDTE = ON, BOREN = OFF , PLLEN = ON
+#pragma config FOSC = INTOSCIO , WDTE = ON, BOREN = OFF , PLLEN = ON
 #pragma config VCAPEN = DIS
 
 # 30
@@ -2390,7 +2391,7 @@ set_TimeoutCleared();
 return ADRES;
 }
 
-# 1019
+# 1022
 void WDT_Set() {
 
 PSA = 1;
@@ -2398,7 +2399,7 @@ PS0 = 1;
 PS1 = 1;
 PS2 = 1;
 
-# 1028
+# 1031
 WDT.Enable = 1;
 WDT.Timer = 10;
 }

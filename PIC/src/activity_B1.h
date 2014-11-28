@@ -41,6 +41,7 @@
 #define UART_use UART_use_Value
 #define UART_Master UART_Master_Value
 #define UART_Slave UART_Slave_Value
+#define UART_Data_Length UART_Data_Length_Vallue
 //I2C
 #define I2C_use I2C_use_Value
 #define Master_Mode Master_Mode_Value
@@ -152,7 +153,7 @@ typedef unsigned char ADtype;
 #define ADL_Restore 0xff
 #endif
 
- 
+
 #ifdef MCU_16F1516
 typedef unsigned int ADtype;
 #define ADH_Restore 0
@@ -190,8 +191,7 @@ typedef unsigned int ADtype;
 #endif
 
 //UART
-#if UART_use == 1
-#define BAUD 19200	
+#if UART_use == 1	
 #endif
 
 //I2C
@@ -285,11 +285,25 @@ typedef unsigned int ADtype;
 #define MosfetOpenToCloseValue			10
 
 #if Properties_Neutral == 1
+#if Switch_Class == 1
+#define Max_Percent 90
+#define Med_Percent 35
+#define Mini_Percent 15
+#endif
+#if Switch_Class == 2
 #define Max_Percent 80
 #define Med_Percent 35
 #define Mini_Percent 15
+#endif
+#if Switch_Class == 3
+#define Max_Percent 80
+#define Med_Percent 35
+#define Mini_Percent 15
+#endif
+
 #else
 #if Control_Method_Mosfet == 1
+
 #if Switch_Class == 1
 #define Max_Percent 65	
 #endif
@@ -371,7 +385,7 @@ typedef unsigned int ADtype;
 #define TriacTimeValue	1
 #define DetectTime 50
 #define DimmerTuneValue 157
- 
+
 #if Control_Method_Triac == 1
 //maxum 
 #define Dimmer_Maxum 	((char)((100-Max_Percent)*One_Percent))

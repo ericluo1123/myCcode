@@ -107,9 +107,11 @@
 //INT
 #define INT_use_Value 0
 //UART
-#define UART_use_Value 0
-#define UART_Master_Value 1
-#define UART_Slave_Value 0
+#define UART_use_Value              0
+#define UART_Master_Value           1
+#define UART_Slave_Value            0
+#define UART_Data_Length_Vallue     1
+#define BAUD 19200
 //I2C
 #define I2C_use_Value 0
 #define Master_Mode_Value 1
@@ -160,6 +162,8 @@
 #define  PIR_use_Value  1
 //CDS
 #define CDS_use_Value  1
+//UART to RF
+#define myUARTtoRF_use_Value 0
 
 
 //include
@@ -181,6 +185,6 @@
 #include "../src/SYSC_B1.h"
 #include "../src/TriacRelay_B1.h"
 #include "../src/SegmentDisplay_A2.h"
-
+#include "../src/myUARTtoRF.h"
 //end file
 #endif

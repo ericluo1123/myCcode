@@ -2645,6 +2645,36 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
+# 646
+struct UART {
+
+
+unsigned char Data[8];
+unsigned char Count;
+unsigned char TxLength;
+unsigned char RxLength;
+
+union {
+
+struct {
+unsigned TxGO : 1;
+unsigned RxGO : 1;
+unsigned empty : 6;
+};
+};
+};
+struct UART UART;
+
+void putch(unsigned char);
+unsigned char getch(void);
+unsigned char getche(void);
+void UART_Set();
+void UART_ISR();
+void UART_Main();
+void UART_Transmit();
+void UART_Receive();
+void UART_SetData();
+
 # 11 "../src/../0-4.UARTtoRF.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
@@ -3051,7 +3081,6 @@ CC2500_WriteCommand(0x3A);
 
 }
 CC2500_TxData();
-RA1 = RA1 == 1 ? 0 : 1;
 
 } else {
 
@@ -3063,10 +3092,8 @@ RF1.ReceiveGO = 0;
 RF1.Correction = 0;
 RF1.CorrectionCounter = 0;
 
-# 120
+# 121
 getRxData();
-
-
 RF1.Run = 1;
 
 if (RF1.Checked == 1) {
@@ -3095,6 +3122,7 @@ CC2500_WriteCommand(0x36);
 
 CC2500_WriteCommand(0x3A);
 CC2500_WriteCommand(0x34);
+
 }
 
 }
@@ -3142,10 +3170,11 @@ void setTxData() {
 char i;
 if (RF1.Enable == 1) {
 
+if (RF1.TransceiveGO == 0) {
 RF1.TransceiveGO = 1;
 RF1.RunTime = 20;
 
-# 221
+# 222
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 RF_Data[2] = product->Data[2];
@@ -3167,6 +3196,7 @@ RF_Data[17] = product->Data[17];
 RF_Data[18] = product->Data[18];
 RF_Data[19] = product->Data[19];
 RF_Data[20] = 0xaa;
+}
 }
 
 }
@@ -3199,6 +3229,18 @@ CC2500_WriteCommand(0x3B);
 
 void getRxData() {
 char error = getMain_All_Error_Status(0);
+if (RF_Data[0] == 0xaa && RF_Data[1] == 0x01) {
+
+product->Data[2] = 0x55;
+setTxData();
+RF1.RunTime = 10;
+
+
+RA1 = RA1 == 1 ? 0 : 1;
+
+
+} else {
+
 if (error == 0) {
 if (RF1.Learn == 1) {
 if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) {
@@ -3227,10 +3269,11 @@ __nop();
 RF1.Checked = 0;
 }
 
-# 305
+# 319
 }
 } else {
 ;
+}
 }
 }
 
@@ -3252,7 +3295,7 @@ void setControl_Lights_Table() {
 switch (RF_Data[15]) {
 case 0x00:
 
-# 331
+# 346
 product->Data[9]=0;
 product->Data[11]=0;
 product->Data[15]=0;
@@ -3268,32 +3311,32 @@ setTxData();
 break;
 case 0x01:
 
-# 348
+# 363
 break;
 case 0x02:
 
-# 353
+# 368
 break;
 case 0x03:
 
-# 358
+# 373
 break;
 case 0x11:
 
-# 365
+# 380
 break;
 case 0x21:
 
-# 372
+# 387
 break;
 case 0x31:
 
-# 379
+# 394
 break;
 }
 }
 
-# 407
+# 422
 void setRFSW_Control(char sw) {
 char status = 0;
 
@@ -3309,11 +3352,11 @@ setTxData();
 }
 } else {
 
-# 426
+# 441
 }
 if (status == 0) {
 
-# 432
+# 447
 }
 }
 
@@ -3321,7 +3364,7 @@ if (status == 0) {
 void setRFSW_AdjControl(char sw) {
 char status = 0;
 
-# 442
+# 457
 if (status == 1) {
 ;;
 ;;

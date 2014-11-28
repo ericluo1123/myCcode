@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 152 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
+# 164 "../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2659,7 +2659,7 @@ inline void setDimmerReClock();
 void IOC_Set();
 inline void IOC_ISR();
 
-# 696
+# 694
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2672,7 +2672,7 @@ struct {
 unsigned Modify : 1;
 unsigned GO : 1;
 unsigned LoopSave : 1;
-unsigned Runtime:1;
+unsigned Runtime : 1;
 unsigned empty : 4;
 };
 };
@@ -2686,7 +2686,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 727
+# 725
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -2698,7 +2698,7 @@ void setMemory_Modify(char command);
 void setMemory_LoopSave(char command);
 void setMemory_Data(char address, char data);
 
-# 757
+# 755
 struct WDT {
 
 union {
@@ -2712,7 +2712,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 785
+# 783
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -2745,7 +2745,8 @@ unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
-unsigned Tempty : 3;
+unsigned Test:1;
+unsigned Tempty : 1;
 };
 };
 unsigned int PowerCount;
@@ -2755,7 +2756,7 @@ unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 87
+# 88
 union {
 
 struct {
@@ -2784,16 +2785,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 122
+# 123
 inline void myMain_Initialization();
 
-# 127
+# 128
 inline void my_Main();
 
-# 132
+# 133
 inline void my_MainTimer();
 
-# 137
+# 138
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -3477,7 +3478,8 @@ RF1.Key = getRF_KeyStatus() == 1 ? 1 : 0;
 # 65
 } else {
 
-# 69
+
+
 RF1.Key = 0;
 }
 
@@ -3501,11 +3503,13 @@ RF1.TransceiveGO = 0;
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 0;
 
-CC2500_ReadStatus(0x3B);
-if (s_data != 0) {
+
+
+if (RF1.RxStatus == 1 || RF1.ReceiveGO == 1) {
 CC2500_WriteCommand(0x36);
-CC2500_WriteCommand(0x3B);
+
 CC2500_WriteCommand(0x3A);
+
 }
 CC2500_TxData();
 
@@ -3519,10 +3523,10 @@ RF1.ReceiveGO = 0;
 RF1.Correction = 0;
 RF1.CorrectionCounter = 0;
 
-# 117
+# 119
 getRxData();
 
-
+getRxData();
 RF1.Run = 1;
 
 if (RF1.Checked == 1) {
@@ -3548,9 +3552,10 @@ RF1.RxStatus = 1;
 RF1.Correction = 1;
 
 CC2500_WriteCommand(0x36);
-CC2500_WriteCommand(0x3B);
+
 CC2500_WriteCommand(0x3A);
 CC2500_WriteCommand(0x34);
+
 }
 
 }
@@ -3577,7 +3582,7 @@ RF1.ReceiveGO = 0;
 }
 }
 
-# 179
+# 182
 } else {
 if (myMain.PowerON == 1) {
 RF1.Enable = 1;
@@ -3589,7 +3594,7 @@ RF1.Enable = 1;
 char getRF_KeyStatus() {
 char key = 0;
 
-# 198
+# 201
 key = (RA6 == 1 || RA4 == 1 || RA0 == 1 || RA7 == 1) ? 1 : 0;
 
 return key;
@@ -3600,10 +3605,11 @@ void setTxData() {
 char i;
 if (RF1.Enable == 1) {
 
+if (RF1.TransceiveGO == 0) {
 RF1.TransceiveGO = 1;
 RF1.RunTime = 20;
 
-# 218
+# 222
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 RF_Data[2] = product->Data[2];
@@ -3625,6 +3631,7 @@ RF_Data[17] = product->Data[17];
 RF_Data[18] = product->Data[18];
 RF_Data[19] = product->Data[19];
 RF_Data[20] = 209;
+}
 }
 
 }
@@ -3657,6 +3664,15 @@ CC2500_WriteCommand(0x3B);
 
 void getRxData() {
 char error = getMain_All_Error_Status(0);
+if (RF_Data[0] == 0xaa && RF_Data[1] == 0x01) {
+
+product->Data[2] = 0x55;
+setTxData();
+RF1.RunTime = 10;
+
+# 286
+} else {
+
 if (error == 0) {
 if (RF1.Learn == 1) {
 if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) {
@@ -3685,10 +3701,11 @@ __nop();
 RF1.Checked = 0;
 }
 
-# 302
+# 319
 }
 } else {
 ;
+}
 }
 }
 
@@ -3732,11 +3749,11 @@ setRFSW_Control(1);
 break;
 case 0x02:
 
-# 350
+# 368
 break;
 case 0x03:
 
-# 355
+# 373
 break;
 case 0x11:
 
@@ -3747,16 +3764,16 @@ setRFSW_AdjControl(1);
 break;
 case 0x21:
 
-# 369
+# 387
 break;
 case 0x31:
 
-# 376
+# 394
 break;
 }
 }
 
-# 404
+# 422
 void setRFSW_Control(char sw) {
 char status = 0;
 
@@ -3820,7 +3837,7 @@ char status = 1;
 status <<= (lights - 1);
 product->Data[11]=lights;
 
-# 473
+# 491
 product->Data[9]=product->Data[20 + lights];
 product->Data[17]=product->Data[26 + lights];
 if (on == 1) {
