@@ -1903,6 +1903,36 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
+# 646
+struct UART {
+
+
+unsigned char Data[8];
+unsigned char Count;
+unsigned char TxLength;
+unsigned char RxLength;
+
+union {
+
+struct {
+unsigned TxGO : 1;
+unsigned RxGO : 1;
+unsigned empty : 6;
+};
+};
+};
+struct UART UART;
+
+void putch(unsigned char);
+unsigned char getch(void);
+unsigned char getche(void);
+void UART_Set();
+void UART_ISR();
+void UART_Main();
+void UART_Transmit();
+void UART_Receive();
+void UART_SetData();
+
 # 755
 struct WDT {
 

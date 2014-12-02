@@ -148,11 +148,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _UART_Transmit `(v ~T0 @X0 0 ef ]
 "24 C:\Program Files (x86)\Microchip\xc8\v1.32\include\conio.h
 [v _putch `(v ~T0 @X0 0 ef1`uc ]
-"4509 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1516.h
-[v _RA1 `Vb ~T0 @X0 0 e@97 ]
 "56 ../src/../0-4.UARTtoRF.X/../src/RF_Control_B1.h
 [v _setTxData `(v ~T0 @X0 0 ef ]
-"4761 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1516.h
+"4533 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1516.h
+[v _RB5 `Vb ~T0 @X0 0 e@109 ]
+"4761
 [v _TXIF `Vb ~T0 @X0 0 e@140 ]
 "2475
 [v _TXREG `Vuc ~T0 @X0 0 e@410 ]
@@ -2896,196 +2896,264 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.c: 739: void UART_ISR() {
 [e :U _UART_ISR ]
 [f ]
+[; ;MCU_B1.c: 740: if (RCIE == 1 && RCIF == 1) {
 "740
-[v _i `uc ~T0 @X0 1 a ]
-[; ;MCU_B1.c: 740: char i;
-[; ;MCU_B1.c: 741: if (RCIE == 1 && RCIF == 1) {
-"741
 [e $ ! && == -> _RCIE `i -> 1 `i == -> _RCIF `i -> 1 `i 270  ]
 {
-[; ;MCU_B1.c: 746: UART.Data[1] = getch();
-"746
-[e = *U + &U . _UART 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _UART 0 `ui `ux ( _getch ..  ]
-[; ;MCU_B1.c: 747: UART.RxGO = 1;
-"747
+[; ;MCU_B1.c: 742: for (int i = 0; i < 8; i++) {
+"742
+{
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+[e $ < _i -> 8 `i 271  ]
+[e $U 272  ]
+[e :U 271 ]
+{
+[; ;MCU_B1.c: 743: UART.Data[i] = getch();
+"743
+[e = *U + &U . _UART 0 * -> -> _i `ui `ux -> -> # *U &U . _UART 0 `ui `ux ( _getch ..  ]
+"744
+}
+"742
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 8 `i 271  ]
+[e :U 272 ]
+"744
+}
+[; ;MCU_B1.c: 744: }
+[; ;MCU_B1.c: 745: UART.RxGO = 1;
+"745
 [e = . . . _UART 4 0 1 -> -> 1 `i `uc ]
-[; ;MCU_B1.c: 748: RCIF = 0;
-"748
+[; ;MCU_B1.c: 752: RCIF = 0;
+"752
 [e = _RCIF -> -> 0 `i `b ]
-"750
+"753
 }
 [e :U 270 ]
-[; ;MCU_B1.c: 750: }
-[; ;MCU_B1.c: 751: }
-"751
+[; ;MCU_B1.c: 753: }
+[; ;MCU_B1.c: 754: }
+"754
 [e :UE 269 ]
 }
-"753
+"756
 [v _UART_Main `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 753: void UART_Main() {
+[; ;MCU_B1.c: 756: void UART_Main() {
 [e :U _UART_Main ]
 [f ]
-[; ;MCU_B1.c: 754: if (UART.RxGO == 1) {
-"754
-[e $ ! == -> . . . _UART 4 0 1 `i -> 1 `i 272  ]
+[; ;MCU_B1.c: 757: if (UART.RxGO == 1) {
+"757
+[e $ ! == -> . . . _UART 4 0 1 `i -> 1 `i 275  ]
 {
-[; ;MCU_B1.c: 755: UART.RxGO = 0;
-"755
+[; ;MCU_B1.c: 758: UART.RxGO = 0;
+"758
 [e = . . . _UART 4 0 1 -> -> 0 `i `uc ]
-[; ;MCU_B1.c: 756: UART_Receive();
-"756
+[; ;MCU_B1.c: 759: UART_Receive();
+"759
 [e ( _UART_Receive ..  ]
-[; ;MCU_B1.c: 757: ;;
-"760
-}
-[; ;MCU_B1.c: 760: } else {
-[e $U 273  ]
-[e :U 272 ]
-{
-[; ;MCU_B1.c: 761: if (UART.TxGO == 1) {
-"761
-[e $ ! == -> . . . _UART 4 0 0 `i -> 1 `i 274  ]
-{
-[; ;MCU_B1.c: 762: UART.TxGO = 0;
-"762
-[e = . . . _UART 4 0 0 -> -> 0 `i `uc ]
-[; ;MCU_B1.c: 763: UART_Transmit();
+[; ;MCU_B1.c: 760: ;;
 "763
-[e ( _UART_Transmit ..  ]
+}
+[; ;MCU_B1.c: 763: } else {
+[e $U 276  ]
+[e :U 275 ]
+{
+[; ;MCU_B1.c: 764: if (UART.TxGO == 1) {
 "764
-}
-[e :U 274 ]
+[e $ ! == -> . . . _UART 4 0 0 `i -> 1 `i 277  ]
+{
+[; ;MCU_B1.c: 765: UART.TxGO = 0;
 "765
-}
-[e :U 273 ]
-[; ;MCU_B1.c: 764: }
-[; ;MCU_B1.c: 765: }
-[; ;MCU_B1.c: 766: }
+[e = . . . _UART 4 0 0 -> -> 0 `i `uc ]
+[; ;MCU_B1.c: 766: UART_Transmit();
 "766
-[e :UE 271 ]
+[e ( _UART_Transmit ..  ]
+"767
 }
+[e :U 277 ]
 "768
+}
+[e :U 276 ]
+[; ;MCU_B1.c: 767: }
+[; ;MCU_B1.c: 768: }
+[; ;MCU_B1.c: 769: }
+"769
+[e :UE 274 ]
+}
+"771
 [v _UART_Transmit `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 768: void UART_Transmit() {
+[; ;MCU_B1.c: 771: void UART_Transmit() {
 [e :U _UART_Transmit ]
 [f ]
-[; ;MCU_B1.c: 770: putch(UART.Data[0]);
-"770
-[e ( _putch (1 *U + &U . _UART 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _UART 0 `ui `ux ]
-[; ;MCU_B1.c: 781: }
-"781
-[e :UE 275 ]
+[; ;MCU_B1.c: 774: for (int i = 0; i < 8; i++) {
+"774
+{
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+[e $ < _i -> 8 `i 279  ]
+[e $U 280  ]
+[e :U 279 ]
+{
+[; ;MCU_B1.c: 776: putch(UART.Data[i]);
+"776
+[e ( _putch (1 *U + &U . _UART 0 * -> -> _i `ui `ux -> -> # *U &U . _UART 0 `ui `ux ]
+"784
 }
-"783
+"774
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 8 `i 279  ]
+[e :U 280 ]
+"784
+}
+[; ;MCU_B1.c: 784: }
+[; ;MCU_B1.c: 788: }
+"788
+[e :UE 278 ]
+}
+"790
 [v _UART_Receive `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 783: void UART_Receive() {
+[; ;MCU_B1.c: 790: void UART_Receive() {
 [e :U _UART_Receive ]
 [f ]
-"784
-[v _i `uc ~T0 @X0 1 a ]
-[; ;MCU_B1.c: 784: char i;
-[; ;MCU_B1.c: 792: RA1 = RA1 == 1 ? 0 : 1;
-"792
-[e = _RA1 -> ? == -> _RA1 `i -> 1 `i : -> 0 `i -> 1 `i `b ]
-[; ;MCU_B1.c: 793: product->Data[2] = UART.Data[1];
-"793
-[e = *U + &U . *U _product 0 * -> -> -> 2 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . _UART 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _UART 0 `ui `ux ]
-[; ;MCU_B1.c: 794: setTxData();
-"794
-[e ( _setTxData ..  ]
-[; ;MCU_B1.c: 798: myMain.Test = 1;
+[; ;MCU_B1.c: 797: product->Data[2] = UART.Data[0];
+"797
+[e = *U + &U . *U _product 0 * -> -> -> 2 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . _UART 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _UART 0 `ui `ux ]
+[; ;MCU_B1.c: 798: product->Data[3] = UART.Data[1];
 "798
+[e = *U + &U . *U _product 0 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . _UART 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _UART 0 `ui `ux ]
+[; ;MCU_B1.c: 799: product->Data[4] = UART.Data[2];
+"799
+[e = *U + &U . *U _product 0 * -> -> -> 4 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . _UART 0 * -> -> -> 2 `i `ui `ux -> -> # *U &U . _UART 0 `ui `ux ]
+[; ;MCU_B1.c: 800: product->Data[5] = UART.Data[3];
+"800
+[e = *U + &U . *U _product 0 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . _UART 0 * -> -> -> 3 `i `ui `ux -> -> # *U &U . _UART 0 `ui `ux ]
+[; ;MCU_B1.c: 801: product->Data[6] = UART.Data[4];
+"801
+[e = *U + &U . *U _product 0 * -> -> -> 6 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux *U + &U . _UART 0 * -> -> -> 4 `i `ui `ux -> -> # *U &U . _UART 0 `ui `ux ]
+[; ;MCU_B1.c: 802: setTxData();
+"802
+[e ( _setTxData ..  ]
+[; ;MCU_B1.c: 807: myMain.Test = 1;
+"807
 [e = . . . _myMain 0 0 6 -> -> 1 `i `uc ]
-[; ;MCU_B1.c: 812: }
-"812
-[e :UE 276 ]
+[; ;MCU_B1.c: 821: }
+"821
+[e :UE 282 ]
 }
-"814
+"823
 [v _UART_SetData `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 814: void UART_SetData() {
+[; ;MCU_B1.c: 823: void UART_SetData() {
 [e :U _UART_SetData ]
 [f ]
-[; ;MCU_B1.c: 829: UART.Data[0] = 0x64;
-"829
-[e = *U + &U . _UART 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _UART 0 `ui `ux -> -> 100 `i `uc ]
-[; ;MCU_B1.c: 830: UART.TxGO = 1;
-"830
-[e = . . . _UART 4 0 0 -> -> 1 `i `uc ]
-[; ;MCU_B1.c: 831: }
+[; ;MCU_B1.c: 831: if (UART.TxGO == 0) {
 "831
-[e :UE 277 ]
-}
+[e $ ! == -> . . . _UART 4 0 0 `i -> 0 `i 284  ]
+{
+[; ;MCU_B1.c: 832: for (int i = 0; i < 8; i++) {
+"832
+{
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+[e $ < _i -> 8 `i 285  ]
+[e $U 286  ]
+[e :U 285 ]
+{
+[; ;MCU_B1.c: 833: UART.Data[i] = i;
+"833
+[e = *U + &U . _UART 0 * -> -> _i `ui `ux -> -> # *U &U . _UART 0 `ui `ux -> _i `uc ]
 "834
+}
+"832
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 8 `i 285  ]
+[e :U 286 ]
+"834
+}
+[; ;MCU_B1.c: 834: }
+[; ;MCU_B1.c: 835: RB5 = RB5 == 1 ? 0 : 1;
+"835
+[e = _RB5 -> ? == -> _RB5 `i -> 1 `i : -> 0 `i -> 1 `i `b ]
+[; ;MCU_B1.c: 837: UART.TxGO = 1;
+"837
+[e = . . . _UART 4 0 0 -> -> 1 `i `uc ]
+"838
+}
+[e :U 284 ]
+[; ;MCU_B1.c: 838: }
+[; ;MCU_B1.c: 839: }
+"839
+[e :UE 283 ]
+}
+"842
 [v _putch `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;MCU_B1.c: 834: void putch(unsigned char byte) {
+[; ;MCU_B1.c: 842: void putch(unsigned char byte) {
 [e :U _putch ]
 [v _byte `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;MCU_B1.c: 836: while (!TXIF)
-"836
-[e $U 279  ]
-[e :U 280 ]
-[; ;MCU_B1.c: 837: continue;
-"837
-[e $U 279  ]
-[e :U 279 ]
-"836
-[e $ ! _TXIF 280  ]
-[e :U 281 ]
-[; ;MCU_B1.c: 838: TXREG = byte;
-"838
-[e = _TXREG _byte ]
-[; ;MCU_B1.c: 839: }
-"839
-[e :UE 278 ]
-}
-"842
-[v _getch `(uc ~T0 @X0 1 ef ]
-{
-[; ;MCU_B1.c: 842: unsigned char getch() {
-[e :U _getch ]
-[f ]
-[; ;MCU_B1.c: 844: while (!RCIF)
+[; ;MCU_B1.c: 844: while (!TXIF)
 "844
-[e $U 283  ]
-[e :U 284 ]
+[e $U 289  ]
+[e :U 290 ]
 [; ;MCU_B1.c: 845: continue;
 "845
-[e $U 283  ]
-[e :U 283 ]
+[e $U 289  ]
+[e :U 289 ]
 "844
-[e $ ! _RCIF 284  ]
-[e :U 285 ]
-[; ;MCU_B1.c: 846: return RCREG;
+[e $ ! _TXIF 290  ]
+[e :U 291 ]
+[; ;MCU_B1.c: 846: TXREG = byte;
 "846
-[e ) _RCREG ]
-[e $UE 282  ]
+[e = _TXREG _byte ]
 [; ;MCU_B1.c: 847: }
 "847
-[e :UE 282 ]
+[e :UE 288 ]
 }
 "850
+[v _getch `(uc ~T0 @X0 1 ef ]
+{
+[; ;MCU_B1.c: 850: unsigned char getch() {
+[e :U _getch ]
+[f ]
+[; ;MCU_B1.c: 852: while (!RCIF)
+"852
+[e $U 293  ]
+[e :U 294 ]
+[; ;MCU_B1.c: 853: continue;
+"853
+[e $U 293  ]
+[e :U 293 ]
+"852
+[e $ ! _RCIF 294  ]
+[e :U 295 ]
+[; ;MCU_B1.c: 854: return RCREG;
+"854
+[e ) _RCREG ]
+[e $UE 292  ]
+[; ;MCU_B1.c: 855: }
+"855
+[e :UE 292 ]
+}
+"858
 [v _getche `(uc ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 850: unsigned char getche(void) {
+[; ;MCU_B1.c: 858: unsigned char getche(void) {
 [e :U _getche ]
 [f ]
-"851
+"859
 [v _c `uc ~T0 @X0 1 a ]
-[; ;MCU_B1.c: 851: unsigned char c;
-[; ;MCU_B1.c: 852: putch(c = getch());
-"852
+[; ;MCU_B1.c: 859: unsigned char c;
+[; ;MCU_B1.c: 860: putch(c = getch());
+"860
 [e ( _putch (1 = _c ( _getch ..  ]
-[; ;MCU_B1.c: 853: return c;
-"853
+[; ;MCU_B1.c: 861: return c;
+"861
 [e ) _c ]
-[e $UE 286  ]
-[; ;MCU_B1.c: 854: }
-"854
-[e :UE 286 ]
+[e $UE 296  ]
+[; ;MCU_B1.c: 862: }
+"862
+[e :UE 296 ]
 }

@@ -88,15 +88,19 @@ void setRF_Main() {
                         RF1.TransceiveGO = false;
                         RF1.RxStatus = false;
                         RF1.ReceiveGO = false;
-
+                        RF1.RunTime = 10;
+#ifdef _UARTtoRF_H_
+                        LED1 = LED1 == true ? false : true;
+#endif
                         //                        CC2500_ReadStatus(CC2500_RXBYTES);
                         //                        if (s_data != 0) {
-                        if (RF1.RxStatus == true || RF1.ReceiveGO == true) {
-                            CC2500_WriteCommand(CC2500_SIDLE); // idle
-                            //                            CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
-                            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-                            //                        }
-                        }
+                        RF_RxDisable();
+                        //                        if (RF1.RxStatus == true || RF1.ReceiveGO == true) {
+                        //                            CC2500_WriteCommand(CC2500_SIDLE); // idle
+                        //                            //                            CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+                        //                            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+                        //                            //                        }
+                        //                        }
                         CC2500_TxData();
 
                     } else {
@@ -116,7 +120,7 @@ void setRF_Main() {
                                 //LED2=~LED2;
 
 #else
-                                getRxData();
+                                //                                getRxData();
 #endif
                                 getRxData();
                                 RF1.Run = true;
@@ -147,7 +151,6 @@ void setRF_Main() {
                                 //                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
                                 CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
                                 CC2500_WriteCommand(CC2500_SRX); // set receive mode
-
                             }
 #endif
                         }
@@ -263,9 +266,9 @@ void RF_RxDisable() {
         RF1.RxStatus = false;
         RF1.ReceiveGO = false;
         CC2500_WriteCommand(CC2500_SIDLE); // idle
-        CC2500_WriteCommand(CC2500_SIDLE); // idle
+        //        CC2500_WriteCommand(CC2500_SIDLE); // idle
         CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+        //        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
         //        setINT_GO(0);
     }
 }
@@ -278,7 +281,7 @@ void getRxData() {
         product->Data[2] = 0x55;
         setTxData();
         RF1.RunTime = 10;
-        
+
 #if myUARTtoRF_use_Value == 1
         LED1 = LED1 == true ? false : true;
 #endif

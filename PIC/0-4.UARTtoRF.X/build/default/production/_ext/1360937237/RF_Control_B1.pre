@@ -3071,7 +3071,8 @@ if (RF1.TransceiveGO == 1 && RF1.Learn == 0) {
 RF1.TransceiveGO = 0;
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 0;
-
+RF1.RunTime = 10;
+RA1 = RA1 == 1 ? 0 : 1;
 
 
 if (RF1.RxStatus == 1 || RF1.ReceiveGO == 1) {
@@ -3092,7 +3093,7 @@ RF1.ReceiveGO = 0;
 RF1.Correction = 0;
 RF1.CorrectionCounter = 0;
 
-# 121
+# 122
 getRxData();
 RF1.Run = 1;
 
@@ -3149,7 +3150,7 @@ RF1.ReceiveGO = 0;
 }
 }
 
-# 182
+# 183
 } else {
 if (myMain.PowerON == 1) {
 RF1.Enable = 1;
@@ -3161,7 +3162,7 @@ RF1.Enable = 1;
 char getRF_KeyStatus() {
 char key = 0;
 
-# 203
+# 204
 return key;
 }
 
@@ -3174,7 +3175,7 @@ if (RF1.TransceiveGO == 0) {
 RF1.TransceiveGO = 1;
 RF1.RunTime = 20;
 
-# 222
+# 223
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 RF_Data[2] = product->Data[2];
@@ -3269,7 +3270,7 @@ __nop();
 RF1.Checked = 0;
 }
 
-# 319
+# 320
 }
 } else {
 ;
@@ -3295,7 +3296,7 @@ void setControl_Lights_Table() {
 switch (RF_Data[15]) {
 case 0x00:
 
-# 346
+# 347
 product->Data[9]=0;
 product->Data[11]=0;
 product->Data[15]=0;
@@ -3311,32 +3312,32 @@ setTxData();
 break;
 case 0x01:
 
-# 363
+# 364
 break;
 case 0x02:
 
-# 368
+# 369
 break;
 case 0x03:
 
-# 373
+# 374
 break;
 case 0x11:
 
-# 380
+# 381
 break;
 case 0x21:
 
-# 387
+# 388
 break;
 case 0x31:
 
-# 394
+# 395
 break;
 }
 }
 
-# 422
+# 423
 void setRFSW_Control(char sw) {
 char status = 0;
 
@@ -3352,11 +3353,11 @@ setTxData();
 }
 } else {
 
-# 441
+# 442
 }
 if (status == 0) {
 
-# 447
+# 448
 }
 }
 
@@ -3364,7 +3365,7 @@ if (status == 0) {
 void setRFSW_AdjControl(char sw) {
 char status = 0;
 
-# 457
+# 458
 if (status == 1) {
 ;;
 ;;

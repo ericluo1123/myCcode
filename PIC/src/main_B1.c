@@ -187,7 +187,6 @@ inline void my_MainTimer() {
             myMain.PowerCount = 0;
             myMain.PowerON = true;
 
-
 #if Self_Test == 1
             myMain.k = 1;
 #else
@@ -203,13 +202,15 @@ inline void my_MainTimer() {
 #endif
         }
     } else {
-
         myMain.PowerCount++;
         if (myMain.PowerCount == 100) {//*10ms
             myMain.PowerCount = 0;
-            ErrLED = ErrLED == true ? false : true;
+            //            ErrLED = ErrLED == true ? false : true;
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
-            UART_SetData();
+            if (UART.TxGO == false) {
+                UART_SetData();
+            }
+
 #endif
         }
 #if Dimmer_use == 1 && Serial_Number == 1
@@ -218,7 +219,7 @@ inline void my_MainTimer() {
 
 
 
-#if Debug == 1
+#if Debug == 1 
         myMain.Count1++;
         if (myMain.Count1 == 100) //*10ms
         {

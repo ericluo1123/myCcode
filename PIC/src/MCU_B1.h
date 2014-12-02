@@ -642,11 +642,11 @@ void I2C_SetData(char command);
 #endif
 
 //Global extern varitable declaration
-
+ 
 struct UART {
 //    unsigned char TxData[32];
 //    unsigned char RxData[32];
-    unsigned char Data[8];
+    unsigned char Data[UART_Data_Length_Vallue];
     unsigned char Count;
     unsigned char TxLength;
     unsigned char RxLength;

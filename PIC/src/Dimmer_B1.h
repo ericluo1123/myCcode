@@ -70,8 +70,8 @@ struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
 #if Switch_Class == 1
-#define ID_1KEY_1 RB4=1
-#define ID_1KEY_0 RB4=0
+#define ID_1KEY_1 RB4 = 1
+#define ID_1KEY_0 RB4 = 0
 #if Switch_Optrion == 1
 #define setLED2(command) LED2=!command
 #else

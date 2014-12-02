@@ -130,7 +130,7 @@
 //OverLoad
 #define OverLoad_use_Value 1
 #define LimitCurrent_Value  1.8//A
-#define LinearParam_Value   55
+#define LinearParam_Value   57
 //LED
 #define LED_use_Value 1
 //Buzzer
@@ -147,8 +147,8 @@
 #define PowerFault_use_Value    0
 //Dimmer Lights
 #define Dimmer_use_Value            1
-#define Dimmer_Half_Wave_Value      1
-#define Dimmer_Full_Wave_Value      0
+#define Dimmer_Half_Wave_Value      0
+#define Dimmer_Full_Wave_Value      1
 //SegmentDisplay
 #define SegmentDisplay_use_Value    0
 //CDS

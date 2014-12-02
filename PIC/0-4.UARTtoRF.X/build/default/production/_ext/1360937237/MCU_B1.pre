@@ -3117,16 +3117,15 @@ GIE = 1;
 
 
 void UART_ISR() {
-char i;
 if (RCIE == 1 && RCIF == 1) {
 
-
-
-
-UART.Data[1] = getch();
+for (int i = 0; i < 8; i++) {
+UART.Data[i] = getch();
+}
 UART.RxGO = 1;
-RCIF = 0;
 
+# 752
+RCIF = 0;
 }
 }
 
@@ -3147,31 +3146,47 @@ UART_Transmit();
 
 void UART_Transmit() {
 
-putch(UART.Data[0]);
 
-# 781
+for (int i = 0; i < 8; i++) {
+
+putch(UART.Data[i]);
+
+# 784
+}
+
+
+
 }
 
 void UART_Receive() {
-char i;
 
-# 792
-RA1 = RA1 == 1 ? 0 : 1;
-product->Data[2] = UART.Data[1];
+# 797
+product->Data[2] = UART.Data[0];
+product->Data[3] = UART.Data[1];
+product->Data[4] = UART.Data[2];
+product->Data[5] = UART.Data[3];
+product->Data[6] = UART.Data[4];
 setTxData();
+
 
 
 
 myMain.Test = 1;
 
-# 812
+# 821
 }
 
 void UART_SetData() {
 
-# 829
-UART.Data[0] = 0x64;
+# 831
+if (UART.TxGO == 0) {
+for (int i = 0; i < 8; i++) {
+UART.Data[i] = i;
+}
+RB5 = RB5 == 1 ? 0 : 1;
+
 UART.TxGO = 1;
+}
 }
 
 

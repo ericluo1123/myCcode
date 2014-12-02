@@ -3502,15 +3502,12 @@ if (RF1.TransceiveGO == 1 && RF1.Learn == 0) {
 RF1.TransceiveGO = 0;
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 0;
+RF1.RunTime = 10;
 
+# 97
+RF_RxDisable();
 
-
-if (RF1.RxStatus == 1 || RF1.ReceiveGO == 1) {
-CC2500_WriteCommand(0x36);
-
-CC2500_WriteCommand(0x3A);
-
-}
+# 104
 CC2500_TxData();
 
 } else {
@@ -3523,9 +3520,7 @@ RF1.ReceiveGO = 0;
 RF1.Correction = 0;
 RF1.CorrectionCounter = 0;
 
-# 119
-getRxData();
-
+# 125
 getRxData();
 RF1.Run = 1;
 
@@ -3555,7 +3550,6 @@ CC2500_WriteCommand(0x36);
 
 CC2500_WriteCommand(0x3A);
 CC2500_WriteCommand(0x34);
-
 }
 
 }
@@ -3582,7 +3576,7 @@ RF1.ReceiveGO = 0;
 }
 }
 
-# 182
+# 185
 } else {
 if (myMain.PowerON == 1) {
 RF1.Enable = 1;
@@ -3594,7 +3588,7 @@ RF1.Enable = 1;
 char getRF_KeyStatus() {
 char key = 0;
 
-# 201
+# 204
 key = (RA6 == 1 || RA4 == 1 || RA0 == 1 || RA7 == 1) ? 1 : 0;
 
 return key;
@@ -3609,7 +3603,7 @@ if (RF1.TransceiveGO == 0) {
 RF1.TransceiveGO = 1;
 RF1.RunTime = 20;
 
-# 222
+# 225
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 RF_Data[2] = product->Data[2];
@@ -3654,9 +3648,9 @@ if (RF1.ReceiveGO == 1 || RF1.RxStatus == 1) {
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 0;
 CC2500_WriteCommand(0x36);
-CC2500_WriteCommand(0x36);
+
 CC2500_WriteCommand(0x3A);
-CC2500_WriteCommand(0x3B);
+
 
 }
 }
@@ -3670,7 +3664,7 @@ product->Data[2] = 0x55;
 setTxData();
 RF1.RunTime = 10;
 
-# 286
+# 289
 } else {
 
 if (error == 0) {
@@ -3701,7 +3695,7 @@ __nop();
 RF1.Checked = 0;
 }
 
-# 319
+# 322
 }
 } else {
 ;
@@ -3749,11 +3743,11 @@ setRFSW_Control(1);
 break;
 case 0x02:
 
-# 368
+# 371
 break;
 case 0x03:
 
-# 373
+# 376
 break;
 case 0x11:
 
@@ -3764,16 +3758,16 @@ setRFSW_AdjControl(1);
 break;
 case 0x21:
 
-# 387
+# 390
 break;
 case 0x31:
 
-# 394
+# 397
 break;
 }
 }
 
-# 422
+# 425
 void setRFSW_Control(char sw) {
 char status = 0;
 
@@ -3837,7 +3831,7 @@ char status = 1;
 status <<= (lights - 1);
 product->Data[11]=lights;
 
-# 491
+# 494
 product->Data[9]=product->Data[20 + lights];
 product->Data[17]=product->Data[26 + lights];
 if (on == 1) {

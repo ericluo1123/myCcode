@@ -737,16 +737,19 @@ void UART_Set() {
 //*********************************************************
 
 void UART_ISR() {
-    char i;
     if (RCIE == true && RCIF == true) {
-        //        RCIE = false;
-        //        for (i = 0; i < UART_Data_Length; i++) {
-        //            UART.Data[i] = getch();
-        //        }
-        UART.Data[1] = getch();
+        //                RCIE = false;
+        for (int i = 0; i < UART_Data_Length; i++) {
+            UART.Data[i] = getch();
+        }
         UART.RxGO = true;
+        //        UART.Data[UART.Count] = getch();
+        //        UART.Count++;
+        //        if (UART.Count == UART_Data_Length - 1) {
+        //            UART.Count = 0;
+        //            UART.RxGO = true;
+        //        }
         RCIF = false;
-
     }
 }
 
@@ -767,31 +770,37 @@ void UART_Main() {
 
 void UART_Transmit() {
     //    printf("%d,", UART.Data[0]);
-    putch(UART.Data[0]);
-    //    for (int i = 0; i < UART_Data_Length; i++) {
-    //        printf("%d,", UART.Data[i]);
-    //        //	while(!TRMT);
-    //        //	while(!TXIF)	/* set when register is empty */
-    //        //		continue;
-    //        //	printf("%d,",i);
-    //        //	TXREG = UART.TxData[i];
-    //        //	TXREG=UART.TxData[i];
-    //        //	printf(",");
-    //    }
+    //    putch(UART.Data[0]);
+    for (int i = 0; i < UART_Data_Length; i++) {
+        //        printf("%d,", UART.Data[i]);
+        putch(UART.Data[i]);
+        //	while(!TRMT);
+        //	while(!TXIF)	/* set when register is empty */
+        //		continue;
+        //	printf("%d,",i);
+        //	TXREG = UART.TxData[i];
+        //	TXREG=UART.TxData[i];
+        //	printf(",");
+    }
+    //#ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
+    //    ErrLED = ErrLED == true ? false : true;
+    //#endif
 }
 
 void UART_Receive() {
-    char i;
-#ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
-    if (UART.Data[1] == 0x64) {
-        ErrLED = ErrLED == true ? false : true;
-    }
-#endif
-#ifdef  _UARTtoRF_H_
+
+#ifdef  _UARTtoRF_H_ 
 #if CC2500_use == 1
-    LED1 = LED1 == true ? false : true;
-    product->Data[2] = UART.Data[1];
+    //    for (int i = 0; i < UART_Data_Length; i++) {
+    //        product->Data[2 + i] = UART.Data[i];
+    //    }
+    product->Data[2] = UART.Data[0];
+    product->Data[3] = UART.Data[1];
+    product->Data[4] = UART.Data[2];
+    product->Data[5] = UART.Data[3];
+    product->Data[6] = UART.Data[4];
     setTxData();
+
 #endif
 #endif
 #if UART_Master == 1
@@ -819,15 +828,14 @@ void UART_SetData() {
     UART.TxGO = 1;
     LED2 = ~LED2;
 #endif
-
-    //    for (int i = 0; i < UART_Data_Length; i++) {
-    //        UART.Data[i] = 1;
-    //    }
-#ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
+    if (UART.TxGO == false) {
+        for (int i = 0; i < UART_Data_Length; i++) {
+            UART.Data[i] = i;
+        }
         ErrLED = ErrLED == true ? false : true;
-#endif
-    UART.Data[0] = 0x64;
-    UART.TxGO = true;
+        //    UART.Data[0] = 0x64;
+        UART.TxGO = true;
+    }
 }
 //*********************************************************
 

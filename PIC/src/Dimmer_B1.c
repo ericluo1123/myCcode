@@ -45,12 +45,13 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
     if (DimmerLightsIntrIOC->GO == false && DimmerLightsIntrIOC->MosfetSignal == false) {
         DimmerLightsIntrIOC->GO = true;
         DimmerLightsIntrIOC->MosfetSignal = true;
+        Dimmer.Correction = 0;
         if (DimmerLightsIntrIOC->StatusFlag == true) {
             DimmerLightsIntrIOC->MOSFET = true;
 #ifdef use_1KEY
             if (lights == 1) {
                 Mosfet1 = true;
-                ID_1KEY_1;
+                //                ID_1KEY_1;
             }
 #endif
 #ifdef use_2KEY
@@ -130,13 +131,15 @@ inline void setDimmerLights_IntrControl(char lights) {
                         if (DimmerLightsIntr->AdjStatus == false) {
                             if (DimmerLightsIntr->DimmingValue > Dimmer_Maxum) {
                                 DimmerLightsIntr->DimmingValue--;
-                            } else {
+                            }
+                            if (DimmerLightsIntr->DimmingValue == Dimmer_Maxum) {
                                 DimmerLightsIntr->AdjStatus = true;
                             }
                         } else {
                             if (DimmerLightsIntr->DimmingValue < Dimmer_Minimum) {
                                 DimmerLightsIntr->DimmingValue++;
-                            } else {
+                            }
+                            if (DimmerLightsIntr->DimmingValue == Dimmer_Minimum) {
                                 DimmerLightsIntr->AdjStatus = false;
                             }
                         }
@@ -238,7 +241,7 @@ inline void setDimmerLights_IntrControl(char lights) {
 #ifdef use_1KEY
                 if (lights == 1) {
                     Mosfet1 = false;
-                    ID_1KEY_0;
+                    //                    ID_1KEY_0;
                 }
 #endif
 #ifdef use_2KEY
@@ -259,13 +262,15 @@ inline void setDimmerLights_IntrControl(char lights) {
                         if (DimmerLightsIntr->AdjStatus == false) {
                             if (DimmerLightsIntr->DimmingValue < Dimmer_Maxum) {
                                 DimmerLightsIntr->DimmingValue++;
-                            } else {
+                            }
+                            if (DimmerLightsIntr->DimmingValue == Dimmer_Maxum) {
                                 DimmerLightsIntr->AdjStatus = true;
                             }
                         } else {
                             if (DimmerLightsIntr->DimmingValue > Dimmer_Minimum) {
                                 DimmerLightsIntr->DimmingValue--;
-                            } else {
+                            }
+                            if (DimmerLightsIntr->DimmingValue == Dimmer_Minimum) {
                                 DimmerLightsIntr->AdjStatus = false;
                             }
                         }
@@ -312,7 +317,6 @@ inline void setDimmerLights_IntrControl(char lights) {
             }
         }
     }
-
 #endif
 
 }
