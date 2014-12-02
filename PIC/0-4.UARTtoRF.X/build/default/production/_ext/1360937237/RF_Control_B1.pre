@@ -3072,15 +3072,14 @@ RF1.TransceiveGO = 0;
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 0;
 RF1.RunTime = 10;
+
 RA1 = RA1 == 1 ? 0 : 1;
 
 
-if (RF1.RxStatus == 1 || RF1.ReceiveGO == 1) {
-CC2500_WriteCommand(0x36);
 
-CC2500_WriteCommand(0x3A);
+RF_RxDisable();
 
-}
+# 104
 CC2500_TxData();
 
 } else {
@@ -3093,7 +3092,7 @@ RF1.ReceiveGO = 0;
 RF1.Correction = 0;
 RF1.CorrectionCounter = 0;
 
-# 122
+# 125
 getRxData();
 RF1.Run = 1;
 
@@ -3123,7 +3122,6 @@ CC2500_WriteCommand(0x36);
 
 CC2500_WriteCommand(0x3A);
 CC2500_WriteCommand(0x34);
-
 }
 
 }
@@ -3150,7 +3148,7 @@ RF1.ReceiveGO = 0;
 }
 }
 
-# 183
+# 185
 } else {
 if (myMain.PowerON == 1) {
 RF1.Enable = 1;
@@ -3162,7 +3160,7 @@ RF1.Enable = 1;
 char getRF_KeyStatus() {
 char key = 0;
 
-# 204
+# 206
 return key;
 }
 
@@ -3175,7 +3173,7 @@ if (RF1.TransceiveGO == 0) {
 RF1.TransceiveGO = 1;
 RF1.RunTime = 20;
 
-# 223
+# 225
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 RF_Data[2] = product->Data[2];
@@ -3220,9 +3218,9 @@ if (RF1.ReceiveGO == 1 || RF1.RxStatus == 1) {
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 0;
 CC2500_WriteCommand(0x36);
-CC2500_WriteCommand(0x36);
+
 CC2500_WriteCommand(0x3A);
-CC2500_WriteCommand(0x3B);
+
 
 }
 }
@@ -3270,7 +3268,7 @@ __nop();
 RF1.Checked = 0;
 }
 
-# 320
+# 322
 }
 } else {
 ;
@@ -3296,7 +3294,7 @@ void setControl_Lights_Table() {
 switch (RF_Data[15]) {
 case 0x00:
 
-# 347
+# 349
 product->Data[9]=0;
 product->Data[11]=0;
 product->Data[15]=0;
@@ -3312,32 +3310,32 @@ setTxData();
 break;
 case 0x01:
 
-# 364
+# 366
 break;
 case 0x02:
 
-# 369
+# 371
 break;
 case 0x03:
 
-# 374
+# 376
 break;
 case 0x11:
 
-# 381
+# 383
 break;
 case 0x21:
 
-# 388
+# 390
 break;
 case 0x31:
 
-# 395
+# 397
 break;
 }
 }
 
-# 423
+# 425
 void setRFSW_Control(char sw) {
 char status = 0;
 
@@ -3353,11 +3351,11 @@ setTxData();
 }
 } else {
 
-# 442
+# 444
 }
 if (status == 0) {
 
-# 448
+# 450
 }
 }
 
@@ -3365,7 +3363,7 @@ if (status == 0) {
 void setRFSW_AdjControl(char sw) {
 char status = 0;
 
-# 458
+# 460
 if (status == 1) {
 ;;
 ;;

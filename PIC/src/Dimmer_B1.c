@@ -285,23 +285,6 @@ inline void setDimmerLights_IntrControl(char lights) {
                             DimmerLightsIntr->Signal = false;
                         }
                     }
-
-                    //                    else {
-                    //                        DimmerLightsIntr->Signal = false;
-                    //                        DimmerLightsIntr->StatusFlag = false;
-                    //                        DimmerLights->Loop = false;
-                    //#ifdef use_1KEY
-                    //                        if (lights == 1) {
-                    //                            setLED(1, 0);
-                    //                            setLED2(1);
-                    //                        }
-                    //#endif
-                    //#ifdef use_2KEY
-                    //                        if (lights == 2) {
-                    //                            LED2 = 0;
-                    //                        }
-                    //#endif
-                    //                    }
                 }
             }
         }

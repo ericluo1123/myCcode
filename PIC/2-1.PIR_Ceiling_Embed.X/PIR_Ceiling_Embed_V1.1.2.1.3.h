@@ -107,7 +107,7 @@
 //INT
 #define INT_use_Value 0
 //UART
-#define UART_use_Value              0
+#define UART_use_Value              1
 #define UART_Master_Value           1
 #define UART_Slave_Value            0
 #define UART_Data_Length_Vallue     8

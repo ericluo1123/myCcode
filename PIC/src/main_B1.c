@@ -258,7 +258,7 @@ inline void my_MainTimer() {
             }
         }
 #endif
-    }
+    } 
 #ifndef MCU_16F723A
     myMain.Count2++;
     if (myMain.Count2 == 100) {

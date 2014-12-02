@@ -305,7 +305,7 @@ inline void TMR2_ISR() {
             Timer2.Count = 0;
             Timer2.Timeout = true;
         }
-        ErrLED = ErrLED == true ? false : true;
+        //        ErrLED = ErrLED == true ? false : true;
     }
 }
 
@@ -794,15 +794,20 @@ void UART_Receive() {
     //    for (int i = 0; i < UART_Data_Length; i++) {
     //        product->Data[2 + i] = UART.Data[i];
     //    }
+#if UART_Data_Length == 8
     product->Data[2] = UART.Data[0];
     product->Data[3] = UART.Data[1];
     product->Data[4] = UART.Data[2];
     product->Data[5] = UART.Data[3];
     product->Data[6] = UART.Data[4];
-    setTxData();
+    product->Data[7] = UART.Data[5];
+    product->Data[8] = UART.Data[6];
+    product->Data[9] = UART.Data[7];
+#endif
 
+    setTxData();
 #endif
-#endif
+#endif 
 #if UART_Master == 1
     myMain.Test = 1;
 #if I2C_use == 1
@@ -828,14 +833,22 @@ void UART_SetData() {
     UART.TxGO = 1;
     LED2 = ~LED2;
 #endif
+
+#ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
     if (UART.TxGO == false) {
-        for (int i = 0; i < UART_Data_Length; i++) {
-            UART.Data[i] = i;
-        }
+        UART.Data[0] = 1;
+        UART.Data[1] = 2;
+        UART.Data[2] = 3;
+        UART.Data[3] = 4;
+        UART.Data[4] = 5;
+        UART.Data[5] = 6;
+        UART.Data[6] = 7;
+        UART.Data[7] = 8;
         ErrLED = ErrLED == true ? false : true;
         //    UART.Data[0] = 0x64;
         UART.TxGO = true;
     }
+#endif
 }
 //*********************************************************
 
