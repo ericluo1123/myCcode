@@ -73,7 +73,7 @@ inline void Load_Main() {
                         Load.ADH = 0;
                         Load.ADL = 0;
                         Load.LightsCount = getMain_Lights_Count();
-              
+
                         if (Load.Run == true) {
                             if (Load.Count < 2) {
                                 Load.Count++;
@@ -100,11 +100,24 @@ inline void Load_Main() {
                                 //                                setLED(1, 11);
                                 //#endif
 #if Load_Debug == 1
+#if PIR_use == 1
+#if UART_use == 1
+                                UART.Data[0] = (Load.AD >> 8);
+                                UART.Data[1] = Load.AD;
+                                UART.Data[2] = (Load.JudgeValue >> 8);
+                                UART.Data[3] = Load.JudgeValue;
+                                UART.Data[4] = Load.LightsCount;
+                                UART.Data[5] = 0;
+                                UART.Data[6] = 0;
+                                UART.Data[7] = 0;
+#endif
+#else
                                 setProductData(4, (Load.AD >> 8));
                                 setProductData(5, Load.AD);
                                 setProductData(6, (Load.JudgeValue >> 8));
                                 setProductData(7, Load.JudgeValue);
                                 setProductData(8, Load.LightsCount);
+#endif
 #endif
                             }
                         } else {
@@ -120,12 +133,26 @@ inline void Load_Main() {
                                         Load.TotalLoad = Load.AD;
 
 #if Load_Debug == 1
+#if PIR_use == 1
+
+#if UART_use == 1
+                                        UART.Data[0] = (Load.AD >> 8);
+                                        UART.Data[1] = Load.AD;
+                                        UART.Data[2] = (Load.JudgeValue >> 8);
+                                        UART.Data[3] = Load.JudgeValue;
+                                        UART.Data[4] = Load.LightsCount;
+                                        UART.Data[5] = 0;
+                                        UART.Data[6] = 0;
+                                        UART.Data[7] = 0;
+#endif
+#else
                                         setProductData(4, (Load.AD >> 8));
                                         setProductData(5, Load.AD);
                                         setProductData(6, (Load.JudgeValue >> 8));
                                         setProductData(7, Load.JudgeValue);
                                         setProductData(8, Load.LightsCount);
 
+#endif
 #endif
                                     }
                                 }
@@ -155,11 +182,24 @@ inline void Load_Main() {
                 Load.Run = false;
                 Load.OK = true;
 #if Load_Debug == 1
+#if PIR_use == 1
+#if UART_use == 1
+                UART.Data[0] = (Load.AD >> 8);
+                UART.Data[1] = Load.AD;
+                UART.Data[2] = (Load.JudgeValue >> 8);
+                UART.Data[3] = Load.JudgeValue;
+                UART.Data[4] = Load.LightsCount;
+                UART.Data[5] = 0;
+                UART.Data[6] = 0;
+                UART.Data[7] = 0;
+#endif
+#else
                 setProductData(4, (Load.AD >> 8));
                 setProductData(5, Load.AD);
                 setProductData(6, (Load.JudgeValue >> 8));
                 setProductData(7, Load.JudgeValue);
                 setProductData(8, Load.LightsCount);
+#endif
 #endif
             }
             if (Load.ERROR == true) {
@@ -197,6 +237,7 @@ void setLoad_OK() {
 }
 
 //******************************************************************************
+
 char getLoad_ERROR() {
     char result = Load.ERROR;
 

@@ -42,10 +42,11 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
     }
 #endif
 #if Control_Method_Mosfet == 1
-    if (DimmerLightsIntrIOC->GO == false && DimmerLightsIntrIOC->MosfetSignal == false) {
+    if (DimmerLightsIntrIOC->GO == false && DimmerLightsIntrIOC->MosfetSignal == false && DimmerReference1 == false) {
         DimmerLightsIntrIOC->GO = true;
         DimmerLightsIntrIOC->MosfetSignal = true;
         Dimmer.Correction = 0;
+
         if (DimmerLightsIntrIOC->StatusFlag == true) {
             DimmerLightsIntrIOC->MOSFET = true;
 #ifdef use_1KEY

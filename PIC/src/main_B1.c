@@ -208,7 +208,7 @@ inline void my_MainTimer() {
             //            ErrLED = ErrLED == true ? false : true;
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
             if (UART.TxGO == false) {
-                UART_SetData();
+                UART_SetData(); 
             }
 
 #endif

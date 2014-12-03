@@ -256,10 +256,10 @@ typedef unsigned int ADtype;
 #endif
 //RF cc2500
 #if CC2500_use	== 1
-
+ 
 #define RadioFrequency1
 #define Tx_Enable 	1
-#define Rx_Enable 	1
+#define Rx_Enable 	0
 #define Sleep_Mode      0
 
 #endif

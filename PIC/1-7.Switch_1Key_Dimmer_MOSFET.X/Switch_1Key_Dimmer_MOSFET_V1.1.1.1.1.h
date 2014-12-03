@@ -49,10 +49,10 @@
 #define	Key1_4                  	RA7		//pin9	1
 
 #define TTPW    			RB0		//pin21 0
-#define PinEmpty6			RB1		//pin22 0
+#define Mosfet1 			RB1		//pin22 0
 #define DimmerReference1                RB2		//pin23 1
 #define Buzzer1				RB3		//pin24	0
-#define Mosfet1                         RB4		//pin25 0
+#define PinEmpty6                       RB4		//pin25 0
 #define ErrLED				RB5		//pin26	0
 #define PinEmpty1			RB6		//pin27	0	
 #define PinEmpty2			RB7		//pin28 0	

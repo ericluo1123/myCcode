@@ -3095,7 +3095,7 @@ inline void setDimmerReClock() {
 # 263
 }
 
-# 719
+# 720
 void UART_Set() {
 
 TRISC7 = 1;
@@ -3124,7 +3124,7 @@ UART.Data[i] = getch();
 }
 UART.RxGO = 1;
 
-# 752
+# 753
 RCIF = 0;
 }
 }
@@ -3151,7 +3151,7 @@ for (int i = 0; i < 8; i++) {
 
 putch(UART.Data[i]);
 
-# 784
+# 785
 }
 
 
@@ -3160,25 +3160,29 @@ putch(UART.Data[i]);
 
 void UART_Receive() {
 
-# 797
+# 799
 product->Data[2] = UART.Data[0];
 product->Data[3] = UART.Data[1];
 product->Data[4] = UART.Data[2];
 product->Data[5] = UART.Data[3];
 product->Data[6] = UART.Data[4];
-setTxData();
+product->Data[7] = UART.Data[5];
+product->Data[8] = UART.Data[6];
+product->Data[9] = UART.Data[7];
 
+
+setTxData();
 
 
 
 myMain.Test = 1;
 
-# 821
+# 827
 }
 
 void UART_SetData() {
 
-# 842
+# 853
 }
 
 

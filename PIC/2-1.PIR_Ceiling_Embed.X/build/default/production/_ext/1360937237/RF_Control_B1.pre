@@ -2098,43 +2098,58 @@ struct PIRLED PIRLED;
 
 void setPIRLED_Main();
 
-# 7 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h"
-struct OverTemp {
+# 47 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
+struct OverLoad {
 
 union {
 
 struct {
 unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned ADtoGO : 1;
-unsigned LoadADGO : 1;
 unsigned GO : 1;
-unsigned empty : 3;
+unsigned LightsON : 1;
+unsigned Run : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
 };
 };
+
 unsigned int Time;
-unsigned char Count;
+unsigned int ErrorTime;
 
-unsigned char AD1;
-unsigned char AD2;
+unsigned int ADH;
+unsigned int ADL;
 
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
 ADtype AD;
-ADtype ADH[2];
 ADtype ADRES;
-ADtype SafeValue;
-ADtype DangerValue;
 
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char ErrorCount;
+unsigned char LightsCount;
+unsigned char SafeCount;
 };
 
-struct OverTemp Temp;
 
-# 83
-inline void Temp_Initialization();
-inline void Temp_Main();
-void setTemp_Main();
-void setTemp_Initialization();
-inline void getTemp_AD(char channel);
-void setOverTemp_Exceptions(char command);
+struct OverLoad Load;
+
+# 92
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 103
+char getLoad_OK();
+void setLoad_OK();
 
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {

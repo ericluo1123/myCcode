@@ -2098,43 +2098,58 @@ struct PIRLED PIRLED;
 
 void setPIRLED_Main();
 
-# 7 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h"
-struct OverTemp {
+# 47 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
+struct OverLoad {
 
 union {
 
 struct {
 unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned ADtoGO : 1;
-unsigned LoadADGO : 1;
 unsigned GO : 1;
-unsigned empty : 3;
+unsigned LightsON : 1;
+unsigned Run : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
 };
 };
+
 unsigned int Time;
-unsigned char Count;
+unsigned int ErrorTime;
 
-unsigned char AD1;
-unsigned char AD2;
+unsigned int ADH;
+unsigned int ADL;
 
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
 ADtype AD;
-ADtype ADH[2];
 ADtype ADRES;
-ADtype SafeValue;
-ADtype DangerValue;
 
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char ErrorCount;
+unsigned char LightsCount;
+unsigned char SafeCount;
 };
 
-struct OverTemp Temp;
 
-# 83
-inline void Temp_Initialization();
-inline void Temp_Main();
-void setTemp_Main();
-void setTemp_Initialization();
-inline void getTemp_AD(char channel);
-void setOverTemp_Exceptions(char command);
+struct OverLoad Load;
+
+# 92
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 103
+char getLoad_OK();
+void setLoad_OK();
 
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
@@ -2299,105 +2314,4 @@ void setLights_Line(char lights);
 char getAll_Lights_Line();
 char getLightsControl_GO();
 char getLightsControl_OK();
-
-# 8 "../src/OverTemperature_B1.c"
-inline void Temp_Initialization() {
-
-setTemp_Initialization();
-
-}
-
-
-inline void getTemp_AD(char channel) {
-
-# 32
-if (Temp.ADtoGO == 1) {
-Temp.GO = 1;
-Temp.ADRES = getAD(channel, 0x70);
-if (Temp.ADH[0] < Temp.ADRES) {
-Temp.ADH[0] = Temp.ADRES;
-} else if (Temp.ADH[1] < Temp.ADRES) {
-Temp.ADH[1] = Temp.ADRES;
-}
-}
-
-}
-
-
-void setTemp_Initialization() {
-
-}
-
-
-inline void Temp_Main() {
-
-setTemp_Main();
-
-}
-
-
-void setTemp_Main() {
-if (Temp.Enable == 1) {
-if (Temp.ADtoGO == 0) {
-Temp.Time++;
-if (Temp.Time >= 500) {
-Temp.Time = 0;
-Temp.ADtoGO = 1;
-}
-} else {
-if (getMain_All_Error_Status(2) == 0) {
-Temp.Time++;
-if (Temp.Time >= 5) {
-Temp.Time = 0;
-if (Temp.GO == 1) {
-Temp.ADtoGO = 0;
-Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
-
-if (getMain_LightsStatus() == 1) {
-Temp.SafeValue = 140;
-Temp.DangerValue = 100;
-} else {
-Temp.SafeValue = 100;
-Temp.DangerValue = 70;
-}
-
-# 89
-if (Temp.ERROR == 1) {
-if (Temp.AD >= Temp.SafeValue) {
-Temp.Count++;
-if (Temp.Count >= 3) {
-Temp.Count = 0;
-Temp.ERROR = 0;
-;;
-}
-} else {
-Temp.Count = 0;
-}
-} else {
-if (Temp.AD <= Temp.DangerValue) {
-Temp.Count++;
-if (Temp.Count >= 3) {
-Temp.Count = 0;
-Temp.ERROR = 1;
-}
-} else {
-Temp.Count = 0;
-}
-}
-;;
-;;
-
-# 118
-Temp.ADH[0] = 0;
-Temp.ADH[1] = 0;
-}
-}
-}
-}
-} else {
-if (myMain.PowerON == 1) {
-Temp.Enable = 1;
-}
-}
-}
 

@@ -407,6 +407,7 @@ inline void IOC_ISR() {
 #if Dimmer_use == true
             setDimmerReClock();
 #endif
+
         }
     }
 }
@@ -836,14 +837,14 @@ void UART_SetData() {
 
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
     if (UART.TxGO == false) {
-        UART.Data[0] = 1;
-        UART.Data[1] = 2;
-        UART.Data[2] = 3;
-        UART.Data[3] = 4;
-        UART.Data[4] = 5;
-        UART.Data[5] = 6;
-        UART.Data[6] = 7;
-        UART.Data[7] = 8;
+//        UART.Data[0] = 1;
+//        UART.Data[1] = 2;
+//        UART.Data[2] = 3;
+//        UART.Data[3] = 4;
+//        UART.Data[4] = 5;
+//        UART.Data[5] = 6;
+//        UART.Data[6] = 7;
+//        UART.Data[7] = 8;
         ErrLED = ErrLED == true ? false : true;
         //    UART.Data[0] = 0x64;
         UART.TxGO = true;

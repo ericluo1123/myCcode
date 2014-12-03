@@ -89,7 +89,7 @@ void setRF_Main() {
                         RF1.RxStatus = false;
                         RF1.ReceiveGO = false;
                         RF1.RunTime = 10;
-#ifdef _UARTtoRF_H_
+#ifdef _UARTtoRF_H_ 
                         LED1 = LED1 == true ? false : true;
 #endif
                         //                        CC2500_ReadStatus(CC2500_RXBYTES);
@@ -106,8 +106,9 @@ void setRF_Main() {
                     } else {
 
                         if (RF1.RxStatus == true) { // Check whether have data
-
+#if Rx_Enable == 1
                             CC2500_RxData();
+#endif
                             if (RF1.ReceiveGO == true) {
                                 RF1.ReceiveGO = false;
                                 RF1.Correction = false;
@@ -221,9 +222,13 @@ void setTxData() {
             //        for (i = 0; i < 20; i++) {
             //            RF_Data[i] = product->Data[i];
             //        }
-
+#if myUARTtoRF_use == 1
+            RF_Data[0] = 0xAA; //Product->Data[0];		//Command
+            RF_Data[1] = 0x01; //Product->Data[1];		//Command
+#else
             RF_Data[0] = 0x63; //Product->Data[0];		//Command
             RF_Data[1] = 0x02; //Product->Data[1];		//Command
+#endif
             RF_Data[2] = product->Data[2]; //Temperature
             RF_Data[3] = product->Data[3]; //Temperature
             RF_Data[4] = product->Data[4]; //Humidity
