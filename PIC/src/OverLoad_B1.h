@@ -7,7 +7,7 @@
 
 #if OverLoad_use == 1
  
-#define Load_Debug 1
+#define Load_Debug 0
 
 #ifdef MCU_16F723A
 
@@ -59,7 +59,7 @@ struct OverLoad {
             unsigned OK : 1;
         };
     };
-
+ 
     unsigned int Time;
     unsigned int ErrorTime;
     //   unsigned char ErrorStatus;

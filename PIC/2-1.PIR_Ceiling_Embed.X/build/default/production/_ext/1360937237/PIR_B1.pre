@@ -2098,59 +2098,6 @@ struct PIRLED PIRLED;
 
 void setPIRLED_Main();
 
-# 47 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
-struct OverLoad {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned LightsON : 1;
-unsigned Run : 1;
-unsigned ADtoGO : 1;
-unsigned ERROR : 1;
-unsigned Status : 1;
-unsigned OK : 1;
-};
-};
-
-unsigned int Time;
-unsigned int ErrorTime;
-
-unsigned int ADH;
-unsigned int ADL;
-
-ADtype TotalLoad;
-ADtype AH[5];
-ADtype AL[5];
-ADtype AD;
-ADtype ADRES;
-
-unsigned int LightsJudgeValue;
-unsigned int JudgeValue;
-unsigned int Judge;
-
-unsigned char Count;
-unsigned char ErrorCount;
-unsigned char LightsCount;
-unsigned char SafeCount;
-};
-
-
-struct OverLoad Load;
-
-# 92
-inline void Load_Initialization();
-inline void Load_Main();
-inline void getLoad_AD(char channel);
-void setLoad_Exceptions(char command);
-void setLoad_AH_AL_Restore();
-
-# 103
-char getLoad_OK();
-void setLoad_OK();
-
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
 
@@ -2185,7 +2132,7 @@ inline void CDS_Main();
 inline void getCDS_AD(char channel1, char channel2);
 char getCDS_Status();
 
-# 16 "../src/../2-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
+# 17 "../src/../2-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
 struct PIR {
 
 union {
@@ -2208,7 +2155,7 @@ unsigned char ADRES;
 unsigned char VRAD;
 unsigned char VRAD1;
 
-# 45
+# 46
 unsigned char Time;
 unsigned char ReferenceVoltage;
 
@@ -2333,8 +2280,6 @@ _PIR.Available = 1;
 setLED(1, 0);
 if (_PIR.OK == 0) {
 setLED(2, 1);
-
-# 31
 }
 }
 } else {
@@ -2381,18 +2326,18 @@ if (_PIR.RangeCount >= 90) {
 _PIR.RangeTime1 = 0;
 
 if (_PIR.RangeValue == 15) {
-_PIR.RangeValue = 25;
-} else if (_PIR.RangeValue == 25) {
-_PIR.RangeValue = 35;
+_PIR.RangeValue = (15+10);
+} else if (_PIR.RangeValue == (15+10)) {
+_PIR.RangeValue = (15+20);
 }
 } else if (_PIR.RangeCount <= 10) {
 _PIR.RangeTime1++;
 if (_PIR.RangeTime1 == 2) {
 _PIR.RangeTime1 = 0;
 
-if (_PIR.RangeValue == 35) {
-_PIR.RangeValue = 25;
-} else if (_PIR.RangeValue == 25) {
+if (_PIR.RangeValue == (15+20)) {
+_PIR.RangeValue = (15+10);
+} else if (_PIR.RangeValue == (15+10)) {
 _PIR.RangeValue = 15;
 }
 }
@@ -2466,6 +2411,13 @@ setLights_Trigger(1, 0);
 } else {
 if (myMain.PowerON == 1) {
 _PIR.Enable = 1;
+
+
+if (getLights_Status(1) == 0) {
+setLights_Trigger(1, 1);
+}
+
+
 }
 }
 }

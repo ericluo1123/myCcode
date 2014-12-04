@@ -2098,59 +2098,6 @@ struct PIRLED PIRLED;
 
 void setPIRLED_Main();
 
-# 47 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
-struct OverLoad {
-
-union {
-
-struct {
-unsigned Enable : 1;
-unsigned GO : 1;
-unsigned LightsON : 1;
-unsigned Run : 1;
-unsigned ADtoGO : 1;
-unsigned ERROR : 1;
-unsigned Status : 1;
-unsigned OK : 1;
-};
-};
-
-unsigned int Time;
-unsigned int ErrorTime;
-
-unsigned int ADH;
-unsigned int ADL;
-
-ADtype TotalLoad;
-ADtype AH[5];
-ADtype AL[5];
-ADtype AD;
-ADtype ADRES;
-
-unsigned int LightsJudgeValue;
-unsigned int JudgeValue;
-unsigned int Judge;
-
-unsigned char Count;
-unsigned char ErrorCount;
-unsigned char LightsCount;
-unsigned char SafeCount;
-};
-
-
-struct OverLoad Load;
-
-# 92
-inline void Load_Initialization();
-inline void Load_Main();
-inline void getLoad_AD(char channel);
-void setLoad_Exceptions(char command);
-void setLoad_AH_AL_Restore();
-
-# 103
-char getLoad_OK();
-void setLoad_OK();
-
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
 
@@ -2185,7 +2132,7 @@ inline void CDS_Main();
 inline void getCDS_AD(char channel1, char channel2);
 char getCDS_Status();
 
-# 16 "../src/../2-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
+# 17 "../src/../2-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
 struct PIR {
 
 union {
@@ -2208,7 +2155,7 @@ unsigned char ADRES;
 unsigned char VRAD;
 unsigned char VRAD1;
 
-# 45
+# 46
 unsigned char Time;
 unsigned char ReferenceVoltage;
 
@@ -2343,17 +2290,7 @@ LightsPointSelect(lights);
 
 void Lights_Main() {
 
-
-if (getMain_All_Error_Status(0) == 0) {
-if (LightsControl.LoadOK == 1) {
-LightsControl.LoadOK = getLoad_OK() == 1 || getMain_LightsStatus() == 0 ? 0 : LightsControl.LoadOK;
-}
-} else {
-LightsControl.LoadOK = 0;
-}
-
-
-
+# 67
 setLights_Main(1);
 Lights_Control(1);
 
@@ -2392,11 +2329,7 @@ void setLights(char lights, char status) {
 
 LightsPointSelect(lights);
 
-
-LightsControl.LoadOK = getMain_All_Error_Status(0) == 0 ? 1 : 0;
-
-
-
+# 120
 Lights->GO = 1;
 if (status == 1) {
 if (Lights->Status == 0) {
@@ -2440,11 +2373,7 @@ Lights->Time = 0;
 Lights->GO = 0;
 Lights->RelaySet = 0;
 
-
-LightsControl.Detect = Lights->Status == 0 ? 1 : LightsControl.Detect;
-
-
-
+# 187
 if (lights == 1) {
 RB2 = 0;
 }

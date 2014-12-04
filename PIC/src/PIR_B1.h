@@ -7,9 +7,10 @@
 #if PIR_use == 1
 
 //detect range
-#define RangeMaximum	35
-#define RangeMedium	25
 #define RangeMinimum	15
+#define RangeMedium	(RangeMinimum+10)
+#define RangeMaximum	(RangeMinimum+20)
+
 
 #define Hunder_Average 1
 

@@ -3460,10 +3460,11 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
 DimmerIntrIOCPointSelect(lights);
 
 # 45
-if (DimmerLightsIntrIOC->GO == 0 && DimmerLightsIntrIOC->MosfetSignal == 0) {
+if (DimmerLightsIntrIOC->GO == 0 && DimmerLightsIntrIOC->MosfetSignal == 0 && RB2 == 0) {
 DimmerLightsIntrIOC->GO = 1;
 DimmerLightsIntrIOC->MosfetSignal = 1;
 Dimmer.Correction = 0;
+
 if (DimmerLightsIntrIOC->StatusFlag == 1) {
 DimmerLightsIntrIOC->MOSFET = 1;
 
@@ -3497,7 +3498,7 @@ if (lights == 2) {
 DimmerLightsIntr = &DimmerLights2;
 }
 
-# 88
+# 89
 }
 
 
@@ -3505,7 +3506,7 @@ DimmerLightsIntr = &DimmerLights2;
 
 inline void setDimmerLights_IntrControl(char lights) {
 
-# 231
+# 232
 DimmerIntrPointSelect(lights);
 if (DimmerLightsIntr->GO == 1) {
 DimmerLightsIntr->Count++;
@@ -3563,8 +3564,6 @@ DimmerLightsIntr->AdjRF = 0;
 DimmerLightsIntr->Signal = 0;
 }
 }
-
-# 305
 }
 }
 }
@@ -3597,7 +3596,7 @@ if (lights == 2) {
 DimmerLights = &DimmerLights2;
 }
 
-# 342
+# 326
 }
 
 
@@ -3611,7 +3610,7 @@ setDimmerLights_Initialization(1);
 DimmerLights22 = &DimmerLights2;
 setDimmerLights_Initialization(2);
 
-# 362
+# 346
 Dimmer_Initialization();
 
 
@@ -3622,14 +3621,14 @@ void setDimmerLights_Initialization(char lights) {
 
 DimmerLightsPointSelect(lights);
 
-# 376
+# 360
 DimmerLights->MaxmumValue = ((char)(80*0.8));
 DimmerLights->MinimumValue = ((char)(15*0.8));
 
-# 391
+# 375
 DimmerLights->DimmingValue = DimmerLights->MaxmumValue;
 
-# 403
+# 387
 }
 
 
@@ -3651,7 +3650,7 @@ setDimmerLights_Main(1);
 
 setDimmerLights_Main(2);
 
-# 429
+# 413
 }
 
 
@@ -3694,10 +3693,10 @@ return status;
 char getDimmerLights_StatusFlag() {
 char Status = 0;
 
-# 476
+# 460
 Status = (DimmerLights1.StatusFlag == 1 || DimmerLights2.StatusFlag == 1) ? 1 : 0;
 
-# 483
+# 467
 return Status;
 }
 
@@ -3705,10 +3704,10 @@ return Status;
 char getDimmerLights_Trigger() {
 char Status = 0;
 
-# 495
+# 479
 Status = (DimmerLights1.Trigger == 1 || DimmerLights2.Trigger == 1) ? 1 : 0;
 
-# 502
+# 486
 return Status;
 }
 
@@ -3716,10 +3715,10 @@ return Status;
 char getAll_DimmerLights_AdjGO() {
 char adjgo = 0;
 
-# 512
+# 496
 adjgo = DimmerLights1.AdjGo == 1 || DimmerLights2.AdjGo == 1 ? 1 : 0;
 
-# 517
+# 501
 return adjgo;
 }
 
@@ -3784,10 +3783,10 @@ setDimmerLights_TriggerAdj(sw, 1);
 void setDimmerLights_ErrorClose(char lights) {
 if (lights == 255) {
 
-# 584
+# 568
 char count = 2;
 
-# 589
+# 573
 for (int i = 0; i < count; i++) {
 DimmerLightsPointSelect(i + 1);
 if (getDimmerLights_Status(i + 1) == 1) {
@@ -3805,7 +3804,7 @@ setDimmerLights_SwOff(lights);
 }
 }
 
-# 613
+# 597
 }
 
 char getDimmer_LoadOK() {
@@ -3835,11 +3834,11 @@ setLED(lights, 0);
 setDimmerLights_Line(lights);
 DimmerLights->StatusFlag = 1;
 
-# 647
+# 631
 DimmerLights->DimmingValue = ((char)(80*0.8));
 product->Data[(20 + lights)]=setPercentValue(((char)(80*0.8)));
 
-# 656
+# 640
 DimmerLights->DimmingTimeValue = 7;
 
 } else {
@@ -3848,7 +3847,7 @@ DimmerLights->Loop = 0;
 setLED(lights, 1);
 ;(1);
 
-# 669
+# 653
 DimmerLights->MosfetClose = 1;
 
 
@@ -3870,7 +3869,7 @@ DimmerLights1.Line = 0;
 
 DimmerLights2.Line = 0;
 
-# 694
+# 678
 if (lights == 1) {
 DimmerLights1.Line = 1;
 }
@@ -3880,7 +3879,7 @@ else if (lights == 2) {
 DimmerLights2.Line = 1;
 }
 
-# 708
+# 692
 }
 
 
@@ -3896,7 +3895,7 @@ else if (DimmerLights2.Line == 1) {
 line = 2;
 }
 
-# 728
+# 712
 return line;
 }
 
@@ -3913,7 +3912,7 @@ DimmerLights->AdjFlag = 0;
 DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
 product->Data[(20 + lights)]=setPercentValue(DimmerLights->DimmingValue);
 
-# 752
+# 736
 Dimmer.LoadOK = getMain_All_Error_Status(0) == 0 ? 1 : 0;
 
 
@@ -3957,10 +3956,10 @@ DimmerLights->TriggerAdj = 1;
 DimmerLights->AdjGo = command == 1 ? 1 : 0;
 }
 
-# 874
+# 858
 char getPercentValue(char value) {
 
-# 882
+# 866
 float i = ((char)(80*0.8)) - ((char)(15*0.8));
 i /= 100;
 
@@ -3971,7 +3970,7 @@ return (char) (((char)(80*0.8)) - ((100 - value) * i));
 
 char setPercentValue(char value) {
 
-# 898
+# 882
 float i = ((char)(80*0.8)) - ((char)(15*0.8));
 i /= 100;
 

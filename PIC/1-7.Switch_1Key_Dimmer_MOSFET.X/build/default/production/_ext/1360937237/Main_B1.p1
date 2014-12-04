@@ -232,8 +232,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _DelayOff_Main `TF2594 ~T0 @X0 0 e ]
 "62 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Buzzer_B1.h
 [v _setBuz `(v ~T0 @X0 0 ef2`uc`i ]
-"56 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h
-[v _setTxData `(v ~T0 @X0 0 ef ]
 "150 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h
 [v _getDimmerLights_Line `(uc ~T0 @X0 0 ef ]
 "97 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/LED_B1.h
@@ -3319,344 +3317,327 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.c: 207: myMain.PowerCount = 0;
 "207
 [e = . _myMain 1 -> -> 0 `i `ui ]
-"215
+"219
 }
 [e :U 304 ]
-[; ;Main_B1.c: 215: }
-[; ;Main_B1.c: 223: myMain.Count1++;
-"223
+[; ;Main_B1.c: 219: }
+[; ;Main_B1.c: 221: myMain.Count1++;
+"221
 [e ++ . _myMain 3 -> -> 1 `i `ui ]
-[; ;Main_B1.c: 224: if (myMain.Count1 == 100)
-"224
+[; ;Main_B1.c: 222: if (myMain.Count1 == 100)
+"222
 [e $ ! == . _myMain 3 -> -> 100 `i `ui 305  ]
-[; ;Main_B1.c: 225: {
-"225
+[; ;Main_B1.c: 223: {
+"223
 {
-[; ;Main_B1.c: 226: myMain.Count1 = 0;
-"226
+[; ;Main_B1.c: 224: myMain.Count1 = 0;
+"224
 [e = . _myMain 3 -> -> 0 `i `ui ]
-[; ;Main_B1.c: 238: if (myMain.Flag) {
-"238
+[; ;Main_B1.c: 236: if (myMain.Flag) {
+"236
 [e $ ! != -> . . . _myMain 0 0 1 `i -> -> -> 0 `i `uc `i 306  ]
 {
-[; ;Main_B1.c: 239: myMain.Flag = 0;
-"239
+[; ;Main_B1.c: 237: myMain.Flag = 0;
+"237
 [e = . . . _myMain 0 0 1 -> -> 0 `i `uc ]
-"248
+"246
 }
-[; ;Main_B1.c: 248: } else {
+[; ;Main_B1.c: 246: } else {
 [e $U 307  ]
 [e :U 306 ]
 {
-[; ;Main_B1.c: 249: myMain.Flag = 1;
-"249
+[; ;Main_B1.c: 247: myMain.Flag = 1;
+"247
 [e = . . . _myMain 0 0 1 -> -> 1 `i `uc ]
-"258
+"256
 }
 [e :U 307 ]
-"259
+"257
 }
 [e :U 305 ]
-"261
+"263
 }
 [e :U 303 ]
-[; ;Main_B1.c: 258: }
-[; ;Main_B1.c: 259: }
-[; ;Main_B1.c: 261: }
-[; ;Main_B1.c: 263: myMain.Count2++;
-"263
-[e ++ . _myMain 4 -> -> 1 `i `ui ]
-[; ;Main_B1.c: 264: if (myMain.Count2 == 100) {
+[; ;Main_B1.c: 256: }
+[; ;Main_B1.c: 257: }
+[; ;Main_B1.c: 263: }
+[; ;Main_B1.c: 264: }
 "264
-[e $ ! == . _myMain 4 -> -> 100 `i `ui 308  ]
-{
-[; ;Main_B1.c: 265: myMain.Count2 = 0;
-"265
-[e = . _myMain 4 -> -> 0 `i `ui ]
-[; ;Main_B1.c: 267: setTxData();
-"267
-[e ( _setTxData ..  ]
-"269
-}
-[e :U 308 ]
-[; ;Main_B1.c: 269: }
-[; ;Main_B1.c: 271: }
-"271
 [e :UE 300 ]
 }
 [v F2121 `(v ~T0 @X0 1 tf ]
-"274
+"267
 [v _Timeout_Counter `TF2121 ~T0 @X0 1 e ]
 {
-[; ;Main_B1.c: 274: inline void Timeout_Counter() {
+[; ;Main_B1.c: 267: inline void Timeout_Counter() {
 [e :U _Timeout_Counter ]
 [f ]
-[; ;Main_B1.c: 275: myMain.Timeout_Counter++;
-"275
+[; ;Main_B1.c: 268: myMain.Timeout_Counter++;
+"268
 [e ++ . _myMain 8 -> -> 1 `i `ui ]
-[; ;Main_B1.c: 276: if (myMain.Timeout_Counter == 10000) {
-"276
-[e $ ! == . _myMain 8 -> -> 10000 `i `ui 310  ]
+[; ;Main_B1.c: 269: if (myMain.Timeout_Counter == 10000) {
+"269
+[e $ ! == . _myMain 8 -> -> 10000 `i `ui 309  ]
 {
-[; ;Main_B1.c: 277: myMain.Timeout_Counter = 0;
-"277
+[; ;Main_B1.c: 270: myMain.Timeout_Counter = 0;
+"270
 [e = . _myMain 8 -> -> 0 `i `ui ]
-[; ;Main_B1.c: 278: myMain.Timeout = 1;
-"278
+[; ;Main_B1.c: 271: myMain.Timeout = 1;
+"271
 [e = . . . _myMain 7 0 2 -> -> 1 `i `uc ]
-"279
+"272
 }
-[e :U 310 ]
-[; ;Main_B1.c: 279: }
-[; ;Main_B1.c: 280: }
-"280
-[e :UE 309 ]
+[e :U 309 ]
+[; ;Main_B1.c: 272: }
+[; ;Main_B1.c: 273: }
+"273
+[e :UE 308 ]
 }
 [v F2123 `(v ~T0 @X0 1 tf ]
-"283
+"276
 [v _set_TimeoutCleared `TF2123 ~T0 @X0 1 e ]
 {
-[; ;Main_B1.c: 283: inline void set_TimeoutCleared() {
+[; ;Main_B1.c: 276: inline void set_TimeoutCleared() {
 [e :U _set_TimeoutCleared ]
 [f ]
-[; ;Main_B1.c: 284: myMain.Timeout = 0;
-"284
+[; ;Main_B1.c: 277: myMain.Timeout = 0;
+"277
 [e = . . . _myMain 7 0 2 -> -> 0 `i `uc ]
-[; ;Main_B1.c: 285: myMain.Timeout_Counter = 0;
-"285
+[; ;Main_B1.c: 278: myMain.Timeout_Counter = 0;
+"278
 [e = . _myMain 8 -> -> 0 `i `ui ]
-[; ;Main_B1.c: 286: }
-"286
-[e :UE 311 ]
+[; ;Main_B1.c: 279: }
+"279
+[e :UE 310 ]
 }
-"289
+"282
 [v _setMain_Exception `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;Main_B1.c: 289: void setMain_Exception(char command) {
+[; ;Main_B1.c: 282: void setMain_Exception(char command) {
 [e :U _setMain_Exception ]
 [v _command `uc ~T0 @X0 1 r1 ]
 [f ]
-"290
+"283
 [v _status `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 290: char status = 0, buz = 0;
+[; ;Main_B1.c: 283: char status = 0, buz = 0;
 [e = _status -> -> 0 `i `uc ]
 [v _buz `uc ~T0 @X0 1 a ]
 [e = _buz -> -> 0 `i `uc ]
-[; ;Main_B1.c: 307: status = command == 3 ? getDimmerLights_Line() : 255;
-"307
+[; ;Main_B1.c: 300: status = command == 3 ? getDimmerLights_Line() : 255;
+"300
 [e = _status -> ? == -> _command `i -> 3 `i : -> ( _getDimmerLights_Line ..  `i -> 255 `i `uc ]
-[; ;Main_B1.c: 309: if (command == 0) {
-"309
-[e $ ! == -> _command `i -> 0 `i 313  ]
+[; ;Main_B1.c: 302: if (command == 0) {
+"302
+[e $ ! == -> _command `i -> 0 `i 312  ]
 {
-[; ;Main_B1.c: 310: setLED(99, 10);
-"310
+[; ;Main_B1.c: 303: setLED(99, 10);
+"303
 [e ( _setLED (2 , -> -> 99 `i `uc -> -> 10 `i `uc ]
-"311
+"304
 }
-[; ;Main_B1.c: 311: } else {
-[e $U 314  ]
-[e :U 313 ]
+[; ;Main_B1.c: 304: } else {
+[e $U 313  ]
+[e :U 312 ]
 {
-[; ;Main_B1.c: 312: setLED(99, 11);
-"312
+[; ;Main_B1.c: 305: setLED(99, 11);
+"305
 [e ( _setLED (2 , -> -> 99 `i `uc -> -> 11 `i `uc ]
+"306
+}
+[e :U 313 ]
+[; ;Main_B1.c: 306: }
+[; ;Main_B1.c: 308: if (command != 0) {
+"308
+[e $ ! != -> _command `i -> 0 `i 314  ]
+{
+[; ;Main_B1.c: 309: switch (command) {
+"309
+[e $U 316  ]
+{
+[; ;Main_B1.c: 310: case 2:
+"310
+[e :U 317 ]
+[; ;Main_B1.c: 311: if (getMain_LightsStatus() == 1) {
+"311
+[e $ ! == -> ( _getMain_LightsStatus ..  `i -> 1 `i 318  ]
+{
+[; ;Main_B1.c: 312: setBuz(10, 300);
+"312
+[e ( _setBuz (2 , -> -> 10 `i `uc -> 300 `i ]
 "313
 }
-[e :U 314 ]
-[; ;Main_B1.c: 313: }
-[; ;Main_B1.c: 315: if (command != 0) {
-"315
-[e $ ! != -> _command `i -> 0 `i 315  ]
-{
-[; ;Main_B1.c: 316: switch (command) {
-"316
-[e $U 317  ]
-{
-[; ;Main_B1.c: 317: case 2:
-"317
 [e :U 318 ]
-[; ;Main_B1.c: 318: if (getMain_LightsStatus() == 1) {
-"318
-[e $ ! == -> ( _getMain_LightsStatus ..  `i -> 1 `i 319  ]
+[; ;Main_B1.c: 313: }
+[; ;Main_B1.c: 314: break;
+"314
+[e $U 315  ]
+[; ;Main_B1.c: 315: case 3:
+"315
+[e :U 319 ]
+[; ;Main_B1.c: 316: if (getMain_LightsStatus() == 1) {
+"316
+[e $ ! == -> ( _getMain_LightsStatus ..  `i -> 1 `i 320  ]
 {
-[; ;Main_B1.c: 319: setBuz(10, 300);
+[; ;Main_B1.c: 317: setBuz(5, 300);
+"317
+[e ( _setBuz (2 , -> -> 5 `i `uc -> 300 `i ]
+"318
+}
+[e :U 320 ]
+[; ;Main_B1.c: 318: }
+[; ;Main_B1.c: 319: break;
 "319
-[e ( _setBuz (2 , -> -> 10 `i `uc -> 300 `i ]
+[e $U 315  ]
 "320
 }
-[e :U 319 ]
 [; ;Main_B1.c: 320: }
-[; ;Main_B1.c: 321: break;
-"321
-[e $U 316  ]
-[; ;Main_B1.c: 322: case 3:
-"322
-[e :U 320 ]
-[; ;Main_B1.c: 323: if (getMain_LightsStatus() == 1) {
-"323
-[e $ ! == -> ( _getMain_LightsStatus ..  `i -> 1 `i 321  ]
-{
-[; ;Main_B1.c: 324: setBuz(5, 300);
-"324
-[e ( _setBuz (2 , -> -> 5 `i `uc -> 300 `i ]
-"325
-}
-[e :U 321 ]
-[; ;Main_B1.c: 325: }
-[; ;Main_B1.c: 326: break;
-"326
-[e $U 316  ]
-"327
-}
-[; ;Main_B1.c: 327: }
-[e $U 316  ]
-"316
-[e :U 317 ]
-[e [\ _command , $ -> -> 2 `i `uc 318
- , $ -> -> 3 `i `uc 320
- 316 ]
-"327
+[e $U 315  ]
+"309
 [e :U 316 ]
-[; ;Main_B1.c: 328: setDimmerLights_ErrorClose(status);
-"328
-[e ( _setDimmerLights_ErrorClose (1 _status ]
-"329
-}
+[e [\ _command , $ -> -> 2 `i `uc 317
+ , $ -> -> 3 `i `uc 319
+ 315 ]
+"320
 [e :U 315 ]
-[; ;Main_B1.c: 329: }
-[; ;Main_B1.c: 331: }
-"331
-[e :UE 312 ]
+[; ;Main_B1.c: 321: setDimmerLights_ErrorClose(status);
+"321
+[e ( _setDimmerLights_ErrorClose (1 _status ]
+"322
 }
-"334
+[e :U 314 ]
+[; ;Main_B1.c: 322: }
+[; ;Main_B1.c: 324: }
+"324
+[e :UE 311 ]
+}
+"327
 [v _getMain_AD_OK `(uc ~T0 @X0 1 ef ]
 {
-[; ;Main_B1.c: 334: char getMain_AD_OK() {
+[; ;Main_B1.c: 327: char getMain_AD_OK() {
 [e :U _getMain_AD_OK ]
 [f ]
-"335
+"328
 [v _result `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 335: char result = 0;
+[; ;Main_B1.c: 328: char result = 0;
 [e = _result -> -> 0 `i `uc ]
-[; ;Main_B1.c: 341: if (result == 0) {
-"341
-[e $ ! == -> _result `i -> 0 `i 323  ]
+[; ;Main_B1.c: 334: if (result == 0) {
+"334
+[e $ ! == -> _result `i -> 0 `i 322  ]
 {
-"343
+"336
 }
-[e :U 323 ]
-[; ;Main_B1.c: 343: }
-[; ;Main_B1.c: 345: return result;
-"345
+[e :U 322 ]
+[; ;Main_B1.c: 336: }
+[; ;Main_B1.c: 338: return result;
+"338
 [e ) _result ]
-[e $UE 322  ]
-[; ;Main_B1.c: 346: }
-"346
-[e :UE 322 ]
+[e $UE 321  ]
+[; ;Main_B1.c: 339: }
+"339
+[e :UE 321 ]
 }
-"349
+"342
 [v _getMain_LightsStatus `(uc ~T0 @X0 1 ef ]
 {
-[; ;Main_B1.c: 349: char getMain_LightsStatus() {
+[; ;Main_B1.c: 342: char getMain_LightsStatus() {
 [e :U _getMain_LightsStatus ]
 [f ]
-"350
+"343
 [v _status `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 350: char status = 0, count = 0;
+[; ;Main_B1.c: 343: char status = 0, count = 0;
 [e = _status -> -> 0 `i `uc ]
 [v _count `uc ~T0 @X0 1 a ]
 [e = _count -> -> 0 `i `uc ]
-[; ;Main_B1.c: 353: count = 1;
-"353
+[; ;Main_B1.c: 346: count = 1;
+"346
 [e = _count -> -> 1 `i `uc ]
-[; ;Main_B1.c: 362: for (int i = 0; i < count; i++) {
-"362
+[; ;Main_B1.c: 355: for (int i = 0; i < count; i++) {
+"355
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
-[e $U 328  ]
-[e :U 325 ]
+[e $U 327  ]
+[e :U 324 ]
 {
-[; ;Main_B1.c: 363: if (status == 0) {
-"363
-[e $ ! == -> _status `i -> 0 `i 329  ]
+[; ;Main_B1.c: 356: if (status == 0) {
+"356
+[e $ ! == -> _status `i -> 0 `i 328  ]
 {
-[; ;Main_B1.c: 368: status = getDimmerLights_Status(i + 1) == 1 ? 1 : 0;
-"368
+[; ;Main_B1.c: 361: status = getDimmerLights_Status(i + 1) == 1 ? 1 : 0;
+"361
 [e = _status -> ? == -> ( _getDimmerLights_Status (1 -> + _i -> 1 `i `uc `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-"370
+"363
 }
-[e :U 329 ]
-"371
-}
-"362
-[e ++ _i -> 1 `i ]
 [e :U 328 ]
-[e $ < _i -> _count `i 325  ]
-[e :U 326 ]
-"371
+"364
 }
-[; ;Main_B1.c: 370: }
-[; ;Main_B1.c: 371: }
-[; ;Main_B1.c: 372: return status;
-"372
+"355
+[e ++ _i -> 1 `i ]
+[e :U 327 ]
+[e $ < _i -> _count `i 324  ]
+[e :U 325 ]
+"364
+}
+[; ;Main_B1.c: 363: }
+[; ;Main_B1.c: 364: }
+[; ;Main_B1.c: 365: return status;
+"365
 [e ) _status ]
-[e $UE 324  ]
-[; ;Main_B1.c: 373: }
-"373
-[e :UE 324 ]
+[e $UE 323  ]
+[; ;Main_B1.c: 366: }
+"366
+[e :UE 323 ]
 }
-"376
+"369
 [v _getMain_All_Error_Status `(uc ~T0 @X0 1 ef1`uc ]
 {
-[; ;Main_B1.c: 376: char getMain_All_Error_Status(char command) {
+[; ;Main_B1.c: 369: char getMain_All_Error_Status(char command) {
 [e :U _getMain_All_Error_Status ]
 [v _command `uc ~T0 @X0 1 r1 ]
 [f ]
-"377
+"370
 [v _status `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 377: char status = 0;
+[; ;Main_B1.c: 370: char status = 0;
 [e = _status -> -> 0 `i `uc ]
-[; ;Main_B1.c: 388: if (status == 0 && command != 2) {
-"388
-[e $ ! && == -> _status `i -> 0 `i != -> _command `i -> 2 `i 331  ]
+[; ;Main_B1.c: 381: if (status == 0 && command != 2) {
+"381
+[e $ ! && == -> _status `i -> 0 `i != -> _command `i -> 2 `i 330  ]
 {
-[; ;Main_B1.c: 389: status = Temp.ERROR == 1 ? 2 : 0;
-"389
+[; ;Main_B1.c: 382: status = Temp.ERROR == 1 ? 2 : 0;
+"382
 [e = _status -> ? == -> . . . _Temp 0 0 1 `i -> 1 `i : -> 2 `i -> 0 `i `uc ]
+"383
+}
+[e :U 330 ]
+[; ;Main_B1.c: 383: }
+[; ;Main_B1.c: 388: if (status == 0 && command != 3) {
+"388
+[e $ ! && == -> _status `i -> 0 `i != -> _command `i -> 3 `i 331  ]
+{
+[; ;Main_B1.c: 389: status = Load.ERROR == 1 ? 3 : 0;
+"389
+[e = _status -> ? == -> . . . _Load 0 0 5 `i -> 1 `i : -> 3 `i -> 0 `i `uc ]
 "390
 }
 [e :U 331 ]
 [; ;Main_B1.c: 390: }
-[; ;Main_B1.c: 395: if (status == 0 && command != 3) {
-"395
-[e $ ! && == -> _status `i -> 0 `i != -> _command `i -> 3 `i 332  ]
-{
-[; ;Main_B1.c: 396: status = Load.ERROR == 1 ? 3 : 0;
-"396
-[e = _status -> ? == -> . . . _Load 0 0 5 `i -> 1 `i : -> 3 `i -> 0 `i `uc ]
-"397
-}
-[e :U 332 ]
-[; ;Main_B1.c: 397: }
-[; ;Main_B1.c: 413: return status;
-"413
+[; ;Main_B1.c: 406: return status;
+"406
 [e ) _status ]
-[e $UE 330  ]
-[; ;Main_B1.c: 414: }
-"414
-[e :UE 330 ]
+[e $UE 329  ]
+[; ;Main_B1.c: 407: }
+"407
+[e :UE 329 ]
 }
-"417
+"410
 [v _getMain_Lights_Count `(uc ~T0 @X0 1 ef ]
 {
-[; ;Main_B1.c: 417: char getMain_Lights_Count() {
+[; ;Main_B1.c: 410: char getMain_Lights_Count() {
 [e :U _getMain_Lights_Count ]
 [f ]
-"418
+"411
 [v _status1 `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 418: char status1 = 0, status2 = 0, status3 = 0, count = 0;
+[; ;Main_B1.c: 411: char status1 = 0, status2 = 0, status3 = 0, count = 0;
 [e = _status1 -> -> 0 `i `uc ]
 [v _status2 `uc ~T0 @X0 1 a ]
 [e = _status2 -> -> 0 `i `uc ]
@@ -3664,35 +3645,35 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _status3 -> -> 0 `i `uc ]
 [v _count `uc ~T0 @X0 1 a ]
 [e = _count -> -> 0 `i `uc ]
-[; ;Main_B1.c: 422: status1 = DimmerLights1.Loop == 1 ? 1 : 0;
-"422
+[; ;Main_B1.c: 415: status1 = DimmerLights1.Loop == 1 ? 1 : 0;
+"415
 [e = _status1 -> ? == -> . . . _DimmerLights1 9 0 1 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Main_B1.c: 443: return count = (status1 + status2 + status3);
-"443
+[; ;Main_B1.c: 436: return count = (status1 + status2 + status3);
+"436
 [e ) = _count -> + + -> _status1 `i -> _status2 `i -> _status3 `i `uc ]
-[e $UE 333  ]
-[; ;Main_B1.c: 444: }
-"444
-[e :UE 333 ]
+[e $UE 332  ]
+[; ;Main_B1.c: 437: }
+"437
+[e :UE 332 ]
 }
-"447
+"440
 [v _getMain_LoadOK `(uc ~T0 @X0 1 ef ]
 {
-[; ;Main_B1.c: 447: char getMain_LoadOK() {
+[; ;Main_B1.c: 440: char getMain_LoadOK() {
 [e :U _getMain_LoadOK ]
 [f ]
-"448
+"441
 [v _ok `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 448: char ok = 0;
+[; ;Main_B1.c: 441: char ok = 0;
 [e = _ok -> -> 0 `i `uc ]
-[; ;Main_B1.c: 454: ok = getDimmer_LoadOK() == 1 ? 1 : 0;
-"454
+[; ;Main_B1.c: 447: ok = getDimmer_LoadOK() == 1 ? 1 : 0;
+"447
 [e = _ok -> ? == -> ( _getDimmer_LoadOK ..  `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Main_B1.c: 456: return ok;
-"456
+[; ;Main_B1.c: 449: return ok;
+"449
 [e ) _ok ]
-[e $UE 334  ]
-[; ;Main_B1.c: 457: }
-"457
-[e :UE 334 ]
+[e $UE 333  ]
+[; ;Main_B1.c: 450: }
+"450
+[e :UE 333 ]
 }

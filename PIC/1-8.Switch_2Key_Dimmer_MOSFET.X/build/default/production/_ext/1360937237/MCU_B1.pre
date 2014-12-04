@@ -3593,17 +3593,18 @@ if (myMain.PowerON == 1) {
 
 setDimmerReClock();
 
+
 }
 }
 }
 
-# 420
+# 421
 void ADC_Set() {
 ADCON1 = 0xf3;
 FVRCON = 0xc1;
 }
 
-# 454
+# 455
 inline int getAD(char adcon0, char adcon1) {
 ADCON0 = adcon0;
 ADCON1 = adcon1;
@@ -3615,7 +3616,7 @@ set_TimeoutCleared();
 return ((ADRESH*256)+ADRESL);
 }
 
-# 871
+# 885
 void Flash_Memory_Initialization() {
 char i = 0;
 if (Flash_Memory_Read(31) == 0xaa) {
@@ -3623,7 +3624,7 @@ product->Data[12] = Flash_Memory_Read(0);
 product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
-# 882
+# 896
 i = setPercentValue(((char)(80*0.8)));
 product->Data[21] = i;
 product->Data[22] = i;
@@ -3736,7 +3737,7 @@ setMemory_Data(0, product->Data[12]);
 setMemory_Data(1, product->Data[13]);
 setMemory_Data(2, product->Data[14]);
 
-# 998
+# 1012
 if (Memory.LoopSave == 1) {
 Memory.LoopSave = 0;
 myMain.FirstOpen = 0;
@@ -3765,10 +3766,10 @@ void setMemory_Data(char address, char data) {
 Memory.Data[address] = data;
 }
 
-# 1030
+# 1044
 void WDT_Set() {
 
-# 1037
+# 1051
 WDTCON = 0b00010111;;
 
 WDT.Enable = 1;

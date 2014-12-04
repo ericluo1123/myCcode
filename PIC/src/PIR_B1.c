@@ -21,13 +21,6 @@ void PIR_Main() {
                 setLED(1, 0);
                 if (_PIR.OK == false) {
                     setLED(2, 1);
-                    //#ifdef use_1KEY
-                    //#if LightsControl_use == 1
-                    //                    if (getLights_Status(1) == false) {
-                    //                        setLights_Trigger(1, 1);
-                    //                    }
-                    //#endif
-                    //#endif
                 }
             }
         } else {
@@ -159,6 +152,13 @@ void PIR_Main() {
     } else {
         if (myMain.PowerON == true) {
             _PIR.Enable = true;
+#ifdef use_1KEY
+#if LightsControl_use == 1
+            if (getLights_Status(1) == false) {
+                setLights_Trigger(1, 1);
+            }
+#endif
+#endif
         }
     }
 }

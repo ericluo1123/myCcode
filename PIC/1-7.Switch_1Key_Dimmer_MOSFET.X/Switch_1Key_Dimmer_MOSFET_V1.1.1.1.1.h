@@ -31,7 +31,7 @@
 #define Control_Method_Triac_Value          0
 #define Control_Method_Relay_Value          0
 #define Control_Method_TriacRelay_Value     0
-#define Properties_Neutral_Value            1
+#define Properties_Neutral_Value            0
 #define Properties_Dimmer_Value             1
 #define Debug_Value                         1
 
@@ -125,11 +125,11 @@
 #define SYSC_use_Value 0
 //OverTemperature
 #define OverTemperature_use_Value   1
-#define TempDangerValue_Value       415   //NTC 70度
-#define TempSafeValue_Value         455   //NTC 61度
+#define TempDangerValue_Value       500   //NTC 70度
+#define TempSafeValue_Value         550   //NTC 61度
 //OverLoad
 #define OverLoad_use_Value 1
-#define LimitCurrent_Value  1.8//A
+#define LimitCurrent_Value  2.5//A
 #define LinearParam_Value   57
 //LED
 #define LED_use_Value 1

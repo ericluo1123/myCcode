@@ -273,7 +273,7 @@ typedef unsigned int ADtype;
 
 //Dimmer Lights
 #if Dimmer_use == 1
-
+ 
 #define Dimmable_Func 				1	
 #define Dimmer_Smooth				0
 #define DimmerValue_SaveMemory			0
@@ -302,7 +302,7 @@ typedef unsigned int ADtype;
 #endif
 
 #else
-#if Control_Method_Mosfet == 1
+
 
 #if Switch_Class == 1
 #define Max_Percent 65	
@@ -313,7 +313,7 @@ typedef unsigned int ADtype;
 #if Switch_Class == 3
 #define Max_Percent 65	
 #endif
-#endif
+
 
 #if Control_Method_Triac == 1
 #if Switch_Class == 1
@@ -328,7 +328,7 @@ typedef unsigned int ADtype;
 #endif
 
 #define Med_Percent             35
-#define Mini_Percent            25
+#define Mini_Percent            15
 #endif
 
 

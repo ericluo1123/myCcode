@@ -206,20 +206,18 @@ inline void my_MainTimer() {
         if (myMain.PowerCount == 100) {//*10ms
             myMain.PowerCount = 0;
             //            ErrLED = ErrLED == true ? false : true;
+#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
             if (UART.TxGO == false) {
-                UART_SetData(); 
+                //                UART_SetData();
             }
+#else
+            setTxData();
+#endif
 
 #endif
         }
-#if Dimmer_use == 1 && Serial_Number == 1
-        DimmerLightsOpenShow();
-#endif
-
-
-
-#if Debug == 1 
+#if Debug == 1
         myMain.Count1++;
         if (myMain.Count1 == 100) //*10ms
         {
@@ -258,16 +256,11 @@ inline void my_MainTimer() {
             }
         }
 #endif
-    } 
-#ifndef MCU_16F723A
-    myMain.Count2++;
-    if (myMain.Count2 == 100) {
-        myMain.Count2 = 0;
-#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 
-        setTxData();
+#if Dimmer_use == 1 && Serial_Number == 1
+        DimmerLightsOpenShow();
 #endif
+
     }
-#endif
 }
 //*****************************************************************************
 
