@@ -3249,6 +3249,7 @@ unsigned int Judge;
 
 unsigned char Count;
 unsigned char ErrorCount;
+unsigned char ErrorCountValue;
 unsigned char LightsCount;
 unsigned char SafeCount;
 };
@@ -3256,14 +3257,14 @@ unsigned char SafeCount;
 
 struct OverLoad Load;
 
-# 92
+# 93
 inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
 void setLoad_AH_AL_Restore();
 
-# 103
+# 104
 char getLoad_OK();
 void setLoad_OK();
 
@@ -3495,12 +3496,12 @@ if (Load.Time >= 5) {
 Load.Time = 0;
 Load.ADtoGO = 0;
 
-for (i = 0; i < 4; i++) {
+for (i = 1; i < 4; i++) {
 Load.ADH += Load.AH[i];
 Load.ADL += Load.AL[i];
 }
-Load.ADH /= 4;
-Load.ADL /= 4;
+Load.ADH /= 3;
+Load.ADL /= 3;
 setLoad_AH_AL_Restore();
 
 if (Load.ADH > Load.ADL) {
@@ -3513,6 +3514,7 @@ if (Load.Run == 1) {
 if (Load.Count < 2) {
 Load.Count++;
 if (Load.Count == 1) {
+Load.ErrorCountValue = 2;
 Load.JudgeValue = (20*50);
 } else if (Load.Count == 2) {
 if (Load.LightsCount == 1) {
@@ -3526,11 +3528,11 @@ Load.JudgeValue = (int)(1.1*50) + Load.TotalLoad;
 
 if (Load.AD >= Load.JudgeValue) {
 Load.ErrorCount++;
-if (Load.ErrorCount > 2) {
+if (Load.ErrorCount > Load.ErrorCountValue) {
 Load.ErrorCount = 0;
 Load.ERROR = 1;
 
-# 122
+# 118
 }
 } else {
 Load.ErrorCount = 0;
@@ -3543,8 +3545,9 @@ Load.OK = 1;
 Load.Run = 0;
 Load.Count = 0;
 Load.TotalLoad = Load.AD;
+Load.ErrorCountValue = 3;
 
-# 157
+# 154
 }
 }
 }
@@ -3573,14 +3576,12 @@ Load.LightsCount = 0;
 Load.Run = 0;
 Load.OK = 1;
 
-# 204
+# 201
 }
 if (Load.ERROR == 1) {
 Load.ErrorTime++;
 if (Load.ErrorTime >= 1000) {
 Load.ErrorTime = 0;
-
-# 215
 Load.ERROR = 0;
 }
 }

@@ -258,8 +258,6 @@ typedef unsigned int ADtype;
 #if CC2500_use	== 1
  
 #define RadioFrequency1
-#define Tx_Enable 	1
-#define Rx_Enable 	0
 #define Sleep_Mode      0
 
 #endif
@@ -286,7 +284,7 @@ typedef unsigned int ADtype;
 
 #if Properties_Neutral == 1
 #if Switch_Class == 1
-#define Max_Percent 90
+#define Max_Percent 85
 #define Med_Percent 35
 #define Mini_Percent 15
 #endif
@@ -303,7 +301,7 @@ typedef unsigned int ADtype;
 
 #else
 
-
+ 
 #if Switch_Class == 1
 #define Max_Percent 65	
 #endif

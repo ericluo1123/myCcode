@@ -205,11 +205,11 @@ inline void my_MainTimer() {
         myMain.PowerCount++;
         if (myMain.PowerCount == 100) {//*10ms
             myMain.PowerCount = 0;
-            //            ErrLED = ErrLED == true ? false : true;
-#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1
+            //            ErrLED = ErrLED == true ? false : true; 
+#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
             if (UART.TxGO == false) {
-                //                UART_SetData();
+                UART_SetData();
             }
 #else
             setTxData();

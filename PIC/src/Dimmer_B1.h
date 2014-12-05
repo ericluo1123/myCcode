@@ -23,6 +23,7 @@ struct DimmerLights {
             unsigned OverLoad : 1;
         };
     };
+
     unsigned char DimmingTime;
     unsigned char DimmingTimeValue;
     unsigned char Count;

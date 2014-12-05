@@ -137,6 +137,8 @@
 #define LightsControl_use 	0
 //RF cc2500
 #define CC2500_use	1
+#define Tx_Enable 	1
+#define Rx_Enable 	1
 //DelayOff
 #define DelayOff_use 1
 //PowerFault

@@ -60,12 +60,12 @@ inline void Load_Main() {
                     Load.Time = 0;
                     Load.ADtoGO = false;
                     //get AD value
-                    for (i = 0; i < 4; i++) {
+                    for (i = 1; i < 4; i++) {
                         Load.ADH += Load.AH[i];
                         Load.ADL += Load.AL[i];
                     }
-                    Load.ADH /= 4;
-                    Load.ADL /= 4;
+                    Load.ADH /= 3;
+                    Load.ADL /= 3;
                     setLoad_AH_AL_Restore();
 
                     if (Load.ADH > Load.ADL) {
@@ -78,6 +78,7 @@ inline void Load_Main() {
                             if (Load.Count < 2) {
                                 Load.Count++;
                                 if (Load.Count == 1) {
+                                    Load.ErrorCountValue = 2;
                                     Load.JudgeValue = FirstLimitValue;
                                 } else if (Load.Count == 2) {
                                     if (Load.LightsCount == 1) {
@@ -91,17 +92,12 @@ inline void Load_Main() {
 
                         if (Load.AD >= Load.JudgeValue) {
                             Load.ErrorCount++;
-                            if (Load.ErrorCount > 2) {
+                            if (Load.ErrorCount > Load.ErrorCountValue) {
                                 Load.ErrorCount = 0;
                                 Load.ERROR = true;
-                                //#if PIR_use == true
-                                //                                setLED(3, 111);
-                                //#else
-                                //                                setLED(1, 11);
-                                //#endif
 #if Load_Debug == 1
 #if PIR_use == 1
-#if UART_use == 1
+#if UART_use == 1 
                                 UART.Data[0] = (Load.AD >> 8);
                                 UART.Data[1] = Load.AD;
                                 UART.Data[2] = (Load.JudgeValue >> 8);
@@ -131,6 +127,7 @@ inline void Load_Main() {
                                         Load.Run = false;
                                         Load.Count = 0;
                                         Load.TotalLoad = Load.AD;
+                                        Load.ErrorCountValue = 3;
 
 #if Load_Debug == 1
 #if PIR_use == 1
@@ -206,12 +203,6 @@ inline void Load_Main() {
                 Load.ErrorTime++;
                 if (Load.ErrorTime >= 1000) {//*10ms
                     Load.ErrorTime = 0;
-                    //                    setLoad_Exceptions(0);
-                    //#if PIR_use == true
-                    //                    setLED(3, 110);
-                    //#else
-                    //                    setLED(1, 10);
-                    //#endif
                     Load.ERROR = false;
                 }
             }

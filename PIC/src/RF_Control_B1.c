@@ -167,14 +167,13 @@ void setRF_Main() {
                         }
                     }
                 }
-                if (RF1.Correction == true) {
-                    RF1.CorrectionCounter++;
-                    if (RF1.CorrectionCounter >= 30000) {
-                        RF1.CorrectionCounter = 0;
-                        RF1.RxStatus = false;
-                        RF1.ReceiveGO = false;
-                    }
-                }
+//                if (RF1.Correction == true) {
+//                    RF1.CorrectionCounter++;
+//                    if (RF1.CorrectionCounter >= 6000) {
+//                        RF1.CorrectionCounter = 0;
+//                        RF_RxDisable();
+//                    }
+//                }
             }
         }
 #else

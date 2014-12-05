@@ -3238,6 +3238,7 @@ unsigned int Judge;
 
 unsigned char Count;
 unsigned char ErrorCount;
+unsigned char ErrorCountValue;
 unsigned char LightsCount;
 unsigned char SafeCount;
 };
@@ -3245,14 +3246,14 @@ unsigned char SafeCount;
 
 struct OverLoad Load;
 
-# 92
+# 93
 inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
 void setLoad_AH_AL_Restore();
 
-# 103
+# 104
 char getLoad_OK();
 void setLoad_OK();
 
@@ -3514,7 +3515,8 @@ CC2500_TxData();
 
 if (RF1.RxStatus == 1) {
 
-# 112
+CC2500_RxData();
+
 if (RF1.ReceiveGO == 1) {
 RF1.ReceiveGO = 0;
 RF1.Correction = 0;
@@ -3542,7 +3544,16 @@ RF1.RunTime += 10;
 }
 } else {
 
-# 157
+if (RF1.RxStatus == 0 && RF1.ReceiveGO == 0) {
+RF1.RxStatus = 1;
+RF1.Correction = 1;
+
+CC2500_WriteCommand(0x36);
+
+CC2500_WriteCommand(0x3A);
+CC2500_WriteCommand(0x34);
+}
+
 }
 }
 }
@@ -3556,18 +3567,12 @@ RF1.RunTime -= 10;
 }
 }
 }
-if (RF1.Correction == 1) {
-RF1.CorrectionCounter++;
-if (RF1.CorrectionCounter >= 30000) {
-RF1.CorrectionCounter = 0;
-RF1.RxStatus = 0;
-RF1.ReceiveGO = 0;
-}
-}
+
+# 177
 }
 }
 
-# 186
+# 185
 } else {
 if (myMain.PowerON == 1) {
 RF1.Enable = 1;
@@ -3579,7 +3584,7 @@ RF1.Enable = 1;
 char getRF_KeyStatus() {
 char key = 0;
 
-# 205
+# 204
 key = (RA6 == 1 || RA4 == 1 || RA0 == 1 || RA7 == 1) ? 1 : 0;
 
 return key;
@@ -3594,7 +3599,7 @@ if (RF1.TransceiveGO == 0) {
 RF1.TransceiveGO = 1;
 RF1.RunTime = 20;
 
-# 229
+# 228
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 
@@ -3656,7 +3661,7 @@ product->Data[2] = 0x55;
 setTxData();
 RF1.RunTime = 10;
 
-# 294
+# 293
 } else {
 
 if (error == 0) {
@@ -3687,7 +3692,7 @@ __nop();
 RF1.Checked = 0;
 }
 
-# 327
+# 326
 }
 } else {
 ;
@@ -3735,11 +3740,11 @@ setRFSW_Control(1);
 break;
 case 0x02:
 
-# 376
+# 375
 break;
 case 0x03:
 
-# 381
+# 380
 break;
 case 0x11:
 
@@ -3750,16 +3755,16 @@ setRFSW_AdjControl(1);
 break;
 case 0x21:
 
-# 395
+# 394
 break;
 case 0x31:
 
-# 402
+# 401
 break;
 }
 }
 
-# 430
+# 429
 void setRFSW_Control(char sw) {
 char status = 0;
 
@@ -3823,7 +3828,7 @@ char status = 1;
 status <<= (lights - 1);
 product->Data[11]=lights;
 
-# 499
+# 498
 product->Data[9]=product->Data[20 + lights];
 product->Data[17]=product->Data[26 + lights];
 if (on == 1) {

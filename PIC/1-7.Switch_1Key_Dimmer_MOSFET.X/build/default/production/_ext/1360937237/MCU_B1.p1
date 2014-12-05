@@ -120,8 +120,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [u S277 `S278 1 ]
 [n S277 . . ]
 "47
-[s S276 `S277 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui -> 5 `i `ui -> 5 `i `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
-[n S276 OverLoad . Time ErrorTime ADH ADL TotalLoad AH AL AD ADRES LightsJudgeValue JudgeValue Judge Count ErrorCount LightsCount SafeCount ]
+[s S276 `S277 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui -> 5 `i `ui -> 5 `i `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
+[n S276 OverLoad . Time ErrorTime ADH ADL TotalLoad AH AL AD ADRES LightsJudgeValue JudgeValue Judge Count ErrorCount ErrorCountValue LightsCount SafeCount ]
 "15 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h
 [s S281 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S281 . GO Signal AdjRF AdjFlag AdjStatus Status StatusFlag OverLoad ]
@@ -220,12 +220,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _GIE `Vb ~T0 @X0 0 e@95 ]
 "4689
 [v _TMR1IF `Vb ~T0 @X0 0 e@136 ]
-[v F2495 `(v ~T0 @X0 1 tf1`uc ]
+[v F2496 `(v ~T0 @X0 1 tf1`uc ]
 "113 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h
-[v _setDimmerLights_IntrControl `TF2495 ~T0 @X0 0 e ]
-[v F2492 `(v ~T0 @X0 1 tf1`uc ]
+[v _setDimmerLights_IntrControl `TF2496 ~T0 @X0 0 e ]
+[v F2493 `(v ~T0 @X0 1 tf1`uc ]
 "111
-[v _setDimmerLights_IntrIOC_GO `TF2492 ~T0 @X0 0 e ]
+[v _setDimmerLights_IntrIOC_GO `TF2493 ~T0 @X0 0 e ]
 "4783 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _WPUB2 `Vb ~T0 @X0 0 e@4202 ]
 "3743
@@ -3004,19 +3004,20 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverLoad_B1.h: 77: unsigned int Judge;
 [; ;OverLoad_B1.h: 79: unsigned char Count;
 [; ;OverLoad_B1.h: 80: unsigned char ErrorCount;
-[; ;OverLoad_B1.h: 81: unsigned char LightsCount;
-[; ;OverLoad_B1.h: 82: unsigned char SafeCount;
-[; ;OverLoad_B1.h: 83: };
-"86 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h
+[; ;OverLoad_B1.h: 81: unsigned char ErrorCountValue;
+[; ;OverLoad_B1.h: 82: unsigned char LightsCount;
+[; ;OverLoad_B1.h: 83: unsigned char SafeCount;
+[; ;OverLoad_B1.h: 84: };
+"87 ../src/../1-7.Switch_1Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h
 [v _Load `S276 ~T0 @X0 1 e ]
-[; ;OverLoad_B1.h: 86: struct OverLoad Load;
-[; ;OverLoad_B1.h: 92: inline void Load_Initialization();
-[; ;OverLoad_B1.h: 93: inline void Load_Main();
-[; ;OverLoad_B1.h: 94: inline void getLoad_AD(char channel);
-[; ;OverLoad_B1.h: 95: void setLoad_Exceptions(char command);
-[; ;OverLoad_B1.h: 96: void setLoad_AH_AL_Restore();
-[; ;OverLoad_B1.h: 103: char getLoad_OK();
-[; ;OverLoad_B1.h: 104: void setLoad_OK();
+[; ;OverLoad_B1.h: 87: struct OverLoad Load;
+[; ;OverLoad_B1.h: 93: inline void Load_Initialization();
+[; ;OverLoad_B1.h: 94: inline void Load_Main();
+[; ;OverLoad_B1.h: 95: inline void getLoad_AD(char channel);
+[; ;OverLoad_B1.h: 96: void setLoad_Exceptions(char command);
+[; ;OverLoad_B1.h: 97: void setLoad_AH_AL_Restore();
+[; ;OverLoad_B1.h: 104: char getLoad_OK();
+[; ;OverLoad_B1.h: 105: void setLoad_OK();
 [; ;Dimmer_B1.h: 11: struct DimmerLights {
 [; ;Dimmer_B1.h: 13: union {
 [; ;Dimmer_B1.h: 15: struct {
@@ -3259,9 +3260,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "101
 [e :UE 294 ]
 }
-[v F2611 `(v ~T0 @X0 1 tf ]
+[v F2612 `(v ~T0 @X0 1 tf ]
 "107
-[v _ISR `IF2611 ~T0 @X0 1 e ]
+[v _ISR `IF2612 ~T0 @X0 1 e ]
 {
 [; ;MCU_B1.c: 107: void interrupt ISR(void) {
 [e :U _ISR ]
@@ -3524,9 +3525,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.c: 890: product->Data[14] = Flash_Memory_Read(2);
 "890
 [e = *U + &U . *U _product 0 * -> -> -> 14 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ( _Flash_Memory_Read (1 -> -> 2 `i `uc ]
-[; ;MCU_B1.c: 896: i = setPercentValue(((char)(65*0.8)));
+[; ;MCU_B1.c: 896: i = setPercentValue(((char)(85*0.8)));
 "896
-[e = _i ( _setPercentValue (1 -> * -> -> 65 `i `d .0.8 `uc ]
+[e = _i ( _setPercentValue (1 -> * -> -> 85 `i `d .0.8 `uc ]
 [; ;MCU_B1.c: 897: product->Data[21] = i;
 "897
 [e = *U + &U . *U _product 0 * -> -> -> 21 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux _i ]
@@ -3556,9 +3557,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 313  ]
 [e :U 311 ]
 {
-[; ;MCU_B1.c: 906: i = setPercentValue(((char)(65*0.8)));
+[; ;MCU_B1.c: 906: i = setPercentValue(((char)(85*0.8)));
 "906
-[e = _i ( _setPercentValue (1 -> * -> -> 65 `i `d .0.8 `uc ]
+[e = _i ( _setPercentValue (1 -> * -> -> 85 `i `d .0.8 `uc ]
 [; ;MCU_B1.c: 907: setMemory_Data(0, 0xff);
 "907
 [e ( _setMemory_Data (2 , -> -> 0 `i `uc -> -> 255 `i `uc ]

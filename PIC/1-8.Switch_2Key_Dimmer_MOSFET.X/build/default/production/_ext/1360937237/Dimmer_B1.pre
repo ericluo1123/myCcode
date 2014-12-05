@@ -3249,6 +3249,7 @@ unsigned int Judge;
 
 unsigned char Count;
 unsigned char ErrorCount;
+unsigned char ErrorCountValue;
 unsigned char LightsCount;
 unsigned char SafeCount;
 };
@@ -3256,14 +3257,14 @@ unsigned char SafeCount;
 
 struct OverLoad Load;
 
-# 92
+# 93
 inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
 void setLoad_AH_AL_Restore();
 
-# 103
+# 104
 char getLoad_OK();
 void setLoad_OK();
 
@@ -3484,6 +3485,9 @@ RB4 = 1;
 
 }
 
+if (DimmerLightsIntrIOC->Status == 1) {
+DimmerLightsIntrIOC->StatusFlag = 1;
+}
 }
 
 
@@ -3498,7 +3502,7 @@ if (lights == 2) {
 DimmerLightsIntr = &DimmerLights2;
 }
 
-# 89
+# 92
 }
 
 
@@ -3506,7 +3510,7 @@ DimmerLightsIntr = &DimmerLights2;
 
 inline void setDimmerLights_IntrControl(char lights) {
 
-# 232
+# 235
 DimmerIntrPointSelect(lights);
 if (DimmerLightsIntr->GO == 1) {
 DimmerLightsIntr->Count++;
@@ -3596,7 +3600,7 @@ if (lights == 2) {
 DimmerLights = &DimmerLights2;
 }
 
-# 326
+# 329
 }
 
 
@@ -3610,7 +3614,7 @@ setDimmerLights_Initialization(1);
 DimmerLights22 = &DimmerLights2;
 setDimmerLights_Initialization(2);
 
-# 346
+# 349
 Dimmer_Initialization();
 
 
@@ -3621,14 +3625,14 @@ void setDimmerLights_Initialization(char lights) {
 
 DimmerLightsPointSelect(lights);
 
-# 360
+# 363
 DimmerLights->MaxmumValue = ((char)(80*0.8));
 DimmerLights->MinimumValue = ((char)(15*0.8));
 
-# 375
+# 378
 DimmerLights->DimmingValue = DimmerLights->MaxmumValue;
 
-# 387
+# 390
 }
 
 
@@ -3650,7 +3654,7 @@ setDimmerLights_Main(1);
 
 setDimmerLights_Main(2);
 
-# 413
+# 416
 }
 
 
@@ -3693,10 +3697,10 @@ return status;
 char getDimmerLights_StatusFlag() {
 char Status = 0;
 
-# 460
+# 463
 Status = (DimmerLights1.StatusFlag == 1 || DimmerLights2.StatusFlag == 1) ? 1 : 0;
 
-# 467
+# 470
 return Status;
 }
 
@@ -3704,10 +3708,10 @@ return Status;
 char getDimmerLights_Trigger() {
 char Status = 0;
 
-# 479
+# 482
 Status = (DimmerLights1.Trigger == 1 || DimmerLights2.Trigger == 1) ? 1 : 0;
 
-# 486
+# 489
 return Status;
 }
 
@@ -3715,10 +3719,10 @@ return Status;
 char getAll_DimmerLights_AdjGO() {
 char adjgo = 0;
 
-# 496
+# 499
 adjgo = DimmerLights1.AdjGo == 1 || DimmerLights2.AdjGo == 1 ? 1 : 0;
 
-# 501
+# 504
 return adjgo;
 }
 
@@ -3783,10 +3787,10 @@ setDimmerLights_TriggerAdj(sw, 1);
 void setDimmerLights_ErrorClose(char lights) {
 if (lights == 255) {
 
-# 568
+# 571
 char count = 2;
 
-# 573
+# 576
 for (int i = 0; i < count; i++) {
 DimmerLightsPointSelect(i + 1);
 if (getDimmerLights_Status(i + 1) == 1) {
@@ -3804,7 +3808,7 @@ setDimmerLights_SwOff(lights);
 }
 }
 
-# 597
+# 600
 }
 
 char getDimmer_LoadOK() {
@@ -3834,11 +3838,11 @@ setLED(lights, 0);
 setDimmerLights_Line(lights);
 DimmerLights->StatusFlag = 1;
 
-# 631
+# 634
 DimmerLights->DimmingValue = ((char)(80*0.8));
 product->Data[(20 + lights)]=setPercentValue(((char)(80*0.8)));
 
-# 640
+# 643
 DimmerLights->DimmingTimeValue = 7;
 
 } else {
@@ -3847,7 +3851,7 @@ DimmerLights->Loop = 0;
 setLED(lights, 1);
 ;(1);
 
-# 653
+# 656
 DimmerLights->MosfetClose = 1;
 
 
@@ -3869,7 +3873,7 @@ DimmerLights1.Line = 0;
 
 DimmerLights2.Line = 0;
 
-# 678
+# 681
 if (lights == 1) {
 DimmerLights1.Line = 1;
 }
@@ -3879,7 +3883,7 @@ else if (lights == 2) {
 DimmerLights2.Line = 1;
 }
 
-# 692
+# 695
 }
 
 
@@ -3895,7 +3899,7 @@ else if (DimmerLights2.Line == 1) {
 line = 2;
 }
 
-# 712
+# 715
 return line;
 }
 
@@ -3912,7 +3916,7 @@ DimmerLights->AdjFlag = 0;
 DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
 product->Data[(20 + lights)]=setPercentValue(DimmerLights->DimmingValue);
 
-# 736
+# 739
 Dimmer.LoadOK = getMain_All_Error_Status(0) == 0 ? 1 : 0;
 
 
@@ -3956,10 +3960,10 @@ DimmerLights->TriggerAdj = 1;
 DimmerLights->AdjGo = command == 1 ? 1 : 0;
 }
 
-# 858
+# 861
 char getPercentValue(char value) {
 
-# 866
+# 869
 float i = ((char)(80*0.8)) - ((char)(15*0.8));
 i /= 100;
 
@@ -3970,7 +3974,7 @@ return (char) (((char)(80*0.8)) - ((100 - value) * i));
 
 char setPercentValue(char value) {
 
-# 882
+# 885
 float i = ((char)(80*0.8)) - ((char)(15*0.8));
 i /= 100;
 

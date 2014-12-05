@@ -28,28 +28,24 @@ void IO_Set();
 #ifdef System_Fosc_16M
 #define _OSCCON 0x3c
 #define _FOSC 16000000L
-#define PLLEN_ON
 #define _PLLEN ON
 #endif
 
 #ifdef System_Fosc_8M									
 #define _OSCCON 0x2c
 #define _FOSC 8000000L
-#define PLLEN_ON
 #define _PLLEN ON
 #endif
 
 #ifdef System_Fosc_4M
 #define _OSCCON 0x1c
 #define _FOSC 4000000L
-#define PLLEN_ON
 #define _PLLEN ON
 #endif
 
 #ifdef System_Fosc_2M
 #define _OSCCON 0x0c
 #define _FOSC 2000000L
-#define PLLEN_ON
 #define _PLLEN ON
 #endif
 
@@ -57,24 +53,24 @@ void IO_Set();
 #ifdef System_Fosc_500K
 #define	_OSCCON	0x30
 #define _FOSC 500000L
+#define _PLLEN OFF
 #endif 
 
 #ifdef System_Fosc_250K
 #define _OSCCON 0x20
 #define _FOSC 250000L
+#define _PLLEN OFF
 #endif
 
 #ifdef System_Fosc_125K
 #define _OSCCON 0x10
 #define _FOSC 125000L
+#define _PLLEN OFF
 #endif
 
 #ifdef System_Fosc_62.5K	
 #define _OSCCON 0x00
 #define _FOSC 62500L
-#endif
-
-#ifndef PLLEN_ON
 #define _PLLEN OFF
 #endif
 

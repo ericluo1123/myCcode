@@ -5,7 +5,7 @@
 
 //config
 #ifdef MCU_16F723A
-#pragma config FOSC = INTOSCIO , WDTE = _WDTE, BOREN = OFF , PLLEN = ON
+#pragma config FOSC = INTOSCIO , WDTE = _WDTE, BOREN = OFF , PLLEN = _PLLEN
 #pragma config VCAPEN = DIS
 //__CONFIG(FOSC_INTOSCIO & _WDTE & BOREN_OFF & PLEEN_Value); // v8.84
 //__CONFIG(VCAPEN_DIS); // WRT_OFF
@@ -423,12 +423,12 @@ void ADC_Set() {
     FVRCON = _FVRCON;
 }
 //*********************************************************
-#ifdef _16F723A
+#ifdef MCU_16F723A
 
 inline char getAD(char adcon0, char adcon1) {
     ADCON0 = adcon0;
     ADCON1 = adcon1;
-    ADGO = 1;
+    ADGO = true;
     while (ADGO == true && myMain.Timeout == false) {
         Timeout_Counter();
     };
@@ -437,7 +437,7 @@ inline char getAD(char adcon0, char adcon1) {
 }
 #endif
 
-#ifdef _16F1516
+#ifdef MCU_16F1516
 
 inline int getAD(char adcon0, char adcon1) {
     ADCON1 = adcon1;
@@ -450,7 +450,7 @@ inline int getAD(char adcon0, char adcon1) {
     return ADC_ADRES;
 }
 #endif
-#ifdef _16F1518
+#ifdef MCU_16F1518
 
 inline int getAD(char adcon0, char adcon1) {
     ADCON0 = adcon0;
@@ -837,16 +837,15 @@ void UART_SetData() {
 
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
     if (UART.TxGO == false) {
-//        UART.Data[0] = 1;
-//        UART.Data[1] = 2;
-//        UART.Data[2] = 3;
-//        UART.Data[3] = 4;
-//        UART.Data[4] = 5;
-//        UART.Data[5] = 6;
-//        UART.Data[6] = 7;
-//        UART.Data[7] = 8;
-        ErrLED = ErrLED == true ? false : true;
-        //    UART.Data[0] = 0x64;
+        //        UART.Data[0] = 1;
+        //        UART.Data[1] = 2;
+        //        UART.Data[2] = 3;
+        //        UART.Data[3] = 4;
+        //        UART.Data[4] = 5;
+        //        UART.Data[5] = 6;
+        //        UART.Data[6] = 7;
+        //        UART.Data[7] = 8;
+        //        ErrLED = ErrLED == true ? false : true;
         UART.TxGO = true;
     }
 #endif

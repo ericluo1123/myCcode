@@ -2098,6 +2098,60 @@ struct PIRLED PIRLED;
 
 void setPIRLED_Main();
 
+# 47 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+union {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Run : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
+};
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+
+unsigned int ADH;
+unsigned int ADL;
+
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
+ADtype AD;
+ADtype ADRES;
+
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char ErrorCount;
+unsigned char ErrorCountValue;
+unsigned char LightsCount;
+unsigned char SafeCount;
+};
+
+
+struct OverLoad Load;
+
+# 93
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 104
+char getLoad_OK();
+void setLoad_OK();
+
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
 
@@ -2272,7 +2326,7 @@ LED_Initialization();
 
 ;;
 ;;
-;;
+Load_Initialization();
 ;;
 ;;
 
@@ -2289,6 +2343,9 @@ __nop();
 while (1) {
 
 if (myMain.PowerON == 1) {
+
+# 38
+getLoad_AD(0x01);
 
 # 50
 getCDS_AD(0x09, 0x31);
@@ -2315,7 +2372,7 @@ LED_Main();
 
 ;;
 ;;
-;;
+Load_Main();
 ;;
 
 Lights_Main();
@@ -2371,17 +2428,16 @@ if (myMain.PowerCount == 100) {
 myMain.PowerCount = 0;
 
 
+
 if (UART.TxGO == 0) {
-
+UART_SetData();
 }
 
-
+# 219
 }
 
-# 261
+# 263
 }
-
-# 271
 }
 
 
@@ -2417,14 +2473,18 @@ if (command != 0) {
 setLights_Trigger(1, 0);
 }
 
-# 331
+# 324
 }
 
 
 char getMain_AD_OK() {
 char result = 0;
 
-# 345
+# 334
+if (result == 0) {
+
+}
+
 return result;
 }
 
@@ -2435,13 +2495,13 @@ char status = 0, count = 0;
 
 count = 1;
 
-# 362
+# 355
 for (int i = 0; i < count; i++) {
 if (status == 0) {
 
 status = getLights_Status(i + 1) == 1 ? 1 : 0;
 
-# 370
+# 363
 }
 }
 return status;
@@ -2451,7 +2511,12 @@ return status;
 char getMain_All_Error_Status(char command) {
 char status = 0;
 
-# 409
+# 388
+if (status == 0 && command != 3) {
+status = Load.ERROR == 1 ? 3 : 0;
+}
+
+# 402
 if (status == 0 && command != 5) {
 status = getCDS_Status() == 0 ? 5 : 0;
 }
@@ -2463,10 +2528,10 @@ return status;
 char getMain_Lights_Count() {
 char status1 = 0, status2 = 0, status3 = 0, count = 0;
 
-# 434
+# 427
 status1 = Lights1.Loop == 1 ? 1 : 0;
 
-# 443
+# 436
 return count = (status1 + status2 + status3);
 }
 
@@ -2477,7 +2542,7 @@ char ok = 0;
 
 ok = getLightsControl_OK() == 1 ? 1 : 0;
 
-# 456
+# 449
 return ok;
 }
 
