@@ -6,16 +6,14 @@
 
 struct PF {
 
-    union {
-
-        struct {
-            unsigned Enable : 1;
-            unsigned ERROR : 1;
-            unsigned Safe : 1;
-            unsigned ADtoGO : 1;
-            unsigned empty : 4;
-        };
+    struct {
+        unsigned Enable : 1;
+        unsigned ERROR : 1;
+        unsigned Safe : 1;
+        unsigned ADtoGO : 1;
+        unsigned empty : 4;
     };
+
     unsigned char Count;
     unsigned int Time;
 

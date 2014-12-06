@@ -10,21 +10,16 @@
 
 struct RF {
 
-    union {
-
-        struct {
-            unsigned Enable : 1;
-            unsigned ReceiveGO : 1;
-            unsigned TransceiveGO : 1;
-            unsigned RxStatus : 1;
-            unsigned TxStatus : 1;
-            unsigned Debounce : 1;
-            unsigned Learn : 1;
-            unsigned Key : 1;
-        };
+    struct {
+        unsigned Enable : 1;
+        unsigned ReceiveGO : 1;
+        unsigned TransceiveGO : 1;
+        unsigned RxStatus : 1;
+        unsigned TxStatus : 1;
+        unsigned Debounce : 1;
+        unsigned Learn : 1;
+        unsigned Key : 1;
     };
-
-    union {
 
         struct {
             unsigned Sleep : 1;
@@ -35,7 +30,7 @@ struct RF {
             unsigned Correction : 1;
             unsigned empty : 2;
         };
-    };
+
     unsigned int Count;
     unsigned char CheckCount;
     unsigned int CheckedCounter;

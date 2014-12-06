@@ -103,7 +103,7 @@
 #define Timer2_use_Value	0
 //INT
 #define INT_use_Value   0
-//UART
+//UART 
 #define UART_use_Value      0
 #define UART_Master_Value   1
 #define UART_Slave_Value    0
@@ -125,8 +125,8 @@
 #define SYSC_use_Value 0
 //OverTemperature
 #define OverTemperature_use_Value   1
-#define TempDangerValue_Value       458   //NTC 70度
-#define TempSafeValue_Value         500   //NTC 61度
+#define TempDangerValue_Value       345   //NTC 70度
+#define TempSafeValue_Value         400   //NTC 61度
 //OverLoad
 #define OverLoad_use_Value 1
 #define LimitCurrent_Value  2.5//A

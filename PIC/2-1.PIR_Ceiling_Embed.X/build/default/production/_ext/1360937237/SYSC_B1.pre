@@ -1879,16 +1879,16 @@ void Mcu_Initialization();
 # 20
 void IO_Set();
 
-# 228
+# 224
 void Fosc_Set();
 
-# 296
+# 292
 void ADC_Set();
 void setADCGO();
 
 inline char getAD(char, char);
 
-# 447
+# 440
 struct Timer1 {
 
 struct {
@@ -1903,7 +1903,7 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 646
+# 634
 struct UART {
 
 
@@ -1912,14 +1912,12 @@ unsigned char Count;
 unsigned char TxLength;
 unsigned char RxLength;
 
-union {
-
 struct {
 unsigned TxGO : 1;
 unsigned RxGO : 1;
 unsigned empty : 6;
 };
-};
+
 };
 struct UART UART;
 
@@ -1933,29 +1931,24 @@ void UART_Transmit();
 void UART_Receive();
 void UART_SetData();
 
-# 755
+# 738
 struct WDT {
-
-union {
 
 struct {
 unsigned Enable : 1;
 unsigned empty : 7;
 };
-};
 unsigned char Timer;
 };
 struct WDT WDT;
 
-# 783
+# 763
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
 
 # 62 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
 struct myMain {
-
-union {
 
 struct {
 unsigned PowerON : 1;
@@ -1964,15 +1957,13 @@ unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
-unsigned Test:1;
+unsigned Test : 1;
 unsigned Tempty : 1;
 };
-};
-unsigned int PowerCount;
 
-# 88
-union {
+unsigned char PowerCount;
 
+# 86
 struct {
 unsigned i : 1;
 unsigned j : 1;
@@ -1983,9 +1974,6 @@ unsigned n : 1;
 unsigned o : 1;
 unsigned p : 1;
 };
-};
-
-union {
 
 struct {
 unsigned q : 1;
@@ -1993,22 +1981,22 @@ unsigned r : 1;
 unsigned Timeout : 1;
 unsigned empty : 5;
 };
-};
+
 unsigned int Timeout_Counter;
 
 };
 struct myMain myMain;
 
-# 123
+# 116
 inline void myMain_Initialization();
 
-# 128
+# 121
 inline void my_Main();
 
-# 133
+# 126
 inline void my_MainTimer();
 
-# 138
+# 131
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2018,7 +2006,7 @@ char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 char getMain_LoadOK();
 
-# 96 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
+# 90 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2034,14 +2022,12 @@ struct SwitchDetect SwDetect;
 # 10 "../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h"
 struct LED {
 
-union {
-
 struct {
 unsigned Enable : 1;
 unsigned GO : 1;
 unsigned empty : 6;
 };
-};
+
 unsigned int Time;
 unsigned char Number;
 };
@@ -2051,7 +2037,7 @@ struct LED *LED;
 
 struct LED VarErrLED;
 
-# 34
+# 32
 struct LED VarLED1;
 
 
@@ -2059,25 +2045,25 @@ struct LED VarLED1;
 
 struct LED VarLED2;
 
-# 51
+# 49
 inline void LED_Initialization();
 
-# 56
+# 54
 inline void LED_Main();
 
-# 65
+# 63
 void LedPointSelect(char led);
 
-# 74
+# 72
 void setLED_Initialization(char led);
 
-# 83
+# 81
 void setLED_Main(char led);
 
-# 97
+# 95
 void setLED(char led, char command);
 
-# 109
+# 107
 struct PIRLED {
 
 union {
@@ -2087,7 +2073,7 @@ unsigned GO : 1;
 unsigned GO1 : 1;
 unsigned GO2 : 1;
 unsigned GO3 : 1;
-unsigned status:1;
+unsigned status : 1;
 unsigned empty : 3;
 };
 };
@@ -2098,64 +2084,44 @@ struct PIRLED PIRLED;
 
 void setPIRLED_Main();
 
-# 47 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
-struct OverLoad {
-
-union {
+# 7 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h"
+struct OverTemp {
 
 struct {
 unsigned Enable : 1;
-unsigned GO : 1;
-unsigned LightsON : 1;
-unsigned Run : 1;
-unsigned ADtoGO : 1;
 unsigned ERROR : 1;
-unsigned Status : 1;
-unsigned OK : 1;
-};
+unsigned ADtoGO : 1;
+unsigned LoadADGO : 1;
+unsigned GO : 1;
+unsigned empty : 3;
 };
 
 unsigned int Time;
-unsigned int ErrorTime;
-
-unsigned int ADH;
-unsigned int ADL;
-
-ADtype TotalLoad;
-ADtype AH[5];
-ADtype AL[5];
-ADtype AD;
-ADtype ADRES;
-
-unsigned int LightsJudgeValue;
-unsigned int JudgeValue;
-unsigned int Judge;
-
 unsigned char Count;
-unsigned char ErrorCount;
-unsigned char ErrorCountValue;
-unsigned char LightsCount;
-unsigned char SafeCount;
+
+unsigned char AD1;
+unsigned char AD2;
+
+ADtype AD;
+ADtype ADH[2];
+ADtype ADRES;
+ADtype SafeValue;
+ADtype DangerValue;
+
 };
 
+struct OverTemp Temp;
 
-struct OverLoad Load;
-
-# 93
-inline void Load_Initialization();
-inline void Load_Main();
-inline void getLoad_AD(char channel);
-void setLoad_Exceptions(char command);
-void setLoad_AH_AL_Restore();
-
-# 104
-char getLoad_OK();
-void setLoad_OK();
+# 81
+inline void Temp_Initialization();
+inline void Temp_Main();
+void setTemp_Main();
+void setTemp_Initialization();
+inline void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
 
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
-
-union {
 
 struct {
 unsigned Enable : 1;
@@ -2166,7 +2132,6 @@ unsigned Status : 1;
 unsigned Low : 1;
 unsigned empty : 2;
 };
-};
 
 unsigned char Time;
 
@@ -2174,7 +2139,7 @@ unsigned char VRAD;
 unsigned char SignalAD;
 unsigned char ADRES;
 
-# 34
+# 31
 };
 
 
@@ -2189,8 +2154,6 @@ char getCDS_Status();
 # 17 "../src/../2-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
 struct PIR {
 
-union {
-
 struct {
 unsigned Enable : 1;
 unsigned ADtoGO : 1;
@@ -2201,7 +2164,6 @@ unsigned RangeRun : 1;
 unsigned Status : 1;
 unsigned Available : 1;
 };
-};
 
 
 unsigned char SignalAD;
@@ -2209,7 +2171,7 @@ unsigned char ADRES;
 unsigned char VRAD;
 unsigned char VRAD1;
 
-# 46
+# 43
 unsigned char Time;
 unsigned char ReferenceVoltage;
 
@@ -2248,10 +2210,33 @@ void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
 
+# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/SYSC_B1.h"
+struct SYSC {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned PowerON : 1;
+unsigned Signal : 1;
+unsigned empty : 4;
+};
+
+unsigned int Timer;
+unsigned int Counter;
+};
+
+
+struct SYSC SYSC;
+
+
+inline void SYSC_Initialization();
+inline void SYSC_Main();
+void setSYSC_Initialization();
+void setSYSC_Main();
+inline void DetectSYSC_Signal();
+
 # 11 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
 struct LightsControl {
-
-union {
 
 struct {
 unsigned Detect : 1;
@@ -2259,13 +2244,11 @@ unsigned LoadGO : 1;
 unsigned LoadOK : 1;
 unsigned empty : 5;
 };
-};
+
 };
 struct LightsControl LightsControl;
 
 struct Lights {
-
-union {
 
 struct {
 unsigned Enable : 1;
@@ -2277,15 +2260,11 @@ unsigned Relay : 1;
 unsigned Triac : 1;
 unsigned RelaySet : 1;
 };
-};
-
-union {
 
 struct {
 unsigned Line : 1;
-unsigned Loop:1;
+unsigned Loop : 1;
 unsigned empty : 6;
-};
 };
 
 unsigned char Time;
@@ -2300,7 +2279,7 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 71
+# 63
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2315,4 +2294,62 @@ void setLights_Line(char lights);
 char getAll_Lights_Line();
 char getLightsControl_GO();
 char getLightsControl_OK();
+
+# 7 "../src/SYSC_B1.c"
+inline void SYSC_Initialization() {
+
+setSYSC_Initialization();
+
+}
+
+void setSYSC_Initialization() {
+SYSC.Enable = 1;
+}
+
+inline void SYSC_Main() {
+
+setSYSC_Main();
+
+}
+
+void setSYSC_Main() {
+
+if (SYSC.Enable == 1) {
+if (SYSC.ERROR == 0) {
+SYSC.Timer++;
+if (SYSC.Timer >= 16)
+{
+SYSC.Timer = 0;
+SYSC.ERROR = 1;
+}
+} else {
+if (getMain_All_Error_Status(1) == 0) {
+SYSC.Timer++;
+if (SYSC.Timer == 50) {
+SYSC.Timer = 0;
+SYSC.Counter = 0;
+} else {
+SYSC.Counter++;
+if (SYSC.Counter == 1000) {
+SYSC.Counter = 0;
+SYSC.ERROR = 0;
+}
+}
+}
+}
+}
+}
+
+inline void DetectSYSC_Signal() {
+if (SYSC.Signal == 0) {
+if (RA5 == 1) {
+SYSC.Signal = 1;
+SYSC.Timer = 0;
+}
+} else {
+if (RA5 == 0) {
+SYSC.Signal = 0;
+}
+}
+}
 

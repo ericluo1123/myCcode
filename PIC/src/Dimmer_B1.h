@@ -10,18 +10,15 @@
 
 struct DimmerLights {
 
-    union {
-
-        struct {
-            unsigned GO : 1;
-            unsigned Signal : 1;
-            unsigned AdjRF : 1;
-            unsigned AdjFlag : 1; //adj control
-            unsigned AdjStatus : 1; //adj status
-            unsigned Status : 1; //lights status
-            unsigned StatusFlag : 1; //triac control
-            unsigned OverLoad : 1;
-        };
+    struct {
+        unsigned GO : 1;
+        unsigned Signal : 1;
+        unsigned AdjRF : 1;
+        unsigned AdjFlag : 1; //adj control
+        unsigned AdjStatus : 1; //adj status
+        unsigned Status : 1; //lights status
+        unsigned StatusFlag : 1; //triac control
+        unsigned OverLoad : 1;
     };
 
     unsigned char DimmingTime;
@@ -33,33 +30,28 @@ struct DimmerLights {
 
     unsigned char TriacTime;
 
-    union {
-
-        struct {
-            unsigned Flag : 1;
-            unsigned Switch : 1;
-            unsigned Trigger : 1;
-            unsigned AdjGo : 1;
-            unsigned TriggerAdj : 1;
-            unsigned Triac : 1;
-            unsigned MosfetOpen : 1;
-            unsigned MosfetClose : 1;
-        };
+    struct {
+        unsigned Flag : 1;
+        unsigned Switch : 1;
+        unsigned Trigger : 1;
+        unsigned AdjGo : 1;
+        unsigned TriggerAdj : 1;
+        unsigned Triac : 1;
+        unsigned MosfetOpen : 1;
+        unsigned MosfetClose : 1;
     };
 
-    union {
-
-        struct {
-            unsigned Line : 1;
-            unsigned Loop : 1;
-            unsigned OK : 1;
-            unsigned MosfetSignal : 1;
-            unsigned MOSFET : 1;
-            unsigned TriacFlag : 1;
-            unsigned SwFlag : 1;
-            unsigned SwAdj : 1;
-        };
+    struct {
+        unsigned Line : 1;
+        unsigned Loop : 1;
+        unsigned OK : 1;
+        unsigned MosfetSignal : 1;
+        unsigned MOSFET : 1;
+        unsigned TriacFlag : 1;
+        unsigned SwFlag : 1;
+        unsigned SwAdj : 1;
     };
+
     unsigned char TriacCount;
     unsigned char DetectCount;
     unsigned char MosfetSignalCount;

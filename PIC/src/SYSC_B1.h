@@ -7,16 +7,14 @@
 
 struct SYSC {
 
-    union {
-
-        struct {
-            unsigned Enable : 1;
-            unsigned ERROR : 1;
-            unsigned PowerON : 1;
-            unsigned Signal : 1;
-            unsigned empty : 4;
-        };
+    struct {
+        unsigned Enable : 1;
+        unsigned ERROR : 1;
+        unsigned PowerON : 1;
+        unsigned Signal : 1;
+        unsigned empty : 4;
     };
+
     unsigned int Timer;
     unsigned int Counter;
 };

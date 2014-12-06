@@ -124,9 +124,9 @@
 
 //SYSC
 #define SYSC_use_Value 0
-//OverTemperature
+    //OverTemperature
 #define OverTemperature_use_Value   1
-#define TempDangerValue_Value       415   //NTC 70度
+#define TempDangerValue_Value       415     //NTC 70度
 #define TempSafeValue_Value         455     //NTC 61度
 //OverLoad
 #define OverLoad_use_Value  1

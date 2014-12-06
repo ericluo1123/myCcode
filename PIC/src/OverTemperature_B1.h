@@ -3,10 +3,8 @@
 #define _OverTemperature_H_
 
 #if OverTemperature_use == 1
-#define Temp_Debug 0
+#define Temp_Debug 1
 struct OverTemp {
-
-    union {
 
         struct {
             unsigned Enable : 1;
@@ -16,7 +14,7 @@ struct OverTemp {
             unsigned GO : 1;
             unsigned empty : 3;
         };
-    };
+   
     unsigned int Time;
     unsigned char Count;
 

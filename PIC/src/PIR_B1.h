@@ -16,8 +16,6 @@
 
 struct PIR {
 
-    union {
-
         struct {
             unsigned Enable : 1;
             unsigned ADtoGO : 1;
@@ -28,7 +26,6 @@ struct PIR {
             unsigned Status : 1;
             unsigned Available : 1;
         };
-    };
 
 #ifdef MCU_16F723A
     unsigned char SignalAD;

@@ -61,20 +61,18 @@ Product _product = {
 
 struct myMain {
 
-    union {
-
-        struct {
-            unsigned PowerON : 1;
-            unsigned Flag : 1;
-            unsigned GO : 1;
-            unsigned FirstOpen : 1;
-            unsigned SelfTest : 1;
-            unsigned First : 1;
-            unsigned Test:1;
-            unsigned Tempty : 1;
-        };
+    struct {
+        unsigned PowerON : 1;
+        unsigned Flag : 1;
+        unsigned GO : 1;
+        unsigned FirstOpen : 1;
+        unsigned SelfTest : 1;
+        unsigned First : 1;
+        unsigned Test : 1;
+        unsigned Tempty : 1;
     };
-    unsigned int PowerCount;
+
+    unsigned char PowerCount;
 #if Debug == 1
     unsigned int Count;
     unsigned int Count1;
@@ -85,29 +83,24 @@ struct myMain {
     //    unsigned char Test;
     //    unsigned char ClockCount;
 
-    union {
-
-        struct {
-            unsigned i : 1;
-            unsigned j : 1;
-            unsigned k : 1;
-            unsigned l : 1;
-            unsigned m : 1;
-            unsigned n : 1;
-            unsigned o : 1;
-            unsigned p : 1;
-        };
+    struct {
+        unsigned i : 1;
+        unsigned j : 1;
+        unsigned k : 1;
+        unsigned l : 1;
+        unsigned m : 1;
+        unsigned n : 1;
+        unsigned o : 1;
+        unsigned p : 1;
     };
 
-    union {
-
-        struct {
-            unsigned q : 1;
-            unsigned r : 1;
-            unsigned Timeout : 1;
-            unsigned empty : 5;
-        };
+    struct {
+        unsigned q : 1;
+        unsigned r : 1;
+        unsigned Timeout : 1;
+        unsigned empty : 5;
     };
+
     unsigned int Timeout_Counter;
 
 };

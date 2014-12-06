@@ -126,18 +126,25 @@
 //Function Option
 
 //SYSC
-#define SYSC_use_Value 0
+#define SYSC_use_Value 1
 //OverTemperature
-#define OverTemperature_use_Value 0
+#define OverTemperature_use_Value 1
 #define Cut_Off_electricity_Value 1
 #define TempDangerValueH_Value    100		//NTC 68 value 500
 #define TempDangerValueL_Value    70		//NTC 68 value 500
 #define TempSafeValueH_Value      140		//NTC 47 value 600
 #define TempSafeValueL_Value      100		//NTC 47 value 600
+/*
+ * lights on max temperature value      b0
+ * lights on mini temperature value     60
+ * lights off max temperature value     3C
+ * lights off mini temperature value    3D
+ */
+
 //OverLoad
-#define OverLoad_use_Value  1
-#define LimitCurrent_Value  7//A
-#define LinearParam_Value   55
+#define OverLoad_use_Value  0
+#define LimitCurrent_Value  6//A
+#define LinearParam_Value   2
 //LED
 #define LED_use_Value 1
 //Buzzer

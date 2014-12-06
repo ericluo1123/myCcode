@@ -10,41 +10,33 @@
 
 struct LightsControl {
 
-    union {
-
-        struct {
-            unsigned Detect : 1;
-            unsigned LoadGO : 1;
-            unsigned LoadOK : 1;
-            unsigned empty : 5;
-        };
+    struct {
+        unsigned Detect : 1;
+        unsigned LoadGO : 1;
+        unsigned LoadOK : 1;
+        unsigned empty : 5;
     };
+
 };
 struct LightsControl LightsControl;
 
 struct Lights {
 
-    union {
-
-        struct {
-            unsigned Enable : 1;
-            unsigned GO : 1;
-            unsigned Status : 1;
-            unsigned Trigger : 1;
-            unsigned Switch : 1;
-            unsigned Relay : 1;
-            unsigned Triac : 1;
-            unsigned RelaySet : 1;
-        };
+    struct {
+        unsigned Enable : 1;
+        unsigned GO : 1;
+        unsigned Status : 1;
+        unsigned Trigger : 1;
+        unsigned Switch : 1;
+        unsigned Relay : 1;
+        unsigned Triac : 1;
+        unsigned RelaySet : 1;
     };
 
-    union {
-
-        struct {
-            unsigned Line : 1;
-            unsigned Loop:1;
-            unsigned empty : 6;
-        };
+    struct {
+        unsigned Line : 1;
+        unsigned Loop : 1;
+        unsigned empty : 6;
     };
 
     unsigned char Time;

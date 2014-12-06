@@ -8,17 +8,14 @@
 
 struct CDS {
 
-    union {
-
-        struct {
-            unsigned Enable : 1;
-            unsigned GO : 1;
-            unsigned OK : 1;
-            unsigned ADtoGO : 1;
-            unsigned Status : 1;
-            unsigned Low : 1;
-            unsigned empty : 2;
-        };
+    struct {
+        unsigned Enable : 1;
+        unsigned GO : 1;
+        unsigned OK : 1;
+        unsigned ADtoGO : 1;
+        unsigned Status : 1;
+        unsigned Low : 1;
+        unsigned empty : 2;
     };
 
     unsigned char Time;

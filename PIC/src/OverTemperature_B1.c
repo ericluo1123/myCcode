@@ -13,7 +13,7 @@ inline void Temp_Initialization() {
 //*********************************************************
 
 inline void getTemp_AD(char channel) {
-#if SYSC_use == 1
+#if SYSC_use == 1  
     if (SYSC1 == true) {
         if (Temp.ADtoGO == true) {
             Temp.ADRES = getAD(channel, ADCON1_VDD);
@@ -27,7 +27,7 @@ inline void getTemp_AD(char channel) {
             }
         }
     }
- 
+
 #else
     if (Temp.ADtoGO == true) {
         Temp.GO = true;
@@ -70,6 +70,7 @@ void setTemp_Main() {
                     if (Temp.GO == true) {
                         Temp.ADtoGO = false;
                         Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
+                        //                        Temp.AD = Temp.ADH[0];
 #if PIR_use == 1
                         if (getMain_LightsStatus() == 1) {
                             Temp.SafeValue = TempSafeValueH;
@@ -107,13 +108,19 @@ void setTemp_Main() {
                             } else {
                                 Temp.Count = 0;
                             }
-                        } 
+                        }
                         setProductData(24, Temp.AD >> 8);
                         setProductData(25, Temp.AD);
 #if Temp_Debug == 1
-
+#if PIR_use == 1 
+                        UART.Data[0] = (Temp.AD >> 8);
+                        UART.Data[1] = Temp.AD;
+#if UART_use == 1
+#endif
+#else
                         setProductData(2, Temp.AD >> 8);
                         setProductData(3, Temp.AD);
+#endif
 #endif
                         Temp.ADH[0] = 0;
                         Temp.ADH[1] = 0;

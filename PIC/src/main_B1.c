@@ -92,11 +92,13 @@ int main(int argc, char** argv) {
         //TMR1
         if (Timer1.Timeout == true) { //10ms
             Timer1.Timeout = false;
+
             my_MainTimer();
             WDT_Main();
             I2C_Main();
             UART_Main();
             if (myMain.PowerON == true) {
+
                 Flash_Memory_Main();
 
                 LED_Main();
@@ -180,10 +182,10 @@ inline void myMain_Initialization() {
 
 inline void my_MainTimer() {
     //Power
+
     if (myMain.PowerON == false) {
         myMain.PowerCount++;
-        if (myMain.PowerCount == 150)//*10ms
-        {
+        if (myMain.PowerCount == 150) {//*10ms
             myMain.PowerCount = 0;
             myMain.PowerON = true;
 
@@ -205,7 +207,7 @@ inline void my_MainTimer() {
         myMain.PowerCount++;
         if (myMain.PowerCount == 100) {//*10ms
             myMain.PowerCount = 0;
-            //            ErrLED = ErrLED == true ? false : true; 
+            //            ErrLED = ErrLED == true ? false : true;
 #if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
             if (UART.TxGO == false) {

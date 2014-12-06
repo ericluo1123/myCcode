@@ -9,14 +9,12 @@
 
 struct LED {
 
-    union {
-
-        struct {
-            unsigned Enable : 1;
-            unsigned GO : 1;
-            unsigned empty : 6;
-        };
+    struct {
+        unsigned Enable : 1;
+        unsigned GO : 1;
+        unsigned empty : 6;
     };
+
     unsigned int Time;
     unsigned char Number;
 };
@@ -115,7 +113,7 @@ struct PIRLED {
             unsigned GO1 : 1;
             unsigned GO2 : 1;
             unsigned GO3 : 1;
-            unsigned status:1;
+            unsigned status : 1;
             unsigned empty : 3;
         };
     };

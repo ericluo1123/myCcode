@@ -120,7 +120,7 @@ void IO_Set();
 #ifdef System_Fosc_500K_Default
 #define	_OSCCON	0x38
 #define _FOSC	500000L
-#endif 
+#endif  
 
 #ifdef System_Fosc_250K_Default
 #define _OSCCON 0x30
@@ -366,13 +366,10 @@ inline int getAD(char, char);
 
 struct Timer0 {
 
-    union {
-
-        struct {
-            unsigned Timeout : 1;
-            unsigned Reset : 1;
-            unsigned empty : 5;
-        };
+    struct {
+        unsigned Timeout : 1;
+        unsigned Reset : 1;
+        unsigned empty : 5;
     };
 
     unsigned int Count;
@@ -494,12 +491,9 @@ inline void setDimmerReClock();
 
 struct Timer2 {
 
-    union {
-
-        struct {
-            unsigned Timeout : 1;
-            unsigned empty : 7;
-        };
+    struct {
+        unsigned Timeout : 1;
+        unsigned empty : 7;
     };
     unsigned int Count;
 };
@@ -547,18 +541,16 @@ struct I2C {
     unsigned char Count;
     unsigned char Address;
 
-    union {
-
-        struct {
-            unsigned SlaveGO : 1;
-            unsigned SlaveRxGO : 1;
-            unsigned SlaveTxGO : 1;
-            unsigned MasterTxGO : 1;
-            unsigned MasterRxGO : 1;
-            unsigned SS : 1;
-            unsigned empty : 2;
-        };
+    struct {
+        unsigned SlaveGO : 1;
+        unsigned SlaveRxGO : 1;
+        unsigned SlaveTxGO : 1;
+        unsigned MasterTxGO : 1;
+        unsigned MasterRxGO : 1;
+        unsigned SS : 1;
+        unsigned empty : 2;
     };
+
 }
 struct I2C VarI2C;
 struct I2C *I2C;
@@ -638,23 +630,21 @@ void I2C_SetData(char command);
 #endif
 
 //Global extern varitable declaration
- 
+
 struct UART {
-//    unsigned char TxData[32];
-//    unsigned char RxData[32];
+    //    unsigned char TxData[32];
+    //    unsigned char RxData[32];
     unsigned char Data[UART_Data_Length_Vallue];
     unsigned char Count;
     unsigned char TxLength;
     unsigned char RxLength;
 
-    union {
-
-        struct {
-            unsigned TxGO : 1;
-            unsigned RxGO : 1;
-            unsigned empty : 6;
-        };
+    struct {
+        unsigned TxGO : 1;
+        unsigned RxGO : 1;
+        unsigned empty : 6;
     };
+
 };
 struct UART UART;
 
@@ -693,15 +683,12 @@ struct FlashMemory {
     unsigned char ReadDataL;
     unsigned int Time;
 
-    union {
-
-        struct {
-            unsigned Modify : 1;
-            unsigned GO : 1;
-            unsigned LoopSave : 1;
-            unsigned Runtime : 1;
-            unsigned empty : 4;
-        };
+    struct {
+        unsigned Modify : 1;
+        unsigned GO : 1;
+        unsigned LoopSave : 1;
+        unsigned Runtime : 1;
+        unsigned empty : 4;
     };
 };
 struct FlashMemory Memory = {
@@ -750,12 +737,9 @@ void setMemory_Data(char address, char data);
 
 struct WDT {
 
-    union {
-
-        struct {
-            unsigned Enable : 1;
-            unsigned empty : 7;
-        };
+    struct {
+        unsigned Enable : 1;
+        unsigned empty : 7;
     };
     unsigned char Timer;
 };

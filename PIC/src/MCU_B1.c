@@ -232,8 +232,7 @@ inline void TMR1_ISR() {
 #endif
 
         Timer1.Count++;
-        if (Timer1.Count == TMR1_10ms)//10ms
-        {
+        if (Timer1.Count == TMR1_10ms) {//10ms
             Timer1.Count = 0;
             Timer1.Timeout = true;
         }
@@ -845,7 +844,7 @@ void UART_SetData() {
         //        UART.Data[5] = 6;
         //        UART.Data[6] = 7;
         //        UART.Data[7] = 8;
-        //        ErrLED = ErrLED == true ? false : true;
+        ErrLED = ErrLED == true ? false : true;
         UART.TxGO = true;
     }
 #endif

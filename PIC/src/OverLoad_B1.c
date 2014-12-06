@@ -40,7 +40,7 @@ inline void Load_Main() {
     char i = 0, j = 0, error = getMain_All_Error_Status(0), adjgo = 0;
 
     if (Load.Enable == true) {
-
+ 
 #if Dimmer_use == 1
         adjgo = getAll_DimmerLights_AdjGO();
 #endif

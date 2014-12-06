@@ -7,18 +7,15 @@
 
 #if OverLoad_use == 1
 
-#define Load_Debug  1
+#define Load_Debug  0
 
 #ifdef MCU_16F723A
-
-#define FirstLimitValue (20*12)
-#define SecondLimitValue (int)(LimitCurrent*12)
-
+#define FirstLimitValue (20*LinearParam)
+#define SecondLimitValue (int)(LimitCurrent*LinearParam)
 #endif
-
 #ifdef MCU_16F1516
-#define FirstLimitValue (20*55)//(LimitCurrent*Proportion)
-#define SecondLimitValue (int)(LimitCurrent*55)
+#define FirstLimitValue (20*LinearParam)//(LimitCurrent*Proportion)
+#define SecondLimitValue (int)(LimitCurrent*LinearParam)
 #endif
 #ifdef MCU_16F1518
 #define FirstLimitValue (20*LinearParam)//(LimitCurrent*LinearParam)
@@ -46,18 +43,15 @@
 
 struct OverLoad {
 
-    union {
-
-        struct {
-            unsigned Enable : 1;
-            unsigned GO : 1;
-            unsigned LightsON : 1;
-            unsigned Run : 1;
-            unsigned ADtoGO : 1;
-            unsigned ERROR : 1;
-            unsigned Status : 1;
-            unsigned OK : 1;
-        };
+    struct {
+        unsigned Enable : 1;
+        unsigned GO : 1;
+        unsigned LightsON : 1;
+        unsigned Run : 1;
+        unsigned ADtoGO : 1;
+        unsigned ERROR : 1;
+        unsigned Status : 1;
+        unsigned OK : 1;
     };
 
     unsigned int Time;

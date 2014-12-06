@@ -66,11 +66,6 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
         //        }
     }
 #endif
-    if (DimmerLightsIntrIOC->Status == true) {
-        DimmerLightsIntrIOC->StatusFlag = true;
-    } else {
-        DimmerLightsIntrIOC->StatusFlag = false;
-    }
 }
 
 /*****************************************************************************/
