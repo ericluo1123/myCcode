@@ -261,6 +261,29 @@ char getLightsControl_OK() {
     char loadok = LightsControl.LoadOK == true ? 1 : 0;
     return loadok;
 }
-
+//*****************************************************************************
+ 
+void setLights_ErrorClose(char lights) {
+    if (lights == 255) {
+#if Switch_Class == 1
+        char count = 1;
+#endif
+#if Switch_Class == 2
+        char count = 2;
+#endif
+#if Switch_Class == 3
+        char count = 3;
+#endif
+        for (int i = 0; i < count; i++) {
+            if (getLights_Status(i + 1) == 1) {
+                setLights_Trigger(i + 1, 0);
+            }
+        }
+    } else {
+        if (getLights_Status(lights) == 1) {
+            setLights_Trigger(lights, 0);
+        }
+    }
+}
 #endif
 

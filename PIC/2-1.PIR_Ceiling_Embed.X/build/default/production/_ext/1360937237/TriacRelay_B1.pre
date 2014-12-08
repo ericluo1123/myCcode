@@ -1915,7 +1915,9 @@ unsigned char RxLength;
 struct {
 unsigned TxGO : 1;
 unsigned RxGO : 1;
-unsigned empty : 6;
+unsigned TxRun : 1;
+unsigned RxRun : 1;
+unsigned empty : 4;
 };
 
 };
@@ -1931,7 +1933,7 @@ void UART_Transmit();
 void UART_Receive();
 void UART_SetData();
 
-# 738
+# 740
 struct WDT {
 
 struct {
@@ -1942,7 +1944,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 763
+# 765
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -2084,42 +2086,6 @@ struct PIRLED PIRLED;
 
 void setPIRLED_Main();
 
-# 7 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h"
-struct OverTemp {
-
-struct {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned ADtoGO : 1;
-unsigned LoadADGO : 1;
-unsigned GO : 1;
-unsigned empty : 3;
-};
-
-unsigned int Time;
-unsigned char Count;
-
-unsigned char AD1;
-unsigned char AD2;
-
-ADtype AD;
-ADtype ADH[2];
-ADtype ADRES;
-ADtype SafeValue;
-ADtype DangerValue;
-
-};
-
-struct OverTemp Temp;
-
-# 81
-inline void Temp_Initialization();
-inline void Temp_Main();
-void setTemp_Main();
-void setTemp_Initialization();
-inline void getTemp_AD(char channel);
-void setOverTemp_Exceptions(char command);
-
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
 
@@ -2209,31 +2175,7 @@ struct PIR _PIR;
 void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
-
-# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/SYSC_B1.h"
-struct SYSC {
-
-struct {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned PowerON : 1;
-unsigned Signal : 1;
-unsigned empty : 4;
-};
-
-unsigned int Timer;
-unsigned int Counter;
-};
-
-
-struct SYSC SYSC;
-
-
-inline void SYSC_Initialization();
-inline void SYSC_Main();
-void setSYSC_Initialization();
-void setSYSC_Main();
-inline void DetectSYSC_Signal();
+char getPIR_OK();
 
 # 11 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
 struct LightsControl {
@@ -2294,6 +2236,7 @@ void setLights_Line(char lights);
 char getAll_Lights_Line();
 char getLightsControl_GO();
 char getLightsControl_OK();
+void setLights_ErrorClose(char lights);
 
 # 10 "../src/TriacRelay_B1.c"
 void LightsPointSelect(char lights) {
@@ -2461,5 +2404,24 @@ return loadgo;
 char getLightsControl_OK() {
 char loadok = LightsControl.LoadOK == 1 ? 1 : 0;
 return loadok;
+}
+
+
+void setLights_ErrorClose(char lights) {
+if (lights == 255) {
+
+char count = 1;
+
+# 277
+for (int i = 0; i < count; i++) {
+if (getLights_Status(i + 1) == 1) {
+setLights_Trigger(i + 1, 0);
+}
+}
+} else {
+if (getLights_Status(lights) == 1) {
+setLights_Trigger(lights, 0);
+}
+}
 }
 

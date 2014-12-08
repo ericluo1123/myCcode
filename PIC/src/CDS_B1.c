@@ -26,10 +26,15 @@ inline void CDS_Main() {
                 if (_CDS.Status == false) {
                     if (_CDS.SignalAD >= _CDS.VRAD) {
                         _CDS.Status = true;
-                    }
-                } else {
-                    if (_CDS.SignalAD <= (_CDS.VRAD - 100)) {
-                        _CDS.Status = false;
+                    } else {
+                        if (_CDS.SignalAD <= (_CDS.VRAD - 100)) {
+                            _CDS.Status = false;
+                            if (getPIR_OK() == 1) {
+                                if (getLights_Status(1) == 1) {
+                                    setLights_Trigger(1, 0);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -37,10 +42,13 @@ inline void CDS_Main() {
     }
 }
 
+//******************************************************************************
+
 char getCDS_Status() {
-    char status = _CDS.Status == true ? true : false;
+    char status = _CDS.Status == true ? 1 : 0;
     return status;
 }
+//******************************************************************************
 
 inline void getCDS_AD(char channel1, char channel2) {
     char i = 0, j = 0;

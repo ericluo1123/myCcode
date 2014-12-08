@@ -738,17 +738,19 @@ void UART_Set() {
 
 void UART_ISR() {
     if (RCIE == true && RCIF == true) {
-        //                RCIE = false;
-        for (int i = 0; i < UART_Data_Length; i++) {
-            UART.Data[i] = getch();
+        if (UART.TxRun == false) {
+            //                RCIE = false;
+            for (int i = 0; i < UART_Data_Length; i++) {
+                UART.Data[i] = getch();
+            }
+            UART.RxGO = true;
+            //        UART.Data[UART.Count] = getch();
+            //        UART.Count++;
+            //        if (UART.Count == UART_Data_Length - 1) {
+            //            UART.Count = 0;
+            //            UART.RxGO = true;
+            //        }
         }
-        UART.RxGO = true;
-        //        UART.Data[UART.Count] = getch();
-        //        UART.Count++;
-        //        if (UART.Count == UART_Data_Length - 1) {
-        //            UART.Count = 0;
-        //            UART.RxGO = true;
-        //        }
         RCIF = false;
     }
 }
@@ -769,6 +771,7 @@ void UART_Main() {
 }
 
 void UART_Transmit() {
+    UART.TxRun = true;
     //    printf("%d,", UART.Data[0]);
     //    putch(UART.Data[0]);
     for (int i = 0; i < UART_Data_Length; i++) {
@@ -785,6 +788,7 @@ void UART_Transmit() {
     //#ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
     //    ErrLED = ErrLED == true ? false : true;
     //#endif
+    UART.TxRun = false;
 }
 
 void UART_Receive() {
@@ -844,7 +848,7 @@ void UART_SetData() {
         //        UART.Data[5] = 6;
         //        UART.Data[6] = 7;
         //        UART.Data[7] = 8;
-        ErrLED = ErrLED == true ? false : true;
+        //        ErrLED = ErrLED == true ? false : true;
         UART.TxGO = true;
     }
 #endif

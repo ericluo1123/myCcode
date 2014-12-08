@@ -1915,7 +1915,9 @@ unsigned char RxLength;
 struct {
 unsigned TxGO : 1;
 unsigned RxGO : 1;
-unsigned empty : 6;
+unsigned TxRun : 1;
+unsigned RxRun : 1;
+unsigned empty : 4;
 };
 
 };
@@ -1931,7 +1933,7 @@ void UART_Transmit();
 void UART_Receive();
 void UART_SetData();
 
-# 738
+# 740
 struct WDT {
 
 struct {
@@ -1942,7 +1944,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 763
+# 765
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -2084,42 +2086,6 @@ struct PIRLED PIRLED;
 
 void setPIRLED_Main();
 
-# 7 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h"
-struct OverTemp {
-
-struct {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned ADtoGO : 1;
-unsigned LoadADGO : 1;
-unsigned GO : 1;
-unsigned empty : 3;
-};
-
-unsigned int Time;
-unsigned char Count;
-
-unsigned char AD1;
-unsigned char AD2;
-
-ADtype AD;
-ADtype ADH[2];
-ADtype ADRES;
-ADtype SafeValue;
-ADtype DangerValue;
-
-};
-
-struct OverTemp Temp;
-
-# 81
-inline void Temp_Initialization();
-inline void Temp_Main();
-void setTemp_Main();
-void setTemp_Initialization();
-inline void getTemp_AD(char channel);
-void setOverTemp_Exceptions(char command);
-
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
 
@@ -2209,31 +2175,7 @@ struct PIR _PIR;
 void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
-
-# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/SYSC_B1.h"
-struct SYSC {
-
-struct {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned PowerON : 1;
-unsigned Signal : 1;
-unsigned empty : 4;
-};
-
-unsigned int Timer;
-unsigned int Counter;
-};
-
-
-struct SYSC SYSC;
-
-
-inline void SYSC_Initialization();
-inline void SYSC_Main();
-void setSYSC_Initialization();
-void setSYSC_Main();
-inline void DetectSYSC_Signal();
+char getPIR_OK();
 
 # 11 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
 struct LightsControl {
@@ -2294,6 +2236,7 @@ void setLights_Line(char lights);
 char getAll_Lights_Line();
 char getLightsControl_GO();
 char getLightsControl_OK();
+void setLights_ErrorClose(char lights);
 
 
 # 8 "../src/MCU_B1.c"
@@ -2366,8 +2309,8 @@ UART_ISR();
 # 199
 inline void TMR1_Set() {
 T1CON = (0x40 | 0x00 | 0x01);
-TMR1H = ((65536-1480)/256);
-TMR1L = ((65536-1480)%256);
+TMR1H = (int)((65536-1480)/256);
+TMR1L = (int)((65536-1480)%256);
 TMR1IE = 1;
 PEIE = 1;
 GIE = 1;
@@ -2377,8 +2320,8 @@ GIE = 1;
 inline void TMR1_ISR() {
 if (TMR1IE == 1 && TMR1IF == 1) {
 
-TMR1H = ((65536-1480)/256);
-TMR1L = ((65536-1480)%256);
+TMR1H = (int)((65536-1480)/256);
+TMR1L = (int)((65536-1480)%256);
 TMR1IF = 0;
 
 # 234
@@ -2436,13 +2379,15 @@ GIE = 1;
 
 void UART_ISR() {
 if (RCIE == 1 && RCIF == 1) {
+if (UART.TxRun == 0) {
 
 for (int i = 0; i < 8; i++) {
 UART.Data[i] = getch();
 }
 UART.RxGO = 1;
 
-# 752
+# 753
+}
 RCIF = 0;
 }
 }
@@ -2463,34 +2408,35 @@ UART_Transmit();
 }
 
 void UART_Transmit() {
+UART.TxRun = 1;
 
 
 for (int i = 0; i < 8; i++) {
 
 putch(UART.Data[i]);
 
-# 784
+# 787
 }
 
 
 
+UART.TxRun = 0;
 }
 
 void UART_Receive() {
 
-# 812
+# 816
 myMain.Test = 1;
 
-# 826
+# 830
 }
 
 void UART_SetData() {
 
-# 838
+# 842
 if (UART.TxGO == 0) {
 
-# 847
-RB3 = RB3 == 1 ? 0 : 1;
+# 852
 UART.TxGO = 1;
 }
 
@@ -2519,7 +2465,7 @@ putch(c = getch());
 return c;
 }
 
-# 1042
+# 1046
 void WDT_Set() {
 
 PSA = 1;
@@ -2527,7 +2473,7 @@ PS0 = 1;
 PS1 = 1;
 PS2 = 1;
 
-# 1051
+# 1055
 WDT.Enable = 1;
 WDT.Timer = 10;
 }

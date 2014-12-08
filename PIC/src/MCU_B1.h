@@ -431,8 +431,8 @@ inline void setDimmerReClock();
 #endif
 
 #define _TMR1ON 0x01
-#define TMR1H_Value 	((65536-TMR1_Count)/256)
-#define TMR1L_Value  	((65536-TMR1_Count)%256)
+#define TMR1H_Value 	(int)((65536-TMR1_Count)/256)
+#define TMR1L_Value  	(int)((65536-TMR1_Count)%256)
 #endif	
 
 //Virable declaration
@@ -642,7 +642,9 @@ struct UART {
     struct {
         unsigned TxGO : 1;
         unsigned RxGO : 1;
-        unsigned empty : 6;
+        unsigned TxRun : 1;
+        unsigned RxRun : 1;
+        unsigned empty : 4;
     };
 
 };

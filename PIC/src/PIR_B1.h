@@ -16,16 +16,16 @@
 
 struct PIR {
 
-        struct {
-            unsigned Enable : 1;
-            unsigned ADtoGO : 1;
-            unsigned GO : 1;
-            unsigned OK : 1;
-            unsigned Detect : 1;
-            unsigned RangeRun : 1;
-            unsigned Status : 1;
-            unsigned Available : 1;
-        };
+    struct {
+        unsigned Enable : 1;
+        unsigned ADtoGO : 1;
+        unsigned GO : 1;
+        unsigned OK : 1;
+        unsigned Detect : 1;
+        unsigned RangeRun : 1;
+        unsigned Status : 1;
+        unsigned Available : 1;
+    };
 
 #ifdef MCU_16F723A
     unsigned char SignalAD;
@@ -77,11 +77,13 @@ struct PIR _PIR;
 void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
+char getPIR_OK();
 #else
-#define selectPIRPoint(char);
-#define PIR_Initialization();
-#define PIR_Main();
-#define getPIR_AD(char , char );
+#define selectPIRPoint(char) ;
+#define PIR_Initialization() ;
+#define PIR_Main() ;
+#define getPIR_AD(char , char) ;
+#define getPIR_OK() ;
 
 #endif
 

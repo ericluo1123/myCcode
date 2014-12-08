@@ -98,7 +98,6 @@ int main(int argc, char** argv) {
             I2C_Main();
             UART_Main();
             if (myMain.PowerON == true) {
-
                 Flash_Memory_Main();
 
                 LED_Main();
@@ -168,6 +167,7 @@ int main(int argc, char** argv) {
 //Tmain initial
 
 inline void myMain_Initialization() {
+
 #ifndef MCU_16F723A
     product = &_product;
     product->Data[20] = KeyID;
@@ -177,6 +177,7 @@ inline void myMain_Initialization() {
     //TMain->FirstOpen=1;
     //TMain->First=1;
 }
+
 //T main
 //*****************************************************************************
 
@@ -208,12 +209,14 @@ inline void my_MainTimer() {
         if (myMain.PowerCount == 100) {//*10ms
             myMain.PowerCount = 0;
             //            ErrLED = ErrLED == true ? false : true;
-#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 
+#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1  
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
+#if UART_use == 1
             if (UART.TxGO == false) {
                 UART_SetData();
             }
-#else
+#endif
+#else 
             setTxData();
 #endif
 
@@ -288,15 +291,41 @@ void setMain_Exception(char command) {
 
     if (command == 0) {
         setLED(command, 110);
-    } else if (command == 5) {
-        NOP();
     } else {
         setLED(command, 111);
+
+
+        if (status == 255) {
+#if Switch_Class == 1
+            char count = 1;
+#endif
+#if Switch_Class == 2
+            char count = 2;
+#endif
+#if Switch_Class == 3
+            char count = 3;
+#endif
+            for (int i = 0; i < count; i++) {
+                if (getLights_Status(i + 1) == 1) {
+                    setLights_Trigger(i + 1, 0);
+                }
+            }
+        } else {
+            if (getLights_Status(status) == 1) {
+                setLights_Trigger(status, 0);
+            }
+        }
     }
 
-    if (command != 0) {
-        setLights_Trigger(1, 0);
-    }
+    //    if (command == 5) {
+    //#if PIR_use == 1
+    //        if (_PIR.OK == true) {
+    //            if (getLights_Status(1) == 1) {
+    //                setLights_Trigger(1, 0);
+    //            }
+    //        }
+    //#endif
+    //    }
 #endif
 #if Dimmer_use == 1
     status = command == 3 ? getDimmerLights_Line() : 255;
@@ -399,12 +428,12 @@ char getMain_All_Error_Status(char command) {
     }
 #endif
 
-
-#if CDS_use == 1
-    if (status == 0 && command != 5) {
-        status = getCDS_Status() == false ? 5 : 0;
-    }
-#endif
+    //
+    //#if CDS_use == 1
+    //    if (status == 0 && command != 5) {
+    //        status = getCDS_Status() == false ? 5 : 0;
+    //    }
+    //#endif
     return status;
 }
 //*****************************************************************************

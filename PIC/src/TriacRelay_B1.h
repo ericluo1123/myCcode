@@ -74,6 +74,7 @@ void setLights_Line(char lights);
 char getAll_Lights_Line();
 char getLightsControl_GO();
 char getLightsControl_OK();
+void setLights_ErrorClose(char lights);
 
 //char getAll_Lights_Status();
 #else
@@ -99,7 +100,7 @@ char getLightsControl_OK();
 #define setLights_Close(char,char) ;
 #define getLights_Close(char) ;
 #define setLights(char,char) ;
-
+#define setLights_ErrorClose(char lights) ;
 #endif
 
 

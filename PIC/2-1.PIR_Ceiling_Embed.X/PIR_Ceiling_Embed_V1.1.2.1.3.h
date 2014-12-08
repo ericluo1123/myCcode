@@ -126,9 +126,9 @@
 //Function Option
 
 //SYSC
-#define SYSC_use_Value 1
+#define SYSC_use_Value 0
 //OverTemperature
-#define OverTemperature_use_Value 1
+#define OverTemperature_use_Value 0
 #define Cut_Off_electricity_Value 1
 #define TempDangerValueH_Value    100		//NTC 68 value 500
 #define TempDangerValueL_Value    70		//NTC 68 value 500
