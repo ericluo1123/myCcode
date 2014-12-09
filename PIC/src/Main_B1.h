@@ -98,7 +98,8 @@ struct myMain {
         unsigned q : 1;
         unsigned r : 1;
         unsigned Timeout : 1;
-        unsigned empty : 5;
+        unsigned Error_Run:1;
+        unsigned empty : 4;
     };
 
     unsigned int Timeout_Counter;
@@ -136,5 +137,6 @@ char getMain_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 char getMain_LoadOK();
+void Exception_Main();
 
 #endif		

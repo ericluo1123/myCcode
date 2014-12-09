@@ -848,7 +848,7 @@ void UART_SetData() {
         //        UART.Data[5] = 6;
         //        UART.Data[6] = 7;
         //        UART.Data[7] = 8;
-        //        ErrLED = ErrLED == true ? false : true;
+        ErrLED = ErrLED == true ? false : true;
         UART.TxGO = true;
     }
 #endif

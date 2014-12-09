@@ -118,6 +118,7 @@ int main(int argc, char** argv) {
                 DelayOff_Main();
                 SegmentDisplay_Main();
                 myUARTtoRF_Main();
+                Exception_Main();
                 //            my_MainTime();
                 //            if (myMain.PowerON) {
                 //                RF_Main();
@@ -211,7 +212,7 @@ inline void my_MainTimer() {
             //            ErrLED = ErrLED == true ? false : true;
 #if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1  
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
-#if UART_use == 1
+#if UART_use == 1  
             if (UART.TxGO == false) {
                 UART_SetData();
             }
@@ -376,9 +377,11 @@ char getMain_LightsStatus() {
 #if Switch_Class == 1
     count = 1;
 #endif
+
 #if Switch_Class == 2
     count = 2;
 #endif
+
 #if Switch_Class == 3
     count = 3;
 #endif 
@@ -479,5 +482,51 @@ char getMain_LoadOK() {
 #endif
     return ok;
 }
+//*****************************************************************************
+
+void Exception_Main() {
+    char error = getMain_All_Error_Status(0);
+
+    if (myMain.Error_Run == true) {
+        if (error == 0) {
+            myMain.Error_Run = false;
+#if LightsControl_use == 1
+            setLED(error, 110);
+
+#endif
+        }
+    } else {
+        if (error != 0) {
+            myMain.Error_Run = true;
+#if LightsControl_use == 1
+            setLED(error, 111);
+            if (error == 3) {
+                char status = getAll_Lights_Line();
+                if (getLights_Status(status) == 1) {
+                    setLights_Trigger(status, 0);
+                }
+            } else {
+#if Switch_Class == 1
+                char count = 1;
+#endif
+#if Switch_Class == 2
+                char count = 2;
+#endif
+#if Switch_Class == 3
+                char count = 3;
+#endif
+                for (int i = 0; i < count; i++) {
+                    if (getLights_Status(i + 1) == 1) {
+                        setLights_Trigger(i + 1, 0);
+                    }
+                }
+            }
+#endif
+        }
+    }
+}
+
+
+
 //*****************************************************************************
 //End file

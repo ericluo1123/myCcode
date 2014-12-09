@@ -26,15 +26,10 @@ inline void CDS_Main() {
                 if (_CDS.Status == false) {
                     if (_CDS.SignalAD >= _CDS.VRAD) {
                         _CDS.Status = true;
-                    } else {
-                        if (_CDS.SignalAD <= (_CDS.VRAD - 100)) {
-                            _CDS.Status = false;
-                            if (getPIR_OK() == 1) {
-                                if (getLights_Status(1) == 1) {
-                                    setLights_Trigger(1, 0);
-                                }
-                            }
-                        }
+                    }
+                } else {
+                    if (_CDS.SignalAD <= (_CDS.VRAD - 100)) {
+                        _CDS.Status = false;
                     }
                 }
             }

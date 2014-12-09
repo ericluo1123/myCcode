@@ -1903,36 +1903,6 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 634
-struct UART {
-
-
-unsigned char Data[8];
-unsigned char Count;
-unsigned char TxLength;
-unsigned char RxLength;
-
-struct {
-unsigned TxGO : 1;
-unsigned RxGO : 1;
-unsigned TxRun : 1;
-unsigned RxRun : 1;
-unsigned empty : 4;
-};
-
-};
-struct UART UART;
-
-void putch(unsigned char);
-unsigned char getch(void);
-unsigned char getche(void);
-void UART_Set();
-void UART_ISR();
-void UART_Main();
-void UART_Transmit();
-void UART_Receive();
-void UART_SetData();
-
 # 740
 struct WDT {
 
@@ -1981,7 +1951,8 @@ struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
-unsigned empty : 5;
+unsigned Error_Run:1;
+unsigned empty : 4;
 };
 
 unsigned int Timeout_Counter;
@@ -1989,16 +1960,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 116
+# 117
 inline void myMain_Initialization();
 
-# 121
+# 122
 inline void my_Main();
 
-# 126
+# 127
 inline void my_MainTimer();
 
-# 131
+# 132
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2007,6 +1978,7 @@ char getMain_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 char getMain_LoadOK();
+void Exception_Main();
 
 # 90 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
 struct SwitchDetect {
@@ -2086,6 +2058,93 @@ struct PIRLED PIRLED;
 
 void setPIRLED_Main();
 
+# 7 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h"
+struct OverTemp {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned ADtoGO : 1;
+unsigned LoadADGO : 1;
+unsigned GO : 1;
+unsigned empty : 3;
+};
+
+unsigned int Time;
+unsigned char Count;
+
+unsigned char AD1;
+unsigned char AD2;
+
+ADtype AD;
+ADtype ADH[2];
+ADtype ADRES;
+ADtype SafeValue;
+ADtype DangerValue;
+
+};
+
+struct OverTemp Temp;
+
+# 81
+inline void Temp_Initialization();
+inline void Temp_Main();
+void setTemp_Main();
+void setTemp_Initialization();
+inline void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+
+# 44 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Run : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+
+unsigned int ADH;
+unsigned int ADL;
+
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
+ADtype AD;
+ADtype ADRES;
+
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char ErrorCount;
+unsigned char ErrorCountValue;
+unsigned char LightsCount;
+unsigned char SafeCount;
+};
+
+
+struct OverLoad Load;
+
+# 87
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 98
+char getLoad_OK();
+void setLoad_OK();
+
 # 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
 
@@ -2117,7 +2176,7 @@ inline void CDS_Main();
 inline void getCDS_AD(char channel1, char channel2);
 char getCDS_Status();
 
-# 17 "../src/../2-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
+# 18 "../src/../2-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
 struct PIR {
 
 struct {
@@ -2137,7 +2196,7 @@ unsigned char ADRES;
 unsigned char VRAD;
 unsigned char VRAD1;
 
-# 43
+# 44
 unsigned char Time;
 unsigned char ReferenceVoltage;
 
@@ -2176,6 +2235,31 @@ void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
 char getPIR_OK();
+
+# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/SYSC_B1.h"
+struct SYSC {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned PowerON : 1;
+unsigned Signal : 1;
+unsigned empty : 4;
+};
+
+unsigned int Timer;
+unsigned int Counter;
+};
+
+
+struct SYSC SYSC;
+
+
+inline void SYSC_Initialization();
+inline void SYSC_Main();
+void setSYSC_Initialization();
+void setSYSC_Main();
+inline void DetectSYSC_Signal();
 
 # 11 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
 struct LightsControl {
