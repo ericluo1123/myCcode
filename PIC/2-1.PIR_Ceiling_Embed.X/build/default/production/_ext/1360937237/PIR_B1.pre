@@ -1903,7 +1903,7 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 740
+# 741
 struct WDT {
 
 struct {
@@ -1914,7 +1914,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 765
+# 766
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -1961,7 +1961,7 @@ unsigned int Timeout_Counter;
 struct myMain myMain;
 
 # 117
-inline void myMain_Initialization();
+void myMain_Initialization();
 
 # 122
 inline void my_Main();
@@ -2335,9 +2335,20 @@ char cds = getCDS_Status();
 if (_PIR.Enable == 1) {
 if (error == 0) {
 
-# 30
+if (cds == 1) {
 _PIR.Available = 1;
+} else {
+_PIR.Available = 0;
+if (_PIR.OK == 1) {
+if (getLights_Status(1) == 1) {
+setLights_Trigger(1, 0);
+}
+setLED(1, 0);
+setLED(2, 0);
+}
+}
 
+# 34
 if (_PIR.Detect == 0) {
 _PIR.Detect = 1;
 if (_PIR.OK == 0) {
@@ -2349,7 +2360,7 @@ if (_PIR.Detect == 1) {
 _PIR.Detect = 0;
 _PIR.Available = 0;
 
-# 59
+# 61
 }
 }
 
@@ -2396,12 +2407,9 @@ _PIR.RangeCount = 0;
 if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))
 && (_PIR.SignalAD <= (_PIR.ReferenceVoltage + (_PIR.RangeValue + _PIR.Offset)))) {
 
-
-
-if (cds == 1) {
 _PIR.Count = 0;
-}
 
+# 113
 setLED(1, 0);
 setLED(2, 0);
 } else {
@@ -2414,8 +2422,6 @@ _PIR.TriggerValue = _PIR.Status == 1 ? 3 : 3;
 if (_PIR.Count == _PIR.TriggerValue) {
 _PIR.Count = 0;
 
-# 143
-if (cds == 1) {
 _PIR.CloseTimeSeconds = 0;
 _PIR.CloseTimeMinutes = 0;
 _PIR.Status = 1;
@@ -2435,8 +2441,8 @@ setLED(2, 0);
 setLED(1, 0);
 setLED(2, 1);
 }
-}
 
+# 167
 }
 }
 }
@@ -2498,34 +2504,26 @@ char i = 0, j = 0;
 if (_PIR.ADtoGO == 1 && _PIR.GO == 0) {
 _PIR.GO = 1;
 _PIR.ADRES = getAD(channel1, 0x70);
-_PIR.VRAD = _PIR.ADRES / 51;
+_PIR.VRAD = _PIR.ADRES / 25;
 _PIR.VRAD1 = _PIR.ADRES;
 _PIR.ADRES = getAD(channel2, 0x70);
 _PIR.SignalAD = _PIR.ADRES;
 
-switch (_PIR.VRAD) {
-case 0:
-if (_PIR.VRAD1 < 10) {
+if (_PIR.VRAD < 1) {
 _PIR.CloseTimeValue = 5;
-} else {
+} else if (_PIR.VRAD < 3) {
 _PIR.CloseTimeValue = 60;
-}
-break;
-case 1:
+} else if (_PIR.VRAD < 5) {
 _PIR.CloseTimeValue = 300;
-break;
-case 2:
+} else if (_PIR.VRAD < 7) {
 _PIR.CloseTimeValue = 600;
-break;
-case 3:
+} else if (_PIR.VRAD < 9) {
 _PIR.CloseTimeValue = 900;
-break;
-case 4:
+} else {
 _PIR.CloseTimeValue = 1200;
-break;
 }
 
-
+# 254
 _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
 for (i = 0; i < 10; i++) {
 _PIR.TenAverageValue += _PIR.TenAverage[i];

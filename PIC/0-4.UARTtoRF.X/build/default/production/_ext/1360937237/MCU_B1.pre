@@ -2627,10 +2627,10 @@ void Mcu_Initialization();
 # 20
 void IO_Set();
 
-# 228
+# 224
 void Fosc_Set();
 
-# 447
+# 440
 struct Timer1 {
 
 struct {
@@ -2645,23 +2645,24 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 646
+# 634
 struct UART {
 
 
-unsigned char Data[8];
+unsigned char Data[9];
 unsigned char Count;
-unsigned char TxLength;
-unsigned char RxLength;
+unsigned char Time;
 
-union {
 
 struct {
 unsigned TxGO : 1;
 unsigned RxGO : 1;
-unsigned empty : 6;
+unsigned TxRun : 1;
+unsigned RxRun : 1;
+unsigned RxAllow : 1;
+unsigned empty : 3;
 };
-};
+
 };
 struct UART UART;
 
@@ -2694,8 +2695,6 @@ Product _product = {
 # 62
 struct myMain {
 
-union {
-
 struct {
 unsigned PowerON : 1;
 unsigned Flag : 1;
@@ -2703,20 +2702,18 @@ unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
-unsigned Test:1;
+unsigned Test : 1;
 unsigned Tempty : 1;
 };
-};
-unsigned int PowerCount;
+
+unsigned char PowerCount;
 
 unsigned int Count;
 unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 88
-union {
-
+# 86
 struct {
 unsigned i : 1;
 unsigned j : 1;
@@ -2727,32 +2724,30 @@ unsigned n : 1;
 unsigned o : 1;
 unsigned p : 1;
 };
-};
-
-union {
 
 struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
-unsigned empty : 5;
+unsigned Error_Run:1;
+unsigned empty : 4;
 };
-};
+
 unsigned int Timeout_Counter;
 
 };
 struct myMain myMain;
 
-# 123
-inline void myMain_Initialization();
+# 117
+void myMain_Initialization();
 
-# 128
+# 122
 inline void my_Main();
 
-# 133
+# 127
 inline void my_MainTimer();
 
-# 138
+# 132
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2761,8 +2756,9 @@ char getMain_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 char getMain_LoadOK();
+void Exception_Main();
 
-# 96 "../src/../0-4.UARTtoRF.X/../src/Switch_B1.h"
+# 90 "../src/../0-4.UARTtoRF.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2923,8 +2919,6 @@ void DelayTime_1us(int count);
 # 11 "../src/../0-4.UARTtoRF.X/../src/RF_Control_B1.h"
 struct RF {
 
-union {
-
 struct {
 unsigned Enable : 1;
 unsigned ReceiveGO : 1;
@@ -2935,9 +2929,6 @@ unsigned Debounce : 1;
 unsigned Learn : 1;
 unsigned Key : 1;
 };
-};
-
-union {
 
 struct {
 unsigned Sleep : 1;
@@ -2948,7 +2939,7 @@ unsigned RxChecked : 1;
 unsigned Correction : 1;
 unsigned empty : 2;
 };
-};
+
 unsigned int Count;
 unsigned char CheckCount;
 unsigned int CheckedCounter;
@@ -3064,8 +3055,8 @@ UART_ISR();
 # 199
 inline void TMR1_Set() {
 T1CON = (0x40 | 0x00 | 0x01);
-TMR1H = ((65536-1480)/256);
-TMR1L = ((65536-1480)%256);
+TMR1H = (int)((65536-1480)/256);
+TMR1L = (int)((65536-1480)%256);
 TMR1IE = 1;
 PEIE = 1;
 GIE = 1;
@@ -3075,14 +3066,13 @@ GIE = 1;
 inline void TMR1_ISR() {
 if (TMR1IE == 1 && TMR1IF == 1) {
 
-TMR1H = ((65536-1480)/256);
-TMR1L = ((65536-1480)%256);
+TMR1H = (int)((65536-1480)/256);
+TMR1L = (int)((65536-1480)%256);
 TMR1IF = 0;
 
 # 234
 Timer1.Count++;
-if (Timer1.Count == 100)
-{
+if (Timer1.Count == 100) {
 Timer1.Count = 0;
 Timer1.Timeout = 1;
 }
@@ -3092,10 +3082,10 @@ Timer1.Timeout = 1;
 
 inline void setDimmerReClock() {
 
-# 263
+# 262
 }
 
-# 720
+# 719
 void UART_Set() {
 
 TRISC7 = 1;
@@ -3110,7 +3100,11 @@ TXSTA = (0x4 | 0 | 0x20);
 TX9 = 0;
 RX9 = 0;
 TXIE = 0;
+
 RCIE = 1;
+RCIF = 0;
+
+
 PEIE = 1;
 GIE = 1;
 }
@@ -3118,14 +3112,20 @@ GIE = 1;
 
 void UART_ISR() {
 if (RCIE == 1 && RCIF == 1) {
-
-for (int i = 0; i < 8; i++) {
-UART.Data[i] = getch();
-}
-UART.RxGO = 1;
-
-# 753
 RCIF = 0;
+UART.RxAllow = 1;
+if (UART.RxGO == 0 && UART.Count < 9) {
+UART.Data[UART.Count] = getch();
+UART.Count++;
+if (UART.Count == 9 && UART.Data[9 - 1] == 0xed) {
+UART.Count = 0;
+UART.RxGO = 1;
+UART.RxAllow = 0;
+}
+UART.Time = 0;
+}
+
+# 772
 }
 }
 
@@ -3133,7 +3133,7 @@ void UART_Main() {
 if (UART.RxGO == 1) {
 UART.RxGO = 0;
 UART_Receive();
-;;
+
 
 
 } else {
@@ -3142,47 +3142,58 @@ UART.TxGO = 0;
 UART_Transmit();
 }
 }
+if (UART.RxAllow == 1) {
+UART.Time++;
+if (UART.Time == 5) {
+UART.Time = 0;
+UART.RxAllow = 0;
+UART.Count = 0;
+}
+}
 }
 
 void UART_Transmit() {
 
 
-for (int i = 0; i < 8; i++) {
+
+for (int i = 0; i < 9; i++) {
 
 putch(UART.Data[i]);
 
-# 785
+# 812
 }
 
-
-
+# 818
 }
 
 void UART_Receive() {
 
-# 799
-product->Data[2] = UART.Data[0];
-product->Data[3] = UART.Data[1];
-product->Data[4] = UART.Data[2];
-product->Data[5] = UART.Data[3];
-product->Data[6] = UART.Data[4];
-product->Data[7] = UART.Data[5];
-product->Data[8] = UART.Data[6];
-product->Data[9] = UART.Data[7];
+# 826
+for (int i = 0; i < 9 - 1; i++) {
+product->Data[i + 2] = UART.Data[i];
+}
 
-
+# 840
 setTxData();
+
+RA1 = RA1 == 1 ? 0 : 1;
+
 
 
 
 myMain.Test = 1;
 
-# 827
+# 861
 }
 
 void UART_SetData() {
 
-# 853
+# 873
+UART.Data[0] = 1;
+UART.Data[9 - 1] = 0xed;
+UART.TxGO = 1;
+
+# 893
 }
 
 

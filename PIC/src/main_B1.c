@@ -167,7 +167,7 @@ int main(int argc, char** argv) {
 //*****************************************************************************
 //Tmain initial
 
-inline void myMain_Initialization() {
+void myMain_Initialization() {
 
 #ifndef MCU_16F723A
     product = &_product;
@@ -209,13 +209,14 @@ inline void my_MainTimer() {
         myMain.PowerCount++;
         if (myMain.PowerCount == 100) {//*10ms
             myMain.PowerCount = 0;
-            //            ErrLED = ErrLED == true ? false : true;
-#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1  
+#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 || PIR_TestTime_Mode == 1
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
-#if UART_use == 1  
-            if (UART.TxGO == false) {
-                UART_SetData();
-            }
+#if UART_use == 1   
+
+            UART_SetData();
+            //            ErrLED = ErrLED == true ? false : true;
+            //                LED1 = LED1 == true ? false : true;
+
 #endif
 #else 
             setTxData();

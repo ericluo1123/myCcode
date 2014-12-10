@@ -2627,10 +2627,10 @@ void Mcu_Initialization();
 # 20
 void IO_Set();
 
-# 228
+# 224
 void Fosc_Set();
 
-# 447
+# 440
 struct Timer1 {
 
 struct {
@@ -2645,23 +2645,24 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 646
+# 634
 struct UART {
 
 
-unsigned char Data[8];
+unsigned char Data[9];
 unsigned char Count;
-unsigned char TxLength;
-unsigned char RxLength;
+unsigned char Time;
 
-union {
 
 struct {
 unsigned TxGO : 1;
 unsigned RxGO : 1;
-unsigned empty : 6;
+unsigned TxRun : 1;
+unsigned RxRun : 1;
+unsigned RxAllow : 1;
+unsigned empty : 3;
 };
-};
+
 };
 struct UART UART;
 
@@ -2694,8 +2695,6 @@ Product _product = {
 # 62
 struct myMain {
 
-union {
-
 struct {
 unsigned PowerON : 1;
 unsigned Flag : 1;
@@ -2703,20 +2702,18 @@ unsigned GO : 1;
 unsigned FirstOpen : 1;
 unsigned SelfTest : 1;
 unsigned First : 1;
-unsigned Test:1;
+unsigned Test : 1;
 unsigned Tempty : 1;
 };
-};
-unsigned int PowerCount;
+
+unsigned char PowerCount;
 
 unsigned int Count;
 unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 88
-union {
-
+# 86
 struct {
 unsigned i : 1;
 unsigned j : 1;
@@ -2727,32 +2724,30 @@ unsigned n : 1;
 unsigned o : 1;
 unsigned p : 1;
 };
-};
-
-union {
 
 struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
-unsigned empty : 5;
+unsigned Error_Run:1;
+unsigned empty : 4;
 };
-};
+
 unsigned int Timeout_Counter;
 
 };
 struct myMain myMain;
 
-# 123
-inline void myMain_Initialization();
+# 117
+void myMain_Initialization();
 
-# 128
+# 122
 inline void my_Main();
 
-# 133
+# 127
 inline void my_MainTimer();
 
-# 138
+# 132
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2761,8 +2756,9 @@ char getMain_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 char getMain_LoadOK();
+void Exception_Main();
 
-# 96 "../src/../0-4.UARTtoRF.X/../src/Switch_B1.h"
+# 90 "../src/../0-4.UARTtoRF.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2923,8 +2919,6 @@ void DelayTime_1us(int count);
 # 11 "../src/../0-4.UARTtoRF.X/../src/RF_Control_B1.h"
 struct RF {
 
-union {
-
 struct {
 unsigned Enable : 1;
 unsigned ReceiveGO : 1;
@@ -2935,9 +2929,6 @@ unsigned Debounce : 1;
 unsigned Learn : 1;
 unsigned Key : 1;
 };
-};
-
-union {
 
 struct {
 unsigned Sleep : 1;
@@ -2948,7 +2939,7 @@ unsigned RxChecked : 1;
 unsigned Correction : 1;
 unsigned empty : 2;
 };
-};
+
 unsigned int Count;
 unsigned char CheckCount;
 unsigned int CheckedCounter;
@@ -2998,5 +2989,6 @@ RA2 = 1;
 
 void myUARTtoRF_Main() {
 
+# 20
 }
 

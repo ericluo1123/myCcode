@@ -309,14 +309,14 @@ inline void CC2500_TxData();
 inline void CC2500_RxData(void);
 void DelayTime_1us(int count);
 #else
-#define CC2500_PowerOnInitial() NOP()
-#define CC2500_PowerRST(void) NOP()
-#define CC2500_InitSetREG(void) NOP()
-#define CC2500_InitPATable(void) NOP()
-#define CC2500_ClearTXFIFO(void) NOP()
-#define CC2500_ClearRXFIFO(void) NOP()
-#define CC2500_FrequencyCabr(void) NOP()
-#define CC2500_SIDLEMode(void) NOP()
+#define CC2500_PowerOnInitial() ;
+#define CC2500_PowerRST(void) ;
+#define CC2500_InitSetREG(void) ;
+#define CC2500_InitPATable(void) ;
+#define CC2500_ClearTXFIFO(void) ;
+#define CC2500_ClearRXFIFO(void) ;
+#define CC2500_FrequencyCabr(void) ;
+#define CC2500_SIDLEMode(void) ;
 
 #define CC2500_WriteByte(void) NOP()
 #define CC2500_WriteREG char,char) NOP()

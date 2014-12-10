@@ -114,7 +114,7 @@ struct myMain myMain;
  * void myMain_Initialization()\n
  * my main initialization\n
  */
-inline void myMain_Initialization();
+void myMain_Initialization();
 /**
  * inline void my_Main();\n
  * my Main\n

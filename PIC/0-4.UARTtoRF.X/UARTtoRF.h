@@ -107,7 +107,8 @@
 #define UART_use_Value              1
 #define UART_Master_Value           1
 #define UART_Slave_Value            0
-#define UART_Data_Length_Vallue     8
+#define UART_Data_Length_Vallue     9
+#define UART_Rx_Enable_bit          1
 #define BAUD 19200
 //I2C
 #define I2C_use_Value       0
@@ -143,8 +144,8 @@
 #define LightsControl_use_Value 0
 //RF cc2500
 #define CC2500_use_Value        1
-#define Tx_Enable 	1
-#define Rx_Enable 	0
+#define Tx_Enable               1
+#define Rx_Enable               0
 //DelayOff
 #define DelayOff_use_Value      0
 //PowerFault

@@ -89,9 +89,7 @@ void setRF_Main() {
                         RF1.RxStatus = false;
                         RF1.ReceiveGO = false;
                         RF1.RunTime = 10;
-#ifdef _UARTtoRF_H_ 
-                        LED1 = LED1 == true ? false : true;
-#endif
+
                         //                        CC2500_ReadStatus(CC2500_RXBYTES);
                         //                        if (s_data != 0) {
                         RF_RxDisable();
@@ -113,7 +111,7 @@ void setRF_Main() {
                                 RF1.ReceiveGO = false;
                                 RF1.Correction = false;
                                 RF1.CorrectionCounter = 0;
-#if I2C_use == 1
+#if I2C_use == 1 
                                 I2C_SetData(1);
                                 //LED2=~LED2; 
 #elif UART_use == 1

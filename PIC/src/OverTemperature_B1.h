@@ -3,7 +3,7 @@
 #define _OverTemperature_H_
 
 #if OverTemperature_use == 1
-#define Temp_Debug 1
+#define Temp_Debug 0
 struct OverTemp {
 
         struct {

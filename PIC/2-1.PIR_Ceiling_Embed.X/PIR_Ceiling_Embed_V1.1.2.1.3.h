@@ -110,7 +110,8 @@
 #define UART_use_Value              0
 #define UART_Master_Value           1
 #define UART_Slave_Value            0
-#define UART_Data_Length_Vallue     8
+#define UART_Data_Length_Vallue     9
+#define UART_Rx_Enable_bit          1
 #define BAUD 19200
 //I2C
 #define I2C_use_Value 0

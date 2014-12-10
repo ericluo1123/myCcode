@@ -15,7 +15,7 @@ void PIR_Main() {
     char cds = getCDS_Status();
     if (_PIR.Enable == true) {
         if (error == 0) {
-#if TestTime_Mode == 0
+#if PIR_TestTime_Mode == 0
             if (cds == 1) {
                 _PIR.Available = true;
             } else {
@@ -24,6 +24,8 @@ void PIR_Main() {
                     if (getLights_Status(1) == 1) {
                         setLights_Trigger(1, 0);
                     }
+                    setLED(1, 0);
+                    setLED(2, 0);
                 }
             }
 #else
@@ -101,7 +103,7 @@ void PIR_Main() {
                         //PIR
                         if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))
                                 && (_PIR.SignalAD <= (_PIR.ReferenceVoltage + (_PIR.RangeValue + _PIR.Offset)))) {
-#if TestTime_Mode == 0
+#if PIR_TestTime_Mode == 0
                             _PIR.Count = 0;
 #else
                             if (cds == 1) {
@@ -119,13 +121,13 @@ void PIR_Main() {
 
                             if (_PIR.Count == _PIR.TriggerValue) {
                                 _PIR.Count = 0;
-#if TestTime_Mode == 0
+#if PIR_TestTime_Mode == 0
                                 _PIR.CloseTimeSeconds = 0;
                                 _PIR.CloseTimeMinutes = 0;
                                 _PIR.Status = true;
 #ifdef use_1KEY
 #if LightsControl_use == 1
-#if Test_Mode == 0
+#if PIR_Test_Mode == 0
                                 if (getLights_Status(1) == 0) {
                                     setLights_Trigger(1, 1);
                                 }
@@ -146,7 +148,7 @@ void PIR_Main() {
                                     _PIR.Status = true;
 #ifdef use_1KEY
 #if LightsControl_use == 1
-#if Test_Mode == 0
+#if PIR_Test_Mode == 0
                                     if (getLights_Status(1) == 0) {
                                         setLights_Trigger(1, 1);
                                     }
@@ -191,7 +193,7 @@ void PIR_Main() {
                     _PIR.Status = false;
 #ifdef use_1KEY
 #if LightsControl_use == 1
-#if Test_Mode == 0
+#if PIR_Test_Mode == 0
                     if (getLights_Status(1) == 1) {
                         setLights_Trigger(1, 0);
                     }
@@ -223,33 +225,31 @@ void getPIR_AD(char channel1, char channel2) {
     if (_PIR.ADtoGO == true && _PIR.GO == false) {
         _PIR.GO = true;
         _PIR.ADRES = getAD(channel1, ADCON1_VDD);
-        _PIR.VRAD = _PIR.ADRES / 51;
+        _PIR.VRAD = _PIR.ADRES / 25;
         _PIR.VRAD1 = _PIR.ADRES;
         _PIR.ADRES = getAD(channel2, ADCON1_VDD);
         _PIR.SignalAD = _PIR.ADRES;
 
-        switch (_PIR.VRAD) {
-            case 0:
-                if (_PIR.VRAD1 < 10) {
-                    _PIR.CloseTimeValue = 5;
-                } else {
-                    _PIR.CloseTimeValue = 60;
-                }
-                break;
-            case 1:
-                _PIR.CloseTimeValue = 300;
-                break;
-            case 2:
-                _PIR.CloseTimeValue = 600;
-                break;
-            case 3:
-                _PIR.CloseTimeValue = 900;
-                break;
-            case 4:
-                _PIR.CloseTimeValue = 1200;
-                break;
+        if (_PIR.VRAD < 1) {
+            _PIR.CloseTimeValue = 5;
+        } else if (_PIR.VRAD < 3) {
+            _PIR.CloseTimeValue = 60;
+        } else if (_PIR.VRAD < 5) {
+            _PIR.CloseTimeValue = 300;
+        } else if (_PIR.VRAD < 7) {
+            _PIR.CloseTimeValue = 600;
+        } else if (_PIR.VRAD < 9) {
+            _PIR.CloseTimeValue = 900;
+        } else {
+            _PIR.CloseTimeValue = 1200;
         }
 
+#if PIR_TestTime_Mode == 1
+#if UART_use == 1
+        UART.Data[0] = _PIR.VRAD1;
+        UART.Data[1] = _PIR.VRAD;
+#endif
+#endif
 #if Hunder_Average == 1
         _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
         for (i = 0; i < 10; i++) {

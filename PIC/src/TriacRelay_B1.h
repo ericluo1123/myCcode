@@ -100,7 +100,7 @@ void setLights_ErrorClose(char lights);
 #define setLights_Close(char,char) ;
 #define getLights_Close(char) ;
 #define setLights(char,char) ;
-#define setLights_ErrorClose(char lights) ;
+#define setLights_ErrorClose(char) ;
 #endif
 
 

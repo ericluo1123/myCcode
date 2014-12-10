@@ -730,7 +730,11 @@ void UART_Set() {
     TX9 = 0;
     RX9 = 0;
     TXIE = false;
+#if  UART_Rx_Enable_bit == 1
     RCIE = true;
+    RCIF = false;
+#endif
+
     PEIE = true;
     GIE = true;
 }
@@ -738,20 +742,33 @@ void UART_Set() {
 
 void UART_ISR() {
     if (RCIE == true && RCIF == true) {
-        if (UART.TxRun == false) {
-            //                RCIE = false;
-            for (int i = 0; i < UART_Data_Length; i++) {
-                UART.Data[i] = getch();
-            }
-            UART.RxGO = true;
-            //        UART.Data[UART.Count] = getch();
-            //        UART.Count++;
-            //        if (UART.Count == UART_Data_Length - 1) {
-            //            UART.Count = 0;
-            //            UART.RxGO = true;
-            //        }
-        }
         RCIF = false;
+        UART.RxAllow = true;
+        if (UART.RxGO == false && UART.Count < UART_Data_Length) {
+            UART.Data[UART.Count] = getch();
+            UART.Count++;
+            if (UART.Count == UART_Data_Length && UART.Data[UART_Data_Length - 1] == 0xed) {
+                UART.Count = 0;
+                UART.RxGO = true;
+                UART.RxAllow = false;
+            }
+            UART.Time = 0;
+        }
+
+
+        //        for (int i = 0; i < UART_Data_Length; i++) {
+        //            UART.Data[i] = getch();
+        //        }
+
+        //        UART.Data[UART.Count] = getch();
+        //        UART.Count++;
+        //        if (UART.Count == UART_Data_Length - 1) {
+        //            UART.Count = 0;
+        //            UART.RxGO = true;
+        //        }
+        //        LED1 = LED1 == true ? false : true;
+
+
     }
 }
 
@@ -759,19 +776,27 @@ void UART_Main() {
     if (UART.RxGO == true) {
         UART.RxGO = false;
         UART_Receive();
-        setSegmentDisplayNumber(UART.RxData[5]);
-        //        RCIE = true;
-
+        //        setSegmentDisplayNumber(UART.RxData[5]);
+        //        ErrLED = ErrLED == true ? false : true;
+        //        LED1 = LED1 == true ? false : true;
     } else {
         if (UART.TxGO == true) {
             UART.TxGO = false;
             UART_Transmit();
         }
     }
+    if (UART.RxAllow == true) {
+        UART.Time++;
+        if (UART.Time == 5) {
+            UART.Time = 0;
+            UART.RxAllow = false;
+            UART.Count = 0;
+        }
+    }
 }
 
 void UART_Transmit() {
-    UART.TxRun = true;
+
     //    printf("%d,", UART.Data[0]);
     //    putch(UART.Data[0]);
     for (int i = 0; i < UART_Data_Length; i++) {
@@ -788,28 +813,34 @@ void UART_Transmit() {
     //#ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
     //    ErrLED = ErrLED == true ? false : true;
     //#endif
-    UART.TxRun = false;
+    //    LED1 = LED1 == true ? false : true;
+
 }
 
 void UART_Receive() {
-
 #ifdef  _UARTtoRF_H_ 
 #if CC2500_use == 1
     //    for (int i = 0; i < UART_Data_Length; i++) {
     //        product->Data[2 + i] = UART.Data[i];
     //    }
-#if UART_Data_Length == 8
-    product->Data[2] = UART.Data[0];
-    product->Data[3] = UART.Data[1];
-    product->Data[4] = UART.Data[2];
-    product->Data[5] = UART.Data[3];
-    product->Data[6] = UART.Data[4];
-    product->Data[7] = UART.Data[5];
-    product->Data[8] = UART.Data[6];
-    product->Data[9] = UART.Data[7];
-#endif
+    for (int i = 0; i < UART_Data_Length - 1; i++) {
+        product->Data[i + 2] = UART.Data[i];
+    }
+    //#if UART_Data_Length == 8
+    //    product->Data[2] = UART.Data[0];
+    //    product->Data[3] = UART.Data[1];
+    //    product->Data[4] = UART.Data[2];
+    //    product->Data[5] = UART.Data[3];
+    //    product->Data[6] = UART.Data[4];
+    //    product->Data[7] = UART.Data[5];
+    //    product->Data[8] = UART.Data[6];
+    //    product->Data[9] = UART.Data[7];
+    //#endif
 
     setTxData();
+
+    LED1 = LED1 == true ? false : true;
+
 #endif
 #endif 
 #if UART_Master == 1
@@ -838,6 +869,12 @@ void UART_SetData() {
     LED2 = ~LED2;
 #endif
 
+#ifdef _UARTtoRF_H_
+    UART.Data[0] = 1;
+    UART.Data[UART_Data_Length - 1] = 0xed;
+    UART.TxGO = true;
+#endif
+
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
     if (UART.TxGO == false) {
         //        UART.Data[0] = 1;
@@ -848,7 +885,8 @@ void UART_SetData() {
         //        UART.Data[5] = 6;
         //        UART.Data[6] = 7;
         //        UART.Data[7] = 8;
-        ErrLED = ErrLED == true ? false : true;
+        //        ErrLED = ErrLED == true ? false : true;
+        UART.Data[UART_Data_Length - 1] = 0xed;
         UART.TxGO = true;
     }
 #endif

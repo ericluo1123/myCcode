@@ -5,10 +5,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 "440
 [s S136 `S137 1 `ui 1 ]
 [n S136 Timer1 . Count ]
-"742
+"743
 [s S139 :1 `uc 1 :7 `uc 1 ]
 [n S139 . Enable empty ]
-"740
+"741
 [s S138 `S139 1 `uc 1 ]
 [n S138 WDT . Timer ]
 "64 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
@@ -96,12 +96,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _getMain_All_Error_Status `(uc ~T0 @X0 0 ef1`uc ]
 "40 ../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h
 [v _getCDS_Status `(uc ~T0 @X0 0 ef ]
-"95 ../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h
-[v _setLED `(v ~T0 @X0 0 ef2`uc`uc ]
 "72 ../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h
 [v _getLights_Status `(uc ~T0 @X0 0 ef1`uc ]
 "70
 [v _setLights_Trigger `(v ~T0 @X0 0 ef2`uc`uc ]
+"95 ../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h
+[v _setLED `(v ~T0 @X0 0 ef2`uc`uc ]
 [v F1535 `(uc ~T0 @X0 1 tf2`uc`uc ]
 "295 ../src/../2-1.PIR_Ceiling_Embed.X/../src/MCU_B1.h
 [v _getAD `TF1535 ~T0 @X0 0 e ]
@@ -1466,19 +1466,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.h: 450: inline void TMR1_Set();
 [; ;MCU_B1.h: 451: inline void TMR1_ISR();
 [; ;MCU_B1.h: 452: inline void setDimmerReClock();
-[; ;MCU_B1.h: 740: struct WDT {
-[; ;MCU_B1.h: 742: struct {
-[; ;MCU_B1.h: 743: unsigned Enable : 1;
-[; ;MCU_B1.h: 744: unsigned empty : 7;
-[; ;MCU_B1.h: 745: };
-[; ;MCU_B1.h: 746: unsigned char Timer;
-[; ;MCU_B1.h: 747: };
-"748
+[; ;MCU_B1.h: 741: struct WDT {
+[; ;MCU_B1.h: 743: struct {
+[; ;MCU_B1.h: 744: unsigned Enable : 1;
+[; ;MCU_B1.h: 745: unsigned empty : 7;
+[; ;MCU_B1.h: 746: };
+[; ;MCU_B1.h: 747: unsigned char Timer;
+[; ;MCU_B1.h: 748: };
+"749
 [v _WDT `S138 ~T0 @X0 1 e ]
-[; ;MCU_B1.h: 748: struct WDT WDT;
-[; ;MCU_B1.h: 765: void WDT_Set();
-[; ;MCU_B1.h: 766: void WDT_Main();
-[; ;MCU_B1.h: 767: void WDT_Clearing();
+[; ;MCU_B1.h: 749: struct WDT WDT;
+[; ;MCU_B1.h: 766: void WDT_Set();
+[; ;MCU_B1.h: 767: void WDT_Main();
+[; ;MCU_B1.h: 768: void WDT_Clearing();
 [; ;Main_B1.h: 62: struct myMain {
 [; ;Main_B1.h: 64: struct {
 [; ;Main_B1.h: 65: unsigned PowerON : 1;
@@ -1513,7 +1513,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "108 ../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h
 [v _myMain `S140 ~T0 @X0 1 e ]
 [; ;Main_B1.h: 108: struct myMain myMain;
-[; ;Main_B1.h: 117: inline void myMain_Initialization();
+[; ;Main_B1.h: 117: void myMain_Initialization();
 [; ;Main_B1.h: 122: inline void my_Main();
 [; ;Main_B1.h: 127: inline void my_MainTimer();
 [; ;Main_B1.h: 132: inline void Timeout_Counter();
@@ -1823,568 +1823,578 @@ Version 3.2 HI-TECH Software Intermediate Code
 "17
 [e $ ! == -> _error `i -> 0 `i 170  ]
 {
-[; ;PIR_B1.c: 30: _PIR.Available = 1;
-"30
+[; ;PIR_B1.c: 19: if (cds == 1) {
+"19
+[e $ ! == -> _cds `i -> 1 `i 171  ]
+{
+[; ;PIR_B1.c: 20: _PIR.Available = 1;
+"20
 [e = . . __PIR 0 7 -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 32: if (_PIR.Detect == 0) {
-"32
-[e $ ! == -> . . __PIR 0 4 `i -> 0 `i 171  ]
-{
-[; ;PIR_B1.c: 33: _PIR.Detect = 1;
-"33
-[e = . . __PIR 0 4 -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 34: if (_PIR.OK == 0) {
-"34
-[e $ ! == -> . . __PIR 0 3 `i -> 0 `i 172  ]
-{
-[; ;PIR_B1.c: 35: setLED(1, 1);
-"35
-[e ( _setLED (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"36
+"21
 }
-[e :U 172 ]
-"37
-}
+[; ;PIR_B1.c: 21: } else {
+[e $U 172  ]
 [e :U 171 ]
-"38
-}
-[; ;PIR_B1.c: 36: }
-[; ;PIR_B1.c: 37: }
-[; ;PIR_B1.c: 38: } else {
-[e $U 173  ]
-[e :U 170 ]
 {
-[; ;PIR_B1.c: 39: if (_PIR.Detect == 1) {
-"39
-[e $ ! == -> . . __PIR 0 4 `i -> 1 `i 174  ]
-{
-[; ;PIR_B1.c: 40: _PIR.Detect = 0;
-"40
-[e = . . __PIR 0 4 -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 41: _PIR.Available = 0;
-"41
+[; ;PIR_B1.c: 22: _PIR.Available = 0;
+"22
 [e = . . __PIR 0 7 -> -> 0 `i `uc ]
-"59
+[; ;PIR_B1.c: 23: if (_PIR.OK == 1) {
+"23
+[e $ ! == -> . . __PIR 0 3 `i -> 1 `i 173  ]
+{
+[; ;PIR_B1.c: 24: if (getLights_Status(1) == 1) {
+"24
+[e $ ! == -> ( _getLights_Status (1 -> -> 1 `i `uc `i -> 1 `i 174  ]
+{
+[; ;PIR_B1.c: 25: setLights_Trigger(1, 0);
+"25
+[e ( _setLights_Trigger (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+"26
 }
 [e :U 174 ]
-"60
+[; ;PIR_B1.c: 26: }
+[; ;PIR_B1.c: 27: setLED(1, 0);
+"27
+[e ( _setLED (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 28: setLED(2, 0);
+"28
+[e ( _setLED (2 , -> -> 2 `i `uc -> -> 0 `i `uc ]
+"29
 }
 [e :U 173 ]
-[; ;PIR_B1.c: 59: }
-[; ;PIR_B1.c: 60: }
-[; ;PIR_B1.c: 62: if (_PIR.ADtoGO == 0) {
-"62
-[e $ ! == -> . . __PIR 0 1 `i -> 0 `i 175  ]
+"30
+}
+[e :U 172 ]
+[; ;PIR_B1.c: 29: }
+[; ;PIR_B1.c: 30: }
+[; ;PIR_B1.c: 34: if (_PIR.Detect == 0) {
+"34
+[e $ ! == -> . . __PIR 0 4 `i -> 0 `i 175  ]
 {
-[; ;PIR_B1.c: 63: _PIR.Time++;
-"63
-[e ++ . __PIR 5 -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 64: if (_PIR.Time == 10) {
-"64
-[e $ ! == -> . __PIR 5 `i -> 10 `i 176  ]
+[; ;PIR_B1.c: 35: _PIR.Detect = 1;
+"35
+[e = . . __PIR 0 4 -> -> 1 `i `uc ]
+[; ;PIR_B1.c: 36: if (_PIR.OK == 0) {
+"36
+[e $ ! == -> . . __PIR 0 3 `i -> 0 `i 176  ]
 {
-[; ;PIR_B1.c: 65: _PIR.Time = 0;
-"65
-[e = . __PIR 5 -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 66: _PIR.ADtoGO = 1;
-"66
-[e = . . __PIR 0 1 -> -> 1 `i `uc ]
-"67
+[; ;PIR_B1.c: 37: setLED(1, 1);
+"37
+[e ( _setLED (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+"38
 }
 [e :U 176 ]
-"68
+"39
 }
-[; ;PIR_B1.c: 67: }
-[; ;PIR_B1.c: 68: } else {
-[e $U 177  ]
 [e :U 175 ]
-{
-[; ;PIR_B1.c: 69: if (_PIR.GO == 1) {
-"69
-[e $ ! == -> . . __PIR 0 2 `i -> 1 `i 178  ]
-{
-[; ;PIR_B1.c: 70: _PIR.GO = 0;
-"70
-[e = . . __PIR 0 2 -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 71: _PIR.ADtoGO = 0;
-"71
-[e = . . __PIR 0 1 -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 72: if (_PIR.Available == 1) {
-"72
-[e $ ! == -> . . __PIR 0 7 `i -> 1 `i 179  ]
-{
-[; ;PIR_B1.c: 73: if (_PIR.OK == 1) {
-"73
-[e $ ! == -> . . __PIR 0 3 `i -> 1 `i 180  ]
-{
-[; ;PIR_B1.c: 75: _PIR.Time++;
-"75
-[e ++ . __PIR 5 -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 76: if (_PIR.Time == 60) {
-"76
-[e $ ! == -> . __PIR 5 `i -> 60 `i 181  ]
-{
-[; ;PIR_B1.c: 77: _PIR.Time = 0;
-"77
-[e = . __PIR 5 -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 78: if (_PIR.RangeCount >= 90) {
-"78
-[e $ ! >= -> . __PIR 20 `i -> 90 `i 182  ]
-{
-[; ;PIR_B1.c: 79: _PIR.RangeTime1 = 0;
-"79
-[e = . __PIR 19 -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 81: if (_PIR.RangeValue == 20) {
-"81
-[e $ ! == -> . __PIR 21 `i -> 20 `i 183  ]
-{
-[; ;PIR_B1.c: 82: _PIR.RangeValue = (20+10);
-"82
-[e = . __PIR 21 -> + -> 20 `i -> 10 `i `uc ]
-"83
+"40
 }
-[; ;PIR_B1.c: 83: } else if (_PIR.RangeValue == (20+10)) {
-[e $U 184  ]
-[e :U 183 ]
-[e $ ! == -> . __PIR 21 `i + -> 20 `i -> 10 `i 185  ]
+[; ;PIR_B1.c: 38: }
+[; ;PIR_B1.c: 39: }
+[; ;PIR_B1.c: 40: } else {
+[e $U 177  ]
+[e :U 170 ]
 {
-[; ;PIR_B1.c: 84: _PIR.RangeValue = (20+20);
-"84
-[e = . __PIR 21 -> + -> 20 `i -> 20 `i `uc ]
-"85
-}
-[e :U 185 ]
-"86
-[e :U 184 ]
-}
-[; ;PIR_B1.c: 85: }
-[; ;PIR_B1.c: 86: } else if (_PIR.RangeCount <= 10) {
-[e $U 186  ]
-[e :U 182 ]
-[e $ ! <= -> . __PIR 20 `i -> 10 `i 187  ]
+[; ;PIR_B1.c: 41: if (_PIR.Detect == 1) {
+"41
+[e $ ! == -> . . __PIR 0 4 `i -> 1 `i 178  ]
 {
-[; ;PIR_B1.c: 87: _PIR.RangeTime1++;
-"87
-[e ++ . __PIR 19 -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 88: if (_PIR.RangeTime1 == 2) {
-"88
-[e $ ! == -> . __PIR 19 `i -> 2 `i 188  ]
-{
-[; ;PIR_B1.c: 89: _PIR.RangeTime1 = 0;
-"89
-[e = . __PIR 19 -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 91: if (_PIR.RangeValue == (20+20)) {
-"91
-[e $ ! == -> . __PIR 21 `i + -> 20 `i -> 20 `i 189  ]
-{
-[; ;PIR_B1.c: 92: _PIR.RangeValue = (20+10);
-"92
-[e = . __PIR 21 -> + -> 20 `i -> 10 `i `uc ]
-"93
-}
-[; ;PIR_B1.c: 93: } else if (_PIR.RangeValue == (20+10)) {
-[e $U 190  ]
-[e :U 189 ]
-[e $ ! == -> . __PIR 21 `i + -> 20 `i -> 10 `i 191  ]
-{
-[; ;PIR_B1.c: 94: _PIR.RangeValue = 20;
-"94
-[e = . __PIR 21 -> -> 20 `i `uc ]
-"95
-}
-[e :U 191 ]
-"96
-[e :U 190 ]
-}
-[e :U 188 ]
-"97
-}
-[e :U 187 ]
-"98
-[e :U 186 ]
-[; ;PIR_B1.c: 95: }
-[; ;PIR_B1.c: 96: }
-[; ;PIR_B1.c: 97: }
-[; ;PIR_B1.c: 98: _PIR.RangeCount = 0;
-[e = . __PIR 20 -> -> 0 `i `uc ]
-"99
-}
-[e :U 181 ]
-[; ;PIR_B1.c: 99: }
-[; ;PIR_B1.c: 102: if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))
-[; ;PIR_B1.c: 103: && (_PIR.SignalAD <= (_PIR.ReferenceVoltage + (_PIR.RangeValue + _PIR.Offset)))) {
-"103
-[e $ ! && >= -> . __PIR 1 `i - -> . __PIR 6 `i + -> . __PIR 21 `i -> . __PIR 23 `i <= -> . __PIR 1 `i + -> . __PIR 6 `i + -> . __PIR 21 `i -> . __PIR 23 `i 192  ]
-{
-[; ;PIR_B1.c: 107: if (cds == 1) {
-"107
-[e $ ! == -> _cds `i -> 1 `i 193  ]
-{
-[; ;PIR_B1.c: 108: _PIR.Count = 0;
-"108
-[e = . __PIR 13 -> -> 0 `i `ui ]
-"109
-}
-[e :U 193 ]
-[; ;PIR_B1.c: 109: }
-[; ;PIR_B1.c: 111: setLED(1, 0);
-"111
-[e ( _setLED (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 112: setLED(2, 0);
-"112
-[e ( _setLED (2 , -> -> 2 `i `uc -> -> 0 `i `uc ]
-"113
-}
-[; ;PIR_B1.c: 113: } else {
-[e $U 194  ]
-[e :U 192 ]
-{
-[; ;PIR_B1.c: 115: _PIR.RangeCount++;
-"115
-[e ++ . __PIR 20 -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 116: _PIR.Count++;
-"116
-[e ++ . __PIR 13 -> -> 1 `i `ui ]
-[; ;PIR_B1.c: 118: _PIR.TriggerValue = _PIR.Status == 1 ? 3 : 3;
-"118
-[e = . __PIR 14 -> ? == -> . . __PIR 0 6 `i -> 1 `i : -> 3 `i -> 3 `i `uc ]
-[; ;PIR_B1.c: 120: if (_PIR.Count == _PIR.TriggerValue) {
-"120
-[e $ ! == . __PIR 13 -> . __PIR 14 `ui 195  ]
-{
-[; ;PIR_B1.c: 121: _PIR.Count = 0;
-"121
-[e = . __PIR 13 -> -> 0 `i `ui ]
-[; ;PIR_B1.c: 143: if (cds == 1) {
-"143
-[e $ ! == -> _cds `i -> 1 `i 196  ]
-{
-[; ;PIR_B1.c: 144: _PIR.CloseTimeSeconds = 0;
-"144
-[e = . __PIR 16 -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 145: _PIR.CloseTimeMinutes = 0;
-"145
-[e = . __PIR 15 -> -> 0 `i `ui ]
-[; ;PIR_B1.c: 146: _PIR.Status = 1;
-"146
-[e = . . __PIR 0 6 -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 150: if (getLights_Status(1) == 0) {
-"150
-[e $ ! == -> ( _getLights_Status (1 -> -> 1 `i `uc `i -> 0 `i 197  ]
-{
-[; ;PIR_B1.c: 151: setLights_Trigger(1, 1);
-"151
-[e ( _setLights_Trigger (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"152
-}
-[e :U 197 ]
-[; ;PIR_B1.c: 152: }
-[; ;PIR_B1.c: 156: if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
-"156
-[e $ ! <= -> . __PIR 1 `i - -> . __PIR 6 `i + -> . __PIR 21 `i -> . __PIR 23 `i 198  ]
-{
-[; ;PIR_B1.c: 157: setLED(1, 1);
-"157
-[e ( _setLED (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 158: setLED(2, 0);
-"158
-[e ( _setLED (2 , -> -> 2 `i `uc -> -> 0 `i `uc ]
-"159
-}
-[; ;PIR_B1.c: 159: } else {
-[e $U 199  ]
-[e :U 198 ]
-{
-[; ;PIR_B1.c: 160: setLED(1, 0);
-"160
-[e ( _setLED (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 161: setLED(2, 1);
-"161
-[e ( _setLED (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
-"162
-}
-[e :U 199 ]
-"163
-}
-[e :U 196 ]
-"165
-}
-[e :U 195 ]
-"166
-}
-[e :U 194 ]
-"167
-}
-[e :U 180 ]
-"168
-}
-[e :U 179 ]
-"169
+[; ;PIR_B1.c: 42: _PIR.Detect = 0;
+"42
+[e = . . __PIR 0 4 -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 43: _PIR.Available = 0;
+"43
+[e = . . __PIR 0 7 -> -> 0 `i `uc ]
+"61
 }
 [e :U 178 ]
-"170
+"62
 }
 [e :U 177 ]
-[; ;PIR_B1.c: 162: }
-[; ;PIR_B1.c: 163: }
-[; ;PIR_B1.c: 165: }
-[; ;PIR_B1.c: 166: }
+[; ;PIR_B1.c: 61: }
+[; ;PIR_B1.c: 62: }
+[; ;PIR_B1.c: 64: if (_PIR.ADtoGO == 0) {
+"64
+[e $ ! == -> . . __PIR 0 1 `i -> 0 `i 179  ]
+{
+[; ;PIR_B1.c: 65: _PIR.Time++;
+"65
+[e ++ . __PIR 5 -> -> 1 `i `uc ]
+[; ;PIR_B1.c: 66: if (_PIR.Time == 10) {
+"66
+[e $ ! == -> . __PIR 5 `i -> 10 `i 180  ]
+{
+[; ;PIR_B1.c: 67: _PIR.Time = 0;
+"67
+[e = . __PIR 5 -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 68: _PIR.ADtoGO = 1;
+"68
+[e = . . __PIR 0 1 -> -> 1 `i `uc ]
+"69
+}
+[e :U 180 ]
+"70
+}
+[; ;PIR_B1.c: 69: }
+[; ;PIR_B1.c: 70: } else {
+[e $U 181  ]
+[e :U 179 ]
+{
+[; ;PIR_B1.c: 71: if (_PIR.GO == 1) {
+"71
+[e $ ! == -> . . __PIR 0 2 `i -> 1 `i 182  ]
+{
+[; ;PIR_B1.c: 72: _PIR.GO = 0;
+"72
+[e = . . __PIR 0 2 -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 73: _PIR.ADtoGO = 0;
+"73
+[e = . . __PIR 0 1 -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 74: if (_PIR.Available == 1) {
+"74
+[e $ ! == -> . . __PIR 0 7 `i -> 1 `i 183  ]
+{
+[; ;PIR_B1.c: 75: if (_PIR.OK == 1) {
+"75
+[e $ ! == -> . . __PIR 0 3 `i -> 1 `i 184  ]
+{
+[; ;PIR_B1.c: 77: _PIR.Time++;
+"77
+[e ++ . __PIR 5 -> -> 1 `i `uc ]
+[; ;PIR_B1.c: 78: if (_PIR.Time == 60) {
+"78
+[e $ ! == -> . __PIR 5 `i -> 60 `i 185  ]
+{
+[; ;PIR_B1.c: 79: _PIR.Time = 0;
+"79
+[e = . __PIR 5 -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 80: if (_PIR.RangeCount >= 90) {
+"80
+[e $ ! >= -> . __PIR 20 `i -> 90 `i 186  ]
+{
+[; ;PIR_B1.c: 81: _PIR.RangeTime1 = 0;
+"81
+[e = . __PIR 19 -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 83: if (_PIR.RangeValue == 20) {
+"83
+[e $ ! == -> . __PIR 21 `i -> 20 `i 187  ]
+{
+[; ;PIR_B1.c: 84: _PIR.RangeValue = (20+10);
+"84
+[e = . __PIR 21 -> + -> 20 `i -> 10 `i `uc ]
+"85
+}
+[; ;PIR_B1.c: 85: } else if (_PIR.RangeValue == (20+10)) {
+[e $U 188  ]
+[e :U 187 ]
+[e $ ! == -> . __PIR 21 `i + -> 20 `i -> 10 `i 189  ]
+{
+[; ;PIR_B1.c: 86: _PIR.RangeValue = (20+20);
+"86
+[e = . __PIR 21 -> + -> 20 `i -> 20 `i `uc ]
+"87
+}
+[e :U 189 ]
+"88
+[e :U 188 ]
+}
+[; ;PIR_B1.c: 87: }
+[; ;PIR_B1.c: 88: } else if (_PIR.RangeCount <= 10) {
+[e $U 190  ]
+[e :U 186 ]
+[e $ ! <= -> . __PIR 20 `i -> 10 `i 191  ]
+{
+[; ;PIR_B1.c: 89: _PIR.RangeTime1++;
+"89
+[e ++ . __PIR 19 -> -> 1 `i `uc ]
+[; ;PIR_B1.c: 90: if (_PIR.RangeTime1 == 2) {
+"90
+[e $ ! == -> . __PIR 19 `i -> 2 `i 192  ]
+{
+[; ;PIR_B1.c: 91: _PIR.RangeTime1 = 0;
+"91
+[e = . __PIR 19 -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 93: if (_PIR.RangeValue == (20+20)) {
+"93
+[e $ ! == -> . __PIR 21 `i + -> 20 `i -> 20 `i 193  ]
+{
+[; ;PIR_B1.c: 94: _PIR.RangeValue = (20+10);
+"94
+[e = . __PIR 21 -> + -> 20 `i -> 10 `i `uc ]
+"95
+}
+[; ;PIR_B1.c: 95: } else if (_PIR.RangeValue == (20+10)) {
+[e $U 194  ]
+[e :U 193 ]
+[e $ ! == -> . __PIR 21 `i + -> 20 `i -> 10 `i 195  ]
+{
+[; ;PIR_B1.c: 96: _PIR.RangeValue = 20;
+"96
+[e = . __PIR 21 -> -> 20 `i `uc ]
+"97
+}
+[e :U 195 ]
+"98
+[e :U 194 ]
+}
+[e :U 192 ]
+"99
+}
+[e :U 191 ]
+"100
+[e :U 190 ]
+[; ;PIR_B1.c: 97: }
+[; ;PIR_B1.c: 98: }
+[; ;PIR_B1.c: 99: }
+[; ;PIR_B1.c: 100: _PIR.RangeCount = 0;
+[e = . __PIR 20 -> -> 0 `i `uc ]
+"101
+}
+[e :U 185 ]
+[; ;PIR_B1.c: 101: }
+[; ;PIR_B1.c: 104: if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))
+[; ;PIR_B1.c: 105: && (_PIR.SignalAD <= (_PIR.ReferenceVoltage + (_PIR.RangeValue + _PIR.Offset)))) {
+"105
+[e $ ! && >= -> . __PIR 1 `i - -> . __PIR 6 `i + -> . __PIR 21 `i -> . __PIR 23 `i <= -> . __PIR 1 `i + -> . __PIR 6 `i + -> . __PIR 21 `i -> . __PIR 23 `i 196  ]
+{
+[; ;PIR_B1.c: 107: _PIR.Count = 0;
+"107
+[e = . __PIR 13 -> -> 0 `i `ui ]
+[; ;PIR_B1.c: 113: setLED(1, 0);
+"113
+[e ( _setLED (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 114: setLED(2, 0);
+"114
+[e ( _setLED (2 , -> -> 2 `i `uc -> -> 0 `i `uc ]
+"115
+}
+[; ;PIR_B1.c: 115: } else {
+[e $U 197  ]
+[e :U 196 ]
+{
+[; ;PIR_B1.c: 117: _PIR.RangeCount++;
+"117
+[e ++ . __PIR 20 -> -> 1 `i `uc ]
+[; ;PIR_B1.c: 118: _PIR.Count++;
+"118
+[e ++ . __PIR 13 -> -> 1 `i `ui ]
+[; ;PIR_B1.c: 120: _PIR.TriggerValue = _PIR.Status == 1 ? 3 : 3;
+"120
+[e = . __PIR 14 -> ? == -> . . __PIR 0 6 `i -> 1 `i : -> 3 `i -> 3 `i `uc ]
+[; ;PIR_B1.c: 122: if (_PIR.Count == _PIR.TriggerValue) {
+"122
+[e $ ! == . __PIR 13 -> . __PIR 14 `ui 198  ]
+{
+[; ;PIR_B1.c: 123: _PIR.Count = 0;
+"123
+[e = . __PIR 13 -> -> 0 `i `ui ]
+[; ;PIR_B1.c: 125: _PIR.CloseTimeSeconds = 0;
+"125
+[e = . __PIR 16 -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 126: _PIR.CloseTimeMinutes = 0;
+"126
+[e = . __PIR 15 -> -> 0 `i `ui ]
+[; ;PIR_B1.c: 127: _PIR.Status = 1;
+"127
+[e = . . __PIR 0 6 -> -> 1 `i `uc ]
+[; ;PIR_B1.c: 131: if (getLights_Status(1) == 0) {
+"131
+[e $ ! == -> ( _getLights_Status (1 -> -> 1 `i `uc `i -> 0 `i 199  ]
+{
+[; ;PIR_B1.c: 132: setLights_Trigger(1, 1);
+"132
+[e ( _setLights_Trigger (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+"133
+}
+[e :U 199 ]
+[; ;PIR_B1.c: 133: }
+[; ;PIR_B1.c: 137: if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
+"137
+[e $ ! <= -> . __PIR 1 `i - -> . __PIR 6 `i + -> . __PIR 21 `i -> . __PIR 23 `i 200  ]
+{
+[; ;PIR_B1.c: 138: setLED(1, 1);
+"138
+[e ( _setLED (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+[; ;PIR_B1.c: 139: setLED(2, 0);
+"139
+[e ( _setLED (2 , -> -> 2 `i `uc -> -> 0 `i `uc ]
+"140
+}
+[; ;PIR_B1.c: 140: } else {
+[e $U 201  ]
+[e :U 200 ]
+{
+[; ;PIR_B1.c: 141: setLED(1, 0);
+"141
+[e ( _setLED (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 142: setLED(2, 1);
+"142
+[e ( _setLED (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
+"143
+}
+[e :U 201 ]
+"167
+}
+[e :U 198 ]
+"168
+}
+[e :U 197 ]
+"169
+}
+[e :U 184 ]
+"170
+}
+[e :U 183 ]
+"171
+}
+[e :U 182 ]
+"172
+}
+[e :U 181 ]
+[; ;PIR_B1.c: 143: }
 [; ;PIR_B1.c: 167: }
 [; ;PIR_B1.c: 168: }
 [; ;PIR_B1.c: 169: }
 [; ;PIR_B1.c: 170: }
-[; ;PIR_B1.c: 171: if (_PIR.OK == 0) {
-"171
-[e $ ! == -> . . __PIR 0 3 `i -> 0 `i 200  ]
-{
-[; ;PIR_B1.c: 172: _PIR.Count++;
-"172
-[e ++ . __PIR 13 -> -> 1 `i `ui ]
-[; ;PIR_B1.c: 173: if (_PIR.Count == 3000) {
+[; ;PIR_B1.c: 171: }
+[; ;PIR_B1.c: 172: }
+[; ;PIR_B1.c: 173: if (_PIR.OK == 0) {
 "173
-[e $ ! == . __PIR 13 -> -> 3000 `i `ui 201  ]
+[e $ ! == -> . . __PIR 0 3 `i -> 0 `i 202  ]
 {
-[; ;PIR_B1.c: 174: _PIR.Count = 0;
+[; ;PIR_B1.c: 174: _PIR.Count++;
 "174
-[e = . __PIR 13 -> -> 0 `i `ui ]
-[; ;PIR_B1.c: 175: _PIR.OK = 1;
+[e ++ . __PIR 13 -> -> 1 `i `ui ]
+[; ;PIR_B1.c: 175: if (_PIR.Count == 3000) {
 "175
-[e = . . __PIR 0 3 -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 176: setLED(1, 0);
+[e $ ! == . __PIR 13 -> -> 3000 `i `ui 203  ]
+{
+[; ;PIR_B1.c: 176: _PIR.Count = 0;
 "176
-[e ( _setLED (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 177: if (cds == 0) {
+[e = . __PIR 13 -> -> 0 `i `ui ]
+[; ;PIR_B1.c: 177: _PIR.OK = 1;
 "177
-[e $ ! == -> _cds `i -> 0 `i 202  ]
-{
-[; ;PIR_B1.c: 178: if (getLights_Status(1) == 1) {
+[e = . . __PIR 0 3 -> -> 1 `i `uc ]
+[; ;PIR_B1.c: 178: setLED(1, 0);
 "178
-[e $ ! == -> ( _getLights_Status (1 -> -> 1 `i `uc `i -> 1 `i 203  ]
-{
-[; ;PIR_B1.c: 179: setLights_Trigger(1, 0);
+[e ( _setLED (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 179: if (cds == 0) {
 "179
-[e ( _setLights_Trigger (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[e $ ! == -> _cds `i -> 0 `i 204  ]
+{
+[; ;PIR_B1.c: 180: if (getLights_Status(1) == 1) {
 "180
-}
-[e :U 203 ]
+[e $ ! == -> ( _getLights_Status (1 -> -> 1 `i `uc `i -> 1 `i 205  ]
+{
+[; ;PIR_B1.c: 181: setLights_Trigger(1, 0);
 "181
-}
-[e :U 202 ]
+[e ( _setLights_Trigger (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
 "182
 }
-[e :U 201 ]
+[e :U 205 ]
 "183
 }
-[e :U 200 ]
-[; ;PIR_B1.c: 180: }
-[; ;PIR_B1.c: 181: }
+[e :U 204 ]
+"184
+}
+[e :U 203 ]
+"185
+}
+[e :U 202 ]
 [; ;PIR_B1.c: 182: }
 [; ;PIR_B1.c: 183: }
-[; ;PIR_B1.c: 184: if (_PIR.Status == 1) {
-"184
-[e $ ! == -> . . __PIR 0 6 `i -> 1 `i 204  ]
-{
-[; ;PIR_B1.c: 185: _PIR.CloseTimeSeconds++;
-"185
-[e ++ . __PIR 16 -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 186: if (_PIR.CloseTimeSeconds == 100) {
+[; ;PIR_B1.c: 184: }
+[; ;PIR_B1.c: 185: }
+[; ;PIR_B1.c: 186: if (_PIR.Status == 1) {
 "186
-[e $ ! == -> . __PIR 16 `i -> 100 `i 205  ]
+[e $ ! == -> . . __PIR 0 6 `i -> 1 `i 206  ]
 {
-[; ;PIR_B1.c: 187: _PIR.CloseTimeSeconds = 0;
+[; ;PIR_B1.c: 187: _PIR.CloseTimeSeconds++;
 "187
-[e = . __PIR 16 -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 188: _PIR.CloseTimeMinutes++;
+[e ++ . __PIR 16 -> -> 1 `i `uc ]
+[; ;PIR_B1.c: 188: if (_PIR.CloseTimeSeconds == 100) {
 "188
-[e ++ . __PIR 15 -> -> 1 `i `ui ]
-[; ;PIR_B1.c: 189: if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
+[e $ ! == -> . __PIR 16 `i -> 100 `i 207  ]
+{
+[; ;PIR_B1.c: 189: _PIR.CloseTimeSeconds = 0;
 "189
-[e $ ! == . __PIR 15 . __PIR 17 206  ]
-{
-[; ;PIR_B1.c: 190: _PIR.CloseTimeMinutes = 0;
+[e = . __PIR 16 -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 190: _PIR.CloseTimeMinutes++;
 "190
-[e = . __PIR 15 -> -> 0 `i `ui ]
-[; ;PIR_B1.c: 191: _PIR.Status = 0;
+[e ++ . __PIR 15 -> -> 1 `i `ui ]
+[; ;PIR_B1.c: 191: if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
 "191
+[e $ ! == . __PIR 15 . __PIR 17 208  ]
+{
+[; ;PIR_B1.c: 192: _PIR.CloseTimeMinutes = 0;
+"192
+[e = . __PIR 15 -> -> 0 `i `ui ]
+[; ;PIR_B1.c: 193: _PIR.Status = 0;
+"193
 [e = . . __PIR 0 6 -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 195: if (getLights_Status(1) == 1) {
-"195
-[e $ ! == -> ( _getLights_Status (1 -> -> 1 `i `uc `i -> 1 `i 207  ]
-{
-[; ;PIR_B1.c: 196: setLights_Trigger(1, 0);
-"196
-[e ( _setLights_Trigger (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[; ;PIR_B1.c: 197: if (getLights_Status(1) == 1) {
 "197
-}
-[e :U 207 ]
-"201
-}
-[e :U 206 ]
-"202
-}
-[e :U 205 ]
-"203
-}
-[e :U 204 ]
-"204
-}
-[; ;PIR_B1.c: 197: }
-[; ;PIR_B1.c: 201: }
-[; ;PIR_B1.c: 202: }
-[; ;PIR_B1.c: 203: }
-[; ;PIR_B1.c: 204: } else {
-[e $U 208  ]
-[e :U 169 ]
+[e $ ! == -> ( _getLights_Status (1 -> -> 1 `i `uc `i -> 1 `i 209  ]
 {
-[; ;PIR_B1.c: 205: if (myMain.PowerON == 1) {
-"205
-[e $ ! == -> . . _myMain 0 0 `i -> 1 `i 209  ]
-{
-[; ;PIR_B1.c: 206: _PIR.Enable = 1;
-"206
-[e = . . __PIR 0 0 -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 207: setLED(1, 1);
-"207
-[e ( _setLED (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 210: if (getLights_Status(1) == 0) {
-"210
-[e $ ! == -> ( _getLights_Status (1 -> -> 1 `i `uc `i -> 0 `i 210  ]
-{
-[; ;PIR_B1.c: 211: setLights_Trigger(1, 1);
-"211
-[e ( _setLights_Trigger (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"212
-}
-[e :U 210 ]
-"215
+[; ;PIR_B1.c: 198: setLights_Trigger(1, 0);
+"198
+[e ( _setLights_Trigger (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+"199
 }
 [e :U 209 ]
-"216
+"203
 }
 [e :U 208 ]
-[; ;PIR_B1.c: 212: }
-[; ;PIR_B1.c: 215: }
-[; ;PIR_B1.c: 216: }
-[; ;PIR_B1.c: 217: }
+"204
+}
+[e :U 207 ]
+"205
+}
+[e :U 206 ]
+"206
+}
+[; ;PIR_B1.c: 199: }
+[; ;PIR_B1.c: 203: }
+[; ;PIR_B1.c: 204: }
+[; ;PIR_B1.c: 205: }
+[; ;PIR_B1.c: 206: } else {
+[e $U 210  ]
+[e :U 169 ]
+{
+[; ;PIR_B1.c: 207: if (myMain.PowerON == 1) {
+"207
+[e $ ! == -> . . _myMain 0 0 `i -> 1 `i 211  ]
+{
+[; ;PIR_B1.c: 208: _PIR.Enable = 1;
+"208
+[e = . . __PIR 0 0 -> -> 1 `i `uc ]
+[; ;PIR_B1.c: 209: setLED(1, 1);
+"209
+[e ( _setLED (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+[; ;PIR_B1.c: 212: if (getLights_Status(1) == 0) {
+"212
+[e $ ! == -> ( _getLights_Status (1 -> -> 1 `i `uc `i -> 0 `i 212  ]
+{
+[; ;PIR_B1.c: 213: setLights_Trigger(1, 1);
+"213
+[e ( _setLights_Trigger (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+"214
+}
+[e :U 212 ]
 "217
+}
+[e :U 211 ]
+"218
+}
+[e :U 210 ]
+[; ;PIR_B1.c: 214: }
+[; ;PIR_B1.c: 217: }
+[; ;PIR_B1.c: 218: }
+[; ;PIR_B1.c: 219: }
+"219
 [e :UE 168 ]
 }
-"220
+"222
 [v _getPIR_AD `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;PIR_B1.c: 220: void getPIR_AD(char channel1, char channel2) {
+[; ;PIR_B1.c: 222: void getPIR_AD(char channel1, char channel2) {
 [e :U _getPIR_AD ]
 [v _channel1 `uc ~T0 @X0 1 r1 ]
 [v _channel2 `uc ~T0 @X0 1 r2 ]
 [f ]
-"221
+"223
 [v _i `uc ~T0 @X0 1 a ]
-[; ;PIR_B1.c: 221: char i = 0, j = 0;
+[; ;PIR_B1.c: 223: char i = 0, j = 0;
 [e = _i -> -> 0 `i `uc ]
 [v _j `uc ~T0 @X0 1 a ]
 [e = _j -> -> 0 `i `uc ]
-[; ;PIR_B1.c: 223: if (_PIR.ADtoGO == 1 && _PIR.GO == 0) {
-"223
-[e $ ! && == -> . . __PIR 0 1 `i -> 1 `i == -> . . __PIR 0 2 `i -> 0 `i 212  ]
-{
-[; ;PIR_B1.c: 224: _PIR.GO = 1;
-"224
-[e = . . __PIR 0 2 -> -> 1 `i `uc ]
-[; ;PIR_B1.c: 225: _PIR.ADRES = getAD(channel1, 0x70);
+[; ;PIR_B1.c: 225: if (_PIR.ADtoGO == 1 && _PIR.GO == 0) {
 "225
-[e = . __PIR 2 ( _getAD (2 , _channel1 -> -> 112 `i `uc ]
-[; ;PIR_B1.c: 226: _PIR.VRAD = _PIR.ADRES / 51;
-"226
-[e = . __PIR 3 -> / -> . __PIR 2 `i -> 51 `i `uc ]
-[; ;PIR_B1.c: 227: _PIR.VRAD1 = _PIR.ADRES;
-"227
-[e = . __PIR 4 . __PIR 2 ]
-[; ;PIR_B1.c: 228: _PIR.ADRES = getAD(channel2, 0x70);
-"228
-[e = . __PIR 2 ( _getAD (2 , _channel2 -> -> 112 `i `uc ]
-[; ;PIR_B1.c: 229: _PIR.SignalAD = _PIR.ADRES;
-"229
-[e = . __PIR 1 . __PIR 2 ]
-[; ;PIR_B1.c: 231: switch (_PIR.VRAD) {
-"231
-[e $U 214  ]
+[e $ ! && == -> . . __PIR 0 1 `i -> 1 `i == -> . . __PIR 0 2 `i -> 0 `i 214  ]
 {
-[; ;PIR_B1.c: 232: case 0:
-"232
-[e :U 215 ]
-[; ;PIR_B1.c: 233: if (_PIR.VRAD1 < 10) {
+[; ;PIR_B1.c: 226: _PIR.GO = 1;
+"226
+[e = . . __PIR 0 2 -> -> 1 `i `uc ]
+[; ;PIR_B1.c: 227: _PIR.ADRES = getAD(channel1, 0x70);
+"227
+[e = . __PIR 2 ( _getAD (2 , _channel1 -> -> 112 `i `uc ]
+[; ;PIR_B1.c: 228: _PIR.VRAD = _PIR.ADRES / 25;
+"228
+[e = . __PIR 3 -> / -> . __PIR 2 `i -> 25 `i `uc ]
+[; ;PIR_B1.c: 229: _PIR.VRAD1 = _PIR.ADRES;
+"229
+[e = . __PIR 4 . __PIR 2 ]
+[; ;PIR_B1.c: 230: _PIR.ADRES = getAD(channel2, 0x70);
+"230
+[e = . __PIR 2 ( _getAD (2 , _channel2 -> -> 112 `i `uc ]
+[; ;PIR_B1.c: 231: _PIR.SignalAD = _PIR.ADRES;
+"231
+[e = . __PIR 1 . __PIR 2 ]
+[; ;PIR_B1.c: 233: if (_PIR.VRAD < 1) {
 "233
-[e $ ! < -> . __PIR 4 `i -> 10 `i 216  ]
+[e $ ! < -> . __PIR 3 `i -> 1 `i 215  ]
 {
 [; ;PIR_B1.c: 234: _PIR.CloseTimeValue = 5;
 "234
 [e = . __PIR 17 -> -> 5 `i `ui ]
 "235
 }
-[; ;PIR_B1.c: 235: } else {
-[e $U 217  ]
-[e :U 216 ]
+[; ;PIR_B1.c: 235: } else if (_PIR.VRAD < 3) {
+[e $U 216  ]
+[e :U 215 ]
+[e $ ! < -> . __PIR 3 `i -> 3 `i 217  ]
 {
 [; ;PIR_B1.c: 236: _PIR.CloseTimeValue = 60;
 "236
 [e = . __PIR 17 -> -> 60 `i `ui ]
 "237
 }
+[; ;PIR_B1.c: 237: } else if (_PIR.VRAD < 5) {
+[e $U 218  ]
 [e :U 217 ]
-[; ;PIR_B1.c: 237: }
-[; ;PIR_B1.c: 238: break;
+[e $ ! < -> . __PIR 3 `i -> 5 `i 219  ]
+{
+[; ;PIR_B1.c: 238: _PIR.CloseTimeValue = 300;
 "238
-[e $U 213  ]
-[; ;PIR_B1.c: 239: case 1:
-"239
-[e :U 218 ]
-[; ;PIR_B1.c: 240: _PIR.CloseTimeValue = 300;
-"240
 [e = . __PIR 17 -> -> 300 `i `ui ]
-[; ;PIR_B1.c: 241: break;
-"241
-[e $U 213  ]
-[; ;PIR_B1.c: 242: case 2:
-"242
-[e :U 219 ]
-[; ;PIR_B1.c: 243: _PIR.CloseTimeValue = 600;
-"243
-[e = . __PIR 17 -> -> 600 `i `ui ]
-[; ;PIR_B1.c: 244: break;
-"244
-[e $U 213  ]
-[; ;PIR_B1.c: 245: case 3:
-"245
-[e :U 220 ]
-[; ;PIR_B1.c: 246: _PIR.CloseTimeValue = 900;
-"246
-[e = . __PIR 17 -> -> 900 `i `ui ]
-[; ;PIR_B1.c: 247: break;
-"247
-[e $U 213  ]
-[; ;PIR_B1.c: 248: case 4:
-"248
-[e :U 221 ]
-[; ;PIR_B1.c: 249: _PIR.CloseTimeValue = 1200;
-"249
-[e = . __PIR 17 -> -> 1200 `i `ui ]
-[; ;PIR_B1.c: 250: break;
-"250
-[e $U 213  ]
-"251
+"239
 }
-[; ;PIR_B1.c: 251: }
-[e $U 213  ]
-"231
-[e :U 214 ]
-[e [\ . __PIR 3 , $ -> -> 0 `i `uc 215
- , $ -> -> 1 `i `uc 218
- , $ -> -> 2 `i `uc 219
- , $ -> -> 3 `i `uc 220
- , $ -> -> 4 `i `uc 221
- 213 ]
-"251
-[e :U 213 ]
+[; ;PIR_B1.c: 239: } else if (_PIR.VRAD < 7) {
+[e $U 220  ]
+[e :U 219 ]
+[e $ ! < -> . __PIR 3 `i -> 7 `i 221  ]
+{
+[; ;PIR_B1.c: 240: _PIR.CloseTimeValue = 600;
+"240
+[e = . __PIR 17 -> -> 600 `i `ui ]
+"241
+}
+[; ;PIR_B1.c: 241: } else if (_PIR.VRAD < 9) {
+[e $U 222  ]
+[e :U 221 ]
+[e $ ! < -> . __PIR 3 `i -> 9 `i 223  ]
+{
+[; ;PIR_B1.c: 242: _PIR.CloseTimeValue = 900;
+"242
+[e = . __PIR 17 -> -> 900 `i `ui ]
+"243
+}
+[; ;PIR_B1.c: 243: } else {
+[e $U 224  ]
+[e :U 223 ]
+{
+[; ;PIR_B1.c: 244: _PIR.CloseTimeValue = 1200;
+"244
+[e = . __PIR 17 -> -> 1200 `i `ui ]
+"245
+}
+[e :U 224 ]
+[e :U 222 ]
+[e :U 220 ]
+[e :U 218 ]
+[e :U 216 ]
+[; ;PIR_B1.c: 245: }
 [; ;PIR_B1.c: 254: _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
 "254
 [e = *U + &U . __PIR 8 * -> . __PIR 7 `ux -> -> # *U &U . __PIR 8 `ui `ux . __PIR 1 ]
@@ -2392,9 +2402,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "255
 {
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 10 `i 222  ]
-[e $U 223  ]
-[e :U 222 ]
+[e $ < -> _i `i -> 10 `i 225  ]
+[e $U 226  ]
+[e :U 225 ]
 {
 [; ;PIR_B1.c: 256: _PIR.TenAverageValue += _PIR.TenAverage[i];
 "256
@@ -2403,8 +2413,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 "255
 [e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 10 `i 222  ]
-[e :U 223 ]
+[e $ < -> _i `i -> 10 `i 225  ]
+[e :U 226 ]
 "257
 }
 [; ;PIR_B1.c: 257: }
@@ -2418,9 +2428,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "261
 {
 [e = _i -> -> 0 `i `uc ]
-[e $ <= -> _i `i -> 9 `i 225  ]
-[e $U 226  ]
-[e :U 225 ]
+[e $ <= -> _i `i -> 9 `i 228  ]
+[e $U 229  ]
+[e :U 228 ]
 {
 [; ;PIR_B1.c: 262: _PIR.HundredAverageValue += _PIR.HundredAverage[i];
 "262
@@ -2429,8 +2439,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 "261
 [e ++ _i -> -> 1 `i `uc ]
-[e $ <= -> _i `i -> 9 `i 225  ]
-[e :U 226 ]
+[e $ <= -> _i `i -> 9 `i 228  ]
+[e :U 229 ]
 "263
 }
 [; ;PIR_B1.c: 263: }
@@ -2442,7 +2452,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . __PIR 12 -> -> 0 `i `ui ]
 [; ;PIR_B1.c: 267: if (_PIR.TenCount < 10) {
 "267
-[e $ ! < -> . __PIR 7 `i -> 10 `i 228  ]
+[e $ ! < -> . __PIR 7 `i -> 10 `i 231  ]
 {
 [; ;PIR_B1.c: 268: _PIR.TenCount++;
 "268
@@ -2450,37 +2460,37 @@ Version 3.2 HI-TECH Software Intermediate Code
 "269
 }
 [; ;PIR_B1.c: 269: } else {
-[e $U 229  ]
-[e :U 228 ]
+[e $U 232  ]
+[e :U 231 ]
 {
 [; ;PIR_B1.c: 270: _PIR.TenCount = 0;
 "270
 [e = . __PIR 7 -> -> 0 `i `uc ]
 [; ;PIR_B1.c: 271: if (_PIR.HundreCount < 10)
 "271
-[e $ ! < -> . __PIR 10 `i -> 10 `i 230  ]
+[e $ ! < -> . __PIR 10 `i -> 10 `i 233  ]
 [; ;PIR_B1.c: 272: _PIR.HundreCount++;
 "272
 [e ++ . __PIR 10 -> -> 1 `i `uc ]
-[e $U 231  ]
+[e $U 234  ]
 "273
-[e :U 230 ]
+[e :U 233 ]
 [; ;PIR_B1.c: 273: else
 [; ;PIR_B1.c: 274: _PIR.HundreCount = 0;
 "274
 [e = . __PIR 10 -> -> 0 `i `uc ]
-[e :U 231 ]
+[e :U 234 ]
 "275
 }
-[e :U 229 ]
+[e :U 232 ]
 "290
 }
-[e :U 212 ]
+[e :U 214 ]
 [; ;PIR_B1.c: 275: }
 [; ;PIR_B1.c: 290: }
 [; ;PIR_B1.c: 291: }
 "291
-[e :UE 211 ]
+[e :UE 213 ]
 }
 "294
 [v _getPIR_OK `(uc ~T0 @X0 1 ef ]
@@ -2495,8 +2505,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;PIR_B1.c: 296: return ok;
 "296
 [e ) _ok ]
-[e $UE 232  ]
+[e $UE 235  ]
 [; ;PIR_B1.c: 297: }
 "297
-[e :UE 232 ]
+[e :UE 235 ]
 }

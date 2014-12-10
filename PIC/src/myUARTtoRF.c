@@ -13,5 +13,9 @@ void myUARTtoRF_Initialization() {
 
 void myUARTtoRF_Main() {
     //    setTxData();
+//    if (RCIF == true) {
+//        RCIF = false;
+//        LED1 = LED1 == true ? false : true;
+//    }
 }
 #endif

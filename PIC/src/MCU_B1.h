@@ -634,17 +634,18 @@ void I2C_SetData(char command);
 struct UART {
     //    unsigned char TxData[32];
     //    unsigned char RxData[32];
-    unsigned char Data[UART_Data_Length_Vallue];
+    unsigned char Data[UART_Data_Length];
     unsigned char Count;
-    unsigned char TxLength;
-    unsigned char RxLength;
+    unsigned char Time;
+
 
     struct {
         unsigned TxGO : 1;
         unsigned RxGO : 1;
         unsigned TxRun : 1;
         unsigned RxRun : 1;
-        unsigned empty : 4;
+        unsigned RxAllow : 1;
+        unsigned empty : 3;
     };
 
 };

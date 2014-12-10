@@ -10,51 +10,66 @@
 
 struct DimmerLights {
 
-    struct {
-        unsigned GO : 1;
-        unsigned Signal : 1;
-        unsigned AdjRF : 1;
-        unsigned AdjFlag : 1; //adj control
-        unsigned AdjStatus : 1; //adj status
-        unsigned Status : 1; //lights status
-        unsigned StatusFlag : 1; //triac control
-        unsigned OverLoad : 1;
+    volatile struct {
+        unsigned MOSFET : 1;
+        unsigned TriacFlag : 1;
+        unsigned empty1 : 6;
     };
 
-    unsigned char DimmingTime;
+    //public
+
+    volatile struct {
+        unsigned GO : 1;
+        unsigned MosfetSignal : 1;
+        unsigned StatusFlag : 1; //triac control
+        unsigned Flag : 1;
+        unsigned Triac : 1;
+        unsigned Signal : 1;
+        unsigned AdjFlag : 1; //adj control
+        unsigned AdjStatus : 1; //adj status
+    };
+
+    //private
+
+    volatile struct {
+        unsigned AdjRF : 1;
+        unsigned Status : 1; //lights status
+        unsigned OverLoad : 1;
+        unsigned empty2 : 5;
+    };
+
+
+    volatile unsigned char Count;
+    volatile unsigned char DimmingValue;
+    volatile unsigned char DimmingTime;
+    volatile unsigned char MaxmumValue;
+    volatile unsigned char TriacTime;
+
     unsigned char DimmingTimeValue;
-    unsigned char Count;
-    unsigned char DimmingValue;
-    unsigned char MaxmumValue;
     unsigned char MinimumValue;
 
-    unsigned char TriacTime;
-
     struct {
-        unsigned Flag : 1;
         unsigned Switch : 1;
         unsigned Trigger : 1;
         unsigned AdjGo : 1;
         unsigned TriggerAdj : 1;
-        unsigned Triac : 1;
         unsigned MosfetOpen : 1;
         unsigned MosfetClose : 1;
+        unsigned Line : 1;
+        unsigned Loop : 1;
     };
 
     struct {
-        unsigned Line : 1;
-        unsigned Loop : 1;
         unsigned OK : 1;
-        unsigned MosfetSignal : 1;
-        unsigned MOSFET : 1;
-        unsigned TriacFlag : 1;
         unsigned SwFlag : 1;
         unsigned SwAdj : 1;
+        unsigned empty3 : 5;
     };
 
-    unsigned char TriacCount;
+    volatile unsigned char TriacCount;
+    volatile unsigned char MosfetSignalCount;
+
     unsigned char DetectCount;
-    unsigned char MosfetSignalCount;
     unsigned char TuneValue;
     unsigned char MosfetOK_Count;
 };
@@ -164,7 +179,7 @@ struct Dimmer {
         };
     };
     unsigned char Load;
-    unsigned char Correction;
+    volatile unsigned char Correction;
 };
 #ifdef DimmerReference1
 struct Dimmer Dimmer;
