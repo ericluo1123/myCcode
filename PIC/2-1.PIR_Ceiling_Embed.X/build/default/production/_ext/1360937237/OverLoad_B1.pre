@@ -1980,7 +1980,7 @@ char getMain_Lights_Count();
 char getMain_LoadOK();
 void Exception_Main();
 
-# 90 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
+# 92 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2224,7 +2224,6 @@ unsigned char RangeTime1;
 unsigned char RangeCount;
 unsigned char RangeValue;
 unsigned char RangeCount1;
-unsigned char Offset;
 };
 
 
@@ -2358,7 +2357,7 @@ char i = 0, j = 0, error = getMain_All_Error_Status(0), adjgo = 0;
 
 if (Load.Enable == 1) {
 
-# 47
+# 57
 Load.GO = getMain_LightsStatus() == 1 && error == 0 && adjgo == 0 ? 1 : 0;
 if (getMain_LoadOK() == 1 && Load.Run == 0) {
 Load.Run = 1;
@@ -2411,7 +2410,7 @@ if (Load.ErrorCount > Load.ErrorCountValue) {
 Load.ErrorCount = 0;
 Load.ERROR = 1;
 
-# 118
+# 128
 }
 } else {
 Load.ErrorCount = 0;
@@ -2426,7 +2425,7 @@ Load.Count = 0;
 Load.TotalLoad = Load.AD;
 Load.ErrorCountValue = 3;
 
-# 154
+# 164
 }
 }
 }
@@ -2455,7 +2454,7 @@ Load.LightsCount = 0;
 Load.Run = 0;
 Load.OK = 1;
 
-# 201
+# 211
 }
 if (Load.ERROR == 1) {
 Load.ErrorTime++;
@@ -2467,6 +2466,7 @@ Load.ERROR = 0;
 }
 } else {
 if (myMain.PowerON == 1) {
+
 Load.Enable = 1;
 }
 }
@@ -2476,6 +2476,7 @@ Load.Enable = 1;
 
 char getLoad_OK() {
 char ok = Load.OK == 1 ? 1 : 0;
+
 return ok;
 }
 

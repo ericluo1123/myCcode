@@ -2839,9 +2839,10 @@ char getSw_KeyStatus(char sw);
 
 
 
+
 void TouchPower();
 
-# 90
+# 92
 struct SwitchDetect {
 
 union {
@@ -3112,7 +3113,7 @@ inline void CC2500_TxData();
 inline void CC2500_RxData(void);
 void DelayTime_1us(int count);
 
-# 11 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h"
+# 12 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h"
 struct RF {
 
 struct {
@@ -3229,51 +3230,66 @@ void setLoad_OK();
 # 11 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
-struct {
-unsigned GO : 1;
-unsigned Signal : 1;
-unsigned AdjRF : 1;
-unsigned AdjFlag : 1;
-unsigned AdjStatus : 1;
-unsigned Status : 1;
-unsigned StatusFlag : 1;
-unsigned OverLoad : 1;
+volatile struct {
+unsigned MOSFET : 1;
+unsigned TriacFlag : 1;
+unsigned empty1 : 6;
 };
 
-unsigned char DimmingTime;
+
+
+volatile struct {
+unsigned GO : 1;
+unsigned MosfetSignal : 1;
+unsigned StatusFlag : 1;
+unsigned Flag : 1;
+unsigned Triac : 1;
+unsigned Signal : 1;
+unsigned AdjFlag : 1;
+unsigned AdjStatus : 1;
+};
+
+
+
+volatile struct {
+unsigned AdjRF : 1;
+unsigned Status : 1;
+unsigned OverLoad : 1;
+unsigned empty2 : 5;
+};
+
+
+volatile unsigned char Count;
+volatile unsigned char DimmingValue;
+volatile unsigned char DimmingTime;
+volatile unsigned char MaxmumValue;
+volatile unsigned char TriacTime;
+
 unsigned char DimmingTimeValue;
-unsigned char Count;
-unsigned char DimmingValue;
-unsigned char MaxmumValue;
 unsigned char MinimumValue;
 
-unsigned char TriacTime;
-
 struct {
-unsigned Flag : 1;
 unsigned Switch : 1;
 unsigned Trigger : 1;
 unsigned AdjGo : 1;
 unsigned TriggerAdj : 1;
-unsigned Triac : 1;
 unsigned MosfetOpen : 1;
 unsigned MosfetClose : 1;
+unsigned Line : 1;
+unsigned Loop : 1;
 };
 
 struct {
-unsigned Line : 1;
-unsigned Loop : 1;
 unsigned OK : 1;
-unsigned MosfetSignal : 1;
-unsigned MOSFET : 1;
-unsigned TriacFlag : 1;
 unsigned SwFlag : 1;
 unsigned SwAdj : 1;
+unsigned empty3 : 5;
 };
 
-unsigned char TriacCount;
+volatile unsigned char TriacCount;
+volatile unsigned char MosfetSignalCount;
+
 unsigned char DetectCount;
-unsigned char MosfetSignalCount;
 unsigned char TuneValue;
 unsigned char MosfetOK_Count;
 };
@@ -3281,11 +3297,11 @@ struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
-# 81
+# 96
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-# 103
+# 118
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -3319,7 +3335,7 @@ char getDimmerLights_Status(char lights);
 
 void setDimmerLights_Clear(char, char);
 inline void setDimmerLights_IntrControl(char lights);
-char getAll_DimmerLights_AdjGO();
+char getAll_DimmerLights_AdjGO(char sw);
 void setDimmerLights_SwOn(char sw);
 void setDimmerLights_SwOff(char sw);
 void setDimmerLights_AdjControl(char sw);
@@ -3328,7 +3344,7 @@ void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 
-# 152
+# 167
 struct Dimmer {
 
 
@@ -3344,7 +3360,7 @@ unsigned empty : 5;
 };
 };
 unsigned char Load;
-unsigned char Correction;
+volatile unsigned char Correction;
 };
 
 struct Dimmer Dimmer;

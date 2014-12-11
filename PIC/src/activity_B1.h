@@ -289,7 +289,7 @@ typedef unsigned int ADtype;
 #define Mini_Percent 15
 #endif
 #if Switch_Class == 2
-#define Max_Percent 80
+#define Max_Percent 75
 #define Med_Percent 35
 #define Mini_Percent 15
 #endif

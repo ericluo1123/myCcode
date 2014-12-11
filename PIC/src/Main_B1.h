@@ -54,7 +54,7 @@ Product _product = {
 //29=Key3 Timer
 
 
-#define setProductData(address,data) product->Data[address]=data
+//#define setProductData(address,data) product->Data[address]=data
 #else
 #define setProductData(address,data) ;
 #endif
@@ -138,5 +138,6 @@ char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 char getMain_LoadOK();
 void Exception_Main();
+inline void setProductData(char address,char value);
 
 #endif		

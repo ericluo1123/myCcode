@@ -43,7 +43,7 @@ void setRF_RxStatus(char command) {
 void setRF_Initialization() {
 #ifdef RadioFrequency1
     Tx_Length = 21;
-    RF1.RunTime = 10;
+    RF1.RunTime = RF_RunTime_Value;
     //    INTE = true;
 #endif
 }
@@ -63,9 +63,6 @@ void setRF_Main() {
                 RF1.Key = false;
 #endif
             } else {
-                //#if PIR_use == 0 && Switch_use == 0
-                //                setMain_Exception(0);
-                //#endif
                 RF1.Key = false;
             }
 
@@ -88,7 +85,7 @@ void setRF_Main() {
                         RF1.TransceiveGO = false;
                         RF1.RxStatus = false;
                         RF1.ReceiveGO = false;
-                        RF1.RunTime = 10;
+                        RF1.RunTime = RF_RunTime_Value;
 
                         //                        CC2500_ReadStatus(CC2500_RXBYTES);
                         //                        if (s_data != 0) {
@@ -125,8 +122,8 @@ void setRF_Main() {
                                 RF1.Run = true;
 
                                 if (RF1.Checked == true) {
-                                    if (RF1.RunTime > 10) {
-                                        RF1.RunTime = 10;
+                                    if (RF1.RunTime > RF_RunTime_Value) {
+                                        RF1.RunTime = RF_RunTime_Value;
                                     }
                                     RF1.CheckCount = 0;
                                 } else {
@@ -134,8 +131,9 @@ void setRF_Main() {
                                     if (RF1.CheckCount == 2) {
                                         RF1.CheckCount = 0;
                                         RF1.CheckedCounter = 0;
-                                        if (RF1.RunTime < 200) {
-                                            RF1.RunTime += 10;
+
+                                        if (RF1.RunTime < (RF_RunTime_Value * 20)) {
+                                            RF1.RunTime += RF_RunTime_Value;
                                         }
                                     }
                                 }
@@ -155,13 +153,14 @@ void setRF_Main() {
                         }
                     }
                 }
+
                 if (RF1.RxStatus == true) {
                     RF1.CheckedCounter++;
                     if (RF1.CheckedCounter == 100) {
                         RF1.CheckedCounter = 0;
                         RF1.CheckCount = 0;
-                        if (RF1.RunTime > 10) {
-                            RF1.RunTime -= 10;
+                        if (RF1.RunTime > RF_RunTime_Value) {
+                            RF1.RunTime -= RF_RunTime_Value;
                         }
                     }
                 }

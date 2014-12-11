@@ -40,9 +40,19 @@ inline void Load_Main() {
     char i = 0, j = 0, error = getMain_All_Error_Status(0), adjgo = 0;
 
     if (Load.Enable == true) {
- 
+
 #if Dimmer_use == 1
-        adjgo = getAll_DimmerLights_AdjGO();
+#if Switch_Class == 1
+        char sw = 1;
+#endif
+#if Switch_Class == 2
+        char sw = 3;
+#endif
+#if Switch_Class == 3
+        char sw = 3;
+#endif
+
+        adjgo = getAll_DimmerLights_AdjGO(sw);
 #endif
         Load.GO = getMain_LightsStatus() == 1 && error == 0 && adjgo == 0 ? true : false;
         if (getMain_LoadOK() == 1 && Load.Run == false) {
@@ -209,6 +219,7 @@ inline void Load_Main() {
         }
     } else {
         if (myMain.PowerON == true) {
+
             Load.Enable = true;
         }
     }
@@ -218,6 +229,7 @@ inline void Load_Main() {
 
 char getLoad_OK() {
     char ok = Load.OK == true ? 1 : 0;
+
     return ok;
 }
 

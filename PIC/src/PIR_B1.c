@@ -101,8 +101,8 @@ void PIR_Main() {
                         }
 
                         //PIR
-                        if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))
-                                && (_PIR.SignalAD <= (_PIR.ReferenceVoltage + (_PIR.RangeValue + _PIR.Offset)))) {
+                        if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - _PIR.RangeValue))
+                                && (_PIR.SignalAD <= (_PIR.ReferenceVoltage + _PIR.RangeValue))) {
 #if PIR_TestTime_Mode == 0
                             _PIR.Count = 0;
 #else
@@ -134,7 +134,7 @@ void PIR_Main() {
 #endif
 #endif
 #endif
-                                if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
+                                if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
                                     setLED(1, 1);
                                     setLED(2, 0);
                                 } else {

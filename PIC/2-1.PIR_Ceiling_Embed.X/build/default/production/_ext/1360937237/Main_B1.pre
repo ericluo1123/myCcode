@@ -1980,7 +1980,7 @@ char getMain_Lights_Count();
 char getMain_LoadOK();
 void Exception_Main();
 
-# 90 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
+# 92 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2224,7 +2224,6 @@ unsigned char RangeTime1;
 unsigned char RangeCount;
 unsigned char RangeValue;
 unsigned char RangeCount1;
-unsigned char Offset;
 };
 
 
@@ -2585,12 +2584,13 @@ myMain.Error_Run = 0;
 
 setLED(error, 110);
 
-
+# 500
 }
 } else {
 if (error != 0) {
 myMain.Error_Run = 1;
 
+# 546
 setLED(error, 111);
 if (error == 3) {
 char status = getAll_Lights_Line();
@@ -2601,7 +2601,7 @@ setLights_Trigger(status, 0);
 
 char count = 1;
 
-# 519
+# 562
 for (int i = 0; i < count; i++) {
 if (getLights_Status(i + 1) == 1) {
 setLights_Trigger(i + 1, 0);

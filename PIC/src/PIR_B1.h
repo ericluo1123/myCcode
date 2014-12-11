@@ -8,7 +8,7 @@
 #define PIR_Test_Mode 0
 #define PIR_TestTime_Mode 0
 //detect range
-#define RangeMinimum	20
+#define RangeMinimum	25
 #define RangeMedium	(RangeMinimum+10)
 #define RangeMaximum	(RangeMinimum+20)
 
@@ -68,7 +68,6 @@ struct PIR {
     unsigned char RangeCount;
     unsigned char RangeValue;
     unsigned char RangeCount1;
-    unsigned char Offset;
 };
 
 #ifdef PIR_1

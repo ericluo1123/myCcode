@@ -25,7 +25,7 @@ struct DimmerLights {
         unsigned Flag : 1;
         unsigned Triac : 1;
         unsigned Signal : 1;
-        unsigned AdjFlag : 1; //adj control
+        unsigned AdjSw : 1; //adj control
         unsigned AdjStatus : 1; //adj status
     };
 
@@ -51,7 +51,7 @@ struct DimmerLights {
     struct {
         unsigned Switch : 1;
         unsigned Trigger : 1;
-        unsigned AdjGo : 1;
+        unsigned SwitchAdj : 1;
         unsigned TriggerAdj : 1;
         unsigned MosfetOpen : 1;
         unsigned MosfetClose : 1;
@@ -148,10 +148,11 @@ char getDimmerLights_Status(char lights);
 
 void setDimmerLights_Clear(char, char);
 inline void setDimmerLights_IntrControl(char lights);
-char getAll_DimmerLights_AdjGO();
+char getAll_DimmerLights_AdjGO(char sw);
 void setDimmerLights_SwOn(char sw);
 void setDimmerLights_SwOff(char sw);
-void setDimmerLights_AdjControl(char sw);
+void setDimmerLights_AdjOn(char sw);
+
 void setDimmerLights_ErrorClose(char lights);
 void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);

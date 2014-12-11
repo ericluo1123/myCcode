@@ -427,7 +427,7 @@ char getMain_All_Error_Status(char command) {
 
 
 #if PowerFault_use == 1
-    if (status == 0 && command != 4 s) {
+    if (status == 0 && command != 4) {
 
     }
 #endif
@@ -493,12 +493,55 @@ void Exception_Main() {
             myMain.Error_Run = false;
 #if LightsControl_use == 1
             setLED(error, 110);
-
+#endif
+#if   Dimmer_use == 1
+            setLED(99, 10);
 #endif
         }
     } else {
         if (error != 0) {
             myMain.Error_Run = true;
+
+#if   Dimmer_use == 1
+            setLED(99, 11);
+
+            switch (error) {
+                case 2:
+                    if (getMain_LightsStatus() == 1) {
+                        setBuz(10, BuzzerErrorTime);
+                    }
+
+#if Switch_Class == 1
+                    char count = 1;
+#endif
+#if Switch_Class == 2
+                    char count = 2;
+#endif
+#if Switch_Class == 3
+                    char count = 3;
+#endif
+                    for (int i = 0; i < count; i++) {
+                        DimmerLightsPointSelect(i + 1);
+                        if (getDimmerLights_Status(i + 1) == 1) {
+                            DimmerLights->SwFlag = true;
+                            DimmerLights->Status = false;
+                            setDimmerLights_SwOff(i + 1);
+                        }
+                    }
+                    break;
+                case 3:
+                    setBuz(5, BuzzerErrorTime);
+                    char lights = getDimmerLights_Line();
+                    DimmerLightsPointSelect(lights);
+                    if (getDimmerLights_Status(lights) == 1) {
+                        DimmerLights->SwFlag = true;
+                        DimmerLights->Status = false;
+                        setDimmerLights_SwOff(lights);
+                    }
+                    break;
+            }
+
+#endif
 #if LightsControl_use == 1
             setLED(error, 111);
             if (error == 3) {
@@ -527,7 +570,8 @@ void Exception_Main() {
     }
 }
 
-
-
+inline void setProductData(char address, char value) {
+    product->Data[address] = value;
+}
 //*****************************************************************************
 //End file

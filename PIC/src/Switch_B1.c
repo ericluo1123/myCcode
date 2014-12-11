@@ -6,7 +6,7 @@
 #if Switch_use == 1
 
 #ifdef TTPW
- 
+
 void TouchPower() {
     if (TTPW == false) {
         if (myMain.PowerON == true) {
@@ -70,22 +70,6 @@ inline void Switch_Initialization() {
 //******************************************************************************
 
 inline void Switch_Main() {
-    char error = getMain_All_Error_Status(0);
-    if (error != 0) {
-        if (SwDetect.Error == false) {
-            SwDetect.Error = true;
-#if PIR_use == 0
-            setMain_Exception(error);
-#endif
-        }
-    } else {
-        if (SwDetect.Error == true) {
-            SwDetect.Error = false;
-#if PIR_use == 0
-            setMain_Exception(error);
-#endif
-        }
-    }
 
 #ifdef use_1KEY
     setSw_Main(1);
@@ -137,7 +121,8 @@ void setSw_Initialization(char sw) {
 void setSw_Main(char sw) {
     SwPointSelect(sw);
     if (Sw->Enable == true) {
-        if (SwDetect.Error == false) {
+
+        if (getMain_All_Error_Status(0) == 0) {
             Sw->Detect = false;
             Sw->Touch = getSw_KeyStatus(sw) == 1 ? true : false;
         } else {
@@ -148,17 +133,17 @@ void setSw_Main(char sw) {
             }
         }
 
-
         if (Sw->Touch == true) {
             if (Sw->Debounce == false) {
                 Sw->DebounceTime++;
                 if (Sw->DebounceTime >= DebounceTimeValue) {
                     Sw->DebounceTime = 0;
                     Sw->Debounce = true;
-                    
+
 #if Dimmer_use == 1
                     setDimmerLights_SwOn(sw); //key on function
 #endif
+
                 }
             } else {
                 if (Sw->Hold1 == false) {
@@ -168,7 +153,7 @@ void setSw_Main(char sw) {
 #if Dimmer_use == 1
 #if Dimmable_Func == 1
                         Sw->Hold1 = true;
-                        setDimmerLights_AdjControl(sw); //key on function
+                        setDimmerLights_AdjOn(sw); //key on function
 #endif
 #endif
                     }
@@ -260,8 +245,8 @@ char getSw_KeyStatus(char sw) {
 
     return status;
 }
-//******************************************************************************
 
+//******************************************************************************
 //void Sw_Detect() {
 //    if (getLoad_ERROR() == false && getTemp_ERROR() == false && getPF_ERROR() == false && myMain.SelfTest == true) {
 //#ifdef use_1KEY

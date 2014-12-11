@@ -2839,9 +2839,10 @@ char getSw_KeyStatus(char sw);
 
 
 
+
 void TouchPower();
 
-# 90
+# 92
 struct SwitchDetect {
 
 union {
@@ -3112,7 +3113,7 @@ inline void CC2500_TxData();
 inline void CC2500_RxData(void);
 void DelayTime_1us(int count);
 
-# 11 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h"
+# 12 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h"
 struct RF {
 
 struct {
@@ -3229,51 +3230,66 @@ void setLoad_OK();
 # 11 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
-struct {
-unsigned GO : 1;
-unsigned Signal : 1;
-unsigned AdjRF : 1;
-unsigned AdjFlag : 1;
-unsigned AdjStatus : 1;
-unsigned Status : 1;
-unsigned StatusFlag : 1;
-unsigned OverLoad : 1;
+volatile struct {
+unsigned MOSFET : 1;
+unsigned TriacFlag : 1;
+unsigned empty1 : 6;
 };
 
-unsigned char DimmingTime;
+
+
+volatile struct {
+unsigned GO : 1;
+unsigned MosfetSignal : 1;
+unsigned StatusFlag : 1;
+unsigned Flag : 1;
+unsigned Triac : 1;
+unsigned Signal : 1;
+unsigned AdjFlag : 1;
+unsigned AdjStatus : 1;
+};
+
+
+
+volatile struct {
+unsigned AdjRF : 1;
+unsigned Status : 1;
+unsigned OverLoad : 1;
+unsigned empty2 : 5;
+};
+
+
+volatile unsigned char Count;
+volatile unsigned char DimmingValue;
+volatile unsigned char DimmingTime;
+volatile unsigned char MaxmumValue;
+volatile unsigned char TriacTime;
+
 unsigned char DimmingTimeValue;
-unsigned char Count;
-unsigned char DimmingValue;
-unsigned char MaxmumValue;
 unsigned char MinimumValue;
 
-unsigned char TriacTime;
-
 struct {
-unsigned Flag : 1;
 unsigned Switch : 1;
 unsigned Trigger : 1;
 unsigned AdjGo : 1;
 unsigned TriggerAdj : 1;
-unsigned Triac : 1;
 unsigned MosfetOpen : 1;
 unsigned MosfetClose : 1;
+unsigned Line : 1;
+unsigned Loop : 1;
 };
 
 struct {
-unsigned Line : 1;
-unsigned Loop : 1;
 unsigned OK : 1;
-unsigned MosfetSignal : 1;
-unsigned MOSFET : 1;
-unsigned TriacFlag : 1;
 unsigned SwFlag : 1;
 unsigned SwAdj : 1;
+unsigned empty3 : 5;
 };
 
-unsigned char TriacCount;
+volatile unsigned char TriacCount;
+volatile unsigned char MosfetSignalCount;
+
 unsigned char DetectCount;
-unsigned char MosfetSignalCount;
 unsigned char TuneValue;
 unsigned char MosfetOK_Count;
 };
@@ -3281,11 +3297,11 @@ struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
-# 81
+# 96
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-# 103
+# 118
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -3319,7 +3335,7 @@ char getDimmerLights_Status(char lights);
 
 void setDimmerLights_Clear(char, char);
 inline void setDimmerLights_IntrControl(char lights);
-char getAll_DimmerLights_AdjGO();
+char getAll_DimmerLights_AdjGO(char sw);
 void setDimmerLights_SwOn(char sw);
 void setDimmerLights_SwOff(char sw);
 void setDimmerLights_AdjControl(char sw);
@@ -3328,7 +3344,7 @@ void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 
-# 152
+# 167
 struct Dimmer {
 
 
@@ -3344,7 +3360,7 @@ unsigned empty : 5;
 };
 };
 unsigned char Load;
-unsigned char Correction;
+volatile unsigned char Correction;
 };
 
 struct Dimmer Dimmer;
@@ -3418,7 +3434,7 @@ RF1.RxStatus = command == 1 ? 1 : 0;
 void setRF_Initialization() {
 
 Tx_Length = 21;
-RF1.RunTime = 10;
+RF1.RunTime = 5;
 
 
 }
@@ -3437,9 +3453,6 @@ RF1.Key = getRF_KeyStatus() == 1 ? 1 : 0;
 
 # 65
 } else {
-
-
-
 RF1.Key = 0;
 }
 
@@ -3462,13 +3475,13 @@ if (RF1.TransceiveGO == 1 && RF1.Learn == 0) {
 RF1.TransceiveGO = 0;
 RF1.RxStatus = 0;
 RF1.ReceiveGO = 0;
-RF1.RunTime = 10;
+RF1.RunTime = 5;
 
 
 
 RF_RxDisable();
 
-# 102
+# 99
 CC2500_TxData();
 
 } else {
@@ -3482,13 +3495,13 @@ RF1.ReceiveGO = 0;
 RF1.Correction = 0;
 RF1.CorrectionCounter = 0;
 
-# 124
+# 121
 getRxData();
 RF1.Run = 1;
 
 if (RF1.Checked == 1) {
-if (RF1.RunTime > 10) {
-RF1.RunTime = 10;
+if (RF1.RunTime > 5) {
+RF1.RunTime = 5;
 }
 RF1.CheckCount = 0;
 } else {
@@ -3496,8 +3509,9 @@ RF1.CheckCount++;
 if (RF1.CheckCount == 2) {
 RF1.CheckCount = 0;
 RF1.CheckedCounter = 0;
-if (RF1.RunTime < 200) {
-RF1.RunTime += 10;
+
+if (RF1.RunTime < (5 * 20)) {
+RF1.RunTime += 5;
 }
 }
 }
@@ -3517,13 +3531,14 @@ CC2500_WriteCommand(0x34);
 }
 }
 }
+
 if (RF1.RxStatus == 1) {
 RF1.CheckedCounter++;
 if (RF1.CheckedCounter == 100) {
 RF1.CheckedCounter = 0;
 RF1.CheckCount = 0;
-if (RF1.RunTime > 10) {
-RF1.RunTime -= 10;
+if (RF1.RunTime > 5) {
+RF1.RunTime -= 5;
 }
 }
 }
@@ -3537,7 +3552,7 @@ RF_RxDisable();
 }
 }
 
-# 183
+# 182
 } else {
 if (myMain.PowerON == 1) {
 RF1.Enable = 1;
@@ -3549,7 +3564,7 @@ RF1.Enable = 1;
 char getRF_KeyStatus() {
 char key = 0;
 
-# 202
+# 201
 key = (RA6 == 1 || RA4 == 1 || RA0 == 1 || RA7 == 1) ? 1 : 0;
 
 return key;
@@ -3564,7 +3579,7 @@ if (RF1.TransceiveGO == 0) {
 RF1.TransceiveGO = 1;
 RF1.RunTime = 20;
 
-# 226
+# 225
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 
@@ -3626,7 +3641,7 @@ product->Data[2] = 0x55;
 setTxData();
 RF1.RunTime = 10;
 
-# 291
+# 290
 } else {
 
 if (error == 0) {
@@ -3657,7 +3672,7 @@ __nop();
 RF1.Checked = 0;
 }
 
-# 324
+# 323
 }
 } else {
 ;
@@ -3705,11 +3720,11 @@ setRFSW_Control(1);
 break;
 case 0x02:
 
-# 373
+# 372
 break;
 case 0x03:
 
-# 378
+# 377
 break;
 case 0x11:
 
@@ -3720,16 +3735,16 @@ setRFSW_AdjControl(1);
 break;
 case 0x21:
 
-# 392
+# 391
 break;
 case 0x31:
 
-# 399
+# 398
 break;
 }
 }
 
-# 427
+# 426
 void setRFSW_Control(char sw) {
 char status = 0;
 
@@ -3793,7 +3808,7 @@ char status = 1;
 status <<= (lights - 1);
 product->Data[11]=lights;
 
-# 496
+# 495
 product->Data[9]=product->Data[20 + lights];
 product->Data[17]=product->Data[26 + lights];
 if (on == 1) {

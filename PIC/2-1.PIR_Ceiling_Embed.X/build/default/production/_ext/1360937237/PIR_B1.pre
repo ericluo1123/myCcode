@@ -1980,7 +1980,7 @@ char getMain_Lights_Count();
 char getMain_LoadOK();
 void Exception_Main();
 
-# 90 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
+# 92 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2224,7 +2224,6 @@ unsigned char RangeTime1;
 unsigned char RangeCount;
 unsigned char RangeValue;
 unsigned char RangeCount1;
-unsigned char Offset;
 };
 
 
@@ -2324,7 +2323,7 @@ void setLights_ErrorClose(char lights);
 
 # 7 "../src/PIR_B1.c"
 void PIR_Initialization() {
-_PIR.RangeValue = 20;
+_PIR.RangeValue = 25;
 _PIR.CloseTimeValue = 5;
 }
 
@@ -2383,20 +2382,20 @@ _PIR.Time = 0;
 if (_PIR.RangeCount >= 90) {
 _PIR.RangeTime1 = 0;
 
-if (_PIR.RangeValue == 20) {
-_PIR.RangeValue = (20+10);
-} else if (_PIR.RangeValue == (20+10)) {
-_PIR.RangeValue = (20+20);
+if (_PIR.RangeValue == 25) {
+_PIR.RangeValue = (25+10);
+} else if (_PIR.RangeValue == (25+10)) {
+_PIR.RangeValue = (25+20);
 }
 } else if (_PIR.RangeCount <= 10) {
 _PIR.RangeTime1++;
 if (_PIR.RangeTime1 == 2) {
 _PIR.RangeTime1 = 0;
 
-if (_PIR.RangeValue == (20+20)) {
-_PIR.RangeValue = (20+10);
-} else if (_PIR.RangeValue == (20+10)) {
-_PIR.RangeValue = 20;
+if (_PIR.RangeValue == (25+20)) {
+_PIR.RangeValue = (25+10);
+} else if (_PIR.RangeValue == (25+10)) {
+_PIR.RangeValue = 25;
 }
 }
 }
@@ -2404,8 +2403,8 @@ _PIR.RangeCount = 0;
 }
 
 
-if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))
-&& (_PIR.SignalAD <= (_PIR.ReferenceVoltage + (_PIR.RangeValue + _PIR.Offset)))) {
+if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - _PIR.RangeValue))
+&& (_PIR.SignalAD <= (_PIR.ReferenceVoltage + _PIR.RangeValue))) {
 
 _PIR.Count = 0;
 
@@ -2434,7 +2433,7 @@ setLights_Trigger(1, 1);
 
 
 
-if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
+if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
 setLED(1, 1);
 setLED(2, 0);
 } else {

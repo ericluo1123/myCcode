@@ -60,12 +60,13 @@ void setSw_Enable(char command);
 void Switch_Exception(char command);
 void setSw_Status(char sw, char command);
 char getSw_KeyStatus(char sw);
+
 //void Sw_Detect();
 
 #ifdef TTPW
 void TouchPower();
 #else 
-#define TouchPower() ;		
+#define TouchPower() ;
 #endif
 
 //***************************************************************	
@@ -85,6 +86,7 @@ void TouchPower();
 #define Sw_DimmerAdjFunc(char) ;
 
 #define TouchPower() ;
+#define getSw_Other_KeyStatus(char) ;
 #endif
 
 struct SwitchDetect {
