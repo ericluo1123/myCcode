@@ -209,7 +209,7 @@ inline void my_MainTimer() {
         myMain.PowerCount++;
         if (myMain.PowerCount == 100) {//*10ms
             myMain.PowerCount = 0;
-#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 || PIR_TestTime_Mode == 1
+#if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 || PIR_TestTime_Mode == 1 || Dimmer_Debug == 1
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
 #if UART_use == 1   
 
@@ -218,7 +218,7 @@ inline void my_MainTimer() {
             //                LED1 = LED1 == true ? false : true;
 
 #endif
-#else 
+#else  
             setTxData();
 #endif
 

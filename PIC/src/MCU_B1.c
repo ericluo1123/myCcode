@@ -207,8 +207,8 @@ inline void TMR1_Set() {
 //*********************************************************
 
 inline void TMR1_ISR() {
-    if (TMR1IE == true && TMR1IF == true) {
 
+    if (TMR1IE == true && TMR1IF == true) {
         TMR1H = TMR1H_Value;
         TMR1L = TMR1L_Value;
         TMR1IF = false;
@@ -229,6 +229,7 @@ inline void TMR1_ISR() {
         setDimmerLights_IntrControl(3);
         // setDimmerLights33_Control(3);
 #endif
+
 #endif
 
         Timer1.Count++;
@@ -236,7 +237,6 @@ inline void TMR1_ISR() {
             Timer1.Count = 0;
             Timer1.Timeout = true;
         }
-        //        ErrLED = ErrLED == false ? true : false;
     }
 }
 

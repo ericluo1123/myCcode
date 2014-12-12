@@ -5,7 +5,7 @@
  * Dimmer header
  */
 #if Dimmer_use == 1
-
+#define Dimmer_Debug 0
 //private
 
 struct DimmerLights {
@@ -35,7 +35,8 @@ struct DimmerLights {
         unsigned AdjRF : 1;
         unsigned Status : 1; //lights status
         unsigned OverLoad : 1;
-        unsigned empty2 : 5;
+        unsigned IntrStart : 1;
+        unsigned empty2 : 4;
     };
 
 
@@ -157,6 +158,7 @@ void setDimmerLights_ErrorClose(char lights);
 void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
+char getDimmerLights_Allow_Condition(char lights);
 
 //	char getDimmerLights_Clear(char);
 /*	void setDimmerLights_Close(char,char);

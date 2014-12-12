@@ -2792,6 +2792,7 @@ char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 char getMain_LoadOK();
 void Exception_Main();
+inline void setProductData(char address,char value);
 
 # 14 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
 struct Switch {
@@ -3245,7 +3246,7 @@ unsigned StatusFlag : 1;
 unsigned Flag : 1;
 unsigned Triac : 1;
 unsigned Signal : 1;
-unsigned AdjFlag : 1;
+unsigned AdjSw : 1;
 unsigned AdjStatus : 1;
 };
 
@@ -3255,7 +3256,8 @@ volatile struct {
 unsigned AdjRF : 1;
 unsigned Status : 1;
 unsigned OverLoad : 1;
-unsigned empty2 : 5;
+unsigned IntrStart : 1;
+unsigned empty2 : 4;
 };
 
 
@@ -3271,7 +3273,7 @@ unsigned char MinimumValue;
 struct {
 unsigned Switch : 1;
 unsigned Trigger : 1;
-unsigned AdjGo : 1;
+unsigned SwitchAdj : 1;
 unsigned TriggerAdj : 1;
 unsigned MosfetOpen : 1;
 unsigned MosfetClose : 1;
@@ -3297,11 +3299,11 @@ struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
-# 96
+# 97
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-# 118
+# 119
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -3338,13 +3340,15 @@ inline void setDimmerLights_IntrControl(char lights);
 char getAll_DimmerLights_AdjGO(char sw);
 void setDimmerLights_SwOn(char sw);
 void setDimmerLights_SwOff(char sw);
-void setDimmerLights_AdjControl(char sw);
+void setDimmerLights_AdjOn(char sw);
+
 void setDimmerLights_ErrorClose(char lights);
 void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
+char getDimmerLights_Allow_Condition(char lights);
 
-# 167
+# 170
 struct Dimmer {
 
 
@@ -3481,8 +3485,8 @@ Temp.ERROR = 1;
 Temp.Count = 0;
 }
 }
-product->Data[24]=Temp.AD >> 8;
-product->Data[25]=Temp.AD;
+setProductData(24, Temp.AD >> 8);
+setProductData(25, Temp.AD);
 
 # 135
 }

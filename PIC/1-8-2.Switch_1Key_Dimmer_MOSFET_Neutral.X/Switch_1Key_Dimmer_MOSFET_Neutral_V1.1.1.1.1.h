@@ -129,7 +129,7 @@
 #define TempSafeValue_Value         400   //NTC 61度
 //OverLoad
 #define OverLoad_use_Value 1
-#define LimitCurrent_Value  2.5//A
+#define LimitCurrent_Value  1.8//A
 #define LinearParam_Value   57
 //LED
 #define LED_use_Value 1

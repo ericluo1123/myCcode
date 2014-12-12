@@ -43,7 +43,8 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
 #endif
 #if Control_Method_Mosfet == 1
     //    if (DimmerLightsIntrIOC->GO == false && DimmerLightsIntrIOC->MosfetSignal == false && DimmerReference1 == false) {
-    if (DimmerLightsIntrIOC->GO == false && DimmerReference1 == false) {
+    if (DimmerLightsIntrIOC->IntrStart == false && DimmerReference1 == false) {
+        DimmerLightsIntrIOC->IntrStart = true;
         DimmerLightsIntrIOC->GO = true;
         DimmerLightsIntrIOC->MosfetSignal = true;
         Dimmer.Correction = 0;
@@ -62,15 +63,11 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
             }
 #endif
         }
-        //        if (lights == 1) {
-        //            ErrLED = ErrLED == true ? false : true;
-        //        }
     }
 #endif
-    if (lights == 1) {
-        TMR0 = 255;
-    }
-
+    //    if (lights == 1) {
+    //        TMR0 = 255;
+    //    }
 }
 
 /*****************************************************************************/
@@ -235,10 +232,17 @@ inline void setDimmerLights_IntrControl(char lights) {
 #if Control_Method_Mosfet == 1
 
     DimmerIntrPointSelect(lights);
-    DimmerLightsIntr->Count++;
-    if (DimmerLightsIntr->GO == true) {
-        if (DimmerLightsIntr->Count >= DimmerLightsIntr->DimmingValue) {    
+
+    if (DimmerLightsIntr->IntrStart == true) {
+        DimmerLightsIntr->Count++;
+        if (DimmerLightsIntr->Count >= Dimmer_Maxum + 1) {
             DimmerLightsIntr->Count = 0;
+            DimmerLightsIntr->IntrStart = false;
+        }
+    }
+
+    if (DimmerLightsIntr->GO == true) {
+        if (DimmerLightsIntr->Count >= DimmerLightsIntr->DimmingValue) {
             DimmerLightsIntr->GO = false;
             DimmerLightsIntr->Flag = true;
 
@@ -362,6 +366,7 @@ void setDimmerLights_Initialization(char lights) {
 
     DimmerLightsPointSelect(lights);
 
+    DimmerLights->DimmingTimeValue = 7;
 #if FlashMemory_use == 1
 #if DimmerValue_SaveMemory == 1
     DimmerLights->MaxmumValue = getPercentValue(product->Data[(20 + lights)]);
@@ -399,7 +404,7 @@ void setDimmerLights_Initialization(char lights) {
 
 void setDimmerLights_SwOn(char sw) {
     DimmerLightsPointSelect(sw);
-    char idle = 0;
+    char idle = getDimmerLights_Allow_Condition(sw);
     //#if Dimmer_use == 1
     //    idle = getAll_DimmerLights_AdjGO(sw) == 1 ? 1 : 0;
     //#endif
@@ -408,12 +413,9 @@ void setDimmerLights_SwOn(char sw) {
         DimmerLights->SwFlag = true;
         if (DimmerLights->Status == false) {
             DimmerLights->Status = true;
-
             DimmerLights->Trigger = true;
             DimmerLights->Switch = true;
-
         } else {
-
             DimmerLights->Status = false;
         }
         setBuz(1, BuzzerOnOffTime);
@@ -451,15 +453,18 @@ void setDimmerLights_SwOff(char sw) {
 
 void setDimmerLights_AdjOn(char sw) {
     DimmerLightsPointSelect(sw);
-    char idle = 0;
     //#if Dimmer_use == true
     //    idle = getAll_DimmerLights_AdjGO(sw) == 1 && Dimmer.LoadOK == true ? 1 : 0;
     //#endif
-    if (idle == 0) {
+
+    //Condition
+    //1.其他的開燈完成階段(overload判斷ok)
+    //2.其他的燈未進入開燈階段
+    //3.其他燈未在調光階段
+    //4.本身如進入開燈階段需先完成開燈階段
+    if (DimmerLights->Trigger == false && getDimmerLights_Allow_Condition(sw) == 0) {
         if (DimmerLights->SwFlag == true) {
-
             DimmerLights->SwAdj = true;
-
             DimmerLights->Status = true;
 
             DimmerLights->TriggerAdj = true;
@@ -499,15 +504,15 @@ void DimmerLights_Main() {
 
 void setDimmerLights_Main(char lights) {
     DimmerLightsPointSelect(lights);
-    char switchGO;
-    char adjGO;
 
     if (DimmerLights->Trigger == true) {
-        DimmerLights->Trigger = false;
-        if (DimmerLights->Switch == true) {
-            setDimmerLights(lights, 1);
-        } else {
-            setDimmerLights(lights, 0);
+        if (getDimmerLights_Allow_Condition(lights) == 0) {
+            DimmerLights->Trigger = false;
+            if (DimmerLights->Switch == true) {
+                setDimmerLights(lights, 1);
+            } else {
+                setDimmerLights(lights, 0);
+            }
         }
     } else {
         if (DimmerLights->TriggerAdj == true) {
@@ -515,7 +520,6 @@ void setDimmerLights_Main(char lights) {
             if (DimmerLights->SwitchAdj == true) {
                 setDimmerLights_Adj(lights, 1);
             } else {
-
                 setDimmerLights_Adj(lights, 0);
             }
         }
@@ -546,6 +550,37 @@ void setDimmerLights_Main(char lights) {
     //        }
     //    }
 }
+
+char getDimmerLights_Allow_Condition(char lights) {
+    char allow = 0;
+    //Condition
+    //1.其他的開燈完成階段(overload判斷ok)
+    //2.其他的燈未進入開燈階段
+    //3.其他燈未在調光階段
+#if Switch_Class == 2
+    if (allow == 0) {
+        if (lights == 1) {
+            allow = DimmerLights2.TriggerAdj == true || DimmerLights2.AdjSw == true ? 1 : 0;
+        } else if (lights == 2) {
+            allow = DimmerLights1.TriggerAdj == true || DimmerLights1.AdjSw == true ? 1 : 0;
+        }
+    }
+#endif
+#if Switch_Class == 3
+    if (allow == 0) {
+        if (lights == 1) {
+            allow = DimmerLights2.AdjSw == true || DimmerLights3.AdjSw == true ? 1 : 0;
+        } else(lights == 2) {
+            allow = DimmerLights1.AdjSw == true || DimmerLights3.AdjSw == true ? 1 : 0;
+        } else(lights == 3) {
+            allow = DimmerLights1.AdjSw == true || DimmerLights2.AdjSw == true ? 1 : 0;
+        }
+    }
+#endif
+
+
+    return allow;
+}
 //******************************************************************************
 
 void setDimmerLights(char lights, char status) {
@@ -557,51 +592,28 @@ void setDimmerLights(char lights, char status) {
     //#endif
 
     if (status == 1) {
+        DimmerLights->StatusFlag = true;
         DimmerLights->Loop = true;
+        setDimmerLights_Line(lights);
+
         setLED(lights, 0);
         setLED2(0);
-        setDimmerLights_Line(lights);
-        DimmerLights->StatusFlag = true;
-
-        //#if Dimmer_Smooth == 0
-        //        DimmerLights->DimmingValue = DimmerLights->MaxmumValue;
-        //#endif
 
         //調光值在關燈後不記錄而且不存入記憶體，開燈後恢復最大值
 #if DimmerValue_CloseLightsSave == 0 && DimmerValue_SaveMemory == 0
-        DimmerLights->DimmingValue = Dimmer_Maxum;
+        //        DimmerLights->DimmingValue = Dimmer_Maxum;
+        DimmerLights->DimmingValue = 10;
         setProductData((20 + lights), setPercentValue(Dimmer_Maxum));
 
 #endif
-
-#if Dimmable_Func == 1
-        //#if Control_Method_Triac == 1
-        //        DimmerLights->Signal = 1;
-        //#endif
-        DimmerLights->DimmingTimeValue = DimmingDelayTime;
-#endif
     } else if (status == 0) {
-
         DimmerLights->StatusFlag = false;
         DimmerLights->Loop = false;
+        setDimmerLights_Line(0);
+
         setLED(lights, 1);
         setLED2(1);
-        //#if Dimmer_Smooth == 0
-        //        DimmerLights->DimmingValue = DimmerLights->MinimumValue;
-        //#endif
-
-#if Dimmable_Func == 1
-#if Control_Method_Mosfet == 1
-        DimmerLights->MosfetClose = true;
-#endif
-        //        DimmerLights->Signal = true;
-        DimmerLights->AdjSw = false;
-        DimmerLights->AdjStatus = false;
-        DimmerLights->AdjRF = false;
-        DimmerLights->DimmingTimeValue = DimmingDelayTime;
-#endif
     }
-
     //set RF transmit data and allow transmit
     setRF_DimmerLights(lights, status);
     setTxData();
@@ -616,30 +628,26 @@ void setDimmerLights_Adj(char lights, char status) {
         DimmerLights->Signal = true;
         setBuz(1, BuzzerOnOffTime);
     } else if (status == 0) {
-        if (DimmerLights->AdjSw == true) {
+        DimmerLights->AdjSw = false;
+        DimmerLights->Signal = false;
 
-            DimmerLights->AdjSw = false;
-            DimmerLights->Signal = false;
-            DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
-
-            setProductData((20 + lights), setPercentValue(DimmerLights->DimmingValue));
-            //            setProductData((20 + lights), DimmerLights->DimmingValue);
+        DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
+        setProductData((20 + lights), setPercentValue(DimmerLights->DimmingValue));
+        //            setProductData((20 + lights), DimmerLights->DimmingValue);
 #if DimmerValue_CloseLightsSave == true
-            setProductData((20 + lights), setPercentValue(DimmerLights->MaxmumValue));
+        setProductData((20 + lights), setPercentValue(DimmerLights->MaxmumValue));
 #if DimmerValue_SaveMemory == true
-            setMemory_Modify(1);
+        setMemory_Modify(1);
 #endif
 #endif
 
-            //#if OverLoad_use == true
-            //            Dimmer.LoadOK = getMain_All_Error_Status(0) == 0 ? true : false;
-            //            //    Dimmer.LoadGO = status == 1 ? true : Dimmer.LoadGO;
-            //#endif
-            //set RF transmit data and allow transmit
-            setRF_DimmerLights(lights, 1);
-            setTxData();
-
-        }
+        //#if OverLoad_use == true
+        //            Dimmer.LoadOK = getMain_All_Error_Status(0) == 0 ? true : false;
+        //            //    Dimmer.LoadGO = status == 1 ? true : Dimmer.LoadGO;
+        //#endif
+        //set RF transmit data and allow transmit
+        setRF_DimmerLights(lights, 1);
+        setTxData();
     }
 }
 //*********************************************************
@@ -655,7 +663,6 @@ void setDimmerLights_Line(char lights) {
 #ifdef use_3KEY
     DimmerLights3.Line = false;
 #endif
-
 #ifdef use_1KEY
     if (lights == 1) {
         DimmerLights1.Line = true;
@@ -689,7 +696,6 @@ char getDimmerLights_Line() {
 #endif
 #ifdef use_3KEY
     else if (DimmerLights3.Line == true) {
-
         line = 3;
     }
 #endif
@@ -797,7 +803,6 @@ void setDimmerLights_ErrorClose(char lights) {
     } else {
         DimmerLightsPointSelect(lights);
         if (getDimmerLights_Status(lights) == 1) {
-
             DimmerLights->SwFlag = true;
             DimmerLights->Status = false;
             setDimmerLights_SwOff(lights);

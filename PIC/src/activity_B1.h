@@ -301,9 +301,8 @@ typedef unsigned int ADtype;
 
 #else
 
- 
 #if Switch_Class == 1
-#define Max_Percent 65	
+#define Max_Percent 65
 #endif
 #if Switch_Class == 2
 #define Max_Percent 65	

@@ -3216,7 +3216,8 @@ volatile struct {
 unsigned AdjRF : 1;
 unsigned Status : 1;
 unsigned OverLoad : 1;
-unsigned empty2 : 5;
+unsigned IntrStart : 1;
+unsigned empty2 : 4;
 };
 
 
@@ -3258,7 +3259,7 @@ struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
-# 96
+# 97
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
@@ -3267,7 +3268,7 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 118
+# 119
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -3310,8 +3311,9 @@ void setDimmerLights_ErrorClose(char lights);
 void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
+char getDimmerLights_Allow_Condition(char lights);
 
-# 168
+# 170
 struct Dimmer {
 
 
@@ -3451,8 +3453,8 @@ GIE = 1;
 
 
 inline void TMR1_ISR() {
-if (TMR1IE == 1 && TMR1IF == 1) {
 
+if (TMR1IE == 1 && TMR1IF == 1) {
 TMR1H = (int)((65536-1480)/256);
 TMR1L = (int)((65536-1480)%256);
 TMR1IF = 0;
@@ -3467,13 +3469,12 @@ setDimmerLights_IntrControl(1);
 
 setDimmerLights_IntrControl(2);
 
-# 234
+# 235
 Timer1.Count++;
 if (Timer1.Count == 100) {
 Timer1.Count = 0;
 Timer1.Timeout = 1;
 }
-
 }
 }
 

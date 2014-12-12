@@ -2792,6 +2792,7 @@ char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 char getMain_LoadOK();
 void Exception_Main();
+inline void setProductData(char address,char value);
 
 # 14 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
 struct Switch {
@@ -3245,7 +3246,7 @@ unsigned StatusFlag : 1;
 unsigned Flag : 1;
 unsigned Triac : 1;
 unsigned Signal : 1;
-unsigned AdjFlag : 1;
+unsigned AdjSw : 1;
 unsigned AdjStatus : 1;
 };
 
@@ -3255,7 +3256,8 @@ volatile struct {
 unsigned AdjRF : 1;
 unsigned Status : 1;
 unsigned OverLoad : 1;
-unsigned empty2 : 5;
+unsigned IntrStart : 1;
+unsigned empty2 : 4;
 };
 
 
@@ -3271,7 +3273,7 @@ unsigned char MinimumValue;
 struct {
 unsigned Switch : 1;
 unsigned Trigger : 1;
-unsigned AdjGo : 1;
+unsigned SwitchAdj : 1;
 unsigned TriggerAdj : 1;
 unsigned MosfetOpen : 1;
 unsigned MosfetClose : 1;
@@ -3297,11 +3299,11 @@ struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
-# 96
+# 97
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-# 118
+# 119
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -3338,13 +3340,15 @@ inline void setDimmerLights_IntrControl(char lights);
 char getAll_DimmerLights_AdjGO(char sw);
 void setDimmerLights_SwOn(char sw);
 void setDimmerLights_SwOff(char sw);
-void setDimmerLights_AdjControl(char sw);
+void setDimmerLights_AdjOn(char sw);
+
 void setDimmerLights_ErrorClose(char lights);
 void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
+char getDimmerLights_Allow_Condition(char lights);
 
-# 167
+# 170
 struct Dimmer {
 
 
@@ -3683,9 +3687,9 @@ RF1.Checked = 0;
 
 void setLog_Code() {
 RF1.Learn = 0;
-product->Data[12]=RF_Data[12];
-product->Data[13]=RF_Data[13];
-product->Data[14]=RF_Data[14];
+setProductData(12, RF_Data[12]);
+setProductData(13, RF_Data[13]);
+setProductData(14, RF_Data[14]);
 setBuz(1, 100);
 if (myMain.First == 1) {
 setMemory_LoopSave(1);
@@ -3700,17 +3704,17 @@ case 0x00:
 
 setDimmerLights_ErrorClose(255);
 
-product->Data[9]=0;
-product->Data[11]=0;
-product->Data[15]=0;
-product->Data[17]=0;
+setProductData(9, 0);
+setProductData(11, 0);
+setProductData(15, 0);
+setProductData(17, 0);
 setBuz(1, 100);
 
 break;
 case 0x20:
-product->Data[9]=0;
-product->Data[11]=0;
-product->Data[17]=0;
+setProductData(9, 0);
+setProductData(11, 0);
+setProductData(17, 0);
 setTxData();
 break;
 case 0x01:
@@ -3784,9 +3788,9 @@ if (status == 1) {
 setMemory_Modify(1);
 setRF_DimmerValue(sw);
 } else {
-product->Data[9]=product->Data[20 + sw];
+setProductData(9, product->Data[20 + sw]);
 }
-product->Data[17]=product->Data[26 + sw];
+setProductData(17, product->Data[26 + sw]);
 setTxData();
 }
 
@@ -3796,9 +3800,9 @@ void setRF_DimmerValue(char lights) {
 if (RF_Data[9] > 0x64) {
 RF_Data[9] = 0x64;
 }
-product->Data[9]=RF_Data[9];
-product->Data[11]=lights;
-product->Data[(20 + lights)]=RF_Data[9];
+setProductData(9, RF_Data[9]);
+setProductData(11, lights);
+setProductData((20 + lights), RF_Data[9]);
 setDimmerLights_AdjRF(lights);
 }
 
@@ -3806,15 +3810,15 @@ setDimmerLights_AdjRF(lights);
 void setRF_DimmerLights(char lights, char on) {
 char status = 1;
 status <<= (lights - 1);
-product->Data[11]=lights;
+setProductData(11, lights);
 
 # 495
-product->Data[9]=product->Data[20 + lights];
-product->Data[17]=product->Data[26 + lights];
+setProductData(9, product->Data[20 + lights]);
+setProductData(17, product->Data[26 + lights]);
 if (on == 1) {
-product->Data[15]=(product->Data[15] | status);
+setProductData(15, (product->Data[15] | status));
 } else {
-product->Data[15]=(product->Data[15]&(~status));
+setProductData(15, (product->Data[15]&(~status)));
 }
 }
 
