@@ -5,7 +5,7 @@
 #if Switch_use == 1
 //define
 #define DebounceTimeValue 	5//*10ms
-#define Hold1TimeValue 		150//*10ms	
+#define Hold1TimeValue 		150//*10ms
 #define Hold2TimeValue 		150//*10ms
 #define Hold3TimeValue 		300//*10ms
 
@@ -34,8 +34,6 @@ struct Switch {
     unsigned int Hold1Time;
     unsigned int Hold2Time;
     unsigned int Hold3Time;
-
-
 };
 struct Switch *Sw;
 

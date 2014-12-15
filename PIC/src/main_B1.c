@@ -330,29 +330,29 @@ void setMain_Exception(char command) {
     //    }
 #endif
 #if Dimmer_use == 1
-    status = command == 3 ? getDimmerLights_Line() : 255;
-
-    if (command == 0) {
-        setLED(99, 10);
-    } else {
-        setLED(99, 11);
-    }
-
-    if (command != 0) {
-        switch (command) {
-            case 2:
-                if (getMain_LightsStatus() == 1) {
-                    setBuz(10, BuzzerErrorTime);
-                }
-                break;
-            case 3:
-                if (getMain_LightsStatus() == 1) {
-                    setBuz(5, BuzzerErrorTime);
-                }
-                break;
-        }
-        setDimmerLights_ErrorClose(status);
-    }
+    //    status = command == 3 ? getDimmerLights_Line() : 255;
+    //
+    //    if (command == 0) {
+    //        setLED(99, 10);
+    //    } else {
+    //        setLED(99, 11);
+    //    }
+    //
+    //    if (command != 0) {
+    //        switch (command) {
+    //            case 2:
+    //                if (getMain_LightsStatus() == 1) {
+    //                    setBuz(10, BuzzerErrorTime);
+    //                }
+    //                break;
+    //            case 3:
+    //                if (getMain_LightsStatus() == 1) {
+    //                    setBuz(5, BuzzerErrorTime);
+    //                }
+    //                break;
+    //        }
+    //        setDimmerLights_ErrorClose(status);
+    //    }
 #endif
 }
 //*****************************************************************************
@@ -373,30 +373,52 @@ char getMain_AD_OK() {
 //*****************************************************************************
 
 char getMain_LightsStatus() {
-    char status = 0, count = 0;
+    char status = 0;
 
 #if Switch_Class == 1
-    count = 1;
+#if LightsControl_use == 1
+    status = Lights1.Status == true ? 1 : 0;
+#endif
+#if Dimmer_use == 1
+    status = DimmerLights1.Status == true ? 1 : 0;
+#endif
 #endif
 
 #if Switch_Class == 2
-    count = 2;
+#if LightsControl_use == 1
+    status = Lights1.Status == true ? 1 : 0;
+    if (status == 0) {
+        status = Lights2.Status == true ? 1 : 0;
+    }
+#endif
+#if Dimmer_use == 1
+    status = DimmerLights1.Status == true ? 1 : 0;
+    if (status == 0) {
+        status = DimmerLights2.Status == true ? 1 : 0;
+    }
+#endif
 #endif
 
 #if Switch_Class == 3
-    count = 3;
-#endif 
-
-    for (int i = 0; i < count; i++) {
-        if (status == 0) {
 #if LightsControl_use == 1
-            status = getLights_Status(i + 1) == 1 ? 1 : 0;
+    status = Lights1.Status == true ? 1 : 0;
+    if (status == 0) {
+        status = Lights2.Status == true ? 1 : 0;
+    }
+    if (status == 0) {
+        status = Lights3.Status == true ? 1 : 0;
+    }
 #endif
 #if Dimmer_use == 1
-            status = getDimmerLights_Status(i + 1) == 1 ? 1 : 0;
-#endif
-        }
+    status = DimmerLights1.Status == true ? 1 : 0;
+    if (status) {
+        status = DimmerLights2.Status == true ? 1 : 0;
     }
+    if (status) {
+        status = DimmerLights3.Status == true ? 1 : 0;
+    }
+#endif
+#endif
     return status;
 }
 //*****************************************************************************
@@ -447,13 +469,13 @@ char getMain_Lights_Count() {
 
 #if Dimmer_use == 1
 #ifdef use_1KEY
-    status1 = DimmerLights1.Loop == true ? 1 : 0;
+    status1 = DimmerLights1.StatusFlag == true ? 1 : 0;
 #endif
 #ifdef use_2KEY
-    status2 = DimmerLights2.Loop == true ? 1 : 0;
+    status2 = DimmerLights2.StatusFlag == true ? 1 : 0;
 #endif
 #ifdef use_3KEY
-    status2 = DimmerLights3.Loop == true ? 1 : 0;
+    status3 = DimmerLights3.Loop == true ? 1 : 0;
 #endif
 #endif
 
@@ -465,7 +487,7 @@ char getMain_Lights_Count() {
     status2 = Lights2.Loop == true ? 1 : 0;
 #endif
 #ifdef use_3KEY
-    status2 = Lights3.Loop == true ? 1 : 0;
+    status3 = Lights3.Loop == true ? 1 : 0;
 #endif
 #endif
     return count = (status1 + status2 + status3);
@@ -487,7 +509,7 @@ char getMain_LoadOK() {
 
 void Exception_Main() {
     char error = getMain_All_Error_Status(0);
-
+    char lights = 0, count = Switch_Class;
     if (myMain.Error_Run == true) {
         if (error == 0) {
             myMain.Error_Run = false;
@@ -511,17 +533,8 @@ void Exception_Main() {
                         setBuz(10, BuzzerErrorTime);
                     }
 
-#if Switch_Class == 1
-                    char count = 1;
-#endif
-#if Switch_Class == 2
-                    char count = 2;
-#endif
-#if Switch_Class == 3
-                    char count = 3;
-#endif
                     for (int i = 0; i < count; i++) {
-                        DimmerLightsPointSelect(i + 1);
+                        //                        DimmerLightsPointSelect(i + 1);
                         if (getDimmerLights_Status(i + 1) == 1) {
                             DimmerLights->SwFlag = true;
                             DimmerLights->Status = false;
@@ -530,13 +543,27 @@ void Exception_Main() {
                     }
                     break;
                 case 3:
+
                     setBuz(5, BuzzerErrorTime);
-                    char lights = getDimmerLights_Line();
-                    DimmerLightsPointSelect(lights);
-                    if (getDimmerLights_Status(lights) == 1) {
-                        DimmerLights->SwFlag = true;
-                        DimmerLights->Status = false;
-                        setDimmerLights_SwOff(lights);
+                    lights = getDimmerLights_Line();
+                    if (lights == 0) {
+
+                        for (int i = 0; i < count; i++) {
+                            //                            DimmerLightsPointSelect(i + 1);
+                            if (getDimmerLights_Status(i + 1) == 1) {
+                                DimmerLights->SwFlag = true;
+                                DimmerLights->Status = false;
+                                setDimmerLights_SwOff(i + 1);
+                            }
+                        }
+                    } else {
+
+                        if (getDimmerLights_Status(lights) == 1) {
+                            //                        DimmerLightsPointSelect(lights);
+                            DimmerLights->SwFlag = true;
+                            DimmerLights->Status = false;
+                            setDimmerLights_SwOff(lights);
+                        }
                     }
                     break;
             }
@@ -550,15 +577,7 @@ void Exception_Main() {
                     setLights_Trigger(status, 0);
                 }
             } else {
-#if Switch_Class == 1
-                char count = 1;
-#endif
-#if Switch_Class == 2
-                char count = 2;
-#endif
-#if Switch_Class == 3
-                char count = 3;
-#endif
+
                 for (int i = 0; i < count; i++) {
                     if (getLights_Status(i + 1) == 1) {
                         setLights_Trigger(i + 1, 0);

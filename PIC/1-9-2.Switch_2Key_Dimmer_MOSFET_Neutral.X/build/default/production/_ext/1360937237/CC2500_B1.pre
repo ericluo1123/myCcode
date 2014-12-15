@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 164 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Activity_B1.h"
+# 168 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2818,8 +2818,6 @@ unsigned char DebounceTime;
 unsigned int Hold1Time;
 unsigned int Hold2Time;
 unsigned int Hold3Time;
-
-
 };
 struct Switch *Sw;
 
@@ -2830,7 +2828,7 @@ struct Switch Sw1;
 
 struct Switch Sw2;
 
-# 54
+# 52
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
 inline void Switch_Main();
@@ -2846,7 +2844,7 @@ char getSw_KeyStatus(char sw);
 
 void TouchPower();
 
-# 92
+# 90
 struct SwitchDetect {
 
 union {
@@ -3188,6 +3186,58 @@ void setRFSW_Status(char sw, char command);
 void setRF_DimmerValue(char lights);
 void setRF_DimmerLights(char lights, char on);
 
+# 44 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Run : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+
+unsigned int ADH;
+unsigned int ADL;
+
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
+ADtype AD;
+ADtype ADRES;
+
+unsigned int LightsJudgeValue;
+unsigned int JudgeValue;
+unsigned int Judge;
+
+unsigned char Count;
+unsigned char ErrorCount;
+unsigned char ErrorCountValue;
+unsigned char LightsCount;
+unsigned char SafeCount;
+
+};
+
+
+struct OverLoad Load;
+
+# 88
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 99
+char getLoad_OK();
+void setLoad_OK();
+
 # 11 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
@@ -3215,9 +3265,8 @@ unsigned AdjStatus : 1;
 volatile struct {
 unsigned AdjRF : 1;
 unsigned Status : 1;
-unsigned OverLoad : 1;
 unsigned IntrStart : 1;
-unsigned empty2 : 4;
+unsigned empty2 : 5;
 };
 
 
@@ -3259,7 +3308,7 @@ struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
-# 97
+# 96
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
@@ -3268,7 +3317,7 @@ struct DimmerLights DimmerLights1;
 struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 119
+# 118
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -3312,8 +3361,9 @@ void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 char getDimmerLights_Allow_Condition(char lights);
+char getAll_DimmerLights_AdjSw();
 
-# 170
+# 169
 struct Dimmer {
 
 
@@ -3325,7 +3375,8 @@ struct {
 unsigned AdjGO : 1;
 unsigned LoadOK : 1;
 unsigned LoadGO : 1;
-unsigned empty : 5;
+unsigned Load_Status : 1;
+unsigned empty : 4;
 };
 };
 unsigned char Load;
@@ -3336,6 +3387,8 @@ struct Dimmer Dimmer;
 
 char getDimmer_LoadOK();
 inline void Dimmer_Initialization();
+char getDimmer_LoadGO();
+char getDimmer_Load_Status();
 
 # 24 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/DelayOff_B1.h"
 struct DelayOff {
@@ -3416,16 +3469,7 @@ Transceive_OK = 1;
 inline void CC2500_RxData(void) {
 unsigned char loop_f;
 
-
-
-if (RB0 == 1)
-{
-while (RB0 == 1 && myMain.Timeout == 0) {
-Timeout_Counter();
-};
-set_TimeoutCleared();
-}
-
+# 83
 CC2500_ReadStatus(0x3B);
 
 if (s_data != 0) {

@@ -1,7 +1,7 @@
 
 
 Microchip Technology PIC LITE Macro Assembler V1.32 build 58300 
-                                                                                               Fri Dec 12 16:37:58 2014
+                                                                                               Mon Dec 15 08:21:21 2014
 
 Microchip Technology Omniscient Code Generator (Lite mode) build 58300
      1                           	processor	16F1518
@@ -8082,7 +8082,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7916  1091                     __ptext31:	
   7917 ;; *************** function _setDimmerLights_AdjRF *****************
   7918 ;; Defined at:
-  7919 ;;		line 837 in file "../src/Dimmer_B1.c"
+  7919 ;;		line 836 in file "../src/Dimmer_B1.c"
   7920 ;; Parameters:    Size  Location     Type
   7921 ;;  lights          1    wreg     unsigned char 
   7922 ;; Auto vars:     Size  Location     Type
@@ -8127,11 +8127,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7955  1091  0020               	movlb	0	; select bank0
   7956  1092  00E3               	movwf	setDimmerLights_AdjRF@lights
   7957                           
-  7958                           ;Dimmer_B1.c: 839: DimmerLightsPointSelect(lights);
+  7958                           ;Dimmer_B1.c: 838: DimmerLightsPointSelect(lights);
   7959  1093  0863               	movf	setDimmerLights_AdjRF@lights,w
   7960  1094  319C  24DC  3190   	fcall	_DimmerLightsPointSelect
   7961                           
-  7962                           ;Dimmer_B1.c: 840: DimmerLights->AdjRF = 1;
+  7962                           ;Dimmer_B1.c: 839: DimmerLights->AdjRF = 1;
   7963  1097  0875               	movf	_DimmerLights,w
   7964  1098  3E02               	addlw	2
   7965  1099  0086               	movwf	6
@@ -8139,14 +8139,14 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7967  109B  0087               	movwf	7
   7968  109C  1401               	bsf	1,0
   7969                           
-  7970                           ;Dimmer_B1.c: 841: DimmerLights->Signal = 1;
+  7970                           ;Dimmer_B1.c: 840: DimmerLights->Signal = 1;
   7971  109D  0A75               	incf	_DimmerLights,w
   7972  109E  0086               	movwf	6
   7973  109F  3001               	movlw	1	; select bank2/3
   7974  10A0  0087               	movwf	7
   7975  10A1  1681               	bsf	1,5
   7976                           
-  7977                           ;Dimmer_B1.c: 842: DimmerLights->MaxmumValue = getPercentValue(product->Data[9]);
+  7977                           ;Dimmer_B1.c: 841: DimmerLights->MaxmumValue = getPercentValue(product->Data[9]);
   7978  10A2  0879               	movf	_product,w
   7979  10A3  3E09               	addlw	9
   7980  10A4  0086               	movwf	6
@@ -8170,7 +8170,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7998  0B67                     __ptext32:	
   7999 ;; *************** function _getPercentValue *****************
   8000 ;; Defined at:
-  8001 ;;		line 952 in file "../src/Dimmer_B1.c"
+  8001 ;;		line 951 in file "../src/Dimmer_B1.c"
   8002 ;; Parameters:    Size  Location     Type
   8003 ;;  value           1    wreg     unsigned char 
   8004 ;; Auto vars:     Size  Location     Type
@@ -8219,15 +8219,15 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   8042  0B67  0020               	movlb	0	; select bank0
   8043  0B68  00DE               	movwf	getPercentValue@value
   8044                           
-  8045                           ;Dimmer_B1.c: 960: float i = ((char)(65*0.8)) - ((char)(15*0.8));
+  8045                           ;Dimmer_B1.c: 959: float i = ((char)(45*0.8)) - ((char)(15*0.8));
   8046  0B69  3000               	movlw	0
   8047  0B6A  00DF               	movwf	getPercentValue@i
-  8048  0B6B  3020               	movlw	32
+  8048  0B6B  30C0               	movlw	192
   8049  0B6C  00E0               	movwf	getPercentValue@i+1
-  8050  0B6D  3042               	movlw	66
+  8050  0B6D  3041               	movlw	65
   8051  0B6E  00E1               	movwf	getPercentValue@i+2
   8052                           
-  8053                           ;Dimmer_B1.c: 961: i /= 100;
+  8053                           ;Dimmer_B1.c: 960: i /= 100;
   8054  0B6F  3000               	movlw	0
   8055  0B70  00AE               	movwf	___ftdiv@f2
   8056  0B71  30C8               	movlw	200
@@ -8249,7 +8249,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   8072  0B83  0830               	movf	?___ftdiv+2,w
   8073  0B84  00E1               	movwf	getPercentValue@i+2
   8074                           
-  8075                           ;Dimmer_B1.c: 963: return (char) (((char)(65*0.8)) - ((100 - value) * i));
+  8075                           ;Dimmer_B1.c: 962: return (char) (((char)(45*0.8)) - ((100 - value) * i));
   8076  0B85  085E               	movf	getPercentValue@value,w
   8077  0B86  00DC               	movwf	??_getPercentValue
   8078  0B87  01DD               	clrf	??_getPercentValue+1
@@ -8296,7 +8296,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   8119  0BB6  00C6               	movwf	___ftadd@f2+2
   8120  0BB7  3000               	movlw	0
   8121  0BB8  00C1               	movwf	___ftadd@f1
-  8122  0BB9  3050               	movlw	80
+  8122  0BB9  3010               	movlw	16
   8123  0BBA  00C2               	movwf	___ftadd@f1+1
   8124  0BBB  3042               	movlw	66
   8125  0BBC  00C3               	movwf	___ftadd@f1+2
@@ -10687,7 +10687,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  10409  1066                     __ptext53:	
  10410 ;; *************** function _getDimmer_LoadOK *****************
  10411 ;; Defined at:
- 10412 ;;		line 821 in file "../src/Dimmer_B1.c"
+ 10412 ;;		line 820 in file "../src/Dimmer_B1.c"
  10413 ;; Parameters:    Size  Location     Type
  10414 ;;		None
  10415 ;; Auto vars:     Size  Location     Type
@@ -10724,7 +10724,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  10441                           ;psect for function _getDimmer_LoadOK
  10442  1066                     _getDimmer_LoadOK:	
  10443                           
- 10444                           ;Dimmer_B1.c: 822: char status = Dimmer.LoadOK == 1 ? 1 : 0;
+ 10444                           ;Dimmer_B1.c: 821: char status = Dimmer.LoadOK == 1 ? 1 : 0;
  10445                           
  10446                           ;incstack = 0
  10447                           ; Regs used in _getDimmer_LoadOK: [wreg+status,2]
@@ -10735,7 +10735,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  10452  106A  0020               	movlb	0	; select bank0
  10453  106B  00A0               	movwf	getDimmer_LoadOK@status
  10454                           
- 10455                           ;Dimmer_B1.c: 824: return status;
+ 10455                           ;Dimmer_B1.c: 823: return status;
  10456  106C  0820               	movf	getDimmer_LoadOK@status,w
  10457  106D  0008               	return
  10458  106E                     __end_of_getDimmer_LoadOK:	
@@ -10814,7 +10814,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  10526  1C70                     __ptext55:	
  10527 ;; *************** function _getAll_DimmerLights_AdjGO *****************
  10528 ;; Defined at:
- 10529 ;;		line 752 in file "../src/Dimmer_B1.c"
+ 10529 ;;		line 751 in file "../src/Dimmer_B1.c"
  10530 ;; Parameters:    Size  Location     Type
  10531 ;;  sw              1    wreg     unsigned char 
  10532 ;; Auto vars:     Size  Location     Type
@@ -10852,14 +10852,14 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  10559                           ;psect for function _getAll_DimmerLights_AdjGO
  10560  1C70                     _getAll_DimmerLights_AdjGO:	
  10561                           
- 10562                           ;Dimmer_B1.c: 753: char adjgo = 0;
+ 10562                           ;Dimmer_B1.c: 752: char adjgo = 0;
  10563                           
  10564                           ;incstack = 0
  10565                           ; Regs used in _getAll_DimmerLights_AdjGO: [wreg+status,2]
  10566  1C70  0020               	movlb	0	; select bank0
  10567  1C71  01A0               	clrf	getAll_DimmerLights_AdjGO@adjgo
  10568                           
- 10569                           ;Dimmer_B1.c: 779: return adjgo;
+ 10569                           ;Dimmer_B1.c: 778: return adjgo;
  10570  1C72  0820               	movf	getAll_DimmerLights_AdjGO@adjgo,w
  10571  1C73  0008               	return
  10572  1C74                     __end_of_getAll_DimmerLights_AdjGO:	
@@ -11834,8 +11834,8 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  11484  0552  0862               	movf	??_Flash_Memory_Initialization,w
  11485  0553  0081               	movwf	1
  11486                           
- 11487                           ;MCU_B1.c: 935: i = setPercentValue(((char)(65*0.8)));
- 11488  0554  3034               	movlw	52
+ 11487                           ;MCU_B1.c: 935: i = setPercentValue(((char)(45*0.8)));
+ 11488  0554  3024               	movlw	36
  11489  0555  318B  2302  3185   	fcall	_setPercentValue
  11490  0558  0020               	movlb	0	; select bank0
  11491  0559  00E2               	movwf	??_Flash_Memory_Initialization
@@ -11917,8 +11917,8 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  11566  0595  0008               	return
  11567  0596                     l9806:	
  11568                           
- 11569                           ;MCU_B1.c: 945: i = setPercentValue(((char)(65*0.8)));
- 11570  0596  3034               	movlw	52
+ 11569                           ;MCU_B1.c: 945: i = setPercentValue(((char)(45*0.8)));
+ 11570  0596  3024               	movlw	36
  11571  0597  318B  2302  3185   	fcall	_setPercentValue
  11572  059A  0020               	movlb	0	; select bank0
  11573  059B  00E2               	movwf	??_Flash_Memory_Initialization
@@ -12905,7 +12905,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  12519  1CE7                     __ptext74:	
  12520 ;; *************** function _getDimmerLights_Line *****************
  12521 ;; Defined at:
- 12522 ;;		line 685 in file "../src/Dimmer_B1.c"
+ 12522 ;;		line 684 in file "../src/Dimmer_B1.c"
  12523 ;; Parameters:    Size  Location     Type
  12524 ;;		None
  12525 ;; Auto vars:     Size  Location     Type
@@ -12943,26 +12943,26 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  12552                           ;psect for function _getDimmerLights_Line
  12553  1CE7                     _getDimmerLights_Line:	
  12554                           
- 12555                           ;Dimmer_B1.c: 686: char line = 0;
+ 12555                           ;Dimmer_B1.c: 685: char line = 0;
  12556                           
  12557                           ;incstack = 0
  12558                           ; Regs used in _getDimmerLights_Line: [wreg+status,2]
  12559  1CE7  0020               	movlb	0	; select bank0
  12560  1CE8  01A0               	clrf	getDimmerLights_Line@line
  12561                           
- 12562                           ;Dimmer_B1.c: 688: if (DimmerLights1.Line == 1) {
+ 12562                           ;Dimmer_B1.c: 687: if (DimmerLights1.Line == 1) {
  12563  1CE9  0022               	movlb	2	; select bank2
  12564  1CEA  1F5E               	btfss	(_DimmerLights1^(0+256)+10),6	;volatile
  12565  1CEB  2CEF               	goto	l9270
  12566                           
- 12567                           ;Dimmer_B1.c: 689: line = 1;
+ 12567                           ;Dimmer_B1.c: 688: line = 1;
  12568  1CEC  0020               	movlb	0	; select bank0
  12569  1CED  01A0               	clrf	getDimmerLights_Line@line
  12570  1CEE  0AA0               	incf	getDimmerLights_Line@line,f
  12571  1CEF                     l9270:	
  12572                           
- 12573                           ;Dimmer_B1.c: 690: }
- 12574                           ;Dimmer_B1.c: 702: return line;
+ 12573                           ;Dimmer_B1.c: 689: }
+ 12574                           ;Dimmer_B1.c: 701: return line;
  12575  1CEF  0020               	movlb	0	; select bank0
  12576  1CF0  0820               	movf	getDimmerLights_Line@line,w
  12577  1CF1  0008               	return
@@ -13178,7 +13178,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  12777  1603                     __ptext77:	
  12778 ;; *************** function _setDimmerLights_Adj *****************
  12779 ;; Defined at:
- 12780 ;;		line 624 in file "../src/Dimmer_B1.c"
+ 12780 ;;		line 623 in file "../src/Dimmer_B1.c"
  12781 ;; Parameters:    Size  Location     Type
  12782 ;;  lights          1    wreg     unsigned char 
  12783 ;;  status          1   75[BANK0 ] unsigned char 
@@ -13226,27 +13226,27 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  12820  1603  0020               	movlb	0	; select bank0
  12821  1604  00ED               	movwf	setDimmerLights_Adj@lights
  12822                           
- 12823                           ;Dimmer_B1.c: 626: if (status == 1) {
+ 12823                           ;Dimmer_B1.c: 625: if (status == 1) {
  12824  1605  086B               	movf	setDimmerLights_Adj@status,w
  12825  1606  3A01               	xorlw	1
  12826  1607  1D03               	skipz
  12827  1608  2E1B               	goto	l8944
  12828                           
- 12829                           ;Dimmer_B1.c: 627: DimmerLights->AdjSw = 1;
+ 12829                           ;Dimmer_B1.c: 626: DimmerLights->AdjSw = 1;
  12830  1609  0A75               	incf	_DimmerLights,w
  12831  160A  0086               	movwf	6
  12832  160B  3001               	movlw	1	; select bank2/3
  12833  160C  0087               	movwf	7
  12834  160D  1701               	bsf	1,6
  12835                           
- 12836                           ;Dimmer_B1.c: 628: DimmerLights->Signal = 1;
+ 12836                           ;Dimmer_B1.c: 627: DimmerLights->Signal = 1;
  12837  160E  0A75               	incf	_DimmerLights,w
  12838  160F  0086               	movwf	6
  12839  1610  3001               	movlw	1	; select bank2/3
  12840  1611  0087               	movwf	7
  12841  1612  1681               	bsf	1,5
  12842                           
- 12843                           ;Dimmer_B1.c: 629: setBuz(1, 100);
+ 12843                           ;Dimmer_B1.c: 628: setBuz(1, 100);
  12844  1613  3064               	movlw	100
  12845  1614  00A9               	movwf	setBuz@time
  12846  1615  3000               	movlw	0
@@ -13254,7 +13254,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  12848  1617  3001               	movlw	1
  12849  1618  3197  27A7         	fcall	_setBuz
  12850                           
- 12851                           ;Dimmer_B1.c: 630: } else if (status == 0) {
+ 12851                           ;Dimmer_B1.c: 629: } else if (status == 0) {
  12852  161A  0008               	return
  12853  161B                     l8944:	
  12854  161B  0020               	movlb	0	; select bank0
@@ -13262,21 +13262,21 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  12856  161D  1D03               	skipz
  12857  161E  0008               	return
  12858                           
- 12859                           ;Dimmer_B1.c: 631: DimmerLights->AdjSw = 0;
+ 12859                           ;Dimmer_B1.c: 630: DimmerLights->AdjSw = 0;
  12860  161F  0A75               	incf	_DimmerLights,w
  12861  1620  0086               	movwf	6
  12862  1621  3001               	movlw	1	; select bank2/3
  12863  1622  0087               	movwf	7
  12864  1623  1301               	bcf	1,6
  12865                           
- 12866                           ;Dimmer_B1.c: 632: DimmerLights->Signal = 0;
+ 12866                           ;Dimmer_B1.c: 631: DimmerLights->Signal = 0;
  12867  1624  0A75               	incf	_DimmerLights,w
  12868  1625  0086               	movwf	6
  12869  1626  3001               	movlw	1	; select bank2/3
  12870  1627  0087               	movwf	7
  12871  1628  1281               	bcf	1,5
  12872                           
- 12873                           ;Dimmer_B1.c: 634: DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
+ 12873                           ;Dimmer_B1.c: 633: DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
  12874  1629  0875               	movf	_DimmerLights,w
  12875  162A  3E04               	addlw	4
  12876  162B  0086               	movwf	6
@@ -13292,7 +13292,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  12886  1635  086C               	movf	??_setDimmerLights_Adj,w
  12887  1636  0081               	movwf	1
  12888                           
- 12889                           ;Dimmer_B1.c: 635: setProductData((20 + lights), setPercentValue(DimmerLights->DimmingVa
+ 12889                           ;Dimmer_B1.c: 634: setProductData((20 + lights), setPercentValue(DimmerLights->DimmingVa
       +                          lue));
  12890  1637  0875               	movf	_DimmerLights,w
  12891  1638  3E04               	addlw	4
@@ -13309,14 +13309,14 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  12902  1645  3E14               	addlw	20
  12903  1646  319D  2573  3196   	fcall	_setProductData
  12904                           
- 12905                           ;Dimmer_B1.c: 649: setRF_DimmerLights(lights, 1);
+ 12905                           ;Dimmer_B1.c: 648: setRF_DimmerLights(lights, 1);
  12906  1649  0020               	movlb	0	; select bank0
  12907  164A  01E6               	clrf	setRF_DimmerLights@on
  12908  164B  0AE6               	incf	setRF_DimmerLights@on,f
  12909  164C  086D               	movf	setDimmerLights_Adj@lights,w
  12910  164D  3188  2011  3196   	fcall	_setRF_DimmerLights
  12911                           
- 12912                           ;Dimmer_B1.c: 650: setTxData();
+ 12912                           ;Dimmer_B1.c: 649: setTxData();
  12913  1650  318D  255F         	fcall	_setTxData
  12914  1652  0008               	return
  12915  1653                     __end_of_setDimmerLights_Adj:	
@@ -13418,8 +13418,8 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  13006  088D  086C               	movf	??_setDimmerLights,w
  13007  088E  0081               	movwf	1
  13008                           
- 13009                           ;Dimmer_B1.c: 606: setProductData((20 + lights), setPercentValue(((char)(65*0.8))));
- 13010  088F  3034               	movlw	52
+ 13009                           ;Dimmer_B1.c: 606: setProductData((20 + lights), setPercentValue(((char)(45*0.8))));
+ 13010  088F  3024               	movlw	36
  13011  0890  318B  2302  3188   	fcall	_setPercentValue
  13012  0893  0020               	movlb	0	; select bank0
  13013  0894  00EC               	movwf	??_setDimmerLights
@@ -13429,7 +13429,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  13017  0898  3E14               	addlw	20
  13018  0899  319D  2573  3188   	fcall	_setProductData
  13019                           
- 13020                           ;Dimmer_B1.c: 609: } else if (status == 0) {
+ 13020                           ;Dimmer_B1.c: 608: } else if (status == 0) {
  13021  089C  28B7               	goto	l8934
  13022  089D                     l8926:	
  13023  089D  0020               	movlb	0	; select bank0
@@ -13437,14 +13437,14 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  13025  089F  1D03               	skipz
  13026  08A0  28B7               	goto	l8934
  13027                           
- 13028                           ;Dimmer_B1.c: 610: DimmerLights->StatusFlag = 0;
+ 13028                           ;Dimmer_B1.c: 609: DimmerLights->StatusFlag = 0;
  13029  08A1  0A75               	incf	_DimmerLights,w
  13030  08A2  0086               	movwf	6
  13031  08A3  3001               	movlw	1	; select bank2/3
  13032  08A4  0087               	movwf	7
  13033  08A5  1101               	bcf	1,2
  13034                           
- 13035                           ;Dimmer_B1.c: 611: DimmerLights->Loop = 0;
+ 13035                           ;Dimmer_B1.c: 610: DimmerLights->Loop = 0;
  13036  08A6  0875               	movf	_DimmerLights,w
  13037  08A7  3E0A               	addlw	10
  13038  08A8  0086               	movwf	6
@@ -13452,22 +13452,22 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  13040  08AA  0087               	movwf	7
  13041  08AB  1381               	bcf	1,7
  13042                           
- 13043                           ;Dimmer_B1.c: 612: setDimmerLights_Line(0);
+ 13043                           ;Dimmer_B1.c: 611: setDimmerLights_Line(0);
  13044  08AC  3000               	movlw	0
  13045  08AD  319D  252B  3188   	fcall	_setDimmerLights_Line
  13046                           
- 13047                           ;Dimmer_B1.c: 614: setLED(lights, 1);
+ 13047                           ;Dimmer_B1.c: 613: setLED(lights, 1);
  13048  08B0  0020               	movlb	0	; select bank0
  13049  08B1  01A2               	clrf	setLED@command
  13050  08B2  0AA2               	incf	setLED@command,f
  13051  08B3  086D               	movf	setDimmerLights@lights,w
  13052  08B4  3193  23A7  3188   	fcall	_setLED
  13053  08B7                     l8934:	
- 13054                           ;Dimmer_B1.c: 615: ;;
+ 13054                           ;Dimmer_B1.c: 614: ;;
  13055                           
  13056                           
- 13057                           ;Dimmer_B1.c: 616: }
- 13058                           ;Dimmer_B1.c: 618: setRF_DimmerLights(lights, status);
+ 13057                           ;Dimmer_B1.c: 615: }
+ 13058                           ;Dimmer_B1.c: 617: setRF_DimmerLights(lights, status);
  13059  08B7  0020               	movlb	0	; select bank0
  13060  08B8  086B               	movf	setDimmerLights@status,w
  13061  08B9  00EC               	movwf	??_setDimmerLights
@@ -13476,7 +13476,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  13064  08BC  086D               	movf	setDimmerLights@lights,w
  13065  08BD  3188  2011  3188   	fcall	_setRF_DimmerLights
  13066                           
- 13067                           ;Dimmer_B1.c: 619: setTxData();
+ 13067                           ;Dimmer_B1.c: 618: setTxData();
  13068  08C0  318D  255F         	fcall	_setTxData
  13069  08C2  0008               	return
  13070  08C3                     __end_of_setDimmerLights:	
@@ -13893,7 +13893,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  13471  0B02                     __ptext81:	
  13472 ;; *************** function _setPercentValue *****************
  13473 ;; Defined at:
- 13474 ;;		line 968 in file "../src/Dimmer_B1.c"
+ 13474 ;;		line 967 in file "../src/Dimmer_B1.c"
  13475 ;; Parameters:    Size  Location     Type
  13476 ;;  value           1    wreg     unsigned char 
  13477 ;; Auto vars:     Size  Location     Type
@@ -13943,15 +13943,15 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  13516  0B02  0020               	movlb	0	; select bank0
  13517  0B03  00DE               	movwf	setPercentValue@value
  13518                           
- 13519                           ;Dimmer_B1.c: 976: float i = ((char)(65*0.8)) - ((char)(15*0.8));
+ 13519                           ;Dimmer_B1.c: 975: float i = ((char)(45*0.8)) - ((char)(15*0.8));
  13520  0B04  3000               	movlw	0
  13521  0B05  00DF               	movwf	setPercentValue@i
- 13522  0B06  3020               	movlw	32
+ 13522  0B06  30C0               	movlw	192
  13523  0B07  00E0               	movwf	setPercentValue@i+1
- 13524  0B08  3042               	movlw	66
+ 13524  0B08  3041               	movlw	65
  13525  0B09  00E1               	movwf	setPercentValue@i+2
  13526                           
- 13527                           ;Dimmer_B1.c: 977: i /= 100;
+ 13527                           ;Dimmer_B1.c: 976: i /= 100;
  13528  0B0A  3000               	movlw	0
  13529  0B0B  00AE               	movwf	___ftdiv@f2
  13530  0B0C  30C8               	movlw	200
@@ -13973,7 +13973,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  13546  0B1E  0830               	movf	?___ftdiv+2,w
  13547  0B1F  00E1               	movwf	setPercentValue@i+2
  13548                           
- 13549                           ;Dimmer_B1.c: 979: return (char) (100 - ((((char)(65*0.8)) - value) / i));
+ 13549                           ;Dimmer_B1.c: 978: return (char) (100 - ((((char)(45*0.8)) - value) / i));
  13550  0B20  085E               	movf	setPercentValue@value,w
  13551  0B21  00DC               	movwf	??_setPercentValue
  13552  0B22  01DD               	clrf	??_setPercentValue+1
@@ -13983,7 +13983,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  13556  0B26  1903               	skipnz
  13557  0B27  0ADD               	incf	??_setPercentValue+1,f
  13558  0B28  085C               	movf	??_setPercentValue,w
- 13559  0B29  3E34               	addlw	52
+ 13559  0B29  3E24               	addlw	36
  13560  0B2A  00A8               	movwf	___awtoft@c
  13561  0B2B  3000               	movlw	0
  13562  0B2C  3D5D               	addwfc	??_setPercentValue+1,w
@@ -15275,7 +15275,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  14808  1D2B                     __ptext90:	
  14809 ;; *************** function _setDimmerLights_Line *****************
  14810 ;; Defined at:
- 14811 ;;		line 655 in file "../src/Dimmer_B1.c"
+ 14811 ;;		line 654 in file "../src/Dimmer_B1.c"
  14812 ;; Parameters:    Size  Location     Type
  14813 ;;  lights          1    wreg     unsigned char 
  14814 ;; Auto vars:     Size  Location     Type
@@ -15318,18 +15318,18 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  14846  1D2B  0020               	movlb	0	; select bank0
  14847  1D2C  00A0               	movwf	setDimmerLights_Line@lights
  14848                           
- 14849                           ;Dimmer_B1.c: 658: DimmerLights1.Line = 0;
+ 14849                           ;Dimmer_B1.c: 657: DimmerLights1.Line = 0;
  14850  1D2D  0022               	movlb	2	; select bank2
  14851  1D2E  135E               	bcf	(_DimmerLights1^(0+256)+10),6	;volatile
  14852                           
- 14853                           ;Dimmer_B1.c: 667: if (lights == 1) {
+ 14853                           ;Dimmer_B1.c: 666: if (lights == 1) {
  14854  1D2F  0020               	movlb	0	; select bank0
  14855  1D30  0820               	movf	setDimmerLights_Line@lights,w
  14856  1D31  3A01               	xorlw	1
  14857  1D32  1D03               	skipz
  14858  1D33  0008               	return
  14859                           
- 14860                           ;Dimmer_B1.c: 668: DimmerLights1.Line = 1;
+ 14860                           ;Dimmer_B1.c: 667: DimmerLights1.Line = 1;
  14861  1D34  0022               	movlb	2	; select bank2
  14862  1D35  175E               	bsf	(_DimmerLights1^(0+256)+10),6	;volatile
  14863  1D36  0008               	return
@@ -15514,8 +15514,8 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  15025  120F  0822               	movf	??_setDimmerLights_Initialization,w
  15026  1210  0081               	movwf	1
  15027                           
- 15028                           ;Dimmer_B1.c: 374: DimmerLights->MaxmumValue = ((char)(65*0.8));
- 15029  1211  3034               	movlw	52
+ 15028                           ;Dimmer_B1.c: 374: DimmerLights->MaxmumValue = ((char)(45*0.8));
+ 15029  1211  3024               	movlw	36
  15030  1212  00A2               	movwf	??_setDimmerLights_Initialization
  15031  1213  0875               	movf	_DimmerLights,w
  15032  1214  3E06               	addlw	6
@@ -15773,7 +15773,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  15274  091E                     __ptext96:	
  15275 ;; *************** function _setDimmerLights_ErrorClose *****************
  15276 ;; Defined at:
- 15277 ;;		line 784 in file "../src/Dimmer_B1.c"
+ 15277 ;;		line 783 in file "../src/Dimmer_B1.c"
  15278 ;; Parameters:    Size  Location     Type
  15279 ;;  lights          1    wreg     unsigned char 
  15280 ;; Auto vars:     Size  Location     Type
@@ -15823,17 +15823,17 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  15318  091E  0021               	movlb	1	; select bank1
  15319  091F  00EA               	movwf	setDimmerLights_ErrorClose@lights^(0+128)
  15320                           
- 15321                           ;Dimmer_B1.c: 785: if (lights == 255) {
+ 15321                           ;Dimmer_B1.c: 784: if (lights == 255) {
  15322  0920  086A               	movf	setDimmerLights_ErrorClose@lights^(0+128),w
  15323  0921  3AFF               	xorlw	255
  15324  0922  1D03               	skipz
  15325  0923  295C               	goto	l8582
  15326                           
- 15327                           ;Dimmer_B1.c: 787: char count = 1;
+ 15327                           ;Dimmer_B1.c: 786: char count = 1;
  15328  0924  01E9               	clrf	setDimmerLights_ErrorClose@count^(0+128)
  15329  0925  0AE9               	incf	setDimmerLights_ErrorClose@count^(0+128),f
  15330                           
- 15331                           ;Dimmer_B1.c: 795: for (int i = 0; i < count; i++) {
+ 15331                           ;Dimmer_B1.c: 794: for (int i = 0; i < count; i++) {
  15332  0926  01EB               	clrf	setDimmerLights_ErrorClose@i^(0+128)
  15333  0927  01EC               	clrf	(setDimmerLights_ErrorClose@i+1)^(0+128)
  15334  0928                     l8580:	
@@ -15852,13 +15852,13 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  15347  0933  1803               	btfsc	3,0
  15348  0934  0008               	return
  15349                           
- 15350                           ;Dimmer_B1.c: 796: DimmerLightsPointSelect(i + 1);
+ 15350                           ;Dimmer_B1.c: 795: DimmerLightsPointSelect(i + 1);
  15351  0935  0021               	movlb	1	; select bank1
  15352  0936  086B               	movf	setDimmerLights_ErrorClose@i^(0+128),w
  15353  0937  3E01               	addlw	1
  15354  0938  319C  24DC  3189   	fcall	_DimmerLightsPointSelect
  15355                           
- 15356                           ;Dimmer_B1.c: 797: if (getDimmerLights_Status(i + 1) == 1) {
+ 15356                           ;Dimmer_B1.c: 796: if (getDimmerLights_Status(i + 1) == 1) {
  15357  093B  0021               	movlb	1	; select bank1
  15358  093C  086B               	movf	setDimmerLights_ErrorClose@i^(0+128),w
  15359  093D  3E01               	addlw	1
@@ -15867,7 +15867,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  15362  0942  1D03               	skipz
  15363  0943  2956               	goto	l8578
  15364                           
- 15365                           ;Dimmer_B1.c: 798: DimmerLights->SwFlag = 1;
+ 15365                           ;Dimmer_B1.c: 797: DimmerLights->SwFlag = 1;
  15366  0944  0875               	movf	_DimmerLights,w
  15367  0945  3E0B               	addlw	11
  15368  0946  0086               	movwf	6
@@ -15875,7 +15875,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  15370  0948  0087               	movwf	7
  15371  0949  1481               	bsf	1,1
  15372                           
- 15373                           ;Dimmer_B1.c: 799: DimmerLights->Status = 0;
+ 15373                           ;Dimmer_B1.c: 798: DimmerLights->Status = 0;
  15374  094A  0875               	movf	_DimmerLights,w
  15375  094B  3E02               	addlw	2
  15376  094C  0086               	movwf	6
@@ -15883,7 +15883,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  15378  094E  0087               	movwf	7
  15379  094F  1081               	bcf	1,1
  15380                           
- 15381                           ;Dimmer_B1.c: 800: setDimmerLights_SwOff(i + 1);
+ 15381                           ;Dimmer_B1.c: 799: setDimmerLights_SwOff(i + 1);
  15382  0950  0021               	movlb	1	; select bank1
  15383  0951  086B               	movf	setDimmerLights_ErrorClose@i^(0+128),w
  15384  0952  3E01               	addlw	1
@@ -15896,17 +15896,17 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  15391  095A  3DEC               	addwfc	(setDimmerLights_ErrorClose@i+1)^(0+128),f
  15392  095B  2928               	goto	l8580
  15393  095C                     l8582:	
- 15394                           ;Dimmer_B1.c: 801: }
- 15395                           ;Dimmer_B1.c: 802: }
- 15396                           ;Dimmer_B1.c: 803: } else {
+ 15394                           ;Dimmer_B1.c: 800: }
+ 15395                           ;Dimmer_B1.c: 801: }
+ 15396                           ;Dimmer_B1.c: 802: } else {
  15397                           
  15398                           
- 15399                           ;Dimmer_B1.c: 804: DimmerLightsPointSelect(lights);
+ 15399                           ;Dimmer_B1.c: 803: DimmerLightsPointSelect(lights);
  15400  095C  0021               	movlb	1	; select bank1
  15401  095D  086A               	movf	setDimmerLights_ErrorClose@lights^(0+128),w
  15402  095E  319C  24DC  3189   	fcall	_DimmerLightsPointSelect
  15403                           
- 15404                           ;Dimmer_B1.c: 805: if (getDimmerLights_Status(lights) == 1) {
+ 15404                           ;Dimmer_B1.c: 804: if (getDimmerLights_Status(lights) == 1) {
  15405  0961  0021               	movlb	1	; select bank1
  15406  0962  086A               	movf	setDimmerLights_ErrorClose@lights^(0+128),w
  15407  0963  319D  25DC  3189   	fcall	_getDimmerLights_Status
@@ -15914,7 +15914,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  15409  0967  1D03               	skipz
  15410  0968  0008               	return
  15411                           
- 15412                           ;Dimmer_B1.c: 806: DimmerLights->SwFlag = 1;
+ 15412                           ;Dimmer_B1.c: 805: DimmerLights->SwFlag = 1;
  15413  0969  0875               	movf	_DimmerLights,w
  15414  096A  3E0B               	addlw	11
  15415  096B  0086               	movwf	6
@@ -15922,7 +15922,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  15417  096D  0087               	movwf	7
  15418  096E  1481               	bsf	1,1
  15419                           
- 15420                           ;Dimmer_B1.c: 807: DimmerLights->Status = 0;
+ 15420                           ;Dimmer_B1.c: 806: DimmerLights->Status = 0;
  15421  096F  0875               	movf	_DimmerLights,w
  15422  0970  3E02               	addlw	2
  15423  0971  0086               	movwf	6
@@ -15930,7 +15930,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  15425  0973  0087               	movwf	7
  15426  0974  1081               	bcf	1,1
  15427                           
- 15428                           ;Dimmer_B1.c: 808: setDimmerLights_SwOff(lights);
+ 15428                           ;Dimmer_B1.c: 807: setDimmerLights_SwOff(lights);
  15429  0975  0021               	movlb	1	; select bank1
  15430  0976  086A               	movf	setDimmerLights_ErrorClose@lights^(0+128),w
  15431  0977  3197  274F         	fcall	_setDimmerLights_SwOff
@@ -16586,7 +16586,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  16050  1DDC                     __ptext103:	
  16051 ;; *************** function _getDimmerLights_Status *****************
  16052 ;; Defined at:
- 16053 ;;		line 706 in file "../src/Dimmer_B1.c"
+ 16053 ;;		line 705 in file "../src/Dimmer_B1.c"
  16054 ;; Parameters:    Size  Location     Type
  16055 ;;  lights          1    wreg     unsigned char 
  16056 ;; Auto vars:     Size  Location     Type
@@ -16635,11 +16635,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  16093  1DDC  0020               	movlb	0	; select bank0
  16094  1DDD  00A2               	movwf	getDimmerLights_Status@lights
  16095                           
- 16096                           ;Dimmer_B1.c: 707: DimmerLightsPointSelect(lights);
+ 16096                           ;Dimmer_B1.c: 706: DimmerLightsPointSelect(lights);
  16097  1DDE  0822               	movf	getDimmerLights_Status@lights,w
  16098  1DDF  319C  24DC         	fcall	_DimmerLightsPointSelect
  16099                           
- 16100                           ;Dimmer_B1.c: 708: char status = DimmerLights->Status == 1 ? 1 : 0;
+ 16100                           ;Dimmer_B1.c: 707: char status = DimmerLights->Status == 1 ? 1 : 0;
  16101  1DE1  0875               	movf	_DimmerLights,w
  16102  1DE2  3E02               	addlw	2
  16103  1DE3  0086               	movwf	6
@@ -16651,7 +16651,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  16109  1DE9  0020               	movlb	0	; select bank0
  16110  1DEA  00A3               	movwf	getDimmerLights_Status@status
  16111                           
- 16112                           ;Dimmer_B1.c: 710: return status;
+ 16112                           ;Dimmer_B1.c: 709: return status;
  16113  1DEB  0823               	movf	getDimmerLights_Status@status,w
  16114  1DEC  0008               	return
  16115  1DED                     __end_of_getDimmerLights_Status:	
@@ -18815,13 +18815,13 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  18147  0347  0872               	movf	??_setDimmerLights_IntrControl,w
  18148  0348  0781               	addwf	1,f
  18149                           
- 18150                           ;Dimmer_B1.c: 238: if (DimmerLightsIntr->Count >= ((char)(65*0.8)) + 1) {
+ 18150                           ;Dimmer_B1.c: 238: if (DimmerLightsIntr->Count >= ((char)(45*0.8)) + 1) {
  18151  0349  0876               	movf	_DimmerLightsIntr,w
  18152  034A  3E03               	addlw	3
  18153  034B  0086               	movwf	6
  18154  034C  3001               	movlw	1	; select bank2/3
  18155  034D  0087               	movwf	7
- 18156  034E  3035               	movlw	53
+ 18156  034E  3025               	movlw	37
  18157  034F  0201               	subwf	1,w
  18158  0350  1C03               	skipc
  18159  0351  2B5E               	goto	i1l6764
@@ -18982,13 +18982,13 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  18313  03C0  1B81               	btfsc	1,7
  18314  03C1  2BDB               	goto	i1l6796
  18315                           
- 18316                           ;Dimmer_B1.c: 272: if (DimmerLightsIntr->DimmingValue < ((char)(65*0.8))) {
+ 18316                           ;Dimmer_B1.c: 272: if (DimmerLightsIntr->DimmingValue < ((char)(45*0.8))) {
  18317  03C2  0876               	movf	_DimmerLightsIntr,w
  18318  03C3  3E04               	addlw	4
  18319  03C4  0086               	movwf	6
  18320  03C5  3001               	movlw	1	; select bank2/3
  18321  03C6  0087               	movwf	7
- 18322  03C7  3034               	movlw	52
+ 18322  03C7  3024               	movlw	36
  18323  03C8  0201               	subwf	1,w
  18324  03C9  1803               	skipnc
  18325  03CA  2BD5               	goto	i1l6794
@@ -22538,7 +22538,7 @@ SFR31                0      0       0      32        0.0%
 
 
 Microchip Technology PIC Macro Assembler V1.32 build 58300 
-Symbol Table                                                                                   Fri Dec 12 16:37:58 2014
+Symbol Table                                                                                   Mon Dec 15 08:21:21 2014
 
                     __size_of_Switch_Main 0007                     ?_Flash_Memory_Erasing 0070  
                             _WDT_Clearing 07FE                            ___bmul@product 0022  

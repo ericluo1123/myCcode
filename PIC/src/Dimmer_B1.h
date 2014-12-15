@@ -34,9 +34,8 @@ struct DimmerLights {
     volatile struct {
         unsigned AdjRF : 1;
         unsigned Status : 1; //lights status
-        unsigned OverLoad : 1;
         unsigned IntrStart : 1;
-        unsigned empty2 : 4;
+        unsigned empty2 : 5;
     };
 
 
@@ -159,7 +158,7 @@ void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 char getDimmerLights_Allow_Condition(char lights);
-
+char getAll_DimmerLights_AdjSw();
 //	char getDimmerLights_Clear(char);
 /*	void setDimmerLights_Close(char,char);
         char getDimmerLights_Close(char);
@@ -178,7 +177,8 @@ struct Dimmer {
             unsigned AdjGO : 1;
             unsigned LoadOK : 1;
             unsigned LoadGO : 1;
-            unsigned empty : 5;
+            unsigned Load_Status : 1;
+            unsigned empty : 4;
         };
     };
     unsigned char Load;
@@ -189,6 +189,8 @@ struct Dimmer Dimmer;
 #endif
 char getDimmer_LoadOK();
 inline void Dimmer_Initialization();
+char getDimmer_LoadGO();
+char getDimmer_Load_Status();
 //		void DimmerPointSelect(char);
 
 //              void setDimmer_TempERROR(char,char);
@@ -248,6 +250,9 @@ inline void Dimmer_Initialization();
 //	#define setDimmer_Detect(char,char) ;
 //	#define getDimmer_Detect(char) ;
 #define getDimmerLights_Status(char) 0
+#define getDimmer_LoadGO() ;
+#define getAll_DimmerLights_AdjSw() ;
+#define getDimmer_Load_Status() ;
 #endif
 
 //End file

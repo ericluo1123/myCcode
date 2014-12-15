@@ -37,27 +37,55 @@ inline void getLoad_AD(char channel) {
 //******************************************************************************
 
 inline void Load_Main() {
-    char i = 0, j = 0, error = getMain_All_Error_Status(0), adjgo = 0;
+    char error = getMain_All_Error_Status(0);
+    char Load_Status = 0;
 
     if (Load.Enable == true) {
 
-#if Dimmer_use == 1
-#if Switch_Class == 1
-        char sw = 1;
-#endif
-#if Switch_Class == 2
-        char sw = 3;
-#endif
-#if Switch_Class == 3
-        char sw = 3;
-#endif
+        //#if Dimmer_use == 1
+        //#if Switch_Class == 1
+        //        char sw = 1;
+        //#endif
+        //#if Switch_Class == 2
+        //        char sw = 3;
+        //#endif
+        //#if Switch_Class == 3
+        //        char sw = 3;
+        //#endif
+        //        adjgo = getAll_DimmerLights_AdjGO(sw);
+        //#endif
+        //        Load.GO = getMain_LightsStatus() == 1 && error == 0 && adjgo == 0 ? true : false;
+        //
+        //        if (getMain_LoadOK() == 1 && Load.Run == false) {
+        //            Load.Run = true;
+        //            Load.OK = false;
+        //        }
 
-        adjgo = getAll_DimmerLights_AdjGO(sw);
+        if (getMain_LightsStatus() == 0) {
+            Load.GO = false;
+        } else {
+#if Dimmer_use == true
+
+            if (error == 0 && getAll_DimmerLights_AdjSw() == 0) {
+                Load.GO = true;
+
+                Load_Status = getDimmer_Load_Status();
+                if (getDimmer_LoadGO() == 1) {
+                    if (Load.Run == false && Load.OK == false) {
+                        Load.Run = true;
+                        Load.Count = 0;
+                    }
+                } else {
+                    if (Load.OK == true) {
+                        Load.OK = false;
+                    }
+                }
+            } else {
+                if (Load.GO == true) {
+                    Load.GO = false;
+                }
+            }
 #endif
-        Load.GO = getMain_LightsStatus() == 1 && error == 0 && adjgo == 0 ? true : false;
-        if (getMain_LoadOK() == 1 && Load.Run == false) {
-            Load.Run = true;
-            Load.OK = false;
         }
 
         //load main
@@ -70,7 +98,7 @@ inline void Load_Main() {
                     Load.Time = 0;
                     Load.ADtoGO = false;
                     //get AD value
-                    for (i = 1; i < 4; i++) {
+                    for (int i = 1; i < 4; i++) {
                         Load.ADH += Load.AH[i];
                         Load.ADL += Load.AL[i];
                     }
@@ -94,7 +122,11 @@ inline void Load_Main() {
                                     if (Load.LightsCount == 1) {
                                         Load.JudgeValue = SecondLimitValue;
                                     } else {
-                                        Load.JudgeValue = SecondLimitValue + Load.TotalLoad;
+                                        if (Load_Status == 0) {
+                                            Load.JudgeValue = SecondLimitValue * Load.LightsCount;
+                                        } else if (Load_Status == 1) {
+                                            Load.JudgeValue = SecondLimitValue + Load.TotalLoad;
+                                        }
                                     }
                                 }
                             }
@@ -107,7 +139,7 @@ inline void Load_Main() {
                                 Load.ERROR = true;
 #if Load_Debug == 1
 #if PIR_use == 1
-#if UART_use == 1 
+#if UART_use == 1  
                                 UART.Data[0] = (Load.AD >> 8);
                                 UART.Data[1] = Load.AD;
                                 UART.Data[2] = (Load.JudgeValue >> 8);
@@ -135,7 +167,6 @@ inline void Load_Main() {
                                         Load.SafeCount = 0;
                                         Load.OK = true;
                                         Load.Run = false;
-                                        Load.Count = 0;
                                         Load.TotalLoad = Load.AD;
                                         Load.ErrorCountValue = 3;
 
@@ -171,23 +202,26 @@ inline void Load_Main() {
                 Load.ADtoGO = true;
             }
         } else {
-            if (Load.LightsON == true && error != 3) {
+            if (Load.LightsON == true) {
                 Load.LightsON = false;
 
-                Load.Time = 0;
                 Load.ADtoGO = false;
+                Load.Time = 0;
                 setLoad_AH_AL_Restore();
-                Load.Count = 0;
-                Load.ErrorCount = 0;
+                Load.LightsCount = 0;
+
                 Load.SafeCount = 0;
 
                 Load.ADH = 0;
                 Load.ADL = 0;
+
                 Load.AD = 0;
                 Load.JudgeValue = 0;
-                Load.LightsCount = 0;
+                Load.ErrorCount = 0;
+
+
                 Load.Run = false;
-                Load.OK = true;
+                Load.OK = false;
 #if Load_Debug == 1
 #if PIR_use == 1
 #if UART_use == 1
@@ -219,22 +253,19 @@ inline void Load_Main() {
         }
     } else {
         if (myMain.PowerON == true) {
-
             Load.Enable = true;
         }
     }
 }
-
 //******************************************************************************
 
 char getLoad_OK() {
     char ok = Load.OK == true ? 1 : 0;
-
     return ok;
 }
+//******************************************************************************
 
 void setLoad_OK() {
-
     Load.OK = false;
     Load.SafeCount = 0;
 }

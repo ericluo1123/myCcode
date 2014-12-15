@@ -72,13 +72,13 @@ inline void CC2500_RxData(void) {
 
     //	CC2500_WriteCommand(CC2500_SRX);  		// set receive mode
     //	while(CC2500_GDO0==0);            		// wait for data
-    if (CC2500_GDO0 == 1) // Check whether have data
-    {
-        while (CC2500_GDO0 == 1 && myMain.Timeout == false) {
-            Timeout_Counter();
-        }; // wait for receive complete
-        set_TimeoutCleared();
-    }
+    //    if (CC2500_GDO0 == 1) // Check whether have data
+    //    {
+    //        while (CC2500_GDO0 == 1 && myMain.Timeout == false) {
+    //            Timeout_Counter();
+    //        }; // wait for receive complete
+    //        set_TimeoutCleared();
+    //    }
 
     CC2500_ReadStatus(CC2500_RXBYTES);
 

@@ -7,7 +7,7 @@
 
 #if OverLoad_use == 1
 
-#define Load_Debug  0
+#define Load_Debug  1
 
 #ifdef MCU_16F723A
 #define FirstLimitValue (20*LinearParam)
@@ -53,7 +53,7 @@ struct OverLoad {
         unsigned Status : 1;
         unsigned OK : 1;
     };
- 
+
     unsigned int Time;
     unsigned int ErrorTime;
     //   unsigned char ErrorStatus;
@@ -75,6 +75,7 @@ struct OverLoad {
     unsigned char ErrorCountValue;
     unsigned char LightsCount;
     unsigned char SafeCount;
+
 };
 
 #ifdef OverLoad1

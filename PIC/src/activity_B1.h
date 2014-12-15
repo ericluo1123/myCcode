@@ -137,13 +137,17 @@
 #define KeyID 3
 #endif
 #endif
+ 
+#ifndef Switch_Class
+#define Switch_Class 0
+#endif
 
 #ifndef KeyID
 #define KeyID 0xaa
 #endif
 //ADC 
 #if ADC_use == 1
- 
+
 #define _ADCON1	ADCON1_Fixed
 #define _FVRCON FVRCON_1V		
 
@@ -256,7 +260,7 @@ typedef unsigned int ADtype;
 #endif
 //RF cc2500
 #if CC2500_use	== 1
- 
+
 #define RadioFrequency1
 #define Sleep_Mode      0
 
@@ -271,7 +275,7 @@ typedef unsigned int ADtype;
 
 //Dimmer Lights
 #if Dimmer_use == 1
- 
+
 #define Dimmable_Func 				1	
 #define Dimmer_Smooth				0
 #define DimmerValue_SaveMemory			0
@@ -302,7 +306,7 @@ typedef unsigned int ADtype;
 #else
 
 #if Switch_Class == 1
-#define Max_Percent 65
+#define Max_Percent 45
 #endif
 #if Switch_Class == 2
 #define Max_Percent 65	
@@ -411,7 +415,7 @@ typedef unsigned int ADtype;
 #endif
 
 //CDS
-#if CDS_use == 1	
+#if CDS_use == 1	 
 #endif
 
 //SegmentDisplay
