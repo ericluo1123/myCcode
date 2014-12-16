@@ -7,7 +7,7 @@
 //******************************************************************************
 
 inline void Load_Initialization() {
-    Load.OK = true;
+    //    Load.OK = true;
     setLoad_AH_AL_Restore();
 }
 //******************************************************************************
@@ -69,7 +69,6 @@ inline void Load_Main() {
             if (error == 0 && getAll_DimmerLights_AdjSw() == 0) {
                 Load.GO = true;
 
-                Load_Status = getDimmer_Load_Status();
                 if (getDimmer_LoadGO() == 1) {
                     if (Load.Run == false && Load.OK == false) {
                         Load.Run = true;
@@ -110,11 +109,12 @@ inline void Load_Main() {
                         Load.AD = Load.ADH - Load.ADL;
                         Load.ADH = 0;
                         Load.ADL = 0;
-                        Load.LightsCount = getMain_Lights_Count();
 
                         if (Load.Run == true) {
                             if (Load.Count < 2) {
                                 Load.Count++;
+                                Load_Status = getDimmer_Load_Status();
+                                Load.LightsCount = getMain_Lights_Count();
                                 if (Load.Count == 1) {
                                     Load.ErrorCountValue = 2;
                                     Load.JudgeValue = FirstLimitValue;
@@ -155,47 +155,48 @@ inline void Load_Main() {
                                 setProductData(6, (Load.JudgeValue >> 8));
                                 setProductData(7, Load.JudgeValue);
                                 setProductData(8, Load.LightsCount);
+                                setProductData(10, getDimmer_LoadGO());
 #endif
 #endif
                             }
                         } else {
                             Load.ErrorCount = 0;
                             if (Load.Run == true) {
-                                if (Load.OK == false) {
-                                    Load.SafeCount++;
-                                    if (Load.SafeCount >= SafeCountValue) {
-                                        Load.SafeCount = 0;
-                                        Load.OK = true;
-                                        Load.Run = false;
-                                        Load.TotalLoad = Load.AD;
-                                        Load.ErrorCountValue = 3;
+                                Load.SafeCount++;
+                                if (Load.SafeCount >= SafeCountValue) {
+                                    Load.SafeCount = 0;
+                                    Load.OK = true;
+                                    Load.Run = false;
+                                    Load.Count = 0;
+                                    Load.TotalLoad = Load.AD;
+                                    Load.ErrorCountValue = 3;
 
 #if Load_Debug == 1
 #if PIR_use == 1
 
 #if UART_use == 1
-                                        UART.Data[0] = (Load.AD >> 8);
-                                        UART.Data[1] = Load.AD;
-                                        UART.Data[2] = (Load.JudgeValue >> 8);
-                                        UART.Data[3] = Load.JudgeValue;
-                                        UART.Data[4] = Load.LightsCount;
-                                        UART.Data[5] = 0;
-                                        UART.Data[6] = 0;
-                                        UART.Data[7] = 0;
+                                    UART.Data[0] = (Load.AD >> 8);
+                                    UART.Data[1] = Load.AD;
+                                    UART.Data[2] = (Load.JudgeValue >> 8);
+                                    UART.Data[3] = Load.JudgeValue;
+                                    UART.Data[4] = Load.LightsCount;
+                                    UART.Data[5] = 0;
+                                    UART.Data[6] = 0;
+                                    UART.Data[7] = 0;
 #endif
-#else
-                                        setProductData(4, (Load.AD >> 8));
-                                        setProductData(5, Load.AD);
-                                        setProductData(6, (Load.JudgeValue >> 8));
-                                        setProductData(7, Load.JudgeValue);
-                                        setProductData(8, Load.LightsCount);
-
+#else 
+                                    setProductData(4, (Load.AD >> 8));
+                                    setProductData(5, Load.AD);
+                                    setProductData(6, (Load.JudgeValue >> 8));
+                                    setProductData(7, Load.JudgeValue);
+                                    setProductData(8, Load.LightsCount);
+                                    setProductData(10, getDimmer_LoadGO());
 #endif
 #endif
-                                    }
                                 }
                             }
                         }
+
                     }
                 }
             } else {
@@ -208,19 +209,19 @@ inline void Load_Main() {
                 Load.ADtoGO = false;
                 Load.Time = 0;
                 setLoad_AH_AL_Restore();
-                Load.LightsCount = 0;
 
+                Load.ErrorCount = 0;
                 Load.SafeCount = 0;
 
                 Load.ADH = 0;
                 Load.ADL = 0;
 
-                Load.AD = 0;
-                Load.JudgeValue = 0;
-                Load.ErrorCount = 0;
-
+                //                Load.AD = 0;
+                //                Load.JudgeValue = 0;
+                //                Load.LightsCount = 0;
 
                 Load.Run = false;
+                Load.Count = 0;
                 Load.OK = false;
 #if Load_Debug == 1
 #if PIR_use == 1
@@ -240,6 +241,7 @@ inline void Load_Main() {
                 setProductData(6, (Load.JudgeValue >> 8));
                 setProductData(7, Load.JudgeValue);
                 setProductData(8, Load.LightsCount);
+                setProductData(10, getDimmer_LoadGO());
 #endif
 #endif
             }

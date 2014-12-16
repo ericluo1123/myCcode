@@ -127,15 +127,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _getMain_LightsStatus `(uc ~T0 @X0 0 ef ]
 "161 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h
 [v _getAll_DimmerLights_AdjSw `(uc ~T0 @X0 0 ef ]
-"193
-[v _getDimmer_Load_Status `(uc ~T0 @X0 0 ef ]
 "192
 [v _getDimmer_LoadGO `(uc ~T0 @X0 0 ef ]
+"193
+[v _getDimmer_Load_Status `(uc ~T0 @X0 0 ef ]
 "138 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Main_B1.h
 [v _getMain_Lights_Count `(uc ~T0 @X0 0 ef ]
-[v F2126 `(v ~T0 @X0 1 tf2`uc`uc ]
-"141
-[v _setProductData `TF2126 ~T0 @X0 0 e ]
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -3004,9 +3001,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverLoad_B1.c: 9: inline void Load_Initialization() {
 [e :U _Load_Initialization ]
 [f ]
-[; ;OverLoad_B1.c: 10: Load.OK = 1;
-"10
-[e = . . _Load 0 7 -> -> 1 `i `uc ]
 [; ;OverLoad_B1.c: 11: setLoad_AH_AL_Restore();
 "11
 [e ( _setLoad_AH_AL_Restore ..  ]
@@ -3154,99 +3148,96 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverLoad_B1.c: 70: Load.GO = 1;
 "70
 [e = . . _Load 0 1 -> -> 1 `i `uc ]
-[; ;OverLoad_B1.c: 72: Load_Status = getDimmer_Load_Status();
+[; ;OverLoad_B1.c: 72: if (getDimmer_LoadGO() == 1) {
 "72
-[e = _Load_Status ( _getDimmer_Load_Status ..  ]
-[; ;OverLoad_B1.c: 73: if (getDimmer_LoadGO() == 1) {
-"73
 [e $ ! == -> ( _getDimmer_LoadGO ..  `i -> 1 `i 294  ]
 {
-[; ;OverLoad_B1.c: 74: if (Load.Run == 0 && Load.OK == 0) {
-"74
+[; ;OverLoad_B1.c: 73: if (Load.Run == 0 && Load.OK == 0) {
+"73
 [e $ ! && == -> . . _Load 0 3 `i -> 0 `i == -> . . _Load 0 7 `i -> 0 `i 295  ]
 {
-[; ;OverLoad_B1.c: 75: Load.Run = 1;
-"75
+[; ;OverLoad_B1.c: 74: Load.Run = 1;
+"74
 [e = . . _Load 0 3 -> -> 1 `i `uc ]
-[; ;OverLoad_B1.c: 76: Load.Count = 0;
-"76
+[; ;OverLoad_B1.c: 75: Load.Count = 0;
+"75
 [e = . _Load 13 -> -> 0 `i `uc ]
-"77
+"76
 }
 [e :U 295 ]
-"78
+"77
 }
-[; ;OverLoad_B1.c: 77: }
-[; ;OverLoad_B1.c: 78: } else {
+[; ;OverLoad_B1.c: 76: }
+[; ;OverLoad_B1.c: 77: } else {
 [e $U 296  ]
 [e :U 294 ]
 {
-[; ;OverLoad_B1.c: 79: if (Load.OK == 1) {
-"79
+[; ;OverLoad_B1.c: 78: if (Load.OK == 1) {
+"78
 [e $ ! == -> . . _Load 0 7 `i -> 1 `i 297  ]
 {
-[; ;OverLoad_B1.c: 80: Load.OK = 0;
-"80
+[; ;OverLoad_B1.c: 79: Load.OK = 0;
+"79
 [e = . . _Load 0 7 -> -> 0 `i `uc ]
-"81
+"80
 }
 [e :U 297 ]
-"82
+"81
 }
 [e :U 296 ]
-"83
+"82
 }
+[; ;OverLoad_B1.c: 80: }
 [; ;OverLoad_B1.c: 81: }
-[; ;OverLoad_B1.c: 82: }
-[; ;OverLoad_B1.c: 83: } else {
+[; ;OverLoad_B1.c: 82: } else {
 [e $U 298  ]
 [e :U 293 ]
 {
-[; ;OverLoad_B1.c: 84: if (Load.GO == 1) {
-"84
+[; ;OverLoad_B1.c: 83: if (Load.GO == 1) {
+"83
 [e $ ! == -> . . _Load 0 1 `i -> 1 `i 299  ]
 {
-[; ;OverLoad_B1.c: 85: Load.GO = 0;
-"85
+[; ;OverLoad_B1.c: 84: Load.GO = 0;
+"84
 [e = . . _Load 0 1 -> -> 0 `i `uc ]
-"86
+"85
 }
 [e :U 299 ]
-"87
+"86
 }
 [e :U 298 ]
-"89
+"88
 }
 [e :U 292 ]
+[; ;OverLoad_B1.c: 85: }
 [; ;OverLoad_B1.c: 86: }
-[; ;OverLoad_B1.c: 87: }
-[; ;OverLoad_B1.c: 89: }
-[; ;OverLoad_B1.c: 92: if (Load.GO == 1) {
-"92
+[; ;OverLoad_B1.c: 88: }
+[; ;OverLoad_B1.c: 91: if (Load.GO == 1) {
+"91
 [e $ ! == -> . . _Load 0 1 `i -> 1 `i 300  ]
 {
-[; ;OverLoad_B1.c: 93: Load.LightsON = 1;
-"93
+[; ;OverLoad_B1.c: 92: Load.LightsON = 1;
+"92
 [e = . . _Load 0 2 -> -> 1 `i `uc ]
-[; ;OverLoad_B1.c: 95: if (Load.ADtoGO == 1) {
-"95
+[; ;OverLoad_B1.c: 94: if (Load.ADtoGO == 1) {
+"94
 [e $ ! == -> . . _Load 0 4 `i -> 1 `i 301  ]
 {
-[; ;OverLoad_B1.c: 96: Load.Time++;
-"96
+[; ;OverLoad_B1.c: 95: Load.Time++;
+"95
 [e ++ . _Load 1 -> -> 1 `i `ui ]
-[; ;OverLoad_B1.c: 97: if (Load.Time >= 5) {
-"97
+[; ;OverLoad_B1.c: 96: if (Load.Time >= 5) {
+"96
 [e $ ! >= . _Load 1 -> -> 5 `i `ui 302  ]
 {
-[; ;OverLoad_B1.c: 98: Load.Time = 0;
-"98
+[; ;OverLoad_B1.c: 97: Load.Time = 0;
+"97
 [e = . _Load 1 -> -> 0 `i `ui ]
-[; ;OverLoad_B1.c: 99: Load.ADtoGO = 0;
-"99
+[; ;OverLoad_B1.c: 98: Load.ADtoGO = 0;
+"98
 [e = . . _Load 0 4 -> -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 101: for (int i = 1; i < 4; i++) {
-"101
+[; ;OverLoad_B1.c: 100: for (int i = 1; i < 4; i++) {
+"100
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 1 `i ]
@@ -3254,57 +3245,60 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 304  ]
 [e :U 303 ]
 {
-[; ;OverLoad_B1.c: 102: Load.ADH += Load.AH[i];
-"102
-[e =+ . _Load 3 *U + &U . _Load 6 * -> -> _i `ui `ux -> -> # *U &U . _Load 6 `ui `ux ]
-[; ;OverLoad_B1.c: 103: Load.ADL += Load.AL[i];
-"103
-[e =+ . _Load 4 *U + &U . _Load 7 * -> -> _i `ui `ux -> -> # *U &U . _Load 7 `ui `ux ]
-"104
-}
+[; ;OverLoad_B1.c: 101: Load.ADH += Load.AH[i];
 "101
+[e =+ . _Load 3 *U + &U . _Load 6 * -> -> _i `ui `ux -> -> # *U &U . _Load 6 `ui `ux ]
+[; ;OverLoad_B1.c: 102: Load.ADL += Load.AL[i];
+"102
+[e =+ . _Load 4 *U + &U . _Load 7 * -> -> _i `ui `ux -> -> # *U &U . _Load 7 `ui `ux ]
+"103
+}
+"100
 [e ++ _i -> 1 `i ]
 [e $ < _i -> 4 `i 303  ]
 [e :U 304 ]
-"104
+"103
 }
-[; ;OverLoad_B1.c: 104: }
-[; ;OverLoad_B1.c: 105: Load.ADH /= 3;
-"105
+[; ;OverLoad_B1.c: 103: }
+[; ;OverLoad_B1.c: 104: Load.ADH /= 3;
+"104
 [e =/ . _Load 3 -> -> 3 `uc `ui ]
-[; ;OverLoad_B1.c: 106: Load.ADL /= 3;
-"106
+[; ;OverLoad_B1.c: 105: Load.ADL /= 3;
+"105
 [e =/ . _Load 4 -> -> 3 `uc `ui ]
-[; ;OverLoad_B1.c: 107: setLoad_AH_AL_Restore();
-"107
+[; ;OverLoad_B1.c: 106: setLoad_AH_AL_Restore();
+"106
 [e ( _setLoad_AH_AL_Restore ..  ]
-[; ;OverLoad_B1.c: 109: if (Load.ADH > Load.ADL) {
-"109
+[; ;OverLoad_B1.c: 108: if (Load.ADH > Load.ADL) {
+"108
 [e $ ! > . _Load 3 . _Load 4 306  ]
 {
-[; ;OverLoad_B1.c: 110: Load.AD = Load.ADH - Load.ADL;
-"110
+[; ;OverLoad_B1.c: 109: Load.AD = Load.ADH - Load.ADL;
+"109
 [e = . _Load 8 - . _Load 3 . _Load 4 ]
-[; ;OverLoad_B1.c: 111: Load.ADH = 0;
-"111
+[; ;OverLoad_B1.c: 110: Load.ADH = 0;
+"110
 [e = . _Load 3 -> -> 0 `i `ui ]
-[; ;OverLoad_B1.c: 112: Load.ADL = 0;
-"112
+[; ;OverLoad_B1.c: 111: Load.ADL = 0;
+"111
 [e = . _Load 4 -> -> 0 `i `ui ]
-[; ;OverLoad_B1.c: 113: Load.LightsCount = getMain_Lights_Count();
+[; ;OverLoad_B1.c: 113: if (Load.Run == 1) {
 "113
-[e = . _Load 16 ( _getMain_Lights_Count ..  ]
-[; ;OverLoad_B1.c: 115: if (Load.Run == 1) {
-"115
 [e $ ! == -> . . _Load 0 3 `i -> 1 `i 307  ]
 {
-[; ;OverLoad_B1.c: 116: if (Load.Count < 2) {
-"116
+[; ;OverLoad_B1.c: 114: if (Load.Count < 2) {
+"114
 [e $ ! < -> . _Load 13 `i -> 2 `i 308  ]
 {
-[; ;OverLoad_B1.c: 117: Load.Count++;
-"117
+[; ;OverLoad_B1.c: 115: Load.Count++;
+"115
 [e ++ . _Load 13 -> -> 1 `i `uc ]
+[; ;OverLoad_B1.c: 116: Load_Status = getDimmer_Load_Status();
+"116
+[e = _Load_Status ( _getDimmer_Load_Status ..  ]
+[; ;OverLoad_B1.c: 117: Load.LightsCount = getMain_Lights_Count();
+"117
+[e = . _Load 16 ( _getMain_Lights_Count ..  ]
 [; ;OverLoad_B1.c: 118: if (Load.Count == 1) {
 "118
 [e $ ! == -> . _Load 13 `i -> 1 `i 309  ]
@@ -3391,48 +3385,29 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverLoad_B1.c: 139: Load.ERROR = 1;
 "139
 [e = . . _Load 0 5 -> -> 1 `i `uc ]
-[; ;OverLoad_B1.c: 153: setProductData(4, (Load.AD >> 8));
-"153
-[e ( _setProductData (2 , -> -> 4 `i `uc -> >> . _Load 8 -> 8 `i `uc ]
-[; ;OverLoad_B1.c: 154: setProductData(5, Load.AD);
-"154
-[e ( _setProductData (2 , -> -> 5 `i `uc -> . _Load 8 `uc ]
-[; ;OverLoad_B1.c: 155: setProductData(6, (Load.JudgeValue >> 8));
-"155
-[e ( _setProductData (2 , -> -> 6 `i `uc -> >> . _Load 11 -> 8 `i `uc ]
-[; ;OverLoad_B1.c: 156: setProductData(7, Load.JudgeValue);
-"156
-[e ( _setProductData (2 , -> -> 7 `i `uc -> . _Load 11 `uc ]
-[; ;OverLoad_B1.c: 157: setProductData(8, Load.LightsCount);
-"157
-[e ( _setProductData (2 , -> -> 8 `i `uc . _Load 16 ]
-"160
-}
-[e :U 318 ]
 "161
 }
-[; ;OverLoad_B1.c: 160: }
-[; ;OverLoad_B1.c: 161: } else {
+[e :U 318 ]
+"162
+}
+[; ;OverLoad_B1.c: 161: }
+[; ;OverLoad_B1.c: 162: } else {
 [e $U 319  ]
 [e :U 317 ]
 {
-[; ;OverLoad_B1.c: 162: Load.ErrorCount = 0;
-"162
-[e = . _Load 14 -> -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 163: if (Load.Run == 1) {
+[; ;OverLoad_B1.c: 163: Load.ErrorCount = 0;
 "163
-[e $ ! == -> . . _Load 0 3 `i -> 1 `i 320  ]
-{
-[; ;OverLoad_B1.c: 164: if (Load.OK == 0) {
+[e = . _Load 14 -> -> 0 `i `uc ]
+[; ;OverLoad_B1.c: 164: if (Load.Run == 1) {
 "164
-[e $ ! == -> . . _Load 0 7 `i -> 0 `i 321  ]
+[e $ ! == -> . . _Load 0 3 `i -> 1 `i 320  ]
 {
 [; ;OverLoad_B1.c: 165: Load.SafeCount++;
 "165
 [e ++ . _Load 17 -> -> 1 `i `uc ]
 [; ;OverLoad_B1.c: 166: if (Load.SafeCount >= 3) {
 "166
-[e $ ! >= -> . _Load 17 `i -> 3 `i 322  ]
+[e $ ! >= -> . _Load 17 `i -> 3 `i 321  ]
 {
 [; ;OverLoad_B1.c: 167: Load.SafeCount = 0;
 "167
@@ -3443,30 +3418,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverLoad_B1.c: 169: Load.Run = 0;
 "169
 [e = . . _Load 0 3 -> -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 170: Load.TotalLoad = Load.AD;
+[; ;OverLoad_B1.c: 170: Load.Count = 0;
 "170
-[e = . _Load 5 . _Load 8 ]
-[; ;OverLoad_B1.c: 171: Load.ErrorCountValue = 3;
+[e = . _Load 13 -> -> 0 `i `uc ]
+[; ;OverLoad_B1.c: 171: Load.TotalLoad = Load.AD;
 "171
+[e = . _Load 5 . _Load 8 ]
+[; ;OverLoad_B1.c: 172: Load.ErrorCountValue = 3;
+"172
 [e = . _Load 15 -> -> 3 `i `uc ]
-[; ;OverLoad_B1.c: 187: setProductData(4, (Load.AD >> 8));
-"187
-[e ( _setProductData (2 , -> -> 4 `i `uc -> >> . _Load 8 -> 8 `i `uc ]
-[; ;OverLoad_B1.c: 188: setProductData(5, Load.AD);
-"188
-[e ( _setProductData (2 , -> -> 5 `i `uc -> . _Load 8 `uc ]
-[; ;OverLoad_B1.c: 189: setProductData(6, (Load.JudgeValue >> 8));
-"189
-[e ( _setProductData (2 , -> -> 6 `i `uc -> >> . _Load 11 -> 8 `i `uc ]
-[; ;OverLoad_B1.c: 190: setProductData(7, Load.JudgeValue);
-"190
-[e ( _setProductData (2 , -> -> 7 `i `uc -> . _Load 11 `uc ]
-[; ;OverLoad_B1.c: 191: setProductData(8, Load.LightsCount);
-"191
-[e ( _setProductData (2 , -> -> 8 `i `uc . _Load 16 ]
-"195
-}
-[e :U 322 ]
 "196
 }
 [e :U 321 ]
@@ -3476,238 +3436,216 @@ Version 3.2 HI-TECH Software Intermediate Code
 "198
 }
 [e :U 319 ]
-"199
-}
-[e :U 306 ]
 "200
 }
-[e :U 302 ]
+[e :U 306 ]
 "201
 }
-[; ;OverLoad_B1.c: 195: }
+[e :U 302 ]
+"202
+}
 [; ;OverLoad_B1.c: 196: }
 [; ;OverLoad_B1.c: 197: }
 [; ;OverLoad_B1.c: 198: }
-[; ;OverLoad_B1.c: 199: }
 [; ;OverLoad_B1.c: 200: }
-[; ;OverLoad_B1.c: 201: } else {
-[e $U 323  ]
+[; ;OverLoad_B1.c: 201: }
+[; ;OverLoad_B1.c: 202: } else {
+[e $U 322  ]
 [e :U 301 ]
 {
-[; ;OverLoad_B1.c: 202: Load.ADtoGO = 1;
-"202
-[e = . . _Load 0 4 -> -> 1 `i `uc ]
+[; ;OverLoad_B1.c: 203: Load.ADtoGO = 1;
 "203
-}
-[e :U 323 ]
+[e = . . _Load 0 4 -> -> 1 `i `uc ]
 "204
 }
-[; ;OverLoad_B1.c: 203: }
-[; ;OverLoad_B1.c: 204: } else {
-[e $U 324  ]
+[e :U 322 ]
+"205
+}
+[; ;OverLoad_B1.c: 204: }
+[; ;OverLoad_B1.c: 205: } else {
+[e $U 323  ]
 [e :U 300 ]
 {
-[; ;OverLoad_B1.c: 205: if (Load.LightsON == 1) {
-"205
-[e $ ! == -> . . _Load 0 2 `i -> 1 `i 325  ]
-{
-[; ;OverLoad_B1.c: 206: Load.LightsON = 0;
+[; ;OverLoad_B1.c: 206: if (Load.LightsON == 1) {
 "206
+[e $ ! == -> . . _Load 0 2 `i -> 1 `i 324  ]
+{
+[; ;OverLoad_B1.c: 207: Load.LightsON = 0;
+"207
 [e = . . _Load 0 2 -> -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 208: Load.ADtoGO = 0;
-"208
-[e = . . _Load 0 4 -> -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 209: Load.Time = 0;
+[; ;OverLoad_B1.c: 209: Load.ADtoGO = 0;
 "209
-[e = . _Load 1 -> -> 0 `i `ui ]
-[; ;OverLoad_B1.c: 210: setLoad_AH_AL_Restore();
+[e = . . _Load 0 4 -> -> 0 `i `uc ]
+[; ;OverLoad_B1.c: 210: Load.Time = 0;
 "210
-[e ( _setLoad_AH_AL_Restore ..  ]
-[; ;OverLoad_B1.c: 211: Load.LightsCount = 0;
+[e = . _Load 1 -> -> 0 `i `ui ]
+[; ;OverLoad_B1.c: 211: setLoad_AH_AL_Restore();
 "211
-[e = . _Load 16 -> -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 213: Load.SafeCount = 0;
+[e ( _setLoad_AH_AL_Restore ..  ]
+[; ;OverLoad_B1.c: 213: Load.ErrorCount = 0;
 "213
-[e = . _Load 17 -> -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 215: Load.ADH = 0;
-"215
-[e = . _Load 3 -> -> 0 `i `ui ]
-[; ;OverLoad_B1.c: 216: Load.ADL = 0;
-"216
-[e = . _Load 4 -> -> 0 `i `ui ]
-[; ;OverLoad_B1.c: 218: Load.AD = 0;
-"218
-[e = . _Load 8 -> -> 0 `i `ui ]
-[; ;OverLoad_B1.c: 219: Load.JudgeValue = 0;
-"219
-[e = . _Load 11 -> -> 0 `i `ui ]
-[; ;OverLoad_B1.c: 220: Load.ErrorCount = 0;
-"220
 [e = . _Load 14 -> -> 0 `i `uc ]
+[; ;OverLoad_B1.c: 214: Load.SafeCount = 0;
+"214
+[e = . _Load 17 -> -> 0 `i `uc ]
+[; ;OverLoad_B1.c: 216: Load.ADH = 0;
+"216
+[e = . _Load 3 -> -> 0 `i `ui ]
+[; ;OverLoad_B1.c: 217: Load.ADL = 0;
+"217
+[e = . _Load 4 -> -> 0 `i `ui ]
 [; ;OverLoad_B1.c: 223: Load.Run = 0;
 "223
 [e = . . _Load 0 3 -> -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 224: Load.OK = 0;
+[; ;OverLoad_B1.c: 224: Load.Count = 0;
 "224
+[e = . _Load 13 -> -> 0 `i `uc ]
+[; ;OverLoad_B1.c: 225: Load.OK = 0;
+"225
 [e = . . _Load 0 7 -> -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 238: setProductData(4, (Load.AD >> 8));
-"238
-[e ( _setProductData (2 , -> -> 4 `i `uc -> >> . _Load 8 -> 8 `i `uc ]
-[; ;OverLoad_B1.c: 239: setProductData(5, Load.AD);
-"239
-[e ( _setProductData (2 , -> -> 5 `i `uc -> . _Load 8 `uc ]
-[; ;OverLoad_B1.c: 240: setProductData(6, (Load.JudgeValue >> 8));
-"240
-[e ( _setProductData (2 , -> -> 6 `i `uc -> >> . _Load 11 -> 8 `i `uc ]
-[; ;OverLoad_B1.c: 241: setProductData(7, Load.JudgeValue);
-"241
-[e ( _setProductData (2 , -> -> 7 `i `uc -> . _Load 11 `uc ]
-[; ;OverLoad_B1.c: 242: setProductData(8, Load.LightsCount);
-"242
-[e ( _setProductData (2 , -> -> 8 `i `uc . _Load 16 ]
-"245
-}
-[e :U 325 ]
-[; ;OverLoad_B1.c: 245: }
-[; ;OverLoad_B1.c: 246: if (Load.ERROR == 1) {
-"246
-[e $ ! == -> . . _Load 0 5 `i -> 1 `i 326  ]
-{
-[; ;OverLoad_B1.c: 247: Load.ErrorTime++;
 "247
-[e ++ . _Load 2 -> -> 1 `i `ui ]
-[; ;OverLoad_B1.c: 248: if (Load.ErrorTime >= 1000) {
-"248
-[e $ ! >= . _Load 2 -> -> 1000 `i `ui 327  ]
-{
-[; ;OverLoad_B1.c: 249: Load.ErrorTime = 0;
-"249
-[e = . _Load 2 -> -> 0 `i `ui ]
-[; ;OverLoad_B1.c: 250: Load.ERROR = 0;
-"250
-[e = . . _Load 0 5 -> -> 0 `i `uc ]
-"251
-}
-[e :U 327 ]
-"252
-}
-[e :U 326 ]
-"253
 }
 [e :U 324 ]
+[; ;OverLoad_B1.c: 247: }
+[; ;OverLoad_B1.c: 248: if (Load.ERROR == 1) {
+"248
+[e $ ! == -> . . _Load 0 5 `i -> 1 `i 325  ]
+{
+[; ;OverLoad_B1.c: 249: Load.ErrorTime++;
+"249
+[e ++ . _Load 2 -> -> 1 `i `ui ]
+[; ;OverLoad_B1.c: 250: if (Load.ErrorTime >= 1000) {
+"250
+[e $ ! >= . _Load 2 -> -> 1000 `i `ui 326  ]
+{
+[; ;OverLoad_B1.c: 251: Load.ErrorTime = 0;
+"251
+[e = . _Load 2 -> -> 0 `i `ui ]
+[; ;OverLoad_B1.c: 252: Load.ERROR = 0;
+"252
+[e = . . _Load 0 5 -> -> 0 `i `uc ]
+"253
+}
+[e :U 326 ]
 "254
 }
-[; ;OverLoad_B1.c: 251: }
-[; ;OverLoad_B1.c: 252: }
+[e :U 325 ]
+"255
+}
+[e :U 323 ]
+"256
+}
 [; ;OverLoad_B1.c: 253: }
-[; ;OverLoad_B1.c: 254: } else {
-[e $U 328  ]
+[; ;OverLoad_B1.c: 254: }
+[; ;OverLoad_B1.c: 255: }
+[; ;OverLoad_B1.c: 256: } else {
+[e $U 327  ]
 [e :U 290 ]
 {
-[; ;OverLoad_B1.c: 255: if (myMain.PowerON == 1) {
-"255
-[e $ ! == -> . . _myMain 0 0 `i -> 1 `i 329  ]
-{
-[; ;OverLoad_B1.c: 256: Load.Enable = 1;
-"256
-[e = . . _Load 0 0 -> -> 1 `i `uc ]
+[; ;OverLoad_B1.c: 257: if (myMain.PowerON == 1) {
 "257
-}
-[e :U 329 ]
+[e $ ! == -> . . _myMain 0 0 `i -> 1 `i 328  ]
+{
+[; ;OverLoad_B1.c: 258: Load.Enable = 1;
 "258
+[e = . . _Load 0 0 -> -> 1 `i `uc ]
+"259
 }
 [e :U 328 ]
-[; ;OverLoad_B1.c: 257: }
-[; ;OverLoad_B1.c: 258: }
+"260
+}
+[e :U 327 ]
 [; ;OverLoad_B1.c: 259: }
-"259
+[; ;OverLoad_B1.c: 260: }
+[; ;OverLoad_B1.c: 261: }
+"261
 [e :UE 289 ]
 }
-"262
+"264
 [v _getLoad_OK `(uc ~T0 @X0 1 ef ]
 {
-[; ;OverLoad_B1.c: 262: char getLoad_OK() {
+[; ;OverLoad_B1.c: 264: char getLoad_OK() {
 [e :U _getLoad_OK ]
 [f ]
-"263
-[v _ok `uc ~T0 @X0 1 a ]
-[; ;OverLoad_B1.c: 263: char ok = Load.OK == 1 ? 1 : 0;
-[e = _ok -> ? == -> . . _Load 0 7 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 264: return ok;
-"264
-[e ) _ok ]
-[e $UE 330  ]
-[; ;OverLoad_B1.c: 265: }
 "265
-[e :UE 330 ]
+[v _ok `uc ~T0 @X0 1 a ]
+[; ;OverLoad_B1.c: 265: char ok = Load.OK == 1 ? 1 : 0;
+[e = _ok -> ? == -> . . _Load 0 7 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
+[; ;OverLoad_B1.c: 266: return ok;
+"266
+[e ) _ok ]
+[e $UE 329  ]
+[; ;OverLoad_B1.c: 267: }
+"267
+[e :UE 329 ]
 }
-"268
+"270
 [v _setLoad_OK `(v ~T0 @X0 1 ef ]
 {
-[; ;OverLoad_B1.c: 268: void setLoad_OK() {
+[; ;OverLoad_B1.c: 270: void setLoad_OK() {
 [e :U _setLoad_OK ]
 [f ]
-[; ;OverLoad_B1.c: 269: Load.OK = 0;
-"269
-[e = . . _Load 0 7 -> -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 270: Load.SafeCount = 0;
-"270
-[e = . _Load 17 -> -> 0 `i `uc ]
-[; ;OverLoad_B1.c: 271: }
+[; ;OverLoad_B1.c: 271: Load.OK = 0;
 "271
-[e :UE 331 ]
+[e = . . _Load 0 7 -> -> 0 `i `uc ]
+[; ;OverLoad_B1.c: 272: Load.SafeCount = 0;
+"272
+[e = . _Load 17 -> -> 0 `i `uc ]
+[; ;OverLoad_B1.c: 273: }
+"273
+[e :UE 330 ]
 }
-"275
+"277
 [v _getLoad_ERROR `(uc ~T0 @X0 1 ef ]
 {
-[; ;OverLoad_B1.c: 275: char getLoad_ERROR() {
+[; ;OverLoad_B1.c: 277: char getLoad_ERROR() {
 [e :U _getLoad_ERROR ]
 [f ]
-"276
-[v _result `uc ~T0 @X0 1 a ]
-[; ;OverLoad_B1.c: 276: char result = Load.ERROR;
-[e = _result . . _Load 0 5 ]
-[; ;OverLoad_B1.c: 278: return result;
 "278
+[v _result `uc ~T0 @X0 1 a ]
+[; ;OverLoad_B1.c: 278: char result = Load.ERROR;
+[e = _result . . _Load 0 5 ]
+[; ;OverLoad_B1.c: 280: return result;
+"280
 [e ) _result ]
-[e $UE 332  ]
-[; ;OverLoad_B1.c: 279: }
-"279
-[e :UE 332 ]
+[e $UE 331  ]
+[; ;OverLoad_B1.c: 281: }
+"281
+[e :UE 331 ]
 }
-"282
+"284
 [v _setLoad_AH_AL_Restore `(v ~T0 @X0 1 ef ]
 {
-[; ;OverLoad_B1.c: 282: void setLoad_AH_AL_Restore() {
+[; ;OverLoad_B1.c: 284: void setLoad_AH_AL_Restore() {
 [e :U _setLoad_AH_AL_Restore ]
 [f ]
-"283
+"285
 [v _i `uc ~T0 @X0 1 a ]
-[; ;OverLoad_B1.c: 283: char i;
-[; ;OverLoad_B1.c: 284: for (i = 0; i < 5; i++) {
-"284
+[; ;OverLoad_B1.c: 285: char i;
+[; ;OverLoad_B1.c: 286: for (i = 0; i < 5; i++) {
+"286
 {
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 5 `i 334  ]
-[e $U 335  ]
-[e :U 334 ]
+[e $ < -> _i `i -> 5 `i 333  ]
+[e $U 334  ]
+[e :U 333 ]
 {
-[; ;OverLoad_B1.c: 285: Load.AH[i] = 0;
-"285
+[; ;OverLoad_B1.c: 287: Load.AH[i] = 0;
+"287
 [e = *U + &U . _Load 6 * -> _i `ux -> -> # *U &U . _Load 6 `ui `ux -> -> 0 `i `ui ]
-[; ;OverLoad_B1.c: 286: Load.AL[i] = 0xffff;
-"286
-[e = *U + &U . _Load 7 * -> _i `ux -> -> # *U &U . _Load 7 `ui `ux -> 65535 `ui ]
-"287
-}
-"284
-[e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 5 `i 334  ]
-[e :U 335 ]
-"287
-}
-[; ;OverLoad_B1.c: 287: }
-[; ;OverLoad_B1.c: 288: }
+[; ;OverLoad_B1.c: 288: Load.AL[i] = 0xffff;
 "288
-[e :UE 333 ]
+[e = *U + &U . _Load 7 * -> _i `ux -> -> # *U &U . _Load 7 `ui `ux -> 65535 `ui ]
+"289
+}
+"286
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 5 `i 333  ]
+[e :U 334 ]
+"289
+}
+[; ;OverLoad_B1.c: 289: }
+[; ;OverLoad_B1.c: 290: }
+"290
+[e :UE 332 ]
 }

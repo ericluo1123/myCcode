@@ -3537,11 +3537,7 @@ myMain.PowerCount++;
 if (myMain.PowerCount == 100) {
 myMain.PowerCount = 0;
 
-# 222
-setTxData();
-
-
-
+# 226
 }
 
 myMain.Count1++;
@@ -3568,7 +3564,7 @@ myMain.Flag = 1;
 
 inline void Timeout_Counter() {
 myMain.Timeout_Counter++;
-if (myMain.Timeout_Counter == 10000) {
+if (myMain.Timeout_Counter == 7500) {
 myMain.Timeout_Counter = 0;
 myMain.Timeout = 1;
 }
@@ -3635,24 +3631,28 @@ return status;
 
 
 char getMain_Lights_Count() {
-char status1 = 0, status2 = 0, status3 = 0, count = 0;
+char count = 0;
 
 
 
+char status1 = 0;
 status1 = DimmerLights1.StatusFlag == 1 ? 1 : 0;
 
 
+char status2 = 0;
 status2 = DimmerLights2.StatusFlag == 1 ? 1 : 0;
 
-# 493
-return count = (status1 + status2 + status3);
+# 501
+return count = (status1 + status2);
+
+# 507
 }
 
 
 char getMain_LoadOK() {
 char ok = 0;
 
-# 504
+# 517
 ok = getDimmer_LoadOK() == 1 ? 1 : 0;
 
 return ok;
@@ -3666,7 +3666,7 @@ if (myMain.Error_Run == 1) {
 if (error == 0) {
 myMain.Error_Run = 0;
 
-# 520
+# 533
 setLED(99, 10);
 
 }
@@ -3718,7 +3718,7 @@ setDimmerLights_SwOff(lights);
 break;
 }
 
-# 588
+# 601
 }
 }
 }

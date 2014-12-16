@@ -3424,7 +3424,7 @@ void DelayOffPointSelect(char sw);
 
 # 9 "../src/OverLoad_B1.c"
 inline void Load_Initialization() {
-Load.OK = 1;
+
 setLoad_AH_AL_Restore();
 }
 
@@ -3468,7 +3468,6 @@ Load.GO = 0;
 if (error == 0 && getAll_DimmerLights_AdjSw() == 0) {
 Load.GO = 1;
 
-Load_Status = getDimmer_Load_Status();
 if (getDimmer_LoadGO() == 1) {
 if (Load.Run == 0 && Load.OK == 0) {
 Load.Run = 1;
@@ -3509,11 +3508,12 @@ if (Load.ADH > Load.ADL) {
 Load.AD = Load.ADH - Load.ADL;
 Load.ADH = 0;
 Load.ADL = 0;
-Load.LightsCount = getMain_Lights_Count();
 
 if (Load.Run == 1) {
 if (Load.Count < 2) {
 Load.Count++;
+Load_Status = getDimmer_Load_Status();
+Load.LightsCount = getMain_Lights_Count();
 if (Load.Count == 1) {
 Load.ErrorCountValue = 2;
 Load.JudgeValue = (20*50);
@@ -3537,40 +3537,25 @@ if (Load.ErrorCount > Load.ErrorCountValue) {
 Load.ErrorCount = 0;
 Load.ERROR = 1;
 
-# 153
-setProductData(4, (Load.AD >> 8));
-setProductData(5, Load.AD);
-setProductData(6, (Load.JudgeValue >> 8));
-setProductData(7, Load.JudgeValue);
-setProductData(8, Load.LightsCount);
-
-
+# 161
 }
 } else {
 Load.ErrorCount = 0;
 if (Load.Run == 1) {
-if (Load.OK == 0) {
 Load.SafeCount++;
 if (Load.SafeCount >= 3) {
 Load.SafeCount = 0;
 Load.OK = 1;
 Load.Run = 0;
+Load.Count = 0;
 Load.TotalLoad = Load.AD;
 Load.ErrorCountValue = 3;
 
-# 187
-setProductData(4, (Load.AD >> 8));
-setProductData(5, Load.AD);
-setProductData(6, (Load.JudgeValue >> 8));
-setProductData(7, Load.JudgeValue);
-setProductData(8, Load.LightsCount);
+# 196
+}
+}
+}
 
-
-
-}
-}
-}
-}
 }
 }
 } else {
@@ -3583,29 +3568,19 @@ Load.LightsON = 0;
 Load.ADtoGO = 0;
 Load.Time = 0;
 setLoad_AH_AL_Restore();
-Load.LightsCount = 0;
 
+Load.ErrorCount = 0;
 Load.SafeCount = 0;
 
 Load.ADH = 0;
 Load.ADL = 0;
 
-Load.AD = 0;
-Load.JudgeValue = 0;
-Load.ErrorCount = 0;
-
-
+# 223
 Load.Run = 0;
+Load.Count = 0;
 Load.OK = 0;
 
-# 238
-setProductData(4, (Load.AD >> 8));
-setProductData(5, Load.AD);
-setProductData(6, (Load.JudgeValue >> 8));
-setProductData(7, Load.JudgeValue);
-setProductData(8, Load.LightsCount);
-
-
+# 247
 }
 if (Load.ERROR == 1) {
 Load.ErrorTime++;

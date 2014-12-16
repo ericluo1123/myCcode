@@ -273,7 +273,7 @@ inline void my_MainTimer() {
 
 inline void Timeout_Counter() {
     myMain.Timeout_Counter++;
-    if (myMain.Timeout_Counter == 10000) {
+    if (myMain.Timeout_Counter == 7500) {
         myMain.Timeout_Counter = 0;
         myMain.Timeout = true;
     }
@@ -465,16 +465,19 @@ char getMain_All_Error_Status(char command) {
 //*****************************************************************************
 
 char getMain_Lights_Count() {
-    char status1 = 0, status2 = 0, status3 = 0, count = 0;
+    char count = 0;
 
 #if Dimmer_use == 1
 #ifdef use_1KEY
+    char status1 = 0;
     status1 = DimmerLights1.StatusFlag == true ? 1 : 0;
 #endif
 #ifdef use_2KEY
+    char status2 = 0;
     status2 = DimmerLights2.StatusFlag == true ? 1 : 0;
 #endif
 #ifdef use_3KEY
+    char status3 = 0;
     status3 = DimmerLights3.Loop == true ? 1 : 0;
 #endif
 #endif
@@ -490,7 +493,17 @@ char getMain_Lights_Count() {
     status3 = Lights3.Loop == true ? 1 : 0;
 #endif
 #endif
+
+#if Switch_Class == 1
+    return count = status1;
+#endif
+#if Switch_Class == 2
+    return count = (status1 + status2);
+#endif 
+#if Switch_Class == 3
     return count = (status1 + status2 + status3);
+#endif
+
 }
 //*****************************************************************************
 

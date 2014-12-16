@@ -3469,7 +3469,16 @@ Transceive_OK = 1;
 inline void CC2500_RxData(void) {
 unsigned char loop_f;
 
-# 83
+
+
+if (RB0 == 1)
+{
+while (RB0 == 1 && myMain.Timeout == 0) {
+Timeout_Counter();
+};
+set_TimeoutCleared();
+}
+
 CC2500_ReadStatus(0x3B);
 
 if (s_data != 0) {

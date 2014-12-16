@@ -404,7 +404,31 @@ void setDimmerLights_Initialization(char lights) {
 
 void setDimmerLights_SwOn(char sw) {
     DimmerLightsPointSelect(sw);
-    char idle = getDimmerLights_Allow_Condition(sw);
+    char idle = 0;
+
+#if Switch_Class == 2
+    if (idle == 0) {
+        if (sw == 1) {
+            idle = DimmerLights2.TriggerAdj == true || DimmerLights2.AdjSw == true ? 1 : 0;
+        } else if (sw == 2) {
+            idle = DimmerLights1.TriggerAdj == true || DimmerLights1.AdjSw == true ? 1 : 0;
+        }
+    }
+#endif
+#if Switch_Class == 3
+    if (idle == 0) {
+        if (sw == 1) {
+            idle = DimmerLights2.AdjSw == true || DimmerLights3.AdjSw == true ? 1 : 0;
+        } else(sw == 2) {
+            idle = DimmerLights1.AdjSw == true || DimmerLights3.AdjSw == true ? 1 : 0;
+        } else(sw == 3) {
+            idle = DimmerLights1.AdjSw == true || DimmerLights2.AdjSw == true ? 1 : 0;
+        }
+    }
+#endif
+    //    idle = getDimmerLights_Allow_Condition(sw);
+
+
     //#if Dimmer_use == 1
     //    idle = getAll_DimmerLights_AdjGO(sw) == 1 ? 1 : 0;
     //#endif
@@ -485,8 +509,15 @@ void DimmerLights_Main() {
     //    }
     //#endif
 
-#ifdef use_1KEY
+#if OverLoad_use == 1
+    if (Dimmer.LoadGO == true) {
+        if (getLoad_OK() == 1 || getMain_All_Error_Status(0) != 0 || getMain_LightsStatus() == 0) {
+            Dimmer.LoadGO = false;
+        }
+    }
+#endif
 
+#ifdef use_1KEY
     setDimmerLights_Main(1);
 #endif
 
@@ -557,13 +588,10 @@ char getDimmerLights_Allow_Condition(char lights) {
     //1.其他的開燈完成階段(overload判斷ok)
     //2.其他的燈未進入開燈階段
     //3.其他燈未在調光階段
-#if OverLoad_use == 1 
-    if (Dimmer.LoadGO == true) {
-        if (getLoad_OK() == 1 || getMain_All_Error_Status(0) != 0 || getMain_LightsStatus() == 0) {
-            Dimmer.LoadGO = false;
-        }
-        allow = Dimmer.LoadGO == false ? 0 : 1;
-    }
+#if OverLoad_use == 1
+    //            allow = Dimmer.LoadGO == false ? 0 : 1;
+
+    allow = getLoad_OK() == 0 && Dimmer.LoadGO == false ? 0 : 1;
 
 #endif
 
