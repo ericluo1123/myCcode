@@ -132,6 +132,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _setDelayOff_GO `(v ~T0 @X0 0 ef3`uc`uc`uc ]
 "160 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h
 [v _getDimmerLights_Allow_Condition `(uc ~T0 @X0 0 ef1`uc ]
+"4533 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
+[v _RB5 `Vb ~T0 @X0 0 e@109 ]
 "99 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/OverLoad_B1.h
 [v _getLoad_OK `(uc ~T0 @X0 0 ef ]
 "137 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Main_B1.h
@@ -3655,153 +3657,156 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.c: 494: DimmerLights->SwitchAdj = 1;
 "494
 [e = . . *U _DimmerLights 10 2 -> -> 1 `i `uc ]
+[; ;Dimmer_B1.c: 495: RB5 = RB5 == 1 ? 0 : 1;
 "495
-}
-[e :U 335 ]
+[e = _RB5 -> ? == -> _RB5 `i -> 1 `i : -> 0 `i -> 1 `i `b ]
 "496
 }
+[e :U 335 ]
+"497
+}
 [e :U 334 ]
-[; ;Dimmer_B1.c: 495: }
 [; ;Dimmer_B1.c: 496: }
 [; ;Dimmer_B1.c: 497: }
-"497
+[; ;Dimmer_B1.c: 498: }
+"498
 [e :UE 333 ]
 }
-"501
+"502
 [v _DimmerLights_Main `(v ~T0 @X0 1 ef ]
 {
-[; ;Dimmer_B1.c: 501: void DimmerLights_Main() {
+[; ;Dimmer_B1.c: 502: void DimmerLights_Main() {
 [e :U _DimmerLights_Main ]
 [f ]
-[; ;Dimmer_B1.c: 513: if (Dimmer.LoadGO == 1) {
-"513
+[; ;Dimmer_B1.c: 514: if (Dimmer.LoadGO == 1) {
+"514
 [e $ ! == -> . . . _Dimmer 0 0 2 `i -> 1 `i 337  ]
 {
-[; ;Dimmer_B1.c: 514: if (getLoad_OK() == 1 || getMain_All_Error_Status(0) != 0 || getMain_LightsStatus() == 0) {
-"514
+[; ;Dimmer_B1.c: 515: if (getLoad_OK() == 1 || getMain_All_Error_Status(0) != 0 || getMain_LightsStatus() == 0) {
+"515
 [e $ ! || || == -> ( _getLoad_OK ..  `i -> 1 `i != -> ( _getMain_All_Error_Status (1 -> -> 0 `i `uc `i -> 0 `i == -> ( _getMain_LightsStatus ..  `i -> 0 `i 338  ]
 {
-[; ;Dimmer_B1.c: 515: Dimmer.LoadGO = 0;
-"515
-[e = . . . _Dimmer 0 0 2 -> -> 0 `i `uc ]
+[; ;Dimmer_B1.c: 516: Dimmer.LoadGO = 0;
 "516
-}
-[e :U 338 ]
+[e = . . . _Dimmer 0 0 2 -> -> 0 `i `uc ]
 "517
 }
+[e :U 338 ]
+"518
+}
 [e :U 337 ]
-[; ;Dimmer_B1.c: 516: }
 [; ;Dimmer_B1.c: 517: }
-[; ;Dimmer_B1.c: 521: setDimmerLights_Main(1);
-"521
+[; ;Dimmer_B1.c: 518: }
+[; ;Dimmer_B1.c: 522: setDimmerLights_Main(1);
+"522
 [e ( _setDimmerLights_Main (1 -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 525: setDimmerLights_Main(2);
-"525
+[; ;Dimmer_B1.c: 526: setDimmerLights_Main(2);
+"526
 [e ( _setDimmerLights_Main (1 -> -> 2 `i `uc ]
-[; ;Dimmer_B1.c: 532: }
-"532
+[; ;Dimmer_B1.c: 533: }
+"533
 [e :UE 336 ]
 }
-"535
+"536
 [v _setDimmerLights_Main `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;Dimmer_B1.c: 535: void setDimmerLights_Main(char lights) {
+[; ;Dimmer_B1.c: 536: void setDimmerLights_Main(char lights) {
 [e :U _setDimmerLights_Main ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;Dimmer_B1.c: 536: DimmerLightsPointSelect(lights);
-"536
+[; ;Dimmer_B1.c: 537: DimmerLightsPointSelect(lights);
+"537
 [e ( _DimmerLightsPointSelect (1 _lights ]
-[; ;Dimmer_B1.c: 538: if (DimmerLights->Trigger == 1) {
-"538
+[; ;Dimmer_B1.c: 539: if (DimmerLights->Trigger == 1) {
+"539
 [e $ ! == -> . . *U _DimmerLights 10 1 `i -> 1 `i 340  ]
 {
-[; ;Dimmer_B1.c: 539: if (getDimmerLights_Allow_Condition(lights) == 0) {
-"539
+[; ;Dimmer_B1.c: 540: if (getDimmerLights_Allow_Condition(lights) == 0) {
+"540
 [e $ ! == -> ( _getDimmerLights_Allow_Condition (1 _lights `i -> 0 `i 341  ]
 {
-[; ;Dimmer_B1.c: 540: DimmerLights->Trigger = 0;
-"540
-[e = . . *U _DimmerLights 10 1 -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 541: if (DimmerLights->Switch == 1) {
+[; ;Dimmer_B1.c: 541: DimmerLights->Trigger = 0;
 "541
+[e = . . *U _DimmerLights 10 1 -> -> 0 `i `uc ]
+[; ;Dimmer_B1.c: 542: if (DimmerLights->Switch == 1) {
+"542
 [e $ ! == -> . . *U _DimmerLights 10 0 `i -> 1 `i 342  ]
 {
-[; ;Dimmer_B1.c: 542: setDimmerLights(lights, 1);
-"542
-[e ( _setDimmerLights (2 , _lights -> -> 1 `i `uc ]
+[; ;Dimmer_B1.c: 543: setDimmerLights(lights, 1);
 "543
+[e ( _setDimmerLights (2 , _lights -> -> 1 `i `uc ]
+"544
 }
-[; ;Dimmer_B1.c: 543: } else {
+[; ;Dimmer_B1.c: 544: } else {
 [e $U 343  ]
 [e :U 342 ]
 {
-[; ;Dimmer_B1.c: 544: setDimmerLights(lights, 0);
-"544
-[e ( _setDimmerLights (2 , _lights -> -> 0 `i `uc ]
+[; ;Dimmer_B1.c: 545: setDimmerLights(lights, 0);
 "545
-}
-[e :U 343 ]
+[e ( _setDimmerLights (2 , _lights -> -> 0 `i `uc ]
 "546
 }
-[e :U 341 ]
+[e :U 343 ]
 "547
 }
-[; ;Dimmer_B1.c: 545: }
+[e :U 341 ]
+"548
+}
 [; ;Dimmer_B1.c: 546: }
-[; ;Dimmer_B1.c: 547: } else {
+[; ;Dimmer_B1.c: 547: }
+[; ;Dimmer_B1.c: 548: } else {
 [e $U 344  ]
 [e :U 340 ]
 {
-[; ;Dimmer_B1.c: 548: if (DimmerLights->TriggerAdj == 1) {
-"548
+[; ;Dimmer_B1.c: 549: if (DimmerLights->TriggerAdj == 1) {
+"549
 [e $ ! == -> . . *U _DimmerLights 10 3 `i -> 1 `i 345  ]
 {
-[; ;Dimmer_B1.c: 549: DimmerLights->TriggerAdj = 0;
-"549
-[e = . . *U _DimmerLights 10 3 -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 550: if (DimmerLights->SwitchAdj == 1) {
+[; ;Dimmer_B1.c: 550: DimmerLights->TriggerAdj = 0;
 "550
+[e = . . *U _DimmerLights 10 3 -> -> 0 `i `uc ]
+[; ;Dimmer_B1.c: 551: if (DimmerLights->SwitchAdj == 1) {
+"551
 [e $ ! == -> . . *U _DimmerLights 10 2 `i -> 1 `i 346  ]
 {
-[; ;Dimmer_B1.c: 551: setDimmerLights_Adj(lights, 1);
-"551
-[e ( _setDimmerLights_Adj (2 , _lights -> -> 1 `i `uc ]
+[; ;Dimmer_B1.c: 552: setDimmerLights_Adj(lights, 1);
 "552
+[e ( _setDimmerLights_Adj (2 , _lights -> -> 1 `i `uc ]
+"553
 }
-[; ;Dimmer_B1.c: 552: } else {
+[; ;Dimmer_B1.c: 553: } else {
 [e $U 347  ]
 [e :U 346 ]
 {
-[; ;Dimmer_B1.c: 553: setDimmerLights_Adj(lights, 0);
-"553
-[e ( _setDimmerLights_Adj (2 , _lights -> -> 0 `i `uc ]
+[; ;Dimmer_B1.c: 554: setDimmerLights_Adj(lights, 0);
 "554
-}
-[e :U 347 ]
+[e ( _setDimmerLights_Adj (2 , _lights -> -> 0 `i `uc ]
 "555
 }
-[e :U 345 ]
+[e :U 347 ]
 "556
 }
+[e :U 345 ]
+"557
+}
 [e :U 344 ]
-[; ;Dimmer_B1.c: 554: }
 [; ;Dimmer_B1.c: 555: }
 [; ;Dimmer_B1.c: 556: }
-[; ;Dimmer_B1.c: 582: }
-"582
+[; ;Dimmer_B1.c: 557: }
+[; ;Dimmer_B1.c: 583: }
+"583
 [e :UE 339 ]
 }
-"585
+"586
 [v _getDimmerLights_Allow_Condition `(uc ~T0 @X0 1 ef1`uc ]
 {
-[; ;Dimmer_B1.c: 585: char getDimmerLights_Allow_Condition(char lights) {
+[; ;Dimmer_B1.c: 586: char getDimmerLights_Allow_Condition(char lights) {
 [e :U _getDimmerLights_Allow_Condition ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [f ]
-"586
+"587
 [v _allow `uc ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 586: char allow = 0;
+[; ;Dimmer_B1.c: 587: char allow = 0;
 [e = _allow -> -> 0 `i `uc ]
 [; ;Dimmer_B1.c: 594: allow = getLoad_OK() == 0 && Dimmer.LoadGO == 0 ? 0 : 1;
 "594
@@ -3877,672 +3882,672 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.c: 639: DimmerLights->StatusFlag = 1;
 "639
 [e = . . *U _DimmerLights 1 2 -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 640: Dimmer.Load_Status = 1;
-"640
+[; ;Dimmer_B1.c: 642: Dimmer.Load_Status = 1;
+"642
 [e = . . . _Dimmer 0 0 3 -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 641: setDimmerLights_Line(lights);
-"641
-[e ( _setDimmerLights_Line (1 _lights ]
-[; ;Dimmer_B1.c: 643: setLED(lights, 0);
+[; ;Dimmer_B1.c: 643: setDimmerLights_Line(lights);
 "643
+[e ( _setDimmerLights_Line (1 _lights ]
+[; ;Dimmer_B1.c: 645: setLED(lights, 0);
+"645
 [e ( _setLED (2 , _lights -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 644: ;(0);
-"644
+[; ;Dimmer_B1.c: 646: ;(0);
+"646
 [e -> 0 `i ]
-[; ;Dimmer_B1.c: 648: DimmerLights->DimmingValue = ((char)(75*0.8));
-"648
-[e = . *U _DimmerLights 4 -> * -> -> 75 `i `d .0.8 `uc ]
-[; ;Dimmer_B1.c: 650: setProductData((20 + lights), setPercentValue(((char)(75*0.8))));
+[; ;Dimmer_B1.c: 650: DimmerLights->DimmingValue = ((char)(75*0.8));
 "650
-[e ( _setProductData (2 , -> + -> 20 `i -> _lights `i `uc ( _setPercentValue (1 -> * -> -> 75 `i `d .0.8 `uc ]
+[e = . *U _DimmerLights 4 -> * -> -> 75 `i `d .0.8 `uc ]
+[; ;Dimmer_B1.c: 652: setProductData((20 + lights), setPercentValue(((char)(75*0.8))));
 "652
+[e ( _setProductData (2 , -> + -> 20 `i -> _lights `i `uc ( _setPercentValue (1 -> * -> -> 75 `i `d .0.8 `uc ]
+"654
 }
-[; ;Dimmer_B1.c: 652: } else if (status == 0) {
+[; ;Dimmer_B1.c: 654: } else if (status == 0) {
 [e $U 356  ]
 [e :U 355 ]
 [e $ ! == -> _status `i -> 0 `i 357  ]
 {
-[; ;Dimmer_B1.c: 653: DimmerLights->StatusFlag = 0;
-"653
-[e = . . *U _DimmerLights 1 2 -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 654: Dimmer.Load_Status = 0;
-"654
-[e = . . . _Dimmer 0 0 3 -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 655: setDimmerLights_Line(0);
+[; ;Dimmer_B1.c: 655: DimmerLights->StatusFlag = 0;
 "655
-[e ( _setDimmerLights_Line (1 -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 657: setLED(lights, 1);
-"657
-[e ( _setLED (2 , _lights -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 658: ;(1);
+[e = . . *U _DimmerLights 1 2 -> -> 0 `i `uc ]
+[; ;Dimmer_B1.c: 658: Dimmer.Load_Status = 0;
 "658
-[e -> 1 `i ]
+[e = . . . _Dimmer 0 0 3 -> -> 0 `i `uc ]
+[; ;Dimmer_B1.c: 659: setDimmerLights_Line(0);
 "659
+[e ( _setDimmerLights_Line (1 -> -> 0 `i `uc ]
+[; ;Dimmer_B1.c: 661: setLED(lights, 1);
+"661
+[e ( _setLED (2 , _lights -> -> 1 `i `uc ]
+[; ;Dimmer_B1.c: 662: ;(1);
+"662
+[e -> 1 `i ]
+"663
 }
 [e :U 357 ]
-"662
+"666
 [e :U 356 ]
-[; ;Dimmer_B1.c: 659: }
-[; ;Dimmer_B1.c: 662: setRF_DimmerLights(lights, status);
+[; ;Dimmer_B1.c: 663: }
+[; ;Dimmer_B1.c: 666: setRF_DimmerLights(lights, status);
 [e ( _setRF_DimmerLights (2 , _lights _status ]
-[; ;Dimmer_B1.c: 663: setTxData();
-"663
+[; ;Dimmer_B1.c: 667: setTxData();
+"667
 [e ( _setTxData ..  ]
-[; ;Dimmer_B1.c: 664: }
-"664
+[; ;Dimmer_B1.c: 668: }
+"668
 [e :UE 354 ]
 }
-"668
+"672
 [v _setDimmerLights_Adj `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;Dimmer_B1.c: 668: void setDimmerLights_Adj(char lights, char status) {
+[; ;Dimmer_B1.c: 672: void setDimmerLights_Adj(char lights, char status) {
 [e :U _setDimmerLights_Adj ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [v _status `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;Dimmer_B1.c: 670: if (status == 1) {
-"670
+[; ;Dimmer_B1.c: 674: if (status == 1) {
+"674
 [e $ ! == -> _status `i -> 1 `i 359  ]
 {
-[; ;Dimmer_B1.c: 671: DimmerLights->AdjSw = 1;
-"671
+[; ;Dimmer_B1.c: 675: DimmerLights->AdjSw = 1;
+"675
 [e = . . *U _DimmerLights 1 6 -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 672: DimmerLights->Signal = 1;
-"672
+[; ;Dimmer_B1.c: 676: DimmerLights->Signal = 1;
+"676
 [e = . . *U _DimmerLights 1 5 -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 673: setBuz(1, 100);
-"673
+[; ;Dimmer_B1.c: 677: setBuz(1, 100);
+"677
 [e ( _setBuz (2 , -> -> 1 `i `uc -> 100 `i ]
-"674
+"678
 }
-[; ;Dimmer_B1.c: 674: } else if (status == 0) {
+[; ;Dimmer_B1.c: 678: } else if (status == 0) {
 [e $U 360  ]
 [e :U 359 ]
 [e $ ! == -> _status `i -> 0 `i 361  ]
 {
-[; ;Dimmer_B1.c: 675: Dimmer.Load_Status = 0;
-"675
+[; ;Dimmer_B1.c: 679: Dimmer.Load_Status = 0;
+"679
 [e = . . . _Dimmer 0 0 3 -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 676: setDimmerLights_Line(lights);
-"676
-[e ( _setDimmerLights_Line (1 _lights ]
-[; ;Dimmer_B1.c: 677: DimmerLights->AdjSw = 0;
-"677
-[e = . . *U _DimmerLights 1 6 -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 678: DimmerLights->Signal = 0;
-"678
-[e = . . *U _DimmerLights 1 5 -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 680: DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
+[; ;Dimmer_B1.c: 680: setDimmerLights_Line(lights);
 "680
-[e = . *U _DimmerLights 6 . *U _DimmerLights 4 ]
-[; ;Dimmer_B1.c: 681: setProductData((20 + lights), setPercentValue(DimmerLights->DimmingValue));
+[e ( _setDimmerLights_Line (1 _lights ]
+[; ;Dimmer_B1.c: 681: DimmerLights->AdjSw = 0;
 "681
+[e = . . *U _DimmerLights 1 6 -> -> 0 `i `uc ]
+[; ;Dimmer_B1.c: 682: DimmerLights->Signal = 0;
+"682
+[e = . . *U _DimmerLights 1 5 -> -> 0 `i `uc ]
+[; ;Dimmer_B1.c: 684: DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
+"684
+[e = . *U _DimmerLights 6 . *U _DimmerLights 4 ]
+[; ;Dimmer_B1.c: 685: setProductData((20 + lights), setPercentValue(DimmerLights->DimmingValue));
+"685
 [e ( _setProductData (2 , -> + -> 20 `i -> _lights `i `uc ( _setPercentValue (1 . *U _DimmerLights 4 ]
-[; ;Dimmer_B1.c: 696: setRF_DimmerLights(lights, 1);
-"696
+[; ;Dimmer_B1.c: 700: setRF_DimmerLights(lights, 1);
+"700
 [e ( _setRF_DimmerLights (2 , _lights -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 697: setTxData();
-"697
+[; ;Dimmer_B1.c: 701: setTxData();
+"701
 [e ( _setTxData ..  ]
-"698
+"702
 }
 [e :U 361 ]
-"699
+"703
 [e :U 360 ]
-[; ;Dimmer_B1.c: 698: }
-[; ;Dimmer_B1.c: 699: }
+[; ;Dimmer_B1.c: 702: }
+[; ;Dimmer_B1.c: 703: }
 [e :UE 358 ]
 }
-"702
+"706
 [v _setDimmerLights_Line `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;Dimmer_B1.c: 702: void setDimmerLights_Line(char lights) {
+[; ;Dimmer_B1.c: 706: void setDimmerLights_Line(char lights) {
 [e :U _setDimmerLights_Line ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;Dimmer_B1.c: 703: Dimmer.LoadGO = 1;
-"703
+[; ;Dimmer_B1.c: 707: Dimmer.LoadGO = 1;
+"707
 [e = . . . _Dimmer 0 0 2 -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 705: DimmerLights1.Line = 0;
-"705
+[; ;Dimmer_B1.c: 709: DimmerLights1.Line = 0;
+"709
 [e = . . _DimmerLights1 10 6 -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 708: DimmerLights2.Line = 0;
-"708
+[; ;Dimmer_B1.c: 712: DimmerLights2.Line = 0;
+"712
 [e = . . _DimmerLights2 10 6 -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 714: if (lights == 1) {
-"714
+[; ;Dimmer_B1.c: 718: if (lights == 1) {
+"718
 [e $ ! == -> _lights `i -> 1 `i 363  ]
 {
-[; ;Dimmer_B1.c: 715: DimmerLights1.Line = 1;
-"715
-[e = . . _DimmerLights1 10 6 -> -> 1 `i `uc ]
-"716
-}
-[; ;Dimmer_B1.c: 716: }
-[e $U 364  ]
+[; ;Dimmer_B1.c: 719: DimmerLights1.Line = 1;
 "719
+[e = . . _DimmerLights1 10 6 -> -> 1 `i `uc ]
+"720
+}
+[; ;Dimmer_B1.c: 720: }
+[e $U 364  ]
+"723
 [e :U 363 ]
-[; ;Dimmer_B1.c: 719: else if (lights == 2) {
+[; ;Dimmer_B1.c: 723: else if (lights == 2) {
 [e $ ! == -> _lights `i -> 2 `i 365  ]
 {
-[; ;Dimmer_B1.c: 720: DimmerLights2.Line = 1;
-"720
+[; ;Dimmer_B1.c: 724: DimmerLights2.Line = 1;
+"724
 [e = . . _DimmerLights2 10 6 -> -> 1 `i `uc ]
-"721
+"725
 }
 [e :U 365 ]
-"729
+"733
 [e :U 364 ]
-[; ;Dimmer_B1.c: 721: }
-[; ;Dimmer_B1.c: 729: }
+[; ;Dimmer_B1.c: 725: }
+[; ;Dimmer_B1.c: 733: }
 [e :UE 362 ]
 }
-"732
+"736
 [v _getDimmerLights_Line `(uc ~T0 @X0 1 ef ]
 {
-[; ;Dimmer_B1.c: 732: char getDimmerLights_Line() {
+[; ;Dimmer_B1.c: 736: char getDimmerLights_Line() {
 [e :U _getDimmerLights_Line ]
 [f ]
-"733
+"737
 [v _line `uc ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 733: char line = 0;
+[; ;Dimmer_B1.c: 737: char line = 0;
 [e = _line -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 735: if (DimmerLights1.Line == 1) {
-"735
+[; ;Dimmer_B1.c: 739: if (DimmerLights1.Line == 1) {
+"739
 [e $ ! == -> . . _DimmerLights1 10 6 `i -> 1 `i 367  ]
 {
-[; ;Dimmer_B1.c: 736: line = 1;
-"736
-[e = _line -> -> 1 `i `uc ]
-"737
-}
-[; ;Dimmer_B1.c: 737: }
-[e $U 368  ]
+[; ;Dimmer_B1.c: 740: line = 1;
 "740
+[e = _line -> -> 1 `i `uc ]
+"741
+}
+[; ;Dimmer_B1.c: 741: }
+[e $U 368  ]
+"744
 [e :U 367 ]
-[; ;Dimmer_B1.c: 740: else if (DimmerLights2.Line == 1) {
+[; ;Dimmer_B1.c: 744: else if (DimmerLights2.Line == 1) {
 [e $ ! == -> . . _DimmerLights2 10 6 `i -> 1 `i 369  ]
 {
-[; ;Dimmer_B1.c: 741: line = 2;
-"741
+[; ;Dimmer_B1.c: 745: line = 2;
+"745
 [e = _line -> -> 2 `i `uc ]
-"742
+"746
 }
 [e :U 369 ]
-"749
+"753
 [e :U 368 ]
-[; ;Dimmer_B1.c: 742: }
-[; ;Dimmer_B1.c: 749: return line;
+[; ;Dimmer_B1.c: 746: }
+[; ;Dimmer_B1.c: 753: return line;
 [e ) _line ]
 [e $UE 366  ]
-[; ;Dimmer_B1.c: 750: }
-"750
+[; ;Dimmer_B1.c: 754: }
+"754
 [e :UE 366 ]
 }
-"753
+"757
 [v _getDimmerLights_Status `(uc ~T0 @X0 1 ef1`uc ]
 {
-[; ;Dimmer_B1.c: 753: char getDimmerLights_Status(char lights) {
+[; ;Dimmer_B1.c: 757: char getDimmerLights_Status(char lights) {
 [e :U _getDimmerLights_Status ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;Dimmer_B1.c: 754: DimmerLightsPointSelect(lights);
-"754
+[; ;Dimmer_B1.c: 758: DimmerLightsPointSelect(lights);
+"758
 [e ( _DimmerLightsPointSelect (1 _lights ]
-"755
+"759
 [v _status `uc ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 755: char status = DimmerLights->Status == 1 ? 1 : 0;
+[; ;Dimmer_B1.c: 759: char status = DimmerLights->Status == 1 ? 1 : 0;
 [e = _status -> ? == -> . . *U _DimmerLights 2 1 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 756: return status;
-"756
+[; ;Dimmer_B1.c: 760: return status;
+"760
 [e ) _status ]
 [e $UE 370  ]
-[; ;Dimmer_B1.c: 757: }
-"757
+[; ;Dimmer_B1.c: 761: }
+"761
 [e :UE 370 ]
 }
-"760
+"764
 [v _getDimmerLights_StatusFlag `(uc ~T0 @X0 1 ef ]
 {
-[; ;Dimmer_B1.c: 760: char getDimmerLights_StatusFlag() {
+[; ;Dimmer_B1.c: 764: char getDimmerLights_StatusFlag() {
 [e :U _getDimmerLights_StatusFlag ]
 [f ]
-"761
+"765
 [v _Status `uc ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 761: char Status = 0;
+[; ;Dimmer_B1.c: 765: char Status = 0;
 [e = _Status -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 768: Status = (DimmerLights1.StatusFlag == 1 || DimmerLights2.StatusFlag == 1) ? 1 : 0;
-"768
+[; ;Dimmer_B1.c: 772: Status = (DimmerLights1.StatusFlag == 1 || DimmerLights2.StatusFlag == 1) ? 1 : 0;
+"772
 [e = _Status -> ? || == -> . . _DimmerLights1 1 2 `i -> 1 `i == -> . . _DimmerLights2 1 2 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 775: return Status;
-"775
+[; ;Dimmer_B1.c: 779: return Status;
+"779
 [e ) _Status ]
 [e $UE 371  ]
-[; ;Dimmer_B1.c: 776: }
-"776
+[; ;Dimmer_B1.c: 780: }
+"780
 [e :UE 371 ]
 }
-"779
+"783
 [v _getDimmerLights_Trigger `(uc ~T0 @X0 1 ef ]
 {
-[; ;Dimmer_B1.c: 779: char getDimmerLights_Trigger() {
+[; ;Dimmer_B1.c: 783: char getDimmerLights_Trigger() {
 [e :U _getDimmerLights_Trigger ]
 [f ]
-"780
+"784
 [v _Status `uc ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 780: char Status = 0;
+[; ;Dimmer_B1.c: 784: char Status = 0;
 [e = _Status -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 787: Status = (DimmerLights1.Trigger == 1 || DimmerLights2.Trigger == 1) ? 1 : 0;
-"787
+[; ;Dimmer_B1.c: 791: Status = (DimmerLights1.Trigger == 1 || DimmerLights2.Trigger == 1) ? 1 : 0;
+"791
 [e = _Status -> ? || == -> . . _DimmerLights1 10 1 `i -> 1 `i == -> . . _DimmerLights2 10 1 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 794: return Status;
-"794
+[; ;Dimmer_B1.c: 798: return Status;
+"798
 [e ) _Status ]
 [e $UE 372  ]
-[; ;Dimmer_B1.c: 795: }
-"795
+[; ;Dimmer_B1.c: 799: }
+"799
 [e :UE 372 ]
 }
-"798
+"802
 [v _getAll_DimmerLights_AdjGO `(uc ~T0 @X0 1 ef1`uc ]
 {
-[; ;Dimmer_B1.c: 798: char getAll_DimmerLights_AdjGO(char sw) {
+[; ;Dimmer_B1.c: 802: char getAll_DimmerLights_AdjGO(char sw) {
 [e :U _getAll_DimmerLights_AdjGO ]
 [v _sw `uc ~T0 @X0 1 r1 ]
 [f ]
-"799
+"803
 [v _adjgo `uc ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 799: char adjgo = 0;
+[; ;Dimmer_B1.c: 803: char adjgo = 0;
 [e = _adjgo -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 815: switch (sw) {
-"815
+[; ;Dimmer_B1.c: 819: switch (sw) {
+"819
 [e $U 375  ]
 {
-[; ;Dimmer_B1.c: 816: case 1:
-"816
-[e :U 376 ]
-[; ;Dimmer_B1.c: 817: adjgo = DimmerLights2.SwitchAdj == 1 ? 1 : 0;
-"817
-[e = _adjgo -> ? == -> . . _DimmerLights2 10 2 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 818: break;
-"818
-[e $U 374  ]
-[; ;Dimmer_B1.c: 819: case 2:
-"819
-[e :U 377 ]
-[; ;Dimmer_B1.c: 820: adjgo = DimmerLights1.SwitchAdj == 1 ? 1 : 0;
+[; ;Dimmer_B1.c: 820: case 1:
 "820
-[e = _adjgo -> ? == -> . . _DimmerLights1 10 2 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 821: break;
+[e :U 376 ]
+[; ;Dimmer_B1.c: 821: adjgo = DimmerLights2.SwitchAdj == 1 ? 1 : 0;
 "821
-[e $U 374  ]
+[e = _adjgo -> ? == -> . . _DimmerLights2 10 2 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
+[; ;Dimmer_B1.c: 822: break;
 "822
-}
-[; ;Dimmer_B1.c: 822: }
 [e $U 374  ]
-"815
+[; ;Dimmer_B1.c: 823: case 2:
+"823
+[e :U 377 ]
+[; ;Dimmer_B1.c: 824: adjgo = DimmerLights1.SwitchAdj == 1 ? 1 : 0;
+"824
+[e = _adjgo -> ? == -> . . _DimmerLights1 10 2 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
+[; ;Dimmer_B1.c: 825: break;
+"825
+[e $U 374  ]
+"826
+}
+[; ;Dimmer_B1.c: 826: }
+[e $U 374  ]
+"819
 [e :U 375 ]
 [e [\ _sw , $ -> -> 1 `i `uc 376
  , $ -> -> 2 `i `uc 377
  374 ]
-"822
+"826
 [e :U 374 ]
-[; ;Dimmer_B1.c: 824: return adjgo;
-"824
+[; ;Dimmer_B1.c: 828: return adjgo;
+"828
 [e ) _adjgo ]
 [e $UE 373  ]
-[; ;Dimmer_B1.c: 825: }
-"825
+[; ;Dimmer_B1.c: 829: }
+"829
 [e :UE 373 ]
 }
-"828
+"832
 [v _getAll_DimmerLights_AdjSw `(uc ~T0 @X0 1 ef ]
 {
-[; ;Dimmer_B1.c: 828: char getAll_DimmerLights_AdjSw() {
+[; ;Dimmer_B1.c: 832: char getAll_DimmerLights_AdjSw() {
 [e :U _getAll_DimmerLights_AdjSw ]
 [f ]
-"829
+"833
 [v _count `uc ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 829: char count = 2;
+[; ;Dimmer_B1.c: 833: char count = 2;
 [e = _count -> -> 2 `i `uc ]
-"830
+"834
 [v _adjsw `uc ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 830: char adjsw = 0;
+[; ;Dimmer_B1.c: 834: char adjsw = 0;
 [e = _adjsw -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 832: for (int i = 0; i < count; i++) {
-"832
+[; ;Dimmer_B1.c: 836: for (int i = 0; i < count; i++) {
+"836
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
 [e $U 382  ]
 [e :U 379 ]
 {
-[; ;Dimmer_B1.c: 833: DimmerLightsPointSelect(i + 1);
-"833
+[; ;Dimmer_B1.c: 837: DimmerLightsPointSelect(i + 1);
+"837
 [e ( _DimmerLightsPointSelect (1 -> + _i -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 834: if (adjsw == 0) {
-"834
+[; ;Dimmer_B1.c: 838: if (adjsw == 0) {
+"838
 [e $ ! == -> _adjsw `i -> 0 `i 383  ]
 {
-[; ;Dimmer_B1.c: 835: adjsw = DimmerLights->AdjSw == 1 ? 1 : 0;
-"835
+[; ;Dimmer_B1.c: 839: adjsw = DimmerLights->AdjSw == 1 ? 1 : 0;
+"839
 [e = _adjsw -> ? == -> . . *U _DimmerLights 1 6 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-"836
+"840
 }
 [e :U 383 ]
-"837
+"841
 }
-"832
+"836
 [e ++ _i -> 1 `i ]
 [e :U 382 ]
 [e $ < _i -> _count `i 379  ]
 [e :U 380 ]
-"837
+"841
 }
-[; ;Dimmer_B1.c: 836: }
-[; ;Dimmer_B1.c: 837: }
-[; ;Dimmer_B1.c: 838: return adjsw;
-"838
+[; ;Dimmer_B1.c: 840: }
+[; ;Dimmer_B1.c: 841: }
+[; ;Dimmer_B1.c: 842: return adjsw;
+"842
 [e ) _adjsw ]
 [e $UE 378  ]
-[; ;Dimmer_B1.c: 839: }
-"839
+[; ;Dimmer_B1.c: 843: }
+"843
 [e :UE 378 ]
 }
-"842
+"846
 [v _setDimmerLights_ErrorClose `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;Dimmer_B1.c: 842: void setDimmerLights_ErrorClose(char lights) {
+[; ;Dimmer_B1.c: 846: void setDimmerLights_ErrorClose(char lights) {
 [e :U _setDimmerLights_ErrorClose ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;Dimmer_B1.c: 843: if (lights == 255) {
-"843
+[; ;Dimmer_B1.c: 847: if (lights == 255) {
+"847
 [e $ ! == -> _lights `i -> 255 `i 385  ]
 {
-"848
+"852
 [v _count `uc ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 848: char count = 2;
+[; ;Dimmer_B1.c: 852: char count = 2;
 [e = _count -> -> 2 `i `uc ]
-[; ;Dimmer_B1.c: 853: for (int i = 0; i < count; i++) {
-"853
+[; ;Dimmer_B1.c: 857: for (int i = 0; i < count; i++) {
+"857
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
 [e $U 389  ]
 [e :U 386 ]
 {
-[; ;Dimmer_B1.c: 854: DimmerLightsPointSelect(i + 1);
-"854
+[; ;Dimmer_B1.c: 858: DimmerLightsPointSelect(i + 1);
+"858
 [e ( _DimmerLightsPointSelect (1 -> + _i -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 855: if (getDimmerLights_Status(i + 1) == 1) {
-"855
+[; ;Dimmer_B1.c: 859: if (getDimmerLights_Status(i + 1) == 1) {
+"859
 [e $ ! == -> ( _getDimmerLights_Status (1 -> + _i -> 1 `i `uc `i -> 1 `i 390  ]
 {
-[; ;Dimmer_B1.c: 856: DimmerLights->SwFlag = 1;
-"856
+[; ;Dimmer_B1.c: 860: DimmerLights->SwFlag = 1;
+"860
 [e = . . *U _DimmerLights 11 1 -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 857: DimmerLights->Status = 0;
-"857
+[; ;Dimmer_B1.c: 861: DimmerLights->Status = 0;
+"861
 [e = . . *U _DimmerLights 2 1 -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 858: setDimmerLights_SwOff(i + 1);
-"858
+[; ;Dimmer_B1.c: 862: setDimmerLights_SwOff(i + 1);
+"862
 [e ( _setDimmerLights_SwOff (1 -> + _i -> 1 `i `uc ]
-"859
+"863
 }
 [e :U 390 ]
-"860
+"864
 }
-"853
+"857
 [e ++ _i -> 1 `i ]
 [e :U 389 ]
 [e $ < _i -> _count `i 386  ]
 [e :U 387 ]
-"860
+"864
 }
-"861
+"865
 }
-[; ;Dimmer_B1.c: 859: }
-[; ;Dimmer_B1.c: 860: }
-[; ;Dimmer_B1.c: 861: } else {
+[; ;Dimmer_B1.c: 863: }
+[; ;Dimmer_B1.c: 864: }
+[; ;Dimmer_B1.c: 865: } else {
 [e $U 391  ]
 [e :U 385 ]
 {
-[; ;Dimmer_B1.c: 862: DimmerLightsPointSelect(lights);
-"862
+[; ;Dimmer_B1.c: 866: DimmerLightsPointSelect(lights);
+"866
 [e ( _DimmerLightsPointSelect (1 _lights ]
-[; ;Dimmer_B1.c: 863: if (getDimmerLights_Status(lights) == 1) {
-"863
+[; ;Dimmer_B1.c: 867: if (getDimmerLights_Status(lights) == 1) {
+"867
 [e $ ! == -> ( _getDimmerLights_Status (1 _lights `i -> 1 `i 392  ]
 {
-[; ;Dimmer_B1.c: 864: DimmerLights->SwFlag = 1;
-"864
+[; ;Dimmer_B1.c: 868: DimmerLights->SwFlag = 1;
+"868
 [e = . . *U _DimmerLights 11 1 -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 865: DimmerLights->Status = 0;
-"865
+[; ;Dimmer_B1.c: 869: DimmerLights->Status = 0;
+"869
 [e = . . *U _DimmerLights 2 1 -> -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 866: setDimmerLights_SwOff(lights);
-"866
+[; ;Dimmer_B1.c: 870: setDimmerLights_SwOff(lights);
+"870
 [e ( _setDimmerLights_SwOff (1 _lights ]
-"867
+"871
 }
 [e :U 392 ]
-"868
+"872
 }
 [e :U 391 ]
-[; ;Dimmer_B1.c: 867: }
-[; ;Dimmer_B1.c: 868: }
-[; ;Dimmer_B1.c: 877: }
-"877
+[; ;Dimmer_B1.c: 871: }
+[; ;Dimmer_B1.c: 872: }
+[; ;Dimmer_B1.c: 881: }
+"881
 [e :UE 384 ]
 }
-"879
+"883
 [v _getDimmer_LoadOK `(uc ~T0 @X0 1 ef ]
 {
-[; ;Dimmer_B1.c: 879: char getDimmer_LoadOK() {
+[; ;Dimmer_B1.c: 883: char getDimmer_LoadOK() {
 [e :U _getDimmer_LoadOK ]
 [f ]
-"880
+"884
 [v _status `uc ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 880: char status = Dimmer.LoadOK == 1 ? 1 : 0;
+[; ;Dimmer_B1.c: 884: char status = Dimmer.LoadOK == 1 ? 1 : 0;
 [e = _status -> ? == -> . . . _Dimmer 0 0 1 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 881: return status;
-"881
+[; ;Dimmer_B1.c: 885: return status;
+"885
 [e ) _status ]
 [e $UE 393  ]
-[; ;Dimmer_B1.c: 882: }
-"882
+[; ;Dimmer_B1.c: 886: }
+"886
 [e :UE 393 ]
 }
-"884
+"888
 [v _getDimmer_Load_Status `(uc ~T0 @X0 1 ef ]
 {
-[; ;Dimmer_B1.c: 884: char getDimmer_Load_Status() {
+[; ;Dimmer_B1.c: 888: char getDimmer_Load_Status() {
 [e :U _getDimmer_Load_Status ]
 [f ]
-"885
+"889
 [v _status `uc ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 885: char status = Dimmer.Load_Status == 1 ? 1 : 0;
+[; ;Dimmer_B1.c: 889: char status = Dimmer.Load_Status == 1 ? 1 : 0;
 [e = _status -> ? == -> . . . _Dimmer 0 0 3 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 886: return status;
-"886
+[; ;Dimmer_B1.c: 890: return status;
+"890
 [e ) _status ]
 [e $UE 394  ]
-[; ;Dimmer_B1.c: 887: }
-"887
+[; ;Dimmer_B1.c: 891: }
+"891
 [e :UE 394 ]
 }
-"890
+"894
 [v _setDimmerLights_Status `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;Dimmer_B1.c: 890: void setDimmerLights_Status(char lights, char command) {
+[; ;Dimmer_B1.c: 894: void setDimmerLights_Status(char lights, char command) {
 [e :U _setDimmerLights_Status ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [v _command `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;Dimmer_B1.c: 892: DimmerLightsPointSelect(lights);
-"892
+[; ;Dimmer_B1.c: 896: DimmerLightsPointSelect(lights);
+"896
 [e ( _DimmerLightsPointSelect (1 _lights ]
-[; ;Dimmer_B1.c: 893: DimmerLights->Status = command == 1 ? 1 : 0;
-"893
+[; ;Dimmer_B1.c: 897: DimmerLights->Status = command == 1 ? 1 : 0;
+"897
 [e = . . *U _DimmerLights 2 1 -> ? == -> _command `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 894: }
-"894
+[; ;Dimmer_B1.c: 898: }
+"898
 [e :UE 395 ]
 }
-"899
+"903
 [v _setDimmerLights_AdjRF `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;Dimmer_B1.c: 899: void setDimmerLights_AdjRF(char lights) {
+[; ;Dimmer_B1.c: 903: void setDimmerLights_AdjRF(char lights) {
 [e :U _setDimmerLights_AdjRF ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;Dimmer_B1.c: 901: DimmerLightsPointSelect(lights);
-"901
-[e ( _DimmerLightsPointSelect (1 _lights ]
-[; ;Dimmer_B1.c: 902: DimmerLights->AdjRF = 1;
-"902
-[e = . . *U _DimmerLights 2 0 -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 903: DimmerLights->Signal = 1;
-"903
-[e = . . *U _DimmerLights 1 5 -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 904: DimmerLights->MaxmumValue = getPercentValue(product->Data[9]);
-"904
-[e = . *U _DimmerLights 6 ( _getPercentValue (1 *U + &U . *U _product 0 * -> -> -> 9 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-[; ;Dimmer_B1.c: 905: }
+[; ;Dimmer_B1.c: 905: DimmerLightsPointSelect(lights);
 "905
+[e ( _DimmerLightsPointSelect (1 _lights ]
+[; ;Dimmer_B1.c: 906: DimmerLights->AdjRF = 1;
+"906
+[e = . . *U _DimmerLights 2 0 -> -> 1 `i `uc ]
+[; ;Dimmer_B1.c: 907: DimmerLights->Signal = 1;
+"907
+[e = . . *U _DimmerLights 1 5 -> -> 1 `i `uc ]
+[; ;Dimmer_B1.c: 908: DimmerLights->MaxmumValue = getPercentValue(product->Data[9]);
+"908
+[e = . *U _DimmerLights 6 ( _getPercentValue (1 *U + &U . *U _product 0 * -> -> -> 9 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
+[; ;Dimmer_B1.c: 909: }
+"909
 [e :UE 396 ]
 }
-"908
+"912
 [v _setDimmerLights_GO `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;Dimmer_B1.c: 908: void setDimmerLights_GO(char lights, char command) {
+[; ;Dimmer_B1.c: 912: void setDimmerLights_GO(char lights, char command) {
 [e :U _setDimmerLights_GO ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [v _command `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;Dimmer_B1.c: 910: DimmerLightsPointSelect(lights);
-"910
+[; ;Dimmer_B1.c: 914: DimmerLightsPointSelect(lights);
+"914
 [e ( _DimmerLightsPointSelect (1 _lights ]
-[; ;Dimmer_B1.c: 911: DimmerLights->GO = command == 1 ? 1 : 0;
-"911
+[; ;Dimmer_B1.c: 915: DimmerLights->GO = command == 1 ? 1 : 0;
+"915
 [e = . . *U _DimmerLights 1 0 -> ? == -> _command `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 912: }
-"912
+[; ;Dimmer_B1.c: 916: }
+"916
 [e :UE 397 ]
 }
-"915
+"919
 [v _setDimmerLights_MaxmumValue `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;Dimmer_B1.c: 915: void setDimmerLights_MaxmumValue(char lights, char data) {
+[; ;Dimmer_B1.c: 919: void setDimmerLights_MaxmumValue(char lights, char data) {
 [e :U _setDimmerLights_MaxmumValue ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [v _data `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;Dimmer_B1.c: 917: DimmerLightsPointSelect(lights);
-"917
+[; ;Dimmer_B1.c: 921: DimmerLightsPointSelect(lights);
+"921
 [e ( _DimmerLightsPointSelect (1 _lights ]
-[; ;Dimmer_B1.c: 918: DimmerLights->MaxmumValue = data;
-"918
+[; ;Dimmer_B1.c: 922: DimmerLights->MaxmumValue = data;
+"922
 [e = . *U _DimmerLights 6 _data ]
-[; ;Dimmer_B1.c: 919: }
-"919
+[; ;Dimmer_B1.c: 923: }
+"923
 [e :UE 398 ]
 }
-"921
+"925
 [v _setDimmerLights_Trigger `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;Dimmer_B1.c: 921: void setDimmerLights_Trigger(char lights, char command) {
+[; ;Dimmer_B1.c: 925: void setDimmerLights_Trigger(char lights, char command) {
 [e :U _setDimmerLights_Trigger ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [v _command `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;Dimmer_B1.c: 923: DimmerLightsPointSelect(lights);
-"923
+[; ;Dimmer_B1.c: 927: DimmerLightsPointSelect(lights);
+"927
 [e ( _DimmerLightsPointSelect (1 _lights ]
-[; ;Dimmer_B1.c: 924: DimmerLights->Trigger = 1;
-"924
+[; ;Dimmer_B1.c: 928: DimmerLights->Trigger = 1;
+"928
 [e = . . *U _DimmerLights 10 1 -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 925: DimmerLights->Switch = command == 1 ? 1 : 0;
-"925
+[; ;Dimmer_B1.c: 929: DimmerLights->Switch = command == 1 ? 1 : 0;
+"929
 [e = . . *U _DimmerLights 10 0 -> ? == -> _command `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 926: }
-"926
+[; ;Dimmer_B1.c: 930: }
+"930
 [e :UE 399 ]
 }
-"928
+"932
 [v _setDimmerLights_TriggerAdj `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;Dimmer_B1.c: 928: void setDimmerLights_TriggerAdj(char lights, char command) {
+[; ;Dimmer_B1.c: 932: void setDimmerLights_TriggerAdj(char lights, char command) {
 [e :U _setDimmerLights_TriggerAdj ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [v _command `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;Dimmer_B1.c: 930: DimmerLightsPointSelect(lights);
-"930
+[; ;Dimmer_B1.c: 934: DimmerLightsPointSelect(lights);
+"934
 [e ( _DimmerLightsPointSelect (1 _lights ]
-[; ;Dimmer_B1.c: 931: DimmerLights->TriggerAdj = 1;
-"931
+[; ;Dimmer_B1.c: 935: DimmerLights->TriggerAdj = 1;
+"935
 [e = . . *U _DimmerLights 10 3 -> -> 1 `i `uc ]
-[; ;Dimmer_B1.c: 932: DimmerLights->SwitchAdj = command == 1 ? 1 : 0;
-"932
+[; ;Dimmer_B1.c: 936: DimmerLights->SwitchAdj = command == 1 ? 1 : 0;
+"936
 [e = . . *U _DimmerLights 10 2 -> ? == -> _command `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Dimmer_B1.c: 933: }
-"933
+[; ;Dimmer_B1.c: 937: }
+"937
 [e :UE 400 ]
 }
-"1014
+"1018
 [v _getPercentValue `(uc ~T0 @X0 1 ef1`uc ]
 {
-[; ;Dimmer_B1.c: 1014: char getPercentValue(char value) {
+[; ;Dimmer_B1.c: 1018: char getPercentValue(char value) {
 [e :U _getPercentValue ]
 [v _value `uc ~T0 @X0 1 r1 ]
 [f ]
-"1022
+"1026
 [v _i `f ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 1022: float i = ((char)(75*0.8)) - ((char)(15*0.8));
+[; ;Dimmer_B1.c: 1026: float i = ((char)(75*0.8)) - ((char)(15*0.8));
 [e = _i -> - -> -> * -> -> 75 `i `d .0.8 `uc `i -> -> * -> -> 15 `i `d .0.8 `uc `i `f ]
-[; ;Dimmer_B1.c: 1023: i /= 100;
-"1023
+[; ;Dimmer_B1.c: 1027: i /= 100;
+"1027
 [e =/ _i -> -> 100 `uc `f ]
-[; ;Dimmer_B1.c: 1025: return (char) (((char)(75*0.8)) - ((100 - value) * i));
-"1025
+[; ;Dimmer_B1.c: 1029: return (char) (((char)(75*0.8)) - ((100 - value) * i));
+"1029
 [e ) -> - -> -> * -> -> 75 `i `d .0.8 `uc `f * -> - -> 100 `i -> _value `i `f _i `uc ]
 [e $UE 401  ]
-[; ;Dimmer_B1.c: 1027: }
-"1027
+[; ;Dimmer_B1.c: 1031: }
+"1031
 [e :UE 401 ]
 }
-"1030
+"1034
 [v _setPercentValue `(uc ~T0 @X0 1 ef1`uc ]
 {
-[; ;Dimmer_B1.c: 1030: char setPercentValue(char value) {
+[; ;Dimmer_B1.c: 1034: char setPercentValue(char value) {
 [e :U _setPercentValue ]
 [v _value `uc ~T0 @X0 1 r1 ]
 [f ]
-"1038
+"1042
 [v _i `f ~T0 @X0 1 a ]
-[; ;Dimmer_B1.c: 1038: float i = ((char)(75*0.8)) - ((char)(15*0.8));
+[; ;Dimmer_B1.c: 1042: float i = ((char)(75*0.8)) - ((char)(15*0.8));
 [e = _i -> - -> -> * -> -> 75 `i `d .0.8 `uc `i -> -> * -> -> 15 `i `d .0.8 `uc `i `f ]
-[; ;Dimmer_B1.c: 1039: i /= 100;
-"1039
+[; ;Dimmer_B1.c: 1043: i /= 100;
+"1043
 [e =/ _i -> -> 100 `uc `f ]
-[; ;Dimmer_B1.c: 1041: return (char) (100 - ((((char)(75*0.8)) - value) / i));
-"1041
+[; ;Dimmer_B1.c: 1045: return (char) (100 - ((((char)(75*0.8)) - value) / i));
+"1045
 [e ) -> - -> -> 100 `i `f / -> - -> -> * -> -> 75 `i `d .0.8 `uc `i -> _value `i `f _i `uc ]
 [e $UE 402  ]
-[; ;Dimmer_B1.c: 1043: }
-"1043
+[; ;Dimmer_B1.c: 1047: }
+"1047
 [e :UE 402 ]
 }
 [v F2568 `(v ~T0 @X0 1 tf ]
-"1048
+"1052
 [v _Dimmer_Initialization `TF2568 ~T0 @X0 1 e ]
 {
-[; ;Dimmer_B1.c: 1048: inline void Dimmer_Initialization() {
+[; ;Dimmer_B1.c: 1052: inline void Dimmer_Initialization() {
 [e :U _Dimmer_Initialization ]
 [f ]
-[; ;Dimmer_B1.c: 1050: }
-"1050
+[; ;Dimmer_B1.c: 1054: }
+"1054
 [e :UE 403 ]
 }

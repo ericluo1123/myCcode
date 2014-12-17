@@ -53,12 +53,14 @@ void setRF_Main() {
     char loop_f = 0, Receive_OK = 0, error = 0;
     if (RF1.Enable == true) {
 
-        if (RF1.Correction == true) {
+        if (RF1.RxStatus == true) {
             RF1.CorrectionCounter++;
             if (RF1.CorrectionCounter >= 6000) {
                 RF1.CorrectionCounter = 0;
                 RF_RxDisable();
             }
+        } else {
+            RF1.CorrectionCounter = 0;
         }
 
         if (RF1.Learn == false) {
@@ -227,7 +229,7 @@ void RF_RxDisable() {
         CC2500_WriteCommand(CC2500_SIDLE); // idle
         //        CC2500_WriteCommand(CC2500_SIDLE); // idle
         CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-        //        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
         //        setINT_GO(0);
     }
 }

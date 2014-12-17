@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 164 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
+# 168 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2818,8 +2818,6 @@ unsigned char DebounceTime;
 unsigned int Hold1Time;
 unsigned int Hold2Time;
 unsigned int Hold3Time;
-
-
 };
 struct Switch *Sw;
 
@@ -2827,7 +2825,7 @@ struct Switch *Sw;
 
 struct Switch Sw1;
 
-# 54
+# 52
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
 inline void Switch_Main();
@@ -2843,7 +2841,7 @@ char getSw_KeyStatus(char sw);
 
 void TouchPower();
 
-# 92
+# 90
 struct SwitchDetect {
 
 union {
@@ -3212,19 +3210,20 @@ unsigned char ErrorCount;
 unsigned char ErrorCountValue;
 unsigned char LightsCount;
 unsigned char SafeCount;
+
 };
 
 
 struct OverLoad Load;
 
-# 87
+# 88
 inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
 void setLoad_AH_AL_Restore();
 
-# 98
+# 99
 char getLoad_OK();
 void setLoad_OK();
 
@@ -3255,9 +3254,8 @@ unsigned AdjStatus : 1;
 volatile struct {
 unsigned AdjRF : 1;
 unsigned Status : 1;
-unsigned OverLoad : 1;
 unsigned IntrStart : 1;
-unsigned empty2 : 4;
+unsigned empty2 : 5;
 };
 
 
@@ -3299,11 +3297,11 @@ struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
-# 97
+# 96
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-# 119
+# 118
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -3347,8 +3345,9 @@ void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 char getDimmerLights_Allow_Condition(char lights);
+char getAll_DimmerLights_AdjSw();
 
-# 170
+# 169
 struct Dimmer {
 
 
@@ -3360,7 +3359,8 @@ struct {
 unsigned AdjGO : 1;
 unsigned LoadOK : 1;
 unsigned LoadGO : 1;
-unsigned empty : 5;
+unsigned Load_Status : 1;
+unsigned empty : 4;
 };
 };
 unsigned char Load;
@@ -3371,6 +3371,8 @@ struct Dimmer Dimmer;
 
 char getDimmer_LoadOK();
 inline void Dimmer_Initialization();
+char getDimmer_LoadGO();
+char getDimmer_Load_Status();
 
 # 24 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
 struct DelayOff {

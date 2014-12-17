@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 164 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
+# 168 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2818,8 +2818,6 @@ unsigned char DebounceTime;
 unsigned int Hold1Time;
 unsigned int Hold2Time;
 unsigned int Hold3Time;
-
-
 };
 struct Switch *Sw;
 
@@ -2827,7 +2825,7 @@ struct Switch *Sw;
 
 struct Switch Sw1;
 
-# 54
+# 52
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
 inline void Switch_Main();
@@ -2843,7 +2841,7 @@ char getSw_KeyStatus(char sw);
 
 void TouchPower();
 
-# 92
+# 90
 struct SwitchDetect {
 
 union {
@@ -3212,19 +3210,20 @@ unsigned char ErrorCount;
 unsigned char ErrorCountValue;
 unsigned char LightsCount;
 unsigned char SafeCount;
+
 };
 
 
 struct OverLoad Load;
 
-# 87
+# 88
 inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
 void setLoad_AH_AL_Restore();
 
-# 98
+# 99
 char getLoad_OK();
 void setLoad_OK();
 
@@ -3255,9 +3254,8 @@ unsigned AdjStatus : 1;
 volatile struct {
 unsigned AdjRF : 1;
 unsigned Status : 1;
-unsigned OverLoad : 1;
 unsigned IntrStart : 1;
-unsigned empty2 : 4;
+unsigned empty2 : 5;
 };
 
 
@@ -3299,11 +3297,11 @@ struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
-# 97
+# 96
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-# 119
+# 118
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -3347,8 +3345,9 @@ void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 char getDimmerLights_Allow_Condition(char lights);
+char getAll_DimmerLights_AdjSw();
 
-# 170
+# 169
 struct Dimmer {
 
 
@@ -3360,7 +3359,8 @@ struct {
 unsigned AdjGO : 1;
 unsigned LoadOK : 1;
 unsigned LoadGO : 1;
-unsigned empty : 5;
+unsigned Load_Status : 1;
+unsigned empty : 4;
 };
 };
 unsigned char Load;
@@ -3371,6 +3371,8 @@ struct Dimmer Dimmer;
 
 char getDimmer_LoadOK();
 inline void Dimmer_Initialization();
+char getDimmer_LoadGO();
+char getDimmer_Load_Status();
 
 # 24 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
 struct DelayOff {
@@ -3458,7 +3460,7 @@ DimmerIntrPointSelect(lights);
 
 if (DimmerLightsIntr->IntrStart == 1) {
 DimmerLightsIntr->Count++;
-if (DimmerLightsIntr->Count >= ((char)(45*0.8)) + 1) {
+if (DimmerLightsIntr->Count >= ((char)(75*0.8)) + 1) {
 DimmerLightsIntr->Count = 0;
 DimmerLightsIntr->IntrStart = 0;
 }
@@ -3488,7 +3490,7 @@ if (DimmerLightsIntr->DimmingTime >= DimmerLightsIntr->DimmingTimeValue) {
 DimmerLightsIntr->DimmingTime = 0;
 if (DimmerLightsIntr->AdjSw == 1) {
 if (DimmerLightsIntr->AdjStatus == 0) {
-if (DimmerLightsIntr->DimmingValue < ((char)(45*0.8))) {
+if (DimmerLightsIntr->DimmingValue < ((char)(75*0.8))) {
 DimmerLightsIntr->DimmingValue++;
 } else {
 DimmerLightsIntr->AdjStatus = 1;
@@ -3546,7 +3548,7 @@ DimmerLights->DimmingTimeValue = 7;
 
 
 
-DimmerLights->MaxmumValue = ((char)(45*0.8));
+DimmerLights->MaxmumValue = ((char)(75*0.8));
 DimmerLights->MinimumValue = ((char)(15*0.8));
 
 # 389
@@ -3559,11 +3561,9 @@ DimmerLights->DimmingValue = DimmerLights->MaxmumValue;
 
 void setDimmerLights_SwOn(char sw) {
 DimmerLightsPointSelect(sw);
-char idle = getDimmerLights_Allow_Condition(sw);
+char idle = 0;
 
-
-
-
+# 436
 if (idle == 0) {
 DimmerLights->SwFlag = 1;
 if (DimmerLights->Status == 0) {
@@ -3580,7 +3580,7 @@ setBuz(1, 100);
 
 void setDimmerLights_SwOff(char sw) {
 DimmerLightsPointSelect(sw);
-char command = DimmerLights->Status == 1 ? 1 : 0;
+
 if (DimmerLights->SwFlag == 1) {
 DimmerLights->SwFlag = 0;
 if (DimmerLights->Status == 1) {
@@ -3597,7 +3597,6 @@ DimmerLights->Switch = 0;
 
 
 if (getDelayOff_GO(sw) == 1) {
-
 setDelayOff_GO(sw, 0, 0);
 }
 
@@ -3609,7 +3608,7 @@ setDelayOff_GO(sw, 0, 0);
 void setDimmerLights_AdjOn(char sw) {
 DimmerLightsPointSelect(sw);
 
-# 465
+# 488
 if (DimmerLights->Trigger == 0 && getDimmerLights_Allow_Condition(sw) == 0) {
 if (DimmerLights->SwFlag == 1) {
 DimmerLights->SwAdj = 1;
@@ -3617,6 +3616,7 @@ DimmerLights->Status = 1;
 
 DimmerLights->TriggerAdj = 1;
 DimmerLights->SwitchAdj = 1;
+
 }
 }
 }
@@ -3625,10 +3625,18 @@ DimmerLights->SwitchAdj = 1;
 
 void DimmerLights_Main() {
 
-# 491
+# 514
+if (Dimmer.LoadGO == 1) {
+if (getLoad_OK() == 1 || getMain_All_Error_Status(0) != 0 || getMain_LightsStatus() == 0) {
+Dimmer.LoadGO = 0;
+}
+}
+
+
+
 setDimmerLights_Main(1);
 
-# 502
+# 533
 }
 
 
@@ -3655,23 +3663,36 @@ setDimmerLights_Adj(lights, 0);
 }
 }
 
-# 552
+# 583
 }
+
 
 char getDimmerLights_Allow_Condition(char lights) {
 char allow = 0;
 
-# 582
+# 594
+allow = getLoad_OK() == 0 && Dimmer.LoadGO == 0 ? 0 : 1;
+
+# 619
 return allow;
 }
 
 
+char getDimmer_LoadGO() {
+char loadgo = Dimmer.LoadGO == 1 ? 1 : 0;
+return loadgo;
+}
+
+
+
 void setDimmerLights(char lights, char status) {
 
-# 594
+# 638
 if (status == 1) {
 DimmerLights->StatusFlag = 1;
-DimmerLights->Loop = 1;
+
+
+Dimmer.Load_Status = 1;
 setDimmerLights_Line(lights);
 
 setLED(lights, 0);
@@ -3679,18 +3700,21 @@ setLED(lights, 0);
 
 
 
+DimmerLights->DimmingValue = ((char)(75*0.8));
 
-DimmerLights->DimmingValue = 10;
-setProductData((20 + lights), setPercentValue(((char)(45*0.8))));
+setProductData((20 + lights), setPercentValue(((char)(75*0.8))));
 
 } else if (status == 0) {
 DimmerLights->StatusFlag = 0;
-DimmerLights->Loop = 0;
+
+
+Dimmer.Load_Status = 0;
 setDimmerLights_Line(0);
 
 setLED(lights, 1);
 ;;
 }
+
 
 setRF_DimmerLights(lights, status);
 setTxData();
@@ -3705,13 +3729,15 @@ DimmerLights->AdjSw = 1;
 DimmerLights->Signal = 1;
 setBuz(1, 100);
 } else if (status == 0) {
+Dimmer.Load_Status = 0;
+setDimmerLights_Line(lights);
 DimmerLights->AdjSw = 0;
 DimmerLights->Signal = 0;
 
 DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
 setProductData((20 + lights), setPercentValue(DimmerLights->DimmingValue));
 
-# 648
+# 700
 setRF_DimmerLights(lights, 1);
 setTxData();
 }
@@ -3719,16 +3745,16 @@ setTxData();
 
 
 void setDimmerLights_Line(char lights) {
-
+Dimmer.LoadGO = 1;
 
 DimmerLights1.Line = 0;
 
-# 666
+# 718
 if (lights == 1) {
 DimmerLights1.Line = 1;
 }
 
-# 681
+# 733
 }
 
 
@@ -3739,7 +3765,7 @@ if (DimmerLights1.Line == 1) {
 line = 1;
 }
 
-# 701
+# 753
 return line;
 }
 
@@ -3747,7 +3773,6 @@ return line;
 char getDimmerLights_Status(char lights) {
 DimmerLightsPointSelect(lights);
 char status = DimmerLights->Status == 1 ? 1 : 0;
-
 return status;
 }
 
@@ -3755,7 +3780,7 @@ return status;
 char getDimmerLights_StatusFlag() {
 char Status = 0;
 
-# 725
+# 776
 Status = (DimmerLights1.StatusFlag == 1) ? 1 : 0;
 
 
@@ -3766,7 +3791,7 @@ return Status;
 char getDimmerLights_Trigger() {
 char Status = 0;
 
-# 744
+# 795
 Status = (DimmerLights1.Trigger) ? 1 : 0;
 
 
@@ -3777,10 +3802,23 @@ return Status;
 char getAll_DimmerLights_AdjGO(char sw) {
 char adjgo = 0;
 
-# 778
+# 828
 return adjgo;
 }
 
+
+char getAll_DimmerLights_AdjSw() {
+char count = 1;
+char adjsw = 0;
+
+for (int i = 0; i < count; i++) {
+DimmerLightsPointSelect(i + 1);
+if (adjsw == 0) {
+adjsw = DimmerLights->AdjSw == 1 ? 1 : 0;
+}
+}
+return adjsw;
+}
 
 
 void setDimmerLights_ErrorClose(char lights) {
@@ -3788,7 +3826,7 @@ if (lights == 255) {
 
 char count = 1;
 
-# 794
+# 857
 for (int i = 0; i < count; i++) {
 DimmerLightsPointSelect(i + 1);
 if (getDimmerLights_Status(i + 1) == 1) {
@@ -3806,12 +3844,16 @@ setDimmerLights_SwOff(lights);
 }
 }
 
-# 818
+# 881
 }
 
 char getDimmer_LoadOK() {
 char status = Dimmer.LoadOK == 1 ? 1 : 0;
+return status;
+}
 
+char getDimmer_Load_Status() {
+char status = Dimmer.Load_Status == 1 ? 1 : 0;
 return status;
 }
 
@@ -3861,25 +3903,25 @@ DimmerLights->TriggerAdj = 1;
 DimmerLights->SwitchAdj = command == 1 ? 1 : 0;
 }
 
-# 951
+# 1018
 char getPercentValue(char value) {
 
-# 959
-float i = ((char)(45*0.8)) - ((char)(15*0.8));
+# 1026
+float i = ((char)(75*0.8)) - ((char)(15*0.8));
 i /= 100;
 
-return (char) (((char)(45*0.8)) - ((100 - value) * i));
+return (char) (((char)(75*0.8)) - ((100 - value) * i));
 
 }
 
 
 char setPercentValue(char value) {
 
-# 975
-float i = ((char)(45*0.8)) - ((char)(15*0.8));
+# 1042
+float i = ((char)(75*0.8)) - ((char)(15*0.8));
 i /= 100;
 
-return (char) (100 - ((((char)(45*0.8)) - value) / i));
+return (char) (100 - ((((char)(75*0.8)) - value) / i));
 
 }
 

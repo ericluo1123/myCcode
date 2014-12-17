@@ -170,33 +170,34 @@ inline void Load_Main() {
                                     Load.Count = 0;
                                     Load.TotalLoad = Load.AD;
                                     Load.ErrorCountValue = 3;
+                                    //                                    ErrLED = 0;
+                                    //                                    ErrLED = ErrLED == true ? false : true;
 
+                                }
+                            }
 #if Load_Debug == 1
 #if PIR_use == 1
 
 #if UART_use == 1
-                                    UART.Data[0] = (Load.AD >> 8);
-                                    UART.Data[1] = Load.AD;
-                                    UART.Data[2] = (Load.JudgeValue >> 8);
-                                    UART.Data[3] = Load.JudgeValue;
-                                    UART.Data[4] = Load.LightsCount;
-                                    UART.Data[5] = 0;
-                                    UART.Data[6] = 0;
-                                    UART.Data[7] = 0;
+                            UART.Data[0] = (Load.AD >> 8);
+                            UART.Data[1] = Load.AD;
+                            UART.Data[2] = (Load.JudgeValue >> 8);
+                            UART.Data[3] = Load.JudgeValue;
+                            UART.Data[4] = Load.LightsCount;
+                            UART.Data[5] = 0;
+                            UART.Data[6] = 0;
+                            UART.Data[7] = 0;
 #endif
-#else 
-                                    setProductData(4, (Load.AD >> 8));
-                                    setProductData(5, Load.AD);
-                                    setProductData(6, (Load.JudgeValue >> 8));
-                                    setProductData(7, Load.JudgeValue);
-                                    setProductData(8, Load.LightsCount);
-                                    setProductData(10, getDimmer_LoadGO());
+#else
+                            setProductData(4, (Load.AD >> 8));
+                            setProductData(5, Load.AD);
+                            setProductData(6, (Load.JudgeValue >> 8));
+                            setProductData(7, Load.JudgeValue);
+                            setProductData(8, Load.LightsCount);
+                            setProductData(10, getDimmer_LoadGO());
 #endif
 #endif
-                                }
-                            }
                         }
-
                     }
                 }
             } else {

@@ -492,6 +492,7 @@ void setDimmerLights_AdjOn(char sw) {
 
             DimmerLights->TriggerAdj = true;
             DimmerLights->SwitchAdj = true;
+//            ErrLED = ErrLED == true ? false : true;
         }
     }
 }
@@ -589,7 +590,6 @@ char getDimmerLights_Allow_Condition(char lights) {
     //2.其他的燈未進入開燈階段
     //3.其他燈未在調光階段
 #if OverLoad_use == 1
-    //            allow = Dimmer.LoadGO == false ? 0 : 1;
 
     allow = getLoad_OK() == 0 && Dimmer.LoadGO == false ? 0 : 1;
 
@@ -637,9 +637,11 @@ void setDimmerLights(char lights, char status) {
 
     if (status == 1) {
         DimmerLights->StatusFlag = true;
+
+#if OverLoad_use == 1
         Dimmer.Load_Status = true;
         setDimmerLights_Line(lights);
-
+#endif
         setLED(lights, 0);
         setLED2(0);
 
@@ -651,9 +653,11 @@ void setDimmerLights(char lights, char status) {
 #endif
     } else if (status == 0) {
         DimmerLights->StatusFlag = false;
+
+#if OverLoad_use == 1
         Dimmer.Load_Status = false;
         setDimmerLights_Line(0);
-
+#endif
         setLED(lights, 1);
         setLED2(1);
     }
@@ -663,7 +667,7 @@ void setDimmerLights(char lights, char status) {
     setTxData();
 }
 
-//*********************************************************
+//*****************************************************************************
 
 void setDimmerLights_Adj(char lights, char status) {
     //    DimmerLightsPointSelect(lights);

@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 164 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
+# 168 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2818,8 +2818,6 @@ unsigned char DebounceTime;
 unsigned int Hold1Time;
 unsigned int Hold2Time;
 unsigned int Hold3Time;
-
-
 };
 struct Switch *Sw;
 
@@ -2827,7 +2825,7 @@ struct Switch *Sw;
 
 struct Switch Sw1;
 
-# 54
+# 52
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
 inline void Switch_Main();
@@ -2843,7 +2841,7 @@ char getSw_KeyStatus(char sw);
 
 void TouchPower();
 
-# 92
+# 90
 struct SwitchDetect {
 
 union {
@@ -3212,19 +3210,20 @@ unsigned char ErrorCount;
 unsigned char ErrorCountValue;
 unsigned char LightsCount;
 unsigned char SafeCount;
+
 };
 
 
 struct OverLoad Load;
 
-# 87
+# 88
 inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
 void setLoad_AH_AL_Restore();
 
-# 98
+# 99
 char getLoad_OK();
 void setLoad_OK();
 
@@ -3255,9 +3254,8 @@ unsigned AdjStatus : 1;
 volatile struct {
 unsigned AdjRF : 1;
 unsigned Status : 1;
-unsigned OverLoad : 1;
 unsigned IntrStart : 1;
-unsigned empty2 : 4;
+unsigned empty2 : 5;
 };
 
 
@@ -3299,11 +3297,11 @@ struct DimmerLights *DimmerLights;
 struct DimmerLights *DimmerLightsIntr;
 struct DimmerLights *DimmerLightsIntrIOC;
 
-# 97
+# 96
 struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 
-# 119
+# 118
 inline void DimmerIntrIOCPointSelect(char lights);
 inline void setDimmerLights_IntrIOC_GO(char lights);
 
@@ -3347,8 +3345,9 @@ void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 char getDimmerLights_Allow_Condition(char lights);
+char getAll_DimmerLights_AdjSw();
 
-# 170
+# 169
 struct Dimmer {
 
 
@@ -3360,7 +3359,8 @@ struct {
 unsigned AdjGO : 1;
 unsigned LoadOK : 1;
 unsigned LoadGO : 1;
-unsigned empty : 5;
+unsigned Load_Status : 1;
+unsigned empty : 4;
 };
 };
 unsigned char Load;
@@ -3371,6 +3371,8 @@ struct Dimmer Dimmer;
 
 char getDimmer_LoadOK();
 inline void Dimmer_Initialization();
+char getDimmer_LoadGO();
+char getDimmer_Load_Status();
 
 # 24 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
 struct DelayOff {
@@ -3402,7 +3404,7 @@ void DelayOffPointSelect(char sw);
 
 # 9 "../src/OverLoad_B1.c"
 inline void Load_Initialization() {
-Load.OK = 1;
+
 setLoad_AH_AL_Restore();
 }
 
@@ -3432,21 +3434,36 @@ k = 1;
 
 
 inline void Load_Main() {
-char i = 0, j = 0, error = getMain_All_Error_Status(0), adjgo = 0;
+char error = getMain_All_Error_Status(0);
+char Load_Status = 0;
 
 if (Load.Enable == 1) {
 
+# 64
+if (getMain_LightsStatus() == 0) {
+Load.GO = 0;
+} else {
 
 
-char sw = 1;
+if (error == 0 && getAll_DimmerLights_AdjSw() == 0) {
+Load.GO = 1;
 
-# 55
-adjgo = getAll_DimmerLights_AdjGO(sw);
-
-Load.GO = getMain_LightsStatus() == 1 && error == 0 && adjgo == 0 ? 1 : 0;
-if (getMain_LoadOK() == 1 && Load.Run == 0) {
+if (getDimmer_LoadGO() == 1) {
+if (Load.Run == 0 && Load.OK == 0) {
 Load.Run = 1;
+Load.Count = 0;
+}
+} else {
+if (Load.OK == 1) {
 Load.OK = 0;
+}
+}
+} else {
+if (Load.GO == 1) {
+Load.GO = 0;
+}
+}
+
 }
 
 
@@ -3459,7 +3476,7 @@ if (Load.Time >= 5) {
 Load.Time = 0;
 Load.ADtoGO = 0;
 
-for (i = 1; i < 4; i++) {
+for (int i = 1; i < 4; i++) {
 Load.ADH += Load.AH[i];
 Load.ADL += Load.AL[i];
 }
@@ -3471,19 +3488,24 @@ if (Load.ADH > Load.ADL) {
 Load.AD = Load.ADH - Load.ADL;
 Load.ADH = 0;
 Load.ADL = 0;
-Load.LightsCount = getMain_Lights_Count();
 
 if (Load.Run == 1) {
 if (Load.Count < 2) {
 Load.Count++;
+Load_Status = getDimmer_Load_Status();
+Load.LightsCount = getMain_Lights_Count();
 if (Load.Count == 1) {
 Load.ErrorCountValue = 2;
 Load.JudgeValue = (20*57);
 } else if (Load.Count == 2) {
 if (Load.LightsCount == 1) {
-Load.JudgeValue = (int)(1.8*57);
+Load.JudgeValue = (int)(1.6*57);
 } else {
-Load.JudgeValue = (int)(1.8*57) + Load.TotalLoad;
+if (Load_Status == 0) {
+Load.JudgeValue = (int)(1.6*57) * Load.LightsCount;
+} else if (Load_Status == 1) {
+Load.JudgeValue = (int)(1.6*57) + Load.TotalLoad;
+}
 }
 }
 }
@@ -3495,12 +3517,11 @@ if (Load.ErrorCount > Load.ErrorCountValue) {
 Load.ErrorCount = 0;
 Load.ERROR = 1;
 
-# 128
+# 161
 }
 } else {
 Load.ErrorCount = 0;
 if (Load.Run == 1) {
-if (Load.OK == 0) {
 Load.SafeCount++;
 if (Load.SafeCount >= 3) {
 Load.SafeCount = 0;
@@ -3510,10 +3531,12 @@ Load.Count = 0;
 Load.TotalLoad = Load.AD;
 Load.ErrorCountValue = 3;
 
-# 164
+
+
 }
 }
-}
+
+# 200
 }
 }
 }
@@ -3521,25 +3544,25 @@ Load.ErrorCountValue = 3;
 Load.ADtoGO = 1;
 }
 } else {
-if (Load.LightsON == 1 && error != 3) {
+if (Load.LightsON == 1) {
 Load.LightsON = 0;
 
-Load.Time = 0;
 Load.ADtoGO = 0;
+Load.Time = 0;
 setLoad_AH_AL_Restore();
-Load.Count = 0;
+
 Load.ErrorCount = 0;
 Load.SafeCount = 0;
 
 Load.ADH = 0;
 Load.ADL = 0;
-Load.AD = 0;
-Load.JudgeValue = 0;
-Load.LightsCount = 0;
-Load.Run = 0;
-Load.OK = 1;
 
-# 211
+# 224
+Load.Run = 0;
+Load.Count = 0;
+Load.OK = 0;
+
+# 248
 }
 if (Load.ERROR == 1) {
 Load.ErrorTime++;
@@ -3551,22 +3574,19 @@ Load.ERROR = 0;
 }
 } else {
 if (myMain.PowerON == 1) {
-
 Load.Enable = 1;
 }
 }
 }
 
 
-
 char getLoad_OK() {
 char ok = Load.OK == 1 ? 1 : 0;
-
 return ok;
 }
 
-void setLoad_OK() {
 
+void setLoad_OK() {
 Load.OK = 0;
 Load.SafeCount = 0;
 }
