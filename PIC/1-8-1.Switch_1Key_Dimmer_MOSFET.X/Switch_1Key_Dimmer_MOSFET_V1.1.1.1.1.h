@@ -140,20 +140,20 @@
 //Lights
 #define LightsControl_use_Value 0
 //RF cc2500
-#define CC2500_use_Value        1
-#define Tx_Enable               1
-#define Rx_Enable               1
+#define CC2500_use_Value            1
+#define Tx_Enable                   1
+#define Rx_Enable                   1
 //DelayOff
-#define DelayOff_use_Value      1
+#define DelayOff_use_Value          1
 //PowerFault
-#define PowerFault_use_Value    0
+#define PowerFault_use_Value        0
 //Dimmer Lights
 #define Dimmer_use_Value            1
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
-#define Max_Percent             75
-#define Med_Percent             35
-#define Mini_Percent            15
+#define Max_Percent                 70
+#define Med_Percent                 35
+#define Mini_Percent                15
 //SegmentDisplay
 #define SegmentDisplay_use_Value    0
 //CDS

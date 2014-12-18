@@ -383,8 +383,8 @@ void IOC_Set() {
 #endif
 
 #if Dimmer_Full_Wave == true
-    IOCBP = 0b00000000; //Positive
-    IOCBN = 0b00000100; //Negative
+    IOCBP = 0b00000100; //Positive
+    IOCBN = 0b00000000; //Negative
 #endif
 #endif
 

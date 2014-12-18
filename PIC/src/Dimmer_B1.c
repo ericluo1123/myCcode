@@ -12,13 +12,13 @@ inline void DimmerIntrIOCPointSelect(char lights) {
     }
 #endif 
 #ifdef use_2KEY
-    if (lights == 2) {
+    else if (lights == 2) {
         DimmerLightsIntrIOC = &DimmerLights2;
     }
 #endif
 
 #ifdef use_3KEY
-    if (lights == 3) {
+    else if (lights == 3) {
         DimmerLightsIntrIOC = &DimmerLights3;
     }
 #endif
@@ -43,7 +43,7 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
 #endif
 #if Control_Method_Mosfet == 1
     //    if (DimmerLightsIntrIOC->GO == false && DimmerLightsIntrIOC->MosfetSignal == false && DimmerReference1 == false) {
-    if (DimmerLightsIntrIOC->IntrStart == false && DimmerReference1 == false) {
+    if (DimmerLightsIntrIOC->IntrStart == false && DimmerReference1 == true) {
         DimmerLightsIntrIOC->IntrStart = true;
         DimmerLightsIntrIOC->GO = true;
         DimmerLightsIntrIOC->MosfetSignal = true;
