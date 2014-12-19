@@ -48,7 +48,7 @@ struct DimmerLights {
     unsigned char DimmingTimeValue;
     unsigned char MinimumValue;
 
-    struct {
+    volatile struct {
         unsigned Switch : 1;
         unsigned Trigger : 1;
         unsigned SwitchAdj : 1;

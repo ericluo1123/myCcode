@@ -124,7 +124,7 @@
 
 //SYSC
 #define SYSC_use_Value 0
-    //OverTemperature
+//OverTemperature
 #define OverTemperature_use_Value   1
 #define TempDangerValue_Value       415     //NTC 70度
 #define TempSafeValue_Value         455     //NTC 61度
@@ -152,6 +152,9 @@
 #define Dimmer_use_Value        1
 #define Dimmer_Half_Wave_Value  0
 #define Dimmer_Full_Wave_Value  1
+#define Max_Percent             70
+#define Med_Percent             35
+#define Mini_Percent            15
 //SegmentDisplay
 #define SegmentDisplay_use_Value 0
 //CDS

@@ -53,89 +53,93 @@ void setRF_Main() {
     char loop_f = 0, Receive_OK = 0, error = 0;
     if (RF1.Enable == true) {
 
-        if (RF1.RxStatus == true) {
-            RF1.CorrectionCounter++;
-            if (RF1.CorrectionCounter >= 6000) {
-                RF1.CorrectionCounter = 0;
-                RF_RxDisable();
-            }
-        } else {
-            RF1.CorrectionCounter = 0;
-        }
+        //        if (RF1.RxStatus == true) {
+        //            RF1.CorrectionCounter++;
+        //            if (RF1.CorrectionCounter >= 6000) {
+        //                RF1.CorrectionCounter = 0;
+        //                RF_RxDisable();
+        //            }
+        //        } else {
+        //            RF1.CorrectionCounter = 0;
+        //        }
 
-        if (RF1.Learn == false) {
-            if (RF1.Run == true) {
-                RF1.Count++;
-                if (RF1.Count == RF1.RunTime) {
-                    RF1.Count = 0;
-                    RF1.Run = false;
-                }
-            }
-        } else {
-            if (RF1.Run == true) {
-                RF1.Count = 0;
-                RF1.Run = false;
-            }
-        }
 
         if (getBuz_GO() == 0) {
             if (getMain_All_Error_Status(0) == 0) {
 #if Switch_use == 1
-                RF1.Key = getRF_KeyStatus() == 1 ? true : false;
-                if (RF1.Key == true && RF1.Learn == false) {
+                if (getRF_KeyStatus() == 1 && RF1.Learn == false) {
+                    RF1.Count = 0;
                     RF1.Run = true;
+                    RF1.RunTime = 5;
                 }
+                //                RF1.Key = getRF_KeyStatus() == 1 ? true : false;
+                //                if (RF1.Key == true && RF1.Learn == false) {
+                //                    RF1.Run = true;
+                //                    RF1.RunTime = 5;
+                //                }
 
 #else
                 RF1.Key = false;
 #endif
+            }
+
+            if (RF1.Learn == false) {
+                if (RF1.Run == true) {
+                    RF1.Count++;
+                    if (RF1.Count == RF1.RunTime) {
+                        RF1.Count = 0;
+                        RF1.Run = false;
+                    }
+                }
             } else {
-                RF1.Key = false;
-            }
-
-            if (RF1.TransceiveGO == true && RF1.Learn == false) {
                 RF1.TransceiveGO = false;
-                RF1.RxStatus = false;
-                RF1.ReceiveGO = false;
-                RF1.RunTime = RF_RunTime_Value;
-                RF1.Run = true;
-                RF_RxDisable();
-                CC2500_TxData();
+                if (RF1.Run == true) {
+                    RF1.Run = false;
+                    RF1.Count = 0;
+                }
             }
 
-            if (RF1.Run == false && RF1.TransceiveGO == false) {
-                if (RF1.RxStatus == true) {
-                    if (RF1.Key == false || RF1.Learn == true) { // Check whether have data
-#if Rx_Enable == 1
-                        CC2500_RxData();
-#endif
-                        if (RF1.ReceiveGO == true) {
-                            RF1.ReceiveGO = false;
-                            RF1.Run = true;
-                            RF1.Correction = false;
-                            RF1.CorrectionCounter = 0;
-#if I2C_use == 1
-                            I2C_SetData(1);
-                            //LED2=~LED2;
-#elif UART_use == 1
-                            //UART_SetData();
-                            //LED2=~LED2;
-#else
-                            getRxData();
-#endif
-                        }
-                    }
+            if (RF1.Run == false) {
+                if (RF1.TransceiveGO == true) {
+                    RF1.TransceiveGO = false;
+                    RF1.Run = true;
+                    RF1.RunTime = 5;
+                    RF_RxDisable();
+                    CC2500_TxData();
+                    ErrLED = ErrLED == true ? false : true;
                 } else {
+                    if (RF1.RxStatus == true) {
+                        if (RF1.Key == false || RF1.Learn == true) { // Check whether have data
 #if Rx_Enable == 1
-                    if (RF1.ReceiveGO == false) {
-                        RF1.RxStatus = true;
-
-                        CC2500_WriteCommand(CC2500_SIDLE); // idle
-                        //                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
-                        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-                        CC2500_WriteCommand(CC2500_SRX); // set receive mode
-                    }
+                            CC2500_RxData();
 #endif
+                            if (RF1.ReceiveGO == true) {
+                                RF1.ReceiveGO = false;
+                                RF1.Run = true;
+                                RF1.RunTime = 5;
+#if I2C_use == 1
+                                I2C_SetData(1);
+                                //LED2=~LED2;
+#elif UART_use == 1
+                                //UART_SetData();
+                                //LED2=~LED2;
+#else
+                                getRxData();
+#endif
+                            }
+                        }
+                    } else {
+#if Rx_Enable == 1
+                        if (RF1.ReceiveGO == false) {
+                            RF1.RxStatus = true;
+
+                            CC2500_WriteCommand(CC2500_SIDLE); // idle
+                            //                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+                            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+                            CC2500_WriteCommand(CC2500_SRX); // set receive mode
+                        }
+#endif
+                    }
                 }
             }
         }
@@ -204,6 +208,7 @@ void setTxData() {
             RF_Data[18] = product->Data[18]; //Reserved
             RF_Data[19] = product->Data[19]; //Reserved
             RF_Data[20] = KeyID; //Product->Data[20];	//Key ID
+
         }
     }
 #endif

@@ -286,53 +286,6 @@ typedef unsigned int ADtype;
  */
 #define MosfetOpenToCloseValue			10
 
-#if Properties_Neutral == 1
-#if Switch_Class == 1
-#define Max_Percent 85
-#define Med_Percent 35
-#define Mini_Percent 15
-#endif
-#if Switch_Class == 2
-#define Max_Percent 75
-#define Med_Percent 35
-#define Mini_Percent 15
-#endif
-#if Switch_Class == 3
-#define Max_Percent 80
-#define Med_Percent 35
-#define Mini_Percent 15
-#endif
-
-#else
-
-#if Switch_Class == 1
-
-#endif
-#if Switch_Class == 2
-#define Max_Percent 65	
-#endif
-#if Switch_Class == 3
-#define Max_Percent 65	
-#endif
-
-
-#if Control_Method_Triac == 1
-#if Switch_Class == 1
-#define Max_Percent 60
-#endif
-#if Switch_Class == 2
-#define Max_Percent 60
-#endif
-#if Switch_Class == 3
-#define Max_Percent 60
-#endif
-#endif
-
-
-#endif
-
-
-
 
 //Percent define
 #ifdef IntrTime_50us
@@ -396,7 +349,7 @@ typedef unsigned int ADtype;
 //minimun
 #define Dimmer_Minimum	((char)((100-Mini_Percent)*One_Percent))
 #endif
-
+ 
 #if Control_Method_Mosfet == 1
 //maxum
 #define Dimmer_Maxum 	((char)(Max_Percent*One_Percent))

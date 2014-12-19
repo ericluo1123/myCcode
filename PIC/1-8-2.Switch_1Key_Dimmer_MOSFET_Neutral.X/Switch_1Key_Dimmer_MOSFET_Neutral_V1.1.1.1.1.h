@@ -151,6 +151,9 @@
 #define Dimmer_use_Value            1
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
+#define Max_Percent                 75F
+#define Med_Percent                 35
+#define Mini_Percent                15
 //SegmentDisplay
 #define SegmentDisplay_use_Value    0
 //CDS

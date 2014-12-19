@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
 #endif
 
 #if Timer1_use == 1
-        //TMR1
+        //TMR1 
         if (Timer1.Timeout == true) { //10ms
             Timer1.Timeout = false;
 

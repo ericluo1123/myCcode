@@ -3279,7 +3279,7 @@ volatile unsigned char TriacTime;
 unsigned char DimmingTimeValue;
 unsigned char MinimumValue;
 
-struct {
+volatile struct {
 unsigned Switch : 1;
 unsigned Trigger : 1;
 unsigned SwitchAdj : 1;
@@ -3430,7 +3430,7 @@ DimmerLightsIntrIOC = &DimmerLights1;
 }
 
 
-if (lights == 2) {
+else if (lights == 2) {
 DimmerLightsIntrIOC = &DimmerLights2;
 }
 
@@ -3494,7 +3494,7 @@ DimmerIntrPointSelect(lights);
 
 if (DimmerLightsIntr->IntrStart == 1) {
 DimmerLightsIntr->Count++;
-if (DimmerLightsIntr->Count >= ((char)(75*0.8)) + 1) {
+if (DimmerLightsIntr->Count >= ((char)(70*0.8)) + 1) {
 DimmerLightsIntr->Count = 0;
 DimmerLightsIntr->IntrStart = 0;
 }
@@ -3528,7 +3528,7 @@ if (DimmerLightsIntr->DimmingTime >= DimmerLightsIntr->DimmingTimeValue) {
 DimmerLightsIntr->DimmingTime = 0;
 if (DimmerLightsIntr->AdjSw == 1) {
 if (DimmerLightsIntr->AdjStatus == 0) {
-if (DimmerLightsIntr->DimmingValue < ((char)(75*0.8))) {
+if (DimmerLightsIntr->DimmingValue < ((char)(70*0.8))) {
 DimmerLightsIntr->DimmingValue++;
 } else {
 DimmerLightsIntr->AdjStatus = 1;
@@ -3596,7 +3596,7 @@ DimmerLights->DimmingTimeValue = 7;
 
 
 
-DimmerLights->MaxmumValue = ((char)(75*0.8));
+DimmerLights->MaxmumValue = ((char)(70*0.8));
 DimmerLights->MinimumValue = ((char)(15*0.8));
 
 # 389
@@ -3772,9 +3772,9 @@ setLED(lights, 0);
 
 
 
-DimmerLights->DimmingValue = ((char)(75*0.8));
+DimmerLights->DimmingValue = ((char)(70*0.8));
 
-setProductData((20 + lights), setPercentValue(((char)(75*0.8))));
+setProductData((20 + lights), setPercentValue(((char)(70*0.8))));
 
 } else if (status == 0) {
 DimmerLights->StatusFlag = 0;
@@ -4002,10 +4002,10 @@ DimmerLights->SwitchAdj = command == 1 ? 1 : 0;
 char getPercentValue(char value) {
 
 # 1026
-float i = ((char)(75*0.8)) - ((char)(15*0.8));
+float i = ((char)(70*0.8)) - ((char)(15*0.8));
 i /= 100;
 
-return (char) (((char)(75*0.8)) - ((100 - value) * i));
+return (char) (((char)(70*0.8)) - ((100 - value) * i));
 
 }
 
@@ -4013,10 +4013,10 @@ return (char) (((char)(75*0.8)) - ((100 - value) * i));
 char setPercentValue(char value) {
 
 # 1042
-float i = ((char)(75*0.8)) - ((char)(15*0.8));
+float i = ((char)(70*0.8)) - ((char)(15*0.8));
 i /= 100;
 
-return (char) (100 - ((((char)(75*0.8)) - value) / i));
+return (char) (100 - ((((char)(70*0.8)) - value) / i));
 
 }
 
