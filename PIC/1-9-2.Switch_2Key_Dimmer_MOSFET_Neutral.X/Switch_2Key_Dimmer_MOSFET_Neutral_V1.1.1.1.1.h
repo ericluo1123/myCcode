@@ -73,15 +73,20 @@
 #define _TRISA 	0b01110111;
 #define _TRISB 	0b00000111;
 #define _TRISC 	0b00001100;
+
 #define _LATA	0b00000000;
 #define _LATB	0b00000010;
 #define _LATC	0b00000000;
+
 #define _ANSELA 0b00100010;
 #define _ANSELB 0b00000000;
 #define _ANSELC 0b00000000;
+
 #define _PORTA 	0b01110111;
 #define _PORTB 	0b00000111;
 #define _PORTC 	0b00001100;
+
+#define _WPUB   0b00000000;
 
 //ADC channel
 #define OverLoad_Channel	AN1

@@ -70,15 +70,20 @@
 #define _TRISA 	0b11110111;
 #define _TRISB 	0b00000100;
 #define _TRISC 	0b00100110;
+
 #define _LATA	0b00000000;
 #define _LATB	0b00000000;
 #define _LATC	0b00000000;
+
 #define _ANSELA 0b00001110;
 #define _ANSELB 0b00000000;
 #define _ANSELC 0b00000000;
+
 #define _PORTA 	0b11110111;
 #define _PORTB 	0b00000100;
 #define _PORTC 	0b00100110;
+
+#define _WPUB   0b00000000;
 
 //ADC channel
 #define OverLoad_Channel		AN1
@@ -151,7 +156,7 @@
 #define Dimmer_use_Value            1
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
-#define Max_Percent                 75F
+#define Max_Percent                 70
 #define Med_Percent                 35
 #define Mini_Percent                15
 //SegmentDisplay

@@ -8,8 +8,8 @@
 #ifdef TTPW
 
 void TouchPower() {
-    if (TTPW == false) {
-        if (myMain.PowerON == true) {
+    if (myMain.PowerON == true) {
+        if (TTPW == false) {
             while (TTPW == false && myMain.Timeout == false) {
                 TTPW = true;
                 Timeout_Counter();
@@ -128,6 +128,7 @@ void setSw_Main(char sw) {
         } else {
             if (Sw->Detect == false) {
                 Sw->Detect = true;
+
                 Sw->Touch = false;
                 Sw->Debounce = true;
             }
@@ -201,9 +202,8 @@ void setSw_Main(char sw) {
                     Sw->Hold3Time = 0;
                     Sw->Hold3 = false;
 #if Dimmer_use == 1
-                    if (SwDetect.Error == false) {
-                        setDimmerLights_SwOff(sw); //key on function
-                    }
+                    setDimmerLights_SwOff(sw); //key on function
+
 #endif
 #if CC2500_use == 1
                     setRF_Learn(0);

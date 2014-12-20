@@ -3279,7 +3279,7 @@ unsigned Line : 1;
 unsigned Loop : 1;
 };
 
-struct {
+volatile struct {
 unsigned OK : 1;
 unsigned SwFlag : 1;
 unsigned SwAdj : 1;
@@ -3328,7 +3328,7 @@ char setPercentValue(char value);
 
 void setDimmerLights_MaxmumValue(char, char);
 void setDimmerLights_Trigger(char, char);
-void setDimmerLights_TriggerAdj(char, char);
+
 char getDimmerLights_StatusFlag();
 char getDimmerLights_Trigger();
 char getDimmerLights_Status(char lights);
@@ -3453,10 +3453,11 @@ ANSELC = 0b00000000;;
 PORTA = 0b11110111;;
 PORTB = 0b00000100;;
 PORTC = 0b00100110;;
+WPUB = 0b00000000;;
 
 }
 
-# 107
+# 108
 void interrupt ISR(void) {
 
 IOC_ISR();
@@ -3474,7 +3475,7 @@ TMR1_ISR();
 ;;
 }
 
-# 199
+# 200
 inline void TMR1_Set() {
 T1CON = (0x40 | 0x00 | 0x01);
 TMR1H = (int)((65536-1480)/256);
@@ -3497,7 +3498,7 @@ TMR1IF = 0;
 
 setDimmerLights_IntrControl(1);
 
-# 235
+# 236
 Timer1.Count++;
 if (Timer1.Count == 100) {
 Timer1.Count = 0;
@@ -3513,14 +3514,14 @@ inline void setDimmerReClock() {
 
 setDimmerLights_IntrIOC_GO(1);
 
-# 262
+# 263
 }
 
-# 365
+# 366
 void IOC_Set() {
 WPUB2 = 0;
 
-# 386
+# 387
 IOCBP = 0b00000100;
 IOCBN = 0b00000000;
 
@@ -3548,13 +3549,13 @@ setDimmerReClock();
 }
 }
 
-# 419
+# 420
 void ADC_Set() {
 ADCON1 = 0xf3;
 FVRCON = 0xc1;
 }
 
-# 453
+# 454
 inline int getAD(char adcon0, char adcon1) {
 ADCON0 = adcon0;
 ADCON1 = adcon1;
@@ -3566,7 +3567,7 @@ set_TimeoutCleared();
 return ((ADRESH*256)+ADRESL);
 }
 
-# 924
+# 925
 void Flash_Memory_Initialization() {
 char i = 0;
 if (Flash_Memory_Read(31) == 0xaa) {
@@ -3574,8 +3575,8 @@ product->Data[12] = Flash_Memory_Read(0);
 product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
-# 935
-i = setPercentValue(((char)(75F*0.8)));
+# 936
+i = setPercentValue(((char)(70*0.8)));
 product->Data[21] = i;
 product->Data[22] = i;
 product->Data[23] = i;
@@ -3585,7 +3586,7 @@ myMain.FirstOpen = 1;
 myMain.First = 1;
 }
 } else {
-i = setPercentValue(((char)(75F*0.8)));
+i = setPercentValue(((char)(70*0.8)));
 setMemory_Data(0, 0xff);
 setMemory_Data(1, 0xff);
 setMemory_Data(2, 0xff);
@@ -3687,7 +3688,7 @@ setMemory_Data(0, product->Data[12]);
 setMemory_Data(1, product->Data[13]);
 setMemory_Data(2, product->Data[14]);
 
-# 1051
+# 1052
 if (Memory.LoopSave == 1) {
 Memory.LoopSave = 0;
 myMain.FirstOpen = 0;
@@ -3716,10 +3717,10 @@ void setMemory_Data(char address, char data) {
 Memory.Data[address] = data;
 }
 
-# 1083
+# 1084
 void WDT_Set() {
 
-# 1090
+# 1091
 WDTCON = 0b00010111;;
 
 WDT.Enable = 1;

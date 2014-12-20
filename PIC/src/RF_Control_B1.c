@@ -2,7 +2,7 @@
 // Includes
 #include "Select_File.h"
 
-#if CC2500_use == 1
+#if CC2500_use == 1 
 
 //*********************************************************
 
@@ -70,7 +70,7 @@ void setRF_Main() {
                 if (getRF_KeyStatus() == 1 && RF1.Learn == false) {
                     RF1.Count = 0;
                     RF1.Run = true;
-                    RF1.RunTime = 5;
+                    RF1.RunTime = RF_RunTime_Value;
                 }
                 //                RF1.Key = getRF_KeyStatus() == 1 ? true : false;
                 //                if (RF1.Key == true && RF1.Learn == false) {
@@ -103,10 +103,10 @@ void setRF_Main() {
                 if (RF1.TransceiveGO == true) {
                     RF1.TransceiveGO = false;
                     RF1.Run = true;
-                    RF1.RunTime = 5;
+                    RF1.RunTime = RF_RunTime_Value;
                     RF_RxDisable();
                     CC2500_TxData();
-                    ErrLED = ErrLED == true ? false : true;
+                    //                    ErrLED = ErrLED == true ? false : true;
                 } else {
                     if (RF1.RxStatus == true) {
                         if (RF1.Key == false || RF1.Learn == true) { // Check whether have data
@@ -116,7 +116,7 @@ void setRF_Main() {
                             if (RF1.ReceiveGO == true) {
                                 RF1.ReceiveGO = false;
                                 RF1.Run = true;
-                                RF1.RunTime = 5;
+                                RF1.RunTime = RF_RunTime_Value;
 #if I2C_use == 1
                                 I2C_SetData(1);
                                 //LED2=~LED2;
@@ -169,12 +169,11 @@ char getRF_KeyStatus() {
 //*********************************************************
 
 void setTxData() {
-    char i;
+    char i; 
     if (RF1.Enable == true) {
 #if Tx_Enable == 1
         if (RF1.TransceiveGO == false) {
             RF1.TransceiveGO = true;
-            RF1.RunTime = 20;
             //ErrLED = 0;
             //        	Product->Data[0]=0x63;		//Command
             //                Product->Data[1]=0x02;	//Command
@@ -221,8 +220,6 @@ void setRF_Enable(char command) {
     RF1.TransceiveGO = false;
     RF1.RxStatus = false;
     RF1.ReceiveGO = false;
-    RF1.DebounceTime = 0;
-    RF1.Debounce = false;
     //    setINT_GO(0);
 }
 //*********************************************************
@@ -246,7 +243,6 @@ void getRxData() {
 
         product->Data[2] = 0x55;
         setTxData();
-        RF1.RunTime = 10;
 
 #if myUARTtoRF_use_Value == 1
         LED1 = LED1 == true ? false : true;
@@ -275,7 +271,6 @@ void getRxData() {
                     NOP();
                 }
                 /*	else if(RF_Data[0] == 0x63 && RF_Data[1] == 0x02){		//return command
-                
                                 ;
                         }*/
             }
@@ -392,7 +387,6 @@ void setRFSW_Control(char sw) {
             status = 1;
             setRF_DimmerLights(sw, 1);
             setTxData();
-
         }
     } else {
 #if DelayOff_use == 1

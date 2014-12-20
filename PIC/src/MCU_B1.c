@@ -97,6 +97,7 @@ void IO_Set() {
     PORTA = _PORTA;
     PORTB = _PORTB;
     PORTC = _PORTC;
+    WPUB = _WPUB;
 #endif
 }
 

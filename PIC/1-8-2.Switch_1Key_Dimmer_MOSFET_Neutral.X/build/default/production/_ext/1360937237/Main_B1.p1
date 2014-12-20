@@ -99,7 +99,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S271 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
 [n S271 . OK SwFlag SwAdj empty3 ]
 "11
-[s S266 `VS267 1 `VS268 1 `VS269 1 `Vuc 1 `Vuc 1 `Vuc 1 `Vuc 1 `Vuc 1 `uc 1 `uc 1 `VS270 1 `S271 1 `Vuc 1 `Vuc 1 `uc 1 `uc 1 `uc 1 ]
+[s S266 `VS267 1 `VS268 1 `VS269 1 `Vuc 1 `Vuc 1 `Vuc 1 `Vuc 1 `Vuc 1 `uc 1 `uc 1 `VS270 1 `VS271 1 `Vuc 1 `Vuc 1 `uc 1 `uc 1 `uc 1 ]
 [n S266 DimmerLights . . . Count DimmingValue DimmingTime MaxmumValue TriacTime DimmingTimeValue MinimumValue . . TriacCount MosfetSignalCount DetectCount TuneValue MosfetOK_Count ]
 "176
 [s S274 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :4 `uc 1 ]
@@ -135,9 +135,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v F2402 `(v ~T0 @X0 1 tf ]
 "88 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverLoad_B1.h
 [v _Load_Initialization `TF2402 ~T0 @X0 0 e ]
-[v F2578 `(v ~T0 @X0 1 tf ]
+[v F2575 `(v ~T0 @X0 1 tf ]
 "50 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/DelayOff_B1.h
-[v _DelayOff_Initialization `TF2578 ~T0 @X0 0 e ]
+[v _DelayOff_Initialization `TF2575 ~T0 @X0 0 e ]
 "126 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h
 [v _DimmerLights_Initialization `(v ~T0 @X0 0 ef ]
 [v F2152 `(v ~T0 @X0 1 tf ]
@@ -181,9 +181,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v F2343 `(v ~T0 @X0 1 tf ]
 "49 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/RF_Control_B1.h
 [v _RF_Main `TF2343 ~T0 @X0 0 e ]
-[v F2580 `(v ~T0 @X0 1 tf ]
+[v F2577 `(v ~T0 @X0 1 tf ]
 "51 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/DelayOff_B1.h
-[v _DelayOff_Main `TF2580 ~T0 @X0 0 e ]
+[v _DelayOff_Main `TF2577 ~T0 @X0 0 e ]
 "140 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Main_B1.h
 [v _Exception_Main `(v ~T0 @X0 0 ef ]
 "60 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Buzzer_B1.h
@@ -2933,7 +2933,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.h: 58: unsigned Line : 1;
 [; ;Dimmer_B1.h: 59: unsigned Loop : 1;
 [; ;Dimmer_B1.h: 60: };
-[; ;Dimmer_B1.h: 62: struct {
+[; ;Dimmer_B1.h: 62: volatile struct {
 [; ;Dimmer_B1.h: 63: unsigned OK : 1;
 [; ;Dimmer_B1.h: 64: unsigned SwFlag : 1;
 [; ;Dimmer_B1.h: 65: unsigned SwAdj : 1;
@@ -2981,7 +2981,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.h: 140: char setPercentValue(char value);
 [; ;Dimmer_B1.h: 142: void setDimmerLights_MaxmumValue(char, char);
 [; ;Dimmer_B1.h: 143: void setDimmerLights_Trigger(char, char);
-[; ;Dimmer_B1.h: 144: void setDimmerLights_TriggerAdj(char, char);
 [; ;Dimmer_B1.h: 145: char getDimmerLights_StatusFlag();
 [; ;Dimmer_B1.h: 146: char getDimmerLights_Trigger();
 [; ;Dimmer_B1.h: 147: char getDimmerLights_Status(char lights);
@@ -3312,9 +3311,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.c: 275: myMain.Timeout_Counter++;
 "275
 [e ++ . _myMain 8 -> -> 1 `i `ui ]
-[; ;Main_B1.c: 276: if (myMain.Timeout_Counter == 10000) {
+[; ;Main_B1.c: 276: if (myMain.Timeout_Counter == 25000) {
 "276
-[e $ ! == . _myMain 8 -> -> 10000 `i `ui 294  ]
+[e $ ! == . _myMain 8 -> -> 25000 `i `ui 294  ]
 {
 [; ;Main_B1.c: 277: myMain.Timeout_Counter = 0;
 "277

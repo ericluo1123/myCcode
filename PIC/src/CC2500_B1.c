@@ -4,7 +4,7 @@
 // Module Name: RTX_LCM_FSK (DataRate2.4k) v1.0
 //----------------------------------------------------------------------------
 //
-// Company:RIFO Technology Co.Ltd. 
+// Company:RIFO Technology Co.Ltd.  
 //         http://www.rifo.com.tw/
 // Company :Loong-Yee
 // http://www.loong-yee.com.tw

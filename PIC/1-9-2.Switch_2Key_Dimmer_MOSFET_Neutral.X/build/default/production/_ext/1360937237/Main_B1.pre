@@ -3290,7 +3290,7 @@ unsigned Line : 1;
 unsigned Loop : 1;
 };
 
-struct {
+volatile struct {
 unsigned OK : 1;
 unsigned SwFlag : 1;
 unsigned SwAdj : 1;
@@ -3344,7 +3344,7 @@ char setPercentValue(char value);
 
 void setDimmerLights_MaxmumValue(char, char);
 void setDimmerLights_Trigger(char, char);
-void setDimmerLights_TriggerAdj(char, char);
+
 char getDimmerLights_StatusFlag();
 char getDimmerLights_Trigger();
 char getDimmerLights_Status(char lights);
@@ -3564,7 +3564,7 @@ myMain.Flag = 1;
 
 inline void Timeout_Counter() {
 myMain.Timeout_Counter++;
-if (myMain.Timeout_Counter == 10000) {
+if (myMain.Timeout_Counter == 25000) {
 myMain.Timeout_Counter = 0;
 myMain.Timeout = 1;
 }

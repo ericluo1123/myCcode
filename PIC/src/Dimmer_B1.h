@@ -59,7 +59,7 @@ struct DimmerLights {
         unsigned Loop : 1;
     };
 
-    struct {
+    volatile struct {
         unsigned OK : 1;
         unsigned SwFlag : 1;
         unsigned SwAdj : 1;
@@ -141,7 +141,7 @@ char setPercentValue(char value);
 
 void setDimmerLights_MaxmumValue(char, char);
 void setDimmerLights_Trigger(char, char);
-void setDimmerLights_TriggerAdj(char, char);
+//void setDimmerLights_TriggerAdj(char, char);
 char getDimmerLights_StatusFlag();
 char getDimmerLights_Trigger();
 char getDimmerLights_Status(char lights);

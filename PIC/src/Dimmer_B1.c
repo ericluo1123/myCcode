@@ -492,7 +492,7 @@ void setDimmerLights_AdjOn(char sw) {
 
             DimmerLights->TriggerAdj = true;
             DimmerLights->SwitchAdj = true;
-//            ErrLED = ErrLED == true ? false : true;
+            //            ErrLED = ErrLED == true ? false : true;
         }
     }
 }
@@ -929,12 +929,12 @@ void setDimmerLights_Trigger(char lights, char command) {
     DimmerLights->Switch = command == 1 ? true : false;
 }
 
-void setDimmerLights_TriggerAdj(char lights, char command) {
-
-    DimmerLightsPointSelect(lights);
-    DimmerLights->TriggerAdj = true;
-    DimmerLights->SwitchAdj = command == 1 ? true : false;
-}
+//void setDimmerLights_TriggerAdj(char lights, char command) {
+//
+//    DimmerLightsPointSelect(lights);
+//    DimmerLights->TriggerAdj = true;
+//    DimmerLights->SwitchAdj = command == 1 ? true : false;
+//}
 
 //*********************************************************
 

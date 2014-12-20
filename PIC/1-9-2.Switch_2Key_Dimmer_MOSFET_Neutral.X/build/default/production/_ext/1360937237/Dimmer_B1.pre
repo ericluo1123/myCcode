@@ -3290,7 +3290,7 @@ unsigned Line : 1;
 unsigned Loop : 1;
 };
 
-struct {
+volatile struct {
 unsigned OK : 1;
 unsigned SwFlag : 1;
 unsigned SwAdj : 1;
@@ -3344,7 +3344,7 @@ char setPercentValue(char value);
 
 void setDimmerLights_MaxmumValue(char, char);
 void setDimmerLights_Trigger(char, char);
-void setDimmerLights_TriggerAdj(char, char);
+
 char getDimmerLights_StatusFlag();
 char getDimmerLights_Trigger();
 char getDimmerLights_Status(char lights);
@@ -3989,13 +3989,6 @@ void setDimmerLights_Trigger(char lights, char command) {
 DimmerLightsPointSelect(lights);
 DimmerLights->Trigger = 1;
 DimmerLights->Switch = command == 1 ? 1 : 0;
-}
-
-void setDimmerLights_TriggerAdj(char lights, char command) {
-
-DimmerLightsPointSelect(lights);
-DimmerLights->TriggerAdj = 1;
-DimmerLights->SwitchAdj = command == 1 ? 1 : 0;
 }
 
 # 1018

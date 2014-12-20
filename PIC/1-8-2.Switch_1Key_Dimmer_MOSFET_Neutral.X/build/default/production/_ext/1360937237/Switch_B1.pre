@@ -3279,7 +3279,7 @@ unsigned Line : 1;
 unsigned Loop : 1;
 };
 
-struct {
+volatile struct {
 unsigned OK : 1;
 unsigned SwFlag : 1;
 unsigned SwAdj : 1;
@@ -3328,7 +3328,7 @@ char setPercentValue(char value);
 
 void setDimmerLights_MaxmumValue(char, char);
 void setDimmerLights_Trigger(char, char);
-void setDimmerLights_TriggerAdj(char, char);
+
 char getDimmerLights_StatusFlag();
 char getDimmerLights_Trigger();
 char getDimmerLights_Status(char lights);
@@ -3404,8 +3404,8 @@ void DelayOffPointSelect(char sw);
 
 # 10 "../src/Switch_B1.c"
 void TouchPower() {
-if (RB0 == 0) {
 if (myMain.PowerON == 1) {
+if (RB0 == 0) {
 while (RB0 == 0 && myMain.Timeout == 0) {
 RB0 = 1;
 Timeout_Counter();
@@ -3471,6 +3471,7 @@ Sw->Touch = getSw_KeyStatus(sw) == 1 ? 1 : 0;
 } else {
 if (Sw->Detect == 0) {
 Sw->Detect = 1;
+
 Sw->Touch = 0;
 Sw->Debounce = 1;
 }
@@ -3544,9 +3545,8 @@ Sw->Hold2 = 0;
 Sw->Hold3Time = 0;
 Sw->Hold3 = 0;
 
-if (SwDetect.Error == 0) {
 setDimmerLights_SwOff(sw);
-}
+
 
 
 setRF_Learn(0);

@@ -273,7 +273,7 @@ inline void my_MainTimer() {
 
 inline void Timeout_Counter() {
     myMain.Timeout_Counter++;
-    if (myMain.Timeout_Counter == 10000) {
+    if (myMain.Timeout_Counter == 25000) {
         myMain.Timeout_Counter = 0;
         myMain.Timeout = true;
     }
