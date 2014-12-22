@@ -78,7 +78,7 @@ inline void DimmerIntrPointSelect(char lights) {
     }
 #endif
 #ifdef use_2KEY
-    if (lights == 2) {
+    else if (lights == 2) {
         DimmerLightsIntr = &DimmerLights2;
     }
 #endif
@@ -485,7 +485,7 @@ void setDimmerLights_AdjOn(char sw) {
     //2.其他的燈未進入開燈階段
     //3.其他燈未在調光階段
     //4.本身如進入開燈階段需先完成開燈階段
-    if (DimmerLights->Trigger == false && getDimmerLights_Allow_Condition(sw) == 0) {
+    if (DimmerLights->Trigger == false) {
         if (DimmerLights->SwFlag == true) {
             DimmerLights->SwAdj = true;
             DimmerLights->Status = true;
@@ -546,12 +546,20 @@ void setDimmerLights_Main(char lights) {
             }
         }
     } else {
-        if (DimmerLights->TriggerAdj == true) {
-            DimmerLights->TriggerAdj = false;
-            if (DimmerLights->SwitchAdj == true) {
-                setDimmerLights_Adj(lights, 1);
-            } else {
-                setDimmerLights_Adj(lights, 0);
+        if (getMain_LightsStatus() == 1) {
+            if (DimmerLights->TriggerAdj == true) {
+                if (getDimmerLights_Allow_Condition(lights) == 0) {
+                    DimmerLights->TriggerAdj = false;
+                    if (DimmerLights->SwitchAdj == true) {
+                        setDimmerLights_Adj(lights, 1);
+                    } else {
+                        setDimmerLights_Adj(lights, 0);
+                    }
+                }
+            }
+        } else {
+            if (DimmerLights->TriggerAdj == true) {
+                DimmerLights->TriggerAdj = false;
             }
         }
     }

@@ -10,7 +10,7 @@
 
 struct DimmerLights {
 
-    volatile struct {
+    struct {
         unsigned MOSFET : 1;
         unsigned TriacFlag : 1;
         unsigned empty1 : 6;
@@ -18,7 +18,7 @@ struct DimmerLights {
 
     //public
 
-    volatile struct {
+    struct {
         unsigned GO : 1;
         unsigned MosfetSignal : 1;
         unsigned StatusFlag : 1; //triac control
@@ -31,7 +31,7 @@ struct DimmerLights {
 
     //private
 
-    volatile struct {
+    struct {
         unsigned AdjRF : 1;
         unsigned Status : 1; //lights status
         unsigned IntrStart : 1;
@@ -39,16 +39,16 @@ struct DimmerLights {
     };
 
 
-    volatile unsigned char Count;
-    volatile unsigned char DimmingValue;
-    volatile unsigned char DimmingTime;
-    volatile unsigned char MaxmumValue;
-    volatile unsigned char TriacTime;
+    unsigned char Count;
+    unsigned char DimmingValue;
+    unsigned char DimmingTime;
+    unsigned char MaxmumValue;
+    unsigned char TriacTime;
 
     unsigned char DimmingTimeValue;
     unsigned char MinimumValue;
 
-    volatile struct {
+    struct {
         unsigned Switch : 1;
         unsigned Trigger : 1;
         unsigned SwitchAdj : 1;
@@ -59,15 +59,15 @@ struct DimmerLights {
         unsigned Loop : 1;
     };
 
-    volatile struct {
+    struct {
         unsigned OK : 1;
         unsigned SwFlag : 1;
         unsigned SwAdj : 1;
         unsigned empty3 : 5;
     };
 
-    volatile unsigned char TriacCount;
-    volatile unsigned char MosfetSignalCount;
+    unsigned char TriacCount;
+    unsigned char MosfetSignalCount;
 
     unsigned char DetectCount;
     unsigned char TuneValue;

@@ -2978,214 +2978,6 @@ void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
 
-# 161 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/CC2500_B1.h"
-const unsigned char CC2500_rfSettings[47] ={
-
-
-0x07,
-0x07,
-0x30,
-0x87,
-0x6B,
-0xF8,
-0x7F,
-0x3F,
-
-0x09,
-0x00,
-0x5C,
-0xA7,
-0x62,
-0x86,
-0x83,
-0x03,
-0x22,
-0xF8,
-0x00,
-0x44,
-0xB6,
-0x10,
-0x18,
-0x1D,
-0x1C,
-0xC7,
-0x00,
-0xB2,
-0xEA,
-0x0A,
-0x00,
-0x11,
-0x59,
-0x88,
-0x31,
-0x0B,
-0x2F,
-0x2E,
-0x06,
-0x04,
-0x05,
-0x00,
-0x30,
-0xD3,
-0x91,
-0x41,
-0x00
-
-};
-
-
-
-const unsigned char CC2500_registers_address[47] ={
-
-0x03,
-0x16,
-0x17,
-0x1E,
-0x1F,
-0x20,
-0x2A,
-0x2B,
-
-0x0B,
-0x0C,
-0x0D,
-0x0E,
-0x0F,
-0x10,
-0x11,
-0x12,
-0x13,
-0x14,
-0x0A,
-0x15,
-0x21,
-0x22,
-0x18,
-0x19,
-0x1A,
-0x1B,
-0x1C,
-0x1D,
-0x23,
-0x24,
-0x25,
-0x26,
-0x29,
-0x2C,
-0x2D,
-0x2E,
-0x00,
-0x01,
-0x02,
-0x07,
-0x08,
-0x09,
-0x06,
-0x04,
-0x05,
-0x27,
-0x28
-};
-
-# 277
-unsigned int RF_Count;
-unsigned char SPI0Buffer;
-unsigned char r_data;
-unsigned char s_data;
-unsigned char r_address;
-unsigned char RF_Data[30];
-unsigned char RSSI;
-unsigned char CRC;
-unsigned char Rx_Length;
-unsigned char Tx_Length;
-
-
-
-
-const unsigned char CC2500_patable_vaule[8] = {0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE};
-
-void CC2500_PowerOnInitial();
-void CC2500_PowerRST(void);
-void CC2500_InitSetREG(void);
-void CC2500_InitPATable(void);
-void CC2500_ClearTXFIFO(void);
-void CC2500_ClearRXFIFO(void);
-void CC2500_FrequencyCabr(void);
-inline void CC2500_SIDLEMode(void);
-
-inline void CC2500_WriteByte(void);
-inline void CC2500_WriteREG(unsigned char addr, unsigned char value);
-inline void CC2500_ReadByte(void);
-inline void CC2500_ReadREG(unsigned char addr);
-inline void CC2500_ReadStatus(unsigned char s_addr);
-inline void CC2500_WriteCommand(unsigned char command);
-inline void CC2500_TxData();
-inline void CC2500_RxData(void);
-void DelayTime_1us(int count);
-
-# 12 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/RF_Control_B1.h"
-struct RF {
-
-struct {
-unsigned Enable : 1;
-unsigned ReceiveGO : 1;
-unsigned TransceiveGO : 1;
-unsigned RxStatus : 1;
-unsigned TxStatus : 1;
-unsigned Debounce : 1;
-unsigned Learn : 1;
-unsigned Key : 1;
-};
-
-struct {
-unsigned Sleep : 1;
-unsigned Run : 1;
-unsigned Bus : 1;
-unsigned Checked : 1;
-unsigned RxChecked : 1;
-unsigned Correction : 1;
-unsigned empty : 2;
-};
-
-unsigned int Count;
-unsigned char CheckCount;
-unsigned int CheckedCounter;
-unsigned int RunTime;
-unsigned char DebounceTime;
-unsigned int CorrectionCounter;
-
-};
-
-
-struct RF RF1;
-
-
-inline void RF_Initialization();
-inline void RF_Main();
-void setRF_Initialization();
-void setRF_Main();
-void setTxData();
-void getRxData();
-void setRF_Enable(char command);
-void setLog_Code();
-void setControl_Lights_Table();
-void RF_RxDisable();
-void setRF_Learn(char command);
-void setRF_ReceiveGO(char command);
-void setRF_RxStatus(char command);
-char getRF_KeyStatus();
-
-
-
-
-void setRFSW_Control(char sw);
-void setRFSW_AdjControl(char sw);
-void setRFSW_Status(char sw, char command);
-
-
-void setRF_DimmerValue(char lights);
-void setRF_DimmerLights(char lights, char on);
-
 # 44 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/OverLoad_B1.h"
 struct OverLoad {
 
@@ -3241,7 +3033,7 @@ void setLoad_OK();
 # 11 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
-volatile struct {
+struct {
 unsigned MOSFET : 1;
 unsigned TriacFlag : 1;
 unsigned empty1 : 6;
@@ -3249,7 +3041,7 @@ unsigned empty1 : 6;
 
 
 
-volatile struct {
+struct {
 unsigned GO : 1;
 unsigned MosfetSignal : 1;
 unsigned StatusFlag : 1;
@@ -3262,7 +3054,7 @@ unsigned AdjStatus : 1;
 
 
 
-volatile struct {
+struct {
 unsigned AdjRF : 1;
 unsigned Status : 1;
 unsigned IntrStart : 1;
@@ -3270,16 +3062,16 @@ unsigned empty2 : 5;
 };
 
 
-volatile unsigned char Count;
-volatile unsigned char DimmingValue;
-volatile unsigned char DimmingTime;
-volatile unsigned char MaxmumValue;
-volatile unsigned char TriacTime;
+unsigned char Count;
+unsigned char DimmingValue;
+unsigned char DimmingTime;
+unsigned char MaxmumValue;
+unsigned char TriacTime;
 
 unsigned char DimmingTimeValue;
 unsigned char MinimumValue;
 
-volatile struct {
+struct {
 unsigned Switch : 1;
 unsigned Trigger : 1;
 unsigned SwitchAdj : 1;
@@ -3290,15 +3082,15 @@ unsigned Line : 1;
 unsigned Loop : 1;
 };
 
-volatile struct {
+struct {
 unsigned OK : 1;
 unsigned SwFlag : 1;
 unsigned SwAdj : 1;
 unsigned empty3 : 5;
 };
 
-volatile unsigned char TriacCount;
-volatile unsigned char MosfetSignalCount;
+unsigned char TriacCount;
+unsigned char MosfetSignalCount;
 
 unsigned char DetectCount;
 unsigned char TuneValue;
@@ -3477,7 +3269,7 @@ DimmerLightsIntr = &DimmerLights1;
 }
 
 
-if (lights == 2) {
+else if (lights == 2) {
 DimmerLightsIntr = &DimmerLights2;
 }
 
@@ -3666,7 +3458,7 @@ void setDimmerLights_AdjOn(char sw) {
 DimmerLightsPointSelect(sw);
 
 # 488
-if (DimmerLights->Trigger == 0 && getDimmerLights_Allow_Condition(sw) == 0) {
+if (DimmerLights->Trigger == 0) {
 if (DimmerLights->SwFlag == 1) {
 DimmerLights->SwAdj = 1;
 DimmerLights->Status = 1;
@@ -3714,7 +3506,9 @@ setDimmerLights(lights, 0);
 }
 }
 } else {
+if (getMain_LightsStatus() == 1) {
 if (DimmerLights->TriggerAdj == 1) {
+if (getDimmerLights_Allow_Condition(lights) == 0) {
 DimmerLights->TriggerAdj = 0;
 if (DimmerLights->SwitchAdj == 1) {
 setDimmerLights_Adj(lights, 1);
@@ -3723,15 +3517,21 @@ setDimmerLights_Adj(lights, 0);
 }
 }
 }
+} else {
+if (DimmerLights->TriggerAdj == 1) {
+DimmerLights->TriggerAdj = 0;
+}
+}
+}
 
-# 583
+# 591
 }
 
 
 char getDimmerLights_Allow_Condition(char lights) {
 char allow = 0;
 
-# 594
+# 602
 allow = getLoad_OK() == 0 && Dimmer.LoadGO == 0 ? 0 : 1;
 
 
@@ -3745,7 +3545,7 @@ allow = DimmerLights1.TriggerAdj == 1 || DimmerLights1.AdjSw == 1 ? 1 : 0;
 }
 }
 
-# 619
+# 627
 return allow;
 }
 
@@ -3759,7 +3559,7 @@ return loadgo;
 
 void setDimmerLights(char lights, char status) {
 
-# 638
+# 646
 if (status == 1) {
 DimmerLights->StatusFlag = 1;
 
@@ -3788,8 +3588,8 @@ setLED(lights, 1);
 }
 
 
-setRF_DimmerLights(lights, status);
-setTxData();
+;;
+;;
 }
 
 
@@ -3809,9 +3609,9 @@ DimmerLights->Signal = 0;
 DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
 setProductData((20 + lights), setPercentValue(DimmerLights->DimmingValue));
 
-# 700
-setRF_DimmerLights(lights, 1);
-setTxData();
+# 708
+;;
+;;
 }
 }
 
@@ -3824,7 +3624,7 @@ DimmerLights1.Line = 0;
 
 DimmerLights2.Line = 0;
 
-# 718
+# 726
 if (lights == 1) {
 DimmerLights1.Line = 1;
 }
@@ -3834,7 +3634,7 @@ else if (lights == 2) {
 DimmerLights2.Line = 1;
 }
 
-# 733
+# 741
 }
 
 
@@ -3850,7 +3650,7 @@ else if (DimmerLights2.Line == 1) {
 line = 2;
 }
 
-# 753
+# 761
 return line;
 }
 
@@ -3865,10 +3665,10 @@ return status;
 char getDimmerLights_StatusFlag() {
 char Status = 0;
 
-# 772
+# 780
 Status = (DimmerLights1.StatusFlag == 1 || DimmerLights2.StatusFlag == 1) ? 1 : 0;
 
-# 779
+# 787
 return Status;
 }
 
@@ -3876,10 +3676,10 @@ return Status;
 char getDimmerLights_Trigger() {
 char Status = 0;
 
-# 791
+# 799
 Status = (DimmerLights1.Trigger == 1 || DimmerLights2.Trigger == 1) ? 1 : 0;
 
-# 798
+# 806
 return Status;
 }
 
@@ -3887,7 +3687,7 @@ return Status;
 char getAll_DimmerLights_AdjGO(char sw) {
 char adjgo = 0;
 
-# 819
+# 827
 switch (sw) {
 case 1:
 adjgo = DimmerLights2.SwitchAdj == 1 ? 1 : 0;
@@ -3918,10 +3718,10 @@ return adjsw;
 void setDimmerLights_ErrorClose(char lights) {
 if (lights == 255) {
 
-# 852
+# 860
 char count = 2;
 
-# 857
+# 865
 for (int i = 0; i < count; i++) {
 DimmerLightsPointSelect(i + 1);
 if (getDimmerLights_Status(i + 1) == 1) {
@@ -3939,7 +3739,7 @@ setDimmerLights_SwOff(lights);
 }
 }
 
-# 881
+# 889
 }
 
 char getDimmer_LoadOK() {
@@ -3991,10 +3791,10 @@ DimmerLights->Trigger = 1;
 DimmerLights->Switch = command == 1 ? 1 : 0;
 }
 
-# 1018
+# 1026
 char getPercentValue(char value) {
 
-# 1026
+# 1034
 float i = ((char)(70*0.8)) - ((char)(15*0.8));
 i /= 100;
 
@@ -4005,7 +3805,7 @@ return (char) (((char)(70*0.8)) - ((100 - value) * i));
 
 char setPercentValue(char value) {
 
-# 1042
+# 1050
 float i = ((char)(70*0.8)) - ((char)(15*0.8));
 i /= 100;
 

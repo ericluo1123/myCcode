@@ -171,8 +171,7 @@ inline void Load_Main() {
                                     Load.TotalLoad = Load.AD;
                                     Load.ErrorCountValue = 3;
                                     //                                    ErrLED = 0;
-                                    //                                    ErrLED = ErrLED == true ? false : true;
-
+                                    //                                    ErrLED = ErrLED == true ? false : true;                           
                                 }
                             }
 #if Load_Debug == 1
@@ -204,6 +203,7 @@ inline void Load_Main() {
                 Load.ADtoGO = true;
             }
         } else {
+
             if (Load.LightsON == true) {
                 Load.LightsON = false;
 
