@@ -22,15 +22,16 @@ struct RF {
         unsigned Key : 1;
     };
 
-        struct {
-            unsigned Sleep : 1;
-            unsigned Run : 1;
-            unsigned Bus : 1;
-            unsigned Checked : 1;
-            unsigned RxChecked : 1;
-            unsigned Correction : 1;
-            unsigned empty : 2;
-        };
+    struct {
+        unsigned Sleep : 1;
+        unsigned Run : 1;
+        unsigned Bus : 1;
+        unsigned Checked : 1;
+        unsigned RxChecked : 1;
+        unsigned Correction : 1;
+        unsigned Timeout : 1;
+        unsigned empty : 1;
+    };
 
     unsigned int Count;
     unsigned char CheckCount;
@@ -38,6 +39,7 @@ struct RF {
     unsigned int RunTime;
     unsigned char DebounceTime;
     unsigned int CorrectionCounter;
+    unsigned int TimeoutCount;
 
 };
 
@@ -59,6 +61,8 @@ void setRF_Learn(char command);
 void setRF_ReceiveGO(char command);
 void setRF_RxStatus(char command);
 char getRF_KeyStatus();
+inline void RF_Timeout_Counter();
+inline void setRF_TimeoutCleared();
 #define setRF_Data(location,value) RF_Data[location]=value
 
 

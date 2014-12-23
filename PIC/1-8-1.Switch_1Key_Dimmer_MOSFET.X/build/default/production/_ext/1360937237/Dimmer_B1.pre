@@ -2624,23 +2624,26 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 15 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/MCU_B1.h"
+# 8 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/MCU_B1.h"
+void interrupt ISR(void);
+
+# 17
 void Mcu_Initialization();
 
-# 20
+# 22
 void IO_Set();
 
-# 224
+# 226
 void Fosc_Set();
 
-# 292
+# 294
 void ADC_Set();
 void setADCGO();
 
-# 301
+# 303
 inline int getAD(char, char);
 
-# 440
+# 442
 struct Timer1 {
 
 struct {
@@ -2655,11 +2658,11 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 528
+# 530
 void IOC_Set();
 inline void IOC_ISR();
 
-# 683
+# 684
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2683,7 +2686,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 711
+# 712
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -2695,7 +2698,7 @@ void setMemory_Modify(char command);
 void setMemory_LoopSave(char command);
 void setMemory_Data(char address, char data);
 
-# 741
+# 742
 struct WDT {
 
 struct {
@@ -2706,7 +2709,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 766
+# 767
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -3230,7 +3233,7 @@ void setLoad_OK();
 # 11 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
-volatile struct {
+struct {
 unsigned MOSFET : 1;
 unsigned TriacFlag : 1;
 unsigned empty1 : 6;
@@ -3238,7 +3241,7 @@ unsigned empty1 : 6;
 
 
 
-volatile struct {
+struct {
 unsigned GO : 1;
 unsigned MosfetSignal : 1;
 unsigned StatusFlag : 1;
@@ -3251,7 +3254,7 @@ unsigned AdjStatus : 1;
 
 
 
-volatile struct {
+struct {
 unsigned AdjRF : 1;
 unsigned Status : 1;
 unsigned IntrStart : 1;
@@ -3259,16 +3262,16 @@ unsigned empty2 : 5;
 };
 
 
-volatile unsigned char Count;
-volatile unsigned char DimmingValue;
-volatile unsigned char DimmingTime;
-volatile unsigned char MaxmumValue;
-volatile unsigned char TriacTime;
+unsigned char Count;
+unsigned char DimmingValue;
+unsigned char DimmingTime;
+unsigned char MaxmumValue;
+unsigned char TriacTime;
 
 unsigned char DimmingTimeValue;
 unsigned char MinimumValue;
 
-volatile struct {
+struct {
 unsigned Switch : 1;
 unsigned Trigger : 1;
 unsigned SwitchAdj : 1;
@@ -3279,15 +3282,15 @@ unsigned Line : 1;
 unsigned Loop : 1;
 };
 
-volatile struct {
+struct {
 unsigned OK : 1;
 unsigned SwFlag : 1;
 unsigned SwAdj : 1;
 unsigned empty3 : 5;
 };
 
-volatile unsigned char TriacCount;
-volatile unsigned char MosfetSignalCount;
+unsigned char TriacCount;
+unsigned char MosfetSignalCount;
 
 unsigned char DetectCount;
 unsigned char TuneValue;
@@ -3328,7 +3331,7 @@ char setPercentValue(char value);
 
 void setDimmerLights_MaxmumValue(char, char);
 void setDimmerLights_Trigger(char, char);
-void setDimmerLights_TriggerAdj(char, char);
+
 char getDimmerLights_StatusFlag();
 char getDimmerLights_Trigger();
 char getDimmerLights_Status(char lights);
@@ -3609,7 +3612,7 @@ void setDimmerLights_AdjOn(char sw) {
 DimmerLightsPointSelect(sw);
 
 # 488
-if (DimmerLights->Trigger == 0 && getDimmerLights_Allow_Condition(sw) == 0) {
+if (DimmerLights->Trigger == 0) {
 if (DimmerLights->SwFlag == 1) {
 DimmerLights->SwAdj = 1;
 DimmerLights->Status = 1;
@@ -3653,7 +3656,9 @@ setDimmerLights(lights, 0);
 }
 }
 } else {
+if (getMain_LightsStatus() == 1) {
 if (DimmerLights->TriggerAdj == 1) {
+if (getDimmerLights_Allow_Condition(lights) == 0) {
 DimmerLights->TriggerAdj = 0;
 if (DimmerLights->SwitchAdj == 1) {
 setDimmerLights_Adj(lights, 1);
@@ -3662,18 +3667,24 @@ setDimmerLights_Adj(lights, 0);
 }
 }
 }
+} else {
+if (DimmerLights->TriggerAdj == 1) {
+DimmerLights->TriggerAdj = 0;
+}
+}
+}
 
-# 583
+# 591
 }
 
 
 char getDimmerLights_Allow_Condition(char lights) {
 char allow = 0;
 
-# 594
+# 602
 allow = getLoad_OK() == 0 && Dimmer.LoadGO == 0 ? 0 : 1;
 
-# 619
+# 627
 return allow;
 }
 
@@ -3687,7 +3698,7 @@ return loadgo;
 
 void setDimmerLights(char lights, char status) {
 
-# 638
+# 646
 if (status == 1) {
 DimmerLights->StatusFlag = 1;
 
@@ -3737,7 +3748,7 @@ DimmerLights->Signal = 0;
 DimmerLights->MaxmumValue = DimmerLights->DimmingValue;
 setProductData((20 + lights), setPercentValue(DimmerLights->DimmingValue));
 
-# 700
+# 708
 setRF_DimmerLights(lights, 1);
 setTxData();
 }
@@ -3749,12 +3760,12 @@ Dimmer.LoadGO = 1;
 
 DimmerLights1.Line = 0;
 
-# 718
+# 726
 if (lights == 1) {
 DimmerLights1.Line = 1;
 }
 
-# 733
+# 741
 }
 
 
@@ -3765,7 +3776,7 @@ if (DimmerLights1.Line == 1) {
 line = 1;
 }
 
-# 753
+# 761
 return line;
 }
 
@@ -3780,7 +3791,7 @@ return status;
 char getDimmerLights_StatusFlag() {
 char Status = 0;
 
-# 776
+# 784
 Status = (DimmerLights1.StatusFlag == 1) ? 1 : 0;
 
 
@@ -3791,7 +3802,7 @@ return Status;
 char getDimmerLights_Trigger() {
 char Status = 0;
 
-# 795
+# 803
 Status = (DimmerLights1.Trigger) ? 1 : 0;
 
 
@@ -3802,7 +3813,7 @@ return Status;
 char getAll_DimmerLights_AdjGO(char sw) {
 char adjgo = 0;
 
-# 828
+# 836
 return adjgo;
 }
 
@@ -3826,7 +3837,7 @@ if (lights == 255) {
 
 char count = 1;
 
-# 857
+# 865
 for (int i = 0; i < count; i++) {
 DimmerLightsPointSelect(i + 1);
 if (getDimmerLights_Status(i + 1) == 1) {
@@ -3844,7 +3855,7 @@ setDimmerLights_SwOff(lights);
 }
 }
 
-# 881
+# 889
 }
 
 char getDimmer_LoadOK() {
@@ -3896,17 +3907,10 @@ DimmerLights->Trigger = 1;
 DimmerLights->Switch = command == 1 ? 1 : 0;
 }
 
-void setDimmerLights_TriggerAdj(char lights, char command) {
-
-DimmerLightsPointSelect(lights);
-DimmerLights->TriggerAdj = 1;
-DimmerLights->SwitchAdj = command == 1 ? 1 : 0;
-}
-
-# 1018
+# 1026
 char getPercentValue(char value) {
 
-# 1026
+# 1034
 float i = ((char)(70*0.8)) - ((char)(15*0.8));
 i /= 100;
 
@@ -3917,7 +3921,7 @@ return (char) (((char)(70*0.8)) - ((100 - value) * i));
 
 char setPercentValue(char value) {
 
-# 1042
+# 1050
 float i = ((char)(70*0.8)) - ((char)(15*0.8));
 i /= 100;
 

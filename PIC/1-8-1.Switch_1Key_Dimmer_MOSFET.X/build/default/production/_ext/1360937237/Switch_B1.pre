@@ -2624,23 +2624,26 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 15 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/MCU_B1.h"
+# 8 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/MCU_B1.h"
+void interrupt ISR(void);
+
+# 17
 void Mcu_Initialization();
 
-# 20
+# 22
 void IO_Set();
 
-# 224
+# 226
 void Fosc_Set();
 
-# 292
+# 294
 void ADC_Set();
 void setADCGO();
 
-# 301
+# 303
 inline int getAD(char, char);
 
-# 440
+# 442
 struct Timer1 {
 
 struct {
@@ -2655,11 +2658,11 @@ inline void TMR1_Set();
 inline void TMR1_ISR();
 inline void setDimmerReClock();
 
-# 528
+# 530
 void IOC_Set();
 inline void IOC_ISR();
 
-# 683
+# 684
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2683,7 +2686,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 711
+# 712
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -2695,7 +2698,7 @@ void setMemory_Modify(char command);
 void setMemory_LoopSave(char command);
 void setMemory_Data(char address, char data);
 
-# 741
+# 742
 struct WDT {
 
 struct {
@@ -2706,7 +2709,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 766
+# 767
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -3230,7 +3233,7 @@ void setLoad_OK();
 # 11 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
-volatile struct {
+struct {
 unsigned MOSFET : 1;
 unsigned TriacFlag : 1;
 unsigned empty1 : 6;
@@ -3238,7 +3241,7 @@ unsigned empty1 : 6;
 
 
 
-volatile struct {
+struct {
 unsigned GO : 1;
 unsigned MosfetSignal : 1;
 unsigned StatusFlag : 1;
@@ -3251,7 +3254,7 @@ unsigned AdjStatus : 1;
 
 
 
-volatile struct {
+struct {
 unsigned AdjRF : 1;
 unsigned Status : 1;
 unsigned IntrStart : 1;
@@ -3259,16 +3262,16 @@ unsigned empty2 : 5;
 };
 
 
-volatile unsigned char Count;
-volatile unsigned char DimmingValue;
-volatile unsigned char DimmingTime;
-volatile unsigned char MaxmumValue;
-volatile unsigned char TriacTime;
+unsigned char Count;
+unsigned char DimmingValue;
+unsigned char DimmingTime;
+unsigned char MaxmumValue;
+unsigned char TriacTime;
 
 unsigned char DimmingTimeValue;
 unsigned char MinimumValue;
 
-volatile struct {
+struct {
 unsigned Switch : 1;
 unsigned Trigger : 1;
 unsigned SwitchAdj : 1;
@@ -3279,15 +3282,15 @@ unsigned Line : 1;
 unsigned Loop : 1;
 };
 
-volatile struct {
+struct {
 unsigned OK : 1;
 unsigned SwFlag : 1;
 unsigned SwAdj : 1;
 unsigned empty3 : 5;
 };
 
-volatile unsigned char TriacCount;
-volatile unsigned char MosfetSignalCount;
+unsigned char TriacCount;
+unsigned char MosfetSignalCount;
 
 unsigned char DetectCount;
 unsigned char TuneValue;
@@ -3328,7 +3331,7 @@ char setPercentValue(char value);
 
 void setDimmerLights_MaxmumValue(char, char);
 void setDimmerLights_Trigger(char, char);
-void setDimmerLights_TriggerAdj(char, char);
+
 char getDimmerLights_StatusFlag();
 char getDimmerLights_Trigger();
 char getDimmerLights_Status(char lights);
@@ -3471,6 +3474,7 @@ Sw->Touch = getSw_KeyStatus(sw) == 1 ? 1 : 0;
 } else {
 if (Sw->Detect == 0) {
 Sw->Detect = 1;
+
 Sw->Touch = 0;
 Sw->Debounce = 1;
 }
@@ -3544,9 +3548,8 @@ Sw->Hold2 = 0;
 Sw->Hold3Time = 0;
 Sw->Hold3 = 0;
 
-if (SwDetect.Error == 0) {
 setDimmerLights_SwOff(sw);
-}
+
 
 
 setRF_Learn(0);

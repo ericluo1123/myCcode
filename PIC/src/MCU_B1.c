@@ -238,6 +238,7 @@ inline void TMR1_ISR() {
             Timer1.Count = 0;
             Timer1.Timeout = true;
         }
+        return;
     }
 }
 
@@ -408,6 +409,7 @@ inline void IOC_ISR() {
             setDimmerReClock();
 #endif
         }
+        return;
     }
 }
 

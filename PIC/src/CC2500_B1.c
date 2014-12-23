@@ -7,8 +7,8 @@
 // Company:RIFO Technology Co.Ltd.  
 //         http://www.rifo.com.tw/
 // Company :Loong-Yee
-// http://www.loong-yee.com.tw
-// Engineer: Jack Chang
+// http://www.loong-yee.com.tw 
+// Engineer: Jack Chang 
 // Create Date:2013.10.01
 // Revision: 1.0
 //
@@ -32,12 +32,15 @@ static bit Receive_OK, Transceive_OK;
 inline void CC2500_TxData() {
     unsigned char loop_e;
 
+    CC2500_WriteCommand(CC2500_SIDLE); // idle
+    CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+
     CC2500_CSN = 0;
     SPI0Buffer = CC2500_TXFIFO + 0x40;
-    while (CC2500_SO == 1 && myMain.Timeout == false) {
-        Timeout_Counter();
+    while (CC2500_SO == 1 && RF1.Timeout == false) {
+        RF_Timeout_Counter();
     };
-    set_TimeoutCleared();
+    setRF_TimeoutCleared();
 
     CC2500_WriteByte();
     SPI0Buffer = Tx_Length;
@@ -48,19 +51,19 @@ inline void CC2500_TxData() {
     }
     CC2500_CSN = 1;
     CC2500_WriteCommand(CC2500_STX); // set Transmission MODE
-    while (CC2500_GDO0 == 0 && myMain.Timeout == false) {
-        Timeout_Counter();
+    while (CC2500_GDO0 == 0 && RF1.Timeout == false) {
+        RF_Timeout_Counter();
     };
-    set_TimeoutCleared();
+    setRF_TimeoutCleared();
 
-    while (CC2500_GDO0 == 1 && myMain.Timeout == false) {
-        Timeout_Counter();
+    while (CC2500_GDO0 == 1 && RF1.Timeout == false) {
+        RF_Timeout_Counter();
     };
-    set_TimeoutCleared();
+    setRF_TimeoutCleared();
 
     CC2500_WriteCommand(CC2500_SIDLE); // idle
     CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
-    //    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+
     Transceive_OK = 1;
 }
 //-----------------------------------------------------------------------------
@@ -74,10 +77,10 @@ inline void CC2500_RxData(void) {
     //	while(CC2500_GDO0==0);            		// wait for data
     if (CC2500_GDO0 == 1) // Check whether have data
     {
-        while (CC2500_GDO0 == 1 && myMain.Timeout == false) {
-            Timeout_Counter();
+        while (CC2500_GDO0 == 1 && RF1.Timeout == false) {
+            RF_Timeout_Counter();
         }; // wait for receive complete
-        set_TimeoutCleared();
+        setRF_TimeoutCleared();
     }
 
     CC2500_ReadStatus(CC2500_RXBYTES);
@@ -85,10 +88,10 @@ inline void CC2500_RxData(void) {
     if (s_data != 0) {//if(s_data == 0x18)
         CC2500_CSN = 0;
         SPI0Buffer = CC2500_RXFIFO + 0xC0;
-        while (CC2500_SO == 1 && myMain.Timeout == false) {
-            Timeout_Counter();
+        while (CC2500_SO == 1 && RF1.Timeout == false) {
+            RF_Timeout_Counter();
         };
-        set_TimeoutCleared();
+        setRF_TimeoutCleared();
         CC2500_WriteByte();
 
         CC2500_ReadByte();
@@ -105,9 +108,11 @@ inline void CC2500_RxData(void) {
         if (CRC & 0x80)
             Receive_OK = 1;
 
+
         RF1.RxStatus = false;
         RF1.ReceiveGO = true;
-
+        CC2500_WriteCommand(CC2500_SIDLE); // idle
+        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
     }
     //    CC2500_WriteCommand(CC2500_SIDLE); // idle
     //    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
@@ -140,15 +145,15 @@ void CC2500_PowerRST(void) {
     DelayTime_1us(40);
     CC2500_CSN = 0;
     SPI0Buffer = CC2500_SRES; // Reset command
-    while (CC2500_SO == 1 && myMain.Timeout == false) {
-        Timeout_Counter();
+    while (CC2500_SO == 1 && RF1.Timeout == false) {
+        RF_Timeout_Counter();
     }; // wait for chip ready
-    set_TimeoutCleared();
+    setRF_TimeoutCleared();
     CC2500_WriteByte();
-    while (CC2500_SO == 1 && myMain.Timeout == false) {
-        Timeout_Counter();
+    while (CC2500_SO == 1 && RF1.Timeout == false) {
+        RF_Timeout_Counter();
     }; // wait for chip ready , reset complete
-    set_TimeoutCleared();
+    setRF_TimeoutCleared();
     CC2500_SI = 0;
     CC2500_CSN = 1;
 }
@@ -251,10 +256,10 @@ inline void CC2500_ReadByte(void) {
 inline void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
     CC2500_CSN = 0;
     SPI0Buffer = w_addr; //register address
-    while (CC2500_SO == 1 && myMain.Timeout == false) {
-        Timeout_Counter();
+    while (CC2500_SO == 1 && RF1.Timeout == false) {
+         RF_Timeout_Counter();
     };
-    set_TimeoutCleared();
+    setRF_TimeoutCleared();
 
     CC2500_WriteByte();
     SPI0Buffer = value; //register data
@@ -268,10 +273,10 @@ inline void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
 inline void CC2500_ReadREG(unsigned char r_addr) {
     CC2500_CSN = 0;
     SPI0Buffer = r_addr + 0x80; //read register +0x80
-    while (CC2500_SO == 1 && myMain.Timeout == false) {
-        Timeout_Counter();
+    while (CC2500_SO == 1 && RF1.Timeout == false) {
+         RF_Timeout_Counter();
     };
-    set_TimeoutCleared();
+    setRF_TimeoutCleared();
 
     CC2500_WriteByte();
     CC2500_ReadByte();
@@ -286,10 +291,10 @@ inline void CC2500_WriteCommand(unsigned char command) {
     CC2500_CSN = 0;
     SPI0Buffer = command;
 
-    while (CC2500_SO == 1 && myMain.Timeout == false) {
-        Timeout_Counter();
+    while (CC2500_SO == 1 && RF1.Timeout == false) {
+         RF_Timeout_Counter();
     };
-    set_TimeoutCleared();
+    setRF_TimeoutCleared();
 
     CC2500_WriteByte();
     CC2500_CSN = 1;
@@ -302,10 +307,10 @@ inline void CC2500_ReadStatus(unsigned char status_addr) {
     CC2500_CSN = 0;
     SPI0Buffer = status_addr + 0xC0; //read status +0xc0
 
-    while (CC2500_SO == 1 && myMain.Timeout == false) {
-        Timeout_Counter();
+    while (CC2500_SO == 1 && RF1.Timeout == false) {
+         RF_Timeout_Counter();
     };
-    set_TimeoutCleared();
+    setRF_TimeoutCleared();
 
     CC2500_WriteByte();
     CC2500_ReadByte();

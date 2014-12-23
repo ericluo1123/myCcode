@@ -45,6 +45,7 @@ void setRF_Initialization() {
     Tx_Length = 21;
     RF1.RunTime = RF_RunTime_Value;
     //    INTE = true;
+
 #endif
 }
 //*********************************************************
@@ -52,17 +53,6 @@ void setRF_Initialization() {
 void setRF_Main() {
     char loop_f = 0, Receive_OK = 0, error = 0;
     if (RF1.Enable == true) {
-
-        //        if (RF1.RxStatus == true) {
-        //            RF1.CorrectionCounter++;
-        //            if (RF1.CorrectionCounter >= 6000) {
-        //                RF1.CorrectionCounter = 0;
-        //                RF_RxDisable();
-        //            }
-        //        } else {
-        //            RF1.CorrectionCounter = 0;
-        //        }
-
 
         if (getBuz_GO() == 0) {
             if (getMain_All_Error_Status(0) == 0) {
@@ -92,7 +82,11 @@ void setRF_Main() {
                     }
                 }
             } else {
-                RF1.TransceiveGO = false;
+                if (RF1.TransceiveGO == true) {
+                    RF1.TransceiveGO = false;
+                    CC2500_WriteCommand(CC2500_SIDLE); // idle
+                    CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+                }
                 if (RF1.Run == true) {
                     RF1.Run = false;
                     RF1.Count = 0;
@@ -106,12 +100,14 @@ void setRF_Main() {
                     RF1.RunTime = RF_RunTime_Value;
                     RF_RxDisable();
                     CC2500_TxData();
+                    RF1.CorrectionCounter = 0;
                     //                    ErrLED = ErrLED == true ? false : true;
                 } else {
                     if (RF1.RxStatus == true) {
                         if (RF1.Key == false || RF1.Learn == true) { // Check whether have data
 #if Rx_Enable == 1
                             CC2500_RxData();
+
 #endif
                             if (RF1.ReceiveGO == true) {
                                 RF1.ReceiveGO = false;
@@ -125,30 +121,55 @@ void setRF_Main() {
                                 //LED2=~LED2;
 #else
                                 getRxData();
+                                //                                ErrLED = ErrLED == true ? false : true;
 #endif
+                                RF1.CorrectionCounter = 0;
                             }
                         }
                     } else {
 #if Rx_Enable == 1
-                        if (RF1.ReceiveGO == false) {
-                            RF1.RxStatus = true;
-
-                            CC2500_WriteCommand(CC2500_SIDLE); // idle
-                            //                                CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
-                            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-                            CC2500_WriteCommand(CC2500_SRX); // set receive mode
-                        }
+                        RF1.RxStatus = true;
+                        CC2500_WriteCommand(CC2500_SIDLE); // idle
+                        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+                        CC2500_WriteCommand(CC2500_SRX); // set receive mode
 #endif
                     }
                 }
             }
         }
+
+        RF1.CorrectionCounter++;
+        if (RF1.CorrectionCounter > 6000) {
+            RF1.CorrectionCounter = 0;
+            RF_RxDisable();
+        }
+
+        if (RF1.Timeout == true) {
+            RF1.Timeout = false;
+            CC2500_PowerOnInitial();
+        }
+
     } else {
         if (myMain.PowerON == true) {
             RF1.Enable = true;
         }
     }
 }
+
+//*****************************************************************************
+
+inline void RF_Timeout_Counter() {
+    RF1.TimeoutCount++;
+    if (RF1.TimeoutCount == 25000) {
+        RF1.TimeoutCount = 0;
+        RF1.Timeout = true;
+    }
+}
+
+inline void setRF_TimeoutCleared() {
+    RF1.TimeoutCount = 0;
+}
+
 //*********************************************************
 
 char getRF_KeyStatus() {
@@ -169,7 +190,7 @@ char getRF_KeyStatus() {
 //*********************************************************
 
 void setTxData() {
-    char i; 
+    char i;
     if (RF1.Enable == true) {
 #if Tx_Enable == 1
         if (RF1.TransceiveGO == false) {
@@ -229,9 +250,8 @@ void RF_RxDisable() {
         RF1.RxStatus = false;
         RF1.ReceiveGO = false;
         CC2500_WriteCommand(CC2500_SIDLE); // idle
-        //        CC2500_WriteCommand(CC2500_SIDLE); // idle
         CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+        //        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
         //        setINT_GO(0);
     }
 }

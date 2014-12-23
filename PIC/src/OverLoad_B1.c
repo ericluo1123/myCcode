@@ -105,7 +105,7 @@ inline void Load_Main() {
                     Load.ADL /= 3;
                     setLoad_AH_AL_Restore();
 
-                    if (Load.ADH > Load.ADL) {
+                    if (Load.ADH >= Load.ADL) {
                         Load.AD = Load.ADH - Load.ADL;
                         Load.ADH = 0;
                         Load.ADL = 0;

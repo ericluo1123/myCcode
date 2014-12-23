@@ -5,6 +5,8 @@
 //*********************************************************
 //Include 
 #include <xc.h>
+void interrupt ISR(void);
+//#pragma interrupt ISR nosave=section(".tmpdata")  //儲存 temp data 區的資料
 
 //*********************************************************	
 //Routine declaration
@@ -637,7 +639,6 @@ struct UART {
     unsigned char Data[UART_Data_Length];
     unsigned char Count;
     unsigned char Time;
-
 
     struct {
         unsigned TxGO : 1;
