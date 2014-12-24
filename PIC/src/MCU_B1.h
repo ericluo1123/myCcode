@@ -451,7 +451,6 @@ struct Timer1 Timer1;
 
 inline void TMR1_Set();
 inline void TMR1_ISR();
-inline void setDimmerReClock();
 #else
 //NOP()
 #define TMR1_Set() ;

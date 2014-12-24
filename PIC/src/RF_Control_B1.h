@@ -7,7 +7,7 @@
 
 #if CC2500_use == 1
 //Global extern variable declaration
-#define RF_RunTime_Value 5
+#define RF_RunTime_Value 20
 
 struct RF {
 
@@ -49,31 +49,31 @@ struct RF RF1;
 
 inline void RF_Initialization();
 inline void RF_Main();
-void setRF_Initialization();
-void setRF_Main();
-void setTxData();
-void getRxData();
-void setRF_Enable(char command);
-void setLog_Code();
-void setControl_Lights_Table();
-void RF_RxDisable();
-void setRF_Learn(char command);
-void setRF_ReceiveGO(char command);
-void setRF_RxStatus(char command);
-char getRF_KeyStatus();
+inline void setRF_Initialization();
+inline void setRF_Main();
+inline void setTxData();
+inline void getRxData();
+inline void setRF_Enable(char command);
+inline void setLog_Code();
+inline void setControl_Lights_Table();
+inline void RF_RxDisable();
+inline void setRF_Learn(char command);
+inline void setRF_ReceiveGO(char command);
+inline void setRF_RxStatus(char command);
+inline char getRF_KeyStatus();
 inline void RF_Timeout_Counter();
 inline void setRF_TimeoutCleared();
 #define setRF_Data(location,value) RF_Data[location]=value
 
 
 
-void setRFSW_Control(char sw);
-void setRFSW_AdjControl(char sw);
-void setRFSW_Status(char sw, char command);
+inline void setRFSW_Control(char sw);
+inline void setRFSW_AdjControl(char sw);
+inline void setRFSW_Status(char sw, char command);
 
 #if Dimmer_use == 1
-void setRF_DimmerValue(char lights);
-void setRF_DimmerLights(char lights, char on);
+inline void setRF_DimmerValue(char lights);
+inline void setRF_DimmerLights(char lights, char on);
 #else
 #define setRF_DimmerValue(char) ;
 #define setRF_DimmerLights(char,char) ;

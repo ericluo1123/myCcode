@@ -242,27 +242,6 @@ inline void TMR1_ISR() {
     }
 }
 
-inline void setDimmerReClock() {
-
-#if Dimmer_use == true
-
-#ifdef use_1KEY
-    setDimmerLights_IntrIOC_GO(1);
-#endif
-
-#ifdef use_2KEY
-    setDimmerLights_IntrIOC_GO(2);
-#endif
-
-#ifdef use_3KEY
-    setDimmerLights_IntrIOC_GO(3);
-#endif
-
-    //    TMR0 = 255;
-
-#endif
-}
-
 #endif
 //*********************************************************
 #if Timer2_use == 1
@@ -406,7 +385,19 @@ inline void IOC_ISR() {
         if (myMain.PowerON == true) {
 
 #if Dimmer_use == true
-            setDimmerReClock();
+            //            setDimmerLights_IOC_Main();
+#ifdef use_1KEY
+            setDimmerLights_IntrIOC_GO(1);
+#endif
+
+#ifdef use_2KEY
+            setDimmerLights_IntrIOC_GO(2);
+#endif
+
+#ifdef use_3KEY
+            setDimmerLights_IntrIOC_GO(3);
+#endif
+            
 #endif
         }
         return;

@@ -158,7 +158,7 @@
 /* Device address = 2 */
 /* GDO0 signal selection = ( 6) Asserts when sync word has been sent / received, and de-asserts at the end of the packet */
 /* GDO2 signal selection = (11) Serial Clock */
-const unsigned char CC2500_rfSettings[47] ={
+const unsigned char CC2500_rfSettings[47] = {
 
     //Join by oneself CC2500 registers data
     0x07, //1* FIFOTHR
@@ -214,7 +214,7 @@ const unsigned char CC2500_rfSettings[47] ={
 //-----------------------------------------------------------------------------
 //CC2500 Registers address table
 //-----------------------------------------------------------------------------
-const unsigned char CC2500_registers_address[47] ={
+const unsigned char CC2500_registers_address[47] = {
     //Join by oneself CC2500 registers data As to registers address
     CC2500_FIFOTHR, //1
     CC2500_MCSM2, //2
@@ -269,7 +269,7 @@ const unsigned char CC2500_registers_address[47] ={
 //-----------------------------------------------------------------------------
 // Global VARIABLES
 //-----------------------------------------------------------------------------
- 
+
 //bit CC2500_Enable;
 
 //bit Transceive_GO, Receive_GO;
@@ -297,16 +297,16 @@ void CC2500_InitPATable(void);
 void CC2500_ClearTXFIFO(void);
 void CC2500_ClearRXFIFO(void);
 void CC2500_FrequencyCabr(void);
-inline void CC2500_SIDLEMode(void);
+void CC2500_SIDLEMode(void);
 
-inline void CC2500_WriteByte(void);
-inline void CC2500_WriteREG(unsigned char addr, unsigned char value);
-inline void CC2500_ReadByte(void);
-inline void CC2500_ReadREG(unsigned char addr);
-inline void CC2500_ReadStatus(unsigned char s_addr);
-inline void CC2500_WriteCommand(unsigned char command);
-inline void CC2500_TxData();
-inline void CC2500_RxData(void);
+void CC2500_WriteByte(void);
+void CC2500_WriteREG(unsigned char addr, unsigned char value);
+void CC2500_ReadByte(void);
+void CC2500_ReadREG(unsigned char addr);
+void CC2500_ReadStatus(unsigned char s_addr);
+void CC2500_WriteCommand(unsigned char command);
+void CC2500_TxData();
+void CC2500_RxData(void);
 void DelayTime_1us(int count);
 #else
 #define CC2500_PowerOnInitial() ;

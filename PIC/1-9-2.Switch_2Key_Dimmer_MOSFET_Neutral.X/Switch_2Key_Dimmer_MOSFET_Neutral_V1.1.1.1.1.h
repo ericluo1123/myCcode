@@ -146,9 +146,9 @@
 //Lights
 #define LightsControl_use_Value 0
 //RF cc2500
-#define CC2500_use_Value 1
-#define Tx_Enable 	1
-#define Rx_Enable 	1
+#define CC2500_use_Value    1
+#define Tx_Enable           1
+#define Rx_Enable           1
 //DelayOff
 #define DelayOff_use_Value 1
 //PowerFault
@@ -168,9 +168,6 @@
 #define PIR_use_Value 0
 //UART to RF
 #define myUARTtoRF_use_Value 0
-
-
-
 
 //include
 #include "../src/Activity_B1.h"

@@ -2656,13 +2656,12 @@ struct Timer1 Timer1;
 
 inline void TMR1_Set();
 inline void TMR1_ISR();
-inline void setDimmerReClock();
 
-# 530
+# 529
 void IOC_Set();
 inline void IOC_ISR();
 
-# 684
+# 683
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2686,7 +2685,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 712
+# 711
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -2698,7 +2697,7 @@ void setMemory_Modify(char command);
 void setMemory_LoopSave(char command);
 void setMemory_Data(char address, char data);
 
-# 742
+# 741
 struct WDT {
 
 struct {
@@ -2709,7 +2708,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 767
+# 766
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -2982,7 +2981,7 @@ inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
 
 # 161 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/CC2500_B1.h"
-const unsigned char CC2500_rfSettings[47] ={
+const unsigned char CC2500_rfSettings[47] = {
 
 
 0x07,
@@ -3038,7 +3037,7 @@ const unsigned char CC2500_rfSettings[47] ={
 
 
 
-const unsigned char CC2500_registers_address[47] ={
+const unsigned char CC2500_registers_address[47] = {
 
 0x03,
 0x16,
@@ -3114,16 +3113,16 @@ void CC2500_InitPATable(void);
 void CC2500_ClearTXFIFO(void);
 void CC2500_ClearRXFIFO(void);
 void CC2500_FrequencyCabr(void);
-inline void CC2500_SIDLEMode(void);
+void CC2500_SIDLEMode(void);
 
-inline void CC2500_WriteByte(void);
-inline void CC2500_WriteREG(unsigned char addr, unsigned char value);
-inline void CC2500_ReadByte(void);
-inline void CC2500_ReadREG(unsigned char addr);
-inline void CC2500_ReadStatus(unsigned char s_addr);
-inline void CC2500_WriteCommand(unsigned char command);
-inline void CC2500_TxData();
-inline void CC2500_RxData(void);
+void CC2500_WriteByte(void);
+void CC2500_WriteREG(unsigned char addr, unsigned char value);
+void CC2500_ReadByte(void);
+void CC2500_ReadREG(unsigned char addr);
+void CC2500_ReadStatus(unsigned char s_addr);
+void CC2500_WriteCommand(unsigned char command);
+void CC2500_TxData();
+void CC2500_RxData(void);
 void DelayTime_1us(int count);
 
 # 12 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/RF_Control_B1.h"
@@ -3167,31 +3166,31 @@ struct RF RF1;
 
 inline void RF_Initialization();
 inline void RF_Main();
-void setRF_Initialization();
-void setRF_Main();
-void setTxData();
-void getRxData();
-void setRF_Enable(char command);
-void setLog_Code();
-void setControl_Lights_Table();
-void RF_RxDisable();
-void setRF_Learn(char command);
-void setRF_ReceiveGO(char command);
-void setRF_RxStatus(char command);
-char getRF_KeyStatus();
+inline void setRF_Initialization();
+inline void setRF_Main();
+inline void setTxData();
+inline void getRxData();
+inline void setRF_Enable(char command);
+inline void setLog_Code();
+inline void setControl_Lights_Table();
+inline void RF_RxDisable();
+inline void setRF_Learn(char command);
+inline void setRF_ReceiveGO(char command);
+inline void setRF_RxStatus(char command);
+inline char getRF_KeyStatus();
 inline void RF_Timeout_Counter();
 inline void setRF_TimeoutCleared();
 
 
 
 
-void setRFSW_Control(char sw);
-void setRFSW_AdjControl(char sw);
-void setRFSW_Status(char sw, char command);
+inline void setRFSW_Control(char sw);
+inline void setRFSW_AdjControl(char sw);
+inline void setRFSW_Status(char sw, char command);
 
 
-void setRF_DimmerValue(char lights);
-void setRF_DimmerLights(char lights, char on);
+inline void setRF_DimmerValue(char lights);
+inline void setRF_DimmerLights(char lights, char on);
 
 # 44 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/OverLoad_B1.h"
 struct OverLoad {
@@ -3369,8 +3368,9 @@ void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 char getDimmerLights_Allow_Condition(char lights);
 char getAll_DimmerLights_AdjSw();
+inline void setDimmerLights_IOC_Main();
 
-# 169
+# 170
 struct Dimmer {
 
 

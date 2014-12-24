@@ -20,12 +20,12 @@ inline void RF_Main() {
 }
 //*********************************************************
 
-void setRF_Learn(char command) {
+inline void setRF_Learn(char command) {
     RF1.Learn = command == 1 ? true : false;
 }
 //*********************************************************
 
-void setRF_ReceiveGO(char command) {
+inline void setRF_ReceiveGO(char command) {
     if (RF1.RxStatus == true) {
         RF1.RxStatus = false;
         RF1.Run = true;
@@ -34,13 +34,13 @@ void setRF_ReceiveGO(char command) {
 }
 //*********************************************************
 
-void setRF_RxStatus(char command) {
+inline void setRF_RxStatus(char command) {
     RF1.RxStatus = command == 1 ? true : false;
 }
 
 //*********************************************************
 
-void setRF_Initialization() {
+inline void setRF_Initialization() {
 #ifdef RadioFrequency1
     Tx_Length = 21;
     RF1.RunTime = RF_RunTime_Value;
@@ -50,89 +50,59 @@ void setRF_Initialization() {
 }
 //*********************************************************
 
-void setRF_Main() {
-    char loop_f = 0, Receive_OK = 0, error = 0;
+inline void setRF_Main() {
+    char loop_f = 0, error = 0;
     if (RF1.Enable == true) {
 
         if (getBuz_GO() == 0) {
-            if (getMain_All_Error_Status(0) == 0) {
+
 #if Switch_use == 1
-                if (getRF_KeyStatus() == 1 && RF1.Learn == false) {
-                    RF1.Count = 0;
-                    RF1.Run = true;
-                    RF1.RunTime = RF_RunTime_Value;
-                }
-                //                RF1.Key = getRF_KeyStatus() == 1 ? true : false;
-                //                if (RF1.Key == true && RF1.Learn == false) {
-                //                    RF1.Run = true;
-                //                    RF1.RunTime = 5;
-                //                }
-
+            RF1.Key = getRF_KeyStatus() == 1 ? true : false;
 #else
-                RF1.Key = false;
+            RF1.Key = false;
 #endif
-            }
 
-            if (RF1.Learn == false) {
-                if (RF1.Run == true) {
-                    RF1.Count++;
-                    if (RF1.Count == RF1.RunTime) {
+            if (RF1.Key == false || RF1.Learn == true) {
+
+                if (RF1.TransceiveGO == true) {
+                    RF1.TransceiveGO = false;
+                    if (RF1.Learn == false) {
                         RF1.Count = 0;
-                        RF1.Run = false;
+                        RF1.CorrectionCounter = 0;
+                        RF_RxDisable();
+                        CC2500_TxData();
+                        //                    ErrLED = ErrLED == true ? false : true;
                     }
-                }
-            } else {
-                if (RF1.TransceiveGO == true) {
-                    RF1.TransceiveGO = false;
-                    CC2500_WriteCommand(CC2500_SIDLE); // idle
-                    CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
-                }
-                if (RF1.Run == true) {
-                    RF1.Run = false;
-                    RF1.Count = 0;
-                }
-            }
-
-            if (RF1.Run == false) {
-                if (RF1.TransceiveGO == true) {
-                    RF1.TransceiveGO = false;
-                    RF1.Run = true;
-                    RF1.RunTime = RF_RunTime_Value;
-                    RF_RxDisable();
-                    CC2500_TxData();
-                    RF1.CorrectionCounter = 0;
-                    //                    ErrLED = ErrLED == true ? false : true;
                 } else {
                     if (RF1.RxStatus == true) {
-                        if (RF1.Key == false || RF1.Learn == true) { // Check whether have data
 #if Rx_Enable == 1
-                            CC2500_RxData();
-
+                        CC2500_RxData();
 #endif
-                            if (RF1.ReceiveGO == true) {
-                                RF1.ReceiveGO = false;
-                                RF1.Run = true;
-                                RF1.RunTime = RF_RunTime_Value;
+                        if (RF1.ReceiveGO == true) {
+                            RF1.ReceiveGO = false;
+                            RF1.CorrectionCounter = 0;
 #if I2C_use == 1
-                                I2C_SetData(1);
-                                //LED2=~LED2;
+                            I2C_SetData(1);
+                            //LED2=~LED2;
 #elif UART_use == 1
-                                //UART_SetData();
-                                //LED2=~LED2;
+                            //UART_SetData();
+                            //LED2=~LED2;
 #else
-                                getRxData();
-                                //                                ErrLED = ErrLED == true ? false : true;
+                            getRxData();
+                            //                                ErrLED = ErrLED == true ? false : true;
 #endif
-                                RF1.CorrectionCounter = 0;
-                            }
                         }
                     } else {
+                        RF1.Count++;
+                        if (RF1.Count == RF1.RunTime) {
+                            RF1.Count = 0;
 #if Rx_Enable == 1
-                        RF1.RxStatus = true;
-                        CC2500_WriteCommand(CC2500_SIDLE); // idle
-                        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-                        CC2500_WriteCommand(CC2500_SRX); // set receive mode
+                            RF1.RxStatus = true;
+                            CC2500_WriteCommand(CC2500_SIDLE); // idle
+                            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+                            CC2500_WriteCommand(CC2500_SRX); // set receive mode
 #endif
+                        }
                     }
                 }
             }
@@ -141,12 +111,17 @@ void setRF_Main() {
         RF1.CorrectionCounter++;
         if (RF1.CorrectionCounter > 6000) {
             RF1.CorrectionCounter = 0;
-            RF_RxDisable();
+
+            RF1.RxStatus = false;
+            RF1.ReceiveGO = false;
+            CC2500_WriteCommand(CC2500_SIDLE); // idle
+            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
         }
 
         if (RF1.Timeout == true) {
             RF1.Timeout = false;
             CC2500_PowerOnInitial();
+            ErrLED = 0;
         }
 
     } else {
@@ -172,7 +147,7 @@ inline void setRF_TimeoutCleared() {
 
 //*********************************************************
 
-char getRF_KeyStatus() {
+inline char getRF_KeyStatus() {
     char key = 0;
 #if	Switch_Class == 3
     key = (Key1 == true || Key2 == true || Key3 == true) ? 1 : 0;
@@ -189,7 +164,7 @@ char getRF_KeyStatus() {
 }
 //*********************************************************
 
-void setTxData() {
+inline void setTxData() {
     char i;
     if (RF1.Enable == true) {
 #if Tx_Enable == 1
@@ -235,7 +210,7 @@ void setTxData() {
 }
 //*********************************************************
 
-void setRF_Enable(char command) {
+inline void setRF_Enable(char command) {
     RF1.Enable = command == 1 ? true : false;
     RF1.Learn = false;
     RF1.TransceiveGO = false;
@@ -245,7 +220,7 @@ void setRF_Enable(char command) {
 }
 //*********************************************************
 
-void RF_RxDisable() {
+inline void RF_RxDisable() {
     if (RF1.ReceiveGO == true || RF1.RxStatus == true) {
         RF1.RxStatus = false;
         RF1.ReceiveGO = false;
@@ -257,7 +232,7 @@ void RF_RxDisable() {
 }
 //*********************************************************
 
-void getRxData() {
+inline void getRxData() {
     char error = getMain_All_Error_Status(0);
     if (RF_Data[0] == 0xaa && RF_Data[1] == 0x01) {
 
@@ -301,7 +276,7 @@ void getRxData() {
 }
 //*********************************************************
 
-void setLog_Code() {
+inline void setLog_Code() {
     RF1.Learn = false;
     setProductData(12, RF_Data[12]);
     setProductData(13, RF_Data[13]);
@@ -314,7 +289,7 @@ void setLog_Code() {
 }
 //*********************************************************
 
-void setControl_Lights_Table() {
+inline void setControl_Lights_Table() {
     switch (RF_Data[15]) {
         case 0x00:
 #if Dimmer_use == 1
@@ -396,7 +371,7 @@ void setControl_Lights_Table() {
 //}
 //*********************************************************
 
-void setRFSW_Control(char sw) {
+inline void setRFSW_Control(char sw) {
     char status = 0;
 
     //    RfSWPointSelect(sw);
@@ -424,7 +399,7 @@ void setRFSW_Control(char sw) {
 }
 //*********************************************************
 
-void setRFSW_AdjControl(char sw) {
+inline void setRFSW_AdjControl(char sw) {
     char status = 0;
 #if Dimmer_use == 1
     status = getDimmerLights_Status(sw);
@@ -442,7 +417,7 @@ void setRFSW_AdjControl(char sw) {
 //*********************************************************
 #if Dimmer_use == 1
 
-void setRF_DimmerValue(char lights) {
+inline void setRF_DimmerValue(char lights) {
     if (RF_Data[9] > 0x64) {
         RF_Data[9] = 0x64;
     }
@@ -453,7 +428,7 @@ void setRF_DimmerValue(char lights) {
 }
 //*********************************************************
 
-void setRF_DimmerLights(char lights, char on) {
+inline void setRF_DimmerLights(char lights, char on) {
     char status = 1;
     status <<= (lights - 1);
     setProductData(11, lights);

@@ -159,6 +159,7 @@ void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 char getDimmerLights_Allow_Condition(char lights);
 char getAll_DimmerLights_AdjSw();
+inline void setDimmerLights_IOC_Main();
 //	char getDimmerLights_Clear(char);
 /*	void setDimmerLights_Close(char,char);
         char getDimmerLights_Close(char);

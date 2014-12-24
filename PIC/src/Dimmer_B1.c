@@ -23,7 +23,27 @@ inline void DimmerIntrIOCPointSelect(char lights) {
     }
 #endif
 }
+//*****************************************************************************
+inline void setDimmerLights_IOC_Main() {
 
+#if Dimmer_use == true
+
+#ifdef use_1KEY
+    setDimmerLights_IntrIOC_GO(1);
+#endif
+
+#ifdef use_2KEY
+    setDimmerLights_IntrIOC_GO(2);
+#endif
+
+#ifdef use_3KEY
+    setDimmerLights_IntrIOC_GO(3);
+#endif
+
+    //    TMR0 = 255;
+
+#endif
+}
 /*****************************************************************************/
 inline void setDimmerLights_IntrIOC_GO(char lights) {
     DimmerIntrIOCPointSelect(lights);

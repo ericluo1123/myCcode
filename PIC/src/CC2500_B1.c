@@ -29,7 +29,7 @@ static bit Receive_OK, Transceive_OK;
 // CC2500 TX Function
 //-----------------------------------------------------------------------------
 
-inline void CC2500_TxData() {
+void CC2500_TxData() {
     unsigned char loop_e;
 
     CC2500_WriteCommand(CC2500_SIDLE); // idle
@@ -70,52 +70,54 @@ inline void CC2500_TxData() {
 // CC2500 RX Function
 //-----------------------------------------------------------------------------
 
-inline void CC2500_RxData(void) {
+void CC2500_RxData(void) {
     unsigned char loop_f;
 
     //	CC2500_WriteCommand(CC2500_SRX);  		// set receive mode
     //	while(CC2500_GDO0==0);            		// wait for data
-    if (CC2500_GDO0 == 1) // Check whether have data
-    {
-        while (CC2500_GDO0 == 1 && RF1.Timeout == false) {
-            RF_Timeout_Counter();
-        }; // wait for receive complete
-        setRF_TimeoutCleared();
-    }
+    if (CC2500_GDO0 == 0) {
+        //    if (CC2500_GDO0 == 1) // Check whether have data
+        //    {
+        //                while (CC2500_GDO0 == 1 && RF1.Timeout == false) {
+        //                    RF_Timeout_Counter();
+        //                }; // wait for receive complete
+        //                setRF_TimeoutCleared();
+        //    }
 
-    CC2500_ReadStatus(CC2500_RXBYTES);
+        CC2500_ReadStatus(CC2500_RXBYTES);
 
-    if (s_data != 0) {//if(s_data == 0x18)
-        CC2500_CSN = 0;
-        SPI0Buffer = CC2500_RXFIFO + 0xC0;
-        while (CC2500_SO == 1 && RF1.Timeout == false) {
-            RF_Timeout_Counter();
-        };
-        setRF_TimeoutCleared();
-        CC2500_WriteByte();
+        if (s_data != 0) {//if(s_data == 0x18)
+            CC2500_CSN = 0;
+            SPI0Buffer = CC2500_RXFIFO + 0xC0;
 
-        CC2500_ReadByte();
-        Rx_Length = SPI0Buffer;
-        for (loop_f = 0; loop_f < Rx_Length; loop_f++) {
+            while (CC2500_SO == 1 && RF1.Timeout == false) {
+                RF_Timeout_Counter();
+            };
+            setRF_TimeoutCleared();
+
+            CC2500_WriteByte();
             CC2500_ReadByte();
-            RF_Data[loop_f] = SPI0Buffer;
+            Rx_Length = SPI0Buffer;
+            for (loop_f = 0; loop_f < Rx_Length; loop_f++) {
+                CC2500_ReadByte();
+                RF_Data[loop_f] = SPI0Buffer;
+            }
+            CC2500_ReadByte(); // Read RSSI data
+            RSSI = SPI0Buffer;
+            CC2500_ReadByte();
+            CRC = SPI0Buffer;
+            CC2500_CSN = 1;
+            if (CRC & 0x80)
+                Receive_OK = 1;
+
+            RF1.RxStatus = false;
+            RF1.ReceiveGO = true;
+            CC2500_WriteCommand(CC2500_SIDLE); // idle
+            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
         }
-        CC2500_ReadByte(); // Read RSSI data
-        RSSI = SPI0Buffer;
-        CC2500_ReadByte();
-        CRC = SPI0Buffer;
-        CC2500_CSN = 1;
-        if (CRC & 0x80)
-            Receive_OK = 1;
-
-
-        RF1.RxStatus = false;
-        RF1.ReceiveGO = true;
-        CC2500_WriteCommand(CC2500_SIDLE); // idle
-        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+        //    CC2500_WriteCommand(CC2500_SIDLE); // idle
+        //    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
     }
-    //    CC2500_WriteCommand(CC2500_SIDLE); // idle
-    //    CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
 }
 //=============================================================================
 // CC2500 RF Module Initial
@@ -211,7 +213,7 @@ void CC2500_FrequencyCabr(void) {
 // CC2500 SIDLE Mode
 //-----------------------------------------------------------------------------
 
-inline void CC2500_SIDLEMode(void) {
+void CC2500_SIDLEMode(void) {
     CC2500_WriteCommand(CC2500_SIDLE);
 }
 
@@ -221,7 +223,7 @@ inline void CC2500_SIDLEMode(void) {
 // write one byte
 //-----------------------------------------------------------------------------
 
-inline void CC2500_WriteByte(void) {
+void CC2500_WriteByte(void) {
     unsigned char loop_a;
     for (loop_a = 0; loop_a < 8; loop_a++) {
         if (SPI0Buffer & 0x80)
@@ -237,7 +239,7 @@ inline void CC2500_WriteByte(void) {
 // read one byte
 //-----------------------------------------------------------------------------
 
-inline void CC2500_ReadByte(void) {
+void CC2500_ReadByte(void) {
     unsigned char loop_b;
     for (loop_b = 0; loop_b < 8; loop_b++) {
         CC2500_SCK = 1;
@@ -253,11 +255,11 @@ inline void CC2500_ReadByte(void) {
 // write REG to CC2500
 //-----------------------------------------------------------------------------
 
-inline void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
+void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
     CC2500_CSN = 0;
     SPI0Buffer = w_addr; //register address
     while (CC2500_SO == 1 && RF1.Timeout == false) {
-         RF_Timeout_Counter();
+        RF_Timeout_Counter();
     };
     setRF_TimeoutCleared();
 
@@ -270,11 +272,11 @@ inline void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
 // read REG to CC2500
 //-----------------------------------------------------------------------------
 
-inline void CC2500_ReadREG(unsigned char r_addr) {
+void CC2500_ReadREG(unsigned char r_addr) {
     CC2500_CSN = 0;
     SPI0Buffer = r_addr + 0x80; //read register +0x80
     while (CC2500_SO == 1 && RF1.Timeout == false) {
-         RF_Timeout_Counter();
+        RF_Timeout_Counter();
     };
     setRF_TimeoutCleared();
 
@@ -287,12 +289,12 @@ inline void CC2500_ReadREG(unsigned char r_addr) {
 // write command to CC2500
 //-----------------------------------------------------------------------------
 
-inline void CC2500_WriteCommand(unsigned char command) {
+void CC2500_WriteCommand(unsigned char command) {
     CC2500_CSN = 0;
     SPI0Buffer = command;
 
     while (CC2500_SO == 1 && RF1.Timeout == false) {
-         RF_Timeout_Counter();
+        RF_Timeout_Counter();
     };
     setRF_TimeoutCleared();
 
@@ -303,12 +305,12 @@ inline void CC2500_WriteCommand(unsigned char command) {
 // read one status register data
 //-----------------------------------------------------------------------------
 
-inline void CC2500_ReadStatus(unsigned char status_addr) {
+void CC2500_ReadStatus(unsigned char status_addr) {
     CC2500_CSN = 0;
     SPI0Buffer = status_addr + 0xC0; //read status +0xc0
 
     while (CC2500_SO == 1 && RF1.Timeout == false) {
-         RF_Timeout_Counter();
+        RF_Timeout_Counter();
     };
     setRF_TimeoutCleared();
 
