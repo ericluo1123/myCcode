@@ -5,9 +5,9 @@
  * RF control header
  */
 
-#if CC2500_use == 1
+#if CC2500_use == 1 
 //Global extern variable declaration
-#define RF_RunTime_Value 20
+#define RF_RunTime_Value 100
 
 struct RF {
 
@@ -70,6 +70,7 @@ inline void setRF_TimeoutCleared();
 inline void setRFSW_Control(char sw);
 inline void setRFSW_AdjControl(char sw);
 inline void setRFSW_Status(char sw, char command);
+inline void setRF_TransceiveGO(char command);
 
 #if Dimmer_use == 1
 inline void setRF_DimmerValue(char lights);
@@ -104,6 +105,7 @@ inline void setRF_DimmerLights(char lights, char on);
 #define setRFSW_Control(char) ;
 #define setRFSW_AdjControl(char) ;
 #define setRFSW_Status(char,char) ;
+#define setRF_TransceiveGO(char);
 #endif
 
 #endif

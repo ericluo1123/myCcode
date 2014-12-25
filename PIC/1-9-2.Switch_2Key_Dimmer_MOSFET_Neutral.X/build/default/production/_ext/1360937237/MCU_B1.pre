@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 168 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Activity_B1.h"
+# 170 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2643,7 +2643,7 @@ void setADCGO();
 # 303
 inline int getAD(char, char);
 
-# 442
+# 445
 struct Timer1 {
 
 struct {
@@ -2657,11 +2657,11 @@ struct Timer1 Timer1;
 inline void TMR1_Set();
 inline void TMR1_ISR();
 
-# 529
+# 532
 void IOC_Set();
 inline void IOC_ISR();
 
-# 683
+# 686
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2685,7 +2685,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 711
+# 714
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -2697,7 +2697,7 @@ void setMemory_Modify(char command);
 void setMemory_LoopSave(char command);
 void setMemory_Data(char address, char data);
 
-# 741
+# 744
 struct WDT {
 
 struct {
@@ -2708,7 +2708,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 766
+# 769
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -3187,6 +3187,7 @@ inline void setRF_TimeoutCleared();
 inline void setRFSW_Control(char sw);
 inline void setRFSW_AdjControl(char sw);
 inline void setRFSW_Status(char sw, char command);
+inline void setRF_TransceiveGO(char command);
 
 
 inline void setRF_DimmerValue(char lights);
@@ -3471,38 +3472,41 @@ void IO_Set() {
 TRISA = 0b01110111;;
 TRISB = 0b00000111;;
 TRISC = 0b00001100;;
+
 LATA = 0b00000000;;
 LATB = 0b00000010;;
 LATC = 0b00000000;;
+
 ANSELA = 0b00100010;;
 ANSELB = 0b00000000;;
 ANSELC = 0b00000000;;
+
 PORTA = 0b01110111;;
 PORTB = 0b00000111;;
 PORTC = 0b00001100;;
+
 WPUB = 0b00000000;;
 
 }
 
-# 108
+# 112
 void interrupt ISR(void) {
 
+
+if (IOCIE == 1 && IOCIF == 1 && IOCBF2 == 1) {
 IOC_ISR();
-
-;;
-
-TMR1_ISR();
-
-;;
-
-;;
-
-;;
-
-;;
 }
 
-# 200
+# 125
+else if (TMR1IE == 1 && TMR1IF == 1) {
+TMR1_ISR();
+}
+
+# 143
+return;
+}
+
+# 221
 inline void TMR1_Set() {
 T1CON = (0x40 | 0x00 | 0x01);
 TMR1H = (int)((65536-1480)/256);
@@ -3515,11 +3519,6 @@ GIE = 1;
 
 inline void TMR1_ISR() {
 
-if (TMR1IE == 1 && TMR1IF == 1) {
-TMR1H = (int)((65536-1480)/256);
-TMR1L = (int)((65536-1480)%256);
-TMR1IF = 0;
-
 
 
 
@@ -3527,24 +3526,25 @@ setDimmerLights_IntrControl(1);
 
 
 
-
 setDimmerLights_IntrControl(2);
 
-# 236
+# 249
 Timer1.Count++;
-if (Timer1.Count == 100) {
+if (Timer1.Count == (int)(20*10)) {
 Timer1.Count = 0;
 Timer1.Timeout = 1;
 }
-return;
-}
+
+TMR1H = (int)((65536-1480)/256);
+TMR1L = (int)((65536-1480)%256);
+TMR1IF = 0;
 }
 
-# 346
+# 361
 void IOC_Set() {
 WPUB2 = 0;
 
-# 367
+# 382
 IOCBP = 0b00000100;
 IOCBN = 0b00000000;
 
@@ -3560,9 +3560,7 @@ GIE = 1;
 
 
 inline void IOC_ISR() {
-if (IOCIE == 1 && IOCIF == 1 && IOCBF2 == 1) {
-IOCBF2 = 0;
-IOCIF = 0;
+
 if (myMain.PowerON == 1) {
 
 
@@ -3574,19 +3572,20 @@ setDimmerLights_IntrIOC_GO(1);
 
 setDimmerLights_IntrIOC_GO(2);
 
-# 402
-}
-return;
-}
+# 415
 }
 
-# 413
+IOCBF2 = 0;
+IOCIF = 0;
+}
+
+# 426
 void ADC_Set() {
 ADCON1 = 0xf3;
 FVRCON = 0xc1;
 }
 
-# 447
+# 460
 inline int getAD(char adcon0, char adcon1) {
 ADCON0 = adcon0;
 ADCON1 = adcon1;
@@ -3598,7 +3597,7 @@ set_TimeoutCleared();
 return ((ADRESH*256)+ADRESL);
 }
 
-# 918
+# 931
 void Flash_Memory_Initialization() {
 char i = 0;
 if (Flash_Memory_Read(31) == 0xaa) {
@@ -3606,7 +3605,7 @@ product->Data[12] = Flash_Memory_Read(0);
 product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
-# 929
+# 942
 i = setPercentValue(((char)(70*0.8)));
 product->Data[21] = i;
 product->Data[22] = i;
@@ -3719,7 +3718,7 @@ setMemory_Data(0, product->Data[12]);
 setMemory_Data(1, product->Data[13]);
 setMemory_Data(2, product->Data[14]);
 
-# 1045
+# 1058
 if (Memory.LoopSave == 1) {
 Memory.LoopSave = 0;
 myMain.FirstOpen = 0;
@@ -3748,10 +3747,10 @@ void setMemory_Data(char address, char data) {
 Memory.Data[address] = data;
 }
 
-# 1077
+# 1090
 void WDT_Set() {
 
-# 1084
+# 1097
 WDTCON = 0b00010111;;
 
 WDT.Enable = 1;

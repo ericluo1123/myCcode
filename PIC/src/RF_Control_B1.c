@@ -90,11 +90,11 @@ inline void setRF_Main() {
 #else
                             getRxData();
                             //                                ErrLED = ErrLED == true ? false : true;
-#endif
+#endif    
                         }
                     } else {
                         RF1.Count++;
-                        if (RF1.Count == RF1.RunTime) {
+                        if (RF1.Count == (RF1.RunTime / Main_Time)) {
                             RF1.Count = 0;
 #if Rx_Enable == 1
                             RF1.RxStatus = true;
@@ -103,13 +103,14 @@ inline void setRF_Main() {
                             CC2500_WriteCommand(CC2500_SRX); // set receive mode
 #endif
                         }
+
                     }
                 }
             }
         }
 
         RF1.CorrectionCounter++;
-        if (RF1.CorrectionCounter > 6000) {
+        if (RF1.CorrectionCounter > (60000 / Main_Time)) {
             RF1.CorrectionCounter = 0;
 
             RF1.RxStatus = false;
@@ -121,7 +122,6 @@ inline void setRF_Main() {
         if (RF1.Timeout == true) {
             RF1.Timeout = false;
             CC2500_PowerOnInitial();
-            ErrLED = 0;
         }
 
     } else {
@@ -168,43 +168,40 @@ inline void setTxData() {
     char i;
     if (RF1.Enable == true) {
 #if Tx_Enable == 1
-        if (RF1.TransceiveGO == false) {
-            RF1.TransceiveGO = true;
-            //ErrLED = 0;
-            //        	Product->Data[0]=0x63;		//Command
-            //                Product->Data[1]=0x02;	//Command
-            //                Product->Data[20]=KeyID;	//Key ID*/
-            //        for (i = 0; i < 20; i++) {
-            //            RF_Data[i] = product->Data[i];
-            //        }
+        RF1.TransceiveGO = true;
+        //ErrLED = 0;
+        //        	Product->Data[0]=0x63;		//Command
+        //                Product->Data[1]=0x02;	//Command
+        //                Product->Data[20]=KeyID;	//Key ID*/
+        //        for (i = 0; i < 20; i++) {
+        //            RF_Data[i] = product->Data[i];
+        //        }
 #if myUARTtoRF_use == 1
-            RF_Data[0] = 0xAA; //Product->Data[0];		//Command
-            RF_Data[1] = 0x01; //Product->Data[1];		//Command
+        RF_Data[0] = 0xAA; //Product->Data[0];		//Command
+        RF_Data[1] = 0x01; //Product->Data[1];		//Command
 #else
-            RF_Data[0] = 0x63; //Product->Data[0];		//Command
-            RF_Data[1] = 0x02; //Product->Data[1];		//Command
+        RF_Data[0] = 0x63; //Product->Data[0];		//Command
+        RF_Data[1] = 0x02; //Product->Data[1];		//Command
 #endif
-            RF_Data[2] = product->Data[2]; //Temperature
-            RF_Data[3] = product->Data[3]; //Temperature
-            RF_Data[4] = product->Data[4]; //Humidity
-            RF_Data[5] = product->Data[5]; //Humidity
-            RF_Data[6] = product->Data[6]; //Barometric pressure
-            RF_Data[7] = product->Data[7]; //Barometric pressure
-            RF_Data[8] = product->Data[8]; //Electricity
-            RF_Data[9] = product->Data[9]; //Dimmer
-            RF_Data[10] = product->Data[10]; //Electric  current
-            RF_Data[11] = product->Data[11]; //Year
-            RF_Data[12] = product->Data[12]; //Week
-            RF_Data[13] = product->Data[13]; //Serial  Number
-            RF_Data[14] = product->Data[14]; //Serial  Number
-            RF_Data[15] = product->Data[15]; //Lights Status
-            RF_Data[16] = product->Data[16]; //Timmer Command
-            RF_Data[17] = product->Data[17]; //Timmer Time
-            RF_Data[18] = product->Data[18]; //Reserved
-            RF_Data[19] = product->Data[19]; //Reserved
-            RF_Data[20] = KeyID; //Product->Data[20];	//Key ID
-
-        }
+        RF_Data[2] = product->Data[2]; //Temperature
+        RF_Data[3] = product->Data[3]; //Temperature
+        RF_Data[4] = product->Data[4]; //Humidity
+        RF_Data[5] = product->Data[5]; //Humidity
+        RF_Data[6] = product->Data[6]; //Barometric pressure
+        RF_Data[7] = product->Data[7]; //Barometric pressure
+        RF_Data[8] = product->Data[8]; //Electricity
+        RF_Data[9] = product->Data[9]; //Dimmer
+        RF_Data[10] = product->Data[10]; //Electric  current
+        RF_Data[11] = product->Data[11]; //Year
+        RF_Data[12] = product->Data[12]; //Week
+        RF_Data[13] = product->Data[13]; //Serial  Number
+        RF_Data[14] = product->Data[14]; //Serial  Number
+        RF_Data[15] = product->Data[15]; //Lights Status
+        RF_Data[16] = product->Data[16]; //Timmer Command
+        RF_Data[17] = product->Data[17]; //Timmer Time
+        RF_Data[18] = product->Data[18]; //Reserved
+        RF_Data[19] = product->Data[19]; //Reserved
+        RF_Data[20] = KeyID; //Product->Data[20];	//Key ID
     }
 #endif
 }
@@ -433,12 +430,6 @@ inline void setRF_DimmerLights(char lights, char on) {
     status <<= (lights - 1);
     setProductData(11, lights);
 
-    //#if DimmerValue_CloseLightsSave == 0 && DimmerValue_SaveMemory == 0
-    //    setProductData((20 + lights), setPercentValue(DimmerLights->MaxmumValue));
-    //#else
-    //    setProductData((20 + lights), setPercentValue(Dimmer_Maxum));
-    //#endif
-
     setProductData(9, product->Data[20 + lights]);
     setProductData(17, product->Data[26 + lights]);
     if (on == 1) {
@@ -446,8 +437,18 @@ inline void setRF_DimmerLights(char lights, char on) {
     } else {
         setProductData(15, (product->Data[15]&(~status))); //Lights Status
     }
+
+    //#if DimmerValue_CloseLightsSave == 0 && DimmerValue_SaveMemory == 0
+    //    setProductData((20 + lights), setPercentValue(DimmerLights->MaxmumValue));
+    //#else
+    //    setProductData((20 + lights), setPercentValue(Dimmer_Maxum));
+    //#endif
 }
 //*********************************************************
+
+inline void setRF_TransceiveGO(char command) {
+    RF1.TransceiveGO = command == 1 ? true : false;
+}
 #endif
 
 //end

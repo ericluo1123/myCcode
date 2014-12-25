@@ -56,15 +56,13 @@ void setPowerFault_Main() {
     if (PF1.Enable == true) {
         if (PF1.ADtoGO == 0) {
             PF1.Time++;
-            if (PF1.Time >= 700)//*10ms
-            {
+            if (PF1.Time >= (700 / Main_Time)) {
                 PF1.Time = 0;
                 PF1.ADtoGO = true;
             }
         } else {
             PF1.Time++;
-            if (PF1.Time >= 2)//*10ms
-            {
+            if (PF1.Time >= (20 / Main_Time)) {
                 PF1.Time = 0;
                 PF1.ADtoGO = false;
 

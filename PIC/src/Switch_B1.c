@@ -137,7 +137,7 @@ void setSw_Main(char sw) {
         if (Sw->Touch == true) {
             if (Sw->Debounce == false) {
                 Sw->DebounceTime++;
-                if (Sw->DebounceTime >= DebounceTimeValue) {
+                if (Sw->DebounceTime >= (DebounceTimeValue / Main_Time)) {
                     Sw->DebounceTime = 0;
                     Sw->Debounce = true;
 
@@ -149,7 +149,7 @@ void setSw_Main(char sw) {
             } else {
                 if (Sw->Hold1 == false) {
                     Sw->Hold1Time++;
-                    if (Sw->Hold1Time >= Hold1TimeValue) {
+                    if (Sw->Hold1Time >= (Hold1TimeValue / Main_Time)) {
                         Sw->Hold1Time = 0;
 #if Dimmer_use == 1
 #if Dimmable_Func == 1
@@ -161,16 +161,17 @@ void setSw_Main(char sw) {
                 } else {
                     if (Sw->Hold2 == false) {
                         Sw->Hold2Time++;
-                        if (Sw->Hold2Time >= Hold2TimeValue) {
+                        if (Sw->Hold2Time >= (Hold2TimeValue / Main_Time)) {
                             Sw->Hold2Time = 0;
                             Sw->Hold2 = true;
 #if Dimmer_use == 1
 #if CC2500_use == 1
                             setRF_Learn(1);
-#endif
                             if (myMain.First == true) {
                                 setBuz(2, BuzzerOnOffTime);
                             }
+#endif
+
 #endif
                         }
                     } else {
@@ -192,7 +193,7 @@ void setSw_Main(char sw) {
         } else {
             if (Sw->Debounce == true) {
                 Sw->DebounceTime++;
-                if (Sw->DebounceTime >= DebounceTimeValue) {
+                if (Sw->DebounceTime >= (DebounceTimeValue / Main_Time)) {
                     Sw->DebounceTime = 0;
                     Sw->Debounce = false;
                     Sw->Hold1Time = 0;

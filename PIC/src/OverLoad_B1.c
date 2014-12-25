@@ -93,7 +93,7 @@ inline void Load_Main() {
 
             if (Load.ADtoGO == true) {
                 Load.Time++;
-                if (Load.Time >= 5) {//*10ms
+                if (Load.Time >= (40 / Main_Time)) {
                     Load.Time = 0;
                     Load.ADtoGO = false;
                     //get AD value
@@ -248,7 +248,7 @@ inline void Load_Main() {
             }
             if (Load.ERROR == true) {
                 Load.ErrorTime++;
-                if (Load.ErrorTime >= 1000) {//*10ms
+                if (Load.ErrorTime >= (10000 / Main_Time)) {
                     Load.ErrorTime = 0;
                     Load.ERROR = false;
                 }

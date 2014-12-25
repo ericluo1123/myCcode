@@ -9,21 +9,27 @@ inline void DimmerIntrIOCPointSelect(char lights) {
 #ifdef use_1KEY
     if (lights == 1) {
         DimmerLightsIntrIOC = &DimmerLights1;
+        NOP();
+        NOP();
     }
 #endif 
 #ifdef use_2KEY
     else if (lights == 2) {
         DimmerLightsIntrIOC = &DimmerLights2;
+        NOP();
+        NOP();
     }
 #endif
-
 #ifdef use_3KEY
     else if (lights == 3) {
         DimmerLightsIntrIOC = &DimmerLights3;
+        NOP();
+        NOP();
     }
 #endif
 }
 //*****************************************************************************
+
 inline void setDimmerLights_IOC_Main() {
 
 #if Dimmer_use == true
@@ -44,9 +50,31 @@ inline void setDimmerLights_IOC_Main() {
 
 #endif
 }
+
 /*****************************************************************************/
 inline void setDimmerLights_IntrIOC_GO(char lights) {
-    DimmerIntrIOCPointSelect(lights);
+    //    DimmerIntrIOCPointSelect(lights);
+#ifdef use_1KEY
+    if (lights == 1) {
+        DimmerLightsIntrIOC = &DimmerLights1;
+        NOP();
+        NOP();
+    }
+#endif
+#ifdef use_2KEY
+    else if (lights == 2) {
+        DimmerLightsIntrIOC = &DimmerLights2;
+        NOP();
+        NOP();
+    }
+#endif
+#ifdef use_3KEY
+    else if (lights == 3) {
+        DimmerLightsIntrIOC = &DimmerLights3;
+        NOP();
+        NOP();
+    }
+#endif
 #if Control_Method_Triac == 1
     if (DimmerLightsIntrIOC->GO == false && DimmerLightsIntrIOC->TriacFlag == false) {
         DimmerLightsIntrIOC->GO = true;
@@ -74,12 +102,16 @@ inline void setDimmerLights_IntrIOC_GO(char lights) {
 #ifdef use_1KEY
             if (lights == 1) {
                 Mosfet1 = true;
+                NOP();
+                NOP();
                 //                ID_1KEY_1;
             }
 #endif
 #ifdef use_2KEY
             else if (lights == 2) {
                 Mosfet2 = true;
+                NOP();
+                NOP();
             }
 #endif
         }
@@ -95,17 +127,23 @@ inline void DimmerIntrPointSelect(char lights) {
 #ifdef use_1KEY
     if (lights == 1) {
         DimmerLightsIntr = &DimmerLights1;
+        NOP();
+        NOP();
     }
 #endif
 #ifdef use_2KEY
     else if (lights == 2) {
         DimmerLightsIntr = &DimmerLights2;
+        NOP();
+        NOP();
     }
 #endif
 
 #ifdef use_3KEY
     if (lights == 3) {
         DimmerLightsIntr = &DimmerLights3;
+        NOP();
+        NOP();
     }
 #endif
 }
@@ -129,16 +167,22 @@ inline void setDimmerLights_IntrControl(char lights) {
                 if (lights == 1) {
                     Triac1 = 1;
                     ID_1KEY_1;
+                    NOP();
+                    NOP();
                 }
 #endif
 #ifdef use_2KEY
                 if (lights == 2) {
                     Triac2 = 1;
+                    NOP();
+                    NOP();
                 }
 #endif
 #ifdef use_3KEY
                 if (lights == 3) {
                     Triac3 = 1;
+                    NOP();
+                    NOP();
                 }
 #endif
             }
@@ -222,16 +266,22 @@ inline void setDimmerLights_IntrControl(char lights) {
             if (lights == 1) {
                 Triac1 = 0;
                 ID_1KEY_0;
+                NOP();
+                NOP();
             }
 #endif
 #ifdef use_2KEY
             if (lights == 2) {
                 Triac2 = 0;
+                NOP();
+                NOP();
             }
 #endif
 #ifdef use_3KEY
             if (lights == 3) {
                 Triac3 = 0;
+                NOP();
+                NOP();
             }
 #endif
         }
@@ -251,7 +301,29 @@ inline void setDimmerLights_IntrControl(char lights) {
 #endif
 #if Control_Method_Mosfet == 1
 
-    DimmerIntrPointSelect(lights);
+    //    DimmerIntrPointSelect(lights);
+
+#ifdef use_1KEY
+    if (lights == 1) {
+        DimmerLightsIntr = &DimmerLights1;
+        NOP();
+        NOP();
+    }
+#endif
+#ifdef use_2KEY
+    else if (lights == 2) {
+        DimmerLightsIntr = &DimmerLights2;
+        NOP();
+        NOP();
+    }
+#endif
+#ifdef use_3KEY
+    if (lights == 3) {
+        DimmerLightsIntr = &DimmerLights3;
+        NOP();
+        NOP();
+    }
+#endif
 
     if (DimmerLightsIntr->IntrStart == true) {
         DimmerLightsIntr->Count++;
@@ -271,12 +343,16 @@ inline void setDimmerLights_IntrControl(char lights) {
 #ifdef use_1KEY
                 if (lights == 1) {
                     Mosfet1 = false;
+                    NOP();
+                    NOP();
                     //                    ID_1KEY_0;
                 }
 #endif
 #ifdef use_2KEY
                 else if (lights == 2) {
                     Mosfet2 = false;
+                    NOP();
+                    NOP();
                 }
 #endif
             }
@@ -342,17 +418,22 @@ void DimmerLightsPointSelect(char lights) {
 #ifdef use_1KEY
     if (lights == 1) {
         DimmerLights = &DimmerLights1;
+        NOP();
+        NOP();
     }
 #endif
 #ifdef use_2KEY
     if (lights == 2) {
         DimmerLights = &DimmerLights2;
+        NOP();
+        NOP();
     }
 #endif
 #ifdef use_3KEY
     if (lights == 3) {
-
         DimmerLights = &DimmerLights3;
+        NOP();
+        NOP();
     }
 #endif		
 }
@@ -362,16 +443,22 @@ void DimmerLights_Initialization() {
 #ifdef use_1KEY
 
     DimmerLights11 = &DimmerLights1;
+    NOP();
+    NOP();
     setDimmerLights_Initialization(1);
 #endif
 
 #ifdef use_2KEY
     DimmerLights22 = &DimmerLights2;
+    NOP();
+    NOP();
     setDimmerLights_Initialization(2);
 #endif
 
 #ifdef use_3KEY
     DimmerLights33 = &DimmerLights3;
+    NOP();
+    NOP();
     setDimmerLights_Initialization(3);
 #endif
 
@@ -703,6 +790,7 @@ void setDimmerLights_Adj(char lights, char status) {
         DimmerLights->AdjSw = true;
         DimmerLights->Signal = true;
         setBuz(1, BuzzerOnOffTime);
+        setRF_TransceiveGO(0);
     } else if (status == 0) {
         Dimmer.Load_Status = false;
         setDimmerLights_Line(lights);

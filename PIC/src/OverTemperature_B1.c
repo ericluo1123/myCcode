@@ -64,19 +64,19 @@ void setTemp_Main() {
         //        } else {
         if (Temp.ADtoGO == false) {
             Temp.Time++;
-            if (Temp.Time >= 500) {//*10ms
+            if (Temp.Time >= (5000 / Main_Time)) {//*10ms
                 Temp.Time = 0;
                 Temp.ADtoGO = true;
             }
         } else {
             Temp.Time++;
-            if (Temp.Time >= 5) {//*10ms
+            if (Temp.Time >= (40 / Main_Time)) {//*10ms
                 Temp.Time = 0;
 
                 if (Temp.ADH[0] > 0 && Temp.ADH[1] > 0) {
                     Temp.ADtoGO = false;
                     Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
-            
+
 #if PIR_use == 1
                     if (getMain_LightsStatus() == 1) {
                         Temp.SafeValue = TempSafeValueH;

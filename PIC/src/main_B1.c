@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
 
 #if Timer1_use == 1
         //TMR1 
-        if (Timer1.Timeout == true) { //10ms
+        if (Timer1.Timeout == true) {
             Timer1.Timeout = false;
 
             my_MainTimer();
@@ -187,7 +187,7 @@ inline void my_MainTimer() {
 
     if (myMain.PowerON == false) {
         myMain.PowerCount++;
-        if (myMain.PowerCount == 150) {//*10ms
+        if (myMain.PowerCount == (1500 / Main_Time)) {
             myMain.PowerCount = 0;
             myMain.PowerON = true;
 
@@ -207,7 +207,7 @@ inline void my_MainTimer() {
         }
     } else {
         myMain.PowerCount++;
-        if (myMain.PowerCount == 100) {//*10ms
+        if (myMain.PowerCount == (1000 / Main_Time)) {
             myMain.PowerCount = 0;
 #if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 || PIR_TestTime_Mode == 1 || Dimmer_Debug == 1
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
@@ -226,8 +226,7 @@ inline void my_MainTimer() {
         }
 #if Debug == 1
         myMain.Count1++;
-        if (myMain.Count1 == 100) //*10ms
-        {
+        if (myMain.Count1 == (1000 / Main_Time)) {
             myMain.Count1 = 0;
             //            setBuz(1, 100);
             //	setTxData(1);

@@ -101,6 +101,8 @@
 #define IntrTime_100us
 //ADC
 #define ADC_use_Value 1
+//Main Time
+#define Main_Time_Value 20
 //Timer0
 #define Timer0_use_value 0
 //Timer1

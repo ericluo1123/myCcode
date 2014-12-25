@@ -122,16 +122,16 @@ void setLights(char lights, char status) {
         if (Lights->Status == false) {
             Lights->Status = true;
             Lights->Loop = true;
-            Lights->RelayValue = 10;
-            Lights->TriacValue = 13;
+            Lights->RelayValue = 100;
+            Lights->TriacValue = 130;
             setLights_Line(lights);
         }
     } else {
         if (Lights->Status == true) {
             Lights->Status = false;
             Lights->Loop = false;
-            Lights->RelayValue = 4;
-            Lights->TriacValue = 7;
+            Lights->RelayValue = 40;
+            Lights->TriacValue = 70;
         }
     }
 #ifdef use_1KEY
@@ -156,7 +156,7 @@ void Lights_Control(char lights) {
     LightsPointSelect(lights);
     if (Lights->GO == true) {
         Lights->Time++;
-        if (Lights->Time >= Lights->RelayValue && Lights->RelaySet == false) {
+        if (Lights->Time >= (Lights->RelayValue / Main_Time) && Lights->RelaySet == false) {
             Lights->RelaySet = true;
 #ifdef use_1KEY
             if (lights == 1) {
@@ -174,7 +174,7 @@ void Lights_Control(char lights) {
             }
 #endif
 
-        } else if (Lights->Time >= Lights->TriacValue) {
+        } else if (Lights->Time >= (Lights->TriacValue / Main_Time)) {
             Lights->Time = 0;
             Lights->GO = false;
             Lights->RelaySet = false;
@@ -262,7 +262,7 @@ char getLightsControl_OK() {
     return loadok;
 }
 //*****************************************************************************
- 
+
 void setLights_ErrorClose(char lights) {
     if (lights == 255) {
 #if Switch_Class == 1

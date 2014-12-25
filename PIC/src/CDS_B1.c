@@ -14,7 +14,7 @@ inline void CDS_Main() {
         if (_CDS.GO == false) {
             if (_CDS.ADtoGO == false) {
                 _CDS.Time++;
-                if (_CDS.Time >= 10)//*10ms
+                if (_CDS.Time >= (100 / Main_Time))//(ms/main time)
                 {
                     _CDS.Time = 0;
                     _CDS.ADtoGO = true;

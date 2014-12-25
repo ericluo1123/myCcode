@@ -4,10 +4,10 @@
 
 #if Switch_use == 1
 //define
-#define DebounceTimeValue 	5//*10ms
-#define Hold1TimeValue 		150//*10ms
-#define Hold2TimeValue 		150//*10ms
-#define Hold3TimeValue 		300//*10ms
+#define DebounceTimeValue 	50//ms
+#define Hold1TimeValue 		1500//ms
+#define Hold2TimeValue 		1500//ms
+#define Hold3TimeValue 		3000//ms
 
 //Global extern vriables declaration/
 

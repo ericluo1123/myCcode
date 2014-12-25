@@ -25,20 +25,19 @@ void setSYSC_Main() {
     if (SYSC.Enable == true) {
         if (SYSC.ERROR == false) {
             SYSC.Timer++;
-            if (SYSC.Timer >= 16)//*10ms
-            {
+            if (SYSC.Timer >= (160 / Main_Time)) {
                 SYSC.Timer = 0;
                 SYSC.ERROR = true;
             }
         } else {
             if (getMain_All_Error_Status(1) == 0) {
                 SYSC.Timer++;
-                if (SYSC.Timer == 50) {//*10ms
+                if (SYSC.Timer == (500 / Main_Time)) {
                     SYSC.Timer = 0;
                     SYSC.Counter = 0;
                 } else {
                     SYSC.Counter++;
-                    if (SYSC.Counter == 1000) {
+                    if (SYSC.Counter == (10000 / Main_Time)) {
                         SYSC.Counter = 0;
                         SYSC.ERROR = false;
                     }

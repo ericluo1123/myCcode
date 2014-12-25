@@ -88,15 +88,19 @@ void IO_Set() {
     TRISA = _TRISA;
     TRISB = _TRISB;
     TRISC = _TRISC;
+
     LATA = _LATA;
     LATB = _LATB;
     LATC = _LATC;
+
     ANSELA = _ANSELA;
     ANSELB = _ANSELB;
     ANSELC = _ANSELC;
+
     PORTA = _PORTA;
     PORTB = _PORTB;
     PORTC = _PORTC;
+
     WPUB = _WPUB;
 #endif
 }
@@ -107,19 +111,36 @@ void IO_Set() {
 
 void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
 
-    IOC_ISR();
-
-    TMR0_ISR();
-
-    TMR1_ISR();
-
-    TMR2_ISR();
-
+#if IOC_use == 1
+    if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
+        IOC_ISR();
+    }
+#endif
+#if Timer0_use == 1
+    else if (TMR0IE == true && TMR0IF == true) {
+        TMR0_ISR();
+    }
+#endif
+#if Timer1_use == 1
+    else if (TMR1IE == true && TMR1IF == true) {
+        TMR1_ISR();
+    }
+#endif
+#if Timer2_use == 1
+    else if (TMR2IE == true && TMR2IF == true) {
+        TMR2_ISR();
+    }
+#endif
+#if INT_use == 1
     INT_ISR();
-
+#endif
+#if UART_use == 1
     UART_ISR();
-
+#endif
+#if I2C_use == 1
     I2C_ISR();
+#endif
+    return;
 }
 //*********************************************************
 #if Timer0_use == true
@@ -209,37 +230,31 @@ inline void TMR1_Set() {
 
 inline void TMR1_ISR() {
 
-    if (TMR1IE == true && TMR1IF == true) {
-        TMR1H = TMR1H_Value;
-        TMR1L = TMR1L_Value;
-        TMR1IF = false;
-
 #if Dimmer_use == true
 
 #ifdef use_1KEY
-        setDimmerLights_IntrControl(1);
-        // setDimmerLights_IntrControl(1);
+    setDimmerLights_IntrControl(1);
 #endif
 
 #ifdef use_2KEY
-        setDimmerLights_IntrControl(2);
-        //setDimmerLights22_Control(2);
+    setDimmerLights_IntrControl(2);
 #endif
 
 #ifdef use_3KEY
-        setDimmerLights_IntrControl(3);
-        // setDimmerLights33_Control(3);
+    setDimmerLights_IntrControl(3);
 #endif
 
 #endif
 
-        Timer1.Count++;
-        if (Timer1.Count == TMR1_10ms) {//10ms
-            Timer1.Count = 0;
-            Timer1.Timeout = true;
-        }
-        return;
+    Timer1.Count++;
+    if (Timer1.Count == TMR1_Time) {
+        Timer1.Count = 0;
+        Timer1.Timeout = true;
     }
+
+    TMR1H = TMR1H_Value;
+    TMR1L = TMR1L_Value;
+    TMR1IF = false;
 }
 
 #endif
@@ -379,33 +394,31 @@ void IOC_Set() {
 //*********************************************************
 
 inline void IOC_ISR() {
-    if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
-        IOCBF2 = false;
-        IOCIF = false;
-        if (myMain.PowerON == true) {
+
+    if (myMain.PowerON == true) {
 
 #if Dimmer_use == true
-            //            setDimmerLights_IOC_Main();
+        //            setDimmerLights_IOC_Main();
 #ifdef use_1KEY
-            setDimmerLights_IntrIOC_GO(1);
+        setDimmerLights_IntrIOC_GO(1);
 #endif
 
 #ifdef use_2KEY
-            setDimmerLights_IntrIOC_GO(2);
+        setDimmerLights_IntrIOC_GO(2);
 #endif
 
 #ifdef use_3KEY
-            setDimmerLights_IntrIOC_GO(3);
+        setDimmerLights_IntrIOC_GO(3);
 #endif
-            
+
 #endif
-        }
-        return;
     }
+
+    IOCBF2 = false;
+    IOCIF = false;
 }
 
 #endif
-//*********************************************************
 
 //*********************************************************
 #if ADC_use == 1

@@ -222,7 +222,7 @@ void setLED_Main(char led) {
     LedPointSelect(led);
     if (LED->GO == true) {
         LED->Time++;
-        if (LED->Time >= LEDTime / 10) {
+        if (LED->Time >= (LEDTime / Main_Time)) {
             LED->Time = 0;
 #ifdef LED1
             if (led == 1) {

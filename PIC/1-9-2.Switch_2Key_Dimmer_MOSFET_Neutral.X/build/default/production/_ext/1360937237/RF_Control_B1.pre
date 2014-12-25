@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 168 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Activity_B1.h"
+# 170 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2643,7 +2643,7 @@ void setADCGO();
 # 303
 inline int getAD(char, char);
 
-# 442
+# 445
 struct Timer1 {
 
 struct {
@@ -2657,11 +2657,11 @@ struct Timer1 Timer1;
 inline void TMR1_Set();
 inline void TMR1_ISR();
 
-# 529
+# 532
 void IOC_Set();
 inline void IOC_ISR();
 
-# 683
+# 686
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2685,7 +2685,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 711
+# 714
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -2697,7 +2697,7 @@ void setMemory_Modify(char command);
 void setMemory_LoopSave(char command);
 void setMemory_Data(char address, char data);
 
-# 741
+# 744
 struct WDT {
 
 struct {
@@ -2708,7 +2708,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 766
+# 769
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -3187,6 +3187,7 @@ inline void setRF_TimeoutCleared();
 inline void setRFSW_Control(char sw);
 inline void setRFSW_AdjControl(char sw);
 inline void setRFSW_Status(char sw, char command);
+inline void setRF_TransceiveGO(char command);
 
 
 inline void setRF_DimmerValue(char lights);
@@ -3467,7 +3468,7 @@ RF1.RxStatus = command == 1 ? 1 : 0;
 inline void setRF_Initialization() {
 
 Tx_Length = 21;
-RF1.RunTime = 20;
+RF1.RunTime = 100;
 
 
 
@@ -3511,7 +3512,7 @@ getRxData();
 }
 } else {
 RF1.Count++;
-if (RF1.Count == RF1.RunTime) {
+if (RF1.Count == (RF1.RunTime / 20)) {
 RF1.Count = 0;
 
 RF1.RxStatus = 1;
@@ -3520,13 +3521,14 @@ CC2500_WriteCommand(0x3A);
 CC2500_WriteCommand(0x34);
 
 }
+
 }
 }
 }
 }
 
 RF1.CorrectionCounter++;
-if (RF1.CorrectionCounter > 6000) {
+if (RF1.CorrectionCounter > (60000 / 20)) {
 RF1.CorrectionCounter = 0;
 
 RF1.RxStatus = 0;
@@ -3538,7 +3540,6 @@ CC2500_WriteCommand(0x3A);
 if (RF1.Timeout == 1) {
 RF1.Timeout = 0;
 CC2500_PowerOnInitial();
-RB5 = 0;
 }
 
 } else {
@@ -3579,10 +3580,9 @@ inline void setTxData() {
 char i;
 if (RF1.Enable == 1) {
 
-if (RF1.TransceiveGO == 0) {
 RF1.TransceiveGO = 1;
 
-# 184
+# 183
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 
@@ -3605,8 +3605,6 @@ RF_Data[17] = product->Data[17];
 RF_Data[18] = product->Data[18];
 RF_Data[19] = product->Data[19];
 RF_Data[20] = 210;
-
-}
 }
 
 }
@@ -3641,7 +3639,7 @@ if (RF_Data[0] == 0xaa && RF_Data[1] == 0x01) {
 product->Data[2] = 0x55;
 setTxData();
 
-# 246
+# 243
 } else {
 
 if (error == 0) {
@@ -3665,7 +3663,7 @@ __nop();
 __nop();
 }
 
-# 271
+# 268
 }
 } else {
 ;
@@ -3718,7 +3716,7 @@ setRFSW_Control(2);
 break;
 case 0x03:
 
-# 325
+# 322
 break;
 case 0x11:
 
@@ -3736,12 +3734,12 @@ setRFSW_AdjControl(2);
 break;
 case 0x31:
 
-# 346
+# 343
 break;
 }
 }
 
-# 374
+# 371
 inline void setRFSW_Control(char sw) {
 char status = 0;
 
@@ -3804,7 +3802,6 @@ char status = 1;
 status <<= (lights - 1);
 setProductData(11, lights);
 
-# 442
 setProductData(9, product->Data[20 + lights]);
 setProductData(17, product->Data[26 + lights]);
 if (on == 1) {
@@ -3812,5 +3809,12 @@ setProductData(15, (product->Data[15] | status));
 } else {
 setProductData(15, (product->Data[15]&(~status)));
 }
+
+# 446
+}
+
+
+inline void setRF_TransceiveGO(char command) {
+RF1.TransceiveGO = command == 1 ? 1 : 0;
 }
 

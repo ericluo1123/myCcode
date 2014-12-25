@@ -63,7 +63,7 @@ void PIR_Main() {
 
         if (_PIR.ADtoGO == false) {
             _PIR.Time++;
-            if (_PIR.Time == 10) {//*10ms
+            if (_PIR.Time == (100 / Main_Time)) {
                 _PIR.Time = 0;
                 _PIR.ADtoGO = true;
             }
@@ -172,7 +172,7 @@ void PIR_Main() {
         }
         if (_PIR.OK == false) {
             _PIR.Count++;
-            if (_PIR.Count == 3000) {
+            if (_PIR.Count == (30000 / Main_Time)) {
                 _PIR.Count = 0;
                 _PIR.OK = true;
                 setLED(1, 0);
@@ -185,7 +185,7 @@ void PIR_Main() {
         }
         if (_PIR.Status == true) {
             _PIR.CloseTimeSeconds++;
-            if (_PIR.CloseTimeSeconds == 100) {
+            if (_PIR.CloseTimeSeconds == (1000 / Main_Time)) {
                 _PIR.CloseTimeSeconds = 0;
                 _PIR.CloseTimeMinutes++;
                 if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {

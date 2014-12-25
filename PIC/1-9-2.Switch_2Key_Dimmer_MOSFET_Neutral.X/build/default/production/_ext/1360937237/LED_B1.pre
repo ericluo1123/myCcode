@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 168 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Activity_B1.h"
+# 170 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2643,7 +2643,7 @@ void setADCGO();
 # 303
 inline int getAD(char, char);
 
-# 442
+# 445
 struct Timer1 {
 
 struct {
@@ -2657,11 +2657,11 @@ struct Timer1 Timer1;
 inline void TMR1_Set();
 inline void TMR1_ISR();
 
-# 529
+# 532
 void IOC_Set();
 inline void IOC_ISR();
 
-# 683
+# 686
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2685,7 +2685,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 711
+# 714
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -2697,7 +2697,7 @@ void setMemory_Modify(char command);
 void setMemory_LoopSave(char command);
 void setMemory_Data(char address, char data);
 
-# 741
+# 744
 struct WDT {
 
 struct {
@@ -2708,7 +2708,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 766
+# 769
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -3187,6 +3187,7 @@ inline void setRF_TimeoutCleared();
 inline void setRFSW_Control(char sw);
 inline void setRFSW_AdjControl(char sw);
 inline void setRFSW_Status(char sw, char command);
+inline void setRF_TransceiveGO(char command);
 
 
 inline void setRF_DimmerValue(char lights);
@@ -3589,7 +3590,7 @@ void setLED_Main(char led) {
 LedPointSelect(led);
 if (LED->GO == 1) {
 LED->Time++;
-if (LED->Time >= 500 / 10) {
+if (LED->Time >= (500 / 20)) {
 LED->Time = 0;
 
 if (led == 1) {

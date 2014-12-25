@@ -20,7 +20,7 @@ void setBuz_Enable(char command) {
 //*********************************************************
 
 void setBuz(char count, int time) {
-    time /= 10;
+    time /= Main_Time;
     if (Buz1.Enable == true) {
         if (Buz1.GO == false) {
             Buz1.GO = true;

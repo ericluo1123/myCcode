@@ -13,6 +13,7 @@
 ../src/../1-2.Switch_2Key_Dimmer.X/../src/LED_B1.h  \
 ../src/../1-2.Switch_2Key_Dimmer.X/../src/CDS_B1.h  \
 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Switch_B1.h  \
+../src/../1-2.Switch_2Key_Dimmer.X/../src/myUARTtoRF.h  \
 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Dimmer_B1.h  \
 ../src/../1-2.Switch_2Key_Dimmer.X/../src/Activity_B1.h  \
 ../src/../1-2.Switch_2Key_Dimmer.X/../src/PowerFault_B1.h  \

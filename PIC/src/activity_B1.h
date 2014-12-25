@@ -30,6 +30,8 @@
 //ADC
 #define ADC_use ADC_use_Value
 //Timer0
+//Main Time
+#define Main_Time Main_Time_Value
 #define Timer0_use Timer0_use_value
 //Timer1
 #define Timer1_use Timer1_use_Value

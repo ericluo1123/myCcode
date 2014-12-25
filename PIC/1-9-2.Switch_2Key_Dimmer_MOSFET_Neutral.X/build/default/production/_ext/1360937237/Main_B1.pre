@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 168 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Activity_B1.h"
+# 170 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2643,7 +2643,7 @@ void setADCGO();
 # 303
 inline int getAD(char, char);
 
-# 442
+# 445
 struct Timer1 {
 
 struct {
@@ -2657,11 +2657,11 @@ struct Timer1 Timer1;
 inline void TMR1_Set();
 inline void TMR1_ISR();
 
-# 529
+# 532
 void IOC_Set();
 inline void IOC_ISR();
 
-# 683
+# 686
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2685,7 +2685,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 711
+# 714
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -2697,7 +2697,7 @@ void setMemory_Modify(char command);
 void setMemory_LoopSave(char command);
 void setMemory_Data(char address, char data);
 
-# 741
+# 744
 struct WDT {
 
 struct {
@@ -2708,7 +2708,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 766
+# 769
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -3187,6 +3187,7 @@ inline void setRF_TimeoutCleared();
 inline void setRFSW_Control(char sw);
 inline void setRFSW_AdjControl(char sw);
 inline void setRFSW_Status(char sw, char command);
+inline void setRF_TransceiveGO(char command);
 
 
 inline void setRF_DimmerValue(char lights);
@@ -3527,7 +3528,7 @@ inline void my_MainTimer() {
 
 if (myMain.PowerON == 0) {
 myMain.PowerCount++;
-if (myMain.PowerCount == 150) {
+if (myMain.PowerCount == (1500 / 20)) {
 myMain.PowerCount = 0;
 myMain.PowerON = 1;
 
@@ -3541,30 +3542,29 @@ myMain.SelfTest = 1;
 }
 } else {
 myMain.PowerCount++;
-if (myMain.PowerCount == 100) {
+if (myMain.PowerCount == (1000 / 20)) {
 myMain.PowerCount = 0;
 
 # 226
 }
 
 myMain.Count1++;
-if (myMain.Count1 == 100)
-{
+if (myMain.Count1 == (1000 / 20)) {
 myMain.Count1 = 0;
 
-# 243
+# 242
 if (myMain.Flag) {
 myMain.Flag = 0;
 
-# 253
+# 252
 } else {
 myMain.Flag = 1;
 
-# 263
+# 262
 }
 }
 
-# 270
+# 269
 }
 }
 
@@ -3587,14 +3587,14 @@ myMain.Timeout_Counter = 0;
 void setMain_Exception(char command) {
 char status = 0, buz = 0;
 
-# 357
+# 356
 }
 
 
 char getMain_AD_OK() {
 char result = 0;
 
-# 367
+# 366
 if (result == 0) {
 
 }
@@ -3606,13 +3606,13 @@ return result;
 char getMain_LightsStatus() {
 char status = 0;
 
-# 395
+# 394
 status = DimmerLights1.Status == 1 ? 1 : 0;
 if (status == 0) {
 status = DimmerLights2.Status == 1 ? 1 : 0;
 }
 
-# 422
+# 421
 return status;
 }
 
@@ -3620,7 +3620,7 @@ return status;
 char getMain_All_Error_Status(char command) {
 char status = 0;
 
-# 438
+# 437
 if (status == 0 && command != 2) {
 status = Temp.ERROR == 1 ? 2 : 0;
 }
@@ -3632,7 +3632,7 @@ if (status == 0 && command != 3) {
 status = Load.ERROR == 1 ? 3 : 0;
 }
 
-# 463
+# 462
 return status;
 }
 
@@ -3649,17 +3649,17 @@ status1 = DimmerLights1.StatusFlag == 1 ? 1 : 0;
 char status2 = 0;
 status2 = DimmerLights2.StatusFlag == 1 ? 1 : 0;
 
-# 501
+# 500
 return count = (status1 + status2);
 
-# 507
+# 506
 }
 
 
 char getMain_LoadOK() {
 char ok = 0;
 
-# 517
+# 516
 ok = getDimmer_LoadOK() == 1 ? 1 : 0;
 
 return ok;
@@ -3673,7 +3673,7 @@ if (myMain.Error_Run == 1) {
 if (error == 0) {
 myMain.Error_Run = 0;
 
-# 533
+# 532
 setLED(99, 10);
 
 }
@@ -3725,7 +3725,7 @@ setDimmerLights_SwOff(lights);
 break;
 }
 
-# 601
+# 600
 }
 }
 }

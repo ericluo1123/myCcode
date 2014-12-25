@@ -422,12 +422,15 @@ inline void setDimmerReClock();
 
 #ifdef IntrTime_100us	
 #define TMR1_Count	1480
+
+#define TMR1_Time       (int)(Main_Time*10)
 #define TMR1_1ms	10
 #define TMR1_5ms	50
 #define TMR1_10ms	100
+#define TMR1_20ms	200
 #endif
 
-#ifdef IntrTime_500us	
+#ifdef IntrTime_500us
 #define TMR1_Count	7500
 #define TMR1_1ms	2
 #endif
