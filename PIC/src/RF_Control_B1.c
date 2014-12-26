@@ -19,7 +19,7 @@ inline void RF_Main() {
 #endif
 }
 //*********************************************************
-
+ 
 inline void setRF_Learn(char command) {
     RF1.Learn = command == 1 ? true : false;
 }
@@ -289,9 +289,10 @@ inline void setLog_Code() {
 inline void setControl_Lights_Table() {
     switch (RF_Data[15]) {
         case 0x00:
-#if Dimmer_use == 1
-            setDimmerLights_ErrorClose(255);
-#endif
+            //#if Dimmer_use == 1
+            //            setDimmerLights_ErrorClose(255);
+            //#endif
+ 
             setProductData(9, 0);
             setProductData(11, 0);
             setProductData(15, 0);
@@ -421,7 +422,9 @@ inline void setRF_DimmerValue(char lights) {
     setProductData(9, RF_Data[9]);
     setProductData(11, lights);
     setProductData((20 + lights), RF_Data[9]);
-    setDimmerLights_AdjRF(lights);
+
+    setDimmerIntr_Dimming_RF(lights,1);
+//    setDimmerIntr_
 }
 //*********************************************************
 
@@ -429,7 +432,7 @@ inline void setRF_DimmerLights(char lights, char on) {
     char status = 1;
     status <<= (lights - 1);
     setProductData(11, lights);
-
+ 
     setProductData(9, product->Data[20 + lights]);
     setProductData(17, product->Data[26 + lights]);
     if (on == 1) {

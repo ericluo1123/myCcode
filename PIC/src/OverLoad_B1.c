@@ -42,31 +42,12 @@ inline void Load_Main() {
 
     if (Load.Enable == true) {
 
-        //#if Dimmer_use == 1
-        //#if Switch_Class == 1
-        //        char sw = 1;
-        //#endif
-        //#if Switch_Class == 2
-        //        char sw = 3;
-        //#endif
-        //#if Switch_Class == 3
-        //        char sw = 3;
-        //#endif
-        //        adjgo = getAll_DimmerLights_AdjGO(sw);
-        //#endif
-        //        Load.GO = getMain_LightsStatus() == 1 && error == 0 && adjgo == 0 ? true : false;
-        //
-        //        if (getMain_LoadOK() == 1 && Load.Run == false) {
-        //            Load.Run = true;
-        //            Load.OK = false;
-        //        }
-
         if (getMain_LightsStatus() == 0) {
             Load.GO = false;
         } else {
 #if Dimmer_use == true
 
-            if (error == 0 && getAll_DimmerLights_AdjSw() == 0) {
+            if (error == 0 && getAll_DimmerIntr_Dimming_Sw_RF() == 0) {
                 Load.GO = true;
 
                 if (getDimmer_LoadGO() == 1) {

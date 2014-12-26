@@ -72,7 +72,10 @@ void DlyOff_Main(char sw) {
                 setBuz(1, BuzzerOnOffTime);
                 //關燈
 #if Dimmer_use == 1
-                setDimmerLights_ErrorClose(sw);
+                if (getDimmerLights_Status(sw) == 1) {
+                    setDimmerLights_SwOn(sw);
+                    setDimmerLights_SwOff(sw);
+                }
 #endif 
             }
         }

@@ -154,7 +154,7 @@ void setSw_Main(char sw) {
 #if Dimmer_use == 1
 #if Dimmable_Func == 1
                         Sw->Hold1 = true;
-                        setDimmerLights_AdjOn(sw); //key on function
+                        setDimmerLights_DimmingOn(sw); //key on function
 #endif
 #endif
                     }
@@ -177,7 +177,7 @@ void setSw_Main(char sw) {
                     } else {
                         if (Sw->Hold3 == false) {
                             Sw->Hold3Time++;
-                            if (Sw->Hold3Time >= Hold3TimeValue) {//ms
+                            if (Sw->Hold3Time >= (Hold3TimeValue/ Main_Time)) {
                                 Sw->Hold3Time = 0;
                                 Sw->Hold3 = true;
 #if Dimmer_use == 1

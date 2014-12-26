@@ -469,15 +469,15 @@ char getMain_Lights_Count() {
 #if Dimmer_use == 1
 #ifdef use_1KEY
     char status1 = 0;
-    status1 = DimmerLights1.StatusFlag == true ? 1 : 0;
+    status1 = DimmerIntr1.ControlStatus == true ? 1 : 0;
 #endif
 #ifdef use_2KEY
     char status2 = 0;
-    status2 = DimmerLights2.StatusFlag == true ? 1 : 0;
+    status2 = DimmerIntr2.ControlStatus == true ? 1 : 0;
 #endif
 #ifdef use_3KEY
     char status3 = 0;
-    status3 = DimmerLights3.Loop == true ? 1 : 0;
+    status3 = DimmerIntr3.ControlStatus == true ? 1 : 0;
 #endif
 #endif
 
@@ -503,19 +503,6 @@ char getMain_Lights_Count() {
     return count = (status1 + status2 + status3);
 #endif
 
-}
-//*****************************************************************************
-
-char getMain_LoadOK() {
-    char ok = 0;
-
-#if LightsControl_use == 1
-    ok = getLightsControl_OK() == 1 ? 1 : 0;
-#endif
-#if Dimmer_use == 1
-    ok = getDimmer_LoadOK() == 1 ? 1 : 0;
-#endif
-    return ok;
 }
 //*****************************************************************************
 

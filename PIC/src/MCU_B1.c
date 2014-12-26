@@ -230,18 +230,21 @@ inline void TMR1_Set() {
 
 inline void TMR1_ISR() {
 
+    TMR1H = TMR1H_Value;
+    TMR1L = TMR1L_Value;
+    TMR1IF = false;
 #if Dimmer_use == true
 
 #ifdef use_1KEY
-    setDimmerLights_IntrControl(1);
+    setDimmerIntr_TMR(1);
 #endif
 
 #ifdef use_2KEY
-    setDimmerLights_IntrControl(2);
+    setDimmerIntr_TMR(2);
 #endif
 
 #ifdef use_3KEY
-    setDimmerLights_IntrControl(3);
+    setDimmerIntr_TMR(3);
 #endif
 
 #endif
@@ -251,10 +254,6 @@ inline void TMR1_ISR() {
         Timer1.Count = 0;
         Timer1.Timeout = true;
     }
-
-    TMR1H = TMR1H_Value;
-    TMR1L = TMR1L_Value;
-    TMR1IF = false;
 }
 
 #endif
@@ -394,28 +393,27 @@ void IOC_Set() {
 //*********************************************************
 
 inline void IOC_ISR() {
+    IOCBF2 = false;
+    IOCIF = false;
 
     if (myMain.PowerON == true) {
 
 #if Dimmer_use == true
-        //            setDimmerLights_IOC_Main();
+
 #ifdef use_1KEY
-        setDimmerLights_IntrIOC_GO(1);
+        setDimmerIntr_IOC(1);
 #endif
 
 #ifdef use_2KEY
-        setDimmerLights_IntrIOC_GO(2);
+        setDimmerIntr_IOC(2);
 #endif
 
 #ifdef use_3KEY
-        setDimmerLights_IntrIOC_GO(3);
+        setDimmerIntr_IOC(3);
 #endif
 
 #endif
     }
-
-    IOCBF2 = false;
-    IOCIF = false;
 }
 
 #endif
@@ -939,7 +937,7 @@ void Flash_Memory_Initialization() {
         product->Data[22] = Flash_Memory_Read(4);
         product->Data[23] = Flash_Memory_Read(5);
 #else
-        i = setPercentValue(Dimmer_Maxum);
+        i = setDimmerLights_PercentValue(Dimmer_Maxum);
         product->Data[21] = i;
         product->Data[22] = i;
         product->Data[23] = i;
@@ -949,7 +947,7 @@ void Flash_Memory_Initialization() {
             myMain.First = true;
         }
     } else {
-        i = setPercentValue(Dimmer_Maxum);
+        i = setDimmerLights_PercentValue(Dimmer_Maxum);
         setMemory_Data(0, 0xff);
         setMemory_Data(1, 0xff);
         setMemory_Data(2, 0xff);

@@ -2792,7 +2792,6 @@ char getMain_AD_OK();
 char getMain_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
-char getMain_LoadOK();
 void Exception_Main();
 inline void setProductData(char address,char value);
 
@@ -3248,130 +3247,134 @@ void setLoad_OK();
 # 11 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
-struct {
-unsigned MOSFET : 1;
-unsigned TriacFlag : 1;
-unsigned empty1 : 6;
-};
 
 
+union {
 
 struct {
-unsigned GO : 1;
-unsigned MosfetSignal : 1;
-unsigned StatusFlag : 1;
-unsigned Flag : 1;
-unsigned Triac : 1;
-unsigned Signal : 1;
-unsigned AdjSw : 1;
-unsigned AdjStatus : 1;
-};
-
-
-
-struct {
-unsigned AdjRF : 1;
 unsigned Status : 1;
-unsigned IntrStart : 1;
-unsigned empty2 : 5;
+
+unsigned SwFlag : 1;
+unsigned Trigger : 1;
+unsigned Switch : 1;
+
+unsigned DimmingSwFlag : 1;
+unsigned DimmingTrigger : 1;
+unsigned DimmingSwitch : 1;
+
+unsigned TriacFlag : 1;
+
+unsigned OK : 1;
+
+unsigned Triac : 1;
+unsigned empty : 2;
+};
 };
 
-
-unsigned char Count;
-unsigned char DimmingValue;
-unsigned char DimmingTime;
-unsigned char MaxmumValue;
-unsigned char TriacTime;
-
-unsigned char DimmingTimeValue;
-unsigned char MinimumValue;
+union {
 
 struct {
-unsigned Switch : 1;
-unsigned Trigger : 1;
-unsigned SwitchAdj : 1;
-unsigned TriggerAdj : 1;
 unsigned MosfetOpen : 1;
 unsigned MosfetClose : 1;
 unsigned Line : 1;
 unsigned Loop : 1;
 };
-
-struct {
-unsigned OK : 1;
-unsigned SwFlag : 1;
-unsigned SwAdj : 1;
-unsigned empty3 : 5;
 };
 
 unsigned char TriacCount;
 unsigned char MosfetSignalCount;
-
+unsigned char TriacTime;
 unsigned char DetectCount;
 unsigned char TuneValue;
 unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
-struct DimmerLights *DimmerLightsIntr;
-struct DimmerLights *DimmerLightsIntrIOC;
 
-# 96
-struct DimmerLights *DimmerLights11;
+# 72
 struct DimmerLights DimmerLights1;
 
 
 
-struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 
-# 118
-inline void DimmerIntrIOCPointSelect(char lights);
-inline void setDimmerLights_IntrIOC_GO(char lights);
-
-inline void setDimmerLights_IntrControl(char lights);
-inline void DimmerIntrPointSelect(char lights);
-
-
-void DimmerLightsPointSelect(char lights);
+# 91
+inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
-void DimmerLights_Main();
-void DimmerLights_Exceptions(char status);
-void DimmerLights_Close();
-
 void setDimmerLights_Initialization(char lights);
-void setDimmerLights_GO(char lights, char command);
-void setDimmerLights_Main(char lights);
-void setDimmerLights_ERROR(char lights);
-void setDimmerLights_TriggerERROR(char lights, char command);
-void setDimmerLights(char lights, char status);
-void setDimmerLights_Adj(char lights, char status);
-void setDimmerLights_AdjRF(char lights);
-char getPercentValue(char value);
-char setPercentValue(char value);
-
-void setDimmerLights_MaxmumValue(char, char);
-void setDimmerLights_Trigger(char, char);
-
-char getDimmerLights_StatusFlag();
-char getDimmerLights_Trigger();
-char getDimmerLights_Status(char lights);
-
-void setDimmerLights_Clear(char, char);
-inline void setDimmerLights_IntrControl(char lights);
-char getAll_DimmerLights_AdjGO(char sw);
 void setDimmerLights_SwOn(char sw);
 void setDimmerLights_SwOff(char sw);
-void setDimmerLights_AdjOn(char sw);
+void setDimmerLights_DimmingOn(char sw);
+void DimmerLights_Main();
+void setDimmerLights_Main(char lights);
+void setDimmerLights_OnOff(char lights, char command);
+void setDimmerLights_Dimming(char lights, char status);
+char getDimmerLights_Allow_Condition(char lights);
 
-void setDimmerLights_ErrorClose(char lights);
-void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
-char getDimmerLights_Allow_Condition(char lights);
-char getAll_DimmerLights_AdjSw();
-inline void setDimmerLights_IOC_Main();
+void setDimmerLights_Status(char lights, char command);
+char getDimmerLights_Status(char lights);
+char getDimmerLights_PercentValue(char value);
+char setDimmerLights_PercentValue(char value);
 
-# 170
+char getAll_DimmerLights_Trigger();
+
+
+
+
+struct Dimmer_Interrut {
+
+union {
+
+struct {
+unsigned GO : 1;
+unsigned Tune : 1;
+unsigned Start : 1;
+unsigned ControlStatus : 1;
+unsigned Dimming_Sw : 1;
+unsigned Dimming_Status : 1;
+unsigned Dimming_RF : 1;
+unsigned empty : 1;
+};
+};
+
+unsigned char Count;
+unsigned char TuneTime;
+unsigned char TuneTimeValue;
+unsigned char DimmingValue;
+unsigned char MaxmumValue;
+unsigned char MinimumValue;
+};
+struct Dimmer_Interrut *DimmerIntr;
+
+
+struct Dimmer_Interrut DimmerIntr1;
+
+
+
+struct Dimmer_Interrut DimmerIntr2;
+
+# 152
+void DimmerIntr_Initialization();
+void setDimmerIntr_ControlStatus(char lights, char command);
+void setDimmerIntr_DimmingValue(char lights, char value);
+char getDimmerIntr_DimmingValue(char lights);
+void setDimmerIntr_MaxmumValue(char lights, char value);
+char getDimmerIntr_MaxmumValue(char lights);
+void setDimmerIntr_MinimumValue(char lights, char value);
+char getDimmerIntr_MinimumValue(char lights);
+void setDimmerIntr_Dimming_Sw(char lights, char command);
+void setDimmerIntr_Dimming_RF(char lights, char command);
+char getAll_DimmerIntr_ControlStatus();
+char getAll_DimmerIntr_Dimming_Sw();
+char getAll_DimmerIntr_Dimming_Sw_RF();
+
+inline void setDimmerIntr_TMR(char lights);
+inline void setDimmerIntr_IOC(char lights);
+
+
+
+
 struct Dimmer {
 
 
@@ -3381,7 +3384,6 @@ union {
 
 struct {
 unsigned AdjGO : 1;
-unsigned LoadOK : 1;
 unsigned LoadGO : 1;
 unsigned Load_Status : 1;
 unsigned empty : 4;
@@ -3393,7 +3395,7 @@ volatile unsigned char Correction;
 
 struct Dimmer Dimmer;
 
-char getDimmer_LoadOK();
+
 inline void Dimmer_Initialization();
 char getDimmer_LoadGO();
 char getDimmer_Load_Status();
@@ -3489,7 +3491,10 @@ DelayOff->GO = 0;
 setBuz(1, 100);
 
 
-setDimmerLights_ErrorClose(sw);
+if (getDimmerLights_Status(sw) == 1) {
+setDimmerLights_SwOn(sw);
+setDimmerLights_SwOff(sw);
+}
 
 }
 }
@@ -3534,7 +3539,7 @@ k = (value >> 4) & 0x0f;
 i = j + (k * 10);
 }
 
-# 139
+# 142
 return i;
 }
 

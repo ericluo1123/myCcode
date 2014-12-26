@@ -9,73 +9,49 @@
 //private
 
 struct DimmerLights {
-
-    struct {
-        unsigned MOSFET : 1;
-        unsigned TriacFlag : 1;
-        unsigned empty1 : 6;
-    };
-
     //public
-
-    struct {
-        unsigned GO : 1;
-        unsigned MosfetSignal : 1;
-        unsigned StatusFlag : 1; //triac control
-        unsigned Flag : 1;
-        unsigned Triac : 1;
-        unsigned Signal : 1;
-        unsigned AdjSw : 1; //adj control
-        unsigned AdjStatus : 1; //adj status
-    };
-
     //private
 
-    struct {
-        unsigned AdjRF : 1;
-        unsigned Status : 1; //lights status
-        unsigned IntrStart : 1;
-        unsigned empty2 : 5;
+    union {
+
+        struct {
+            unsigned Status : 1;
+
+            unsigned SwFlag : 1;
+            unsigned Trigger : 1;
+            unsigned Switch : 1;
+
+            unsigned DimmingSwFlag : 1;
+            unsigned DimmingTrigger : 1;
+            unsigned DimmingSwitch : 1;
+
+            unsigned TriacFlag : 1;
+
+            unsigned OK : 1;
+
+            unsigned Triac : 1;
+            unsigned empty : 2;
+        };
     };
 
+    union {
 
-    unsigned char Count;
-    unsigned char DimmingValue;
-    unsigned char DimmingTime;
-    unsigned char MaxmumValue;
-    unsigned char TriacTime;
-
-    unsigned char DimmingTimeValue;
-    unsigned char MinimumValue;
-
-    struct {
-        unsigned Switch : 1;
-        unsigned Trigger : 1;
-        unsigned SwitchAdj : 1;
-        unsigned TriggerAdj : 1;
-        unsigned MosfetOpen : 1;
-        unsigned MosfetClose : 1;
-        unsigned Line : 1;
-        unsigned Loop : 1;
-    };
-
-    struct {
-        unsigned OK : 1;
-        unsigned SwFlag : 1;
-        unsigned SwAdj : 1;
-        unsigned empty3 : 5;
+        struct {
+            unsigned MosfetOpen : 1;
+            unsigned MosfetClose : 1;
+            unsigned Line : 1;
+            unsigned Loop : 1;
+        };
     };
 
     unsigned char TriacCount;
     unsigned char MosfetSignalCount;
-
+    unsigned char TriacTime;
     unsigned char DetectCount;
     unsigned char TuneValue;
     unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
-struct DimmerLights *DimmerLightsIntr;
-struct DimmerLights *DimmerLightsIntrIOC;
 
 #if Switch_Class == 1
 #define ID_1KEY_1 RB4 = 1
@@ -93,17 +69,14 @@ struct DimmerLights *DimmerLightsIntrIOC;
 
 
 #ifdef use_1KEY
-struct DimmerLights *DimmerLights11;
 struct DimmerLights DimmerLights1;
 #endif
 
 #ifdef use_2KEY
-struct DimmerLights *DimmerLights22;
 struct DimmerLights DimmerLights2;
 #endif
 
 #ifdef use_3KEY
-struct DimmerLights *DimmerLights33;
 struct DimmerLights DimmerLights3;
 #endif
 
@@ -115,57 +88,86 @@ void DimmerLightsOpenShow();
 
 
 //public
-inline void DimmerIntrIOCPointSelect(char lights);
-inline void setDimmerLights_IntrIOC_GO(char lights);
-
-inline void setDimmerLights_IntrControl(char lights);
-inline void DimmerIntrPointSelect(char lights);
-
-
-void DimmerLightsPointSelect(char lights);
+inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
-void DimmerLights_Main();
-void DimmerLights_Exceptions(char status);
-void DimmerLights_Close();
-
 void setDimmerLights_Initialization(char lights);
-void setDimmerLights_GO(char lights, char command);
-void setDimmerLights_Main(char lights);
-void setDimmerLights_ERROR(char lights);
-void setDimmerLights_TriggerERROR(char lights, char command);
-void setDimmerLights(char lights, char status);
-void setDimmerLights_Adj(char lights, char status);
-void setDimmerLights_AdjRF(char lights);
-char getPercentValue(char value);
-char setPercentValue(char value);
-
-void setDimmerLights_MaxmumValue(char, char);
-void setDimmerLights_Trigger(char, char);
-//void setDimmerLights_TriggerAdj(char, char);
-char getDimmerLights_StatusFlag();
-char getDimmerLights_Trigger();
-char getDimmerLights_Status(char lights);
-
-void setDimmerLights_Clear(char, char);
-inline void setDimmerLights_IntrControl(char lights);
-char getAll_DimmerLights_AdjGO(char sw);
 void setDimmerLights_SwOn(char sw);
 void setDimmerLights_SwOff(char sw);
-void setDimmerLights_AdjOn(char sw);
+void setDimmerLights_DimmingOn(char sw);
+void DimmerLights_Main();
+void setDimmerLights_Main(char lights);
+void setDimmerLights_OnOff(char lights, char command);
+void setDimmerLights_Dimming(char lights, char status);
+char getDimmerLights_Allow_Condition(char lights);
 
-void setDimmerLights_ErrorClose(char lights);
-void setDimmerLights_Status(char lights, char command);
 void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
-char getDimmerLights_Allow_Condition(char lights);
-char getAll_DimmerLights_AdjSw();
-inline void setDimmerLights_IOC_Main();
-//	char getDimmerLights_Clear(char);
-/*	void setDimmerLights_Close(char,char);
-        char getDimmerLights_Close(char);
- */
+void setDimmerLights_Status(char lights, char command);
+char getDimmerLights_Status(char lights);
+char getDimmerLights_PercentValue(char value);
+char setDimmerLights_PercentValue(char value);
+
+char getAll_DimmerLights_Trigger();
 
 //Global extern variable declaration
+//******************************************************************************
+
+struct Dimmer_Interrut {
+
+    union {
+
+        struct {
+            unsigned GO : 1;
+            unsigned Tune : 1;
+            unsigned Start : 1;
+            unsigned ControlStatus : 1;
+            unsigned Dimming_Sw : 1;
+            unsigned Dimming_Status : 1;
+            unsigned Dimming_RF : 1;
+            unsigned empty : 1;
+        };
+    };
+
+    unsigned char Count;
+    unsigned char TuneTime;
+    unsigned char TuneTimeValue;
+    unsigned char DimmingValue;
+    unsigned char MaxmumValue;
+    unsigned char MinimumValue;
+};
+struct Dimmer_Interrut *DimmerIntr;
+
+#ifdef use_1KEY
+struct Dimmer_Interrut DimmerIntr1;
+#endif
+
+#ifdef use_2KEY
+struct Dimmer_Interrut DimmerIntr2;
+#endif
+
+#ifdef use_3KEY
+struct Dimmer_Intr DimmerIntr3;
+#endif
+
+void DimmerIntr_Initialization();
+void setDimmerIntr_ControlStatus(char lights, char command);
+void setDimmerIntr_DimmingValue(char lights, char value);
+char getDimmerIntr_DimmingValue(char lights);
+void setDimmerIntr_MaxmumValue(char lights, char value);
+char getDimmerIntr_MaxmumValue(char lights);
+void setDimmerIntr_MinimumValue(char lights, char value);
+char getDimmerIntr_MinimumValue(char lights);
+void setDimmerIntr_Dimming_Sw(char lights, char command);
+void setDimmerIntr_Dimming_RF(char lights, char command);
+char getAll_DimmerIntr_ControlStatus();
+char getAll_DimmerIntr_Dimming_Sw();
+char getAll_DimmerIntr_Dimming_Sw_RF();
+
+inline void setDimmerIntr_TMR(char lights);
+inline void setDimmerIntr_IOC(char lights);
+
+
+//******************************************************************************
 
 struct Dimmer {
     //	unsigned LoadERROR:1;
@@ -176,7 +178,6 @@ struct Dimmer {
 
         struct {
             unsigned AdjGO : 1;
-            unsigned LoadOK : 1;
             unsigned LoadGO : 1;
             unsigned Load_Status : 1;
             unsigned empty : 4;
@@ -188,22 +189,10 @@ struct Dimmer {
 #ifdef DimmerReference1
 struct Dimmer Dimmer;
 #endif
-char getDimmer_LoadOK();
+
 inline void Dimmer_Initialization();
 char getDimmer_LoadGO();
 char getDimmer_Load_Status();
-//		void DimmerPointSelect(char);
-
-//              void setDimmer_TempERROR(char,char);
-//              void setDimmer_LoadERROR(char,char);
-//              void setDimmer_PFERROR(char,char);
-//
-//              char getDimmer_TempERROR(char);
-//              char getDimmer_LoadERROR(char);
-//              char getDimmer_PFERROR(char);
-//
-//              void setDimmer_Detect(char,char);
-//              char getDimmer_Detect(char);
 
 //*********************************************************
 
@@ -223,7 +212,7 @@ char getDimmer_Load_Status();
 #define setDimmerLights_IntrControl(lights) ;
 #define setDimmerLights_ERROR(char) ;
 #define setDimmerLights_TriggerERROR(char,char) ; 
-#define setDimmerLights(char,char) ;
+#define setDimmerLights_OnOff(char,char) ;
 #define setDimmerLights_Adj(char,char) ;
 #define setDimmerLights_AdjRF(char) ;
 #define getPercentValue(char) 0
