@@ -12,37 +12,29 @@ struct DimmerLights {
     //public
     //private
 
-    union {
+    struct {
+        unsigned SwFlag : 1;
+        unsigned Trigger : 1;
+        unsigned Switch : 1;
 
-        struct {
-            unsigned Status : 1;
+        unsigned DimmingSwFlag : 1;
+        unsigned DimmingTrigger : 1;
+        unsigned DimmingSwitch : 1;
 
-            unsigned SwFlag : 1;
-            unsigned Trigger : 1;
-            unsigned Switch : 1;
-
-            unsigned DimmingSwFlag : 1;
-            unsigned DimmingTrigger : 1;
-            unsigned DimmingSwitch : 1;
-
-            unsigned TriacFlag : 1;
-
-            unsigned OK : 1;
-
-            unsigned Triac : 1;
-            unsigned empty : 2;
-        };
+        unsigned MosfetOpen : 1;
+        unsigned MosfetClose : 1;
     };
 
-    union {
-
-        struct {
-            unsigned MosfetOpen : 1;
-            unsigned MosfetClose : 1;
-            unsigned Line : 1;
-            unsigned Loop : 1;
-        };
+    struct {
+        unsigned Status : 1;
+        unsigned Line : 1;
+        unsigned Loop : 1;
+        unsigned TriacFlag : 1;
+        unsigned OK : 1;
+        unsigned Triac : 1;
+        unsigned empty : 2;
     };
+
 
     unsigned char TriacCount;
     unsigned char MosfetSignalCount;
@@ -114,19 +106,17 @@ char getAll_DimmerLights_Trigger();
 
 struct Dimmer_Interrut {
 
-    union {
-
-        struct {
-            unsigned GO : 1;
-            unsigned Tune : 1;
-            unsigned Start : 1;
-            unsigned ControlStatus : 1;
-            unsigned Dimming_Sw : 1;
-            unsigned Dimming_Status : 1;
-            unsigned Dimming_RF : 1;
-            unsigned empty : 1;
-        };
+    struct {
+        unsigned GO : 1;
+        unsigned Tune : 1;
+        unsigned Start : 1;
+        unsigned ControlStatus : 1;
+        unsigned Dimming_Sw : 1;
+        unsigned Dimming_Status : 1;
+        unsigned Dimming_RF : 1;
+        unsigned empty : 1;
     };
+
 
     unsigned char Count;
     unsigned char TuneTime;
@@ -166,6 +156,11 @@ char getAll_DimmerIntr_Dimming_Sw_RF();
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
+inline void DimmerLights_MOSFET_TMR_1();
+inline void DimmerLights_MOSFET_TMR_2();
+
+inline void DimmerLights_MOSFET_IOC_1();
+inline void DimmerLights_MOSFET_IOC_2();
 
 //******************************************************************************
 
@@ -174,15 +169,13 @@ struct Dimmer {
     //	unsigned TempERROR:1;
     //	unsigned PFERROR:1;
 
-    union {
-
-        struct {
-            unsigned AdjGO : 1;
-            unsigned LoadGO : 1;
-            unsigned Load_Status : 1;
-            unsigned empty : 4;
-        };
+    struct {
+        unsigned AdjGO : 1;
+        unsigned LoadGO : 1;
+        unsigned Load_Status : 1;
+        unsigned empty : 4;
     };
+
     unsigned char Load;
     volatile unsigned char Correction;
 };

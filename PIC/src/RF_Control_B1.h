@@ -48,27 +48,25 @@ struct RF RF1;
 #endif
 
 inline void RF_Initialization();
-inline void RF_Main();
 inline void setRF_Initialization();
+inline void RF_Main();
 inline void setRF_Main();
 inline void setTxData();
 inline void getRxData();
-inline void setRF_Enable(char command);
+//inline void setRF_Enable(char command);
 inline void setLog_Code();
 inline void setControl_Lights_Table();
 inline void RF_RxDisable();
 inline void setRF_Learn(char command);
-inline void setRF_ReceiveGO(char command);
+//inline void setRF_ReceiveGO(char command);
 inline void setRF_RxStatus(char command);
 inline char getRF_KeyStatus();
 inline void RF_Timeout_Counter();
 inline void setRF_TimeoutCleared();
 #define setRF_Data(location,value) RF_Data[location]=value
 
-
-
-inline void setRFSW_Control(char sw);
-inline void setRFSW_AdjControl(char sw);
+void setRFSW_Control(char sw);
+void setRFSW_AdjControl(char sw);
 inline void setRFSW_Status(char sw, char command);
 inline void setRF_TransceiveGO(char command);
 

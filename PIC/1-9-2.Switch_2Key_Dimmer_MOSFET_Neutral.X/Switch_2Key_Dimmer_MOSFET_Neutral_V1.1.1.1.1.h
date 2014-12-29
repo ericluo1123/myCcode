@@ -75,7 +75,7 @@
 #define _TRISC 	0b00001100;
 
 #define _LATA	0b00000000;
-#define _LATB	0b00000010;
+#define _LATB	0b00000000;
 #define _LATC	0b00000000;
 
 #define _ANSELA 0b00100010;

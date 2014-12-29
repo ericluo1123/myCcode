@@ -587,6 +587,7 @@ void Exception_Main() {
         }
     }
 }
+//*****************************************************************************
 
 inline void setProductData(char address, char value) {
     product->Data[address] = value;

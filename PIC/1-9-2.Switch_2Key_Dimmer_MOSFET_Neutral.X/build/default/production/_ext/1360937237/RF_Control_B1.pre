@@ -3164,27 +3164,25 @@ struct RF RF1;
 
 
 inline void RF_Initialization();
-inline void RF_Main();
 inline void setRF_Initialization();
+inline void RF_Main();
 inline void setRF_Main();
 inline void setTxData();
 inline void getRxData();
-inline void setRF_Enable(char command);
+
 inline void setLog_Code();
 inline void setControl_Lights_Table();
 inline void RF_RxDisable();
 inline void setRF_Learn(char command);
-inline void setRF_ReceiveGO(char command);
+
 inline void setRF_RxStatus(char command);
 inline char getRF_KeyStatus();
 inline void RF_Timeout_Counter();
 inline void setRF_TimeoutCleared();
 
 
-
-
-inline void setRFSW_Control(char sw);
-inline void setRFSW_AdjControl(char sw);
+void setRFSW_Control(char sw);
+void setRFSW_AdjControl(char sw);
 inline void setRFSW_Status(char sw, char command);
 inline void setRF_TransceiveGO(char command);
 
@@ -3249,11 +3247,7 @@ struct DimmerLights {
 
 
 
-union {
-
 struct {
-unsigned Status : 1;
-
 unsigned SwFlag : 1;
 unsigned Trigger : 1;
 unsigned Switch : 1;
@@ -3262,24 +3256,20 @@ unsigned DimmingSwFlag : 1;
 unsigned DimmingTrigger : 1;
 unsigned DimmingSwitch : 1;
 
+unsigned MosfetOpen : 1;
+unsigned MosfetClose : 1;
+};
+
+struct {
+unsigned Status : 1;
+unsigned Line : 1;
+unsigned Loop : 1;
 unsigned TriacFlag : 1;
-
 unsigned OK : 1;
-
 unsigned Triac : 1;
 unsigned empty : 2;
 };
-};
 
-union {
-
-struct {
-unsigned MosfetOpen : 1;
-unsigned MosfetClose : 1;
-unsigned Line : 1;
-unsigned Loop : 1;
-};
-};
 
 unsigned char TriacCount;
 unsigned char MosfetSignalCount;
@@ -3290,14 +3280,14 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 72
+# 64
 struct DimmerLights DimmerLights1;
 
 
 
 struct DimmerLights DimmerLights2;
 
-# 91
+# 83
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3324,8 +3314,6 @@ char getAll_DimmerLights_Trigger();
 
 struct Dimmer_Interrut {
 
-union {
-
 struct {
 unsigned GO : 1;
 unsigned Tune : 1;
@@ -3336,7 +3324,7 @@ unsigned Dimming_Status : 1;
 unsigned Dimming_RF : 1;
 unsigned empty : 1;
 };
-};
+
 
 unsigned char Count;
 unsigned char TuneTime;
@@ -3354,7 +3342,7 @@ struct Dimmer_Interrut DimmerIntr1;
 
 struct Dimmer_Interrut DimmerIntr2;
 
-# 152
+# 142
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3372,6 +3360,11 @@ char getAll_DimmerIntr_Dimming_Sw_RF();
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
+inline void DimmerLights_MOSFET_TMR_1();
+inline void DimmerLights_MOSFET_TMR_2();
+
+inline void DimmerLights_MOSFET_IOC_1();
+inline void DimmerLights_MOSFET_IOC_2();
 
 
 
@@ -3380,15 +3373,13 @@ struct Dimmer {
 
 
 
-union {
-
 struct {
 unsigned AdjGO : 1;
 unsigned LoadGO : 1;
 unsigned Load_Status : 1;
 unsigned empty : 4;
 };
-};
+
 unsigned char Load;
 volatile unsigned char Correction;
 };
@@ -3440,6 +3431,16 @@ setRF_Initialization();
 }
 
 
+
+inline void setRF_Initialization() {
+
+Tx_Length = 21;
+RF1.RunTime = 100;
+
+
+}
+
+
 inline void RF_Main() {
 
 setRF_Main();
@@ -3451,42 +3452,22 @@ inline void setRF_Learn(char command) {
 RF1.Learn = command == 1 ? 1 : 0;
 }
 
-
-inline void setRF_ReceiveGO(char command) {
-if (RF1.RxStatus == 1) {
-RF1.RxStatus = 0;
-RF1.Run = 1;
-RF1.ReceiveGO = command == 1 ? 1 : 0;
-}
-}
-
-
+# 47
 inline void setRF_RxStatus(char command) {
 RF1.RxStatus = command == 1 ? 1 : 0;
 }
 
 
 
-inline void setRF_Initialization() {
-
-Tx_Length = 21;
-RF1.RunTime = 100;
-
-
-
-}
-
-
 inline void setRF_Main() {
-char loop_f = 0, error = 0;
+char error = 0;
 if (RF1.Enable == 1) {
-
 if (getBuz_GO() == 0) {
 
 
 RF1.Key = getRF_KeyStatus() == 1 ? 1 : 0;
 
-# 65
+# 64
 if (RF1.Key == 0 || RF1.Learn == 1) {
 
 if (RF1.TransceiveGO == 1) {
@@ -3507,7 +3488,7 @@ if (RF1.ReceiveGO == 1) {
 RF1.ReceiveGO = 0;
 RF1.CorrectionCounter = 0;
 
-# 91
+# 90
 getRxData();
 
 
@@ -3570,10 +3551,10 @@ RF1.TimeoutCount = 0;
 inline char getRF_KeyStatus() {
 char key = 0;
 
-# 157
+# 156
 key = (RA6 == 1 || RA4 == 1 || RA0 == 1 || RB1 == 1) ? 1 : 0;
 
-# 163
+# 162
 return key;
 }
 
@@ -3584,7 +3565,7 @@ if (RF1.Enable == 1) {
 
 RF1.TransceiveGO = 1;
 
-# 183
+# 182
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 
@@ -3611,17 +3592,7 @@ RF_Data[20] = 210;
 
 }
 
-
-inline void setRF_Enable(char command) {
-RF1.Enable = command == 1 ? 1 : 0;
-RF1.Learn = 0;
-RF1.TransceiveGO = 0;
-RF1.RxStatus = 0;
-RF1.ReceiveGO = 0;
-
-}
-
-
+# 219
 inline void RF_RxDisable() {
 if (RF1.ReceiveGO == 1 || RF1.RxStatus == 1) {
 RF1.RxStatus = 0;
@@ -3637,13 +3608,11 @@ CC2500_WriteCommand(0x3A);
 inline void getRxData() {
 char error = getMain_All_Error_Status(0);
 if (RF_Data[0] == 0xaa && RF_Data[1] == 0x01) {
-
 product->Data[2] = 0x55;
 setTxData();
 
-# 243
+# 240
 } else {
-
 if (error == 0) {
 if (RF1.Learn == 1) {
 if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) {
@@ -3651,7 +3620,6 @@ setLog_Code();
 }
 } else {
 if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {
-
 if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
 __nop();
 } else {
@@ -3659,16 +3627,12 @@ if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_D
 setControl_Lights_Table();
 }
 }
-} else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02) {
-__nop();
-} else if (RF_Data[0] == 0x0 && RF_Data[1] == 0x65) {
-__nop();
 }
 
-# 268
+# 264
 }
 } else {
-;
+__nop();
 }
 }
 }
@@ -3693,13 +3657,24 @@ case 0x00:
 
 
 
+if (getDimmerLights_Status(1) == 1) {
+setDimmerLights_SwOn(1);
+setDimmerLights_SwOff(1);
+}
 
+
+if (getDimmerLights_Status(2) == 1) {
+setDimmerLights_SwOn(2);
+setDimmerLights_SwOff(2);
+}
+
+# 309
 setProductData(9, 0);
 setProductData(11, 0);
 setProductData(15, 0);
 setProductData(17, 0);
 setBuz(1, 100);
-
+setTxData();
 break;
 case 0x20:
 setProductData(9, 0);
@@ -3707,43 +3682,33 @@ setProductData(11, 0);
 setProductData(17, 0);
 setTxData();
 break;
+
 case 0x01:
-
 setRFSW_Control(1);
-
 break;
+
+
+
 case 0x02:
-
 setRFSW_Control(2);
-
 break;
-case 0x03:
 
-# 323
-break;
+# 342
 case 0x11:
-
-
 setRFSW_AdjControl(1);
-
-
 break;
+
+# 350
 case 0x21:
-
-
 setRFSW_AdjControl(2);
-
-
 break;
-case 0x31:
 
-# 344
-break;
+# 364
 }
 }
 
-# 372
-inline void setRFSW_Control(char sw) {
+# 391
+void setRFSW_Control(char sw) {
 char status = 0;
 
 
@@ -3771,7 +3736,7 @@ setDimmerLights_SwOff(sw);
 }
 
 
-inline void setRFSW_AdjControl(char sw) {
+void setRFSW_AdjControl(char sw) {
 char status = 0;
 
 status = getDimmerLights_Status(sw);
@@ -3797,7 +3762,7 @@ setProductData(9, RF_Data[9]);
 setProductData(11, lights);
 setProductData((20 + lights), RF_Data[9]);
 
-setDimmerIntr_Dimming_RF(lights,1);
+setDimmerIntr_Dimming_RF(lights, 1);
 
 }
 
@@ -3815,7 +3780,7 @@ setProductData(15, (product->Data[15] | status));
 setProductData(15, (product->Data[15]&(~status)));
 }
 
-# 449
+# 468
 }
 
 

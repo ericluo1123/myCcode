@@ -3164,27 +3164,25 @@ struct RF RF1;
 
 
 inline void RF_Initialization();
-inline void RF_Main();
 inline void setRF_Initialization();
+inline void RF_Main();
 inline void setRF_Main();
 inline void setTxData();
 inline void getRxData();
-inline void setRF_Enable(char command);
+
 inline void setLog_Code();
 inline void setControl_Lights_Table();
 inline void RF_RxDisable();
 inline void setRF_Learn(char command);
-inline void setRF_ReceiveGO(char command);
+
 inline void setRF_RxStatus(char command);
 inline char getRF_KeyStatus();
 inline void RF_Timeout_Counter();
 inline void setRF_TimeoutCleared();
 
 
-
-
-inline void setRFSW_Control(char sw);
-inline void setRFSW_AdjControl(char sw);
+void setRFSW_Control(char sw);
+void setRFSW_AdjControl(char sw);
 inline void setRFSW_Status(char sw, char command);
 inline void setRF_TransceiveGO(char command);
 
@@ -3249,11 +3247,7 @@ struct DimmerLights {
 
 
 
-union {
-
 struct {
-unsigned Status : 1;
-
 unsigned SwFlag : 1;
 unsigned Trigger : 1;
 unsigned Switch : 1;
@@ -3262,24 +3256,20 @@ unsigned DimmingSwFlag : 1;
 unsigned DimmingTrigger : 1;
 unsigned DimmingSwitch : 1;
 
+unsigned MosfetOpen : 1;
+unsigned MosfetClose : 1;
+};
+
+struct {
+unsigned Status : 1;
+unsigned Line : 1;
+unsigned Loop : 1;
 unsigned TriacFlag : 1;
-
 unsigned OK : 1;
-
 unsigned Triac : 1;
 unsigned empty : 2;
 };
-};
 
-union {
-
-struct {
-unsigned MosfetOpen : 1;
-unsigned MosfetClose : 1;
-unsigned Line : 1;
-unsigned Loop : 1;
-};
-};
 
 unsigned char TriacCount;
 unsigned char MosfetSignalCount;
@@ -3290,14 +3280,14 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 72
+# 64
 struct DimmerLights DimmerLights1;
 
 
 
 struct DimmerLights DimmerLights2;
 
-# 91
+# 83
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3324,8 +3314,6 @@ char getAll_DimmerLights_Trigger();
 
 struct Dimmer_Interrut {
 
-union {
-
 struct {
 unsigned GO : 1;
 unsigned Tune : 1;
@@ -3336,7 +3324,7 @@ unsigned Dimming_Status : 1;
 unsigned Dimming_RF : 1;
 unsigned empty : 1;
 };
-};
+
 
 unsigned char Count;
 unsigned char TuneTime;
@@ -3354,7 +3342,7 @@ struct Dimmer_Interrut DimmerIntr1;
 
 struct Dimmer_Interrut DimmerIntr2;
 
-# 152
+# 142
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3372,6 +3360,11 @@ char getAll_DimmerIntr_Dimming_Sw_RF();
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
+inline void DimmerLights_MOSFET_TMR_1();
+inline void DimmerLights_MOSFET_TMR_2();
+
+inline void DimmerLights_MOSFET_IOC_1();
+inline void DimmerLights_MOSFET_IOC_2();
 
 
 
@@ -3380,15 +3373,13 @@ struct Dimmer {
 
 
 
-union {
-
 struct {
 unsigned AdjGO : 1;
 unsigned LoadGO : 1;
 unsigned Load_Status : 1;
 unsigned empty : 4;
 };
-};
+
 unsigned char Load;
 volatile unsigned char Correction;
 };
@@ -3476,7 +3467,7 @@ TRISB = 0b00000111;;
 TRISC = 0b00001100;;
 
 LATA = 0b00000000;;
-LATB = 0b00000010;;
+LATB = 0b00000000;;
 LATC = 0b00000000;;
 
 ANSELA = 0b00100010;;
@@ -3527,13 +3518,15 @@ TMR1IF = 0;
 
 
 
-setDimmerIntr_TMR(1);
+
+DimmerLights_MOSFET_TMR_1();
 
 
 
-setDimmerIntr_TMR(2);
 
-# 252
+DimmerLights_MOSFET_TMR_2();
+
+# 254
 Timer1.Count++;
 if (Timer1.Count == (int)(20*10)) {
 Timer1.Count = 0;
@@ -3541,11 +3534,11 @@ Timer1.Timeout = 1;
 }
 }
 
-# 360
+# 362
 void IOC_Set() {
 WPUB2 = 0;
 
-# 381
+# 383
 IOCBP = 0b00000100;
 IOCBN = 0b00000000;
 
@@ -3566,26 +3559,25 @@ IOCIF = 0;
 
 if (myMain.PowerON == 1) {
 
+# 407
+DimmerLights_MOSFET_IOC_1();
 
 
 
-setDimmerIntr_IOC(1);
 
+DimmerLights_MOSFET_IOC_2();
 
-
-setDimmerIntr_IOC(2);
-
-# 416
+# 420
 }
 }
 
-# 424
+# 428
 void ADC_Set() {
 ADCON1 = 0xf3;
 FVRCON = 0xc1;
 }
 
-# 458
+# 462
 inline int getAD(char adcon0, char adcon1) {
 ADCON0 = adcon0;
 ADCON1 = adcon1;
@@ -3597,7 +3589,7 @@ set_TimeoutCleared();
 return ((ADRESH*256)+ADRESL);
 }
 
-# 929
+# 933
 void Flash_Memory_Initialization() {
 char i = 0;
 if (Flash_Memory_Read(31) == 0xaa) {
@@ -3605,7 +3597,7 @@ product->Data[12] = Flash_Memory_Read(0);
 product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
-# 940
+# 944
 i = setDimmerLights_PercentValue(((char)(70*0.8)));
 product->Data[21] = i;
 product->Data[22] = i;
@@ -3718,7 +3710,7 @@ setMemory_Data(0, product->Data[12]);
 setMemory_Data(1, product->Data[13]);
 setMemory_Data(2, product->Data[14]);
 
-# 1056
+# 1060
 if (Memory.LoopSave == 1) {
 Memory.LoopSave = 0;
 myMain.FirstOpen = 0;
@@ -3747,10 +3739,10 @@ void setMemory_Data(char address, char data) {
 Memory.Data[address] = data;
 }
 
-# 1088
+# 1092
 void WDT_Set() {
 
-# 1095
+# 1099
 WDTCON = 0b00010111;;
 
 WDT.Enable = 1;

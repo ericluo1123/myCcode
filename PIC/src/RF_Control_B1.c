@@ -11,32 +11,6 @@ inline void RF_Initialization() {
     setRF_Initialization();
 #endif
 }
-//*********************************************************
-
-inline void RF_Main() {
-#ifdef RadioFrequency1
-    setRF_Main();
-#endif
-}
-//*********************************************************
- 
-inline void setRF_Learn(char command) {
-    RF1.Learn = command == 1 ? true : false;
-}
-//*********************************************************
-
-inline void setRF_ReceiveGO(char command) {
-    if (RF1.RxStatus == true) {
-        RF1.RxStatus = false;
-        RF1.Run = true;
-        RF1.ReceiveGO = command == 1 ? true : false;
-    }
-}
-//*********************************************************
-
-inline void setRF_RxStatus(char command) {
-    RF1.RxStatus = command == 1 ? true : false;
-}
 
 //*********************************************************
 
@@ -45,15 +19,40 @@ inline void setRF_Initialization() {
     Tx_Length = 21;
     RF1.RunTime = RF_RunTime_Value;
     //    INTE = true;
-
 #endif
 }
 //*********************************************************
 
-inline void setRF_Main() {
-    char loop_f = 0, error = 0;
-    if (RF1.Enable == true) {
+inline void RF_Main() {
+#ifdef RadioFrequency1
+    setRF_Main();
+#endif
+}
+//*********************************************************
 
+inline void setRF_Learn(char command) {
+    RF1.Learn = command == 1 ? true : false;
+}
+//*********************************************************
+
+//inline void setRF_ReceiveGO(char command) {
+//    if (RF1.RxStatus == true) {
+//        RF1.RxStatus = false;
+//        RF1.Run = true;
+//        RF1.ReceiveGO = command == 1 ? true : false;
+//    }
+//}
+//*********************************************************
+
+inline void setRF_RxStatus(char command) {
+    RF1.RxStatus = command == 1 ? true : false;
+}
+
+//*********************************************************
+
+inline void setRF_Main() {
+    char error = 0;
+    if (RF1.Enable == true) {
         if (getBuz_GO() == 0) {
 
 #if Switch_use == 1
@@ -207,14 +206,14 @@ inline void setTxData() {
 }
 //*********************************************************
 
-inline void setRF_Enable(char command) {
-    RF1.Enable = command == 1 ? true : false;
-    RF1.Learn = false;
-    RF1.TransceiveGO = false;
-    RF1.RxStatus = false;
-    RF1.ReceiveGO = false;
-    //    setINT_GO(0);
-}
+//inline void setRF_Enable(char command) {
+//    RF1.Enable = command == 1 ? true : false;
+//    RF1.Learn = false;
+//    RF1.TransceiveGO = false;
+//    RF1.RxStatus = false;
+//    RF1.ReceiveGO = false;
+//    //    setINT_GO(0);
+//}
 //*********************************************************
 
 inline void RF_RxDisable() {
@@ -232,24 +231,20 @@ inline void RF_RxDisable() {
 inline void getRxData() {
     char error = getMain_All_Error_Status(0);
     if (RF_Data[0] == 0xaa && RF_Data[1] == 0x01) {
-
         product->Data[2] = 0x55;
         setTxData();
-
 #if myUARTtoRF_use_Value == 1
         LED1 = LED1 == true ? false : true;
 #endif
 
     } else {
-
         if (error == 0) {
             if (RF1.Learn == true) {
-                if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) { //login command
+                if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) {
                     setLog_Code();
                 }
             } else {
-                if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {//lights control command
-
+                if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {
                     if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
                         NOP();
                     } else {
@@ -257,17 +252,18 @@ inline void getRxData() {
                             setControl_Lights_Table();
                         }
                     }
-                } else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02) { //Broadcasting command
-                    NOP();
-                } else if (RF_Data[0] == 0x0 && RF_Data[1] == 0x65) { //overload command
-                    NOP();
-                }
-                /*	else if(RF_Data[0] == 0x63 && RF_Data[1] == 0x02){		//return command
-                                ;
-                        }*/
+                } //else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02) {
+                //                    NOP(); //Broadcasting command
+                //                } else if (RF_Data[0] == 0x0 && RF_Data[1] == 0x65) {
+                //                    //overload command
+                //                    NOP();
+                //                } else if (RF_Data[0] == 0x63 && RF_Data[1] == 0x02) {
+                //                    //return command
+                //                    NOP();
+                //                }
             }
         } else {
-            ;
+            NOP();
         }
     }
 }
@@ -289,16 +285,33 @@ inline void setLog_Code() {
 inline void setControl_Lights_Table() {
     switch (RF_Data[15]) {
         case 0x00:
-            //#if Dimmer_use == 1
-            //            setDimmerLights_ErrorClose(255);
-            //#endif
- 
+
+#if Dimmer_use == true
+#ifdef use_1KEY
+            if (getDimmerLights_Status(1) == 1) {
+                setDimmerLights_SwOn(1);
+                setDimmerLights_SwOff(1);
+            }
+#endif
+#ifdef use_2KEY
+            if (getDimmerLights_Status(2) == 1) {
+                setDimmerLights_SwOn(2);
+                setDimmerLights_SwOff(2);
+            }
+#endif
+#ifdef use_3KEY
+            if (getDimmerLights_Status(3) == 1) {
+                setDimmerLights_SwOn(3);
+                setDimmerLights_SwOff(3);
+            }
+#endif
+#endif
             setProductData(9, 0);
             setProductData(11, 0);
             setProductData(15, 0);
             setProductData(17, 0);
             setBuz(1, BuzzerOnOffTime);
-            //            setTxData();
+            setTxData();
             break;
         case 0x20:
             setProductData(9, 0);
@@ -306,42 +319,48 @@ inline void setControl_Lights_Table() {
             setProductData(17, 0);
             setTxData();
             break;
-        case 0x01:
 #ifdef  use_1KEY
+        case 0x01:
             setRFSW_Control(1);
-#endif
             break;
-        case 0x02:
+#endif
+
 #ifdef  use_2KEY
+        case 0x02:
             setRFSW_Control(2);
-#endif
             break;
-        case 0x03:
+#endif
+
 #ifdef use_3KEY
+        case 0x03:
             setRFSW_Control(3);
-#endif
             break;
-        case 0x11:
+#endif
+
 #ifdef use_1KEY
 #if Dimmer_use == 1 && Properties_Dimmer == 1
+        case 0x11:
             setRFSW_AdjControl(1);
-#endif
-#endif
             break;
-        case 0x21:
+#endif
+#endif
+
 #ifdef  use_2KEY
 #if Dimmer_use == 1 && Properties_Dimmer == 1
+        case 0x21:
             setRFSW_AdjControl(2);
-#endif
-#endif
             break;
-        case 0x31:
+#endif
+#endif
+
 #ifdef  use_3KEY
 #if Dimmer_use == 1 && Properties_Dimmer == 1
+        case 0x31:
             setRFSW_AdjControl(3);
-#endif
-#endif
             break;
+#endif
+#endif
+
     }
 }
 //*****************************************************************************
@@ -369,7 +388,7 @@ inline void setControl_Lights_Table() {
 //}
 //*********************************************************
 
-inline void setRFSW_Control(char sw) {
+void setRFSW_Control(char sw) {
     char status = 0;
 
     //    RfSWPointSelect(sw);
@@ -397,7 +416,7 @@ inline void setRFSW_Control(char sw) {
 }
 //*********************************************************
 
-inline void setRFSW_AdjControl(char sw) {
+void setRFSW_AdjControl(char sw) {
     char status = 0;
 #if Dimmer_use == 1
     status = getDimmerLights_Status(sw);
@@ -423,8 +442,8 @@ inline void setRF_DimmerValue(char lights) {
     setProductData(11, lights);
     setProductData((20 + lights), RF_Data[9]);
 
-    setDimmerIntr_Dimming_RF(lights,1);
-//    setDimmerIntr_
+    setDimmerIntr_Dimming_RF(lights, 1);
+    //    setDimmerIntr_
 }
 //*********************************************************
 
@@ -432,7 +451,7 @@ inline void setRF_DimmerLights(char lights, char on) {
     char status = 1;
     status <<= (lights - 1);
     setProductData(11, lights);
- 
+
     setProductData(9, product->Data[20 + lights]);
     setProductData(17, product->Data[26 + lights]);
     if (on == 1) {

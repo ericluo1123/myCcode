@@ -236,15 +236,17 @@ inline void TMR1_ISR() {
 #if Dimmer_use == true
 
 #ifdef use_1KEY
-    setDimmerIntr_TMR(1);
+    //    setDimmerIntr_TMR(1);
+    DimmerLights_MOSFET_TMR_1();
 #endif
 
 #ifdef use_2KEY
-    setDimmerIntr_TMR(2);
+    //    setDimmerIntr_TMR(2);
+    DimmerLights_MOSFET_TMR_2();
 #endif
 
 #ifdef use_3KEY
-    setDimmerIntr_TMR(3);
+    //    setDimmerIntr_TMR(3);
 #endif
 
 #endif
@@ -401,11 +403,13 @@ inline void IOC_ISR() {
 #if Dimmer_use == true
 
 #ifdef use_1KEY
-        setDimmerIntr_IOC(1);
+        //        setDimmerIntr_IOC(1);
+        DimmerLights_MOSFET_IOC_1();
 #endif
 
 #ifdef use_2KEY
-        setDimmerIntr_IOC(2);
+        //        setDimmerIntr_IOC(2);
+        DimmerLights_MOSFET_IOC_2();
 #endif
 
 #ifdef use_3KEY
