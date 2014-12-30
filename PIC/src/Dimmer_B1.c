@@ -275,22 +275,16 @@ inline void setDimmerIntr_IOC(char lights) {
 #ifdef use_1KEY
     if (lights == 1) {
         DimmerIntr = &DimmerIntr1;
-        NOP();
-        NOP();
     }
 #endif
 #ifdef use_2KEY
     else if (lights == 2) {
         DimmerIntr = &DimmerIntr2;
-        NOP();
-        NOP();
     }
 #endif
 #ifdef use_3KEY
     else if (lights == 3) {
         DimmerIntr = &DimmerIntr3;
-        NOP();
-        NOP();
     }
 #endif
 #if Control_Method_Triac == 1
@@ -316,16 +310,12 @@ inline void setDimmerIntr_IOC(char lights) {
 #ifdef use_1KEY
             if (lights == 1) {
                 Mosfet1 = true;
-                NOP();
-                NOP();
                 //                ID_1KEY_1;
             }
 #endif
 #ifdef use_2KEY
             else if (lights == 2) {
                 Mosfet2 = true;
-                NOP();
-                NOP();
             }
 #endif
         }
@@ -340,44 +330,32 @@ inline void setDimmerIntr_TMR(char lights) {
 #ifdef use_1KEY
     if (lights == 1) {
         DimmerIntr = &DimmerIntr1;
-        NOP();
-        NOP();
     }
 #endif
 #ifdef use_2KEY
     else if (lights == 2) {
         DimmerIntr = &DimmerIntr2;
-        NOP();
-        NOP();
     }
 #endif
 #ifdef use_3KEY
     else if (lights == 3) {
         DimmerIntr = &DimmerIntr3;
-        NOP();
-        NOP();
     }
 #endif
 
 #ifdef use_1KEY
     if (lights == 1) {
         DimmerIntr = &DimmerIntr1;
-        NOP();
-        NOP();
     }
 #endif
 #ifdef use_2KEY
     else if (lights == 2) {
         DimmerIntr = &DimmerIntr2;
-        NOP();
-        NOP();
     }
 #endif
 #ifdef use_3KEY
     else if (lights == 3) {
         DimmerIntr = &DimmerIntr3;
-        NOP();
-        NOP();
     }
 #endif
 
@@ -396,22 +374,16 @@ inline void setDimmerIntr_TMR(char lights) {
                 if (lights == 1) {
                     Triac1 = 1;
                     ID_1KEY_1;
-                    NOP();
-                    NOP();
                 }
 #endif
 #ifdef use_2KEY
                 if (lights == 2) {
                     Triac2 = 1;
-                    NOP();
-                    NOP();
                 }
 #endif
 #ifdef use_3KEY
                 if (lights == 3) {
                     Triac3 = 1;
-                    NOP();
-                    NOP();
                 }
 #endif
             }
@@ -547,16 +519,12 @@ inline void setDimmerIntr_TMR(char lights) {
 #ifdef use_1KEY
                 if (lights == 1) {
                     Mosfet1 = false;
-                    NOP();
-                    NOP();
                     //                    ID_1KEY_0;
                 }
 #endif
 #ifdef use_2KEY
                 else if (lights == 2) {
                     Mosfet2 = false;
-                    NOP();
-                    NOP();
                 }
 #endif
             }
@@ -605,15 +573,11 @@ inline void DimmerLights_SelectPointer(char lights) {
 #ifdef use_1KEY
     if (lights == 1) {
         DimmerLights = &DimmerLights1;
-        NOP();
-        NOP();
     }
 #endif
 #ifdef use_2KEY
     else if (lights == 2) {
         DimmerLights = &DimmerLights2;
-        NOP();
-        NOP();
     }
 #endif
 #ifdef use_3KEY
@@ -842,8 +806,16 @@ void setDimmerLights_OnOff(char lights, char command) {
 #endif
         //調光值在關燈後不記錄而且不存入記憶體，開燈後恢復最大值
 #if DimmerValue_CloseLightsSave == 0 && DimmerValue_SaveMemory == 0
+
         setDimmerIntr_DimmingValue(lights, Dimmer_Maxum);
-        setProductData((20 + lights), setDimmerLights_PercentValue(Dimmer_Maxum));
+        if (DimmerLights->DimmingRun == true) {
+            DimmerLights->DimmingRun = false;
+            setDimmerIntr_MaxmumValue(lights, getDimmerLights_PercentToValue(product->Data[20 + lights]));
+            setDimmerIntr_Dimming_RF(lights, 1);
+        } else {
+            setDimmerIntr_MaxmumValue(lights, Dimmer_Maxum);
+            setProductData((20 + lights), getDimmerLights_ValueToPercent(Dimmer_Maxum));
+        }
 #endif
     } else if (command == 0) {
         setDimmerIntr_ControlStatus(lights, 0);
@@ -854,16 +826,12 @@ void setDimmerLights_OnOff(char lights, char command) {
 #ifdef use_1KEY
         if (lights == 1) {
             Mosfet1 = false;
-            NOP();
-            NOP();
             //                    ID_1KEY_0;
         }
 #endif
 #ifdef use_2KEY
         else if (lights == 2) {
             Mosfet2 = false;
-            NOP();
-            NOP();
         }
 #endif
 #endif
@@ -871,7 +839,7 @@ void setDimmerLights_OnOff(char lights, char command) {
 #if OverLoad_use == 1
         Dimmer.Load_Status = false;
         setDimmerLights_Line(0);
-#endif
+#endif 
     }
 
     //set RF transmit data and allow transmit
@@ -885,16 +853,20 @@ void setDimmerLights_Dimming(char lights, char status) {
     if (status == 1) {
         setDimmerIntr_Dimming_Sw(lights, 1);
 
+#if CC2500_use == 1
         setRF_TransceiveGO(0);
+#endif
         setBuz(1, BuzzerOnOffTime);
     } else if (status == 0) {
         setDimmerIntr_Dimming_Sw(lights, 0);
 
+#if OverLoad_use == 1
         Dimmer.Load_Status = false;
         setDimmerLights_Line(lights);
+#endif
 
         setDimmerIntr_MaxmumValue(lights, getDimmerIntr_DimmingValue(lights));
-        setProductData((20 + lights), setDimmerLights_PercentValue(getDimmerIntr_DimmingValue(lights)));
+        setProductData((20 + lights), getDimmerLights_ValueToPercent(getDimmerIntr_DimmingValue(lights)));
 
 #if DimmerValue_CloseLightsSave == true
         setProductData((20 + lights), setPercentValue(DimmerLights->MaxmumValue));
@@ -1013,6 +985,10 @@ char getDimmerLights_Status(char lights) {
     return status;
 }
 
+void setDimmerLights_DimmingRun(char lights, char command) {
+    DimmerLights_SelectPointer(lights);
+    DimmerLights->DimmingRun = command == 1 ? true : false;
+}
 //*********************************************************
 
 char getAll_DimmerLights_Trigger() {
@@ -1035,7 +1011,7 @@ char getAll_DimmerLights_Trigger() {
 
 //*********************************************************
 
-char getDimmerLights_PercentValue(char value) {
+char getDimmerLights_PercentToValue(char value) {
 #if Control_Method_Triac == 1
     float i = Dimmer_Minimum - Dimmer_Maxum;
     i /= 100;
@@ -1051,7 +1027,7 @@ char getDimmerLights_PercentValue(char value) {
 }
 //*********************************************************
 
-char setDimmerLights_PercentValue(char value) {
+char getDimmerLights_ValueToPercent(char value) {
 #if Control_Method_Triac == 1
     float i = Dimmer_Minimum - Dimmer_Maxum;
     i /= 100;
@@ -1200,6 +1176,7 @@ void DimmerLightsOpenShow() {
 #if Control_Method_Mosfet == 1
 
 #ifdef use_1KEY
+
 inline void DimmerLights_MOSFET_TMR_1() {
     if (DimmerIntr1.Start == true) {
         DimmerIntr1.Count++;
@@ -1216,8 +1193,6 @@ inline void DimmerLights_MOSFET_TMR_1() {
 
             if (DimmerIntr1.ControlStatus == true) {
                 Mosfet1 = false;
-                NOP();
-                NOP();
                 //                    ID_1KEY_0;
             }
         }
@@ -1255,16 +1230,14 @@ inline void DimmerLights_MOSFET_TMR_1() {
     }
 }
 
-inline void DimmerLights_MOSFET_IOC_1(){
+inline void DimmerLights_MOSFET_IOC_1() {
     if (DimmerIntr1.Start == false && DimmerReference1 == true) {
         DimmerIntr1.Start = true;
         DimmerIntr1.GO = true;
 
         if (DimmerIntr1.ControlStatus == true) {
-                Mosfet1 = true;
-                NOP();
-                NOP();
-                //                ID_1KEY_1;
+            Mosfet1 = true;
+            //                ID_1KEY_1;
         }
     }
 }
@@ -1272,6 +1245,7 @@ inline void DimmerLights_MOSFET_IOC_1(){
 
 
 #ifdef use_2KEY
+
 inline void DimmerLights_MOSFET_TMR_2() {
     if (DimmerIntr2.Start == true) {
         DimmerIntr2.Count++;
@@ -1288,8 +1262,6 @@ inline void DimmerLights_MOSFET_TMR_2() {
 
             if (DimmerIntr2.ControlStatus == true) {
                 Mosfet2 = false;
-                NOP();
-                NOP();
                 //                    ID_1KEY_0;
             }
         }
@@ -1327,17 +1299,14 @@ inline void DimmerLights_MOSFET_TMR_2() {
     }
 }
 
-
-inline void DimmerLights_MOSFET_IOC_2(){
+inline void DimmerLights_MOSFET_IOC_2() {
     if (DimmerIntr2.Start == false && DimmerReference1 == true) {
         DimmerIntr2.Start = true;
         DimmerIntr2.GO = true;
 
         if (DimmerIntr2.ControlStatus == true) {
-                Mosfet2 = true;
-                NOP();
-                NOP();
-                //                ID_1KEY_1;
+            Mosfet2 = true;
+            //                ID_1KEY_1;
         }
     }
 }

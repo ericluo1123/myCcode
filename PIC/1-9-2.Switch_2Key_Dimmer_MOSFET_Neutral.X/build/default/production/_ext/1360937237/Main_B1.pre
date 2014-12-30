@@ -3187,7 +3187,7 @@ inline void setRFSW_Status(char sw, char command);
 inline void setRF_TransceiveGO(char command);
 
 
-inline void setRF_DimmerValue(char lights);
+
 inline void setRF_DimmerLights(char lights, char on);
 
 # 44 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/OverLoad_B1.h"
@@ -3267,6 +3267,7 @@ unsigned Loop : 1;
 unsigned TriacFlag : 1;
 unsigned OK : 1;
 unsigned Triac : 1;
+unsigned DimmingRun : 1;
 unsigned empty : 2;
 };
 
@@ -3280,14 +3281,14 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 64
+# 65
 struct DimmerLights DimmerLights1;
 
 
 
 struct DimmerLights DimmerLights2;
 
-# 83
+# 84
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3304,10 +3305,12 @@ void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
-char getDimmerLights_PercentValue(char value);
-char setDimmerLights_PercentValue(char value);
+
+char getDimmerLights_PercentToValue(char value);
+char getDimmerLights_ValueToPercent(char value);
 
 char getAll_DimmerLights_Trigger();
+void setDimmerLights_DimmingRun(char lights,char command);
 
 
 
@@ -3342,7 +3345,7 @@ struct Dimmer_Interrut DimmerIntr1;
 
 struct Dimmer_Interrut DimmerIntr2;
 
-# 142
+# 145
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);

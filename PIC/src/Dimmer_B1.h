@@ -32,6 +32,7 @@ struct DimmerLights {
         unsigned TriacFlag : 1;
         unsigned OK : 1;
         unsigned Triac : 1;
+        unsigned DimmingRun : 1;
         unsigned empty : 2;
     };
 
@@ -96,10 +97,12 @@ void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
-char getDimmerLights_PercentValue(char value);
-char setDimmerLights_PercentValue(char value);
+
+char getDimmerLights_PercentToValue(char value);
+char getDimmerLights_ValueToPercent(char value);
 
 char getAll_DimmerLights_Trigger();
+void setDimmerLights_DimmingRun(char lights,char command);
 
 //Global extern variable declaration
 //******************************************************************************

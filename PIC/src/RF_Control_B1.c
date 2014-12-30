@@ -64,13 +64,20 @@ inline void setRF_Main() {
             if (RF1.Key == false || RF1.Learn == true) {
 
                 if (RF1.TransceiveGO == true) {
-                    RF1.TransceiveGO = false;
                     if (RF1.Learn == false) {
+                        RF1.Count++;
+                        if (RF1.Count >= (RF1.RunTime / Main_Time)) {
+                            RF1.Count = (RF1.RunTime / Main_Time);
+
+                            RF1.TransceiveGO = false;
+                            RF1.CorrectionCounter = 0;
+                            RF_RxDisable();
+                            CC2500_TxData();
+                            //                    ErrLED = ErrLED == true ? false : true;
+                        }
+                    } else {
                         RF1.Count = 0;
-                        RF1.CorrectionCounter = 0;
-                        RF_RxDisable();
-                        CC2500_TxData();
-                        //                    ErrLED = ErrLED == true ? false : true;
+                        RF1.TransceiveGO = false;
                     }
                 } else {
                     if (RF1.RxStatus == true) {
@@ -93,7 +100,7 @@ inline void setRF_Main() {
                         }
                     } else {
                         RF1.Count++;
-                        if (RF1.Count == (RF1.RunTime / Main_Time)) {
+                        if (RF1.Count >= (RF1.RunTime / Main_Time)) {
                             RF1.Count = 0;
 #if Rx_Enable == 1
                             RF1.RxStatus = true;
@@ -102,7 +109,6 @@ inline void setRF_Main() {
                             CC2500_WriteCommand(CC2500_SRX); // set receive mode
 #endif
                         }
-
                     }
                 }
             }
@@ -143,7 +149,18 @@ inline void RF_Timeout_Counter() {
 inline void setRF_TimeoutCleared() {
     RF1.TimeoutCount = 0;
 }
+//*********************************************************
 
+inline void RF_RxDisable() {
+    if (RF1.ReceiveGO == true || RF1.RxStatus == true) {
+        RF1.RxStatus = false;
+        RF1.ReceiveGO = false;
+        CC2500_WriteCommand(CC2500_SIDLE); // idle
+        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+        //        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
+        //        setINT_GO(0);
+    }
+}
 //*********************************************************
 
 inline char getRF_KeyStatus() {
@@ -204,47 +221,28 @@ inline void setTxData() {
     }
 #endif
 }
-//*********************************************************
-
-//inline void setRF_Enable(char command) {
-//    RF1.Enable = command == 1 ? true : false;
-//    RF1.Learn = false;
-//    RF1.TransceiveGO = false;
-//    RF1.RxStatus = false;
-//    RF1.ReceiveGO = false;
-//    //    setINT_GO(0);
-//}
-//*********************************************************
-
-inline void RF_RxDisable() {
-    if (RF1.ReceiveGO == true || RF1.RxStatus == true) {
-        RF1.RxStatus = false;
-        RF1.ReceiveGO = false;
-        CC2500_WriteCommand(CC2500_SIDLE); // idle
-        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-        //        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
-        //        setINT_GO(0);
-    }
-}
-//*********************************************************
+//******************************************************************************
 
 inline void getRxData() {
-    char error = getMain_All_Error_Status(0);
+    //0xaa,0x01
     if (RF_Data[0] == 0xaa && RF_Data[1] == 0x01) {
         product->Data[2] = 0x55;
         setTxData();
 #if myUARTtoRF_use_Value == 1
         LED1 = LED1 == true ? false : true;
 #endif
-
     } else {
+        char error = getMain_All_Error_Status(0);
         if (error == 0) {
             if (RF1.Learn == true) {
-                if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) {
+                //0x00,0x64
+                if (RF_Data[0] == 0x00 && RF_Data[1] == 0x64) {
                     setLog_Code();
                 }
             } else {
+                //0x00,0x02
                 if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {
+                    //loop code
                     if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
                         NOP();
                     } else {
@@ -252,11 +250,14 @@ inline void getRxData() {
                             setControl_Lights_Table();
                         }
                     }
+                    //0xff,0x02
                 } //else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02) {
                 //                    NOP(); //Broadcasting command
-                //                } else if (RF_Data[0] == 0x0 && RF_Data[1] == 0x65) {
+                //0x00.0x65
+                //                } else if (RF_Data[0] == 0x00 && RF_Data[1] == 0x65) {
                 //                    //overload command
                 //                    NOP();
+                //0x63,0x02
                 //                } else if (RF_Data[0] == 0x63 && RF_Data[1] == 0x02) {
                 //                    //return command
                 //                    NOP();
@@ -284,8 +285,8 @@ inline void setLog_Code() {
 
 inline void setControl_Lights_Table() {
     switch (RF_Data[15]) {
+            //all lights close code
         case 0x00:
-
 #if Dimmer_use == true
 #ifdef use_1KEY
             if (getDimmerLights_Status(1) == 1) {
@@ -310,9 +311,10 @@ inline void setControl_Lights_Table() {
             setProductData(11, 0);
             setProductData(15, 0);
             setProductData(17, 0);
-            setBuz(1, BuzzerOnOffTime);
+
             setTxData();
             break;
+            //state back code
         case 0x20:
             setProductData(9, 0);
             setProductData(11, 0); //Lights Status
@@ -320,18 +322,21 @@ inline void setControl_Lights_Table() {
             setTxData();
             break;
 #ifdef  use_1KEY
+            //first lights control code
         case 0x01:
             setRFSW_Control(1);
             break;
 #endif
 
 #ifdef  use_2KEY
+            //second lights control code
         case 0x02:
             setRFSW_Control(2);
             break;
 #endif
 
 #ifdef use_3KEY
+            //third lights contorl code
         case 0x03:
             setRFSW_Control(3);
             break;
@@ -339,6 +344,7 @@ inline void setControl_Lights_Table() {
 
 #ifdef use_1KEY
 #if Dimmer_use == 1 && Properties_Dimmer == 1
+            //first lights dimmer control code
         case 0x11:
             setRFSW_AdjControl(1);
             break;
@@ -347,6 +353,7 @@ inline void setControl_Lights_Table() {
 
 #ifdef  use_2KEY
 #if Dimmer_use == 1 && Properties_Dimmer == 1
+            //second lights dimmer control code
         case 0x21:
             setRFSW_AdjControl(2);
             break;
@@ -355,6 +362,7 @@ inline void setControl_Lights_Table() {
 
 #ifdef  use_3KEY
 #if Dimmer_use == 1 && Properties_Dimmer == 1
+            //third lights dimmer control code
         case 0x31:
             setRFSW_AdjControl(3);
             break;
@@ -369,36 +377,16 @@ inline void setControl_Lights_Table() {
 //
 //*****************************************************************************
 
-//void RfSWPointSelect(char sw) {
-//#ifdef use_1KEY
-//    if (sw == 1) {
-//        RFSW = &RFSW1;
-//    }
-//#endif
-//#ifdef use_2KEY
-//    if (sw == 2) {
-//        RFSW = &RFSW2;
-//    }
-//#endif
-//#ifdef use_3KEY
-//    if (sw == 3) {
-//        RFSW = &RFSW3;
-//    }
-//#endif
-//}
-//*********************************************************
-
 void setRFSW_Control(char sw) {
     char status = 0;
 
-    //    RfSWPointSelect(sw);
     if (RF_Data[16] == 0x80) {
         setDelayOff_GO(sw, 1, RF_Data[17]);
         if (getDimmerLights_Status(sw) == 1) {
             setBuz(1, BuzzerOnOffTime);
-            status = 1;
             setRF_DimmerLights(sw, 1);
             setTxData();
+            status = 1;
         }
     } else {
 #if DelayOff_use == 1
@@ -421,30 +409,47 @@ void setRFSW_AdjControl(char sw) {
 #if Dimmer_use == 1
     status = getDimmerLights_Status(sw);
 #endif
-    //    RfSWPointSelect(sw);
-    if (status == 1) {
-        setMemory_Modify(1);
-        setRF_DimmerValue(sw);
-    } else {
-        setProductData(9, product->Data[20 + sw]);
+    if (RF_Data[9] > 0x64) {
+        RF_Data[9] = 0x64;
+    } else if (RF_Data[9] < 0x01) {
+        RF_Data[9] = 0x01;
     }
+    setProductData(9, RF_Data[9]);
+    setProductData((20 + sw), RF_Data[9]);
+
+    if (status == 1) {
+        setDimmerIntr_MaxmumValue(sw, getDimmerLights_PercentToValue(RF_Data[9]));
+        setDimmerIntr_Dimming_RF(sw, 1);
+        setTxData();
+        //        setRF_DimmerValue(sw);
+    } else if (status == 0) {
+        //        setProductData(9, product->Data[20 + sw]);
+        //        setProductData((20 + sw), 0x00);
+        //        setProductData(9, 0x00);
+        setDimmerLights_DimmingRun(sw, 1);
+        setDimmerLights_SwOn(sw);
+        setDimmerLights_SwOff(sw);
+    }
+
+    setProductData(11, sw);
     setProductData(17, product->Data[26 + sw]);
-    setTxData();
+
+    setMemory_Modify(1);
 }
 //*********************************************************
 #if Dimmer_use == 1
 
-inline void setRF_DimmerValue(char lights) {
-    if (RF_Data[9] > 0x64) {
-        RF_Data[9] = 0x64;
-    }
-    setProductData(9, RF_Data[9]);
-    setProductData(11, lights);
-    setProductData((20 + lights), RF_Data[9]);
-
-    setDimmerIntr_Dimming_RF(lights, 1);
-    //    setDimmerIntr_
-}
+//inline void setRF_DimmerValue(char lights) {
+//    if (RF_Data[9] > 0x64) {
+//        RF_Data[9] = 0x64;
+//    }
+//    setProductData(9, RF_Data[9]);
+//    setProductData(11, lights);
+//    setProductData((20 + lights), RF_Data[9]);
+//
+//    setDimmerIntr_Dimming_RF(lights, 1);
+//    //    setDimmerIntr_
+//}
 //*********************************************************
 
 inline void setRF_DimmerLights(char lights, char on) {
@@ -452,25 +457,22 @@ inline void setRF_DimmerLights(char lights, char on) {
     status <<= (lights - 1);
     setProductData(11, lights);
 
-    setProductData(9, product->Data[20 + lights]);
+
     setProductData(17, product->Data[26 + lights]);
     if (on == 1) {
-        setProductData(15, (product->Data[15] | status)); //Lights Status
+        setProductData(9, product->Data[20 + lights]);
+        setProductData(15, (product->Data[15] | status));
     } else {
-        setProductData(15, (product->Data[15]&(~status))); //Lights Status
+        setProductData(9, 0x00);
+        setProductData(15, (product->Data[15]&(~status)));
     }
-
-    //#if DimmerValue_CloseLightsSave == 0 && DimmerValue_SaveMemory == 0
-    //    setProductData((20 + lights), setPercentValue(DimmerLights->MaxmumValue));
-    //#else
-    //    setProductData((20 + lights), setPercentValue(Dimmer_Maxum));
-    //#endif
 }
-//*********************************************************
+//******************************************************************************
 
 inline void setRF_TransceiveGO(char command) {
     RF1.TransceiveGO = command == 1 ? true : false;
 }
+//******************************************************************************
 #endif
 
 //end

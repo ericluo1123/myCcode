@@ -3187,7 +3187,7 @@ inline void setRFSW_Status(char sw, char command);
 inline void setRF_TransceiveGO(char command);
 
 
-inline void setRF_DimmerValue(char lights);
+
 inline void setRF_DimmerLights(char lights, char on);
 
 # 44 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/OverLoad_B1.h"
@@ -3267,6 +3267,7 @@ unsigned Loop : 1;
 unsigned TriacFlag : 1;
 unsigned OK : 1;
 unsigned Triac : 1;
+unsigned DimmingRun : 1;
 unsigned empty : 2;
 };
 
@@ -3280,14 +3281,14 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 64
+# 65
 struct DimmerLights DimmerLights1;
 
 
 
 struct DimmerLights DimmerLights2;
 
-# 83
+# 84
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3304,10 +3305,12 @@ void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
-char getDimmerLights_PercentValue(char value);
-char setDimmerLights_PercentValue(char value);
+
+char getDimmerLights_PercentToValue(char value);
+char getDimmerLights_ValueToPercent(char value);
 
 char getAll_DimmerLights_Trigger();
+void setDimmerLights_DimmingRun(char lights,char command);
 
 
 
@@ -3342,7 +3345,7 @@ struct Dimmer_Interrut DimmerIntr1;
 
 struct Dimmer_Interrut DimmerIntr2;
 
-# 142
+# 145
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3471,13 +3474,20 @@ RF1.Key = getRF_KeyStatus() == 1 ? 1 : 0;
 if (RF1.Key == 0 || RF1.Learn == 1) {
 
 if (RF1.TransceiveGO == 1) {
-RF1.TransceiveGO = 0;
 if (RF1.Learn == 0) {
-RF1.Count = 0;
+RF1.Count++;
+if (RF1.Count >= (RF1.RunTime / 20)) {
+RF1.Count = (RF1.RunTime / 20);
+
+RF1.TransceiveGO = 0;
 RF1.CorrectionCounter = 0;
 RF_RxDisable();
 CC2500_TxData();
 
+}
+} else {
+RF1.Count = 0;
+RF1.TransceiveGO = 0;
 }
 } else {
 if (RF1.RxStatus == 1) {
@@ -3488,14 +3498,14 @@ if (RF1.ReceiveGO == 1) {
 RF1.ReceiveGO = 0;
 RF1.CorrectionCounter = 0;
 
-# 90
+# 97
 getRxData();
 
 
 }
 } else {
 RF1.Count++;
-if (RF1.Count == (RF1.RunTime / 20)) {
+if (RF1.Count >= (RF1.RunTime / 20)) {
 RF1.Count = 0;
 
 RF1.RxStatus = 1;
@@ -3504,7 +3514,6 @@ CC2500_WriteCommand(0x3A);
 CC2500_WriteCommand(0x34);
 
 }
-
 }
 }
 }
@@ -3547,14 +3556,25 @@ RF1.TimeoutCount = 0;
 }
 
 
+inline void RF_RxDisable() {
+if (RF1.ReceiveGO == 1 || RF1.RxStatus == 1) {
+RF1.RxStatus = 0;
+RF1.ReceiveGO = 0;
+CC2500_WriteCommand(0x36);
+CC2500_WriteCommand(0x3A);
+
+
+}
+}
+
 
 inline char getRF_KeyStatus() {
 char key = 0;
 
-# 156
+# 173
 key = (RA6 == 1 || RA4 == 1 || RA0 == 1 || RB1 == 1) ? 1 : 0;
 
-# 162
+# 179
 return key;
 }
 
@@ -3565,7 +3585,7 @@ if (RF1.Enable == 1) {
 
 RF1.TransceiveGO = 1;
 
-# 182
+# 199
 RF_Data[0] = 0x63;
 RF_Data[1] = 0x02;
 
@@ -3592,34 +3612,26 @@ RF_Data[20] = 210;
 
 }
 
-# 219
-inline void RF_RxDisable() {
-if (RF1.ReceiveGO == 1 || RF1.RxStatus == 1) {
-RF1.RxStatus = 0;
-RF1.ReceiveGO = 0;
-CC2500_WriteCommand(0x36);
-CC2500_WriteCommand(0x3A);
-
-
-}
-}
-
 
 inline void getRxData() {
-char error = getMain_All_Error_Status(0);
+
 if (RF_Data[0] == 0xaa && RF_Data[1] == 0x01) {
 product->Data[2] = 0x55;
 setTxData();
 
-# 240
+# 234
 } else {
+char error = getMain_All_Error_Status(0);
 if (error == 0) {
 if (RF1.Learn == 1) {
-if (RF_Data[0] == 0x0 && RF_Data[1] == 0x64) {
+
+if (RF_Data[0] == 0x00 && RF_Data[1] == 0x64) {
 setLog_Code();
 }
 } else {
+
 if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {
+
 if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
 __nop();
 } else {
@@ -3627,9 +3639,10 @@ if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_D
 setControl_Lights_Table();
 }
 }
+
 }
 
-# 264
+# 265
 }
 } else {
 __nop();
@@ -3653,8 +3666,8 @@ setMemory_Modify(1);
 
 inline void setControl_Lights_Table() {
 switch (RF_Data[15]) {
-case 0x00:
 
+case 0x00:
 
 
 if (getDimmerLights_Status(1) == 1) {
@@ -3668,14 +3681,15 @@ setDimmerLights_SwOn(2);
 setDimmerLights_SwOff(2);
 }
 
-# 309
+# 310
 setProductData(9, 0);
 setProductData(11, 0);
 setProductData(15, 0);
 setProductData(17, 0);
-setBuz(1, 100);
+
 setTxData();
 break;
+
 case 0x20:
 setProductData(9, 0);
 setProductData(11, 0);
@@ -3683,9 +3697,11 @@ setProductData(17, 0);
 setTxData();
 break;
 
+
 case 0x01:
 setRFSW_Control(1);
 break;
+
 
 
 
@@ -3693,32 +3709,31 @@ case 0x02:
 setRFSW_Control(2);
 break;
 
-# 342
+# 348
 case 0x11:
 setRFSW_AdjControl(1);
 break;
 
-# 350
+# 357
 case 0x21:
 setRFSW_AdjControl(2);
 break;
 
-# 364
+# 372
 }
 }
 
-# 391
+# 380
 void setRFSW_Control(char sw) {
 char status = 0;
-
 
 if (RF_Data[16] == 0x80) {
 setDelayOff_GO(sw, 1, RF_Data[17]);
 if (getDimmerLights_Status(sw) == 1) {
 setBuz(1, 100);
-status = 1;
 setRF_DimmerLights(sw, 1);
 setTxData();
+status = 1;
 }
 } else {
 
@@ -3741,46 +3756,49 @@ char status = 0;
 
 status = getDimmerLights_Status(sw);
 
-
-if (status == 1) {
-setMemory_Modify(1);
-setRF_DimmerValue(sw);
-} else {
-setProductData(9, product->Data[20 + sw]);
-}
-setProductData(17, product->Data[26 + sw]);
-setTxData();
-}
-
-
-
-inline void setRF_DimmerValue(char lights) {
 if (RF_Data[9] > 0x64) {
 RF_Data[9] = 0x64;
+} else if (RF_Data[9] < 0x01) {
+RF_Data[9] = 0x01;
 }
 setProductData(9, RF_Data[9]);
-setProductData(11, lights);
-setProductData((20 + lights), RF_Data[9]);
+setProductData((20 + sw), RF_Data[9]);
 
-setDimmerIntr_Dimming_RF(lights, 1);
+if (status == 1) {
+setDimmerIntr_MaxmumValue(sw, getDimmerLights_PercentToValue(RF_Data[9]));
+setDimmerIntr_Dimming_RF(sw, 1);
+setTxData();
 
+} else if (status == 0) {
+
+
+
+setDimmerLights_DimmingRun(sw, 1);
+setDimmerLights_SwOn(sw);
+setDimmerLights_SwOff(sw);
 }
 
+setProductData(11, sw);
+setProductData(17, product->Data[26 + sw]);
 
+setMemory_Modify(1);
+}
+
+# 455
 inline void setRF_DimmerLights(char lights, char on) {
 char status = 1;
 status <<= (lights - 1);
 setProductData(11, lights);
 
-setProductData(9, product->Data[20 + lights]);
+
 setProductData(17, product->Data[26 + lights]);
 if (on == 1) {
+setProductData(9, product->Data[20 + lights]);
 setProductData(15, (product->Data[15] | status));
 } else {
+setProductData(9, 0x00);
 setProductData(15, (product->Data[15]&(~status)));
 }
-
-# 468
 }
 
 

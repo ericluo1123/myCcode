@@ -30,7 +30,7 @@ struct RF {
         unsigned RxChecked : 1;
         unsigned Correction : 1;
         unsigned Timeout : 1;
-        unsigned empty : 1;
+        unsigned All_Lights_Close : 1;
     };
 
     unsigned int Count;
@@ -63,7 +63,7 @@ inline void setRF_RxStatus(char command);
 inline char getRF_KeyStatus();
 inline void RF_Timeout_Counter();
 inline void setRF_TimeoutCleared();
-#define setRF_Data(location,value) RF_Data[location]=value
+//#define setRF_Data(location,value) RF_Data[location]=value
 
 void setRFSW_Control(char sw);
 void setRFSW_AdjControl(char sw);
@@ -71,7 +71,7 @@ inline void setRFSW_Status(char sw, char command);
 inline void setRF_TransceiveGO(char command);
 
 #if Dimmer_use == 1
-inline void setRF_DimmerValue(char lights);
+//inline void setRF_DimmerValue(char lights);
 inline void setRF_DimmerLights(char lights, char on);
 #else
 #define setRF_DimmerValue(char) ;

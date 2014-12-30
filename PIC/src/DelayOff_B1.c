@@ -90,7 +90,14 @@ void setDelayOff_GO(char sw, char command, char value) {
     DelayOff->GO = command == 1 ? true : false;
 
     if (command == 1) {
-        DelayOff->Value = DelayTimejudge(value);
+        char i = 5, j = 0, k = 0;
+        if (value <= 0x30) {
+            j = value & 0x0f;
+            k = (value >> 4) & 0x0f;
+            i = j + (k * 10);
+        }
+        
+        DelayOff->Value = i;
         if (((value % 16) == 5 || (value % 16) == 0) && value <= 0x25) {
             setProductData(26 + sw, value);
         } else {

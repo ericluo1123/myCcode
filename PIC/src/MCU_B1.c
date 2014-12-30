@@ -941,7 +941,7 @@ void Flash_Memory_Initialization() {
         product->Data[22] = Flash_Memory_Read(4);
         product->Data[23] = Flash_Memory_Read(5);
 #else
-        i = setDimmerLights_PercentValue(Dimmer_Maxum);
+        i = getDimmerLights_ValueToPercent(Dimmer_Maxum);
         product->Data[21] = i;
         product->Data[22] = i;
         product->Data[23] = i;
@@ -951,7 +951,7 @@ void Flash_Memory_Initialization() {
             myMain.First = true;
         }
     } else {
-        i = setDimmerLights_PercentValue(Dimmer_Maxum);
+        i = getDimmerLights_ValueToPercent(Dimmer_Maxum);
         setMemory_Data(0, 0xff);
         setMemory_Data(1, 0xff);
         setMemory_Data(2, 0xff);
