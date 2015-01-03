@@ -185,6 +185,7 @@ inline void setTxData() {
     if (RF1.Enable == true) {
 #if Tx_Enable == 1
         RF1.TransceiveGO = true;
+        RF1.Count = 0;
         //ErrLED = 0;
         //        	Product->Data[0]=0x63;		//Command
         //                Product->Data[1]=0x02;	//Command
@@ -240,28 +241,30 @@ inline void getRxData() {
                     setLog_Code();
                 }
             } else {
-                //0x00,0x02
-                if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {
-                    //loop code
-                    if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
-                        NOP();
-                    } else {
-                        if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_Data[14] == product->Data[14]) {
-                            setControl_Lights_Table();
+                if (RF_Data[20] == KeyID || RF_Data[20] == 0x0a) {
+                    //0x00,0x02
+                    if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {
+                        //loop code
+                        if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
+                            NOP();
+                        } else {
+                            if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_Data[14] == product->Data[14]) {
+                                setControl_Lights_Table();
+                            }
                         }
-                    }
-                    //0xff,0x02
-                } //else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02) {
-                //                    NOP(); //Broadcasting command
-                //0x00.0x65
-                //                } else if (RF_Data[0] == 0x00 && RF_Data[1] == 0x65) {
-                //                    //overload command
-                //                    NOP();
-                //0x63,0x02
-                //                } else if (RF_Data[0] == 0x63 && RF_Data[1] == 0x02) {
-                //                    //return command
-                //                    NOP();
-                //                }
+                        //0xff,0x02
+                    } //else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02) {
+                    //                    NOP(); //Broadcasting command
+                    //0x00.0x65
+                    //                } else if (RF_Data[0] == 0x00 && RF_Data[1] == 0x65) {
+                    //                    //overload command
+                    //                    NOP();
+                    //0x63,0x02
+                    //                } else if (RF_Data[0] == 0x63 && RF_Data[1] == 0x02) {
+                    //                    //return command
+                    //                    NOP();
+                    //                }
+                }
             }
         } else {
             NOP();
@@ -285,90 +288,85 @@ inline void setLog_Code() {
 
 inline void setControl_Lights_Table() {
     switch (RF_Data[15]) {
-            //all lights close code
-        case 0x00:
+
+        case 0x00://all lights close code
+            if (getMain_All_LightsStatus() == 1) {
 #if Dimmer_use == true
 #ifdef use_1KEY
-            if (getDimmerLights_Status(1) == 1) {
-                setDimmerLights_SwOn(1);
-                setDimmerLights_SwOff(1);
-            }
+                if (getDimmerLights_Status(1) == 1) {
+                    setDimmerLights_SwOn(1);
+                    setDimmerLights_SwOff(1);
+                }
 #endif
 #ifdef use_2KEY
-            if (getDimmerLights_Status(2) == 1) {
-                setDimmerLights_SwOn(2);
-                setDimmerLights_SwOff(2);
-            }
+                if (getDimmerLights_Status(2) == 1) {
+                    setDimmerLights_SwOn(2);
+                    setDimmerLights_SwOff(2);
+                }
 #endif
 #ifdef use_3KEY
-            if (getDimmerLights_Status(3) == 1) {
-                setDimmerLights_SwOn(3);
-                setDimmerLights_SwOff(3);
+                if (getDimmerLights_Status(3) == 1) {
+                    setDimmerLights_SwOn(3);
+                    setDimmerLights_SwOff(3);
+                }
+#endif
+#endif
+                setCmd_Status(1, 1);
+            } else {
+                setProductData(9, 0);
+                setProductData(11, 0);
+                setProductData(15, 0);
+                setProductData(17, 0);
+                setTxData();
             }
-#endif
-#endif
-            setProductData(9, 0);
-            setProductData(11, 0);
-            setProductData(15, 0);
-            setProductData(17, 0);
-
-            setTxData();
             break;
-            //state back code
-        case 0x20:
+
+        case 0x20: //state back code
             setProductData(9, 0);
             setProductData(11, 0); //Lights Status
+            setProductData(15, product->Data[15]);
             setProductData(17, 0);
             setTxData();
             break;
+
 #ifdef  use_1KEY
-            //first lights control code
-        case 0x01:
+        case 0x01://first lights control code
             setRFSW_Control(1);
             break;
-#endif
 
-#ifdef  use_2KEY
-            //second lights control code
-        case 0x02:
-            setRFSW_Control(2);
-            break;
-#endif
-
-#ifdef use_3KEY
-            //third lights contorl code
-        case 0x03:
-            setRFSW_Control(3);
-            break;
-#endif
-
-#ifdef use_1KEY
 #if Dimmer_use == 1 && Properties_Dimmer == 1
-            //first lights dimmer control code
-        case 0x11:
+
+        case 0x11://first lights dimmer control code
             setRFSW_AdjControl(1);
             break;
 #endif
 #endif
 
 #ifdef  use_2KEY
+        case 0x02://second lights control code
+            setRFSW_Control(2);
+            break;
+
 #if Dimmer_use == 1 && Properties_Dimmer == 1
-            //second lights dimmer control code
-        case 0x21:
+        case 0x21: //second lights dimmer control code
             setRFSW_AdjControl(2);
             break;
 #endif
 #endif
 
-#ifdef  use_3KEY
+#ifdef use_3KEY
+
+        case 0x03://third lights contorl code
+            setRFSW_Control(3);
+            break;
+
 #if Dimmer_use == 1 && Properties_Dimmer == 1
-            //third lights dimmer control code
-        case 0x31:
+
+        case 0x31://third lights dimmer control code
             setRFSW_AdjControl(3);
             break;
 #endif
 #endif
-
     }
 }
 //*****************************************************************************
@@ -388,13 +386,8 @@ void setRFSW_Control(char sw) {
             setTxData();
             status = 1;
         }
-    } else {
-#if DelayOff_use == 1
-        if (getDelayOff_GO(sw) == 1) {
-            setDelayOff_GO(sw, 0, 0);
-        }
-#endif
     }
+
     if (status == 0) {
 #if Dimmer_use == true
         setDimmerLights_SwOn(sw);
@@ -456,8 +449,6 @@ inline void setRF_DimmerLights(char lights, char on) {
     char status = 1;
     status <<= (lights - 1);
     setProductData(11, lights);
-
-
     setProductData(17, product->Data[26 + lights]);
     if (on == 1) {
         setProductData(9, product->Data[20 + lights]);

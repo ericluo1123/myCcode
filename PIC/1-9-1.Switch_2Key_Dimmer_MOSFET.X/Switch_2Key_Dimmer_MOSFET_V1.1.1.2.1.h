@@ -83,6 +83,8 @@
 #define _PORTB 	0b00000111;
 #define _PORTC 	0b00001100;
 
+#define _WPUB   0b00000000;
+
 //ADC channel
 #define OverLoad_Channel	AN1
 #define OverTemp_Channel	AN2
@@ -92,10 +94,12 @@
 #define MCU_16F1518
 //Oscillator (System FOSC)
 #define	System_Fosc_16M     //_16M
-//Interrupt Time
-#define IntrTime_100us
 //ADC
 #define ADC_use_Value 1
+//Interrupt Time
+#define IntrTime_100us
+//Main Time
+#define Main_Time_Value 20
 //Timer0
 #define Timer0_use_value 0
 //Timer1
@@ -124,7 +128,7 @@
 
 //SYSC
 #define SYSC_use_Value 0
-    //OverTemperature
+//OverTemperature
 #define OverTemperature_use_Value   1
 #define TempDangerValue_Value       415     //NTC 70度
 #define TempSafeValue_Value         455     //NTC 61度
@@ -152,6 +156,9 @@
 #define Dimmer_use_Value        1
 #define Dimmer_Half_Wave_Value  0
 #define Dimmer_Full_Wave_Value  1
+#define Max_Percent             65
+#define Mini_Percent            20
+#define Med_Percent             Med_Percent+(char)((Max_Percent-Mini_Percent)/2)
 //SegmentDisplay
 #define SegmentDisplay_use_Value 0
 //CDS

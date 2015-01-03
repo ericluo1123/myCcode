@@ -340,12 +340,12 @@ void setMain_Exception(char command) {
     //    if (command != 0) {
     //        switch (command) {
     //            case 2:
-    //                if (getMain_LightsStatus() == 1) {
+    //                if (getMain_All_LightsStatus() == 1) {
     //                    setBuz(10, BuzzerErrorTime);
     //                }
     //                break;
     //            case 3:
-    //                if (getMain_LightsStatus() == 1) {
+    //                if (getMain_All_LightsStatus() == 1) {
     //                    setBuz(5, BuzzerErrorTime);
     //                }
     //                break;
@@ -371,7 +371,7 @@ char getMain_AD_OK() {
 }
 //*****************************************************************************
 
-char getMain_LightsStatus() {
+char getMain_All_LightsStatus() {
     char status = 0;
 
 #if Switch_Class == 1
@@ -528,7 +528,7 @@ void Exception_Main() {
 
             switch (error) {
                 case 2:
-                    if (getMain_LightsStatus() == 1) {
+                    if (getMain_All_LightsStatus() == 1) {
                         setBuz(10, BuzzerErrorTime);
                     }
 
@@ -591,6 +591,25 @@ void Exception_Main() {
 
 inline void setProductData(char address, char value) {
     product->Data[address] = value;
+}
+//*****************************************************************************
+
+void setCmd_Status(char number, char cmd) {
+    switch (number) {
+        case 1:
+            Cmd.all_off = cmd == 1 ? true : false;
+            break;
+    }
+}
+
+char getCmd_Status(char number) {
+    char cmd = 0;
+    switch (number) {
+        case 1:
+            cmd = Cmd.all_off == true ? 1 : 0;
+            break;
+    }
+    return cmd;
 }
 //*****************************************************************************
 //End file

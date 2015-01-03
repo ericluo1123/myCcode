@@ -42,7 +42,7 @@ inline void Load_Main() {
 
     if (Load.Enable == true) {
 
-        if (getMain_LightsStatus() == 0) {
+        if (getMain_All_LightsStatus() == 0) {
             Load.GO = false;
         } else {
 #if Dimmer_use == true

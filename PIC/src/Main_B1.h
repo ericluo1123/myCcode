@@ -59,6 +59,18 @@ Product _product = {
 #define setProductData(address,data) ;
 #endif
 
+struct command {
+
+    struct {
+        unsigned all_off : 1;
+        unsigned empty : 7;
+    };
+};
+struct command Cmd;
+
+void setCmd_Status(char number, char cmd);
+char getCmd_Status(char number);
+
 struct myMain {
 
     struct {
@@ -98,7 +110,7 @@ struct myMain {
         unsigned q : 1;
         unsigned r : 1;
         unsigned Timeout : 1;
-        unsigned Error_Run:1;
+        unsigned Error_Run : 1;
         unsigned empty : 4;
     };
 
@@ -133,10 +145,10 @@ inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
 char getMain_AD_OK();
-char getMain_LightsStatus();
+char getMain_All_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
-inline void setProductData(char address,char value);
+inline void setProductData(char address, char value);
 
 #endif		

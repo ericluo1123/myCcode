@@ -973,11 +973,11 @@ void Flash_Memory_Initialization() {
 
 void Flash_Memory_Main() {
     if (Memory.Modify == true) {
-        Memory.GO = getMain_LightsStatus() == 0 ? true : false;
+        Memory.GO = getMain_All_LightsStatus() == 0 ? true : false;
         if (Memory.GO == true) {
             Memory.Runtime = true;
             Memory.Time++;
-            if (Memory.Time == 25) {//*10ms
+            if (Memory.Time == (200 / Main_Time)) {
                 Memory.Time = 0;
                 Memory.Modify = false;
                 Memory.GO = false;

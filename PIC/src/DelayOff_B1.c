@@ -69,14 +69,15 @@ void DlyOff_Main(char sw) {
             if (DelayOff->MinuteTime >= DelayOff->Value) {
                 DelayOff->MinuteTime = 0;
                 DelayOff->GO = false;
-                setBuz(1, BuzzerOnOffTime);
+
                 //關燈
 #if Dimmer_use == 1
                 if (getDimmerLights_Status(sw) == 1) {
                     setDimmerLights_SwOn(sw);
                     setDimmerLights_SwOff(sw);
                 }
-#endif 
+#endif
+                setProductData(26 + sw, 0);
             }
         }
     }
@@ -85,30 +86,28 @@ void DlyOff_Main(char sw) {
 
 void setDelayOff_GO(char sw, char command, char value) {
 
-
     DelayOffPointSelect(sw);
     DelayOff->GO = command == 1 ? true : false;
-
-    if (command == 1) {
-        char i = 5, j = 0, k = 0;
-        if (value <= 0x30) {
-            j = value & 0x0f;
-            k = (value >> 4) & 0x0f;
-            i = j + (k * 10);
-        }
-        
-        DelayOff->Value = i;
-        if (((value % 16) == 5 || (value % 16) == 0) && value <= 0x25) {
-            setProductData(26 + sw, value);
-        } else {
-            setProductData(26 + sw, 0x05);
-        }
-    } else {
-        setProductData(sw + 26, 0);
-    }
     DelayOff->SecondTime = 0;
     DelayOff->MinuteTime = 0;
 
+    if (command == 1) {
+
+        char i = 5, j = 0, k = 0;
+        if (((value % 16) == 5 || (value % 16) == 0) && value <= 0x30) {
+            j = value & 0x0f;
+            k = (value >> 4) & 0x0f;
+            DelayOff->Value = j + (k * 10);
+
+            setProductData(26 + sw, value);
+        } else {
+            DelayOff->Value = 0x05;
+            setProductData(26 + sw, 0x05);
+        }
+
+    } else if (command == 0) {
+        setProductData(26 + sw, 0);
+    }
 }
 //*****************************************************************************
 
@@ -126,26 +125,6 @@ char DelayTimejudge(char value) {
         k = (value >> 4) & 0x0f;
         i = j + (k * 10);
     }
-    //    switch (value) {
-    //        case 0x05:
-    //            i = 5;
-    //            break;
-    //        case 0x10:
-    //            i = 10;
-    //            break;
-    //        case 0x15:
-    //            i = 15;
-    //            break;
-    //        case 0x20:
-    //            i = 20;
-    //            break;
-    //        case 0x25:
-    //            i = 25;
-    //            break;
-    //        case 0x30:
-    //            i = 30;
-    //            break;
-    //    }
     return i;
 }
 

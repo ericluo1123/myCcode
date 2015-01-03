@@ -97,10 +97,10 @@
 #define MCU_16F1518
 //Oscillator (System FOSC)
 #define	System_Fosc_16M     //_16M
-//Interrupt Time
-#define IntrTime_100us
 //ADC
 #define ADC_use_Value 1
+//Interrupt Time
+#define IntrTime_100us
 //Main Time
 #define Main_Time_Value 20
 //Timer0

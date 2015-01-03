@@ -2730,6 +2730,18 @@ Product _product = {
 };
 
 # 62
+struct command {
+
+struct {
+unsigned all_off : 1;
+unsigned empty : 7;
+};
+};
+struct command Cmd;
+
+void setCmd_Status(char number, char cmd);
+char getCmd_Status(char number);
+
 struct myMain {
 
 struct {
@@ -2750,7 +2762,7 @@ unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 86
+# 98
 struct {
 unsigned i : 1;
 unsigned j : 1;
@@ -2766,7 +2778,7 @@ struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
-unsigned Error_Run:1;
+unsigned Error_Run : 1;
 unsigned empty : 4;
 };
 
@@ -2775,25 +2787,25 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 117
+# 129
 void myMain_Initialization();
 
-# 122
+# 134
 inline void my_Main();
 
-# 127
+# 139
 inline void my_MainTimer();
 
-# 132
+# 144
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
 char getMain_AD_OK();
-char getMain_LightsStatus();
+char getMain_All_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
-inline void setProductData(char address,char value);
+inline void setProductData(char address, char value);
 
 # 14 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Switch_B1.h"
 struct Switch {
@@ -3146,7 +3158,7 @@ unsigned Checked : 1;
 unsigned RxChecked : 1;
 unsigned Correction : 1;
 unsigned Timeout : 1;
-unsigned empty : 1;
+unsigned All_Lights_Close : 1;
 };
 
 unsigned int Count;

@@ -700,14 +700,9 @@ void setDimmerLights_SwOff(char sw) {
                 DimmerLights->DimmingSwitch = false;
             }
         } else {
+
             DimmerLights->Trigger = true;
             DimmerLights->Switch = false;
-
-#if DelayOff_use == 1
-            if (getDelayOff_GO(sw) == 1) {
-                setDelayOff_GO(sw, 0, 0);
-            }
-#endif
         }
     }
 }
@@ -738,7 +733,7 @@ void DimmerLights_Main() {
 
 #if OverLoad_use == 1
     if (Dimmer.LoadGO == true) {
-        if (getLoad_OK() == 1 || getMain_All_Error_Status(0) != 0 || getMain_LightsStatus() == 0) {
+        if (getLoad_OK() == 1 || getMain_All_Error_Status(0) != 0 || getMain_All_LightsStatus() == 0) {
             Dimmer.LoadGO = false;
         }
     }
@@ -772,7 +767,7 @@ void setDimmerLights_Main(char lights) {
             }
         }
     } else {
-        if (getMain_LightsStatus() == 1) {
+        if (getMain_All_LightsStatus() == 1) {
             if (DimmerLights->DimmingTrigger == true) {
                 if (getDimmerLights_Allow_Condition(lights) == 0) {
                     DimmerLights->DimmingTrigger = false;
@@ -822,6 +817,12 @@ void setDimmerLights_OnOff(char lights, char command) {
         setLED(lights, 1);
         setLED2(1);
 
+#if DelayOff_use == 1
+        if (getDelayOff_GO(lights) == 1) {
+            setDelayOff_GO(lights, 0, 0);
+        }
+#endif
+
 #if Control_Method_Mosfet == 1
 #ifdef use_1KEY
         if (lights == 1) {
@@ -844,7 +845,18 @@ void setDimmerLights_OnOff(char lights, char command) {
 
     //set RF transmit data and allow transmit
     setRF_DimmerLights(lights, command);
-    setTxData();
+
+    if (getCmd_Status(1) == 1) {
+        if (getMain_All_LightsStatus() == 0) {
+            setCmd_Status(1, 0);
+            setProductData(11, 0);
+            setProductData(17, 0);
+            setTxData();
+        }
+    } else {
+        setTxData();
+    }
+
 }
 
 //*****************************************************************************
@@ -1311,15 +1323,6 @@ inline void DimmerLights_MOSFET_IOC_2() {
     }
 }
 #endif
-
-
-
-
-
-
-
-
-
 
 
 
