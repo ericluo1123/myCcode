@@ -50,6 +50,8 @@
 #define Slave_Mode Slave_Mode_Value
 //IOC
 #define IOC_use IOC_use_Value
+#define _IOCBP _IOCBP_Value  //Positive edge
+#define _IOCBN _IOCBN_Value  //Negative edge
 //Flash Memory
 #define FlashMemory_use FlashMemory_use_Value
 //Watch Dog
@@ -139,7 +141,7 @@
 #define KeyID 3
 #endif
 #endif
- 
+
 #ifndef Switch_Class
 #define Switch_Class 0
 #endif
@@ -351,7 +353,7 @@ typedef unsigned int ADtype;
 //minimun
 #define Dimmer_Minimum	((char)((100-Mini_Percent)*One_Percent))
 #endif
- 
+
 #if Control_Method_Mosfet == 1
 //maxum
 #define Dimmer_Maxum 	((char)(Max_Percent*One_Percent))

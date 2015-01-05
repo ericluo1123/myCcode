@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 170 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
+# 172 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -3150,6 +3150,7 @@ unsigned Learn : 1;
 unsigned Key : 1;
 };
 
+
 struct {
 unsigned Sleep : 1;
 unsigned Run : 1;
@@ -3259,6 +3260,8 @@ struct DimmerLights {
 
 
 
+union {
+
 struct {
 unsigned SwFlag : 1;
 unsigned Trigger : 1;
@@ -3271,6 +3274,9 @@ unsigned DimmingSwitch : 1;
 unsigned MosfetOpen : 1;
 unsigned MosfetClose : 1;
 };
+};
+
+union {
 
 struct {
 unsigned Status : 1;
@@ -3280,7 +3286,8 @@ unsigned TriacFlag : 1;
 unsigned OK : 1;
 unsigned Triac : 1;
 unsigned DimmingRun : 1;
-unsigned empty : 2;
+unsigned empty : 1;
+};
 };
 
 
@@ -3293,14 +3300,14 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 65
+# 71
 struct DimmerLights DimmerLights1;
 
 
 
 struct DimmerLights DimmerLights2;
 
-# 84
+# 90
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3322,12 +3329,14 @@ char getDimmerLights_PercentToValue(char value);
 char getDimmerLights_ValueToPercent(char value);
 
 char getAll_DimmerLights_Trigger();
-void setDimmerLights_DimmingRun(char lights,char command);
+void setDimmerLights_DimmingRun(char lights, char command);
 
 
 
 
-struct Dimmer_Interrut {
+struct Dimmer_Interrupt {
+
+union {
 
 struct {
 unsigned GO : 1;
@@ -3339,7 +3348,7 @@ unsigned Dimming_Status : 1;
 unsigned Dimming_RF : 1;
 unsigned empty : 1;
 };
-
+};
 
 unsigned char Count;
 unsigned char TuneTime;
@@ -3348,16 +3357,16 @@ unsigned char DimmingValue;
 unsigned char MaxmumValue;
 unsigned char MinimumValue;
 };
-struct Dimmer_Interrut *DimmerIntr;
+struct Dimmer_Interrupt *DimmerIntr;
 
 
-struct Dimmer_Interrut DimmerIntr1;
+struct Dimmer_Interrupt DimmerIntr1;
 
 
 
-struct Dimmer_Interrut DimmerIntr2;
+struct Dimmer_Interrupt DimmerIntr2;
 
-# 145
+# 153
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3388,15 +3397,18 @@ struct Dimmer {
 
 
 
+union {
+
 struct {
 unsigned AdjGO : 1;
 unsigned LoadGO : 1;
 unsigned Load_Status : 1;
 unsigned empty : 4;
 };
+};
 
 unsigned char Load;
-volatile unsigned char Correction;
+unsigned char Correction;
 };
 
 struct Dimmer Dimmer;
@@ -3496,11 +3508,13 @@ DelayOff->MinuteTime = 0;
 DelayOff->GO = 0;
 
 
+
 if (getDimmerLights_Status(sw) == 1) {
 setDimmerLights_SwOn(sw);
 setDimmerLights_SwOff(sw);
 }
 
+setProductData(26 + sw, 0);
 }
 }
 }
@@ -3509,30 +3523,28 @@ setDimmerLights_SwOff(sw);
 
 void setDelayOff_GO(char sw, char command, char value) {
 
-
 DelayOffPointSelect(sw);
 DelayOff->GO = command == 1 ? 1 : 0;
-
-if (command == 1) {
-char i = 5, j = 0, k = 0;
-if (value <= 0x30) {
-j = value & 0x0f;
-k = (value >> 4) & 0x0f;
-i = j + (k * 10);
-}
-
-DelayOff->Value = i;
-if (((value % 16) == 5 || (value % 16) == 0) && value <= 0x25) {
-setProductData(26 + sw, value);
-} else {
-setProductData(26 + sw, 0x05);
-}
-} else {
-setProductData(sw + 26, 0);
-}
 DelayOff->SecondTime = 0;
 DelayOff->MinuteTime = 0;
 
+if (command == 1) {
+
+char i = 5, j = 0, k = 0;
+if (((value % 16) == 5 || (value % 16) == 0) && value <= 0x30) {
+j = value & 0x0f;
+k = (value >> 4) & 0x0f;
+DelayOff->Value = j + (k * 10);
+
+setProductData(26 + sw, value);
+} else {
+DelayOff->Value = 0x05;
+setProductData(26 + sw, 0x05);
+}
+
+} else if (command == 0) {
+setProductData(26 + sw, 0);
+}
 }
 
 

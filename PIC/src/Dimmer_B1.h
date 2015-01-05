@@ -12,28 +12,34 @@ struct DimmerLights {
     //public
     //private
 
-    struct {
-        unsigned SwFlag : 1;
-        unsigned Trigger : 1;
-        unsigned Switch : 1;
+    union {
 
-        unsigned DimmingSwFlag : 1;
-        unsigned DimmingTrigger : 1;
-        unsigned DimmingSwitch : 1;
+        struct {
+            unsigned SwFlag : 1;
+            unsigned Trigger : 1;
+            unsigned Switch : 1;
 
-        unsigned MosfetOpen : 1;
-        unsigned MosfetClose : 1;
+            unsigned DimmingSwFlag : 1;
+            unsigned DimmingTrigger : 1;
+            unsigned DimmingSwitch : 1;
+
+            unsigned MosfetOpen : 1;
+            unsigned MosfetClose : 1;
+        };
     };
 
-    struct {
-        unsigned Status : 1;
-        unsigned Line : 1;
-        unsigned Loop : 1;
-        unsigned TriacFlag : 1;
-        unsigned OK : 1;
-        unsigned Triac : 1;
-        unsigned DimmingRun : 1;
-        unsigned empty : 2;
+    union {
+
+        struct {
+            unsigned Status : 1;
+            unsigned Line : 1;
+            unsigned Loop : 1;
+            unsigned TriacFlag : 1;
+            unsigned OK : 1;
+            unsigned Triac : 1;
+            unsigned DimmingRun : 1;
+            unsigned empty : 1;
+        };
     };
 
 
@@ -102,24 +108,26 @@ char getDimmerLights_PercentToValue(char value);
 char getDimmerLights_ValueToPercent(char value);
 
 char getAll_DimmerLights_Trigger();
-void setDimmerLights_DimmingRun(char lights,char command);
+void setDimmerLights_DimmingRun(char lights, char command);
 
 //Global extern variable declaration
 //******************************************************************************
 
-struct Dimmer_Interrut {
+struct Dimmer_Interrupt {
 
-    struct {
-        unsigned GO : 1;
-        unsigned Tune : 1;
-        unsigned Start : 1;
-        unsigned ControlStatus : 1;
-        unsigned Dimming_Sw : 1;
-        unsigned Dimming_Status : 1;
-        unsigned Dimming_RF : 1;
-        unsigned empty : 1;
+    union {
+
+        struct {
+            unsigned GO : 1;
+            unsigned Tune : 1;
+            unsigned Start : 1;
+            unsigned ControlStatus : 1;
+            unsigned Dimming_Sw : 1;
+            unsigned Dimming_Status : 1;
+            unsigned Dimming_RF : 1;
+            unsigned empty : 1;
+        };
     };
-
 
     unsigned char Count;
     unsigned char TuneTime;
@@ -128,18 +136,18 @@ struct Dimmer_Interrut {
     unsigned char MaxmumValue;
     unsigned char MinimumValue;
 };
-struct Dimmer_Interrut *DimmerIntr;
+struct Dimmer_Interrupt *DimmerIntr;
 
 #ifdef use_1KEY
-struct Dimmer_Interrut DimmerIntr1;
+struct Dimmer_Interrupt DimmerIntr1;
 #endif
 
 #ifdef use_2KEY
-struct Dimmer_Interrut DimmerIntr2;
+struct Dimmer_Interrupt DimmerIntr2;
 #endif
 
 #ifdef use_3KEY
-struct Dimmer_Intr DimmerIntr3;
+struct Dimmer_Interrupt DimmerIntr3;
 #endif
 
 void DimmerIntr_Initialization();
@@ -172,15 +180,18 @@ struct Dimmer {
     //	unsigned TempERROR:1;
     //	unsigned PFERROR:1;
 
-    struct {
-        unsigned AdjGO : 1;
-        unsigned LoadGO : 1;
-        unsigned Load_Status : 1;
-        unsigned empty : 4;
+    union {
+
+        struct {
+            unsigned AdjGO : 1;
+            unsigned LoadGO : 1;
+            unsigned Load_Status : 1;
+            unsigned empty : 4;
+        };
     };
 
     unsigned char Load;
-    volatile unsigned char Correction;
+    unsigned char Correction;
 };
 #ifdef DimmerReference1
 struct Dimmer Dimmer;

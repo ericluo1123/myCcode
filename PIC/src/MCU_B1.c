@@ -360,30 +360,9 @@ void setINT_GO(char command) {
 #if IOC_use == true
 
 void IOC_Set() {
-    WPUB2 = false;
-#if Control_Method_Triac == true 
-#if  Dimmer_Half_Wave == 1
-    IOCBP = 0b00000100;
-    IOCBN = 0b00000100;
-#endif
 
-#if Dimmer_Full_Wave == 1
-    IOCBP = 0b00000000;
-    IOCBN = 0b00000100;
-#endif
-#endif
-
-#if Control_Method_Mosfet == 1
-#if Dimmer_Half_Wave == true
-    IOCBP = 0b00000100;
-    IOCBN = 0b00000100;
-#endif
-
-#if Dimmer_Full_Wave == true
-    IOCBP = 0b00000100; //Positive
-    IOCBN = 0b00000000; //Negative
-#endif
-#endif
+    IOCBP = _IOCBP; //Positive
+    IOCBN = _IOCBN; //Negative
 
     IOCBF = 0b00000000;
 
@@ -391,6 +370,7 @@ void IOC_Set() {
     IOCIF = false;
     PEIE = true;
     GIE = true;
+
 }
 //*********************************************************
 

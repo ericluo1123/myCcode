@@ -408,7 +408,10 @@ void setRFSW_AdjControl(char sw) {
         RF_Data[9] = 0x01;
     }
     setProductData(9, RF_Data[9]);
+    setProductData(11, sw);
+    setProductData(17, product->Data[26 + sw]);
     setProductData((20 + sw), RF_Data[9]);
+    setMemory_Modify(1);
 
     if (status == 1) {
         setDimmerIntr_MaxmumValue(sw, getDimmerLights_PercentToValue(RF_Data[9]));
@@ -423,11 +426,6 @@ void setRFSW_AdjControl(char sw) {
         setDimmerLights_SwOn(sw);
         setDimmerLights_SwOff(sw);
     }
-
-    setProductData(11, sw);
-    setProductData(17, product->Data[26 + sw]);
-
-    setMemory_Modify(1);
 }
 //*********************************************************
 #if Dimmer_use == 1
