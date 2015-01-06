@@ -53,10 +53,9 @@ Product _product = {
 //28=Key2 Timer
 //29=Key3 Timer
 
-
-//#define setProductData(address,data) product->Data[address]=data
-#else
-#define setProductData(address,data) ;
+inline void setProductData(char address, char value);
+#else 
+#define setProductData(address, value) ;
 #endif
 
 struct command {
@@ -149,6 +148,6 @@ char getMain_All_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
-inline void setProductData(char address, char value);
+
 
 #endif		

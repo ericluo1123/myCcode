@@ -75,7 +75,7 @@ char getAll_Lights_Line();
 char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
-
+char getLights_Allow_Condition(char lights);
 //char getAll_Lights_Status();
 #else
 
@@ -103,6 +103,17 @@ void setLights_ErrorClose(char lights);
 #define setLights_ErrorClose(char) ;
 #endif
 
+struct Light {
 
+    struct {
+        unsigned LoadGO : 1;
+        unsigned Load_Status : 1;
+        unsigned empty : 6;
+    };
+};
+struct Light Light;
+
+char getLight_LoadGO();
+char getLight_Load_Status();
 //End file
 #endif

@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 151 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
+# 159 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -1873,22 +1873,25 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 15 "../src/../2-1.PIR_Ceiling_Embed.X/../src/MCU_B1.h"
+# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/MCU_B1.h"
+void interrupt ISR(void);
+
+# 17
 void Mcu_Initialization();
 
-# 20
+# 22
 void IO_Set();
 
-# 224
+# 226
 void Fosc_Set();
 
-# 292
+# 294
 void ADC_Set();
 void setADCGO();
 
 inline char getAD(char, char);
 
-# 440
+# 445
 struct Timer1 {
 
 struct {
@@ -1901,9 +1904,8 @@ struct Timer1 Timer1;
 
 inline void TMR1_Set();
 inline void TMR1_ISR();
-inline void setDimmerReClock();
 
-# 741
+# 744
 struct WDT {
 
 struct {
@@ -1914,12 +1916,24 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 766
+# 769
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
 
-# 62 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
+# 61 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
+struct command {
+
+struct {
+unsigned all_off : 1;
+unsigned empty : 7;
+};
+};
+struct command Cmd;
+
+void setCmd_Status(char number, char cmd);
+char getCmd_Status(char number);
+
 struct myMain {
 
 struct {
@@ -1935,7 +1949,7 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
-# 86
+# 97
 struct {
 unsigned i : 1;
 unsigned j : 1;
@@ -1951,7 +1965,7 @@ struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
-unsigned Error_Run:1;
+unsigned Error_Run : 1;
 unsigned empty : 4;
 };
 
@@ -1960,27 +1974,26 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 117
+# 128
 void myMain_Initialization();
 
-# 122
+# 133
 inline void my_Main();
 
-# 127
+# 138
 inline void my_MainTimer();
 
-# 132
+# 143
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
 char getMain_AD_OK();
-char getMain_LightsStatus();
+char getMain_All_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
-char getMain_LoadOK();
 void Exception_Main();
 
-# 92 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
+# 90 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2129,19 +2142,20 @@ unsigned char ErrorCount;
 unsigned char ErrorCountValue;
 unsigned char LightsCount;
 unsigned char SafeCount;
+
 };
 
 
 struct OverLoad Load;
 
-# 87
+# 88
 inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
 void setLoad_AH_AL_Restore();
 
-# 98
+# 99
 char getLoad_OK();
 void setLoad_OK();
 
@@ -2320,6 +2334,21 @@ char getAll_Lights_Line();
 char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
+char getLights_Allow_Condition(char lights);
+
+# 106
+struct Light {
+
+struct {
+unsigned LoadGO : 1;
+unsigned Load_Status : 1;
+unsigned empty : 6;
+};
+};
+struct Light Light;
+
+char getLight_LoadGO();
+char getLight_Load_Status();
 
 # 10 "../src/TriacRelay_B1.c"
 void LightsPointSelect(char lights) {
@@ -2349,13 +2378,11 @@ LightsPointSelect(lights);
 
 void Lights_Main() {
 
-
-if (getMain_All_Error_Status(0) == 0) {
-if (LightsControl.LoadOK == 1) {
-LightsControl.LoadOK = getLoad_OK() == 1 || getMain_LightsStatus() == 0 ? 0 : LightsControl.LoadOK;
+# 67
+if (Light.LoadGO == 1) {
+if (getLoad_OK() == 1 || getMain_All_Error_Status(0) != 0 || getMain_All_LightsStatus() == 0) {
+Light.LoadGO = 0;
 }
-} else {
-LightsControl.LoadOK = 0;
 }
 
 
@@ -2363,7 +2390,7 @@ LightsControl.LoadOK = 0;
 setLights_Main(1);
 Lights_Control(1);
 
-# 81
+# 89
 Lights_Close();
 }
 
@@ -2371,7 +2398,7 @@ Lights_Close();
 void Lights_Close() {
 if (LightsControl.Detect == 1) {
 LightsControl.Detect = 0;
-LightsControl.LoadGO = getMain_LightsStatus() == 0 ? 0 : 1;
+LightsControl.LoadGO = getMain_All_LightsStatus() == 0 ? 0 : 1;
 }
 }
 
@@ -2380,7 +2407,7 @@ void setLights_Main(char lights) {
 LightsPointSelect(lights);
 if (Lights->GO == 0) {
 if (Lights->Trigger == 1) {
-if (LightsControl.LoadOK == 0) {
+if (getLights_Allow_Condition(lights) == 0) {
 Lights->Trigger = 0;
 
 if (Lights->Switch == 1) {
@@ -2398,26 +2425,31 @@ void setLights(char lights, char status) {
 
 LightsPointSelect(lights);
 
-
-LightsControl.LoadOK = getMain_All_Error_Status(0) == 0 ? 1 : 0;
-
-
-
+# 128
 Lights->GO = 1;
 if (status == 1) {
+
+# 135
 if (Lights->Status == 0) {
 Lights->Status = 1;
 Lights->Loop = 1;
-Lights->RelayValue = 10;
-Lights->TriacValue = 13;
+Lights->RelayValue = 100;
+Lights->TriacValue = 130;
+
+Light.Load_Status = 1;
 setLights_Line(lights);
+
 }
 } else {
 if (Lights->Status == 1) {
 Lights->Status = 0;
 Lights->Loop = 0;
-Lights->RelayValue = 4;
-Lights->TriacValue = 7;
+Lights->RelayValue = 40;
+Lights->TriacValue = 70;
+
+Light.Load_Status = 0;
+setLights_Line(0);
+
 }
 }
 
@@ -2425,7 +2457,7 @@ if (lights == 1) {
 RB2 = 1;
 }
 
-# 152
+# 172
 }
 
 
@@ -2433,15 +2465,15 @@ void Lights_Control(char lights) {
 LightsPointSelect(lights);
 if (Lights->GO == 1) {
 Lights->Time++;
-if (Lights->Time >= Lights->RelayValue && Lights->RelaySet == 0) {
+if (Lights->Time >= (Lights->RelayValue / 20) && Lights->RelaySet == 0) {
 Lights->RelaySet = 1;
 
 if (lights == 1) {
 RA4 = Lights->Status == 1 ? 1 : 0;
 }
 
-# 177
-} else if (Lights->Time >= Lights->TriacValue) {
+# 197
+} else if (Lights->Time >= (Lights->TriacValue / 20)) {
 Lights->Time = 0;
 Lights->GO = 0;
 Lights->RelaySet = 0;
@@ -2455,7 +2487,7 @@ if (lights == 1) {
 RB2 = 0;
 }
 
-# 202
+# 222
 }
 }
 }
@@ -2476,12 +2508,14 @@ Lights->Switch = command == 1 ? 1 : 0;
 
 
 void setLights_Line(char lights) {
+Light.LoadGO = 1;
 
 Lights1.Line = 0;
+if (lights == 1 && lights != 0) {
+Lights1.Line = 1;
+}
 
-# 231
-LightsPointSelect(lights);
-Lights->Line = 1;
+# 263
 }
 
 
@@ -2491,7 +2525,7 @@ char line = 0;
 LightsPointSelect(1);
 line = Lights->Line == 1 ? 1 : 0;
 
-# 250
+# 280
 return line;
 }
 
@@ -2513,7 +2547,7 @@ if (lights == 255) {
 
 char count = 1;
 
-# 277
+# 307
 for (int i = 0; i < count; i++) {
 if (getLights_Status(i + 1) == 1) {
 setLights_Trigger(i + 1, 0);
@@ -2524,5 +2558,27 @@ if (getLights_Status(lights) == 1) {
 setLights_Trigger(lights, 0);
 }
 }
+}
+
+
+char getLights_Allow_Condition(char lights) {
+char allow = 0;
+
+
+allow = getLoad_OK() == 0 && Light.LoadGO == 0 ? 0 : 1;
+
+# 349
+return allow;
+}
+
+
+char getLight_LoadGO() {
+char loadgo = Light.LoadGO == 1 ? 1 : 0;
+return loadgo;
+}
+
+char getLight_Load_Status() {
+char loadstatus = Light.Load_Status == 1 ? 1 : 0;
+return loadstatus;
 }
 

@@ -468,28 +468,25 @@ char getMain_Lights_Count() {
 
 #if Dimmer_use == 1
 #ifdef use_1KEY
-    char status1 = 0;
-    status1 = DimmerIntr1.ControlStatus == true ? 1 : 0;
+    char status1 = DimmerIntr1.ControlStatus == true ? 1 : 0;
 #endif
 #ifdef use_2KEY
-    char status2 = 0;
-    status2 = DimmerIntr2.ControlStatus == true ? 1 : 0;
+    char status2 = DimmerIntr2.ControlStatus == true ? 1 : 0;
 #endif
 #ifdef use_3KEY
-    char status3 = 0;
-    status3 = DimmerIntr3.ControlStatus == true ? 1 : 0;
+    char status3 = DimmerIntr3.ControlStatus == true ? 1 : 0;
 #endif
 #endif
 
 #if LightsControl_use == 1
 #ifdef use_1KEY
-    status1 = Lights1.Loop == true ? 1 : 0;
+    char status1 = Lights1.Loop == true ? 1 : 0;
 #endif
 #ifdef use_2KEY
-    status2 = Lights2.Loop == true ? 1 : 0;
+    char status2 = Lights2.Loop == true ? 1 : 0;
 #endif
 #ifdef use_3KEY
-    status3 = Lights3.Loop == true ? 1 : 0;
+    char status3 = Lights3.Loop == true ? 1 : 0;
 #endif
 #endif
 
@@ -589,9 +586,12 @@ void Exception_Main() {
 }
 //*****************************************************************************
 
+#ifndef MCU_16F723A
+
 inline void setProductData(char address, char value) {
-    product->Data[address] = value;
+    _product.Data[address] = value;
 }
+#endif
 //*****************************************************************************
 
 void setCmd_Status(char number, char cmd) {

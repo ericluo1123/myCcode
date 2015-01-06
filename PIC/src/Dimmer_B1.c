@@ -937,26 +937,19 @@ void setDimmerLights_Line(char lights) {
     Dimmer.LoadGO = true;
 #ifdef use_1KEY
     DimmerLights1.Line = false;
-#endif
-#ifdef use_2KEY
-    DimmerLights2.Line = false;
-#endif
-#ifdef use_3KEY
-    DimmerLights3.Line = false;
-#endif
-#ifdef use_1KEY
-    if (lights == 1) {
+    if (lights == 1 && lights != 0) {
         DimmerLights1.Line = true;
     }
 #endif
 #ifdef use_2KEY
-    else if (lights == 2) {
+    DimmerLights2.Line = false;
+    if (lights == 2 && lights != 0) {
         DimmerLights2.Line = true;
     }
 #endif
 #ifdef use_3KEY
-    else if (lights == 3) {
-
+    DimmerLights3.Line = false;
+    if (lights == 3 && lights != 0) {
         DimmerLights3.Line = true;
     }
 #endif

@@ -92,12 +92,14 @@
 //Mcu Function Option
 //MCU
 #define MCU_16F723A
-//interrupt time
-#define IntrTime_100us
-//ADC
-#define ADC_use_Value 1
 //Oscillator (System FOSC)
 #define	System_Fosc_16M		//_16M
+//ADC
+#define ADC_use_Value 1
+//interrupt time
+#define IntrTime_100us
+//Main Time
+#define Main_Time_Value 20
 //Timer0
 #define Timer0_use_Value	0
 //Timer1
@@ -119,6 +121,8 @@
 #define Slave_Mode_Value 0
 //IOC
 #define IOC_use_Value 0
+#define _IOCBP_Value    0b00000100; //Positive edge
+#define _IOCBN_Value    0b00000000; //Negative edge
 //FlashMemory
 #define FlashMemory_use_Value 0
 //watchdog timer
@@ -144,7 +148,7 @@
 
 //OverLoad
 #define OverLoad_use_Value  1
-#define LimitCurrent_Value  6//A
+#define LimitCurrent_Value  1//A
 #define LinearParam_Value   2
 //LED
 #define LED_use_Value 1
@@ -166,6 +170,9 @@
 #define Dimmer_use_Value 	0
 #define Dimmer_Half_Wave_Value	1
 #define Dimmer_Full_Wave_Value	0
+#define Max_Percent                 70
+#define Mini_Percent                30
+#define Med_Percent                 Med_Percent+(char)((Max_Percent-Mini_Percent)/2)
 //SegmentDisplay
 #define SegmentDisplay_use_Value 0
 //PIR

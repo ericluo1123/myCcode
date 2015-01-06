@@ -53,13 +53,21 @@ void setLights_Initialization(char lights) {
 
 void Lights_Main() {
 
+    //#if OverLoad_use == 1
+    //    if (getMain_All_Error_Status(0) == 0) {
+    //        if (LightsControl.LoadOK == true) {
+    //            LightsControl.LoadOK = getLoad_OK() == 1 || getMain_All_LightsStatus() == 0 ? false : LightsControl.LoadOK;
+    //        }
+    //    } else {
+    //        LightsControl.LoadOK = false;
+    //    }
+    //#endif
+
 #if OverLoad_use == 1
-    if (getMain_All_Error_Status(0) == 0) {
-        if (LightsControl.LoadOK == true) {
-            LightsControl.LoadOK = getLoad_OK() == 1 || getMain_LightsStatus() == 0 ? false : LightsControl.LoadOK;
+    if (Light.LoadGO == true) {
+        if (getLoad_OK() == 1 || getMain_All_Error_Status(0) != 0 || getMain_All_LightsStatus() == 0) {
+            Light.LoadGO = false;
         }
-    } else {
-        LightsControl.LoadOK = false;
     }
 #endif
 
@@ -85,7 +93,7 @@ void Lights_Main() {
 void Lights_Close() {
     if (LightsControl.Detect == true) {
         LightsControl.Detect = false;
-        LightsControl.LoadGO = getMain_LightsStatus() == 0 ? false : true;
+        LightsControl.LoadGO = getMain_All_LightsStatus() == 0 ? false : true;
     }
 }
 //*****************************************************************************
@@ -94,7 +102,7 @@ void setLights_Main(char lights) {
     LightsPointSelect(lights);
     if (Lights->GO == false) {
         if (Lights->Trigger == true) {
-            if (LightsControl.LoadOK == false) {
+            if (getLights_Allow_Condition(lights) == 0) {
                 Lights->Trigger = false;
 
                 if (Lights->Switch == true) {
@@ -112,19 +120,27 @@ void setLights(char lights, char status) {
 
     LightsPointSelect(lights);
 
-#if OverLoad_use == true
-    LightsControl.LoadOK = getMain_All_Error_Status(0) == 0 ? true : false;
-    //    LightsControl.LoadGO = status == 1 ? true : LightsControl.LoadGO;
-#endif
+    //#if OverLoad_use == true
+    //    LightsControl.LoadOK = getMain_All_Error_Status(0) == 0 ? true : false;
+    //    //    LightsControl.LoadGO = status == 1 ? true : LightsControl.LoadGO;
+    //#endif
 
     Lights->GO = true;
     if (status == 1) {
+
+#if CC2500_use == 1
+        setRF_TransceiveGO(0);
+#endif
+
         if (Lights->Status == false) {
             Lights->Status = true;
             Lights->Loop = true;
             Lights->RelayValue = 100;
             Lights->TriacValue = 130;
+#if OverLoad_use == 1
+            Light.Load_Status = true;
             setLights_Line(lights);
+#endif
         }
     } else {
         if (Lights->Status == true) {
@@ -132,6 +148,10 @@ void setLights(char lights, char status) {
             Lights->Loop = false;
             Lights->RelayValue = 40;
             Lights->TriacValue = 70;
+#if OverLoad_use == 1
+            Light.Load_Status = false;
+            setLights_Line(0);
+#endif
         }
     }
 #ifdef use_1KEY
@@ -219,17 +239,27 @@ void setLights_Trigger(char lights, char command) {
 //*****************************************************************************
 
 void setLights_Line(char lights) {
+    Light.LoadGO = true;
 #ifdef use_1KEY
     Lights1.Line = false;
+    if (lights == 1 && lights != 0) {
+        Lights1.Line = true;
+    }
 #endif
 #ifdef use_2KEY
     Lights2.Line = false;
+    if (lights == 2 && lights != 0) {
+        Lights2.Line = true;
+    }
 #endif
 #ifdef use_3KEY
     Lights3.Line = false;
+    if (lights == 3 && lights != 0) {
+        Lights3.Line = true;
+    }
 #endif
-    LightsPointSelect(lights);
-    Lights->Line = true;
+    //    LightsPointSelect(lights);
+    //    Lights->Line = true;
 }
 //*****************************************************************************
 
@@ -284,6 +314,50 @@ void setLights_ErrorClose(char lights) {
             setLights_Trigger(lights, 0);
         }
     }
+}
+//*****************************************************************************
+
+char getLights_Allow_Condition(char lights) {
+    char allow = 0;
+
+#if OverLoad_use == 1
+    allow = getLoad_OK() == 0 && Light.LoadGO == false ? 0 : 1;
+#endif
+
+#if Switch_Class == 2
+    if (allow == 0) {
+        if (lights == 1) {
+            allow = Lights2.Trigger == true ? 1 : 0;
+        } else if (lights == 2) {
+            allow = ights1.Trigger == true ? 1 : 0;
+        }
+    }
+#endif
+#if Switch_Class == 3
+    if (allow == 0) {
+        if (lights == 1) {
+            allow = Lights2.Trigger == true || Lights3.Trigger == true ? 1 : 0;
+        } else if (lights == 2) {
+            allow = ights1.Trigger == true || Lights3.Trigger == true ? 1 : 0;
+        } else if (lights == 3) {
+            allow = ights1.Trigger == true || Lights2.Trigger == true ? 1 : 0;
+        }
+
+    }
+#endif
+
+    return allow;
+}
+//*****************************************************************************
+
+char getLight_LoadGO() {
+    char loadgo = Light.LoadGO == true ? 1 : 0;
+    return loadgo;
+}
+
+char getLight_Load_Status() {
+    char loadstatus = Light.Load_Status == true ? 1 : 0;
+    return loadstatus;
 }
 #endif
 

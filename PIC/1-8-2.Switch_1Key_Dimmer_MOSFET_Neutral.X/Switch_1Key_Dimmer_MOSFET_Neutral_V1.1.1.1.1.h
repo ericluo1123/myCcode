@@ -137,15 +137,15 @@
 #define TempDangerValue_Value       345   //NTC 70度
 #define TempSafeValue_Value         400   //NTC 61度
 //OverLoad
-#define OverLoad_use_Value 1
+#define OverLoad_use_Value  1
 #define LimitCurrent_Value  1.8//A
 #define LinearParam_Value   57
 //LED
-#define LED_use_Value 1
+#define LED_use_Value       1
 //Buzzer
-#define Buzzer_use_Value 1
+#define Buzzer_use_Value    1
 //Switch
-#define Switch_use_Value 1
+#define Switch_use_Value    1
 //Lights
 #define LightsControl_use_Value 0
 //RF cc2500
@@ -161,16 +161,16 @@
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
 #define Max_Percent                 70
-#define Med_Percent                 35
-#define Mini_Percent                15
+#define Mini_Percent                30
+#define Med_Percent                 Med_Percent+(char)((Max_Percent-Mini_Percent)/2)
 //SegmentDisplay
 #define SegmentDisplay_use_Value    0
 //CDS
-#define CDS_use_Value   0
+#define CDS_use_Value           0
 //PIR
-#define PIR_use_Value   0
+#define PIR_use_Value           0
 //UART to RF
-#define myUARTtoRF_use_Value 0
+#define myUARTtoRF_use_Value    0
 
 
 //include

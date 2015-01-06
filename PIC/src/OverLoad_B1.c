@@ -66,6 +66,26 @@ inline void Load_Main() {
                 }
             }
 #endif
+#if LightsControl_use == 1
+            if (error == 0) {
+                Load.GO = true;
+
+                if (getLight_LoadGO() == 1) {
+                    if (Load.Run == false && Load.OK == false) {
+                        Load.Run = true;
+                        Load.Count = 0;
+                    }
+                } else {
+                    if (Load.OK == true) {
+                        Load.OK = false;
+                    }
+                }
+            } else {
+                if (Load.GO == true) {
+                    Load.GO = false;
+                }
+            }
+#endif
         }
 
         //load main
@@ -94,7 +114,12 @@ inline void Load_Main() {
                         if (Load.Run == true) {
                             if (Load.Count < 2) {
                                 Load.Count++;
+#if Dimmer_use == 1
                                 Load_Status = getDimmer_Load_Status();
+#endif
+#if LightsControl_use == 1
+                                Load_Status = getLight_Load_Status();
+#endif
                                 Load.LightsCount = getMain_Lights_Count();
                                 if (Load.Count == 1) {
                                     Load.ErrorCountValue = 2;

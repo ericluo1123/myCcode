@@ -78,7 +78,7 @@ void setTemp_Main() {
                     Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
 
 #if PIR_use == 1
-                    if (getMain_LightsStatus() == 1) {
+                    if (getMain_All_LightsStatus() == 1) {
                         Temp.SafeValue = TempSafeValueH;
                         Temp.DangerValue = TempDangerValueH;
                     } else {

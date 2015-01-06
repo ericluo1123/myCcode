@@ -111,18 +111,14 @@ void IO_Set() {
 
 void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
 
-#if IOC_use == 1
-    if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
-        IOC_ISR();
-    }
-#endif
+
 #if Timer0_use == 1
-    else if (TMR0IE == true && TMR0IF == true) {
+else if (TMR0IE == true && TMR0IF == true) {
         TMR0_ISR();
     }
 #endif
 #if Timer1_use == 1
-    else if (TMR1IE == true && TMR1IF == true) {
+    if (TMR1IE == true && TMR1IF == true) {
         TMR1_ISR();
     }
 #endif
@@ -133,6 +129,11 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
 #endif
 #if INT_use == 1
     INT_ISR();
+#endif
+#if IOC_use == 1
+else if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
+        IOC_ISR();
+    }
 #endif
 #if UART_use == 1
     UART_ISR();

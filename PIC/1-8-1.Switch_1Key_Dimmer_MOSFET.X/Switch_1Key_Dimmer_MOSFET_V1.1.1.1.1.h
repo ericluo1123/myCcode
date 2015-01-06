@@ -96,10 +96,12 @@
 #define	System_Fosc_16M
 //MCU
 #define MCU_16F1518
-//interrupt time
-#define IntrTime_100us
 //ADC
 #define ADC_use_Value 1
+//interrupt time
+#define IntrTime_100us
+//Main Time
+#define Main_Time_Value 20
 //Timer0
 #define Timer0_use_Value	0
 //Timer1
@@ -118,6 +120,8 @@
 #define Slave_Mode_Value    0
 //IOC
 #define IOC_use_Value 1
+#define _IOCBP_Value    0b00000100; //Positive edge
+#define _IOCBN_Value    0b00000000; //Negative edge
 //FlashMemory
 #define FlashMemory_use_Value 1
 //Watchdog timer 
@@ -157,8 +161,8 @@
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
 #define Max_Percent                 70
-#define Med_Percent                 35
-#define Mini_Percent                15
+#define Mini_Percent                30
+#define Med_Percent                 Med_Percent+(char)((Max_Percent-Mini_Percent)/2)
 //SegmentDisplay
 #define SegmentDisplay_use_Value    0
 //CDS

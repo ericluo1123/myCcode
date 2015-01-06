@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 151 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
+# 159 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -1873,22 +1873,25 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 15 "../src/../2-1.PIR_Ceiling_Embed.X/../src/MCU_B1.h"
+# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/MCU_B1.h"
+void interrupt ISR(void);
+
+# 17
 void Mcu_Initialization();
 
-# 20
+# 22
 void IO_Set();
 
-# 224
+# 226
 void Fosc_Set();
 
-# 292
+# 294
 void ADC_Set();
 void setADCGO();
 
 inline char getAD(char, char);
 
-# 440
+# 445
 struct Timer1 {
 
 struct {
@@ -1901,9 +1904,8 @@ struct Timer1 Timer1;
 
 inline void TMR1_Set();
 inline void TMR1_ISR();
-inline void setDimmerReClock();
 
-# 741
+# 744
 struct WDT {
 
 struct {
@@ -1914,12 +1916,24 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 766
+# 769
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
 
-# 62 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
+# 61 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
+struct command {
+
+struct {
+unsigned all_off : 1;
+unsigned empty : 7;
+};
+};
+struct command Cmd;
+
+void setCmd_Status(char number, char cmd);
+char getCmd_Status(char number);
+
 struct myMain {
 
 struct {
@@ -1935,7 +1949,7 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
-# 86
+# 97
 struct {
 unsigned i : 1;
 unsigned j : 1;
@@ -1951,7 +1965,7 @@ struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
-unsigned Error_Run:1;
+unsigned Error_Run : 1;
 unsigned empty : 4;
 };
 
@@ -1960,27 +1974,26 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 117
+# 128
 void myMain_Initialization();
 
-# 122
+# 133
 inline void my_Main();
 
-# 127
+# 138
 inline void my_MainTimer();
 
-# 132
+# 143
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
 char getMain_AD_OK();
-char getMain_LightsStatus();
+char getMain_All_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
-char getMain_LoadOK();
 void Exception_Main();
 
-# 92 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
+# 90 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2129,19 +2142,20 @@ unsigned char ErrorCount;
 unsigned char ErrorCountValue;
 unsigned char LightsCount;
 unsigned char SafeCount;
+
 };
 
 
 struct OverLoad Load;
 
-# 87
+# 88
 inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
 void setLoad_AH_AL_Restore();
 
-# 98
+# 99
 char getLoad_OK();
 void setLoad_OK();
 
@@ -2320,6 +2334,21 @@ char getAll_Lights_Line();
 char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
+char getLights_Allow_Condition(char lights);
+
+# 106
+struct Light {
+
+struct {
+unsigned LoadGO : 1;
+unsigned Load_Status : 1;
+unsigned empty : 6;
+};
+};
+struct Light Light;
+
+char getLight_LoadGO();
+char getLight_Load_Status();
 
 # 7 "../src/PIR_B1.c"
 void PIR_Initialization() {
@@ -2365,7 +2394,7 @@ _PIR.Available = 0;
 
 if (_PIR.ADtoGO == 0) {
 _PIR.Time++;
-if (_PIR.Time == 10) {
+if (_PIR.Time == (100 / 20)) {
 _PIR.Time = 0;
 _PIR.ADtoGO = 1;
 }
@@ -2450,7 +2479,7 @@ setLED(2, 1);
 }
 if (_PIR.OK == 0) {
 _PIR.Count++;
-if (_PIR.Count == 3000) {
+if (_PIR.Count == (30000 / 20)) {
 _PIR.Count = 0;
 _PIR.OK = 1;
 setLED(1, 0);
@@ -2463,7 +2492,7 @@ setLights_Trigger(1, 0);
 }
 if (_PIR.Status == 1) {
 _PIR.CloseTimeSeconds++;
-if (_PIR.CloseTimeSeconds == 100) {
+if (_PIR.CloseTimeSeconds == (1000 / 20)) {
 _PIR.CloseTimeSeconds = 0;
 _PIR.CloseTimeMinutes++;
 if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {

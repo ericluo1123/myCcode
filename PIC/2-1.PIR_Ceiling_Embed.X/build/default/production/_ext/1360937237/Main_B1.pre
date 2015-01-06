@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 151 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
+# 159 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -1873,22 +1873,25 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 15 "../src/../2-1.PIR_Ceiling_Embed.X/../src/MCU_B1.h"
+# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/MCU_B1.h"
+void interrupt ISR(void);
+
+# 17
 void Mcu_Initialization();
 
-# 20
+# 22
 void IO_Set();
 
-# 224
+# 226
 void Fosc_Set();
 
-# 292
+# 294
 void ADC_Set();
 void setADCGO();
 
 inline char getAD(char, char);
 
-# 440
+# 445
 struct Timer1 {
 
 struct {
@@ -1901,9 +1904,8 @@ struct Timer1 Timer1;
 
 inline void TMR1_Set();
 inline void TMR1_ISR();
-inline void setDimmerReClock();
 
-# 741
+# 744
 struct WDT {
 
 struct {
@@ -1914,12 +1916,24 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 766
+# 769
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
 
-# 62 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
+# 61 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
+struct command {
+
+struct {
+unsigned all_off : 1;
+unsigned empty : 7;
+};
+};
+struct command Cmd;
+
+void setCmd_Status(char number, char cmd);
+char getCmd_Status(char number);
+
 struct myMain {
 
 struct {
@@ -1935,7 +1949,7 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
-# 86
+# 97
 struct {
 unsigned i : 1;
 unsigned j : 1;
@@ -1951,7 +1965,7 @@ struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
-unsigned Error_Run:1;
+unsigned Error_Run : 1;
 unsigned empty : 4;
 };
 
@@ -1960,27 +1974,26 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 117
+# 128
 void myMain_Initialization();
 
-# 122
+# 133
 inline void my_Main();
 
-# 127
+# 138
 inline void my_MainTimer();
 
-# 132
+# 143
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
 char getMain_AD_OK();
-char getMain_LightsStatus();
+char getMain_All_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
-char getMain_LoadOK();
 void Exception_Main();
 
-# 92 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
+# 90 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2129,19 +2142,20 @@ unsigned char ErrorCount;
 unsigned char ErrorCountValue;
 unsigned char LightsCount;
 unsigned char SafeCount;
+
 };
 
 
 struct OverLoad Load;
 
-# 87
+# 88
 inline void Load_Initialization();
 inline void Load_Main();
 inline void getLoad_AD(char channel);
 void setLoad_Exceptions(char command);
 void setLoad_AH_AL_Restore();
 
-# 98
+# 99
 char getLoad_OK();
 void setLoad_OK();
 
@@ -2320,6 +2334,21 @@ char getAll_Lights_Line();
 char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
+char getLights_Allow_Condition(char lights);
+
+# 106
+struct Light {
+
+struct {
+unsigned LoadGO : 1;
+unsigned Load_Status : 1;
+unsigned empty : 6;
+};
+};
+struct Light Light;
+
+char getLight_LoadGO();
+char getLight_Load_Status();
 
 # 7 "../src/Main_B1.c"
 int main(int argc, char** argv) {
@@ -2425,7 +2454,7 @@ inline void my_MainTimer() {
 
 if (myMain.PowerON == 0) {
 myMain.PowerCount++;
-if (myMain.PowerCount == 150) {
+if (myMain.PowerCount == (1500 / 20)) {
 myMain.PowerCount = 0;
 myMain.PowerON = 1;
 
@@ -2439,20 +2468,20 @@ myMain.SelfTest = 1;
 }
 } else {
 myMain.PowerCount++;
-if (myMain.PowerCount == 100) {
+if (myMain.PowerCount == (1000 / 20)) {
 myMain.PowerCount = 0;
 
 # 226
 }
 
-# 270
+# 269
 }
 }
 
 
 inline void Timeout_Counter() {
 myMain.Timeout_Counter++;
-if (myMain.Timeout_Counter == 10000) {
+if (myMain.Timeout_Counter == 25000) {
 myMain.Timeout_Counter = 0;
 myMain.Timeout = 1;
 }
@@ -2480,7 +2509,7 @@ if (status == 255) {
 
 char count = 1;
 
-# 310
+# 309
 for (int i = 0; i < count; i++) {
 if (getLights_Status(i + 1) == 1) {
 setLights_Trigger(i + 1, 0);
@@ -2493,14 +2522,14 @@ setLights_Trigger(status, 0);
 }
 }
 
-# 357
+# 356
 }
 
 
 char getMain_AD_OK() {
 char result = 0;
 
-# 367
+# 366
 if (result == 0) {
 
 }
@@ -2509,21 +2538,14 @@ return result;
 }
 
 
-char getMain_LightsStatus() {
-char status = 0, count = 0;
+char getMain_All_LightsStatus() {
+char status = 0;
 
 
-count = 1;
 
-# 390
-for (int i = 0; i < count; i++) {
-if (status == 0) {
+status = Lights1.Status == 1 ? 1 : 0;
 
-status = getLights_Status(i + 1) == 1 ? 1 : 0;
-
-# 398
-}
-}
+# 421
 return status;
 }
 
@@ -2536,7 +2558,7 @@ if (status == 0 && command != 1) {
 status = SYSC.ERROR == 1 ? 1 : 0;
 }
 
-# 416
+# 437
 if (status == 0 && command != 2) {
 status = Temp.ERROR == 1 ? 2 : 0;
 }
@@ -2548,49 +2570,40 @@ if (status == 0 && command != 3) {
 status = Load.ERROR == 1 ? 3 : 0;
 }
 
-# 441
+# 462
 return status;
 }
 
 
 char getMain_Lights_Count() {
-char status1 = 0, status2 = 0, status3 = 0, count = 0;
+char count = 0;
 
-# 462
-status1 = Lights1.Loop == 1 ? 1 : 0;
+# 483
+char status1 = Lights1.Loop == 1 ? 1 : 0;
 
-# 471
-return count = (status1 + status2 + status3);
-}
+# 494
+return count = status1;
 
-
-char getMain_LoadOK() {
-char ok = 0;
-
-
-ok = getLightsControl_OK() == 1 ? 1 : 0;
-
-# 484
-return ok;
+# 503
 }
 
 
 void Exception_Main() {
 char error = getMain_All_Error_Status(0);
-
+char lights = 0, count = 1;
 if (myMain.Error_Run == 1) {
 if (error == 0) {
 myMain.Error_Run = 0;
 
 setLED(error, 110);
 
-# 500
+# 518
 }
 } else {
 if (error != 0) {
 myMain.Error_Run = 1;
 
-# 546
+# 569
 setLED(error, 111);
 if (error == 3) {
 char status = getAll_Lights_Line();
@@ -2599,9 +2612,6 @@ setLights_Trigger(status, 0);
 }
 } else {
 
-char count = 1;
-
-# 562
 for (int i = 0; i < count; i++) {
 if (getLights_Status(i + 1) == 1) {
 setLights_Trigger(i + 1, 0);
@@ -2611,5 +2621,24 @@ setLights_Trigger(i + 1, 0);
 
 }
 }
+}
+
+# 597
+void setCmd_Status(char number, char cmd) {
+switch (number) {
+case 1:
+Cmd.all_off = cmd == 1 ? 1 : 0;
+break;
+}
+}
+
+char getCmd_Status(char number) {
+char cmd = 0;
+switch (number) {
+case 1:
+cmd = Cmd.all_off == 1 ? 1 : 0;
+break;
+}
+return cmd;
 }
 

@@ -254,7 +254,7 @@ void setPIRLED_Main() {
     char count;
     if (PIRLED.GO == true) {
         PIRLED.Time++;
-        if (PIRLED.Time >= PIRLEDTime / 10) {
+        if (PIRLED.Time >= PIRLEDTime / Main_Time) {
             PIRLED.Time = 0;
             setLED(1, 0);
             setLED(2, 0);
