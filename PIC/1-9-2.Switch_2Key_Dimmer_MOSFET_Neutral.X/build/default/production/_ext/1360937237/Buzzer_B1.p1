@@ -20,22 +20,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Main_B1.h
 [s S244 `uc -> 32 `i ]
 [n S244 Product Data ]
-"64
+"63
 [s S246 :1 `uc 1 :7 `uc 1 ]
 [n S246 . all_off empty ]
-"62
+"61
 [s S245 `S246 1 ]
 [n S245 command . ]
-"76
+"75
 [s S248 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S248 . PowerON Flag GO FirstOpen SelfTest First Test Tempty ]
-"98
+"97
 [s S249 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S249 . i j k l m n o p ]
-"109
+"108
 [s S250 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :4 `uc 1 ]
 [n S250 . q r Timeout Error_Run empty ]
-"74
+"73
 [s S247 `S248 1 `uc 1 `ui 1 `ui 1 `ui 1 `ui 1 `S249 1 `S250 1 `ui 1 ]
 [n S247 myMain . PowerCount Count Count1 Count2 Count3 . . Timeout_Counter ]
 "16 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Switch_B1.h
@@ -128,6 +128,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 "24
 [s S279 `S280 1 `uc 1 `ui 1 `uc 1 ]
 [n S279 DelayOff . Value SecondTime MinuteTime ]
+"108 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/TriacRelay_B1.h
+[s S282 :1 `uc 1 :1 `uc 1 :6 `uc 1 ]
+[n S282 . LoadGO Load_Status empty ]
+"106
+[s S281 `S282 1 ]
+[n S281 Light . ]
 "4529 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _RB3 `Vb ~T0 @X0 0 e@107 ]
 [; ;stdio.h: 8: typedef int ptrdiff_t;
@@ -2204,67 +2210,67 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 22: 0x00, 0x00
 [; ;Main_B1.h: 23: }
 [; ;Main_B1.h: 24: };
-[; ;Main_B1.h: 62: struct command {
-[; ;Main_B1.h: 64: struct {
-[; ;Main_B1.h: 65: unsigned all_off : 1;
-[; ;Main_B1.h: 66: unsigned empty : 7;
+[; ;Main_B1.h: 56: inline void setProductData(char address, char value);
+[; ;Main_B1.h: 61: struct command {
+[; ;Main_B1.h: 63: struct {
+[; ;Main_B1.h: 64: unsigned all_off : 1;
+[; ;Main_B1.h: 65: unsigned empty : 7;
+[; ;Main_B1.h: 66: };
 [; ;Main_B1.h: 67: };
-[; ;Main_B1.h: 68: };
-"69
+"68
 [v _Cmd `S245 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 69: struct command Cmd;
-[; ;Main_B1.h: 71: void setCmd_Status(char number, char cmd);
-[; ;Main_B1.h: 72: char getCmd_Status(char number);
-[; ;Main_B1.h: 74: struct myMain {
-[; ;Main_B1.h: 76: struct {
-[; ;Main_B1.h: 77: unsigned PowerON : 1;
-[; ;Main_B1.h: 78: unsigned Flag : 1;
-[; ;Main_B1.h: 79: unsigned GO : 1;
-[; ;Main_B1.h: 80: unsigned FirstOpen : 1;
-[; ;Main_B1.h: 81: unsigned SelfTest : 1;
-[; ;Main_B1.h: 82: unsigned First : 1;
-[; ;Main_B1.h: 83: unsigned Test : 1;
-[; ;Main_B1.h: 84: unsigned Tempty : 1;
-[; ;Main_B1.h: 85: };
-[; ;Main_B1.h: 87: unsigned char PowerCount;
-[; ;Main_B1.h: 89: unsigned int Count;
-[; ;Main_B1.h: 90: unsigned int Count1;
-[; ;Main_B1.h: 91: unsigned int Count2;
-[; ;Main_B1.h: 92: unsigned int Count3;
-[; ;Main_B1.h: 98: struct {
-[; ;Main_B1.h: 99: unsigned i : 1;
-[; ;Main_B1.h: 100: unsigned j : 1;
-[; ;Main_B1.h: 101: unsigned k : 1;
-[; ;Main_B1.h: 102: unsigned l : 1;
-[; ;Main_B1.h: 103: unsigned m : 1;
-[; ;Main_B1.h: 104: unsigned n : 1;
-[; ;Main_B1.h: 105: unsigned o : 1;
-[; ;Main_B1.h: 106: unsigned p : 1;
-[; ;Main_B1.h: 107: };
-[; ;Main_B1.h: 109: struct {
-[; ;Main_B1.h: 110: unsigned q : 1;
-[; ;Main_B1.h: 111: unsigned r : 1;
-[; ;Main_B1.h: 112: unsigned Timeout : 1;
-[; ;Main_B1.h: 113: unsigned Error_Run : 1;
-[; ;Main_B1.h: 114: unsigned empty : 4;
-[; ;Main_B1.h: 115: };
-[; ;Main_B1.h: 117: unsigned int Timeout_Counter;
-[; ;Main_B1.h: 119: };
-"120
+[; ;Main_B1.h: 68: struct command Cmd;
+[; ;Main_B1.h: 70: void setCmd_Status(char number, char cmd);
+[; ;Main_B1.h: 71: char getCmd_Status(char number);
+[; ;Main_B1.h: 73: struct myMain {
+[; ;Main_B1.h: 75: struct {
+[; ;Main_B1.h: 76: unsigned PowerON : 1;
+[; ;Main_B1.h: 77: unsigned Flag : 1;
+[; ;Main_B1.h: 78: unsigned GO : 1;
+[; ;Main_B1.h: 79: unsigned FirstOpen : 1;
+[; ;Main_B1.h: 80: unsigned SelfTest : 1;
+[; ;Main_B1.h: 81: unsigned First : 1;
+[; ;Main_B1.h: 82: unsigned Test : 1;
+[; ;Main_B1.h: 83: unsigned Tempty : 1;
+[; ;Main_B1.h: 84: };
+[; ;Main_B1.h: 86: unsigned char PowerCount;
+[; ;Main_B1.h: 88: unsigned int Count;
+[; ;Main_B1.h: 89: unsigned int Count1;
+[; ;Main_B1.h: 90: unsigned int Count2;
+[; ;Main_B1.h: 91: unsigned int Count3;
+[; ;Main_B1.h: 97: struct {
+[; ;Main_B1.h: 98: unsigned i : 1;
+[; ;Main_B1.h: 99: unsigned j : 1;
+[; ;Main_B1.h: 100: unsigned k : 1;
+[; ;Main_B1.h: 101: unsigned l : 1;
+[; ;Main_B1.h: 102: unsigned m : 1;
+[; ;Main_B1.h: 103: unsigned n : 1;
+[; ;Main_B1.h: 104: unsigned o : 1;
+[; ;Main_B1.h: 105: unsigned p : 1;
+[; ;Main_B1.h: 106: };
+[; ;Main_B1.h: 108: struct {
+[; ;Main_B1.h: 109: unsigned q : 1;
+[; ;Main_B1.h: 110: unsigned r : 1;
+[; ;Main_B1.h: 111: unsigned Timeout : 1;
+[; ;Main_B1.h: 112: unsigned Error_Run : 1;
+[; ;Main_B1.h: 113: unsigned empty : 4;
+[; ;Main_B1.h: 114: };
+[; ;Main_B1.h: 116: unsigned int Timeout_Counter;
+[; ;Main_B1.h: 118: };
+"119
 [v _myMain `S247 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 120: struct myMain myMain;
-[; ;Main_B1.h: 129: void myMain_Initialization();
-[; ;Main_B1.h: 134: inline void my_Main();
-[; ;Main_B1.h: 139: inline void my_MainTimer();
-[; ;Main_B1.h: 144: inline void Timeout_Counter();
-[; ;Main_B1.h: 145: inline void set_TimeoutCleared();
-[; ;Main_B1.h: 146: void setMain_Exception(char command);
-[; ;Main_B1.h: 147: char getMain_AD_OK();
-[; ;Main_B1.h: 148: char getMain_All_LightsStatus();
-[; ;Main_B1.h: 149: char getMain_All_Error_Status(char command);
-[; ;Main_B1.h: 150: char getMain_Lights_Count();
-[; ;Main_B1.h: 151: void Exception_Main();
-[; ;Main_B1.h: 152: inline void setProductData(char address, char value);
+[; ;Main_B1.h: 119: struct myMain myMain;
+[; ;Main_B1.h: 128: void myMain_Initialization();
+[; ;Main_B1.h: 133: inline void my_Main();
+[; ;Main_B1.h: 138: inline void my_MainTimer();
+[; ;Main_B1.h: 143: inline void Timeout_Counter();
+[; ;Main_B1.h: 144: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 145: void setMain_Exception(char command);
+[; ;Main_B1.h: 146: char getMain_AD_OK();
+[; ;Main_B1.h: 147: char getMain_All_LightsStatus();
+[; ;Main_B1.h: 148: char getMain_All_Error_Status(char command);
+[; ;Main_B1.h: 149: char getMain_Lights_Count();
+[; ;Main_B1.h: 150: void Exception_Main();
 [; ;Switch_B1.h: 14: struct Switch {
 [; ;Switch_B1.h: 16: struct {
 [; ;Switch_B1.h: 17: unsigned Enable : 1;
@@ -3000,6 +3006,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;DelayOff_B1.h: 55: void setDelayOff_GO(char sw, char command, char value);
 [; ;DelayOff_B1.h: 56: char getDelayOff_GO(char sw);
 [; ;DelayOff_B1.h: 57: void DelayOffPointSelect(char sw);
+[; ;TriacRelay_B1.h: 106: struct Light {
+[; ;TriacRelay_B1.h: 108: struct {
+[; ;TriacRelay_B1.h: 109: unsigned LoadGO : 1;
+[; ;TriacRelay_B1.h: 110: unsigned Load_Status : 1;
+[; ;TriacRelay_B1.h: 111: unsigned empty : 6;
+[; ;TriacRelay_B1.h: 112: };
+[; ;TriacRelay_B1.h: 113: };
+"114 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/TriacRelay_B1.h
+[v _Light `S281 ~T0 @X0 1 e ]
+[; ;TriacRelay_B1.h: 114: struct Light Light;
+[; ;TriacRelay_B1.h: 116: char getLight_LoadGO();
+[; ;TriacRelay_B1.h: 117: char getLight_Load_Status();
 [v F2208 `(v ~T0 @X0 1 tf ]
 "11 ../src/Buzzer_B1.c
 [v _Buzzer_Initialization `TF2208 ~T0 @X0 1 e ]
@@ -3012,7 +3030,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . _Buz1 0 0 -> -> 1 `i `uc ]
 [; ;Buzzer_B1.c: 14: }
 "14
-[e :UE 281 ]
+[e :UE 283 ]
 }
 "17
 [v _setBuz_Enable `(v ~T0 @X0 1 ef1`uc ]
@@ -3026,7 +3044,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . _Buz1 0 0 _command ]
 [; ;Buzzer_B1.c: 19: }
 "19
-[e :UE 282 ]
+[e :UE 284 ]
 }
 "22
 [v _setBuz `(v ~T0 @X0 1 ef2`uc`i ]
@@ -3041,11 +3059,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e =/ _time -> -> 20 `uc `i ]
 [; ;Buzzer_B1.c: 24: if (Buz1.Enable == 1) {
 "24
-[e $ ! == -> . . _Buz1 0 0 `i -> 1 `i 284  ]
+[e $ ! == -> . . _Buz1 0 0 `i -> 1 `i 286  ]
 {
 [; ;Buzzer_B1.c: 25: if (Buz1.GO == 0) {
 "25
-[e $ ! == -> . . _Buz1 0 1 `i -> 0 `i 285  ]
+[e $ ! == -> . . _Buz1 0 1 `i -> 0 `i 287  ]
 {
 [; ;Buzzer_B1.c: 26: Buz1.GO = 1;
 "26
@@ -3065,12 +3083,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 "31
 }
 [; ;Buzzer_B1.c: 31: } else {
-[e $U 286  ]
-[e :U 285 ]
+[e $U 288  ]
+[e :U 287 ]
 {
 [; ;Buzzer_B1.c: 32: if (Buz1.BufferStatus1 == 0) {
 "32
-[e $ ! == -> . . _Buz1 0 3 `i -> 0 `i 287  ]
+[e $ ! == -> . . _Buz1 0 3 `i -> 0 `i 289  ]
 {
 [; ;Buzzer_B1.c: 33: Buz1.BufferStatus1 = 1;
 "33
@@ -3084,9 +3102,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "36
 }
 [; ;Buzzer_B1.c: 36: } else if (Buz1.BufferStatus2 == 0) {
-[e $U 288  ]
-[e :U 287 ]
-[e $ ! == -> . . _Buz1 0 4 `i -> 0 `i 289  ]
+[e $U 290  ]
+[e :U 289 ]
+[e $ ! == -> . . _Buz1 0 4 `i -> 0 `i 291  ]
 {
 [; ;Buzzer_B1.c: 37: Buz1.BufferStatus2 = 1;
 "37
@@ -3099,20 +3117,20 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . _Buz1 7 -> _time `ui ]
 "40
 }
-[e :U 289 ]
+[e :U 291 ]
 "41
-[e :U 288 ]
+[e :U 290 ]
 }
-[e :U 286 ]
+[e :U 288 ]
 "42
 }
-[e :U 284 ]
+[e :U 286 ]
 [; ;Buzzer_B1.c: 40: }
 [; ;Buzzer_B1.c: 41: }
 [; ;Buzzer_B1.c: 42: }
 [; ;Buzzer_B1.c: 43: }
 "43
-[e :UE 283 ]
+[e :UE 285 ]
 }
 [v F2210 `(v ~T0 @X0 1 tf ]
 "46
@@ -3123,14 +3141,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;Buzzer_B1.c: 47: if (Buz1.GO == 1) {
 "47
-[e $ ! == -> . . _Buz1 0 1 `i -> 1 `i 291  ]
+[e $ ! == -> . . _Buz1 0 1 `i -> 1 `i 293  ]
 {
 [; ;Buzzer_B1.c: 48: Buz1.Counter++;
 "48
 [e ++ . _Buz1 1 -> -> 1 `i `ui ]
 [; ;Buzzer_B1.c: 49: if (Buz1.Counter >= Buz1.TimeValue) {
 "49
-[e $ ! >= . _Buz1 1 . _Buz1 5 292  ]
+[e $ ! >= . _Buz1 1 . _Buz1 5 294  ]
 {
 [; ;Buzzer_B1.c: 50: Buz1.Counter = 0;
 "50
@@ -3140,15 +3158,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . _Buz1 0 5 -> ? == -> _RB3 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
 [; ;Buzzer_B1.c: 52: if (Buz1.Switch == 0) {
 "52
-[e $ ! == -> . . _Buz1 0 5 `i -> 0 `i 293  ]
+[e $ ! == -> . . _Buz1 0 5 `i -> 0 `i 295  ]
 {
 [; ;Buzzer_B1.c: 53: if (Buz1.Count == 0) {
 "53
-[e $ ! == -> . _Buz1 2 `i -> 0 `i 294  ]
+[e $ ! == -> . _Buz1 2 `i -> 0 `i 296  ]
 {
 [; ;Buzzer_B1.c: 54: if (Buz1.BufferStatus1 == 1) {
 "54
-[e $ ! == -> . . _Buz1 0 3 `i -> 1 `i 295  ]
+[e $ ! == -> . . _Buz1 0 3 `i -> 1 `i 297  ]
 {
 [; ;Buzzer_B1.c: 55: Buz1.BufferStatus1 = 0;
 "55
@@ -3162,9 +3180,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "58
 }
 [; ;Buzzer_B1.c: 58: } else if (Buz1.BufferStatus2 == 1) {
-[e $U 296  ]
-[e :U 295 ]
-[e $ ! == -> . . _Buz1 0 4 `i -> 1 `i 297  ]
+[e $U 298  ]
+[e :U 297 ]
+[e $ ! == -> . . _Buz1 0 4 `i -> 1 `i 299  ]
 {
 [; ;Buzzer_B1.c: 59: Buz1.BufferStatus2 = 0;
 "59
@@ -3178,22 +3196,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 "62
 }
 [; ;Buzzer_B1.c: 62: } else {
-[e $U 298  ]
-[e :U 297 ]
+[e $U 300  ]
+[e :U 299 ]
 {
 [; ;Buzzer_B1.c: 63: Buz1.GO = 0;
 "63
 [e = . . _Buz1 0 1 -> -> 0 `i `uc ]
 "64
 }
+[e :U 300 ]
 [e :U 298 ]
-[e :U 296 ]
 "65
 }
 [; ;Buzzer_B1.c: 64: }
 [; ;Buzzer_B1.c: 65: } else {
-[e $U 299  ]
-[e :U 294 ]
+[e $U 301  ]
+[e :U 296 ]
 {
 [; ;Buzzer_B1.c: 66: Buz1.Switch = 1;
 "66
@@ -3203,13 +3221,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _RB3 -> -> 1 `i `b ]
 "69
 }
-[e :U 299 ]
+[e :U 301 ]
 "70
 }
 [; ;Buzzer_B1.c: 69: }
 [; ;Buzzer_B1.c: 70: } else {
-[e $U 300  ]
-[e :U 293 ]
+[e $U 302  ]
+[e :U 295 ]
 {
 [; ;Buzzer_B1.c: 71: Buz1.Switch = 0;
 "71
@@ -3222,19 +3240,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e -- . _Buz1 2 -> -> 1 `i `uc ]
 "76
 }
-[e :U 300 ]
+[e :U 302 ]
 "77
 }
-[e :U 292 ]
+[e :U 294 ]
 "78
 }
-[e :U 291 ]
+[e :U 293 ]
 [; ;Buzzer_B1.c: 76: }
 [; ;Buzzer_B1.c: 77: }
 [; ;Buzzer_B1.c: 78: }
 [; ;Buzzer_B1.c: 79: }
 "79
-[e :UE 290 ]
+[e :UE 292 ]
 }
 "82
 [v _getBuz_GO `(i ~T0 @X0 1 ef ]
@@ -3249,8 +3267,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Buzzer_B1.c: 84: return i;
 "84
 [e ) _i ]
-[e $UE 301  ]
+[e $UE 303  ]
 [; ;Buzzer_B1.c: 85: }
 "85
-[e :UE 301 ]
+[e :UE 303 ]
 }

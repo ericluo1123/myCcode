@@ -10,21 +10,19 @@
 void LightsPointSelect(char lights) {
 
 #ifdef use_1KEY
-
     if (lights == 1) {
         Lights = &Lights1;
     }
-
 #endif
 
 #ifdef use_2KEY
-    if (lights == 2) {
+    else if (lights == 2) {
         Lights = &Lights2;
     }
 #endif
 
 #ifdef use_3KEY
-    if (lights == 3) {
+    else if (lights == 3) {
         Lights = &Lights3;
     }
 #endif
@@ -86,16 +84,8 @@ void Lights_Main() {
     Lights_Control(3);
 #endif
 
-    Lights_Close();
 }
-//*****************************************************************************
 
-void Lights_Close() {
-    if (LightsControl.Detect == true) {
-        LightsControl.Detect = false;
-        LightsControl.LoadGO = getMain_All_LightsStatus() == 0 ? false : true;
-    }
-}
 //*****************************************************************************
 
 void setLights_Main(char lights) {
@@ -104,7 +94,6 @@ void setLights_Main(char lights) {
         if (Lights->Trigger == true) {
             if (getLights_Allow_Condition(lights) == 0) {
                 Lights->Trigger = false;
-
                 if (Lights->Switch == true) {
                     setLights(lights, 1);
                 } else {
@@ -117,14 +106,11 @@ void setLights_Main(char lights) {
 //*****************************************************************************
 
 void setLights(char lights, char status) {
-
-    LightsPointSelect(lights);
-
     //#if OverLoad_use == true
     //    LightsControl.LoadOK = getMain_All_Error_Status(0) == 0 ? true : false;
     //    //    LightsControl.LoadGO = status == 1 ? true : LightsControl.LoadGO;
     //#endif
-
+    //    LightsPointSelect(lights);
     Lights->GO = true;
     if (status == 1) {
 
@@ -134,9 +120,9 @@ void setLights(char lights, char status) {
 
         if (Lights->Status == false) {
             Lights->Status = true;
-            Lights->Loop = true;
-            Lights->RelayValue = 100;
-            Lights->TriacValue = 130;
+            Lights->RelayValue = 60;
+            Lights->TriacValue = 140;
+            Lights->Time = 0;
 #if OverLoad_use == 1
             Light.Load_Status = true;
             setLights_Line(lights);
@@ -145,9 +131,9 @@ void setLights(char lights, char status) {
     } else {
         if (Lights->Status == true) {
             Lights->Status = false;
-            Lights->Loop = false;
             Lights->RelayValue = 40;
-            Lights->TriacValue = 70;
+            Lights->TriacValue = 80;
+            Lights->Time = 0;
 #if OverLoad_use == 1
             Light.Load_Status = false;
             setLights_Line(0);
@@ -176,49 +162,48 @@ void Lights_Control(char lights) {
     LightsPointSelect(lights);
     if (Lights->GO == true) {
         Lights->Time++;
-        if (Lights->Time >= (Lights->RelayValue / Main_Time) && Lights->RelaySet == false) {
-            Lights->RelaySet = true;
+        if (Lights->RelaySet == false) {
+            if (Lights->Time >= (Lights->RelayValue / Main_Time)) {
+                Lights->RelaySet = true;
 #ifdef use_1KEY
-            if (lights == 1) {
-                Relay1 = Lights->Status == true ? true : false;
-            }
+                if (lights == 1) {
+                    Relay1 = Lights->Status == true ? true : false;
+                }
 #endif
 #ifdef use_2KEY
-            else if (lights == 2) {
-                Relay2 = Lights->Status == true ? true : false;
-            }
+                else if (lights == 2) {
+                    Relay2 = Lights->Status == true ? true : false;
+                }
 #endif
 #ifdef use_3KEY
-            else if (lights == 3) {
-                Relay3 = Lights->Status == true ? true : false;
+                else if (lights == 3) {
+                    Relay3 = Lights->Status == true ? true : false;
+                }
+#endif
             }
-#endif
-
-        } else if (Lights->Time >= (Lights->TriacValue / Main_Time)) {
-            Lights->Time = 0;
-            Lights->GO = false;
-            Lights->RelaySet = false;
-#if OverLoad_use == true
-
-            LightsControl.Detect = Lights->Status == false ? true : LightsControl.Detect;
-
-#endif
+        } else {
+            if (Lights->Time >= (Lights->TriacValue / Main_Time)) {
+                Lights->Time = 0;
+                Lights->GO = false;
+                Lights->RelaySet = false;
+                
 #ifdef use_1KEY
-            if (lights == 1) {
-                Triac1 = false;
-            }
+                if (lights == 1) {
+                    Triac1 = false;
+                }
 #endif
 #ifdef use_2KEY
-            else if (lights == 2) {
-                Triac2 = false;
-            }
+                else if (lights == 2) {
+                    Triac2 = false;
+                }
 #endif
 
 #ifdef use_3KEY
-            else if (lights == 3) {
-                Triac3 = false;
-            }
+                else if (lights == 3) {
+                    Triac3 = false;
+                }
 #endif
+            }
         }
     }
 }

@@ -20,22 +20,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Main_B1.h
 [s S244 `uc -> 32 `i ]
 [n S244 Product Data ]
-"64
+"63
 [s S246 :1 `uc 1 :7 `uc 1 ]
 [n S246 . all_off empty ]
-"62
+"61
 [s S245 `S246 1 ]
 [n S245 command . ]
-"76
+"75
 [s S248 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S248 . PowerON Flag GO FirstOpen SelfTest First Test Tempty ]
-"98
+"97
 [s S249 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S249 . i j k l m n o p ]
-"109
+"108
 [s S250 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :4 `uc 1 ]
 [n S250 . q r Timeout Error_Run empty ]
-"74
+"73
 [s S247 `S248 1 `uc 1 `ui 1 `ui 1 `ui 1 `ui 1 `S249 1 `S250 1 `ui 1 ]
 [n S247 myMain . PowerCount Count Count1 Count2 Count3 . . Timeout_Counter ]
 "16 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Switch_B1.h
@@ -128,6 +128,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 "24
 [s S279 `S280 1 `uc 1 `ui 1 `uc 1 ]
 [n S279 DelayOff . Value SecondTime MinuteTime ]
+"108 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/TriacRelay_B1.h
+[s S282 :1 `uc 1 :1 `uc 1 :6 `uc 1 ]
+[n S282 . LoadGO Load_Status empty ]
+"106
+[s S281 `S282 1 ]
+[n S281 Light . ]
 "307 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/CC2500_B1.h
 [v _CC2500_WriteCommand `(v ~T0 @X0 0 ef1`uc ]
 "4547 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
@@ -2244,67 +2250,67 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 22: 0x00, 0x00
 [; ;Main_B1.h: 23: }
 [; ;Main_B1.h: 24: };
-[; ;Main_B1.h: 62: struct command {
-[; ;Main_B1.h: 64: struct {
-[; ;Main_B1.h: 65: unsigned all_off : 1;
-[; ;Main_B1.h: 66: unsigned empty : 7;
+[; ;Main_B1.h: 56: inline void setProductData(char address, char value);
+[; ;Main_B1.h: 61: struct command {
+[; ;Main_B1.h: 63: struct {
+[; ;Main_B1.h: 64: unsigned all_off : 1;
+[; ;Main_B1.h: 65: unsigned empty : 7;
+[; ;Main_B1.h: 66: };
 [; ;Main_B1.h: 67: };
-[; ;Main_B1.h: 68: };
-"69
+"68
 [v _Cmd `S245 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 69: struct command Cmd;
-[; ;Main_B1.h: 71: void setCmd_Status(char number, char cmd);
-[; ;Main_B1.h: 72: char getCmd_Status(char number);
-[; ;Main_B1.h: 74: struct myMain {
-[; ;Main_B1.h: 76: struct {
-[; ;Main_B1.h: 77: unsigned PowerON : 1;
-[; ;Main_B1.h: 78: unsigned Flag : 1;
-[; ;Main_B1.h: 79: unsigned GO : 1;
-[; ;Main_B1.h: 80: unsigned FirstOpen : 1;
-[; ;Main_B1.h: 81: unsigned SelfTest : 1;
-[; ;Main_B1.h: 82: unsigned First : 1;
-[; ;Main_B1.h: 83: unsigned Test : 1;
-[; ;Main_B1.h: 84: unsigned Tempty : 1;
-[; ;Main_B1.h: 85: };
-[; ;Main_B1.h: 87: unsigned char PowerCount;
-[; ;Main_B1.h: 89: unsigned int Count;
-[; ;Main_B1.h: 90: unsigned int Count1;
-[; ;Main_B1.h: 91: unsigned int Count2;
-[; ;Main_B1.h: 92: unsigned int Count3;
-[; ;Main_B1.h: 98: struct {
-[; ;Main_B1.h: 99: unsigned i : 1;
-[; ;Main_B1.h: 100: unsigned j : 1;
-[; ;Main_B1.h: 101: unsigned k : 1;
-[; ;Main_B1.h: 102: unsigned l : 1;
-[; ;Main_B1.h: 103: unsigned m : 1;
-[; ;Main_B1.h: 104: unsigned n : 1;
-[; ;Main_B1.h: 105: unsigned o : 1;
-[; ;Main_B1.h: 106: unsigned p : 1;
-[; ;Main_B1.h: 107: };
-[; ;Main_B1.h: 109: struct {
-[; ;Main_B1.h: 110: unsigned q : 1;
-[; ;Main_B1.h: 111: unsigned r : 1;
-[; ;Main_B1.h: 112: unsigned Timeout : 1;
-[; ;Main_B1.h: 113: unsigned Error_Run : 1;
-[; ;Main_B1.h: 114: unsigned empty : 4;
-[; ;Main_B1.h: 115: };
-[; ;Main_B1.h: 117: unsigned int Timeout_Counter;
-[; ;Main_B1.h: 119: };
-"120
+[; ;Main_B1.h: 68: struct command Cmd;
+[; ;Main_B1.h: 70: void setCmd_Status(char number, char cmd);
+[; ;Main_B1.h: 71: char getCmd_Status(char number);
+[; ;Main_B1.h: 73: struct myMain {
+[; ;Main_B1.h: 75: struct {
+[; ;Main_B1.h: 76: unsigned PowerON : 1;
+[; ;Main_B1.h: 77: unsigned Flag : 1;
+[; ;Main_B1.h: 78: unsigned GO : 1;
+[; ;Main_B1.h: 79: unsigned FirstOpen : 1;
+[; ;Main_B1.h: 80: unsigned SelfTest : 1;
+[; ;Main_B1.h: 81: unsigned First : 1;
+[; ;Main_B1.h: 82: unsigned Test : 1;
+[; ;Main_B1.h: 83: unsigned Tempty : 1;
+[; ;Main_B1.h: 84: };
+[; ;Main_B1.h: 86: unsigned char PowerCount;
+[; ;Main_B1.h: 88: unsigned int Count;
+[; ;Main_B1.h: 89: unsigned int Count1;
+[; ;Main_B1.h: 90: unsigned int Count2;
+[; ;Main_B1.h: 91: unsigned int Count3;
+[; ;Main_B1.h: 97: struct {
+[; ;Main_B1.h: 98: unsigned i : 1;
+[; ;Main_B1.h: 99: unsigned j : 1;
+[; ;Main_B1.h: 100: unsigned k : 1;
+[; ;Main_B1.h: 101: unsigned l : 1;
+[; ;Main_B1.h: 102: unsigned m : 1;
+[; ;Main_B1.h: 103: unsigned n : 1;
+[; ;Main_B1.h: 104: unsigned o : 1;
+[; ;Main_B1.h: 105: unsigned p : 1;
+[; ;Main_B1.h: 106: };
+[; ;Main_B1.h: 108: struct {
+[; ;Main_B1.h: 109: unsigned q : 1;
+[; ;Main_B1.h: 110: unsigned r : 1;
+[; ;Main_B1.h: 111: unsigned Timeout : 1;
+[; ;Main_B1.h: 112: unsigned Error_Run : 1;
+[; ;Main_B1.h: 113: unsigned empty : 4;
+[; ;Main_B1.h: 114: };
+[; ;Main_B1.h: 116: unsigned int Timeout_Counter;
+[; ;Main_B1.h: 118: };
+"119
 [v _myMain `S247 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 120: struct myMain myMain;
-[; ;Main_B1.h: 129: void myMain_Initialization();
-[; ;Main_B1.h: 134: inline void my_Main();
-[; ;Main_B1.h: 139: inline void my_MainTimer();
-[; ;Main_B1.h: 144: inline void Timeout_Counter();
-[; ;Main_B1.h: 145: inline void set_TimeoutCleared();
-[; ;Main_B1.h: 146: void setMain_Exception(char command);
-[; ;Main_B1.h: 147: char getMain_AD_OK();
-[; ;Main_B1.h: 148: char getMain_All_LightsStatus();
-[; ;Main_B1.h: 149: char getMain_All_Error_Status(char command);
-[; ;Main_B1.h: 150: char getMain_Lights_Count();
-[; ;Main_B1.h: 151: void Exception_Main();
-[; ;Main_B1.h: 152: inline void setProductData(char address, char value);
+[; ;Main_B1.h: 119: struct myMain myMain;
+[; ;Main_B1.h: 128: void myMain_Initialization();
+[; ;Main_B1.h: 133: inline void my_Main();
+[; ;Main_B1.h: 138: inline void my_MainTimer();
+[; ;Main_B1.h: 143: inline void Timeout_Counter();
+[; ;Main_B1.h: 144: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 145: void setMain_Exception(char command);
+[; ;Main_B1.h: 146: char getMain_AD_OK();
+[; ;Main_B1.h: 147: char getMain_All_LightsStatus();
+[; ;Main_B1.h: 148: char getMain_All_Error_Status(char command);
+[; ;Main_B1.h: 149: char getMain_Lights_Count();
+[; ;Main_B1.h: 150: void Exception_Main();
 [; ;Switch_B1.h: 14: struct Switch {
 [; ;Switch_B1.h: 16: struct {
 [; ;Switch_B1.h: 17: unsigned Enable : 1;
@@ -3040,6 +3046,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;DelayOff_B1.h: 55: void setDelayOff_GO(char sw, char command, char value);
 [; ;DelayOff_B1.h: 56: char getDelayOff_GO(char sw);
 [; ;DelayOff_B1.h: 57: void DelayOffPointSelect(char sw);
+[; ;TriacRelay_B1.h: 106: struct Light {
+[; ;TriacRelay_B1.h: 108: struct {
+[; ;TriacRelay_B1.h: 109: unsigned LoadGO : 1;
+[; ;TriacRelay_B1.h: 110: unsigned Load_Status : 1;
+[; ;TriacRelay_B1.h: 111: unsigned empty : 6;
+[; ;TriacRelay_B1.h: 112: };
+[; ;TriacRelay_B1.h: 113: };
+"114 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/TriacRelay_B1.h
+[v _Light `S281 ~T0 @X0 1 e ]
+[; ;TriacRelay_B1.h: 114: struct Light Light;
+[; ;TriacRelay_B1.h: 116: char getLight_LoadGO();
+[; ;TriacRelay_B1.h: 117: char getLight_Load_Status();
 "27 ../src/CC2500_B1.c
 [v _Receive_OK `b ~T0 @X0 1 s ]
 [v _Transceive_OK `b ~T0 @X0 1 s ]
@@ -3067,18 +3085,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _SPI0Buffer -> + -> 63 `i -> 64 `i `uc ]
 [; ;CC2500_B1.c: 40: while (RC2 == 1 && RF1.Timeout == 0) {
 "40
-[e $U 282  ]
-[e :U 283 ]
+[e $U 284  ]
+[e :U 285 ]
 {
 [; ;CC2500_B1.c: 41: RF_Timeout_Counter();
 "41
 [e ( _RF_Timeout_Counter ..  ]
 "42
 }
-[e :U 282 ]
-"40
-[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 283  ]
 [e :U 284 ]
+"40
+[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 285  ]
+[e :U 286 ]
 [; ;CC2500_B1.c: 42: };
 [; ;CC2500_B1.c: 43: setRF_TimeoutCleared();
 "43
@@ -3096,8 +3114,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 "48
 {
 [e = _loop_e -> -> 0 `i `uc ]
-[e $U 288  ]
-[e :U 285 ]
+[e $U 290  ]
+[e :U 287 ]
 {
 [; ;CC2500_B1.c: 49: SPI0Buffer = RF_Data[loop_e];
 "49
@@ -3109,9 +3127,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 "48
 [e ++ _loop_e -> -> 1 `i `uc ]
+[e :U 290 ]
+[e $ < -> _loop_e `i -> _Tx_Length `i 287  ]
 [e :U 288 ]
-[e $ < -> _loop_e `i -> _Tx_Length `i 285  ]
-[e :U 286 ]
 "51
 }
 [; ;CC2500_B1.c: 51: }
@@ -3123,36 +3141,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _CC2500_WriteCommand (1 -> -> 53 `i `uc ]
 [; ;CC2500_B1.c: 54: while (RB0 == 0 && RF1.Timeout == 0) {
 "54
-[e $U 289  ]
-[e :U 290 ]
+[e $U 291  ]
+[e :U 292 ]
 {
 [; ;CC2500_B1.c: 55: RF_Timeout_Counter();
 "55
 [e ( _RF_Timeout_Counter ..  ]
 "56
 }
-[e :U 289 ]
-"54
-[e $ && == -> _RB0 `i -> 0 `i == -> . . _RF1 1 6 `i -> 0 `i 290  ]
 [e :U 291 ]
+"54
+[e $ && == -> _RB0 `i -> 0 `i == -> . . _RF1 1 6 `i -> 0 `i 292  ]
+[e :U 293 ]
 [; ;CC2500_B1.c: 56: };
 [; ;CC2500_B1.c: 57: setRF_TimeoutCleared();
 "57
 [e ( _setRF_TimeoutCleared ..  ]
 [; ;CC2500_B1.c: 59: while (RB0 == 1 && RF1.Timeout == 0) {
 "59
-[e $U 292  ]
-[e :U 293 ]
+[e $U 294  ]
+[e :U 295 ]
 {
 [; ;CC2500_B1.c: 60: RF_Timeout_Counter();
 "60
 [e ( _RF_Timeout_Counter ..  ]
 "61
 }
-[e :U 292 ]
-"59
-[e $ && == -> _RB0 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 293  ]
 [e :U 294 ]
+"59
+[e $ && == -> _RB0 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 295  ]
+[e :U 296 ]
 [; ;CC2500_B1.c: 61: };
 [; ;CC2500_B1.c: 62: setRF_TimeoutCleared();
 "62
@@ -3168,7 +3186,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _Transceive_OK -> -> 1 `i `b ]
 [; ;CC2500_B1.c: 68: }
 "68
-[e :UE 281 ]
+[e :UE 283 ]
 }
 "73
 [v _CC2500_RxData `(v ~T0 @X0 1 ef ]
@@ -3181,14 +3199,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;CC2500_B1.c: 74: unsigned char loop_f;
 [; ;CC2500_B1.c: 78: if (RB0 == 0) {
 "78
-[e $ ! == -> _RB0 `i -> 0 `i 296  ]
+[e $ ! == -> _RB0 `i -> 0 `i 298  ]
 {
 [; ;CC2500_B1.c: 87: CC2500_ReadStatus(0x3B);
 "87
 [e ( _CC2500_ReadStatus (1 -> -> 59 `i `uc ]
 [; ;CC2500_B1.c: 89: if (s_data != 0) {
 "89
-[e $ ! != -> _s_data `i -> 0 `i 297  ]
+[e $ ! != -> _s_data `i -> 0 `i 299  ]
 {
 [; ;CC2500_B1.c: 90: RC4 = 0;
 "90
@@ -3198,18 +3216,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _SPI0Buffer -> + -> 63 `i -> 192 `i `uc ]
 [; ;CC2500_B1.c: 93: while (RC2 == 1 && RF1.Timeout == 0) {
 "93
-[e $U 298  ]
-[e :U 299 ]
+[e $U 300  ]
+[e :U 301 ]
 {
 [; ;CC2500_B1.c: 94: RF_Timeout_Counter();
 "94
 [e ( _RF_Timeout_Counter ..  ]
 "95
 }
-[e :U 298 ]
-"93
-[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 299  ]
 [e :U 300 ]
+"93
+[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 301  ]
+[e :U 302 ]
 [; ;CC2500_B1.c: 95: };
 [; ;CC2500_B1.c: 96: setRF_TimeoutCleared();
 "96
@@ -3227,8 +3245,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 "101
 {
 [e = _loop_f -> -> 0 `i `uc ]
-[e $U 304  ]
-[e :U 301 ]
+[e $U 306  ]
+[e :U 303 ]
 {
 [; ;CC2500_B1.c: 102: CC2500_ReadByte();
 "102
@@ -3240,9 +3258,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 "101
 [e ++ _loop_f -> -> 1 `i `uc ]
+[e :U 306 ]
+[e $ < -> _loop_f `i -> _Rx_Length `i 303  ]
 [e :U 304 ]
-[e $ < -> _loop_f `i -> _Rx_Length `i 301  ]
-[e :U 302 ]
 "104
 }
 [; ;CC2500_B1.c: 104: }
@@ -3263,11 +3281,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _RC4 -> -> 1 `i `b ]
 [; ;CC2500_B1.c: 110: if (CRC & 0x80)
 "110
-[e $ ! != & -> _CRC `i -> 128 `i -> 0 `i 305  ]
+[e $ ! != & -> _CRC `i -> 128 `i -> 0 `i 307  ]
 [; ;CC2500_B1.c: 111: Receive_OK = 1;
 "111
 [e = _Receive_OK -> -> 1 `i `b ]
-[e :U 305 ]
+[e :U 307 ]
 [; ;CC2500_B1.c: 113: RF1.RxStatus = 0;
 "113
 [e = . . _RF1 0 3 -> -> 0 `i `uc ]
@@ -3282,15 +3300,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _CC2500_WriteCommand (1 -> -> 58 `i `uc ]
 "117
 }
-[e :U 297 ]
+[e :U 299 ]
 "120
 }
-[e :U 296 ]
+[e :U 298 ]
 [; ;CC2500_B1.c: 117: }
 [; ;CC2500_B1.c: 120: }
 [; ;CC2500_B1.c: 121: }
 "121
-[e :UE 295 ]
+[e :UE 297 ]
 }
 "126
 [v _CC2500_PowerOnInitial `(v ~T0 @X0 1 ef ]
@@ -3321,7 +3339,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _CC2500_SIDLEMode ..  ]
 [; ;CC2500_B1.c: 134: }
 "134
-[e :UE 306 ]
+[e :UE 308 ]
 }
 "139
 [v _CC2500_PowerRST `(v ~T0 @X0 1 ef ]
@@ -3361,18 +3379,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _SPI0Buffer -> -> 48 `i `uc ]
 [; ;CC2500_B1.c: 150: while (RC2 == 1 && RF1.Timeout == 0) {
 "150
-[e $U 308  ]
-[e :U 309 ]
+[e $U 310  ]
+[e :U 311 ]
 {
 [; ;CC2500_B1.c: 151: RF_Timeout_Counter();
 "151
 [e ( _RF_Timeout_Counter ..  ]
 "152
 }
-[e :U 308 ]
-"150
-[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 309  ]
 [e :U 310 ]
+"150
+[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 311  ]
+[e :U 312 ]
 [; ;CC2500_B1.c: 152: };
 [; ;CC2500_B1.c: 153: setRF_TimeoutCleared();
 "153
@@ -3382,18 +3400,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _CC2500_WriteByte ..  ]
 [; ;CC2500_B1.c: 155: while (RC2 == 1 && RF1.Timeout == 0) {
 "155
-[e $U 311  ]
-[e :U 312 ]
+[e $U 313  ]
+[e :U 314 ]
 {
 [; ;CC2500_B1.c: 156: RF_Timeout_Counter();
 "156
 [e ( _RF_Timeout_Counter ..  ]
 "157
 }
-[e :U 311 ]
-"155
-[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 312  ]
 [e :U 313 ]
+"155
+[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 314  ]
+[e :U 315 ]
 [; ;CC2500_B1.c: 157: };
 [; ;CC2500_B1.c: 158: setRF_TimeoutCleared();
 "158
@@ -3406,7 +3424,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _RC4 -> -> 1 `i `b ]
 [; ;CC2500_B1.c: 161: }
 "161
-[e :UE 307 ]
+[e :UE 309 ]
 }
 "166
 [v _CC2500_InitSetREG `(v ~T0 @X0 1 ef ]
@@ -3425,9 +3443,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "170
 {
 [e = _loop_c -> -> 0 `i `uc ]
-[e $ < -> _loop_c `i -> 47 `i 315  ]
-[e $U 316  ]
-[e :U 315 ]
+[e $ < -> _loop_c `i -> 47 `i 317  ]
+[e $U 318  ]
+[e :U 317 ]
 {
 [; ;CC2500_B1.c: 171: temp1 = CC2500_registers_address[loop_c];
 "171
@@ -3442,14 +3460,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 "170
 [e ++ _loop_c -> -> 1 `i `uc ]
-[e $ < -> _loop_c `i -> 47 `i 315  ]
-[e :U 316 ]
+[e $ < -> _loop_c `i -> 47 `i 317  ]
+[e :U 318 ]
 "175
 }
 [; ;CC2500_B1.c: 175: }
 [; ;CC2500_B1.c: 176: }
 "176
-[e :UE 314 ]
+[e :UE 316 ]
 }
 "181
 [v _CC2500_InitPATable `(v ~T0 @X0 1 ef ]
@@ -3467,9 +3485,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "185
 {
 [e = _loop_d -> -> 0 `i `uc ]
-[e $ < -> _loop_d `i -> 8 `i 319  ]
-[e $U 320  ]
-[e :U 319 ]
+[e $ < -> _loop_d `i -> 8 `i 321  ]
+[e $U 322  ]
+[e :U 321 ]
 {
 [; ;CC2500_B1.c: 186: temp = CC2500_patable_vaule[loop_d];
 "186
@@ -3481,14 +3499,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 "185
 [e ++ _loop_d -> -> 1 `i `uc ]
-[e $ < -> _loop_d `i -> 8 `i 319  ]
-[e :U 320 ]
+[e $ < -> _loop_d `i -> 8 `i 321  ]
+[e :U 322 ]
 "188
 }
 [; ;CC2500_B1.c: 188: }
 [; ;CC2500_B1.c: 189: }
 "189
-[e :UE 318 ]
+[e :UE 320 ]
 }
 "194
 [v _CC2500_ClearTXFIFO `(v ~T0 @X0 1 ef ]
@@ -3501,7 +3519,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _CC2500_WriteCommand (1 -> -> 59 `i `uc ]
 [; ;CC2500_B1.c: 196: }
 "196
-[e :UE 322 ]
+[e :UE 324 ]
 }
 "201
 [v _CC2500_ClearRXFIFO `(v ~T0 @X0 1 ef ]
@@ -3514,7 +3532,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _CC2500_WriteCommand (1 -> -> 58 `i `uc ]
 [; ;CC2500_B1.c: 203: }
 "203
-[e :UE 323 ]
+[e :UE 325 ]
 }
 "208
 [v _CC2500_FrequencyCabr `(v ~T0 @X0 1 ef ]
@@ -3530,7 +3548,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _DelayTime_1us (1 -> 1000 `i ]
 [; ;CC2500_B1.c: 211: }
 "211
-[e :UE 324 ]
+[e :UE 326 ]
 }
 "216
 [v _CC2500_SIDLEMode `(v ~T0 @X0 1 ef ]
@@ -3543,7 +3561,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _CC2500_WriteCommand (1 -> -> 54 `i `uc ]
 [; ;CC2500_B1.c: 218: }
 "218
-[e :UE 325 ]
+[e :UE 327 ]
 }
 "226
 [v _CC2500_WriteByte `(v ~T0 @X0 1 ef ]
@@ -3558,24 +3576,24 @@ Version 3.2 HI-TECH Software Intermediate Code
 "228
 {
 [e = _loop_a -> -> 0 `i `uc ]
-[e $ < -> _loop_a `i -> 8 `i 327  ]
-[e $U 328  ]
-[e :U 327 ]
+[e $ < -> _loop_a `i -> 8 `i 329  ]
+[e $U 330  ]
+[e :U 329 ]
 {
 [; ;CC2500_B1.c: 229: if (SPI0Buffer & 0x80)
 "229
-[e $ ! != & -> _SPI0Buffer `i -> 128 `i -> 0 `i 330  ]
+[e $ ! != & -> _SPI0Buffer `i -> 128 `i -> 0 `i 332  ]
 [; ;CC2500_B1.c: 230: RC0 = 1;
 "230
 [e = _RC0 -> -> 1 `i `b ]
-[e $U 331  ]
+[e $U 333  ]
 "231
-[e :U 330 ]
+[e :U 332 ]
 [; ;CC2500_B1.c: 231: else
 [; ;CC2500_B1.c: 232: RC0 = 0;
 "232
 [e = _RC0 -> -> 0 `i `b ]
-[e :U 331 ]
+[e :U 333 ]
 [; ;CC2500_B1.c: 233: RC1 = 1;
 "233
 [e = _RC1 -> -> 1 `i `b ]
@@ -3589,14 +3607,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 "228
 [e ++ _loop_a -> -> 1 `i `uc ]
-[e $ < -> _loop_a `i -> 8 `i 327  ]
-[e :U 328 ]
+[e $ < -> _loop_a `i -> 8 `i 329  ]
+[e :U 330 ]
 "236
 }
 [; ;CC2500_B1.c: 236: }
 [; ;CC2500_B1.c: 237: }
 "237
-[e :UE 326 ]
+[e :UE 328 ]
 }
 "242
 [v _CC2500_ReadByte `(v ~T0 @X0 1 ef ]
@@ -3611,9 +3629,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "244
 {
 [e = _loop_b -> -> 0 `i `uc ]
-[e $ < -> _loop_b `i -> 8 `i 333  ]
-[e $U 334  ]
-[e :U 333 ]
+[e $ < -> _loop_b `i -> 8 `i 335  ]
+[e $U 336  ]
+[e :U 335 ]
 {
 [; ;CC2500_B1.c: 245: RC1 = 1;
 "245
@@ -3623,18 +3641,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e =<< _SPI0Buffer -> 1 `i ]
 [; ;CC2500_B1.c: 247: if (RC2 == 1)
 "247
-[e $ ! == -> _RC2 `i -> 1 `i 336  ]
+[e $ ! == -> _RC2 `i -> 1 `i 338  ]
 [; ;CC2500_B1.c: 248: SPI0Buffer |= 0x01;
 "248
 [e =| _SPI0Buffer -> -> 1 `i `uc ]
-[e $U 337  ]
+[e $U 339  ]
 "249
-[e :U 336 ]
+[e :U 338 ]
 [; ;CC2500_B1.c: 249: else
 [; ;CC2500_B1.c: 250: SPI0Buffer &= 0xFE;
 "250
 [e =& _SPI0Buffer -> -> 254 `i `uc ]
-[e :U 337 ]
+[e :U 339 ]
 [; ;CC2500_B1.c: 251: RC1 = 0;
 "251
 [e = _RC1 -> -> 0 `i `b ]
@@ -3642,14 +3660,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 "244
 [e ++ _loop_b -> -> 1 `i `uc ]
-[e $ < -> _loop_b `i -> 8 `i 333  ]
-[e :U 334 ]
+[e $ < -> _loop_b `i -> 8 `i 335  ]
+[e :U 336 ]
 "252
 }
 [; ;CC2500_B1.c: 252: }
 [; ;CC2500_B1.c: 253: }
 "253
-[e :UE 332 ]
+[e :UE 334 ]
 }
 "258
 [v _CC2500_WriteREG `(v ~T0 @X0 1 ef2`uc`uc ]
@@ -3667,18 +3685,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _SPI0Buffer _w_addr ]
 [; ;CC2500_B1.c: 261: while (RC2 == 1 && RF1.Timeout == 0) {
 "261
-[e $U 339  ]
-[e :U 340 ]
+[e $U 341  ]
+[e :U 342 ]
 {
 [; ;CC2500_B1.c: 262: RF_Timeout_Counter();
 "262
 [e ( _RF_Timeout_Counter ..  ]
 "263
 }
-[e :U 339 ]
-"261
-[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 340  ]
 [e :U 341 ]
+"261
+[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 342  ]
+[e :U 343 ]
 [; ;CC2500_B1.c: 263: };
 [; ;CC2500_B1.c: 264: setRF_TimeoutCleared();
 "264
@@ -3697,7 +3715,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _RC4 -> -> 1 `i `b ]
 [; ;CC2500_B1.c: 270: }
 "270
-[e :UE 338 ]
+[e :UE 340 ]
 }
 "275
 [v _CC2500_ReadREG `(v ~T0 @X0 1 ef1`uc ]
@@ -3714,18 +3732,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _SPI0Buffer -> + -> _r_addr `i -> 128 `i `uc ]
 [; ;CC2500_B1.c: 278: while (RC2 == 1 && RF1.Timeout == 0) {
 "278
-[e $U 343  ]
-[e :U 344 ]
+[e $U 345  ]
+[e :U 346 ]
 {
 [; ;CC2500_B1.c: 279: RF_Timeout_Counter();
 "279
 [e ( _RF_Timeout_Counter ..  ]
 "280
 }
-[e :U 343 ]
-"278
-[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 344  ]
 [e :U 345 ]
+"278
+[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 346  ]
+[e :U 347 ]
 [; ;CC2500_B1.c: 280: };
 [; ;CC2500_B1.c: 281: setRF_TimeoutCleared();
 "281
@@ -3744,7 +3762,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _r_data _SPI0Buffer ]
 [; ;CC2500_B1.c: 287: }
 "287
-[e :UE 342 ]
+[e :UE 344 ]
 }
 "292
 [v _CC2500_WriteCommand `(v ~T0 @X0 1 ef1`uc ]
@@ -3761,18 +3779,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _SPI0Buffer _command ]
 [; ;CC2500_B1.c: 296: while (RC2 == 1 && RF1.Timeout == 0) {
 "296
-[e $U 347  ]
-[e :U 348 ]
+[e $U 349  ]
+[e :U 350 ]
 {
 [; ;CC2500_B1.c: 297: RF_Timeout_Counter();
 "297
 [e ( _RF_Timeout_Counter ..  ]
 "298
 }
-[e :U 347 ]
-"296
-[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 348  ]
 [e :U 349 ]
+"296
+[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 350  ]
+[e :U 351 ]
 [; ;CC2500_B1.c: 298: };
 [; ;CC2500_B1.c: 299: setRF_TimeoutCleared();
 "299
@@ -3785,7 +3803,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _RC4 -> -> 1 `i `b ]
 [; ;CC2500_B1.c: 303: }
 "303
-[e :UE 346 ]
+[e :UE 348 ]
 }
 "308
 [v _CC2500_ReadStatus `(v ~T0 @X0 1 ef1`uc ]
@@ -3802,18 +3820,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _SPI0Buffer -> + -> _status_addr `i -> 192 `i `uc ]
 [; ;CC2500_B1.c: 312: while (RC2 == 1 && RF1.Timeout == 0) {
 "312
-[e $U 351  ]
-[e :U 352 ]
+[e $U 353  ]
+[e :U 354 ]
 {
 [; ;CC2500_B1.c: 313: RF_Timeout_Counter();
 "313
 [e ( _RF_Timeout_Counter ..  ]
 "314
 }
-[e :U 351 ]
-"312
-[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 352  ]
 [e :U 353 ]
+"312
+[e $ && == -> _RC2 `i -> 1 `i == -> . . _RF1 1 6 `i -> 0 `i 354  ]
+[e :U 355 ]
 [; ;CC2500_B1.c: 314: };
 [; ;CC2500_B1.c: 315: setRF_TimeoutCleared();
 "315
@@ -3832,7 +3850,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _s_data _SPI0Buffer ]
 [; ;CC2500_B1.c: 322: }
 "322
-[e :UE 350 ]
+[e :UE 352 ]
 }
 "327
 [v _DelayTime_1us `(v ~T0 @X0 1 ef1`i ]
@@ -3849,27 +3867,27 @@ Version 3.2 HI-TECH Software Intermediate Code
 "329
 {
 [e = _i -> -> 1 `i `ui ]
-[e $U 358  ]
+[e $U 360  ]
 "330
-[e :U 355 ]
+[e :U 357 ]
 [; ;CC2500_B1.c: 330: for (j = 0; j <= 1; j++);
 {
 [e = _j -> -> 0 `i `ui ]
-[e $ <= _j -> -> 1 `i `ui 359  ]
-[e $U 360  ]
-[e :U 359 ]
+[e $ <= _j -> -> 1 `i `ui 361  ]
+[e $U 362  ]
+[e :U 361 ]
 [e ++ _j -> -> 1 `i `ui ]
-[e $ <= _j -> -> 1 `i `ui 359  ]
-[e :U 360 ]
+[e $ <= _j -> -> 1 `i `ui 361  ]
+[e :U 362 ]
 }
 "329
 [e ++ _i -> -> 1 `i `ui ]
+[e :U 360 ]
+[e $ < _i -> _count `ui 357  ]
 [e :U 358 ]
-[e $ < _i -> _count `ui 355  ]
-[e :U 356 ]
 "330
 }
 [; ;CC2500_B1.c: 331: }
 "331
-[e :UE 354 ]
+[e :UE 356 ]
 }

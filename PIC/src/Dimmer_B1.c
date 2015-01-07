@@ -83,6 +83,8 @@ char getDimmerIntr_DimmingValue(char lights) {
     return value;
 }
 
+#if CC2500_use == 1
+
 void setDimmerIntr_MaxmumValue(char lights, char value) {
 #ifdef use_1KEY
     if (lights == 1) {
@@ -120,6 +122,7 @@ char getDimmerIntr_MaxmumValue(char lights) {
 #endif
     return value;
 }
+#endif
 
 void setDimmerIntr_MinimumValue(char lights, char value) {
 #ifdef use_1KEY
@@ -1015,6 +1018,7 @@ char getAll_DimmerLights_Trigger() {
 }
 
 //*********************************************************
+#if CC2500_use == 1
 
 char getDimmerLights_PercentToValue(char value) {
 #if Control_Method_Triac == 1
@@ -1046,6 +1050,8 @@ char getDimmerLights_ValueToPercent(char value) {
     return (char) (100 - ((Dimmer_Maxum - value) / i));
 #endif
 }
+
+#endif
 //******************************************************************************
 
 inline void Dimmer_Initialization() {
@@ -1178,6 +1184,31 @@ void DimmerLightsOpenShow() {
 
 
 //******************************************************************************
+#if Control_Method_Triac == 1  || Properties_Product_Value == 2
+
+#ifdef use_1KEY
+
+inline void DimmerLights_MOSFET_TMR_1() {
+
+}
+
+inline void DimmerLights_MOSFET_IOC_1() {
+
+}
+#endif
+
+#ifdef use_2KEY
+inline void DimmerLights_MOSFET_TMR_2() {
+
+}
+
+inline void DimmerLights_MOSFET_IOC_2() {
+
+}
+#endif
+
+
+#endif
 #if Control_Method_Mosfet == 1
 
 #ifdef use_1KEY

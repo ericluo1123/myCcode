@@ -2729,7 +2729,10 @@ Product _product = {
 }
 };
 
-# 62
+# 56
+inline void setProductData(char address, char value);
+
+# 61
 struct command {
 
 struct {
@@ -2762,7 +2765,7 @@ unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 98
+# 97
 struct {
 unsigned i : 1;
 unsigned j : 1;
@@ -2787,16 +2790,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 129
+# 128
 void myMain_Initialization();
 
-# 134
+# 133
 inline void my_Main();
 
-# 139
+# 138
 inline void my_MainTimer();
 
-# 144
+# 143
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2805,7 +2808,6 @@ char getMain_All_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
-inline void setProductData(char address, char value);
 
 # 14 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Switch_B1.h"
 struct Switch {
@@ -3427,6 +3429,20 @@ void setDelayOff_GO(char sw, char command, char value);
 char getDelayOff_GO(char sw);
 void DelayOffPointSelect(char sw);
 
+# 106 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/TriacRelay_B1.h"
+struct Light {
+
+struct {
+unsigned LoadGO : 1;
+unsigned Load_Status : 1;
+unsigned empty : 6;
+};
+};
+struct Light Light;
+
+char getLight_LoadGO();
+char getLight_Load_Status();
+
 
 # 22 "../src/MCU_B1.c"
 #pragma config FOSC = INTOSC,WDTE = ON,BOREN=OFF
@@ -3489,21 +3505,21 @@ WPUB = 0b00000000;;
 # 112
 void interrupt ISR(void) {
 
-
-if (IOCIE == 1 && IOCIF == 1 && IOCBF2 == 1) {
-IOC_ISR();
-}
-
-# 125
-else if (TMR1IE == 1 && TMR1IF == 1) {
+# 121
+if (TMR1IE == 1 && TMR1IF == 1) {
 TMR1_ISR();
 }
 
-# 143
+# 134
+else if (IOCIE == 1 && IOCIF == 1 && IOCBF2 == 1) {
+IOC_ISR();
+}
+
+# 144
 return;
 }
 
-# 221
+# 222
 inline void TMR1_Set() {
 T1CON = (0x40 | 0x00 | 0x01);
 TMR1H = (int)((65536-1480)/256);
@@ -3525,7 +3541,7 @@ TMR1IF = 0;
 
 DimmerLights_MOSFET_TMR_1();
 
-# 254
+# 255
 Timer1.Count++;
 if (Timer1.Count == (int)(20*10)) {
 Timer1.Count = 0;
@@ -3533,7 +3549,7 @@ Timer1.Timeout = 1;
 }
 }
 
-# 362
+# 363
 void IOC_Set() {
 
 IOCBP = 0b00000100;;
@@ -3555,20 +3571,20 @@ IOCIF = 0;
 
 if (myMain.PowerON == 1) {
 
-# 387
+# 388
 DimmerLights_MOSFET_IOC_1();
 
-# 400
+# 401
 }
 }
 
-# 408
+# 409
 void ADC_Set() {
 ADCON1 = 0xf3;
 FVRCON = 0xc1;
 }
 
-# 442
+# 443
 inline int getAD(char adcon0, char adcon1) {
 ADCON0 = adcon0;
 ADCON1 = adcon1;
@@ -3580,7 +3596,7 @@ set_TimeoutCleared();
 return ((ADRESH*256)+ADRESL);
 }
 
-# 913
+# 914
 void Flash_Memory_Initialization() {
 char i = 0;
 if (Flash_Memory_Read(31) == 0xaa) {
@@ -3588,7 +3604,7 @@ product->Data[12] = Flash_Memory_Read(0);
 product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
-# 924
+# 925
 i = getDimmerLights_ValueToPercent(((char)(70*0.8)));
 product->Data[21] = i;
 product->Data[22] = i;
@@ -3701,7 +3717,7 @@ setMemory_Data(0, product->Data[12]);
 setMemory_Data(1, product->Data[13]);
 setMemory_Data(2, product->Data[14]);
 
-# 1040
+# 1041
 if (Memory.LoopSave == 1) {
 Memory.LoopSave = 0;
 myMain.FirstOpen = 0;
@@ -3730,10 +3746,10 @@ void setMemory_Data(char address, char data) {
 Memory.Data[address] = data;
 }
 
-# 1072
+# 1073
 void WDT_Set() {
 
-# 1079
+# 1080
 WDTCON = 0b00010111;;
 
 WDT.Enable = 1;

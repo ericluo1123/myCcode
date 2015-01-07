@@ -63,7 +63,7 @@ struct Lights Lights3;
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
-void Lights_Close();
+
 void setLights_Initialization(char lights);
 void setLights_Main(char lights);
 void Lights_Control(char lights);

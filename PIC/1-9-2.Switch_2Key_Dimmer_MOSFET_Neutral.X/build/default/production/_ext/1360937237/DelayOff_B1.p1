@@ -20,22 +20,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Main_B1.h
 [s S244 `uc -> 32 `i ]
 [n S244 Product Data ]
-"64
+"63
 [s S246 :1 `uc 1 :7 `uc 1 ]
 [n S246 . all_off empty ]
-"62
+"61
 [s S245 `S246 1 ]
 [n S245 command . ]
-"76
+"75
 [s S248 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S248 . PowerON Flag GO FirstOpen SelfTest First Test Tempty ]
-"98
+"97
 [s S249 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S249 . i j k l m n o p ]
-"109
+"108
 [s S250 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :4 `uc 1 ]
 [n S250 . q r Timeout Error_Run empty ]
-"74
+"73
 [s S247 `S248 1 `uc 1 `ui 1 `ui 1 `ui 1 `ui 1 `S249 1 `S250 1 `ui 1 ]
 [n S247 myMain . PowerCount Count Count1 Count2 Count3 . . Timeout_Counter ]
 "16 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Switch_B1.h
@@ -128,7 +128,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 "24
 [s S279 `S280 1 `uc 1 `ui 1 `uc 1 ]
 [n S279 DelayOff . Value SecondTime MinuteTime ]
-"53
+"108 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/TriacRelay_B1.h
+[s S282 :1 `uc 1 :1 `uc 1 :6 `uc 1 ]
+[n S282 . LoadGO Load_Status empty ]
+"106
+[s S281 `S282 1 ]
+[n S281 Light . ]
+"53 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/DelayOff_B1.h
 [v _DlyOff_Initialization `(v ~T0 @X0 0 ef1`uc ]
 "54
 [v _DlyOff_Main `(v ~T0 @X0 0 ef1`uc ]
@@ -138,9 +144,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _setDimmerLights_SwOn `(v ~T0 @X0 0 ef1`uc ]
 "94
 [v _setDimmerLights_SwOff `(v ~T0 @X0 0 ef1`uc ]
-[v F2137 `(v ~T0 @X0 1 tf2`uc`uc ]
-"152 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Main_B1.h
-[v _setProductData `TF2137 ~T0 @X0 0 e ]
+[v F2074 `(v ~T0 @X0 1 tf2`uc`uc ]
+"56 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Main_B1.h
+[v _setProductData `TF2074 ~T0 @X0 0 e ]
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -2215,67 +2221,67 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 22: 0x00, 0x00
 [; ;Main_B1.h: 23: }
 [; ;Main_B1.h: 24: };
-[; ;Main_B1.h: 62: struct command {
-[; ;Main_B1.h: 64: struct {
-[; ;Main_B1.h: 65: unsigned all_off : 1;
-[; ;Main_B1.h: 66: unsigned empty : 7;
+[; ;Main_B1.h: 56: inline void setProductData(char address, char value);
+[; ;Main_B1.h: 61: struct command {
+[; ;Main_B1.h: 63: struct {
+[; ;Main_B1.h: 64: unsigned all_off : 1;
+[; ;Main_B1.h: 65: unsigned empty : 7;
+[; ;Main_B1.h: 66: };
 [; ;Main_B1.h: 67: };
-[; ;Main_B1.h: 68: };
-"69
+"68
 [v _Cmd `S245 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 69: struct command Cmd;
-[; ;Main_B1.h: 71: void setCmd_Status(char number, char cmd);
-[; ;Main_B1.h: 72: char getCmd_Status(char number);
-[; ;Main_B1.h: 74: struct myMain {
-[; ;Main_B1.h: 76: struct {
-[; ;Main_B1.h: 77: unsigned PowerON : 1;
-[; ;Main_B1.h: 78: unsigned Flag : 1;
-[; ;Main_B1.h: 79: unsigned GO : 1;
-[; ;Main_B1.h: 80: unsigned FirstOpen : 1;
-[; ;Main_B1.h: 81: unsigned SelfTest : 1;
-[; ;Main_B1.h: 82: unsigned First : 1;
-[; ;Main_B1.h: 83: unsigned Test : 1;
-[; ;Main_B1.h: 84: unsigned Tempty : 1;
-[; ;Main_B1.h: 85: };
-[; ;Main_B1.h: 87: unsigned char PowerCount;
-[; ;Main_B1.h: 89: unsigned int Count;
-[; ;Main_B1.h: 90: unsigned int Count1;
-[; ;Main_B1.h: 91: unsigned int Count2;
-[; ;Main_B1.h: 92: unsigned int Count3;
-[; ;Main_B1.h: 98: struct {
-[; ;Main_B1.h: 99: unsigned i : 1;
-[; ;Main_B1.h: 100: unsigned j : 1;
-[; ;Main_B1.h: 101: unsigned k : 1;
-[; ;Main_B1.h: 102: unsigned l : 1;
-[; ;Main_B1.h: 103: unsigned m : 1;
-[; ;Main_B1.h: 104: unsigned n : 1;
-[; ;Main_B1.h: 105: unsigned o : 1;
-[; ;Main_B1.h: 106: unsigned p : 1;
-[; ;Main_B1.h: 107: };
-[; ;Main_B1.h: 109: struct {
-[; ;Main_B1.h: 110: unsigned q : 1;
-[; ;Main_B1.h: 111: unsigned r : 1;
-[; ;Main_B1.h: 112: unsigned Timeout : 1;
-[; ;Main_B1.h: 113: unsigned Error_Run : 1;
-[; ;Main_B1.h: 114: unsigned empty : 4;
-[; ;Main_B1.h: 115: };
-[; ;Main_B1.h: 117: unsigned int Timeout_Counter;
-[; ;Main_B1.h: 119: };
-"120
+[; ;Main_B1.h: 68: struct command Cmd;
+[; ;Main_B1.h: 70: void setCmd_Status(char number, char cmd);
+[; ;Main_B1.h: 71: char getCmd_Status(char number);
+[; ;Main_B1.h: 73: struct myMain {
+[; ;Main_B1.h: 75: struct {
+[; ;Main_B1.h: 76: unsigned PowerON : 1;
+[; ;Main_B1.h: 77: unsigned Flag : 1;
+[; ;Main_B1.h: 78: unsigned GO : 1;
+[; ;Main_B1.h: 79: unsigned FirstOpen : 1;
+[; ;Main_B1.h: 80: unsigned SelfTest : 1;
+[; ;Main_B1.h: 81: unsigned First : 1;
+[; ;Main_B1.h: 82: unsigned Test : 1;
+[; ;Main_B1.h: 83: unsigned Tempty : 1;
+[; ;Main_B1.h: 84: };
+[; ;Main_B1.h: 86: unsigned char PowerCount;
+[; ;Main_B1.h: 88: unsigned int Count;
+[; ;Main_B1.h: 89: unsigned int Count1;
+[; ;Main_B1.h: 90: unsigned int Count2;
+[; ;Main_B1.h: 91: unsigned int Count3;
+[; ;Main_B1.h: 97: struct {
+[; ;Main_B1.h: 98: unsigned i : 1;
+[; ;Main_B1.h: 99: unsigned j : 1;
+[; ;Main_B1.h: 100: unsigned k : 1;
+[; ;Main_B1.h: 101: unsigned l : 1;
+[; ;Main_B1.h: 102: unsigned m : 1;
+[; ;Main_B1.h: 103: unsigned n : 1;
+[; ;Main_B1.h: 104: unsigned o : 1;
+[; ;Main_B1.h: 105: unsigned p : 1;
+[; ;Main_B1.h: 106: };
+[; ;Main_B1.h: 108: struct {
+[; ;Main_B1.h: 109: unsigned q : 1;
+[; ;Main_B1.h: 110: unsigned r : 1;
+[; ;Main_B1.h: 111: unsigned Timeout : 1;
+[; ;Main_B1.h: 112: unsigned Error_Run : 1;
+[; ;Main_B1.h: 113: unsigned empty : 4;
+[; ;Main_B1.h: 114: };
+[; ;Main_B1.h: 116: unsigned int Timeout_Counter;
+[; ;Main_B1.h: 118: };
+"119
 [v _myMain `S247 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 120: struct myMain myMain;
-[; ;Main_B1.h: 129: void myMain_Initialization();
-[; ;Main_B1.h: 134: inline void my_Main();
-[; ;Main_B1.h: 139: inline void my_MainTimer();
-[; ;Main_B1.h: 144: inline void Timeout_Counter();
-[; ;Main_B1.h: 145: inline void set_TimeoutCleared();
-[; ;Main_B1.h: 146: void setMain_Exception(char command);
-[; ;Main_B1.h: 147: char getMain_AD_OK();
-[; ;Main_B1.h: 148: char getMain_All_LightsStatus();
-[; ;Main_B1.h: 149: char getMain_All_Error_Status(char command);
-[; ;Main_B1.h: 150: char getMain_Lights_Count();
-[; ;Main_B1.h: 151: void Exception_Main();
-[; ;Main_B1.h: 152: inline void setProductData(char address, char value);
+[; ;Main_B1.h: 119: struct myMain myMain;
+[; ;Main_B1.h: 128: void myMain_Initialization();
+[; ;Main_B1.h: 133: inline void my_Main();
+[; ;Main_B1.h: 138: inline void my_MainTimer();
+[; ;Main_B1.h: 143: inline void Timeout_Counter();
+[; ;Main_B1.h: 144: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 145: void setMain_Exception(char command);
+[; ;Main_B1.h: 146: char getMain_AD_OK();
+[; ;Main_B1.h: 147: char getMain_All_LightsStatus();
+[; ;Main_B1.h: 148: char getMain_All_Error_Status(char command);
+[; ;Main_B1.h: 149: char getMain_Lights_Count();
+[; ;Main_B1.h: 150: void Exception_Main();
 [; ;Switch_B1.h: 14: struct Switch {
 [; ;Switch_B1.h: 16: struct {
 [; ;Switch_B1.h: 17: unsigned Enable : 1;
@@ -3011,6 +3017,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;DelayOff_B1.h: 55: void setDelayOff_GO(char sw, char command, char value);
 [; ;DelayOff_B1.h: 56: char getDelayOff_GO(char sw);
 [; ;DelayOff_B1.h: 57: void DelayOffPointSelect(char sw);
+[; ;TriacRelay_B1.h: 106: struct Light {
+[; ;TriacRelay_B1.h: 108: struct {
+[; ;TriacRelay_B1.h: 109: unsigned LoadGO : 1;
+[; ;TriacRelay_B1.h: 110: unsigned Load_Status : 1;
+[; ;TriacRelay_B1.h: 111: unsigned empty : 6;
+[; ;TriacRelay_B1.h: 112: };
+[; ;TriacRelay_B1.h: 113: };
+"114 ../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/TriacRelay_B1.h
+[v _Light `S281 ~T0 @X0 1 e ]
+[; ;TriacRelay_B1.h: 114: struct Light Light;
+[; ;TriacRelay_B1.h: 116: char getLight_LoadGO();
+[; ;TriacRelay_B1.h: 117: char getLight_Load_Status();
 "7 ../src/DelayOff_B1.c
 [v _DelayOffPointSelect `(v ~T0 @X0 1 ef1`uc ]
 {
@@ -3020,7 +3038,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;DelayOff_B1.c: 9: if (sw == 1) {
 "9
-[e $ ! == -> _sw `i -> 1 `i 282  ]
+[e $ ! == -> _sw `i -> 1 `i 284  ]
 {
 [; ;DelayOff_B1.c: 10: DelayOff = &DlySw1;
 "10
@@ -3028,23 +3046,23 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11
 }
 [; ;DelayOff_B1.c: 11: }
-[e $U 283  ]
+[e $U 285  ]
 "14
-[e :U 282 ]
+[e :U 284 ]
 [; ;DelayOff_B1.c: 14: else if (sw == 2) {
-[e $ ! == -> _sw `i -> 2 `i 284  ]
+[e $ ! == -> _sw `i -> 2 `i 286  ]
 {
 [; ;DelayOff_B1.c: 15: DelayOff = &DlySw2;
 "15
 [e = _DelayOff &U _DlySw2 ]
 "16
 }
-[e :U 284 ]
+[e :U 286 ]
 "23
-[e :U 283 ]
+[e :U 285 ]
 [; ;DelayOff_B1.c: 16: }
 [; ;DelayOff_B1.c: 23: }
-[e :UE 281 ]
+[e :UE 283 ]
 }
 [v F2599 `(v ~T0 @X0 1 tf ]
 "26
@@ -3061,7 +3079,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _DlyOff_Initialization (1 -> -> 2 `i `uc ]
 [; ;DelayOff_B1.c: 38: }
 "38
-[e :UE 285 ]
+[e :UE 287 ]
 }
 [v F2601 `(v ~T0 @X0 1 tf ]
 "41
@@ -3078,7 +3096,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _DlyOff_Main (1 -> -> 2 `i `uc ]
 [; ;DelayOff_B1.c: 53: }
 "53
-[e :UE 286 ]
+[e :UE 288 ]
 }
 "56
 [v _DlyOff_Initialization `(v ~T0 @X0 1 ef1`uc ]
@@ -3092,7 +3110,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _DelayOffPointSelect (1 _sw ]
 [; ;DelayOff_B1.c: 58: }
 "58
-[e :UE 287 ]
+[e :UE 289 ]
 }
 "61
 [v _DlyOff_Main `(v ~T0 @X0 1 ef1`uc ]
@@ -3106,14 +3124,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _DelayOffPointSelect (1 _sw ]
 [; ;DelayOff_B1.c: 64: if (DelayOff->GO == 1) {
 "64
-[e $ ! == -> . . *U _DelayOff 0 1 `i -> 1 `i 289  ]
+[e $ ! == -> . . *U _DelayOff 0 1 `i -> 1 `i 291  ]
 {
 [; ;DelayOff_B1.c: 65: DelayOff->SecondTime++;
 "65
 [e ++ . *U _DelayOff 2 -> -> 1 `i `ui ]
 [; ;DelayOff_B1.c: 66: if (DelayOff->SecondTime >= 60000/20) {
 "66
-[e $ ! >= -> . *U _DelayOff 2 `l / -> 60000 `l -> -> 20 `i `l 290  ]
+[e $ ! >= -> . *U _DelayOff 2 `l / -> 60000 `l -> -> 20 `i `l 292  ]
 {
 [; ;DelayOff_B1.c: 67: DelayOff->SecondTime = 0;
 "67
@@ -3123,7 +3141,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ++ . *U _DelayOff 3 -> -> 1 `i `uc ]
 [; ;DelayOff_B1.c: 69: if (DelayOff->MinuteTime >= DelayOff->Value) {
 "69
-[e $ ! >= -> . *U _DelayOff 3 `i -> . *U _DelayOff 1 `i 291  ]
+[e $ ! >= -> . *U _DelayOff 3 `i -> . *U _DelayOff 1 `i 293  ]
 {
 [; ;DelayOff_B1.c: 70: DelayOff->MinuteTime = 0;
 "70
@@ -3133,7 +3151,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . . *U _DelayOff 0 1 -> -> 0 `i `uc ]
 [; ;DelayOff_B1.c: 75: if (getDimmerLights_Status(sw) == 1) {
 "75
-[e $ ! == -> ( _getDimmerLights_Status (1 _sw `i -> 1 `i 292  ]
+[e $ ! == -> ( _getDimmerLights_Status (1 _sw `i -> 1 `i 294  ]
 {
 [; ;DelayOff_B1.c: 76: setDimmerLights_SwOn(sw);
 "76
@@ -3143,26 +3161,26 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setDimmerLights_SwOff (1 _sw ]
 "78
 }
-[e :U 292 ]
+[e :U 294 ]
 [; ;DelayOff_B1.c: 78: }
 [; ;DelayOff_B1.c: 80: setProductData(26 + sw, 0);
 "80
 [e ( _setProductData (2 , -> + -> 26 `i -> _sw `i `uc -> -> 0 `i `uc ]
 "81
 }
-[e :U 291 ]
+[e :U 293 ]
 "82
 }
-[e :U 290 ]
+[e :U 292 ]
 "83
 }
-[e :U 289 ]
+[e :U 291 ]
 [; ;DelayOff_B1.c: 81: }
 [; ;DelayOff_B1.c: 82: }
 [; ;DelayOff_B1.c: 83: }
 [; ;DelayOff_B1.c: 84: }
 "84
-[e :UE 288 ]
+[e :UE 290 ]
 }
 "87
 [v _setDelayOff_GO `(v ~T0 @X0 1 ef3`uc`uc`uc ]
@@ -3187,7 +3205,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . *U _DelayOff 3 -> -> 0 `i `uc ]
 [; ;DelayOff_B1.c: 94: if (command == 1) {
 "94
-[e $ ! == -> _command `i -> 1 `i 294  ]
+[e $ ! == -> _command `i -> 1 `i 296  ]
 {
 "96
 [v _i `uc ~T0 @X0 1 a ]
@@ -3199,7 +3217,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _k -> -> 0 `i `uc ]
 [; ;DelayOff_B1.c: 97: if (((value % 16) == 5 || (value % 16) == 0) && value <= 0x30) {
 "97
-[e $ ! && || == % -> _value `i -> 16 `i -> 5 `i == % -> _value `i -> 16 `i -> 0 `i <= -> _value `i -> 48 `i 295  ]
+[e $ ! && || == % -> _value `i -> 16 `i -> 5 `i == % -> _value `i -> 16 `i -> 0 `i <= -> _value `i -> 48 `i 297  ]
 {
 [; ;DelayOff_B1.c: 98: j = value & 0x0f;
 "98
@@ -3216,8 +3234,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 "103
 }
 [; ;DelayOff_B1.c: 103: } else {
-[e $U 296  ]
-[e :U 295 ]
+[e $U 298  ]
+[e :U 297 ]
 {
 [; ;DelayOff_B1.c: 104: DelayOff->Value = 0x05;
 "104
@@ -3227,26 +3245,26 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _setProductData (2 , -> + -> 26 `i -> _sw `i `uc -> -> 5 `i `uc ]
 "106
 }
-[e :U 296 ]
+[e :U 298 ]
 "108
 }
 [; ;DelayOff_B1.c: 106: }
 [; ;DelayOff_B1.c: 108: } else if (command == 0) {
-[e $U 297  ]
-[e :U 294 ]
-[e $ ! == -> _command `i -> 0 `i 298  ]
+[e $U 299  ]
+[e :U 296 ]
+[e $ ! == -> _command `i -> 0 `i 300  ]
 {
 [; ;DelayOff_B1.c: 109: setProductData(26 + sw, 0);
 "109
 [e ( _setProductData (2 , -> + -> 26 `i -> _sw `i `uc -> -> 0 `i `uc ]
 "110
 }
-[e :U 298 ]
+[e :U 300 ]
 "111
-[e :U 297 ]
+[e :U 299 ]
 [; ;DelayOff_B1.c: 110: }
 [; ;DelayOff_B1.c: 111: }
-[e :UE 293 ]
+[e :UE 295 ]
 }
 "114
 [v _getDelayOff_GO `(uc ~T0 @X0 1 ef1`uc ]
@@ -3265,10 +3283,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;DelayOff_B1.c: 117: return go;
 "117
 [e ) _go ]
-[e $UE 299  ]
+[e $UE 301  ]
 [; ;DelayOff_B1.c: 118: }
 "118
-[e :UE 299 ]
+[e :UE 301 ]
 }
 "121
 [v _DelayTimejudge `(uc ~T0 @X0 1 ef1`uc ]
@@ -3287,7 +3305,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _k -> -> 0 `i `uc ]
 [; ;DelayOff_B1.c: 123: if (value <= 0x30) {
 "123
-[e $ ! <= -> _value `i -> 48 `i 301  ]
+[e $ ! <= -> _value `i -> 48 `i 303  ]
 {
 [; ;DelayOff_B1.c: 124: j = value & 0x0f;
 "124
@@ -3300,13 +3318,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _i -> + -> _j `i * -> _k `i -> 10 `i `uc ]
 "127
 }
-[e :U 301 ]
+[e :U 303 ]
 [; ;DelayOff_B1.c: 127: }
 [; ;DelayOff_B1.c: 128: return i;
 "128
 [e ) _i ]
-[e $UE 300  ]
+[e $UE 302  ]
 [; ;DelayOff_B1.c: 129: }
 "129
-[e :UE 300 ]
+[e :UE 302 ]
 }

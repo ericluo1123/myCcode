@@ -10,7 +10,7 @@
 #define Load_Debug  0
 
 #ifdef MCU_16F723A
-#define FirstLimitValue (20*LinearParam)
+#define FirstLimitValue (int)(20*LinearParam)
 #define SecondLimitValue (int)(LimitCurrent*LinearParam)
 #endif
 #ifdef MCU_16F1516
@@ -59,7 +59,7 @@ struct OverLoad {
     //   unsigned char ErrorStatus;
     unsigned int ADH;
     unsigned int ADL;
- 
+
     ADtype TotalLoad;
     ADtype AH[5];
     ADtype AL[5];

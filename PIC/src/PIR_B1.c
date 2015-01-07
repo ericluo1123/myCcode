@@ -21,9 +21,11 @@ void PIR_Main() {
             } else {
                 _PIR.Available = false;
                 if (_PIR.OK == true) {
+#if LightsControl_use == 1
                     if (getLights_Status(1) == 1) {
                         setLights_Trigger(1, 0);
                     }
+#endif
                     setLED(1, 0);
                     setLED(2, 0);
                 }
@@ -177,9 +179,11 @@ void PIR_Main() {
                 _PIR.OK = true;
                 setLED(1, 0);
                 if (cds == 0) {
+#if LightsControl_use == 1
                     if (getLights_Status(1) == 1) {
                         setLights_Trigger(1, 0);
                     }
+#endif
                 }
             }
         }

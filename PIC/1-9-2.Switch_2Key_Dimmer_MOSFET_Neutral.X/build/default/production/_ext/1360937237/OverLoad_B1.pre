@@ -2729,7 +2729,10 @@ Product _product = {
 }
 };
 
-# 62
+# 56
+inline void setProductData(char address, char value);
+
+# 61
 struct command {
 
 struct {
@@ -2762,7 +2765,7 @@ unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 98
+# 97
 struct {
 unsigned i : 1;
 unsigned j : 1;
@@ -2787,16 +2790,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 129
+# 128
 void myMain_Initialization();
 
-# 134
+# 133
 inline void my_Main();
 
-# 139
+# 138
 inline void my_MainTimer();
 
-# 144
+# 143
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2805,7 +2808,6 @@ char getMain_All_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
-inline void setProductData(char address, char value);
 
 # 14 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Switch_B1.h"
 struct Switch {
@@ -3450,6 +3452,20 @@ void setDelayOff_GO(char sw, char command, char value);
 char getDelayOff_GO(char sw);
 void DelayOffPointSelect(char sw);
 
+# 106 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/TriacRelay_B1.h"
+struct Light {
+
+struct {
+unsigned LoadGO : 1;
+unsigned Load_Status : 1;
+unsigned empty : 6;
+};
+};
+struct Light Light;
+
+char getLight_LoadGO();
+char getLight_Load_Status();
+
 # 9 "../src/OverLoad_B1.c"
 inline void Load_Initialization() {
 
@@ -3511,6 +3527,7 @@ Load.GO = 0;
 }
 }
 
+# 89
 }
 
 
@@ -3539,19 +3556,22 @@ Load.ADL = 0;
 if (Load.Run == 1) {
 if (Load.Count < 2) {
 Load.Count++;
+
 Load_Status = getDimmer_Load_Status();
+
+# 123
 Load.LightsCount = getMain_Lights_Count();
 if (Load.Count == 1) {
 Load.ErrorCountValue = 2;
 Load.JudgeValue = (20*50);
 } else if (Load.Count == 2) {
 if (Load.LightsCount == 1) {
-Load.JudgeValue = (int)(1.1*50);
+Load.JudgeValue = (int)(1.8*50);
 } else {
 if (Load_Status == 0) {
-Load.JudgeValue = (int)(1.1*50) * Load.LightsCount;
+Load.JudgeValue = (int)(1.8*50) * Load.LightsCount;
 } else if (Load_Status == 1) {
-Load.JudgeValue = (int)(1.1*50) + Load.TotalLoad;
+Load.JudgeValue = (int)(1.8*50) + Load.TotalLoad;
 }
 }
 }
@@ -3564,7 +3584,7 @@ if (Load.ErrorCount > Load.ErrorCountValue) {
 Load.ErrorCount = 0;
 Load.ERROR = 1;
 
-# 142
+# 167
 }
 } else {
 Load.ErrorCount = 0;
@@ -3582,7 +3602,7 @@ Load.ErrorCountValue = 3;
 }
 }
 
-# 180
+# 205
 }
 }
 }
@@ -3604,12 +3624,12 @@ Load.SafeCount = 0;
 Load.ADH = 0;
 Load.ADL = 0;
 
-# 205
+# 230
 Load.Run = 0;
 Load.Count = 0;
 Load.OK = 0;
 
-# 229
+# 254
 }
 if (Load.ERROR == 1) {
 Load.ErrorTime++;

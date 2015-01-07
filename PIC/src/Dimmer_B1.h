@@ -104,8 +104,10 @@ char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
 
+#if CC2500_use == 1
 char getDimmerLights_PercentToValue(char value);
 char getDimmerLights_ValueToPercent(char value);
+#endif
 
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);
@@ -154,8 +156,6 @@ void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
 char getDimmerIntr_DimmingValue(char lights);
-void setDimmerIntr_MaxmumValue(char lights, char value);
-char getDimmerIntr_MaxmumValue(char lights);
 void setDimmerIntr_MinimumValue(char lights, char value);
 char getDimmerIntr_MinimumValue(char lights);
 void setDimmerIntr_Dimming_Sw(char lights, char command);
@@ -163,6 +163,14 @@ void setDimmerIntr_Dimming_RF(char lights, char command);
 char getAll_DimmerIntr_ControlStatus();
 char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
+
+#if CC2500_use == 1
+void setDimmerIntr_MaxmumValue(char lights, char value);
+char getDimmerIntr_MaxmumValue(char lights);
+#else
+#define setDimmerIntr_MaxmumValue(lights,value) ;
+#define getDimmerIntr_MaxmumValue(lights) ;
+#endif
 
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
@@ -193,9 +201,8 @@ struct Dimmer {
     unsigned char Load;
     unsigned char Correction;
 };
-#ifdef DimmerReference1
+
 struct Dimmer Dimmer;
-#endif
 
 inline void Dimmer_Initialization();
 char getDimmer_LoadGO();

@@ -67,6 +67,8 @@ void IO_Set() {
     PORTA = _PORTA;
     PORTB = _PORTB;
     PORTC = _PORTC;
+
+    WPUB = _WPUB;
 #endif
 
 #ifdef MCU_16F1516
@@ -82,6 +84,8 @@ void IO_Set() {
     PORTA = _PORTA;
     PORTB = _PORTB;
     PORTC = _PORTC;
+
+    WPUB = _WPUB;
 #endif
 
 #ifdef MCU_16F1518
@@ -113,7 +117,7 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
 
 
 #if Timer0_use == 1
-else if (TMR0IE == true && TMR0IF == true) {
+    else if (TMR0IE == true && TMR0IF == true) {
         TMR0_ISR();
     }
 #endif
@@ -131,7 +135,7 @@ else if (TMR0IE == true && TMR0IF == true) {
     INT_ISR();
 #endif
 #if IOC_use == 1
-else if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
+    else if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
         IOC_ISR();
     }
 #endif
