@@ -117,7 +117,7 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
 
 
 #if Timer0_use == 1
-    else if (TMR0IE == true && TMR0IF == true) {
+else if (TMR0IE == true && TMR0IF == true) {
         TMR0_ISR();
     }
 #endif
@@ -135,7 +135,7 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
     INT_ISR();
 #endif
 #if IOC_use == 1
-    else if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
+else if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
         IOC_ISR();
     }
 #endif
@@ -240,14 +240,26 @@ inline void TMR1_ISR() {
     TMR1IF = false;
 #if Dimmer_use == true
 
+#if Properties_Product == 2
+#ifdef use_1KEY
+    DimmerLights_IOC_1();
+#endif
+#ifdef use_2KEY
+    DimmerLights_IOC_2();
+#endif
+#ifdef use_3KEY
+    DimmerLights_IOC_3();
+#endif
+#endif
+
 #ifdef use_1KEY
     //    setDimmerIntr_TMR(1);
-    DimmerLights_MOSFET_TMR_1();
+    DimmerLights_TMR_1();
 #endif
 
 #ifdef use_2KEY
     //    setDimmerIntr_TMR(2);
-    DimmerLights_MOSFET_TMR_2();
+    DimmerLights_TMR_2();
 #endif
 
 #ifdef use_3KEY
@@ -389,12 +401,12 @@ inline void IOC_ISR() {
 
 #ifdef use_1KEY
         //        setDimmerIntr_IOC(1);
-        DimmerLights_MOSFET_IOC_1();
+        DimmerLights_IOC_1();
 #endif
 
 #ifdef use_2KEY
         //        setDimmerIntr_IOC(2);
-        DimmerLights_MOSFET_IOC_2();
+        DimmerLights_IOC_2();
 #endif
 
 #ifdef use_3KEY

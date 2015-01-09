@@ -2,10 +2,11 @@
 // Includes
 #include "Select_File.h"
 
-#if Dimmer_use == 1
+#if Dimmer_use == 1 
 
 void DimmerIntr_Initialization() {
-#ifdef use_1KEY
+
+#ifdef use_1KEY 
     DimmerIntr1.TuneTimeValue = 7;
     DimmerIntr1.MaxmumValue = Dimmer_Maxum;
     DimmerIntr1.MinimumValue = Dimmer_Minimum;
@@ -273,299 +274,299 @@ char getAll_DimmerIntr_Dimming_Sw_RF() {
 
 //*****************************************************************************
 
-inline void setDimmerIntr_IOC(char lights) {
-    //    DimmerIntrIOCPointSelect(lights);
-#ifdef use_1KEY
-    if (lights == 1) {
-        DimmerIntr = &DimmerIntr1;
-    }
-#endif
-#ifdef use_2KEY
-    else if (lights == 2) {
-        DimmerIntr = &DimmerIntr2;
-    }
-#endif
-#ifdef use_3KEY
-    else if (lights == 3) {
-        DimmerIntr = &DimmerIntr3;
-    }
-#endif
-#if Control_Method_Triac == 1
-    if (DimmerLightsIntrIOC->GO == false && DimmerLightsIntrIOC->TriacFlag == false) {
-        DimmerLightsIntrIOC->GO = true;
-        DimmerLightsIntrIOC->TriacFlag = true;
-        if (DimmerReference1 == true) {
-            Dimmer.Correction = 1;
-        } else {
-            Dimmer.Correction = 0;
-        }
-        //        if (lights == 1) {
-        //            ErrLED = ErrLED == true ? false : true;
-        //        }
-    }
-#endif
-#if Control_Method_Mosfet == 1
-    if (DimmerIntr->Start == false && DimmerReference1 == true) {
-        DimmerIntr->Start = true;
-        DimmerIntr->GO = true;
-
-        if (DimmerIntr->ControlStatus == true) {
-#ifdef use_1KEY
-            if (lights == 1) {
-                Mosfet1 = true;
-                //                ID_1KEY_1;
-            }
-#endif
-#ifdef use_2KEY
-            else if (lights == 2) {
-                Mosfet2 = true;
-            }
-#endif
-        }
-    }
-#endif
-}
+//inline void setDimmerIntr_IOC(char lights) {
+//    //    DimmerIntrIOCPointSelect(lights);
+//#ifdef use_1KEY
+//    if (lights == 1) {
+//        DimmerIntr = &DimmerIntr1;
+//    }
+//#endif
+//#ifdef use_2KEY
+//    else if (lights == 2) {
+//        DimmerIntr = &DimmerIntr2;
+//    }
+//#endif
+//#ifdef use_3KEY
+//    else if (lights == 3) {
+//        DimmerIntr = &DimmerIntr3;
+//    }
+//#endif
+//#if Control_Method_Triac == 1
+//    if (DimmerLightsIntrIOC->GO == false && DimmerLightsIntrIOC->TriacFlag == false) {
+//        DimmerLightsIntrIOC->GO = true;
+//        DimmerLightsIntrIOC->TriacFlag = true;
+//        if (DimmerReference1 == true) {
+//            Dimmer.Correction = 1;
+//        } else {
+//            Dimmer.Correction = 0;
+//        }
+//        //        if (lights == 1) {
+//        //            ErrLED = ErrLED == true ? false : true;
+//        //        }
+//    }
+//#endif
+//#if Control_Method_Mosfet == 1
+//    if (DimmerIntr->Start == false && DimmerReference1 == true) {
+//        DimmerIntr->Start = true;
+//        DimmerIntr->GO = true;
+//
+//        if (DimmerIntr->ControlStatus == true) {
+//#ifdef use_1KEY
+//            if (lights == 1) {
+//                Mosfet1 = true;
+//                //                ID_1KEY_1;
+//            }
+//#endif
+//#ifdef use_2KEY
+//            else if (lights == 2) {
+//                Mosfet2 = true;
+//            }
+//#endif
+//        }
+//    }
+//#endif
+//}
 
 /*****************************************************************************/
 
-inline void setDimmerIntr_TMR(char lights) {
-
-#ifdef use_1KEY
-    if (lights == 1) {
-        DimmerIntr = &DimmerIntr1;
-    }
-#endif
-#ifdef use_2KEY
-    else if (lights == 2) {
-        DimmerIntr = &DimmerIntr2;
-    }
-#endif
-#ifdef use_3KEY
-    else if (lights == 3) {
-        DimmerIntr = &DimmerIntr3;
-    }
-#endif
-
-#ifdef use_1KEY
-    if (lights == 1) {
-        DimmerIntr = &DimmerIntr1;
-    }
-#endif
-#ifdef use_2KEY
-    else if (lights == 2) {
-        DimmerIntr = &DimmerIntr2;
-    }
-#endif
-#ifdef use_3KEY
-    else if (lights == 3) {
-        DimmerIntr = &DimmerIntr3;
-    }
-#endif
-
-#if Control_Method_Triac == 1
-    DimmerIntrPointSelect(lights);
-    if (DimmerLightsIntr->GO == true) {
-        DimmerLightsIntr->Count++;
-        if (DimmerLightsIntr->Count >= (DimmerLightsIntr->DimmingValue + Dimmer.Correction)) {
-            DimmerLightsIntr->Count = 0;
-            DimmerLightsIntr->GO = false;
-
-            if (DimmerLightsIntr->StatusFlag == true) {
-                DimmerLightsIntr->Flag = true;
-                DimmerLightsIntr->Triac = true;
-#ifdef use_1KEY
-                if (lights == 1) {
-                    Triac1 = 1;
-                    ID_1KEY_1;
-                }
-#endif
-#ifdef use_2KEY
-                if (lights == 2) {
-                    Triac2 = 1;
-                }
-#endif
-#ifdef use_3KEY
-                if (lights == 3) {
-                    Triac3 = 1;
-                }
-#endif
-            }
-        }
-    } else {
-        if (DimmerLightsIntr->Flag == true) {
-            DimmerLightsIntr->Flag = false;
-            if (DimmerLightsIntr->Signal == true) {
-                DimmerLightsIntr->DimmingTime++;
-                if (DimmerLightsIntr->DimmingTime >= DimmerLightsIntr->DimmingTimeValue) {
-                    DimmerLightsIntr->DimmingTime = 0;
-                    if (DimmerLightsIntr->AdjSw == true) {
-                        if (DimmerLightsIntr->AdjStatus == false) {
-                            if (DimmerLightsIntr->DimmingValue > Dimmer_Maxum) {
-                                DimmerLightsIntr->DimmingValue--;
-                            }
-                            if (DimmerLightsIntr->DimmingValue == Dimmer_Maxum) {
-                                DimmerLightsIntr->AdjStatus = true;
-                            }
-                        } else {
-                            if (DimmerLightsIntr->DimmingValue < Dimmer_Minimum) {
-                                DimmerLightsIntr->DimmingValue++;
-                            }
-                            if (DimmerLightsIntr->DimmingValue == Dimmer_Minimum) {
-                                DimmerLightsIntr->AdjStatus = false;
-                            }
-                        }
-                    } else if (DimmerLightsIntr->AdjRF == true) {
-                        if (DimmerLightsIntr->DimmingValue > DimmerLightsIntr->MaxmumValue) {
-                            DimmerLightsIntr->DimmingValue--;
-                        } else if (DimmerLightsIntr->DimmingValue < DimmerLightsIntr->MaxmumValue) {
-                            DimmerLightsIntr->DimmingValue++;
-                        }
-                        if (DimmerLightsIntr->DimmingValue == DimmerLightsIntr->MaxmumValue) {
-                            DimmerLightsIntr->AdjRF = false;
-                            DimmerLightsIntr->Signal = false;
-                        }
-                    } else {
-                        if (DimmerLightsIntr->Status == true) {
-                            DimmerLightsIntr->DimmingValue--;
-                            if (DimmerLightsIntr->DimmingValue <= DimmerLightsIntr->MaxmumValue) {
-                                DimmerLightsIntr->Signal = false;
-                            }
-                        }
-                        //                        else {
-                        //                            //                            DimmerLightsIntr->DimmingValue++;
-                        //                            //                            if (DimmerLightsIntr->DimmingValue >= DimmerLightsIntr->MinimumValue) {
-                        //                            DimmerLightsIntr->Signal = false;
-                        //                            DimmerLightsIntr->StatusFlag = false;
-                        //                            DimmerLights->Loop = false;
-                        //#ifdef use_1KEY
-                        //                            if (lights == 1) {
-                        //                                setLED(1, 0);
-                        //                                setLED2(1);
-                        //                            }
-                        //#endif
-                        //#ifdef use_2KEY
-                        //                            if (lights == 2) {
-                        //                                LED2 = 0;
-                        //                            }
-                        //#endif
-                        //#ifdef use_3KEY
-                        //                            if (lights == 3) {
-                        //                                LED3 = 0;
-                        //                            }
-                        //#endif
-                        //                        }
-                        //                        }
-                    }
-                }
-            }
-        }
-    }
-    if (DimmerLightsIntr->Triac == true) {
-        DimmerLightsIntr->TriacTime++;
-        if (DimmerLightsIntr->TriacTime >= 5) {
-            DimmerLightsIntr->TriacTime = 0;
-            DimmerLightsIntr->Triac = false;
-
-#ifdef use_1KEY
-            if (lights == 1) {
-                Triac1 = 0;
-                ID_1KEY_0;
-                NOP();
-                NOP();
-            }
-#endif
-#ifdef use_2KEY
-            if (lights == 2) {
-                Triac2 = 0;
-                NOP();
-                NOP();
-            }
-#endif
-#ifdef use_3KEY
-            if (lights == 3) {
-                Triac3 = 0;
-                NOP();
-                NOP();
-            }
-#endif
-        }
-    } else {
-        if (DimmerLightsIntr->TriacFlag == true && DimmerLightsIntr->GO == false) {
-            DimmerLightsIntr->TriacCount++;
-            if (DimmerLightsIntr->TriacCount == 5) {//TriacCountValue
-                DimmerLightsIntr->TriacCount = 0;
-                DimmerLightsIntr->TriacFlag = false;
-                //                if (lights == 1) {
-                //                    ErrLED = ErrLED == true ? false : true;
-                //                }
-            }
-        }
-    }
-
-#endif 
-#if Control_Method_Mosfet == 1
-
-    if (DimmerIntr->Start == true) {
-        DimmerIntr->Count++;
-        if (DimmerIntr->Count >= Dimmer_Maxum + 1) {
-            DimmerIntr->Count = 0;
-            DimmerIntr->Start = false;
-        }
-    }
-
-    if (DimmerIntr->GO == true) {
-        if (DimmerIntr->Count >= DimmerIntr->DimmingValue) {
-            DimmerIntr->GO = false;
-            DimmerIntr->Tune = true;
-
-            if (DimmerIntr->ControlStatus == true) {
-#ifdef use_1KEY
-                if (lights == 1) {
-                    Mosfet1 = false;
-                    //                    ID_1KEY_0;
-                }
-#endif
-#ifdef use_2KEY
-                else if (lights == 2) {
-                    Mosfet2 = false;
-                }
-#endif
-            }
-        }
-    } else {
-        if (DimmerIntr->Tune == true) {
-            DimmerIntr->Tune = false;
-            DimmerIntr->TuneTime++;
-            if (DimmerIntr->TuneTime >= DimmerIntr->TuneTimeValue) {
-                DimmerIntr->TuneTime = 0;
-                if (DimmerIntr->Dimming_Sw == true) {
-                    if (DimmerIntr->Dimming_Status == false) {
-                        if (DimmerIntr->DimmingValue < Dimmer_Maxum) {
-                            DimmerIntr->DimmingValue++;
-                        } else {
-                            DimmerIntr->Dimming_Status = true;
-                        }
-                    } else {
-                        if (DimmerIntr->DimmingValue > Dimmer_Minimum) {
-                            DimmerIntr->DimmingValue--;
-                        } else {
-                            DimmerIntr->Dimming_Status = false;
-                        }
-                    }
-                } else if (DimmerIntr->Dimming_RF == true) {
-                    if (DimmerIntr->DimmingValue < DimmerIntr->MaxmumValue) {
-                        DimmerIntr->DimmingValue++;
-                    } else if (DimmerIntr->DimmingValue > DimmerIntr->MaxmumValue) {
-                        DimmerIntr->DimmingValue--;
-                    } else {
-                        DimmerIntr->Dimming_RF = false;
-                    }
-                }
-            }
-        }
-    }
-#endif
-}
+//inline void setDimmerIntr_TMR(char lights) {
+//
+//#ifdef use_1KEY
+//    if (lights == 1) {
+//        DimmerIntr = &DimmerIntr1;
+//    }
+//#endif
+//#ifdef use_2KEY
+//    else if (lights == 2) {
+//        DimmerIntr = &DimmerIntr2;
+//    }
+//#endif
+//#ifdef use_3KEY
+//    else if (lights == 3) {
+//        DimmerIntr = &DimmerIntr3;
+//    }
+//#endif
+//
+//#ifdef use_1KEY
+//    if (lights == 1) {
+//        DimmerIntr = &DimmerIntr1;
+//    }
+//#endif
+//#ifdef use_2KEY
+//    else if (lights == 2) {
+//        DimmerIntr = &DimmerIntr2;
+//    }
+//#endif
+//#ifdef use_3KEY
+//    else if (lights == 3) {
+//        DimmerIntr = &DimmerIntr3;
+//    }
+//#endif
+//
+//#if Control_Method_Triac == 1
+//    DimmerIntrPointSelect(lights);
+//    if (DimmerLightsIntr->GO == true) {
+//        DimmerLightsIntr->Count++;
+//        if (DimmerLightsIntr->Count >= (DimmerLightsIntr->DimmingValue + Dimmer.Correction)) {
+//            DimmerLightsIntr->Count = 0;
+//            DimmerLightsIntr->GO = false;
+//
+//            if (DimmerLightsIntr->StatusFlag == true) {
+//                DimmerLightsIntr->Flag = true;
+//                DimmerLightsIntr->Triac = true;
+//#ifdef use_1KEY
+//                if (lights == 1) {
+//                    Triac1 = 1;
+//                    ID_1KEY_1;
+//                }
+//#endif
+//#ifdef use_2KEY
+//                if (lights == 2) {
+//                    Triac2 = 1;
+//                }
+//#endif
+//#ifdef use_3KEY
+//                if (lights == 3) {
+//                    Triac3 = 1;
+//                }
+//#endif
+//            }
+//        }
+//    } else {
+//        if (DimmerLightsIntr->Flag == true) {
+//            DimmerLightsIntr->Flag = false;
+//            if (DimmerLightsIntr->Signal == true) {
+//                DimmerLightsIntr->DimmingTime++;
+//                if (DimmerLightsIntr->DimmingTime >= DimmerLightsIntr->DimmingTimeValue) {
+//                    DimmerLightsIntr->DimmingTime = 0;
+//                    if (DimmerLightsIntr->AdjSw == true) {
+//                        if (DimmerLightsIntr->AdjStatus == false) {
+//                            if (DimmerLightsIntr->DimmingValue > Dimmer_Maxum) {
+//                                DimmerLightsIntr->DimmingValue--;
+//                            }
+//                            if (DimmerLightsIntr->DimmingValue == Dimmer_Maxum) {
+//                                DimmerLightsIntr->AdjStatus = true;
+//                            }
+//                        } else {
+//                            if (DimmerLightsIntr->DimmingValue < Dimmer_Minimum) {
+//                                DimmerLightsIntr->DimmingValue++;
+//                            }
+//                            if (DimmerLightsIntr->DimmingValue == Dimmer_Minimum) {
+//                                DimmerLightsIntr->AdjStatus = false;
+//                            }
+//                        }
+//                    } else if (DimmerLightsIntr->AdjRF == true) {
+//                        if (DimmerLightsIntr->DimmingValue > DimmerLightsIntr->MaxmumValue) {
+//                            DimmerLightsIntr->DimmingValue--;
+//                        } else if (DimmerLightsIntr->DimmingValue < DimmerLightsIntr->MaxmumValue) {
+//                            DimmerLightsIntr->DimmingValue++;
+//                        }
+//                        if (DimmerLightsIntr->DimmingValue == DimmerLightsIntr->MaxmumValue) {
+//                            DimmerLightsIntr->AdjRF = false;
+//                            DimmerLightsIntr->Signal = false;
+//                        }
+//                    } else {
+//                        if (DimmerLightsIntr->Status == true) {
+//                            DimmerLightsIntr->DimmingValue--;
+//                            if (DimmerLightsIntr->DimmingValue <= DimmerLightsIntr->MaxmumValue) {
+//                                DimmerLightsIntr->Signal = false;
+//                            }
+//                        }
+//                        //                        else {
+//                        //                            //                            DimmerLightsIntr->DimmingValue++;
+//                        //                            //                            if (DimmerLightsIntr->DimmingValue >= DimmerLightsIntr->MinimumValue) {
+//                        //                            DimmerLightsIntr->Signal = false;
+//                        //                            DimmerLightsIntr->StatusFlag = false;
+//                        //                            DimmerLights->Loop = false;
+//                        //#ifdef use_1KEY
+//                        //                            if (lights == 1) {
+//                        //                                setLED(1, 0);
+//                        //                                setLED2(1);
+//                        //                            }
+//                        //#endif
+//                        //#ifdef use_2KEY
+//                        //                            if (lights == 2) {
+//                        //                                LED2 = 0;
+//                        //                            }
+//                        //#endif
+//                        //#ifdef use_3KEY
+//                        //                            if (lights == 3) {
+//                        //                                LED3 = 0;
+//                        //                            }
+//                        //#endif
+//                        //                        }
+//                        //                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    if (DimmerLightsIntr->Triac == true) {
+//        DimmerLightsIntr->TriacTime++;
+//        if (DimmerLightsIntr->TriacTime >= 5) {
+//            DimmerLightsIntr->TriacTime = 0;
+//            DimmerLightsIntr->Triac = false;
+//
+//#ifdef use_1KEY
+//            if (lights == 1) {
+//                Triac1 = 0;
+//                ID_1KEY_0;
+//                NOP();
+//                NOP();
+//            }
+//#endif
+//#ifdef use_2KEY
+//            if (lights == 2) {
+//                Triac2 = 0;
+//                NOP();
+//                NOP();
+//            }
+//#endif
+//#ifdef use_3KEY
+//            if (lights == 3) {
+//                Triac3 = 0;
+//                NOP();
+//                NOP();
+//            }
+//#endif
+//        }
+//    } else {
+//        if (DimmerLightsIntr->TriacFlag == true && DimmerLightsIntr->GO == false) {
+//            DimmerLightsIntr->TriacCount++;
+//            if (DimmerLightsIntr->TriacCount == 5) {//TriacCountValue
+//                DimmerLightsIntr->TriacCount = 0;
+//                DimmerLightsIntr->TriacFlag = false;
+//                //                if (lights == 1) {
+//                //                    ErrLED = ErrLED == true ? false : true;
+//                //                }
+//            }
+//        }
+//    }
+//
+//#endif
+//#if Control_Method_Mosfet == 1
+//
+//    if (DimmerIntr->Start == true) {
+//        DimmerIntr->Count++;
+//        if (DimmerIntr->Count >= Dimmer_Maxum + 1) {
+//            DimmerIntr->Count = 0;
+//            DimmerIntr->Start = false;
+//        }
+//    }
+//
+//    if (DimmerIntr->GO == true) {
+//        if (DimmerIntr->Count >= DimmerIntr->DimmingValue) {
+//            DimmerIntr->GO = false;
+//            DimmerIntr->Tune = true;
+//
+//            if (DimmerIntr->ControlStatus == true) {
+//#ifdef use_1KEY
+//                if (lights == 1) {
+//                    Mosfet1 = false;
+//                    //                    ID_1KEY_0;
+//                }
+//#endif
+//#ifdef use_2KEY
+//                else if (lights == 2) {
+//                    Mosfet2 = false;
+//                }
+//#endif
+//            }
+//        }
+//    } else {
+//        if (DimmerIntr->Tune == true) {
+//            DimmerIntr->Tune = false;
+//            DimmerIntr->TuneTime++;
+//            if (DimmerIntr->TuneTime >= DimmerIntr->TuneTimeValue) {
+//                DimmerIntr->TuneTime = 0;
+//                if (DimmerIntr->Dimming_Sw == true) {
+//                    if (DimmerIntr->Dimming_Status == false) {
+//                        if (DimmerIntr->DimmingValue < Dimmer_Maxum) {
+//                            DimmerIntr->DimmingValue++;
+//                        } else {
+//                            DimmerIntr->Dimming_Status = true;
+//                        }
+//                    } else {
+//                        if (DimmerIntr->DimmingValue > Dimmer_Minimum) {
+//                            DimmerIntr->DimmingValue--;
+//                        } else {
+//                            DimmerIntr->Dimming_Status = false;
+//                        }
+//                    }
+//                } else if (DimmerIntr->Dimming_RF == true) {
+//                    if (DimmerIntr->DimmingValue < DimmerIntr->MaxmumValue) {
+//                        DimmerIntr->DimmingValue++;
+//                    } else if (DimmerIntr->DimmingValue > DimmerIntr->MaxmumValue) {
+//                        DimmerIntr->DimmingValue--;
+//                    } else {
+//                        DimmerIntr->Dimming_RF = false;
+//                    }
+//                }
+//            }
+//        }
+//    }
+//#endif
+//}
 
 //******************************************************************************
 //******************************************************************************
@@ -795,17 +796,28 @@ void setDimmerLights_OnOff(char lights, char command) {
 
     if (command == 1) {
         setDimmerIntr_ControlStatus(lights, 1);
-        setLED(lights, 0);
-        setLED2(0);
 
 #if OverLoad_use == 1
         Dimmer.Load_Status = true;
         setDimmerLights_Line(lights);
 #endif
+
+#if Properties_Product == 2
+
+        //PIR set
+        setDimmerIntr_DimmingValue(lights, Dimmer_Minimum);
+        setDimmerIntr_MaxmumValue(lights, Dimmer_Maxum);
+        setDimmerIntr_Dimming_RF(lights, 1);
+#else
+        setLED(lights, 0);
+        setLED2(0);
+
+
         //調光值在關燈後不記錄而且不存入記憶體，開燈後恢復最大值
 #if DimmerValue_CloseLightsSave == 0 && DimmerValue_SaveMemory == 0
 
         setDimmerIntr_DimmingValue(lights, Dimmer_Maxum);
+        //RF set
         if (DimmerLights->DimmingRun == true) {
             DimmerLights->DimmingRun = false;
             setDimmerIntr_MaxmumValue(lights, getDimmerLights_PercentToValue(product->Data[20 + lights]));
@@ -814,6 +826,7 @@ void setDimmerLights_OnOff(char lights, char command) {
             setDimmerIntr_MaxmumValue(lights, Dimmer_Maxum);
             setProductData((20 + lights), getDimmerLights_ValueToPercent(Dimmer_Maxum));
         }
+#endif
 #endif
     } else if (command == 0) {
         setDimmerIntr_ControlStatus(lights, 0);
@@ -1184,25 +1197,104 @@ void DimmerLightsOpenShow() {
 
 
 //******************************************************************************
-#if Control_Method_Triac == 1  || Properties_Product_Value == 2
+#if Control_Method_Triac == 1
 
 #ifdef use_1KEY
 
-inline void DimmerLights_MOSFET_TMR_1() {
+inline void DimmerLights_TMR_1() {
+    if (DimmerIntr1.Start == true) {
+        DimmerIntr1.Count++;
+        if (DimmerIntr1.Count >= Dimmer_Minimum + 1) {
+            DimmerIntr1.Count = 0;
+            DimmerIntr1.Start = false;
+        }
+    }
 
+    if (DimmerIntr1.GO == true) {
+        if (DimmerIntr1.Count >= DimmerIntr1.DimmingValue) {
+            DimmerIntr1.GO = false;
+            DimmerIntr1.Tune = true;
+
+            if (DimmerIntr1.ControlStatus == true) {
+                Triac1 = true;
+                //                    ID_1KEY_0;                
+            }
+        }
+    } else {
+        if (DimmerIntr1.Tune == true) {
+            DimmerIntr1.Tune = false;
+            DimmerIntr1.TuneTime++;
+            if (DimmerIntr1.TuneTime >= DimmerIntr1.TuneTimeValue) {
+                DimmerIntr1.TuneTime = 0;
+                if (DimmerIntr1.Dimming_Sw == true) {
+                    if (DimmerIntr1.Dimming_Status == false) {
+                        if (DimmerIntr1.DimmingValue > Dimmer_Maxum) {
+                            DimmerIntr1.DimmingValue--;
+                        } else {
+                            DimmerIntr1.Dimming_Status = true;
+                        }
+                    } else {
+                        if (DimmerIntr1.DimmingValue < Dimmer_Minimum) {
+                            DimmerIntr1.DimmingValue++;
+                        } else {
+                            DimmerIntr1.Dimming_Status = false;
+                        }
+                    }
+                } else if (DimmerIntr1.Dimming_RF == true) {
+                    if (DimmerIntr1.DimmingValue > DimmerIntr1.MaxmumValue) {
+                        DimmerIntr1.DimmingValue--;
+                    } else if (DimmerIntr1.DimmingValue < DimmerIntr1.MaxmumValue) {
+                        DimmerIntr1.DimmingValue++;
+                    } else {
+                        DimmerIntr1.Dimming_RF = false;
+                    }
+                }
+            }
+        }
+    }
+    if (Triac1 == true) {
+        if (DimmerIntr1.Count >= Dimmer_Minimum - 10) {
+            Triac1 = false;
+            ID_1KEY_0;
+        }
+    }
 }
 
-inline void DimmerLights_MOSFET_IOC_1() {
+inline void DimmerLights_IOC_1() {
 
+#if Properties_Product == 2
+    if (DimmerReference1 == true) {
+        if (Dimmer.PIR_DimmerSignal == true) {
+            Dimmer.PIR_DimmerSignal = false;
+        }
+    } else {
+        if (Dimmer.PIR_DimmerSignal == false) {
+            Dimmer.PIR_DimmerSignal = true;
+
+            if (DimmerIntr1.Start == false) {
+                DimmerIntr1.Start = true;
+                DimmerIntr1.GO = true;
+            }
+        }
+    }
+#else
+    if (DimmerIntr1.Start == false && DimmerReference1 == true) {
+        DimmerIntr1.Start = true;
+        DimmerIntr1.GO = true;
+    }
+
+#endif
 }
+
 #endif
 
 #ifdef use_2KEY
-inline void DimmerLights_MOSFET_TMR_2() {
+
+inline void DimmerLights_TMR_2() {
 
 }
 
-inline void DimmerLights_MOSFET_IOC_2() {
+inline void DimmerLights_IOC_2() {
 
 }
 #endif
@@ -1213,7 +1305,7 @@ inline void DimmerLights_MOSFET_IOC_2() {
 
 #ifdef use_1KEY
 
-inline void DimmerLights_MOSFET_TMR_1() {
+inline void DimmerLights_TMR_1() {
     if (DimmerIntr1.Start == true) {
         DimmerIntr1.Count++;
         if (DimmerIntr1.Count >= Dimmer_Maxum + 1) {
@@ -1266,7 +1358,7 @@ inline void DimmerLights_MOSFET_TMR_1() {
     }
 }
 
-inline void DimmerLights_MOSFET_IOC_1() {
+inline void DimmerLights_IOC_1() {
     if (DimmerIntr1.Start == false && DimmerReference1 == true) {
         DimmerIntr1.Start = true;
         DimmerIntr1.GO = true;
@@ -1283,7 +1375,7 @@ inline void DimmerLights_MOSFET_IOC_1() {
 
 #ifdef use_2KEY
 
-inline void DimmerLights_MOSFET_TMR_2() {
+inline void DimmerLights_TMR_2() {
     if (DimmerIntr2.Start == true) {
         DimmerIntr2.Count++;
         if (DimmerIntr2.Count >= Dimmer_Maxum + 1) {
@@ -1336,7 +1428,7 @@ inline void DimmerLights_MOSFET_TMR_2() {
     }
 }
 
-inline void DimmerLights_MOSFET_IOC_2() {
+inline void DimmerLights_IOC_2() {
     if (DimmerIntr2.Start == false && DimmerReference1 == true) {
         DimmerIntr2.Start = true;
         DimmerIntr2.GO = true;

@@ -137,6 +137,7 @@ struct Dimmer_Interrupt {
     unsigned char DimmingValue;
     unsigned char MaxmumValue;
     unsigned char MinimumValue;
+ 
 };
 struct Dimmer_Interrupt *DimmerIntr;
 
@@ -175,11 +176,11 @@ char getDimmerIntr_MaxmumValue(char lights);
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
-inline void DimmerLights_MOSFET_TMR_1();
-inline void DimmerLights_MOSFET_TMR_2();
+inline void DimmerLights_TMR_1();
+inline void DimmerLights_TMR_2();
 
-inline void DimmerLights_MOSFET_IOC_1();
-inline void DimmerLights_MOSFET_IOC_2();
+inline void DimmerLights_IOC_1();
+inline void DimmerLights_IOC_2();
 
 //******************************************************************************
 
@@ -194,7 +195,8 @@ struct Dimmer {
             unsigned AdjGO : 1;
             unsigned LoadGO : 1;
             unsigned Load_Status : 1;
-            unsigned empty : 4;
+            unsigned PIR_DimmerSignal : 1;
+            unsigned empty : 3;
         };
     };
 

@@ -2318,7 +2318,7 @@ struct Lights Lights1;
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
-void Lights_Close();
+
 void setLights_Initialization(char lights);
 void setLights_Main(char lights);
 void Lights_Control(char lights);
@@ -2386,16 +2386,8 @@ setLights_Main(1);
 Lights_Control(1);
 
 # 87
-Lights_Close();
 }
 
-
-void Lights_Close() {
-if (LightsControl.Detect == 1) {
-LightsControl.Detect = 0;
-LightsControl.LoadGO = getMain_All_LightsStatus() == 0 ? 0 : 1;
-}
-}
 
 
 void setLights_Main(char lights) {
@@ -2417,14 +2409,14 @@ setLights(lights, 0);
 
 void setLights(char lights, char status) {
 
-# 122
+# 114
 Lights->GO = 1;
 if (status == 1) {
 
-# 129
+# 121
 if (Lights->Status == 0) {
 Lights->Status = 1;
-Lights->RelayValue = 60;
+Lights->RelayValue = 100;
 Lights->TriacValue = 140;
 Lights->Time = 0;
 
@@ -2449,7 +2441,7 @@ if (lights == 1) {
 RB2 = 1;
 }
 
-# 166
+# 158
 }
 
 
@@ -2465,7 +2457,7 @@ if (lights == 1) {
 RB3 = Lights->Status == 1 ? 1 : 0;
 }
 
-# 191
+# 183
 }
 } else {
 if (Lights->Time >= (Lights->TriacValue / 20)) {
@@ -2474,15 +2466,11 @@ Lights->GO = 0;
 Lights->RelaySet = 0;
 
 
-LightsControl.Detect = Lights->Status == 0 ? 1 : LightsControl.Detect;
-
-
-
 if (lights == 1) {
 RB2 = 0;
 }
 
-# 218
+# 206
 }
 }
 }
@@ -2511,7 +2499,7 @@ if (lights == 1 && lights != 0) {
 Lights1.Line = 1;
 }
 
-# 260
+# 248
 }
 
 
@@ -2521,7 +2509,7 @@ char line = 0;
 LightsPointSelect(1);
 line = Lights->Line == 1 ? 1 : 0;
 
-# 277
+# 265
 return line;
 }
 
@@ -2543,7 +2531,7 @@ if (lights == 255) {
 
 char count = 1;
 
-# 304
+# 292
 for (int i = 0; i < count; i++) {
 if (getLights_Status(i + 1) == 1) {
 setLights_Trigger(i + 1, 0);
@@ -2563,7 +2551,7 @@ char allow = 0;
 
 allow = getLoad_OK() == 0 && Light.LoadGO == 0 ? 0 : 1;
 
-# 346
+# 334
 return allow;
 }
 

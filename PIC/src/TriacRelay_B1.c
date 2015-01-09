@@ -120,7 +120,7 @@ void setLights(char lights, char status) {
 
         if (Lights->Status == false) {
             Lights->Status = true;
-            Lights->RelayValue = 60;
+            Lights->RelayValue = 100;
             Lights->TriacValue = 140;
             Lights->Time = 0;
 #if OverLoad_use == 1
