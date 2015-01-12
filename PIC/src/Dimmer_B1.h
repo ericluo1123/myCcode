@@ -104,7 +104,7 @@ char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
 
-#if CC2500_use == 1
+#if CC2500_use == 1 || Properties_Product == 2
 char getDimmerLights_PercentToValue(char value);
 char getDimmerLights_ValueToPercent(char value);
 #endif
@@ -137,7 +137,7 @@ struct Dimmer_Interrupt {
     unsigned char DimmingValue;
     unsigned char MaxmumValue;
     unsigned char MinimumValue;
- 
+
 };
 struct Dimmer_Interrupt *DimmerIntr;
 
@@ -165,7 +165,7 @@ char getAll_DimmerIntr_ControlStatus();
 char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
 
-#if CC2500_use == 1
+#if CC2500_use == 1 || Properties_Product == 2
 void setDimmerIntr_MaxmumValue(char lights, char value);
 char getDimmerIntr_MaxmumValue(char lights);
 #else
@@ -182,6 +182,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
+void DimmerLights_PIR_Control();
 //******************************************************************************
 
 struct Dimmer {
@@ -196,7 +197,21 @@ struct Dimmer {
             unsigned LoadGO : 1;
             unsigned Load_Status : 1;
             unsigned PIR_DimmerSignal : 1;
-            unsigned empty : 3;
+            unsigned PIR_Sw : 1;
+            unsigned PIR_Trigger : 1;
+            unsigned PIR_Sw_S : 1;
+            unsigned PIR_Trigger_S : 1;
+        };
+    };
+
+    union {
+
+        struct {
+            unsigned PIR_Close_Status : 1;
+            unsigned PIR_Open_Status : 1;
+            unsigned PIR_Lights_Status : 1;
+            unsigned PIR_CDS_Status : 1;
+            unsigned empty : 5;
         };
     };
 

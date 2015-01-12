@@ -208,7 +208,7 @@ inline void my_MainTimer() {
         myMain.PowerCount++;
         if (myMain.PowerCount == (1000 / Main_Time)) {
             myMain.PowerCount = 0;
-       
+
 #if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 || PIR_TestTime_Mode == 1 || Dimmer_Debug == 1
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
 #if UART_use == 1   
@@ -604,7 +604,7 @@ void setCmd_Status(char number, char cmd) {
 char getCmd_Status(char number) {
     char cmd = 0;
     switch (number) {
-        case 1:
+        case 1://全關
             cmd = Cmd.all_off == true ? 1 : 0;
             break;
     }

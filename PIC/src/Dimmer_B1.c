@@ -84,7 +84,7 @@ char getDimmerIntr_DimmingValue(char lights) {
     return value;
 }
 
-#if CC2500_use == 1
+#if CC2500_use == 1 || Properties_Product == 2
 
 void setDimmerIntr_MaxmumValue(char lights, char value) {
 #ifdef use_1KEY
@@ -755,6 +755,10 @@ void DimmerLights_Main() {
     setDimmerLights_Main(3);
 #endif
     //    DimmerLights_Close();
+#if Properties_Product == 2
+    DimmerLights_PIR_Control();
+#endif
+
 }
 //******************************************************************************
 
@@ -803,15 +807,10 @@ void setDimmerLights_OnOff(char lights, char command) {
 #endif
 
 #if Properties_Product == 2
-
-        //PIR set
-        setDimmerIntr_DimmingValue(lights, Dimmer_Minimum);
-        setDimmerIntr_MaxmumValue(lights, Dimmer_Maxum);
-        setDimmerIntr_Dimming_RF(lights, 1);
+        Dimmer.PIR_Open_Status = true;
 #else
         setLED(lights, 0);
         setLED2(0);
-
 
         //調光值在關燈後不記錄而且不存入記憶體，開燈後恢復最大值
 #if DimmerValue_CloseLightsSave == 0 && DimmerValue_SaveMemory == 0
@@ -830,14 +829,21 @@ void setDimmerLights_OnOff(char lights, char command) {
 #endif
     } else if (command == 0) {
         setDimmerIntr_ControlStatus(lights, 0);
-        setLED(lights, 1);
-        setLED2(1);
+#if OverLoad_use == 1
+        Dimmer.Load_Status = false;
+        setDimmerLights_Line(0);
+#endif
 
 #if DelayOff_use == 1
         if (getDelayOff_GO(lights) == 1) {
             setDelayOff_GO(lights, 0, 0);
         }
 #endif
+
+#if Properties_Product == 2
+#else
+        setLED(lights, 1);
+        setLED2(1);
 
 #if Control_Method_Mosfet == 1
 #ifdef use_1KEY
@@ -853,10 +859,8 @@ void setDimmerLights_OnOff(char lights, char command) {
 #endif
 #endif
 
-#if OverLoad_use == 1
-        Dimmer.Load_Status = false;
-        setDimmerLights_Line(0);
-#endif 
+#endif
+
     }
 
     //set RF transmit data and allow transmit
@@ -1444,6 +1448,57 @@ inline void DimmerLights_IOC_2() {
 
 
 #endif
+
+//******************************************************************************
+
+void DimmerLights_PIR_Control() {
+
+    if (Dimmer.PIR_Trigger == true) {
+        Dimmer.PIR_Trigger = false;
+        if (Dimmer.PIR_Sw == true) {
+
+            if (getDimmerLights_Status(1) == 0) {
+                setDimmerIntr_DimmingValue(1, Dimmer_Minimum);
+                setDimmerLights_SwOn(1); //key on function
+                setDimmerLights_SwOff(1); //key on function
+            } else {
+                if (Dimmer.PIR_Lights_Status == true) {
+                    Dimmer.PIR_Lights_Status = false;
+                    Dimmer.PIR_Close_Status = false;
+                    DimmerLights1.Trigger = false;
+                    //                    DimmerLights1.
+                    setDimmerIntr_MaxmumValue(1, Dimmer_Maxum);
+                    setDimmerIntr_Dimming_RF(1, 1);
+                }
+            }
+        } else if (Dimmer.PIR_Sw == false) {
+            if (getDimmerLights_Status(1) == 1) {
+                if (Dimmer.PIR_Lights_Status == false) {
+                    Dimmer.PIR_Lights_Status = true;
+                    setDimmerIntr_MaxmumValue(1, Dimmer_Medium);
+                    setDimmerIntr_Dimming_RF(1, 1);
+                } else {
+                    setDimmerIntr_MaxmumValue(1, Dimmer_Minimum);
+                    setDimmerIntr_Dimming_RF(1, 1);
+                    Dimmer.PIR_Close_Status = true;
+                }
+            }
+        }
+    }
+    if (Dimmer.PIR_Open_Status == true) {
+        Dimmer.PIR_Open_Status = false;
+        setDimmerIntr_MaxmumValue(1, Dimmer_Maxum);
+        setDimmerIntr_Dimming_RF(1, 1);
+    }
+    if (Dimmer.PIR_Close_Status == true && DimmerIntr1.Dimming_RF == false) {
+        Dimmer.PIR_Close_Status = false;
+        setDimmerLights_SwOn(1); //key on function
+        setDimmerLights_SwOff(1); //key on function
+    }
+}
+
+
+
 //end
 #endif
 

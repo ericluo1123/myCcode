@@ -13,6 +13,20 @@ void PIR_Initialization() {
 void PIR_Main() {
     char error = getMain_All_Error_Status(0);
     char cds = getCDS_Status();
+    char LightsStatus = 0;
+
+#if LightsControl_use == 1
+#ifdef use_1KEY
+    LightsStatus = getLights_Status(1);
+#endif
+#endif
+
+#if Dimmer_use == 1
+#ifdef use_1KEY
+    LightsStatus = getDimmerLights_Status(1);
+#endif
+#endif
+
     if (_PIR.Enable == true) {
         if (error == 0) {
 #if PIR_TestTime_Mode == 0
@@ -29,9 +43,10 @@ void PIR_Main() {
 #if Dimmer_use == 1
 #ifdef use_1KEY
                     if (getDimmerLights_Status(1) == 1) {
-                        setDimmerLights_SwOn(1);
-                        setDimmerLights_SwOff(1); //key on function
+                        Dimmer.PIR_Trigger = true;
+                        Dimmer.PIR_Sw = false;
                     }
+
 #endif
 #endif
                     setLED(1, 0);
@@ -127,14 +142,14 @@ void PIR_Main() {
                             _PIR.RangeCount++;
                             _PIR.Count++;
 
-                            _PIR.TriggerValue = _PIR.Status == true ? 3 : 3;
+                            _PIR.TriggerValue = LightsStatus == 1 ? 3 : 3;
 
                             if (_PIR.Count == _PIR.TriggerValue) {
                                 _PIR.Count = 0;
 #if PIR_TestTime_Mode == 0
                                 _PIR.CloseTimeSeconds = 0;
                                 _PIR.CloseTimeMinutes = 0;
-                                _PIR.Status = true;
+                                //                                _PIR.Status = true;
 
 #if LightsControl_use == 1
 #ifdef use_1KEY
@@ -148,25 +163,25 @@ void PIR_Main() {
 
 #if Dimmer_use == 1
 #ifdef use_1KEY
-                                if (getDimmerLights_Status(1) == 0) {
-                                    setDimmerLights_SwOn(1);
-                                    setDimmerLights_SwOff(1); //key on function
-                                }
+
+                                Dimmer.PIR_Trigger = true;
+                                Dimmer.PIR_Sw = true;
+
 #endif
 #endif
 
-                                if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
-                                    setLED(1, 1);
-                                    setLED(2, 0);
-                                } else {
-                                    setLED(1, 0);
-                                    setLED(2, 1);
-                                }
+                                //                                if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
+                                //                                    setLED(1, 1);
+                                //                                    setLED(2, 0);
+                                //                                } else {
+                                //                                    setLED(1, 0);
+                                //                                    setLED(2, 1);
+                                //                                }
 #else
                                 if (cds == 1) {
                                     _PIR.CloseTimeSeconds = 0;
                                     _PIR.CloseTimeMinutes = 0;
-                                    _PIR.Status = true;
+                                    //                                    _PIR.Status = true;
 
 #if LightsControl_use == 1
 #ifdef use_1KEY
@@ -180,10 +195,10 @@ void PIR_Main() {
 
 #if Dimmer_use == 1
 #ifdef use_1KEY
-                                    if (getDimmerLights_Status(1) == 0) {
-                                        setDimmerLights_SwOn(1);
-                                        setDimmerLights_SwOff(1); //key on function
-                                    }
+
+                                    Dimmer.PIR_Trigger = true;
+                                    Dimmer.PIR_Sw = true;
+
 #endif
 #endif
                                     if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
@@ -218,40 +233,42 @@ void PIR_Main() {
 #if Dimmer_use == 1
 #ifdef use_1KEY
                     if (getDimmerLights_Status(1) == 1) {
-                        setDimmerLights_SwOn(1);
-                        setDimmerLights_SwOff(1); //key on function
+                        Dimmer.PIR_Trigger = true;
+                        Dimmer.PIR_Sw = false;
                     }
+
 #endif
 #endif
                 }
             }
-        }
-        if (_PIR.Status == true) {
-            _PIR.CloseTimeSeconds++;
-            if (_PIR.CloseTimeSeconds == (1000 / Main_Time)) {
-                _PIR.CloseTimeSeconds = 0;
-                _PIR.CloseTimeMinutes++;
-                if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
-                    _PIR.CloseTimeMinutes = 0;
-                    _PIR.Status = false;
+        } else {
+            if (LightsStatus == 1) {
+                _PIR.CloseTimeSeconds++;
+                if (_PIR.CloseTimeSeconds == (1000 / Main_Time)) {
+                    _PIR.CloseTimeSeconds = 0;
+                    _PIR.CloseTimeMinutes++;
+                    if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
+                        _PIR.CloseTimeMinutes = 0;
+                        //                    _PIR.Status = false;
 
 #if LightsControl_use == 1
 #ifdef use_1KEY
 #if PIR_Test_Mode == 0
-                    if (getLights_Status(1) == 1) {
-                        setLights_Trigger(1, 0);
-                    }
+                        if (getLights_Status(1) == 1) {
+                            setLights_Trigger(1, 0);
+                        }
 #endif
 #endif
 #endif
 #if Dimmer_use == 1
 #ifdef use_1KEY
-                    if (getDimmerLights_Status(1) == 1) {
-                        setDimmerLights_SwOn(1);
-                        setDimmerLights_SwOff(1); //key on function
+                        if (getDimmerLights_Status(1) == 1) {
+                            Dimmer.PIR_Trigger = true;
+                            Dimmer.PIR_Sw = false;
+                        }
+#endif
+#endif
                     }
-#endif
-#endif
                 }
             }
         }
@@ -269,10 +286,10 @@ void PIR_Main() {
 #endif
 #if Dimmer_use == 1
 #ifdef use_1KEY
-            if (getDimmerLights_Status(1) == 0) {
-                setDimmerLights_SwOn(1);
-                setDimmerLights_SwOff(1); //key on function
-            }
+
+            Dimmer.PIR_Trigger = true;
+            Dimmer.PIR_Sw = true;
+
 #endif
 #endif
         }

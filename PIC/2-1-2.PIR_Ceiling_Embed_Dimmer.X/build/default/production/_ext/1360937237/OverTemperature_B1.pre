@@ -2073,6 +2073,42 @@ struct PIRLED PIRLED;
 
 void setPIRLED_Main();
 
+# 7 "../src/../2-1-2.PIR_Ceiling_Embed_Dimmer.X/../src/OverTemperature_B1.h"
+struct OverTemp {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned ADtoGO : 1;
+unsigned LoadADGO : 1;
+unsigned GO : 1;
+unsigned empty : 3;
+};
+
+unsigned int Time;
+unsigned char Count;
+
+unsigned char AD1;
+unsigned char AD2;
+
+ADtype AD;
+ADtype ADH[2];
+ADtype ADRES;
+ADtype SafeValue;
+ADtype DangerValue;
+
+};
+
+struct OverTemp Temp;
+
+# 81
+inline void Temp_Initialization();
+inline void Temp_Main();
+void setTemp_Main();
+void setTemp_Initialization();
+inline void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+
 # 11 "../src/../2-1-2.PIR_Ceiling_Embed_Dimmer.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
@@ -2139,7 +2175,11 @@ char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
 
-# 112
+
+char getDimmerLights_PercentToValue(char value);
+char getDimmerLights_ValueToPercent(char value);
+
+
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);
 
@@ -2188,6 +2228,10 @@ char getAll_DimmerIntr_ControlStatus();
 char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
 
+
+void setDimmerIntr_MaxmumValue(char lights, char value);
+char getDimmerIntr_MaxmumValue(char lights);
+
 # 176
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
@@ -2198,6 +2242,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
+void DimmerLights_PIR_Control();
 
 
 struct Dimmer {
@@ -2212,7 +2257,21 @@ unsigned AdjGO : 1;
 unsigned LoadGO : 1;
 unsigned Load_Status : 1;
 unsigned PIR_DimmerSignal : 1;
-unsigned empty : 3;
+unsigned PIR_Sw : 1;
+unsigned PIR_Trigger : 1;
+unsigned PIR_Sw_S : 1;
+unsigned PIR_Trigger_S : 1;
+};
+};
+
+union {
+
+struct {
+unsigned PIR_Close_Status : 1;
+unsigned PIR_Open_Status : 1;
+unsigned PIR_Lights_Status : 1;
+unsigned PIR_CDS_Status : 1;
+unsigned empty : 5;
 };
 };
 
@@ -2329,4 +2388,111 @@ struct Light Light;
 
 char getLight_LoadGO();
 char getLight_Load_Status();
+
+# 8 "../src/OverTemperature_B1.c"
+inline void Temp_Initialization() {
+
+setTemp_Initialization();
+
+}
+
+
+inline void getTemp_AD(char channel) {
+
+
+if (Temp.ADtoGO == 1) {
+Temp.ADRES = getAD(channel, 0x70);
+if (Temp.ADRES > 0) {
+if (Temp.ADH[0] < Temp.ADRES) {
+Temp.ADH[0] = Temp.ADRES;
+} else if (Temp.ADH[1] < Temp.ADRES) {
+Temp.ADH[1] = Temp.ADRES;
+}
+}
+}
+
+# 41
+}
+
+
+void setTemp_Initialization() {
+
+}
+
+
+inline void Temp_Main() {
+
+setTemp_Main();
+
+}
+
+
+void setTemp_Main() {
+char error = getMain_All_Error_Status(0);
+if (Temp.Enable == 1) {
+
+# 65
+if (Temp.ADtoGO == 0) {
+Temp.Time++;
+if (Temp.Time >= (5000 / 20)) {
+Temp.Time = 0;
+Temp.ADtoGO = 1;
+}
+} else {
+Temp.Time++;
+if (Temp.Time >= (40 / 20)) {
+Temp.Time = 0;
+
+if (Temp.ADH[0] > 0 && Temp.ADH[1] > 0) {
+Temp.ADtoGO = 0;
+Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
+
+
+if (getMain_All_LightsStatus() == 1) {
+Temp.SafeValue = 0x85;
+Temp.DangerValue = 0x70;
+} else {
+Temp.SafeValue = 0x4f;
+Temp.DangerValue = 0x40;
+}
+
+# 96
+if (Temp.ERROR == 1) {
+if (Temp.AD >= Temp.SafeValue) {
+Temp.Count++;
+if (Temp.Count >= 3) {
+Temp.Count = 0;
+Temp.ERROR = 0;
+;;
+}
+} else {
+Temp.Count = 0;
+}
+} else {
+if (Temp.AD <= Temp.DangerValue) {
+Temp.Count++;
+if (Temp.Count >= 3) {
+Temp.Count = 0;
+Temp.ERROR = 1;
+}
+} else {
+Temp.Count = 0;
+}
+}
+;;
+;;
+
+# 135
+}
+Temp.ADH[0] = 0;
+Temp.ADH[1] = 0;
+}
+}
+
+} else {
+if (myMain.PowerON == 1) {
+Temp.Enable = 1;
+}
+}
+}
 

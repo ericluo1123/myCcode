@@ -133,7 +133,7 @@
 //SYSC
 #define SYSC_use_Value 0
 //OverTemperature
-#define OverTemperature_use_Value 0
+#define OverTemperature_use_Value 1
 #define Cut_Off_electricity_Value 1
 #define TempDangerValueH_Value    0x70		//NTC 68 value 500
 #define TempSafeValueH_Value      0x85		//NTC 47 value 600
@@ -148,7 +148,7 @@
 
 //OverLoad
 #define OverLoad_use_Value  0
-#define LimitCurrent_Value  7//A
+#define LimitCurrent_Value  1//A
 #define LinearParam_Value   1.7
 //LED
 #define LED_use_Value 1
@@ -172,7 +172,7 @@
 #define Dimmer_Full_Wave_Value      0
 #define Max_Percent                 70
 #define Mini_Percent                10
-#define Med_Percent                 Med_Percent+(char)((Max_Percent-Mini_Percent)/2)
+#define Med_Percent                 (char)(((Max_Percent-Mini_Percent)/2)+10)
 //SegmentDisplay
 #define SegmentDisplay_use_Value 0
 //PIR

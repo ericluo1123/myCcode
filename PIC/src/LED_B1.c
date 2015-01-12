@@ -85,7 +85,7 @@ void setLED(char led, char command) {
 #endif
         }
 #endif
-#ifdef LED2
+#ifdef LED2 
         if (led == 2) {
 #if LED2_ON == true
             LED2 = false;
