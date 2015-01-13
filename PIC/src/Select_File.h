@@ -7,6 +7,6 @@
 #define enable      1
 #define disable     0
 
-#include "../2-1-2.PIR_Ceiling_Embed_Dimmer.X/PIR_ceiling_embed_dimmer_2wire_16f723a.h"
+#include "../2-1-4.PIR+Switch_2Loop_2Wire.X/PIR+Switch_2Loop_2Wire.h"
 
 #endif

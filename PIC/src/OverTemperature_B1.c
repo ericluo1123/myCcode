@@ -77,7 +77,7 @@ void setTemp_Main() {
                     Temp.ADtoGO = false;
                     Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
 
-#if PIR_use == 1
+#if PIR_use == 1 && Dimmer_use == 0
                     if (getMain_All_LightsStatus() == 1) {
                         Temp.SafeValue = TempSafeValueH;
                         Temp.DangerValue = TempDangerValueH;
@@ -85,7 +85,10 @@ void setTemp_Main() {
                         Temp.SafeValue = TempSafeValueL;
                         Temp.DangerValue = TempDangerValueL;
                     }
-#elif Dimmer_use == 1
+#elif PIR_use == 1 && Dimmer_use == 1
+                    Temp.SafeValue = TempSafeValue;
+                    Temp.DangerValue = TempDangerValue;
+#elif PIR_use == 0 && Dimmer_use == 1
                     Temp.SafeValue = TempSafeValue;
                     Temp.DangerValue = TempDangerValue;
 #else

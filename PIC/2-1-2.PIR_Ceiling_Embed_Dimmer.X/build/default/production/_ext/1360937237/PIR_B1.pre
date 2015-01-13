@@ -2423,12 +2423,10 @@ Dimmer.PIR_Sw = 0;
 
 
 
-setLED(1, 0);
-setLED(2, 0);
 }
 }
 
-# 59
+# 57
 if (_PIR.Detect == 0) {
 _PIR.Detect = 1;
 if (_PIR.OK == 0) {
@@ -2440,7 +2438,7 @@ if (_PIR.Detect == 1) {
 _PIR.Detect = 0;
 _PIR.Available = 0;
 
-# 86
+# 84
 }
 }
 
@@ -2489,10 +2487,11 @@ if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - _PIR.RangeValue))
 
 _PIR.Count = 0;
 
-# 138
+# 136
 setLED(1, 0);
 setLED(2, 0);
 } else {
+
 
 _PIR.RangeCount++;
 _PIR.Count++;
@@ -2505,11 +2504,22 @@ _PIR.Count = 0;
 _PIR.CloseTimeSeconds = 0;
 _PIR.CloseTimeMinutes = 0;
 
-# 167
+# 166
 Dimmer.PIR_Trigger = 1;
 Dimmer.PIR_Sw = 1;
 
-# 213
+
+
+
+if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
+setLED(1, 1);
+setLED(2, 0);
+} else {
+setLED(1, 0);
+setLED(2, 1);
+}
+
+# 212
 }
 }
 }
@@ -2524,7 +2534,7 @@ _PIR.OK = 1;
 setLED(1, 0);
 if (cds == 0) {
 
-# 235
+# 234
 if (getDimmerLights_Status(1) == 1) {
 Dimmer.PIR_Trigger = 1;
 Dimmer.PIR_Sw = 0;
@@ -2543,7 +2553,7 @@ _PIR.CloseTimeMinutes++;
 if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
 _PIR.CloseTimeMinutes = 0;
 
-# 265
+# 264
 if (getDimmerLights_Status(1) == 1) {
 Dimmer.PIR_Trigger = 1;
 Dimmer.PIR_Sw = 0;
@@ -2559,7 +2569,7 @@ if (myMain.PowerON == 1) {
 _PIR.Enable = 1;
 setLED(1, 1);
 
-# 290
+# 289
 Dimmer.PIR_Trigger = 1;
 Dimmer.PIR_Sw = 1;
 
@@ -2595,7 +2605,7 @@ _PIR.CloseTimeValue = 900;
 _PIR.CloseTimeValue = 1200;
 }
 
-# 332
+# 331
 _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
 for (i = 0; i < 10; i++) {
 _PIR.TenAverageValue += _PIR.TenAverage[i];
@@ -2619,7 +2629,7 @@ else
 _PIR.HundreCount = 0;
 }
 
-# 368
+# 367
 }
 }
 

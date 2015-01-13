@@ -49,8 +49,6 @@ void PIR_Main() {
 
 #endif
 #endif
-                    setLED(1, 0);
-                    setLED(2, 0);
                 }
             }
 #else
@@ -139,6 +137,7 @@ void PIR_Main() {
                             setLED(2, 0);
                         } else {
 
+
                             _PIR.RangeCount++;
                             _PIR.Count++;
 
@@ -170,13 +169,13 @@ void PIR_Main() {
 #endif
 #endif
 
-                                //                                if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
-                                //                                    setLED(1, 1);
-                                //                                    setLED(2, 0);
-                                //                                } else {
-                                //                                    setLED(1, 0);
-                                //                                    setLED(2, 1);
-                                //                                }
+                                if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
+                                    setLED(1, 1);
+                                    setLED(2, 0);
+                                } else {
+                                    setLED(1, 0);
+                                    setLED(2, 1);
+                                }
 #else
                                 if (cds == 1) {
                                     _PIR.CloseTimeSeconds = 0;

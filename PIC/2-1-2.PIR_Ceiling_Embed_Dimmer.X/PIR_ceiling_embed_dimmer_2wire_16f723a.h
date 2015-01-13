@@ -74,7 +74,7 @@
 #define _TRISA 	0b10101111;
 #define _TRISB 	0b00000001;
 #define _TRISC 	0b00000000;
-#define _ANSELA 0b10000111;
+#define _ANSELA 0b10100111;
 #define _ANSELB 0b00000001;
 #define _PORTA 	0b10101111;
 #define _PORTB 	0b00000001;
@@ -135,10 +135,9 @@
 //OverTemperature
 #define OverTemperature_use_Value 1
 #define Cut_Off_electricity_Value 1
-#define TempDangerValueH_Value    0x70		//NTC 68 value 500
-#define TempSafeValueH_Value      0x85		//NTC 47 value 600
-#define TempDangerValueL_Value    0x40		//NTC 68 value 500
-#define TempSafeValueL_Value      0x4f		//NTC 47 value 600
+#define TempDangerValue_Value    0x70		//NTC 68 value 500
+#define TempSafeValue_Value      0x85		//NTC 47 value 600
+
 /*
  * lights on max temperature value      0xaa
  * lights on mini temperature value     0x64

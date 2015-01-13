@@ -314,7 +314,7 @@ char getLights_Allow_Condition(char lights) {
         if (lights == 1) {
             allow = Lights2.Trigger == true ? 1 : 0;
         } else if (lights == 2) {
-            allow = ights1.Trigger == true ? 1 : 0;
+            allow = Lights1.Trigger == true ? 1 : 0;
         }
     }
 #endif

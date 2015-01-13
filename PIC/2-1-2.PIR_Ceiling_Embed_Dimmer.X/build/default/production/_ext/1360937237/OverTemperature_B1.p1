@@ -125,8 +125,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _setTemp_Main `(v ~T0 @X0 0 ef ]
 "148 ../src/../2-1-2.PIR_Ceiling_Embed_Dimmer.X/../src/Main_B1.h
 [v _getMain_All_Error_Status `(uc ~T0 @X0 0 ef1`uc ]
-"147
-[v _getMain_All_LightsStatus `(uc ~T0 @X0 0 ef ]
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -2002,157 +2000,137 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.c: 78: Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
 "78
 [e = . _Temp 5 -> / + -> *U + &U . _Temp 6 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux `i -> *U + &U . _Temp 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux `i -> 2 `i `uc ]
-[; ;OverTemperature_B1.c: 81: if (getMain_All_LightsStatus() == 1) {
-"81
-[e $ ! == -> ( _getMain_All_LightsStatus ..  `i -> 1 `i 191  ]
-{
-[; ;OverTemperature_B1.c: 82: Temp.SafeValue = 0x85;
-"82
+[; ;OverTemperature_B1.c: 89: Temp.SafeValue = 0x85;
+"89
 [e = . _Temp 8 -> -> 133 `i `uc ]
-[; ;OverTemperature_B1.c: 83: Temp.DangerValue = 0x70;
-"83
+[; ;OverTemperature_B1.c: 90: Temp.DangerValue = 0x70;
+"90
 [e = . _Temp 9 -> -> 112 `i `uc ]
-"84
-}
-[; ;OverTemperature_B1.c: 84: } else {
-[e $U 192  ]
-[e :U 191 ]
-{
-[; ;OverTemperature_B1.c: 85: Temp.SafeValue = 0x4f;
-"85
-[e = . _Temp 8 -> -> 79 `i `uc ]
-[; ;OverTemperature_B1.c: 86: Temp.DangerValue = 0x40;
-"86
-[e = . _Temp 9 -> -> 64 `i `uc ]
-"87
-}
-[e :U 192 ]
-[; ;OverTemperature_B1.c: 87: }
-[; ;OverTemperature_B1.c: 96: if (Temp.ERROR == 1) {
-"96
-[e $ ! == -> . . _Temp 0 1 `i -> 1 `i 193  ]
-{
-[; ;OverTemperature_B1.c: 97: if (Temp.AD >= Temp.SafeValue) {
-"97
-[e $ ! >= -> . _Temp 5 `i -> . _Temp 8 `i 194  ]
-{
-[; ;OverTemperature_B1.c: 98: Temp.Count++;
-"98
-[e ++ . _Temp 2 -> -> 1 `i `uc ]
-[; ;OverTemperature_B1.c: 99: if (Temp.Count >= 3) {
+[; ;OverTemperature_B1.c: 99: if (Temp.ERROR == 1) {
 "99
-[e $ ! >= -> . _Temp 2 `i -> 3 `i 195  ]
+[e $ ! == -> . . _Temp 0 1 `i -> 1 `i 191  ]
 {
-[; ;OverTemperature_B1.c: 100: Temp.Count = 0;
+[; ;OverTemperature_B1.c: 100: if (Temp.AD >= Temp.SafeValue) {
 "100
-[e = . _Temp 2 -> -> 0 `i `uc ]
-[; ;OverTemperature_B1.c: 101: Temp.ERROR = 0;
-"101
-[e = . . _Temp 0 1 -> -> 0 `i `uc ]
-[; ;OverTemperature_B1.c: 102: ;;
-"103
-}
-[e :U 195 ]
-"104
-}
-[; ;OverTemperature_B1.c: 103: }
-[; ;OverTemperature_B1.c: 104: } else {
-[e $U 196  ]
-[e :U 194 ]
+[e $ ! >= -> . _Temp 5 `i -> . _Temp 8 `i 192  ]
 {
-[; ;OverTemperature_B1.c: 105: Temp.Count = 0;
-"105
+[; ;OverTemperature_B1.c: 101: Temp.Count++;
+"101
+[e ++ . _Temp 2 -> -> 1 `i `uc ]
+[; ;OverTemperature_B1.c: 102: if (Temp.Count >= 3) {
+"102
+[e $ ! >= -> . _Temp 2 `i -> 3 `i 193  ]
+{
+[; ;OverTemperature_B1.c: 103: Temp.Count = 0;
+"103
 [e = . _Temp 2 -> -> 0 `i `uc ]
+[; ;OverTemperature_B1.c: 104: Temp.ERROR = 0;
+"104
+[e = . . _Temp 0 1 -> -> 0 `i `uc ]
+[; ;OverTemperature_B1.c: 105: ;;
 "106
 }
-[e :U 196 ]
+[e :U 193 ]
 "107
 }
 [; ;OverTemperature_B1.c: 106: }
 [; ;OverTemperature_B1.c: 107: } else {
-[e $U 197  ]
-[e :U 193 ]
+[e $U 194  ]
+[e :U 192 ]
 {
-[; ;OverTemperature_B1.c: 108: if (Temp.AD <= Temp.DangerValue) {
+[; ;OverTemperature_B1.c: 108: Temp.Count = 0;
 "108
-[e $ ! <= -> . _Temp 5 `i -> . _Temp 9 `i 198  ]
-{
-[; ;OverTemperature_B1.c: 109: Temp.Count++;
+[e = . _Temp 2 -> -> 0 `i `uc ]
 "109
-[e ++ . _Temp 2 -> -> 1 `i `uc ]
-[; ;OverTemperature_B1.c: 110: if (Temp.Count >= 3) {
+}
+[e :U 194 ]
 "110
-[e $ ! >= -> . _Temp 2 `i -> 3 `i 199  ]
+}
+[; ;OverTemperature_B1.c: 109: }
+[; ;OverTemperature_B1.c: 110: } else {
+[e $U 195  ]
+[e :U 191 ]
 {
-[; ;OverTemperature_B1.c: 111: Temp.Count = 0;
+[; ;OverTemperature_B1.c: 111: if (Temp.AD <= Temp.DangerValue) {
 "111
-[e = . _Temp 2 -> -> 0 `i `uc ]
-[; ;OverTemperature_B1.c: 112: Temp.ERROR = 1;
-"112
-[e = . . _Temp 0 1 -> -> 1 `i `uc ]
-"113
-}
-[e :U 199 ]
-"114
-}
-[; ;OverTemperature_B1.c: 113: }
-[; ;OverTemperature_B1.c: 114: } else {
-[e $U 200  ]
-[e :U 198 ]
+[e $ ! <= -> . _Temp 5 `i -> . _Temp 9 `i 196  ]
 {
-[; ;OverTemperature_B1.c: 115: Temp.Count = 0;
-"115
+[; ;OverTemperature_B1.c: 112: Temp.Count++;
+"112
+[e ++ . _Temp 2 -> -> 1 `i `uc ]
+[; ;OverTemperature_B1.c: 113: if (Temp.Count >= 3) {
+"113
+[e $ ! >= -> . _Temp 2 `i -> 3 `i 197  ]
+{
+[; ;OverTemperature_B1.c: 114: Temp.Count = 0;
+"114
 [e = . _Temp 2 -> -> 0 `i `uc ]
+[; ;OverTemperature_B1.c: 115: Temp.ERROR = 1;
+"115
+[e = . . _Temp 0 1 -> -> 1 `i `uc ]
 "116
 }
-[e :U 200 ]
+[e :U 197 ]
 "117
 }
-[e :U 197 ]
 [; ;OverTemperature_B1.c: 116: }
-[; ;OverTemperature_B1.c: 117: }
-[; ;OverTemperature_B1.c: 118: ;;
-[; ;OverTemperature_B1.c: 119: ;;
-"135
+[; ;OverTemperature_B1.c: 117: } else {
+[e $U 198  ]
+[e :U 196 ]
+{
+[; ;OverTemperature_B1.c: 118: Temp.Count = 0;
+"118
+[e = . _Temp 2 -> -> 0 `i `uc ]
+"119
 }
-[e :U 190 ]
-[; ;OverTemperature_B1.c: 135: }
-[; ;OverTemperature_B1.c: 136: Temp.ADH[0] = 0;
-"136
-[e = *U + &U . _Temp 6 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux -> -> 0 `i `uc ]
-[; ;OverTemperature_B1.c: 137: Temp.ADH[1] = 0;
-"137
-[e = *U + &U . _Temp 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux -> -> 0 `i `uc ]
+[e :U 198 ]
+"120
+}
+[e :U 195 ]
+[; ;OverTemperature_B1.c: 119: }
+[; ;OverTemperature_B1.c: 120: }
+[; ;OverTemperature_B1.c: 121: ;;
+[; ;OverTemperature_B1.c: 122: ;;
 "138
 }
-[e :U 189 ]
+[e :U 190 ]
+[; ;OverTemperature_B1.c: 138: }
+[; ;OverTemperature_B1.c: 139: Temp.ADH[0] = 0;
 "139
-}
-[e :U 188 ]
+[e = *U + &U . _Temp 6 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux -> -> 0 `i `uc ]
+[; ;OverTemperature_B1.c: 140: Temp.ADH[1] = 0;
+"140
+[e = *U + &U . _Temp 6 * -> -> -> 1 `i `ui `ux -> -> # *U &U . _Temp 6 `ui `ux -> -> 0 `i `uc ]
 "141
 }
-[; ;OverTemperature_B1.c: 138: }
-[; ;OverTemperature_B1.c: 139: }
-[; ;OverTemperature_B1.c: 141: } else {
-[e $U 201  ]
-[e :U 185 ]
-{
-[; ;OverTemperature_B1.c: 142: if (myMain.PowerON == 1) {
+[e :U 189 ]
 "142
-[e $ ! == -> . . _myMain 0 0 `i -> 1 `i 202  ]
-{
-[; ;OverTemperature_B1.c: 143: Temp.Enable = 1;
-"143
-[e = . . _Temp 0 0 -> -> 1 `i `uc ]
+}
+[e :U 188 ]
 "144
 }
-[e :U 202 ]
+[; ;OverTemperature_B1.c: 141: }
+[; ;OverTemperature_B1.c: 142: }
+[; ;OverTemperature_B1.c: 144: } else {
+[e $U 199  ]
+[e :U 185 ]
+{
+[; ;OverTemperature_B1.c: 145: if (myMain.PowerON == 1) {
 "145
-}
-[e :U 201 ]
-[; ;OverTemperature_B1.c: 144: }
-[; ;OverTemperature_B1.c: 145: }
-[; ;OverTemperature_B1.c: 146: }
+[e $ ! == -> . . _myMain 0 0 `i -> 1 `i 200  ]
+{
+[; ;OverTemperature_B1.c: 146: Temp.Enable = 1;
 "146
+[e = . . _Temp 0 0 -> -> 1 `i `uc ]
+"147
+}
+[e :U 200 ]
+"148
+}
+[e :U 199 ]
+[; ;OverTemperature_B1.c: 147: }
+[; ;OverTemperature_B1.c: 148: }
+[; ;OverTemperature_B1.c: 149: }
+"149
 [e :UE 184 ]
 }

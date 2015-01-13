@@ -511,8 +511,12 @@ void Exception_Main() {
 #if LightsControl_use == 1
             setLED(error, 110);
 #endif
-#if   Dimmer_use == 1
+#if Dimmer_use == 1
+#if PIR_use == 1
+            setLED(error, 110);
+#else 
             setLED(99, 10);
+#endif
 #endif
         }
     } else {
@@ -520,10 +524,19 @@ void Exception_Main() {
             myMain.Error_Run = true;
 
 #if   Dimmer_use == 1
+#if PIR_use == 1
+            setLED(error, 111);
+#else
             setLED(99, 11);
-
+#endif
             switch (error) {
                 case 2:
+#if OverTemperature_use == 1                   
+#if PIR_use == 1
+                    if (getDimmerLights_Status(1) == 1) {
+                        Dimmer.PIR_Close_Status = true;
+                    }
+#else
                     if (getMain_All_LightsStatus() == 1) {
                         setBuz(10, BuzzerErrorTime);
                     }
@@ -536,9 +549,11 @@ void Exception_Main() {
                             setDimmerLights_SwOff(i + 1);
                         }
                     }
+#endif
+#endif
                     break;
                 case 3:
-
+#if OverLoad_use == 1
                     setBuz(5, BuzzerErrorTime);
                     lights = getDimmerLights_Line();
                     if (lights == 0) {
@@ -560,10 +575,12 @@ void Exception_Main() {
                             setDimmerLights_SwOff(lights);
                         }
                     }
+#endif
                     break;
             }
 
 #endif
+
 #if LightsControl_use == 1
             setLED(error, 111);
             if (error == 3) {

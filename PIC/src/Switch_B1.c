@@ -177,7 +177,7 @@ void setSw_Main(char sw) {
                     } else {
                         if (Sw->Hold3 == false) {
                             Sw->Hold3Time++;
-                            if (Sw->Hold3Time >= (Hold3TimeValue/ Main_Time)) {
+                            if (Sw->Hold3Time >= (Hold3TimeValue / Main_Time)) {
                                 Sw->Hold3Time = 0;
                                 Sw->Hold3 = true;
 #if Dimmer_use == 1
@@ -233,15 +233,21 @@ char getSw_KeyStatus(char sw) {
 #endif
 
 #if Switch_Class == 2
+
     if (sw == 1) {
         status = Key1_1 == true || Key1_2 == true ? 1 : 0;
     } else if (sw == 2) {
         status = Key2_1 == true || Key2_2 == true ? 1 : 0;
     }
+
 #endif
 
 #if Switch_Class == 1
+#if PIR_use == 1
+        status = Key1_1 == true ? 1 : 0;
+#else
     status = Key1_1 == true || Key1_2 == true || Key1_3 == true || Key1_4 == true ? 1 : 0;
+#endif
 #endif
 
     return status;

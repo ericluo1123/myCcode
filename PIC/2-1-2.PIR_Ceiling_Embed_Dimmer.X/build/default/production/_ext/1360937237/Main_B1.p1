@@ -166,10 +166,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _setLED `(v ~T0 @X0 0 ef2`uc`uc ]
 "105 ../src/../2-1-2.PIR_Ceiling_Embed_Dimmer.X/../src/Dimmer_B1.h
 [v _getDimmerLights_Status `(uc ~T0 @X0 0 ef1`uc ]
-"94
-[v _setDimmerLights_SwOff `(v ~T0 @X0 0 ef1`uc ]
-"103
-[v _getDimmerLights_Line `(uc ~T0 @X0 0 ef ]
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -2275,256 +2271,153 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.c: 510: myMain.Error_Run = 0;
 "510
 [e = . . _myMain 3 3 -> -> 0 `i `uc ]
-[; ;Main_B1.c: 515: setLED(99, 10);
-"515
-[e ( _setLED (2 , -> -> 99 `i `uc -> -> 10 `i `uc ]
-"517
+[; ;Main_B1.c: 516: setLED(error, 110);
+"516
+[e ( _setLED (2 , _error -> -> 110 `i `uc ]
+"521
 }
 [e :U 199 ]
-"518
+"522
 }
-[; ;Main_B1.c: 517: }
-[; ;Main_B1.c: 518: } else {
+[; ;Main_B1.c: 521: }
+[; ;Main_B1.c: 522: } else {
 [e $U 200  ]
 [e :U 198 ]
 {
-[; ;Main_B1.c: 519: if (error != 0) {
-"519
+[; ;Main_B1.c: 523: if (error != 0) {
+"523
 [e $ ! != -> _error `i -> 0 `i 201  ]
 {
-[; ;Main_B1.c: 520: myMain.Error_Run = 1;
-"520
+[; ;Main_B1.c: 524: myMain.Error_Run = 1;
+"524
 [e = . . _myMain 3 3 -> -> 1 `i `uc ]
-[; ;Main_B1.c: 523: setLED(99, 11);
-"523
-[e ( _setLED (2 , -> -> 99 `i `uc -> -> 11 `i `uc ]
-[; ;Main_B1.c: 525: switch (error) {
-"525
+[; ;Main_B1.c: 528: setLED(error, 111);
+"528
+[e ( _setLED (2 , _error -> -> 111 `i `uc ]
+[; ;Main_B1.c: 532: switch (error) {
+"532
 [e $U 203  ]
 {
-[; ;Main_B1.c: 526: case 2:
-"526
+[; ;Main_B1.c: 533: case 2:
+"533
 [e :U 204 ]
-[; ;Main_B1.c: 527: if (getMain_All_LightsStatus() == 1) {
-"527
-[e $ ! == -> ( _getMain_All_LightsStatus ..  `i -> 1 `i 205  ]
+[; ;Main_B1.c: 536: if (getDimmerLights_Status(1) == 1) {
+"536
+[e $ ! == -> ( _getDimmerLights_Status (1 -> -> 1 `i `uc `i -> 1 `i 205  ]
 {
-[; ;Main_B1.c: 528: ;;
-"529
+[; ;Main_B1.c: 537: Dimmer.PIR_Close_Status = 1;
+"537
+[e = . . . _Dimmer 1 0 0 -> -> 1 `i `uc ]
+"538
 }
 [e :U 205 ]
-[; ;Main_B1.c: 529: }
-[; ;Main_B1.c: 531: for (int i = 0; i < count; i++) {
-"531
-{
-[v _i `i ~T0 @X0 1 a ]
-[e = _i -> 0 `i ]
-[e $U 209  ]
-[e :U 206 ]
-{
-[; ;Main_B1.c: 533: if (getDimmerLights_Status(i + 1) == 1) {
-"533
-[e $ ! == -> ( _getDimmerLights_Status (1 -> + _i -> 1 `i `uc `i -> 1 `i 210  ]
-{
-[; ;Main_B1.c: 534: DimmerLights->SwFlag = 1;
-"534
-[e = . . . *U _DimmerLights 0 0 0 -> -> 1 `i `uc ]
-[; ;Main_B1.c: 535: DimmerLights->Status = 0;
-"535
-[e = . . . *U _DimmerLights 1 0 0 -> -> 0 `i `uc ]
-[; ;Main_B1.c: 536: setDimmerLights_SwOff(i + 1);
-"536
-[e ( _setDimmerLights_SwOff (1 -> + _i -> 1 `i `uc ]
-"537
-}
-[e :U 210 ]
-"538
-}
-"531
-[e ++ _i -> 1 `i ]
-[e :U 209 ]
-[e $ < _i -> _count `i 206  ]
-[e :U 207 ]
-"538
-}
-[; ;Main_B1.c: 537: }
 [; ;Main_B1.c: 538: }
-[; ;Main_B1.c: 539: break;
-"539
-[e $U 202  ]
-[; ;Main_B1.c: 540: case 3:
-"540
-[e :U 211 ]
-[; ;Main_B1.c: 542: ;;
-[; ;Main_B1.c: 543: lights = getDimmerLights_Line();
-"543
-[e = _lights ( _getDimmerLights_Line ..  ]
-[; ;Main_B1.c: 544: if (lights == 0) {
-"544
-[e $ ! == -> _lights `i -> 0 `i 212  ]
-{
-[; ;Main_B1.c: 546: for (int i = 0; i < count; i++) {
-"546
-{
-[v _i `i ~T0 @X0 1 a ]
-[e = _i -> 0 `i ]
-[e $U 216  ]
-[e :U 213 ]
-{
-[; ;Main_B1.c: 548: if (getDimmerLights_Status(i + 1) == 1) {
-"548
-[e $ ! == -> ( _getDimmerLights_Status (1 -> + _i -> 1 `i `uc `i -> 1 `i 217  ]
-{
-[; ;Main_B1.c: 549: DimmerLights->SwFlag = 1;
-"549
-[e = . . . *U _DimmerLights 0 0 0 -> -> 1 `i `uc ]
-[; ;Main_B1.c: 550: DimmerLights->Status = 0;
-"550
-[e = . . . *U _DimmerLights 1 0 0 -> -> 0 `i `uc ]
-[; ;Main_B1.c: 551: setDimmerLights_SwOff(i + 1);
-"551
-[e ( _setDimmerLights_SwOff (1 -> + _i -> 1 `i `uc ]
-"552
-}
-[e :U 217 ]
-"553
-}
-"546
-[e ++ _i -> 1 `i ]
-[e :U 216 ]
-[e $ < _i -> _count `i 213  ]
-[e :U 214 ]
-"553
-}
+[; ;Main_B1.c: 554: break;
 "554
-}
-[; ;Main_B1.c: 552: }
-[; ;Main_B1.c: 553: }
-[; ;Main_B1.c: 554: } else {
-[e $U 218  ]
-[e :U 212 ]
-{
-[; ;Main_B1.c: 556: if (getDimmerLights_Status(lights) == 1) {
-"556
-[e $ ! == -> ( _getDimmerLights_Status (1 _lights `i -> 1 `i 219  ]
-{
-[; ;Main_B1.c: 558: DimmerLights->SwFlag = 1;
-"558
-[e = . . . *U _DimmerLights 0 0 0 -> -> 1 `i `uc ]
-[; ;Main_B1.c: 559: DimmerLights->Status = 0;
-"559
-[e = . . . *U _DimmerLights 1 0 0 -> -> 0 `i `uc ]
-[; ;Main_B1.c: 560: setDimmerLights_SwOff(lights);
-"560
-[e ( _setDimmerLights_SwOff (1 _lights ]
-"561
-}
-[e :U 219 ]
-"562
-}
-[e :U 218 ]
-[; ;Main_B1.c: 561: }
-[; ;Main_B1.c: 562: }
-[; ;Main_B1.c: 563: break;
-"563
 [e $U 202  ]
-"564
-}
-[; ;Main_B1.c: 564: }
+[; ;Main_B1.c: 555: case 3:
+"555
+[e :U 206 ]
+[; ;Main_B1.c: 579: break;
+"579
 [e $U 202  ]
-"525
+"580
+}
+[; ;Main_B1.c: 580: }
+[e $U 202  ]
+"532
 [e :U 203 ]
 [e [\ _error , $ -> -> 2 `i `uc 204
- , $ -> -> 3 `i `uc 211
+ , $ -> -> 3 `i `uc 206
  202 ]
-"564
+"580
 [e :U 202 ]
-"583
+"600
 }
 [e :U 201 ]
-"584
+"601
 }
 [e :U 200 ]
-[; ;Main_B1.c: 583: }
-[; ;Main_B1.c: 584: }
-[; ;Main_B1.c: 585: }
-"585
+[; ;Main_B1.c: 600: }
+[; ;Main_B1.c: 601: }
+[; ;Main_B1.c: 602: }
+"602
 [e :UE 197 ]
 }
-"596
+"613
 [v _setCmd_Status `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;Main_B1.c: 596: void setCmd_Status(char number, char cmd) {
+[; ;Main_B1.c: 613: void setCmd_Status(char number, char cmd) {
 [e :U _setCmd_Status ]
 [v _number `uc ~T0 @X0 1 r1 ]
 [v _cmd `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;Main_B1.c: 597: switch (number) {
-"597
-[e $U 222  ]
+[; ;Main_B1.c: 614: switch (number) {
+"614
+[e $U 209  ]
 {
-[; ;Main_B1.c: 598: case 1:
-"598
-[e :U 223 ]
-[; ;Main_B1.c: 599: Cmd.all_off = cmd == 1 ? 1 : 0;
-"599
+[; ;Main_B1.c: 615: case 1:
+"615
+[e :U 210 ]
+[; ;Main_B1.c: 616: Cmd.all_off = cmd == 1 ? 1 : 0;
+"616
 [e = . . _Cmd 0 0 -> ? == -> _cmd `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Main_B1.c: 600: break;
-"600
-[e $U 221  ]
-"601
+[; ;Main_B1.c: 617: break;
+"617
+[e $U 208  ]
+"618
 }
-[; ;Main_B1.c: 601: }
-[e $U 221  ]
-"597
-[e :U 222 ]
-[e [\ _number , $ -> -> 1 `i `uc 223
- 221 ]
-"601
-[e :U 221 ]
-[; ;Main_B1.c: 602: }
-"602
-[e :UE 220 ]
+[; ;Main_B1.c: 618: }
+[e $U 208  ]
+"614
+[e :U 209 ]
+[e [\ _number , $ -> -> 1 `i `uc 210
+ 208 ]
+"618
+[e :U 208 ]
+[; ;Main_B1.c: 619: }
+"619
+[e :UE 207 ]
 }
-"604
+"621
 [v _getCmd_Status `(uc ~T0 @X0 1 ef1`uc ]
 {
-[; ;Main_B1.c: 604: char getCmd_Status(char number) {
+[; ;Main_B1.c: 621: char getCmd_Status(char number) {
 [e :U _getCmd_Status ]
 [v _number `uc ~T0 @X0 1 r1 ]
 [f ]
-"605
+"622
 [v _cmd `uc ~T0 @X0 1 a ]
-[; ;Main_B1.c: 605: char cmd = 0;
+[; ;Main_B1.c: 622: char cmd = 0;
 [e = _cmd -> -> 0 `i `uc ]
-[; ;Main_B1.c: 606: switch (number) {
-"606
-[e $U 226  ]
+[; ;Main_B1.c: 623: switch (number) {
+"623
+[e $U 213  ]
 {
-[; ;Main_B1.c: 607: case 1:
-"607
-[e :U 227 ]
-[; ;Main_B1.c: 608: cmd = Cmd.all_off == 1 ? 1 : 0;
-"608
+[; ;Main_B1.c: 624: case 1:
+"624
+[e :U 214 ]
+[; ;Main_B1.c: 625: cmd = Cmd.all_off == 1 ? 1 : 0;
+"625
 [e = _cmd -> ? == -> . . _Cmd 0 0 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;Main_B1.c: 609: break;
-"609
-[e $U 225  ]
-"610
+[; ;Main_B1.c: 626: break;
+"626
+[e $U 212  ]
+"627
 }
-[; ;Main_B1.c: 610: }
-[e $U 225  ]
-"606
-[e :U 226 ]
-[e [\ _number , $ -> -> 1 `i `uc 227
- 225 ]
-"610
-[e :U 225 ]
-[; ;Main_B1.c: 611: return cmd;
-"611
+[; ;Main_B1.c: 627: }
+[e $U 212  ]
+"623
+[e :U 213 ]
+[e [\ _number , $ -> -> 1 `i `uc 214
+ 212 ]
+"627
+[e :U 212 ]
+[; ;Main_B1.c: 628: return cmd;
+"628
 [e ) _cmd ]
-[e $UE 224  ]
-[; ;Main_B1.c: 612: }
-"612
-[e :UE 224 ]
+[e $UE 211  ]
+[; ;Main_B1.c: 629: }
+"629
+[e :UE 211 ]
 }

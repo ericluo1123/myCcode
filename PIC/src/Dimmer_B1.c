@@ -876,7 +876,6 @@ void setDimmerLights_OnOff(char lights, char command) {
     } else {
         setTxData();
     }
-
 }
 
 //*****************************************************************************
@@ -1196,10 +1195,6 @@ void DimmerLightsOpenShow() {
 #endif
 
 
-
-
-
-
 //******************************************************************************
 #if Control_Method_Triac == 1
 
@@ -1259,7 +1254,7 @@ inline void DimmerLights_TMR_1() {
     if (Triac1 == true) {
         if (DimmerIntr1.Count >= Dimmer_Minimum - 10) {
             Triac1 = false;
-            ID_1KEY_0;
+//            ID_1KEY_0;
         }
     }
 }
@@ -1478,6 +1473,7 @@ void DimmerLights_PIR_Control() {
                     setDimmerIntr_MaxmumValue(1, Dimmer_Medium);
                     setDimmerIntr_Dimming_RF(1, 1);
                 } else {
+                    Dimmer.PIR_Lights_Status = false;
                     setDimmerIntr_MaxmumValue(1, Dimmer_Minimum);
                     setDimmerIntr_Dimming_RF(1, 1);
                     Dimmer.PIR_Close_Status = true;
