@@ -2931,7 +2931,9 @@ struct LED *LED;
 
 struct LED VarErrLED;
 
-# 32
+
+
+
 struct LED VarLED1;
 
 
@@ -2939,22 +2941,22 @@ struct LED VarLED1;
 
 struct LED VarLED2;
 
-# 49
+# 47
 inline void LED_Initialization();
 
-# 54
+# 52
 inline void LED_Main();
 
-# 63
+# 61
 void LedPointSelect(char led);
 
-# 72
+# 70
 void setLED_Initialization(char led);
 
-# 81
+# 79
 void setLED_Main(char led);
 
-# 95
+# 93
 void setLED(char led, char command);
 
 # 7 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/OverTemperature_B1.h"
@@ -3327,8 +3329,10 @@ char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
 
+
 char getDimmerLights_PercentToValue(char value);
 char getDimmerLights_ValueToPercent(char value);
+
 
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);
@@ -3358,6 +3362,7 @@ unsigned char TuneTimeValue;
 unsigned char DimmingValue;
 unsigned char MaxmumValue;
 unsigned char MinimumValue;
+
 };
 struct Dimmer_Interrupt *DimmerIntr;
 
@@ -3368,13 +3373,11 @@ struct Dimmer_Interrupt DimmerIntr1;
 
 struct Dimmer_Interrupt DimmerIntr2;
 
-# 153
+# 156
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
 char getDimmerIntr_DimmingValue(char lights);
-void setDimmerIntr_MaxmumValue(char lights, char value);
-char getDimmerIntr_MaxmumValue(char lights);
 void setDimmerIntr_MinimumValue(char lights, char value);
 char getDimmerIntr_MinimumValue(char lights);
 void setDimmerIntr_Dimming_Sw(char lights, char command);
@@ -3383,15 +3386,21 @@ char getAll_DimmerIntr_ControlStatus();
 char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
 
+
+void setDimmerIntr_MaxmumValue(char lights, char value);
+char getDimmerIntr_MaxmumValue(char lights);
+
+# 176
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
-inline void DimmerLights_MOSFET_TMR_1();
-inline void DimmerLights_MOSFET_TMR_2();
+inline void DimmerLights_TMR_1();
+inline void DimmerLights_TMR_2();
 
-inline void DimmerLights_MOSFET_IOC_1();
-inline void DimmerLights_MOSFET_IOC_2();
+inline void DimmerLights_IOC_1();
+inline void DimmerLights_IOC_2();
 
+void DimmerLights_PIR_Control();
 
 
 struct Dimmer {
@@ -3405,7 +3414,22 @@ struct {
 unsigned AdjGO : 1;
 unsigned LoadGO : 1;
 unsigned Load_Status : 1;
-unsigned empty : 4;
+unsigned PIR_DimmerSignal : 1;
+unsigned PIR_Sw : 1;
+unsigned PIR_Trigger : 1;
+unsigned PIR_Sw_S : 1;
+unsigned PIR_Trigger_S : 1;
+};
+};
+
+union {
+
+struct {
+unsigned PIR_Close_Status : 1;
+unsigned PIR_Open_Status : 1;
+unsigned PIR_Lights_Status : 1;
+unsigned PIR_CDS_Status : 1;
+unsigned empty : 5;
 };
 };
 
@@ -3414,7 +3438,6 @@ unsigned char Correction;
 };
 
 struct Dimmer Dimmer;
-
 
 inline void Dimmer_Initialization();
 char getDimmer_LoadGO();
@@ -3566,12 +3589,12 @@ Load.ErrorCountValue = 2;
 Load.JudgeValue = (20*50);
 } else if (Load.Count == 2) {
 if (Load.LightsCount == 1) {
-Load.JudgeValue = (int)(1.8*50);
+Load.JudgeValue = (int)(1.1*50);
 } else {
 if (Load_Status == 0) {
-Load.JudgeValue = (int)(1.8*50) * Load.LightsCount;
+Load.JudgeValue = (int)(1.1*50) * Load.LightsCount;
 } else if (Load_Status == 1) {
-Load.JudgeValue = (int)(1.8*50) + Load.TotalLoad;
+Load.JudgeValue = (int)(1.1*50) + Load.TotalLoad;
 }
 }
 }

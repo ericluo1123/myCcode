@@ -2931,7 +2931,9 @@ struct LED *LED;
 
 struct LED VarErrLED;
 
-# 32
+
+
+
 struct LED VarLED1;
 
 
@@ -2939,22 +2941,22 @@ struct LED VarLED1;
 
 struct LED VarLED2;
 
-# 49
+# 47
 inline void LED_Initialization();
 
-# 54
+# 52
 inline void LED_Main();
 
-# 63
+# 61
 void LedPointSelect(char led);
 
-# 72
+# 70
 void setLED_Initialization(char led);
 
-# 81
+# 79
 void setLED_Main(char led);
 
-# 95
+# 93
 void setLED(char led, char command);
 
 # 7 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/OverTemperature_B1.h"
@@ -3327,8 +3329,10 @@ char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
 
+
 char getDimmerLights_PercentToValue(char value);
 char getDimmerLights_ValueToPercent(char value);
+
 
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);
@@ -3358,6 +3362,7 @@ unsigned char TuneTimeValue;
 unsigned char DimmingValue;
 unsigned char MaxmumValue;
 unsigned char MinimumValue;
+
 };
 struct Dimmer_Interrupt *DimmerIntr;
 
@@ -3368,13 +3373,11 @@ struct Dimmer_Interrupt DimmerIntr1;
 
 struct Dimmer_Interrupt DimmerIntr2;
 
-# 153
+# 156
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
 char getDimmerIntr_DimmingValue(char lights);
-void setDimmerIntr_MaxmumValue(char lights, char value);
-char getDimmerIntr_MaxmumValue(char lights);
 void setDimmerIntr_MinimumValue(char lights, char value);
 char getDimmerIntr_MinimumValue(char lights);
 void setDimmerIntr_Dimming_Sw(char lights, char command);
@@ -3383,15 +3386,21 @@ char getAll_DimmerIntr_ControlStatus();
 char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
 
+
+void setDimmerIntr_MaxmumValue(char lights, char value);
+char getDimmerIntr_MaxmumValue(char lights);
+
+# 176
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
-inline void DimmerLights_MOSFET_TMR_1();
-inline void DimmerLights_MOSFET_TMR_2();
+inline void DimmerLights_TMR_1();
+inline void DimmerLights_TMR_2();
 
-inline void DimmerLights_MOSFET_IOC_1();
-inline void DimmerLights_MOSFET_IOC_2();
+inline void DimmerLights_IOC_1();
+inline void DimmerLights_IOC_2();
 
+void DimmerLights_PIR_Control();
 
 
 struct Dimmer {
@@ -3405,7 +3414,22 @@ struct {
 unsigned AdjGO : 1;
 unsigned LoadGO : 1;
 unsigned Load_Status : 1;
-unsigned empty : 4;
+unsigned PIR_DimmerSignal : 1;
+unsigned PIR_Sw : 1;
+unsigned PIR_Trigger : 1;
+unsigned PIR_Sw_S : 1;
+unsigned PIR_Trigger_S : 1;
+};
+};
+
+union {
+
+struct {
+unsigned PIR_Close_Status : 1;
+unsigned PIR_Open_Status : 1;
+unsigned PIR_Lights_Status : 1;
+unsigned PIR_CDS_Status : 1;
+unsigned empty : 5;
 };
 };
 
@@ -3414,7 +3438,6 @@ unsigned char Correction;
 };
 
 struct Dimmer Dimmer;
-
 
 inline void Dimmer_Initialization();
 char getDimmer_LoadGO();
@@ -3561,7 +3584,6 @@ product->Data[20] = 210;
 
 inline void my_MainTimer() {
 
-
 if (myMain.PowerON == 0) {
 myMain.PowerCount++;
 if (myMain.PowerCount == (1500 / 20)) {
@@ -3574,7 +3596,7 @@ myMain.PowerON = 1;
 setBuz(3, 50);
 myMain.SelfTest = 1;
 
-# 207
+# 206
 }
 } else {
 myMain.PowerCount++;
@@ -3600,7 +3622,7 @@ myMain.Flag = 1;
 }
 }
 
-# 269
+# 268
 }
 }
 
@@ -3623,14 +3645,14 @@ myMain.Timeout_Counter = 0;
 void setMain_Exception(char command) {
 char status = 0, buz = 0;
 
-# 356
+# 355
 }
 
 
 char getMain_AD_OK() {
 char result = 0;
 
-# 366
+# 365
 if (result == 0) {
 
 }
@@ -3642,13 +3664,13 @@ return result;
 char getMain_All_LightsStatus() {
 char status = 0;
 
-# 394
+# 393
 status = DimmerLights1.Status == 1 ? 1 : 0;
 if (status == 0) {
 status = DimmerLights2.Status == 1 ? 1 : 0;
 }
 
-# 421
+# 420
 return status;
 }
 
@@ -3656,7 +3678,7 @@ return status;
 char getMain_All_Error_Status(char command) {
 char status = 0;
 
-# 437
+# 436
 if (status == 0 && command != 2) {
 status = Temp.ERROR == 1 ? 2 : 0;
 }
@@ -3668,7 +3690,7 @@ if (status == 0 && command != 3) {
 status = Load.ERROR == 1 ? 3 : 0;
 }
 
-# 462
+# 461
 return status;
 }
 
@@ -3683,10 +3705,10 @@ char status1 = DimmerIntr1.ControlStatus == 1 ? 1 : 0;
 
 char status2 = DimmerIntr2.ControlStatus == 1 ? 1 : 0;
 
-# 497
+# 496
 return count = (status1 + status2);
 
-# 503
+# 502
 }
 
 
@@ -3697,19 +3719,22 @@ if (myMain.Error_Run == 1) {
 if (error == 0) {
 myMain.Error_Run = 0;
 
-# 516
+# 518
 setLED(99, 10);
+
 
 }
 } else {
 if (error != 0) {
 myMain.Error_Run = 1;
 
-
+# 530
 setLED(99, 11);
 
 switch (error) {
 case 2:
+
+# 540
 if (getMain_All_LightsStatus() == 1) {
 setBuz(10, 300);
 }
@@ -3722,6 +3747,8 @@ DimmerLights->Status = 0;
 setDimmerLights_SwOff(i + 1);
 }
 }
+
+
 break;
 case 3:
 
@@ -3746,10 +3773,11 @@ DimmerLights->Status = 0;
 setDimmerLights_SwOff(lights);
 }
 }
+
 break;
 }
 
-# 584
+# 600
 }
 }
 }

@@ -2015,8 +2015,8 @@ unsigned empty : 6;
 
 unsigned char DebounceTime;
 unsigned int Hold1Time;
-unsigned int Hold2Time;
-unsigned int Hold3Time;
+
+# 39
 };
 struct Switch *Sw;
 
@@ -2024,7 +2024,10 @@ struct Switch *Sw;
 
 struct Switch Sw1;
 
-# 52
+
+struct Switch Sw2;
+
+# 54
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
 inline void Switch_Main();
@@ -2040,7 +2043,7 @@ char getSw_KeyStatus(char sw);
 
 void TouchPower();
 
-# 90
+# 92
 struct SwitchDetect {
 
 union {
@@ -2052,6 +2055,47 @@ unsigned empty : 7;
 };
 };
 struct SwitchDetect SwDetect;
+
+# 11 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Buzzer_B1.h"
+struct Buzzer {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned PowerON : 1;
+unsigned BufferStatus1 : 1;
+unsigned BufferStatus2 : 1;
+unsigned Switch : 1;
+unsigned RA0 : 2;
+
+};
+
+
+unsigned int Counter;
+unsigned char Count;
+unsigned char CountBuffer1;
+unsigned char CountBuffer2;
+unsigned int TimeValue;
+unsigned int TimeValueBuffer1;
+unsigned int TimeValueBuffer2;
+};
+
+struct Buzzer Buz1;
+
+# 46
+inline void Buzzer_Initialization();
+
+# 51
+inline void Buzzer_Main();
+
+# 60
+void setBuz(char count, int time);
+
+# 68
+void setBuz_Enable(char command);
+
+# 72
+int getBuz_GO();
 
 # 10 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/LED_B1.h"
 struct LED {
@@ -2239,7 +2283,9 @@ unsigned RelaySet : 1;
 struct {
 unsigned Line : 1;
 unsigned Loop : 1;
-unsigned empty : 6;
+unsigned SwFlag : 1;
+unsigned SwStatus : 1;
+unsigned empty : 4;
 };
 
 unsigned char Time;
@@ -2254,7 +2300,11 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 63
+
+
+struct Lights Lights2;
+
+# 65
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2271,8 +2321,10 @@ char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
+void setLights_SwOn(char sw);
+void setLights_SwOff(char sw);
 
-# 106
+# 110
 struct Light {
 
 struct {
@@ -2285,4 +2337,81 @@ struct Light Light;
 
 char getLight_LoadGO();
 char getLight_Load_Status();
+
+# 11 "../src/Buzzer_B1.c"
+inline void Buzzer_Initialization() {
+
+Buz1.Enable = 1;
+}
+
+
+void setBuz_Enable(char command) {
+Buz1.Enable = command;
+}
+
+
+void setBuz(char count, int time) {
+time /= 20;
+if (Buz1.Enable == 1) {
+if (Buz1.GO == 0) {
+Buz1.GO = 1;
+Buz1.Counter = 0;
+Buz1.Count = count;
+Buz1.TimeValue = time;
+RC0 = 1;
+} else {
+if (Buz1.BufferStatus1 == 0) {
+Buz1.BufferStatus1 = 1;
+Buz1.CountBuffer1 = count;
+Buz1.TimeValueBuffer1 = time;
+} else if (Buz1.BufferStatus2 == 0) {
+Buz1.BufferStatus2 = 1;
+Buz1.CountBuffer2 = count;
+Buz1.TimeValueBuffer2 = time;
+}
+}
+}
+}
+
+
+inline void Buzzer_Main() {
+if (Buz1.GO == 1) {
+Buz1.Counter++;
+if (Buz1.Counter >= Buz1.TimeValue) {
+Buz1.Counter = 0;
+Buz1.Switch = (RC0 == 1) ? 1 : 0;
+if (Buz1.Switch == 0) {
+if (Buz1.Count == 0) {
+if (Buz1.BufferStatus1 == 1) {
+Buz1.BufferStatus1 = 0;
+Buz1.Count = Buz1.CountBuffer1;
+Buz1.TimeValue = Buz1.TimeValueBuffer1;
+} else if (Buz1.BufferStatus2 == 1) {
+Buz1.BufferStatus2 = 0;
+Buz1.Count = Buz1.CountBuffer2;
+Buz1.TimeValue = Buz1.TimeValueBuffer2;
+} else {
+Buz1.GO = 0;
+}
+} else {
+Buz1.Switch = 1;
+
+RC0 = 1;
+}
+} else {
+Buz1.Switch = 0;
+
+RC0 = 0;
+
+Buz1.Count--;
+}
+}
+}
+}
+
+
+int getBuz_GO() {
+int i = Buz1.GO;
+return i;
+}
 

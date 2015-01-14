@@ -56,9 +56,11 @@ void PIR_Main() {
 #endif
             if (_PIR.Detect == false) {
                 _PIR.Detect = true;
+#if Switch_use == 0
                 if (_PIR.OK == false) {
                     setLED(1, 1);
                 }
+#endif
             }
         } else {
             if (_PIR.Detect == true) {
@@ -133,8 +135,10 @@ void PIR_Main() {
                                 _PIR.Count = 0;
                             }
 #endif
+#if Switch_use == 0
                             setLED(1, 0);
                             setLED(2, 0);
+#endif
                         } else {
 
 
@@ -168,7 +172,7 @@ void PIR_Main() {
 
 #endif
 #endif
-
+#if Switch_use == 0
                                 if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
                                     setLED(1, 1);
                                     setLED(2, 0);
@@ -176,6 +180,8 @@ void PIR_Main() {
                                     setLED(1, 0);
                                     setLED(2, 1);
                                 }
+#endif
+
 #else
                                 if (cds == 1) {
                                     _PIR.CloseTimeSeconds = 0;
@@ -200,6 +206,7 @@ void PIR_Main() {
 
 #endif
 #endif
+#if Switch_use == 0
                                     if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
                                         setLED(1, 1);
                                         setLED(2, 0);
@@ -207,6 +214,7 @@ void PIR_Main() {
                                         setLED(1, 0);
                                         setLED(2, 1);
                                     }
+#endif
                                 }
 #endif
                             }
@@ -220,7 +228,9 @@ void PIR_Main() {
             if (_PIR.Count == (30000 / Main_Time)) {
                 _PIR.Count = 0;
                 _PIR.OK = true;
+#if Switch_use == 0
                 setLED(1, 0);
+#endif
                 if (cds == 0) {
 #if LightsControl_use == 1
 #ifdef use_1KEY
@@ -274,8 +284,9 @@ void PIR_Main() {
     } else {
         if (myMain.PowerON == true) {
             _PIR.Enable = true;
+#if Switch_use == 0
             setLED(1, 1);
-
+#endif
 #if LightsControl_use == 1
 #ifdef use_1KEY
             if (getLights_Status(1) == 0) {

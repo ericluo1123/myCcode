@@ -27,7 +27,7 @@
 #define	Name_Version_Value 		1	//1
 #define Name_SerialNumber_Value		1	//2
 #define Properties_Product_Value	2	//3
-#define Properties_Keys_Value		1	//4
+#define Properties_Keys_Value		2	//4
 #define Properties_Country_Value	3	//5
 
 //Control Option
@@ -55,7 +55,7 @@
 #define empty3				RB1		//pin22 0
 #define SYSC1				RB2		//pin23 1
 #define PIR_Enable			RB3		//pin24	0
-#define Key1_1				RB4		//pin25 1
+#define Key2_1				RB4		//pin25 1
 #define TTPW				RB5		//pin26	0	
 #define ICSPDAT				RB6		//pin27	0
 #define ICSPCLK				RB7		//pin28 0
@@ -75,7 +75,7 @@
 #define _TRISB 	0b00010101;
 #define _TRISC 	0b00000000;
 #define _ANSELA 0b00101110;
-#define _ANSELB 0b00010101;
+#define _ANSELB 0b00000101;
 #define _PORTA 	0b00101110;
 #define _PORTB 	0b00010101;
 #define _PORTC 	0b00000000;
@@ -154,7 +154,7 @@
 //LED
 #define LED_use_Value 1
 //Buzzer
-#define Buzzer_use_Value 0
+#define Buzzer_use_Value 1
 //Switch
 #define Switch_use_Value 1 
 //Lights

@@ -2015,8 +2015,8 @@ unsigned empty : 6;
 
 unsigned char DebounceTime;
 unsigned int Hold1Time;
-unsigned int Hold2Time;
-unsigned int Hold3Time;
+
+# 39
 };
 struct Switch *Sw;
 
@@ -2024,7 +2024,10 @@ struct Switch *Sw;
 
 struct Switch Sw1;
 
-# 52
+
+struct Switch Sw2;
+
+# 54
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
 inline void Switch_Main();
@@ -2040,7 +2043,7 @@ char getSw_KeyStatus(char sw);
 
 void TouchPower();
 
-# 90
+# 92
 struct SwitchDetect {
 
 union {
@@ -2052,6 +2055,47 @@ unsigned empty : 7;
 };
 };
 struct SwitchDetect SwDetect;
+
+# 11 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Buzzer_B1.h"
+struct Buzzer {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned PowerON : 1;
+unsigned BufferStatus1 : 1;
+unsigned BufferStatus2 : 1;
+unsigned Switch : 1;
+unsigned RA0 : 2;
+
+};
+
+
+unsigned int Counter;
+unsigned char Count;
+unsigned char CountBuffer1;
+unsigned char CountBuffer2;
+unsigned int TimeValue;
+unsigned int TimeValueBuffer1;
+unsigned int TimeValueBuffer2;
+};
+
+struct Buzzer Buz1;
+
+# 46
+inline void Buzzer_Initialization();
+
+# 51
+inline void Buzzer_Main();
+
+# 60
+void setBuz(char count, int time);
+
+# 68
+void setBuz_Enable(char command);
+
+# 72
+int getBuz_GO();
 
 # 10 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/LED_B1.h"
 struct LED {
@@ -2239,7 +2283,9 @@ unsigned RelaySet : 1;
 struct {
 unsigned Line : 1;
 unsigned Loop : 1;
-unsigned empty : 6;
+unsigned SwFlag : 1;
+unsigned SwStatus : 1;
+unsigned empty : 4;
 };
 
 unsigned char Time;
@@ -2254,7 +2300,11 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 63
+
+
+struct Lights Lights2;
+
+# 65
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2271,8 +2321,10 @@ char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
+void setLights_SwOn(char sw);
+void setLights_SwOff(char sw);
 
-# 106
+# 110
 struct Light {
 
 struct {
@@ -2323,16 +2375,15 @@ setLights_Trigger(1, 0);
 # 57
 if (_PIR.Detect == 0) {
 _PIR.Detect = 1;
-if (_PIR.OK == 0) {
-setLED(1, 1);
-}
+
+# 64
 }
 } else {
 if (_PIR.Detect == 1) {
 _PIR.Detect = 0;
 _PIR.Available = 0;
 
-# 84
+# 86
 }
 }
 
@@ -2381,9 +2432,7 @@ if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - _PIR.RangeValue))
 
 _PIR.Count = 0;
 
-# 136
-setLED(1, 0);
-setLED(2, 0);
+# 142
 } else {
 
 
@@ -2398,21 +2447,12 @@ _PIR.Count = 0;
 _PIR.CloseTimeSeconds = 0;
 _PIR.CloseTimeMinutes = 0;
 
-# 156
+# 160
 if (getLights_Status(1) == 0) {
 setLights_Trigger(1, 1);
 }
 
-# 172
-if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
-setLED(1, 1);
-setLED(2, 0);
-} else {
-setLED(1, 0);
-setLED(2, 1);
-}
-
-# 212
+# 220
 }
 }
 }
@@ -2424,7 +2464,8 @@ _PIR.Count++;
 if (_PIR.Count == (30000 / 20)) {
 _PIR.Count = 0;
 _PIR.OK = 1;
-setLED(1, 0);
+
+# 234
 if (cds == 0) {
 
 
@@ -2432,7 +2473,7 @@ if (getLights_Status(1) == 1) {
 setLights_Trigger(1, 0);
 }
 
-# 241
+# 251
 }
 }
 } else {
@@ -2444,12 +2485,12 @@ _PIR.CloseTimeMinutes++;
 if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
 _PIR.CloseTimeMinutes = 0;
 
-# 256
+# 266
 if (getLights_Status(1) == 1) {
 setLights_Trigger(1, 0);
 }
 
-# 270
+# 280
 }
 }
 }
@@ -2457,15 +2498,13 @@ setLights_Trigger(1, 0);
 } else {
 if (myMain.PowerON == 1) {
 _PIR.Enable = 1;
-setLED(1, 1);
 
-
-
+# 292
 if (getLights_Status(1) == 0) {
 setLights_Trigger(1, 1);
 }
 
-# 294
+# 305
 }
 }
 }
@@ -2496,7 +2535,7 @@ _PIR.CloseTimeValue = 900;
 _PIR.CloseTimeValue = 1200;
 }
 
-# 331
+# 342
 _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
 for (i = 0; i < 10; i++) {
 _PIR.TenAverageValue += _PIR.TenAverage[i];
@@ -2520,7 +2559,7 @@ else
 _PIR.HundreCount = 0;
 }
 
-# 367
+# 378
 }
 }
 

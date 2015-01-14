@@ -32,8 +32,10 @@ struct Switch {
 
     unsigned char DebounceTime;
     unsigned int Hold1Time;
+#if PIR_use == 0
     unsigned int Hold2Time;
     unsigned int Hold3Time;
+#endif
 };
 struct Switch *Sw;
 

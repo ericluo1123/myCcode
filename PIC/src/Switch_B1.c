@@ -44,16 +44,10 @@ void SwPointSelect(char sw) {
 //******************************************************************************
 
 inline void Switch_Initialization() {
-    TouchPower();
-#ifdef use_1KEY
-    WPUB1 = false;
+
+#if PIR_use == 1
+
 #else
-#ifdef use_2KEY
-    WPUB1 = 0;
-#endif
-#endif
-
-
 #ifdef use_1KEY
     setSw_Initialization(1);
 #endif
@@ -65,7 +59,17 @@ inline void Switch_Initialization() {
 #ifdef use_3KEY
     setSw_Initialization(3);
 #endif
+#endif
+}
+//******************************************************************************
 
+void setSw_Initialization(char sw) {
+#if PIR_use == 0
+    setLED(sw, 1);
+#if Switch_Class == 1 && Dimmer_use == 1
+    setLED(sw + 1, 1);
+#endif
+#endif
 }
 //******************************************************************************
 
@@ -87,14 +91,6 @@ inline void Switch_Main() {
     TouchPower();
 #endif
     //Sw_Detect();
-}
-//******************************************************************************
-
-void setSw_Initialization(char sw) {
-    setLED(sw, 1);
-#if Switch_Class == 1 && Dimmer_use == 1
-    setLED(sw + 1, 1);
-#endif
 }
 //******************************************************************************
 
@@ -140,17 +136,22 @@ void setSw_Main(char sw) {
                 if (Sw->DebounceTime >= (DebounceTimeValue / Main_Time)) {
                     Sw->DebounceTime = 0;
                     Sw->Debounce = true;
-
+#if LightsControl_use == 1
+                    setLights_SwOn(sw);
+#endif
 #if Dimmer_use == 1
                     setDimmerLights_SwOn(sw); //key on function
 #endif
-
+                    //                    ErrLED = ErrLED == true ? false : true;
                 }
             } else {
                 if (Sw->Hold1 == false) {
                     Sw->Hold1Time++;
                     if (Sw->Hold1Time >= (Hold1TimeValue / Main_Time)) {
                         Sw->Hold1Time = 0;
+#if LightsControl_use == 1
+                        Sw->Hold1 = true;
+#endif
 #if Dimmer_use == 1
 #if Dimmable_Func == 1
                         Sw->Hold1 = true;
@@ -159,6 +160,7 @@ void setSw_Main(char sw) {
 #endif
                     }
                 } else {
+#if PIR_use == 0
                     if (Sw->Hold2 == false) {
                         Sw->Hold2Time++;
                         if (Sw->Hold2Time >= (Hold2TimeValue / Main_Time)) {
@@ -188,6 +190,7 @@ void setSw_Main(char sw) {
                             }
                         }
                     }
+#endif
                 }
             }
         } else {
@@ -198,10 +201,15 @@ void setSw_Main(char sw) {
                     Sw->Debounce = false;
                     Sw->Hold1Time = 0;
                     Sw->Hold1 = false;
-                    Sw->Hold2Time = 0;
+#if PIR_use == 0
                     Sw->Hold2 = false;
-                    Sw->Hold3Time = 0;
                     Sw->Hold3 = false;
+                    Sw->Hold2Time = 0;
+                    Sw->Hold3Time = 0;
+#endif
+#if LightsControl_use == 1
+                    setLights_SwOff(sw);
+#endif
 #if Dimmer_use == 1
                     setDimmerLights_SwOff(sw); //key on function
 
@@ -215,6 +223,11 @@ void setSw_Main(char sw) {
     } else {
         if (myMain.PowerON == true) {
             Sw->Enable = true;
+#if PIR_use == 1
+            if (sw == 2) {
+                setLED(1, 1);
+            }
+#endif
         }
     }
 }
@@ -234,17 +247,25 @@ char getSw_KeyStatus(char sw) {
 
 #if Switch_Class == 2
 
+#if PIR_use == 1
+    if (sw == 1) {
+        NOP();
+    } else if (sw == 2) {
+        status = Key2_1 == true ? 1 : 0;
+    }
+#else
     if (sw == 1) {
         status = Key1_1 == true || Key1_2 == true ? 1 : 0;
     } else if (sw == 2) {
         status = Key2_1 == true || Key2_2 == true ? 1 : 0;
     }
+#endif
 
 #endif
 
 #if Switch_Class == 1
 #if PIR_use == 1
-        status = Key1_1 == true ? 1 : 0;
+    status = Key1_1 == true ? 1 : 0;
 #else
     status = Key1_1 == true || Key1_2 == true || Key1_3 == true || Key1_4 == true ? 1 : 0;
 #endif

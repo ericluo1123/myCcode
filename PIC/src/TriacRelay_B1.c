@@ -112,8 +112,15 @@ void setLights(char lights, char status) {
     //#endif
     //    LightsPointSelect(lights);
     Lights->GO = true;
-    if (status == 1) {
 
+    if (status == 1) {
+#if PIR_use == 1
+        if (lights == 2) {
+            ErrLED = ErrLED == true ? false : true;
+            setLED(1, 1);
+            setLED(2, 0);
+        }
+#endif
 #if CC2500_use == 1
         setRF_TransceiveGO(0);
 #endif
@@ -129,6 +136,13 @@ void setLights(char lights, char status) {
 #endif
         }
     } else {
+
+#if PIR_use == 1
+        if (lights == 2) {
+            setLED(1, 0);
+            setLED(2, 1);
+        }
+#endif
         if (Lights->Status == true) {
             Lights->Status = false;
             Lights->RelayValue = 40;
@@ -186,7 +200,7 @@ void Lights_Control(char lights) {
                 Lights->Time = 0;
                 Lights->GO = false;
                 Lights->RelaySet = false;
-                
+
 #ifdef use_1KEY
                 if (lights == 1) {
                     Triac1 = false;
@@ -343,6 +357,31 @@ char getLight_LoadGO() {
 char getLight_Load_Status() {
     char loadstatus = Light.Load_Status == true ? 1 : 0;
     return loadstatus;
+}
+
+void setLights_SwOn(char sw) {
+
+    LightsPointSelect(sw);
+
+    Lights->SwFlag = true;
+    if (getLights_Status(sw) == 0) {
+        Lights->SwStatus = true;
+    } else {
+        Lights->SwStatus = false;
+    }
+}
+
+void setLights_SwOff(char sw) {
+    LightsPointSelect(sw);
+
+    if (Lights->SwFlag == true) {
+        Lights->SwFlag = false;
+        if (Lights->SwStatus == true) {
+            setLights_Trigger(sw, 1);
+        } else {
+            setLights_Trigger(sw, 0);
+        }
+    }
 }
 #endif
 

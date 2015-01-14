@@ -2015,8 +2015,8 @@ unsigned empty : 6;
 
 unsigned char DebounceTime;
 unsigned int Hold1Time;
-unsigned int Hold2Time;
-unsigned int Hold3Time;
+
+# 39
 };
 struct Switch *Sw;
 
@@ -2024,7 +2024,10 @@ struct Switch *Sw;
 
 struct Switch Sw1;
 
-# 52
+
+struct Switch Sw2;
+
+# 54
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
 inline void Switch_Main();
@@ -2040,7 +2043,7 @@ char getSw_KeyStatus(char sw);
 
 void TouchPower();
 
-# 90
+# 92
 struct SwitchDetect {
 
 union {
@@ -2052,6 +2055,47 @@ unsigned empty : 7;
 };
 };
 struct SwitchDetect SwDetect;
+
+# 11 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Buzzer_B1.h"
+struct Buzzer {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned PowerON : 1;
+unsigned BufferStatus1 : 1;
+unsigned BufferStatus2 : 1;
+unsigned Switch : 1;
+unsigned RA0 : 2;
+
+};
+
+
+unsigned int Counter;
+unsigned char Count;
+unsigned char CountBuffer1;
+unsigned char CountBuffer2;
+unsigned int TimeValue;
+unsigned int TimeValueBuffer1;
+unsigned int TimeValueBuffer2;
+};
+
+struct Buzzer Buz1;
+
+# 46
+inline void Buzzer_Initialization();
+
+# 51
+inline void Buzzer_Main();
+
+# 60
+void setBuz(char count, int time);
+
+# 68
+void setBuz_Enable(char command);
+
+# 72
+int getBuz_GO();
 
 # 10 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/LED_B1.h"
 struct LED {
@@ -2239,7 +2283,9 @@ unsigned RelaySet : 1;
 struct {
 unsigned Line : 1;
 unsigned Loop : 1;
-unsigned empty : 6;
+unsigned SwFlag : 1;
+unsigned SwStatus : 1;
+unsigned empty : 4;
 };
 
 unsigned char Time;
@@ -2254,7 +2300,11 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 63
+
+
+struct Lights Lights2;
+
+# 65
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2271,8 +2321,10 @@ char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
+void setLights_SwOn(char sw);
+void setLights_SwOff(char sw);
 
-# 106
+# 110
 struct Light {
 
 struct {
@@ -2328,7 +2380,7 @@ TRISA = 0b00101110;;
 TRISB = 0b00010101;;
 TRISC = 0b00000000;;
 ANSELA = 0b00101110;;
-ANSELB = 0b00010101;;
+ANSELB = 0b00000101;;
 PORTA = 0b00101110;;
 PORTB = 0b00010101;;
 PORTC = 0b00000000;;

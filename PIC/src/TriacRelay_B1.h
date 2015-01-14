@@ -36,7 +36,9 @@ struct Lights {
     struct {
         unsigned Line : 1;
         unsigned Loop : 1;
-        unsigned empty : 6;
+        unsigned SwFlag : 1;
+        unsigned SwStatus : 1;
+        unsigned empty : 4;
     };
 
     unsigned char Time;
@@ -76,6 +78,8 @@ char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
+void setLights_SwOn(char sw);
+void setLights_SwOff(char sw);
 //char getAll_Lights_Status();
 #else
 

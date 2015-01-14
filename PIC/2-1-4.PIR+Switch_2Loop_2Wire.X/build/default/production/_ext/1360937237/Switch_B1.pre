@@ -2015,8 +2015,8 @@ unsigned empty : 6;
 
 unsigned char DebounceTime;
 unsigned int Hold1Time;
-unsigned int Hold2Time;
-unsigned int Hold3Time;
+
+# 39
 };
 struct Switch *Sw;
 
@@ -2024,7 +2024,10 @@ struct Switch *Sw;
 
 struct Switch Sw1;
 
-# 52
+
+struct Switch Sw2;
+
+# 54
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
 inline void Switch_Main();
@@ -2040,7 +2043,7 @@ char getSw_KeyStatus(char sw);
 
 void TouchPower();
 
-# 90
+# 92
 struct SwitchDetect {
 
 union {
@@ -2052,6 +2055,47 @@ unsigned empty : 7;
 };
 };
 struct SwitchDetect SwDetect;
+
+# 11 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Buzzer_B1.h"
+struct Buzzer {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned PowerON : 1;
+unsigned BufferStatus1 : 1;
+unsigned BufferStatus2 : 1;
+unsigned Switch : 1;
+unsigned RA0 : 2;
+
+};
+
+
+unsigned int Counter;
+unsigned char Count;
+unsigned char CountBuffer1;
+unsigned char CountBuffer2;
+unsigned int TimeValue;
+unsigned int TimeValueBuffer1;
+unsigned int TimeValueBuffer2;
+};
+
+struct Buzzer Buz1;
+
+# 46
+inline void Buzzer_Initialization();
+
+# 51
+inline void Buzzer_Main();
+
+# 60
+void setBuz(char count, int time);
+
+# 68
+void setBuz_Enable(char command);
+
+# 72
+int getBuz_GO();
 
 # 10 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/LED_B1.h"
 struct LED {
@@ -2239,7 +2283,9 @@ unsigned RelaySet : 1;
 struct {
 unsigned Line : 1;
 unsigned Loop : 1;
-unsigned empty : 6;
+unsigned SwFlag : 1;
+unsigned SwStatus : 1;
+unsigned empty : 4;
 };
 
 unsigned char Time;
@@ -2254,7 +2300,11 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 63
+
+
+struct Lights Lights2;
+
+# 65
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2271,8 +2321,10 @@ char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
+void setLights_SwOn(char sw);
+void setLights_SwOff(char sw);
 
-# 106
+# 110
 struct Light {
 
 struct {
@@ -2309,19 +2361,24 @@ if (sw == 1) {
 Sw = &Sw1;
 }
 
+
+else if (sw == 2) {
+Sw = &Sw2;
+}
+
 # 43
 }
 
 
 inline void Switch_Initialization() {
-TouchPower();
 
-WPUB1 = 0;
+# 63
+}
 
-# 58
-setSw_Initialization(1);
 
-# 69
+void setSw_Initialization(char sw) {
+
+# 73
 }
 
 
@@ -2330,20 +2387,17 @@ inline void Switch_Main() {
 
 setSw_Main(1);
 
-# 87
+
+
+setSw_Main(2);
+
+# 91
 TouchPower();
 
 
 }
 
-
-void setSw_Initialization(char sw) {
-setLED(sw, 1);
-
-# 98
-}
-
-# 121
+# 117
 void setSw_Main(char sw) {
 SwPointSelect(sw);
 if (Sw->Enable == 1) {
@@ -2367,7 +2421,9 @@ if (Sw->DebounceTime >= (60 / 20)) {
 Sw->DebounceTime = 0;
 Sw->Debounce = 1;
 
-# 148
+setLights_SwOn(sw);
+
+# 146
 }
 } else {
 if (Sw->Hold1 == 0) {
@@ -2375,28 +2431,13 @@ Sw->Hold1Time++;
 if (Sw->Hold1Time >= (1500 / 20)) {
 Sw->Hold1Time = 0;
 
-# 160
+Sw->Hold1 = 1;
+
+# 161
 }
 } else {
-if (Sw->Hold2 == 0) {
-Sw->Hold2Time++;
-if (Sw->Hold2Time >= (1500 / 20)) {
-Sw->Hold2Time = 0;
-Sw->Hold2 = 1;
 
-# 176
-}
-} else {
-if (Sw->Hold3 == 0) {
-Sw->Hold3Time++;
-if (Sw->Hold3Time >= (3000 / 20)) {
-Sw->Hold3Time = 0;
-Sw->Hold3 = 1;
-
-# 188
-}
-}
-}
+# 194
 }
 }
 } else {
@@ -2407,18 +2448,22 @@ Sw->DebounceTime = 0;
 Sw->Debounce = 0;
 Sw->Hold1Time = 0;
 Sw->Hold1 = 0;
-Sw->Hold2Time = 0;
-Sw->Hold2 = 0;
-Sw->Hold3Time = 0;
-Sw->Hold3 = 0;
 
-# 212
+# 211
+setLights_SwOff(sw);
+
+# 220
 }
 }
 }
 } else {
 if (myMain.PowerON == 1) {
 Sw->Enable = 1;
+
+if (sw == 2) {
+setLED(1, 1);
+}
+
 }
 }
 }
@@ -2427,10 +2472,14 @@ Sw->Enable = 1;
 char getSw_KeyStatus(char sw) {
 char status = 0;
 
-# 247
+# 251
+if (sw == 1) {
+__nop();
+} else if (sw == 2) {
 status = RB4 == 1 ? 1 : 0;
+}
 
-# 253
+# 274
 return status;
 }
 
