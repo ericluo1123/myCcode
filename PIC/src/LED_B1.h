@@ -118,7 +118,10 @@ struct PIRLED {
     unsigned char Count;
     unsigned int Time;
 };
+#if SeriesNumber == 020401L
+#else
 struct PIRLED PIRLED;
+#endif
 
 void setPIRLED_Main();
 #else

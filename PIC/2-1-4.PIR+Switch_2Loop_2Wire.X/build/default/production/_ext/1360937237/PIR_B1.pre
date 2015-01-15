@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 159 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Activity_B1.h"
+# 160 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -1949,18 +1949,7 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
-# 97
-struct {
-unsigned i : 1;
-unsigned j : 1;
-unsigned k : 1;
-unsigned l : 1;
-unsigned m : 1;
-unsigned n : 1;
-unsigned o : 1;
-unsigned p : 1;
-};
-
+# 108
 struct {
 unsigned q : 1;
 unsigned r : 1;
@@ -2160,9 +2149,94 @@ unsigned empty : 3;
 unsigned char Count;
 unsigned int Time;
 };
-struct PIRLED PIRLED;
 
+# 126
 void setPIRLED_Main();
+
+# 8 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/OverTemperature_B1.h"
+struct OverTemp {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned ADtoGO : 1;
+unsigned LoadADGO : 1;
+unsigned GO : 1;
+unsigned empty : 3;
+};
+
+unsigned int Time;
+unsigned char Count;
+
+# 26
+ADtype ADH[2];
+
+
+
+
+};
+
+struct OverTemp Temp;
+
+# 82
+inline void Temp_Initialization();
+inline void Temp_Main();
+void setTemp_Main();
+void setTemp_Initialization();
+inline void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+
+# 44 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Run : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+
+unsigned int ADH;
+unsigned int ADL;
+
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
+ADtype AD;
+
+
+unsigned int LightsJudgeValue;
+
+
+
+unsigned char Count;
+unsigned char ErrorCount;
+
+
+unsigned char SafeCount;
+
+};
+
+
+struct OverLoad Load;
+
+# 88
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 99
+char getLoad_OK();
+void setLoad_OK();
 
 # 9 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/CDS_B1.h"
 struct CDS {
@@ -2181,7 +2255,6 @@ unsigned char Time;
 
 unsigned char VRAD;
 unsigned char SignalAD;
-unsigned char ADRES;
 
 # 31
 };
@@ -2211,9 +2284,6 @@ unsigned Available : 1;
 
 
 unsigned char SignalAD;
-unsigned char ADRES;
-unsigned char VRAD;
-unsigned char VRAD1;
 
 # 44
 unsigned char Time;
@@ -2231,7 +2301,7 @@ unsigned int HundredAverageValue;
 
 
 unsigned int Count;
-unsigned char TriggerValue;
+
 unsigned int CloseTimeMinutes;
 unsigned char CloseTimeSeconds;
 unsigned int CloseTimeValue;
@@ -2253,6 +2323,31 @@ void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
 char getPIR_OK();
+
+# 8 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/SYSC_B1.h"
+struct SYSC {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned PowerON : 1;
+unsigned Signal : 1;
+unsigned empty : 4;
+};
+
+unsigned int Timer;
+unsigned int Counter;
+};
+
+
+struct SYSC SYSC;
+
+
+inline void SYSC_Initialization();
+inline void SYSC_Main();
+void setSYSC_Initialization();
+void setSYSC_Main();
+inline void DetectSYSC_Signal();
 
 # 11 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/TriacRelay_B1.h"
 struct LightsControl {
@@ -2289,9 +2384,9 @@ unsigned empty : 4;
 };
 
 unsigned char Time;
-unsigned char TriacTime;
+
 unsigned char TriacValue;
-unsigned char RelayTime;
+
 unsigned char RelayValue;
 };
 struct Lights *Lights;
@@ -2349,41 +2444,48 @@ void PIR_Main() {
 char error = getMain_All_Error_Status(0);
 char cds = getCDS_Status();
 char LightsStatus = 0;
+char Enable_Switch = 1;
+char TriggerValue = 0;
+
+Enable_Switch = RB3 == 1 ? 1 : 0;
+
 
 
 
 LightsStatus = getLights_Status(1);
 
-# 30
+# 35
 if (_PIR.Enable == 1) {
 if (error == 0) {
 
-if (cds == 1) {
+if (cds == 1 && Enable_Switch == 1) {
 _PIR.Available = 1;
 } else {
 _PIR.Available = 0;
 if (_PIR.OK == 1) {
 
 if (getLights_Status(1) == 1) {
-setLights_Trigger(1, 0);
+setLights_SwOn(1);
+setLights_SwOff(1);
+
 }
 
-# 52
+# 59
 }
 }
 
-# 57
+# 64
 if (_PIR.Detect == 0) {
 _PIR.Detect = 1;
 
-# 64
+# 71
 }
 } else {
 if (_PIR.Detect == 1) {
 _PIR.Detect = 0;
 _PIR.Available = 0;
 
-# 86
+# 93
 }
 }
 
@@ -2432,27 +2534,29 @@ if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - _PIR.RangeValue))
 
 _PIR.Count = 0;
 
-# 142
+# 149
 } else {
 
 
 _PIR.RangeCount++;
 _PIR.Count++;
 
-_PIR.TriggerValue = LightsStatus == 1 ? 3 : 3;
+TriggerValue = LightsStatus == 1 ? 3 : 3;
 
-if (_PIR.Count == _PIR.TriggerValue) {
+if (_PIR.Count == TriggerValue) {
 _PIR.Count = 0;
 
 _PIR.CloseTimeSeconds = 0;
 _PIR.CloseTimeMinutes = 0;
 
-# 160
+# 167
 if (getLights_Status(1) == 0) {
-setLights_Trigger(1, 1);
+setLights_SwOn(1);
+setLights_SwOff(1);
+
 }
 
-# 220
+# 231
 }
 }
 }
@@ -2465,15 +2569,17 @@ if (_PIR.Count == (30000 / 20)) {
 _PIR.Count = 0;
 _PIR.OK = 1;
 
-# 234
+# 245
 if (cds == 0) {
 
 
 if (getLights_Status(1) == 1) {
-setLights_Trigger(1, 0);
+setLights_SwOn(1);
+setLights_SwOff(1);
+
 }
 
-# 251
+# 264
 }
 }
 } else {
@@ -2485,12 +2591,14 @@ _PIR.CloseTimeMinutes++;
 if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
 _PIR.CloseTimeMinutes = 0;
 
-# 266
+# 279
 if (getLights_Status(1) == 1) {
-setLights_Trigger(1, 0);
+setLights_SwOn(1);
+setLights_SwOff(1);
+
 }
 
-# 280
+# 295
 }
 }
 }
@@ -2499,12 +2607,14 @@ setLights_Trigger(1, 0);
 if (myMain.PowerON == 1) {
 _PIR.Enable = 1;
 
-# 292
+# 307
 if (getLights_Status(1) == 0) {
-setLights_Trigger(1, 1);
+setLights_SwOn(1);
+setLights_SwOff(1);
+
 }
 
-# 305
+# 322
 }
 }
 }
@@ -2512,30 +2622,31 @@ setLights_Trigger(1, 1);
 
 void getPIR_AD(char channel1, char channel2) {
 char i = 0, j = 0;
-
+char VRAD = 0, VRAD1 = 0;
 if (_PIR.ADtoGO == 1 && _PIR.GO == 0) {
 _PIR.GO = 1;
-_PIR.ADRES = getAD(channel1, 0x70);
-_PIR.VRAD = _PIR.ADRES / 25;
-_PIR.VRAD1 = _PIR.ADRES;
-_PIR.ADRES = getAD(channel2, 0x70);
-_PIR.SignalAD = _PIR.ADRES;
 
-if (_PIR.VRAD < 1) {
+# 338
+VRAD1 = getAD(channel1, 0x70);
+VRAD = VRAD1 / 25;
+_PIR.SignalAD = getAD(channel2, 0x70);
+
+# 354
+if (VRAD < 1) {
 _PIR.CloseTimeValue = 5;
-} else if (_PIR.VRAD < 3) {
+} else if (VRAD < 3) {
 _PIR.CloseTimeValue = 60;
-} else if (_PIR.VRAD < 5) {
+} else if (VRAD < 5) {
 _PIR.CloseTimeValue = 300;
-} else if (_PIR.VRAD < 7) {
+} else if (VRAD < 7) {
 _PIR.CloseTimeValue = 600;
-} else if (_PIR.VRAD < 9) {
+} else if (VRAD < 9) {
 _PIR.CloseTimeValue = 900;
 } else {
 _PIR.CloseTimeValue = 1200;
 }
 
-# 342
+# 375
 _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
 for (i = 0; i < 10; i++) {
 _PIR.TenAverageValue += _PIR.TenAverage[i];
@@ -2559,7 +2670,7 @@ else
 _PIR.HundreCount = 0;
 }
 
-# 378
+# 411
 }
 }
 

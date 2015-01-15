@@ -42,9 +42,9 @@ struct Lights {
     };
 
     unsigned char Time;
-    unsigned char TriacTime;
+    //    unsigned char TriacTime;
     unsigned char TriacValue;
-    unsigned char RelayTime;
+    //    unsigned char RelayTime;
     unsigned char RelayValue;
 };
 struct Lights *Lights;

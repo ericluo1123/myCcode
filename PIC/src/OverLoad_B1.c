@@ -14,20 +14,20 @@ inline void Load_Initialization() {
 
 inline void getLoad_AD(char channel) {
     char i = 0, j = 0, k = 0;
-
+    ADtype ADRES = 0;
     if (Load.ADtoGO == true) {
-        Load.ADRES = getAD(channel, ADCON1_Fixed);
-
+        //        Load.ADRES = getAD(channel, ADCON1_Fixed);
+        ADRES = getAD(channel, ADCON1_Fixed);
         for (i = 0; i < 4; i++) {
-            if (Load.AH[i] < Load.ADRES && j == 0) {
-                Load.AH[i] = Load.ADRES;
+            if (Load.AH[i] < ADRES && j == 0) {
+                Load.AH[i] = ADRES;
                 j = 1;
             }
         }
         if (j == 0) {
             for (i = 0; i < 4; i++) {
-                if (Load.AL[i] > Load.ADRES && k == 0) {
-                    Load.AL[i] = Load.ADRES;
+                if (Load.AL[i] > ADRES && k == 0) {
+                    Load.AL[i] = ADRES;
                     k = 1;
                 }
             }
@@ -38,8 +38,8 @@ inline void getLoad_AD(char channel) {
 
 inline void Load_Main() {
     char error = getMain_All_Error_Status(0);
-    char Load_Status = 0;
-
+    char Load_Status = 0, ErrorCountValue = 0, LightsCount=0;
+    ADtype JudgeValue = 0;
     if (Load.Enable == true) {
 
         if (getMain_All_LightsStatus() == 0) {
@@ -120,27 +120,29 @@ inline void Load_Main() {
 #if LightsControl_use == 1
                                 Load_Status = getLight_Load_Status();
 #endif
-                                Load.LightsCount = getMain_Lights_Count();
+                                LightsCount = getMain_Lights_Count();
+
                                 if (Load.Count == 1) {
-                                    Load.ErrorCountValue = 2;
-                                    Load.JudgeValue = FirstLimitValue;
+                                    //                                    Load.ErrorCountValue = 2;
+                                    JudgeValue = FirstLimitValue;
                                 } else if (Load.Count == 2) {
-                                    if (Load.LightsCount == 1) {
-                                        Load.JudgeValue = SecondLimitValue;
+                                    if (LightsCount == 1) {
+                                        JudgeValue = SecondLimitValue;
                                     } else {
                                         if (Load_Status == 0) {
-                                            Load.JudgeValue = SecondLimitValue * Load.LightsCount;
+                                            JudgeValue = SecondLimitValue * LightsCount;
                                         } else if (Load_Status == 1) {
-                                            Load.JudgeValue = SecondLimitValue + Load.TotalLoad;
+                                            JudgeValue = SecondLimitValue + Load.TotalLoad;
                                         }
                                     }
                                 }
                             }
                         }
 
-                        if (Load.AD >= Load.JudgeValue) {
+                        if (Load.AD >= JudgeValue) {
+                            ErrorCountValue = LightsCount == 1 ? 2 : 3;
                             Load.ErrorCount++;
-                            if (Load.ErrorCount > Load.ErrorCountValue) {
+                            if (Load.ErrorCount > ErrorCountValue) {
                                 Load.ErrorCount = 0;
                                 Load.ERROR = true;
 #if Load_Debug == 1
@@ -148,9 +150,9 @@ inline void Load_Main() {
 #if UART_use == 1  
                                 UART.Data[0] = (Load.AD >> 8);
                                 UART.Data[1] = Load.AD;
-                                UART.Data[2] = (Load.JudgeValue >> 8);
-                                UART.Data[3] = Load.JudgeValue;
-                                UART.Data[4] = Load.LightsCount;
+                                UART.Data[2] = (JudgeValue >> 8);
+                                UART.Data[3] = JudgeValue;
+                                UART.Data[4] = LightsCount;
                                 UART.Data[5] = 0;
                                 UART.Data[6] = 0;
                                 UART.Data[7] = 0;
@@ -158,9 +160,9 @@ inline void Load_Main() {
 #else
                                 setProductData(4, (Load.AD >> 8));
                                 setProductData(5, Load.AD);
-                                setProductData(6, (Load.JudgeValue >> 8));
-                                setProductData(7, Load.JudgeValue);
-                                setProductData(8, Load.LightsCount);
+                                setProductData(6, (JudgeValue >> 8));
+                                setProductData(7, JudgeValue);
+                                setProductData(8, LightsCount);
                                 setProductData(10, getDimmer_LoadGO());
 #endif
 #endif
@@ -175,7 +177,7 @@ inline void Load_Main() {
                                     Load.Run = false;
                                     Load.Count = 0;
                                     Load.TotalLoad = Load.AD;
-                                    Load.ErrorCountValue = 3;
+                                    //                                    Load.ErrorCountValue = 3;
                                     //                                    ErrLED = 0;
                                     //                                    ErrLED = ErrLED == true ? false : true;                           
                                 }
@@ -186,9 +188,9 @@ inline void Load_Main() {
 #if UART_use == 1
                             UART.Data[0] = (Load.AD >> 8);
                             UART.Data[1] = Load.AD;
-                            UART.Data[2] = (Load.JudgeValue >> 8);
-                            UART.Data[3] = Load.JudgeValue;
-                            UART.Data[4] = Load.LightsCount;
+                            UART.Data[2] = (JudgeValue >> 8);
+                            UART.Data[3] = JudgeValue;
+                            UART.Data[4] = LightsCount;
                             UART.Data[5] = 0;
                             UART.Data[6] = 0;
                             UART.Data[7] = 0;
@@ -196,9 +198,9 @@ inline void Load_Main() {
 #else
                             setProductData(4, (Load.AD >> 8));
                             setProductData(5, Load.AD);
-                            setProductData(6, (Load.JudgeValue >> 8));
-                            setProductData(7, Load.JudgeValue);
-                            setProductData(8, Load.LightsCount);
+                            setProductData(6, (JudgeValue >> 8));
+                            setProductData(7, JudgeValue);
+                            setProductData(8, LightsCount);
                             setProductData(10, getDimmer_LoadGO());
 #endif
 #endif
@@ -225,7 +227,7 @@ inline void Load_Main() {
 
                 //                Load.AD = 0;
                 //                Load.JudgeValue = 0;
-                //                Load.LightsCount = 0;
+                //                LightsCount = 0;
 
                 Load.Run = false;
                 Load.Count = 0;
@@ -235,9 +237,9 @@ inline void Load_Main() {
 #if UART_use == 1
                 UART.Data[0] = (Load.AD >> 8);
                 UART.Data[1] = Load.AD;
-                UART.Data[2] = (Load.JudgeValue >> 8);
-                UART.Data[3] = Load.JudgeValue;
-                UART.Data[4] = Load.LightsCount;
+                UART.Data[2] = (JudgeValue >> 8);
+                UART.Data[3] = JudgeValue;
+                UART.Data[4] = LightsCount;
                 UART.Data[5] = 0;
                 UART.Data[6] = 0;
                 UART.Data[7] = 0;
@@ -245,9 +247,9 @@ inline void Load_Main() {
 #else
                 setProductData(4, (Load.AD >> 8));
                 setProductData(5, Load.AD);
-                setProductData(6, (Load.JudgeValue >> 8));
-                setProductData(7, Load.JudgeValue);
-                setProductData(8, Load.LightsCount);
+                setProductData(6, (JudgeValue >> 8));
+                setProductData(7, JudgeValue);
+                setProductData(8, LightsCount);
                 setProductData(10, getDimmer_LoadGO());
 #endif
 #endif

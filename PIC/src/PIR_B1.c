@@ -14,6 +14,11 @@ void PIR_Main() {
     char error = getMain_All_Error_Status(0);
     char cds = getCDS_Status();
     char LightsStatus = 0;
+    char Enable_Switch = 1;
+    char TriggerValue = 0;
+#ifdef PIR_Enable
+    Enable_Switch = PIR_Enable == true ? 1 : 0;
+#endif
 
 #if LightsControl_use == 1
 #ifdef use_1KEY
@@ -30,14 +35,16 @@ void PIR_Main() {
     if (_PIR.Enable == true) {
         if (error == 0) {
 #if PIR_TestTime_Mode == 0
-            if (cds == 1) {
+            if (cds == 1 && Enable_Switch == 1) {
                 _PIR.Available = true;
             } else {
                 _PIR.Available = false;
                 if (_PIR.OK == true) {
 #if LightsControl_use == 1
                     if (getLights_Status(1) == 1) {
-                        setLights_Trigger(1, 0);
+                        setLights_SwOn(1);
+                        setLights_SwOff(1);
+                        //                        setLights_Trigger(1, 0);
                     }
 #endif
 #if Dimmer_use == 1
@@ -145,9 +152,9 @@ void PIR_Main() {
                             _PIR.RangeCount++;
                             _PIR.Count++;
 
-                            _PIR.TriggerValue = LightsStatus == 1 ? 3 : 3;
+                            TriggerValue = LightsStatus == 1 ? 3 : 3;
 
-                            if (_PIR.Count == _PIR.TriggerValue) {
+                            if (_PIR.Count == TriggerValue) {
                                 _PIR.Count = 0;
 #if PIR_TestTime_Mode == 0
                                 _PIR.CloseTimeSeconds = 0;
@@ -158,7 +165,9 @@ void PIR_Main() {
 #ifdef use_1KEY
 #if PIR_Test_Mode == 0
                                 if (getLights_Status(1) == 0) {
-                                    setLights_Trigger(1, 1);
+                                    setLights_SwOn(1);
+                                    setLights_SwOff(1);
+                                    //                                    setLights_Trigger(1, 1);
                                 }
 #endif
 #endif
@@ -192,7 +201,9 @@ void PIR_Main() {
 #ifdef use_1KEY
 #if PIR_Test_Mode == 0
                                     if (getLights_Status(1) == 0) {
-                                        setLights_Trigger(1, 1);
+                                        setLights_SwOn(1);
+                                        setLights_SwOff(1);
+                                        //                                        setLights_Trigger(1, 1);
                                     }
 #endif
 #endif
@@ -235,7 +246,9 @@ void PIR_Main() {
 #if LightsControl_use == 1
 #ifdef use_1KEY
                     if (getLights_Status(1) == 1) {
-                        setLights_Trigger(1, 0);
+                        setLights_SwOn(1);
+                        setLights_SwOff(1);
+                        //                        setLights_Trigger(1, 0);
                     }
 #endif
 #endif
@@ -264,7 +277,9 @@ void PIR_Main() {
 #ifdef use_1KEY
 #if PIR_Test_Mode == 0
                         if (getLights_Status(1) == 1) {
-                            setLights_Trigger(1, 0);
+                            setLights_SwOn(1);
+                            setLights_SwOff(1);
+                            //                            setLights_Trigger(1, 0);
                         }
 #endif
 #endif
@@ -290,7 +305,9 @@ void PIR_Main() {
 #if LightsControl_use == 1
 #ifdef use_1KEY
             if (getLights_Status(1) == 0) {
-                setLights_Trigger(1, 1);
+                setLights_SwOn(1);
+                setLights_SwOff(1);
+                //                setLights_Trigger(1, 1);
             }
 #endif
 #endif
@@ -309,24 +326,40 @@ void PIR_Main() {
 
 void getPIR_AD(char channel1, char channel2) {
     char i = 0, j = 0;
-
+    char VRAD = 0, VRAD1 = 0;
     if (_PIR.ADtoGO == true && _PIR.GO == false) {
         _PIR.GO = true;
-        _PIR.ADRES = getAD(channel1, ADCON1_VDD);
-        _PIR.VRAD = _PIR.ADRES / 25;
-        _PIR.VRAD1 = _PIR.ADRES;
-        _PIR.ADRES = getAD(channel2, ADCON1_VDD);
-        _PIR.SignalAD = _PIR.ADRES;
 
-        if (_PIR.VRAD < 1) {
+        //        _PIR.ADRES = getAD(channel1, ADCON1_VDD);
+        //        _PIR.VRAD = _PIR.ADRES / 25;
+        //        _PIR.VRAD1 = _PIR.ADRES;
+        //        _PIR.ADRES = getAD(channel2, ADCON1_VDD);
+        //        _PIR.SignalAD = _PIR.ADRES;
+        VRAD1 = getAD(channel1, ADCON1_VDD);
+        VRAD = VRAD1 / 25;
+        _PIR.SignalAD = getAD(channel2, ADCON1_VDD);
+        //        if (_PIR.VRAD < 1) {
+        //            _PIR.CloseTimeValue = 5;
+        //        } else if (_PIR.VRAD < 3) {
+        //            _PIR.CloseTimeValue = 60;
+        //        } else if (_PIR.VRAD < 5) {
+        //            _PIR.CloseTimeValue = 300;
+        //        } else if (_PIR.VRAD < 7) {
+        //            _PIR.CloseTimeValue = 600;
+        //        } else if (_PIR.VRAD < 9) {
+        //            _PIR.CloseTimeValue = 900;
+        //        } else {
+        //            _PIR.CloseTimeValue = 1200;
+        //        }
+        if (VRAD < 1) {
             _PIR.CloseTimeValue = 5;
-        } else if (_PIR.VRAD < 3) {
+        } else if (VRAD < 3) {
             _PIR.CloseTimeValue = 60;
-        } else if (_PIR.VRAD < 5) {
+        } else if (VRAD < 5) {
             _PIR.CloseTimeValue = 300;
-        } else if (_PIR.VRAD < 7) {
+        } else if (VRAD < 7) {
             _PIR.CloseTimeValue = 600;
-        } else if (_PIR.VRAD < 9) {
+        } else if (VRAD < 9) {
             _PIR.CloseTimeValue = 900;
         } else {
             _PIR.CloseTimeValue = 1200;

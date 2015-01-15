@@ -49,12 +49,8 @@ inline void getCDS_AD(char channel1, char channel2) {
     char i = 0, j = 0;
     if (_CDS.ADtoGO == true) {
         _CDS.GO = true;
-        _CDS.ADRES = getAD(channel1, ADCON1_VDD);
-        _CDS.VRAD = _CDS.ADRES;
-        _CDS.ADRES = getAD(channel2, ADCON1_VDD);
-        _CDS.SignalAD = _CDS.ADRES;
+        _CDS.VRAD = getAD(channel1, ADCON1_VDD);
+        _CDS.SignalAD = getAD(channel2, ADCON1_VDD);
     }
 }
-
-
 #endif

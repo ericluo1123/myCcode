@@ -208,7 +208,7 @@ inline void my_MainTimer() {
         myMain.PowerCount++;
         if (myMain.PowerCount == (1000 / Main_Time)) {
             myMain.PowerCount = 0;
-            
+
 #if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 || PIR_TestTime_Mode == 1 || Dimmer_Debug == 1
 #ifdef _PIR_Ceiling_Embed_V1.1.2.1.3_H_
 #if UART_use == 1   
@@ -452,12 +452,6 @@ char getMain_All_Error_Status(char command) {
     }
 #endif
 
-    //
-    //#if CDS_use == 1
-    //    if (status == 0 && command != 5) {
-    //        status = getCDS_Status() == false ? 5 : 0;
-    //    }
-    //#endif
     return status;
 }
 //*****************************************************************************
@@ -479,13 +473,13 @@ char getMain_Lights_Count() {
 
 #if LightsControl_use == 1
 #ifdef use_1KEY
-    char status1 = Lights1.Loop == true ? 1 : 0;
+    char status1 = Lights1.Status == true ? 1 : 0;
 #endif
 #ifdef use_2KEY
-    char status2 = Lights2.Loop == true ? 1 : 0;
+    char status2 = Lights2.Status == true ? 1 : 0;
 #endif
 #ifdef use_3KEY
-    char status3 = Lights3.Loop == true ? 1 : 0;
+    char status3 = Lights3.Status == true ? 1 : 0;
 #endif
 #endif
 
@@ -505,19 +499,27 @@ char getMain_Lights_Count() {
 void Exception_Main() {
     char error = getMain_All_Error_Status(0);
     char lights = 0, count = Switch_Class;
+    char status = 0;
+
     if (myMain.Error_Run == true) {
         if (error == 0) {
             myMain.Error_Run = false;
+
+#if SeriesNumber ==  020401L
+            setLED(99, 10);
+#else
 #if LightsControl_use == 1
             setLED(error, 110);
 #endif
 #if Dimmer_use == 1
 #if PIR_use == 1
             setLED(error, 110);
-#else 
+#else
             setLED(99, 10);
 #endif
 #endif
+#endif
+
         }
     } else {
         if (error != 0) {
@@ -582,20 +584,58 @@ void Exception_Main() {
 #endif
 
 #if LightsControl_use == 1
+#if SeriesNumber ==  020401L
+            setLED(99, 11);
+#else
             setLED(error, 111);
-            if (error == 3) {
-                char status = getAll_Lights_Line();
-                if (getLights_Status(status) == 1) {
-                    setLights_Trigger(status, 0);
-                }
-            } else {
-
-                for (int i = 0; i < count; i++) {
-                    if (getLights_Status(i + 1) == 1) {
-                        setLights_Trigger(i + 1, 0);
+#endif
+            switch (error) {
+                case 1:
+                    for (int i = 0; i < count; i++) {
+                        if (getLights_Status(i + 1) == 1) {
+                            //                            setLights_Trigger(i + 1, 0);
+                            setLights_SwOn(i + 1);
+                            setLights_SwOff(i + 1);
+                        }
                     }
-                }
+                    break;
+                case 2:
+                    if (getMain_All_LightsStatus() == 1) {
+                        setBuz(10, BuzzerErrorTime);
+                    }
+
+                    for (int i = 0; i < count; i++) {
+                        if (getLights_Status(i + 1) == 1) {
+                            setLights_SwOn(i + 1);
+                            setLights_SwOff(i + 1);
+                        }
+                    }
+                    break;
+                case 3://Load 
+                    status = getAll_Lights_Line();
+
+                    if (getLights_Status(status) == 1) {
+                        setLights_SwOn(status);
+                        setLights_SwOff(status);
+                        //                        setLights_Trigger(status, 0);
+                    }
+
+                    setBuz(status, BuzzerErrorTime);
+                    break;
             }
+            //            if (error == 3) {
+            //                char status = getAll_Lights_Line();
+            //                if (getLights_Status(status) == 1) {
+            //                    setLights_Trigger(status, 0);
+            //                }
+            //            } else {
+            //
+            //                for (int i = 0; i < count; i++) {
+            //                    if (getLights_Status(i + 1) == 1) {
+            //                        setLights_Trigger(i + 1, 0);
+            //                    }
+            //                }
+            //            }
 #endif
         }
     }

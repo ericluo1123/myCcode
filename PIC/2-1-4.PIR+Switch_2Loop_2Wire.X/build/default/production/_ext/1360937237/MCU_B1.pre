@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 159 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Activity_B1.h"
+# 160 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -1949,18 +1949,7 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
-# 97
-struct {
-unsigned i : 1;
-unsigned j : 1;
-unsigned k : 1;
-unsigned l : 1;
-unsigned m : 1;
-unsigned n : 1;
-unsigned o : 1;
-unsigned p : 1;
-};
-
+# 108
 struct {
 unsigned q : 1;
 unsigned r : 1;
@@ -2160,9 +2149,94 @@ unsigned empty : 3;
 unsigned char Count;
 unsigned int Time;
 };
-struct PIRLED PIRLED;
 
+# 126
 void setPIRLED_Main();
+
+# 8 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/OverTemperature_B1.h"
+struct OverTemp {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned ADtoGO : 1;
+unsigned LoadADGO : 1;
+unsigned GO : 1;
+unsigned empty : 3;
+};
+
+unsigned int Time;
+unsigned char Count;
+
+# 26
+ADtype ADH[2];
+
+
+
+
+};
+
+struct OverTemp Temp;
+
+# 82
+inline void Temp_Initialization();
+inline void Temp_Main();
+void setTemp_Main();
+void setTemp_Initialization();
+inline void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+
+# 44 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Run : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+
+unsigned int ADH;
+unsigned int ADL;
+
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
+ADtype AD;
+
+
+unsigned int LightsJudgeValue;
+
+
+
+unsigned char Count;
+unsigned char ErrorCount;
+
+
+unsigned char SafeCount;
+
+};
+
+
+struct OverLoad Load;
+
+# 88
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 99
+char getLoad_OK();
+void setLoad_OK();
 
 # 9 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/CDS_B1.h"
 struct CDS {
@@ -2181,7 +2255,6 @@ unsigned char Time;
 
 unsigned char VRAD;
 unsigned char SignalAD;
-unsigned char ADRES;
 
 # 31
 };
@@ -2211,9 +2284,6 @@ unsigned Available : 1;
 
 
 unsigned char SignalAD;
-unsigned char ADRES;
-unsigned char VRAD;
-unsigned char VRAD1;
 
 # 44
 unsigned char Time;
@@ -2231,7 +2301,7 @@ unsigned int HundredAverageValue;
 
 
 unsigned int Count;
-unsigned char TriggerValue;
+
 unsigned int CloseTimeMinutes;
 unsigned char CloseTimeSeconds;
 unsigned int CloseTimeValue;
@@ -2253,6 +2323,31 @@ void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
 char getPIR_OK();
+
+# 8 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/SYSC_B1.h"
+struct SYSC {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned PowerON : 1;
+unsigned Signal : 1;
+unsigned empty : 4;
+};
+
+unsigned int Timer;
+unsigned int Counter;
+};
+
+
+struct SYSC SYSC;
+
+
+inline void SYSC_Initialization();
+inline void SYSC_Main();
+void setSYSC_Initialization();
+void setSYSC_Main();
+inline void DetectSYSC_Signal();
 
 # 11 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/TriacRelay_B1.h"
 struct LightsControl {
@@ -2289,9 +2384,9 @@ unsigned empty : 4;
 };
 
 unsigned char Time;
-unsigned char TriacTime;
+
 unsigned char TriacValue;
-unsigned char RelayTime;
+
 unsigned char RelayValue;
 };
 struct Lights *Lights;
@@ -2380,7 +2475,7 @@ TRISA = 0b00101110;;
 TRISB = 0b00010101;;
 TRISC = 0b00000000;;
 ANSELA = 0b00101110;;
-ANSELB = 0b00000101;;
+ANSELB = 0b00000001;;
 PORTA = 0b00101110;;
 PORTB = 0b00010101;;
 PORTC = 0b00000000;;

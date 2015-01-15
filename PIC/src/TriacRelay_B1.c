@@ -116,9 +116,8 @@ void setLights(char lights, char status) {
     if (status == 1) {
 #if PIR_use == 1
         if (lights == 2) {
-            ErrLED = ErrLED == true ? false : true;
-            setLED(1, 1);
-            setLED(2, 0);
+            setLED(1, 0);
+            setLED(2, 1);
         }
 #endif
 #if CC2500_use == 1
@@ -139,8 +138,8 @@ void setLights(char lights, char status) {
 
 #if PIR_use == 1
         if (lights == 2) {
-            setLED(1, 0);
-            setLED(2, 1);
+            setLED(1, 1);
+            setLED(2, 0);
         }
 #endif
         if (Lights->Status == true) {
@@ -323,27 +322,27 @@ char getLights_Allow_Condition(char lights) {
     allow = getLoad_OK() == 0 && Light.LoadGO == false ? 0 : 1;
 #endif
 
-#if Switch_Class == 2
-    if (allow == 0) {
-        if (lights == 1) {
-            allow = Lights2.Trigger == true ? 1 : 0;
-        } else if (lights == 2) {
-            allow = Lights1.Trigger == true ? 1 : 0;
-        }
-    }
-#endif
-#if Switch_Class == 3
-    if (allow == 0) {
-        if (lights == 1) {
-            allow = Lights2.Trigger == true || Lights3.Trigger == true ? 1 : 0;
-        } else if (lights == 2) {
-            allow = ights1.Trigger == true || Lights3.Trigger == true ? 1 : 0;
-        } else if (lights == 3) {
-            allow = ights1.Trigger == true || Lights2.Trigger == true ? 1 : 0;
-        }
-
-    }
-#endif
+    //#if Switch_Class == 2
+    //    if (allow == 0) {
+    //        if (lights == 1) {
+    //            allow = Lights2.Trigger == true ? 1 : 0;
+    //        } else if (lights == 2) {
+    //            allow = Lights1.Trigger == true ? 1 : 0;
+    //        }
+    //    }
+    //#endif
+    //#if Switch_Class == 3
+    //    if (allow == 0) {
+    //        if (lights == 1) {
+    //            allow = Lights2.Trigger == true || Lights3.Trigger == true ? 1 : 0;
+    //        } else if (lights == 2) {
+    //            allow = ights1.Trigger == true || Lights3.Trigger == true ? 1 : 0;
+    //        } else if (lights == 3) {
+    //            allow = ights1.Trigger == true || Lights2.Trigger == true ? 1 : 0;
+    //        }
+    //
+    //    }
+    //#endif
 
     return allow;
 }
@@ -366,6 +365,7 @@ void setLights_SwOn(char sw) {
     Lights->SwFlag = true;
     if (getLights_Status(sw) == 0) {
         Lights->SwStatus = true;
+        setLights_Trigger(sw, 1);
     } else {
         Lights->SwStatus = false;
     }
@@ -376,9 +376,7 @@ void setLights_SwOff(char sw) {
 
     if (Lights->SwFlag == true) {
         Lights->SwFlag = false;
-        if (Lights->SwStatus == true) {
-            setLights_Trigger(sw, 1);
-        } else {
+        if (Lights->SwStatus == false) {
             setLights_Trigger(sw, 0);
         }
     }

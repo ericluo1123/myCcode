@@ -13,15 +13,17 @@ inline void Temp_Initialization() {
 //*********************************************************
 
 inline void getTemp_AD(char channel) {
+    ADtype ADRES = 0;
     //#if SYSC_use == 1
     //    if (SYSC1 == true) {
     if (Temp.ADtoGO == true) {
-        Temp.ADRES = getAD(channel, ADCON1_VDD);
-        if (Temp.ADRES > 0) {
-            if (Temp.ADH[0] < Temp.ADRES) {
-                Temp.ADH[0] = Temp.ADRES;
-            } else if (Temp.ADH[1] < Temp.ADRES) {
-                Temp.ADH[1] = Temp.ADRES;
+        //        Temp.ADRES = getAD(channel, ADCON1_VDD);
+        ADRES = getAD(channel, ADCON1_VDD);
+        if (ADRES > 0) {
+            if (Temp.ADH[0] < ADRES) {
+                Temp.ADH[0] = ADRES;
+            } else if (Temp.ADH[1] < ADRES) {
+                Temp.ADH[1] = ADRES;
             }
         }
     }
@@ -30,11 +32,12 @@ inline void getTemp_AD(char channel) {
     //#else
     //    if (Temp.ADtoGO == true) {
     //        Temp.GO = true;
-    //        Temp.ADRES = getAD(channel, ADCON1_VDD);
-    //        if (Temp.ADH[0] < Temp.ADRES) {
-    //            Temp.ADH[0] = Temp.ADRES;
-    //        } else if (Temp.ADH[1] < Temp.ADRES) {
-    //            Temp.ADH[1] = Temp.ADRES;
+    ////            Temp.ADRES = getAD(channel, ADCON1_VDD);
+    ADRES = getAD(channel, ADCON1_VDD);
+    //        if (Temp.ADH[0] < ADRES) {
+    //            Temp.ADH[0] = ADRES;
+    //        } else if (Temp.ADH[1] < ADRES) {
+    //            Temp.ADH[1] = ADRES;
     //        }
     //    }
     //#endif
@@ -55,6 +58,7 @@ inline void Temp_Main() {
 
 void setTemp_Main() {
     char error = getMain_All_Error_Status(0);
+    ADtype SafeValue = 0, DangerValue = 0, AD;
     if (Temp.Enable == true) {
         //        if (error == 1 || error == 3) {
         //            Temp.Time = 0;
@@ -75,29 +79,29 @@ void setTemp_Main() {
 
                 if (Temp.ADH[0] > 0 && Temp.ADH[1] > 0) {
                     Temp.ADtoGO = false;
-                    Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
+                    AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
 
 #if PIR_use == 1 && Dimmer_use == 0
                     if (getMain_All_LightsStatus() == 1) {
-                        Temp.SafeValue = TempSafeValueH;
-                        Temp.DangerValue = TempDangerValueH;
+                        SafeValue = TempSafeValueH;
+                        DangerValue = TempDangerValueH;
                     } else {
-                        Temp.SafeValue = TempSafeValueL;
-                        Temp.DangerValue = TempDangerValueL;
+                        SafeValue = TempSafeValueL;
+                        DangerValue = TempDangerValueL;
                     }
 #elif PIR_use == 1 && Dimmer_use == 1
-                    Temp.SafeValue = TempSafeValue;
-                    Temp.DangerValue = TempDangerValue;
+                    SafeValue = TempSafeValue;
+                    DangerValue = TempDangerValue;
 #elif PIR_use == 0 && Dimmer_use == 1
-                    Temp.SafeValue = TempSafeValue;
-                    Temp.DangerValue = TempDangerValue;
+                    SafeValue = TempSafeValue;
+                    DangerValue = TempDangerValue;
 #else
-                    Temp.SafeValue = 0;
-                    Temp.DangerValue = 0;
+                    SafeValue = 0;
+                    DangerValue = 0;
 #endif
 
                     if (Temp.ERROR == true) {
-                        if (Temp.AD >= Temp.SafeValue) {
+                        if (AD >= SafeValue) {
                             Temp.Count++;
                             if (Temp.Count >= TempCountValue) {
                                 Temp.Count = 0;
@@ -108,7 +112,7 @@ void setTemp_Main() {
                             Temp.Count = 0;
                         }
                     } else {
-                        if (Temp.AD <= Temp.DangerValue) {
+                        if (AD <= DangerValue) {
                             Temp.Count++;
                             if (Temp.Count >= TempCountValue) {
                                 Temp.Count = 0;
@@ -118,21 +122,21 @@ void setTemp_Main() {
                             Temp.Count = 0;
                         }
                     }
-                    setProductData(24, Temp.AD >> 8);
-                    setProductData(25, Temp.AD);
+                    setProductData(24, AD >> 8);
+                    setProductData(25, AD);
 #if Temp_Debug == 1
 #if PIR_use == 1  
 #if UART_use == 1     
-                    UART.Data[0] = (Temp.AD >> 8);
-                    UART.Data[1] = Temp.AD;
+                    UART.Data[0] = (AD >> 8);
+                    UART.Data[1] = AD;
                     UART.Data[2] = (Temp.DangerValue >> 8);
                     UART.Data[3] = Temp.DangerValue;
                     UART.Data[4] = (Temp.SafeValue >> 8);
                     UART.Data[5] = Temp.SafeValue;
 #endif
 #else
-                    setProductData(2, Temp.AD >> 8);
-                    setProductData(3, Temp.AD);
+                    setProductData(2, AD >> 8);
+                    setProductData(3, AD);
 #endif
 #endif
                 }

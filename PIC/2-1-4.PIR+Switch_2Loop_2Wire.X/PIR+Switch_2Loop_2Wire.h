@@ -29,6 +29,7 @@
 #define Properties_Product_Value	2	//3
 #define Properties_Keys_Value		2	//4
 #define Properties_Country_Value	3	//5
+#define SeriesNumber_Value              020401L
 
 //Control Option
 #define Control_Method_Mosfet_Value         0
@@ -40,7 +41,7 @@
 #define Debug_Value                         0
 #define Create_Date "2015/01/13"
 #define PCB_Name ""
-   
+
 //MCU define
 #define	empty1                          RA0		//pin2  0
 #define PIR1_VR				RA1		//pin3	1	
@@ -50,7 +51,7 @@
 #define CDS_1				RA5		//pin7	1
 #define Relay1                          RA6		//pin10 0
 #define Triac1                          RA7		//pin9	0
-  
+
 #define OverLoad1			RB0		//pin21 1
 #define empty3				RB1		//pin22 0
 #define SYSC1				RB2		//pin23 1
@@ -75,7 +76,7 @@
 #define _TRISB 	0b00010101;
 #define _TRISC 	0b00000000;
 #define _ANSELA 0b00101110;
-#define _ANSELB 0b00000101;
+#define _ANSELB 0b00000001;
 #define _PORTA 	0b00101110;
 #define _PORTB 	0b00010101;
 #define _PORTC 	0b00000000;
@@ -83,12 +84,12 @@
 #define _WPUB   0b00000000;
 
 //ADC channel
-#define CDS_Signal_Channel		AN12
+#define CDS_Signal_Channel		AN4
 #define CDS_VR_Channel			AN2
 #define PIR_Signal_Channel		AN3
 #define PIR_VR_Channel			AN1
-#define OverLoad_Channel		AN0
-#define OverTemp_Channel		AN4
+#define OverLoad_Channel		AN12
+#define OverTemp_Channel		AN8
 
 //Mcu Function Option
 //MCU
@@ -132,9 +133,9 @@
 //Function Option
 
 //SYSC
-#define SYSC_use_Value 0
+#define SYSC_use_Value 1
 //OverTemperature
-#define OverTemperature_use_Value 0
+#define OverTemperature_use_Value 1
 #define Cut_Off_electricity_Value 1
 #define TempDangerValueH_Value    0x70		//NTC 68 value 500
 #define TempSafeValueH_Value      0x85		//NTC 47 value 600
@@ -148,9 +149,9 @@
  */
 
 //OverLoad
-#define OverLoad_use_Value  0
-#define LimitCurrent_Value  7//A
-#define LinearParam_Value   1.7
+#define OverLoad_use_Value  1
+#define LimitCurrent_Value  1//A
+#define LinearParam_Value   50
 //LED
 #define LED_use_Value 1
 //Buzzer

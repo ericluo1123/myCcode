@@ -45,7 +45,12 @@ inline void LED_Initialization() {
 //*********************************************************
 
 inline void LED_Main() {
-
+ 
+#if SeriesNumber == 020401L
+#ifdef ErrLED
+    setLED_Main(99);
+#endif
+#else
 #if PIR_use == true
     setPIRLED_Main();
 #else
@@ -61,7 +66,7 @@ inline void LED_Main() {
 #ifdef ErrLED
     setLED_Main(99);
 #endif
-
+#endif
 #endif
 }
 //*********************************************************
@@ -195,6 +200,8 @@ void setLED(char led, char command) {
         LED->GO = true;
     }
 #if PIR_use == true
+#if SeriesNumber == 020401L
+#else
     if (command == 111) {
         PIRLED.Count = 0;
         PIRLED.Time = 0;
@@ -214,6 +221,7 @@ void setLED(char led, char command) {
         PIRLED.GO = false;
     }
 #endif
+#endif
 }
 
 //*********************************************************
@@ -224,6 +232,7 @@ void setLED_Main(char led) {
         LED->Time++;
         if (LED->Time >= (LEDTime / Main_Time)) {
             LED->Time = 0;
+
 #ifdef LED1
             if (led == 1) {
                 LED1 = LED1 == true ? false : true;
@@ -248,9 +257,12 @@ void setLED_Main(char led) {
     }
 }
 //*********************************************************
+
 #if PIR_use == true
 
 void setPIRLED_Main() {
+#if SeriesNumber == 020401L
+#else
     char count;
     if (PIRLED.GO == true) {
         PIRLED.Time++;
@@ -280,7 +292,9 @@ void setPIRLED_Main() {
             }
         }
     }
+#endif
 }
 #endif
+
 //end file
 #endif

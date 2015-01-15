@@ -16,6 +16,7 @@
 #define Properties_Product Properties_Product_Value
 #define Properties_Keys	Properties_Keys_Value
 #define Properties_Country Properties_Country_Value
+#define SeriesNumber SeriesNumber_Value             
 
 #define Control_Method_Mosfet Control_Method_Mosfet_Value
 #define Control_Method_Triac Control_Method_Triac_Value

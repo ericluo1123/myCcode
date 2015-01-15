@@ -94,16 +94,16 @@ struct myMain {
     //    unsigned char Test;
     //    unsigned char ClockCount;
 
-    struct {
-        unsigned i : 1;
-        unsigned j : 1;
-        unsigned k : 1;
-        unsigned l : 1;
-        unsigned m : 1;
-        unsigned n : 1;
-        unsigned o : 1;
-        unsigned p : 1;
-    };
+    //    struct {
+    //        unsigned i : 1;
+    //        unsigned j : 1;
+    //        unsigned k : 1;
+    //        unsigned l : 1;
+    //        unsigned m : 1;
+    //        unsigned n : 1;
+    //        unsigned o : 1;
+    //        unsigned p : 1;
+    //    };
 
     struct {
         unsigned q : 1;

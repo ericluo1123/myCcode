@@ -30,9 +30,9 @@ struct PIR {
 
 #ifdef MCU_16F723A
     unsigned char SignalAD;
-    unsigned char ADRES;
-    unsigned char VRAD;
-    unsigned char VRAD1;
+//    unsigned char ADRES;
+//    unsigned char VRAD;
+//    unsigned char VRAD1;
 #else
     unsigned int SignalAD;
     unsigned int ADRES;
@@ -56,7 +56,7 @@ struct PIR {
     //main
 
     unsigned int Count;
-    unsigned char TriggerValue;
+//    unsigned char TriggerValue;
     unsigned int CloseTimeMinutes;
     unsigned char CloseTimeSeconds;
     unsigned int CloseTimeValue;

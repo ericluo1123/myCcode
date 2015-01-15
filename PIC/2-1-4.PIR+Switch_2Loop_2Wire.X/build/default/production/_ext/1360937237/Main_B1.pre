@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 159 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Activity_B1.h"
+# 160 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -1949,18 +1949,7 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
-# 97
-struct {
-unsigned i : 1;
-unsigned j : 1;
-unsigned k : 1;
-unsigned l : 1;
-unsigned m : 1;
-unsigned n : 1;
-unsigned o : 1;
-unsigned p : 1;
-};
-
+# 108
 struct {
 unsigned q : 1;
 unsigned r : 1;
@@ -2160,9 +2149,94 @@ unsigned empty : 3;
 unsigned char Count;
 unsigned int Time;
 };
-struct PIRLED PIRLED;
 
+# 126
 void setPIRLED_Main();
+
+# 8 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/OverTemperature_B1.h"
+struct OverTemp {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned ADtoGO : 1;
+unsigned LoadADGO : 1;
+unsigned GO : 1;
+unsigned empty : 3;
+};
+
+unsigned int Time;
+unsigned char Count;
+
+# 26
+ADtype ADH[2];
+
+
+
+
+};
+
+struct OverTemp Temp;
+
+# 82
+inline void Temp_Initialization();
+inline void Temp_Main();
+void setTemp_Main();
+void setTemp_Initialization();
+inline void getTemp_AD(char channel);
+void setOverTemp_Exceptions(char command);
+
+# 44 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/OverLoad_B1.h"
+struct OverLoad {
+
+struct {
+unsigned Enable : 1;
+unsigned GO : 1;
+unsigned LightsON : 1;
+unsigned Run : 1;
+unsigned ADtoGO : 1;
+unsigned ERROR : 1;
+unsigned Status : 1;
+unsigned OK : 1;
+};
+
+unsigned int Time;
+unsigned int ErrorTime;
+
+unsigned int ADH;
+unsigned int ADL;
+
+ADtype TotalLoad;
+ADtype AH[5];
+ADtype AL[5];
+ADtype AD;
+
+
+unsigned int LightsJudgeValue;
+
+
+
+unsigned char Count;
+unsigned char ErrorCount;
+
+
+unsigned char SafeCount;
+
+};
+
+
+struct OverLoad Load;
+
+# 88
+inline void Load_Initialization();
+inline void Load_Main();
+inline void getLoad_AD(char channel);
+void setLoad_Exceptions(char command);
+void setLoad_AH_AL_Restore();
+
+# 99
+char getLoad_OK();
+void setLoad_OK();
 
 # 9 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/CDS_B1.h"
 struct CDS {
@@ -2181,7 +2255,6 @@ unsigned char Time;
 
 unsigned char VRAD;
 unsigned char SignalAD;
-unsigned char ADRES;
 
 # 31
 };
@@ -2211,9 +2284,6 @@ unsigned Available : 1;
 
 
 unsigned char SignalAD;
-unsigned char ADRES;
-unsigned char VRAD;
-unsigned char VRAD1;
 
 # 44
 unsigned char Time;
@@ -2231,7 +2301,7 @@ unsigned int HundredAverageValue;
 
 
 unsigned int Count;
-unsigned char TriggerValue;
+
 unsigned int CloseTimeMinutes;
 unsigned char CloseTimeSeconds;
 unsigned int CloseTimeValue;
@@ -2253,6 +2323,31 @@ void PIR_Initialization();
 void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
 char getPIR_OK();
+
+# 8 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/SYSC_B1.h"
+struct SYSC {
+
+struct {
+unsigned Enable : 1;
+unsigned ERROR : 1;
+unsigned PowerON : 1;
+unsigned Signal : 1;
+unsigned empty : 4;
+};
+
+unsigned int Timer;
+unsigned int Counter;
+};
+
+
+struct SYSC SYSC;
+
+
+inline void SYSC_Initialization();
+inline void SYSC_Main();
+void setSYSC_Initialization();
+void setSYSC_Main();
+inline void DetectSYSC_Signal();
 
 # 11 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/TriacRelay_B1.h"
 struct LightsControl {
@@ -2289,9 +2384,9 @@ unsigned empty : 4;
 };
 
 unsigned char Time;
-unsigned char TriacTime;
+
 unsigned char TriacValue;
-unsigned char RelayTime;
+
 unsigned char RelayValue;
 };
 struct Lights *Lights;
@@ -2346,9 +2441,9 @@ Mcu_Initialization();
 LED_Initialization();
 Buzzer_Initialization();
 
-;;
-;;
-;;
+SYSC_Initialization();
+Temp_Initialization();
+Load_Initialization();
 ;;
 ;;
 
@@ -2366,8 +2461,18 @@ while (1) {
 
 if (myMain.PowerON == 1) {
 
+DetectSYSC_Signal();
+
+
+
+getLoad_AD(0x31);
+
+
+
+getTemp_AD(0x21);
+
 # 50
-getCDS_AD(0x09, 0x31);
+getCDS_AD(0x09, 0x11);
 
 
 
@@ -2390,9 +2495,9 @@ if (myMain.PowerON == 1) {
 LED_Main();
 Buzzer_Main();
 
-;;
-;;
-;;
+SYSC_Main();
+Temp_Main();
+Load_Main();
 ;;
 
 Lights_Main();
@@ -2507,7 +2612,11 @@ setLights_Trigger(status, 0);
 char getMain_AD_OK() {
 char result = 0;
 
-# 369
+# 365
+if (result == 0) {
+
+}
+
 return result;
 }
 
@@ -2529,7 +2638,24 @@ return status;
 char getMain_All_Error_Status(char command) {
 char status = 0;
 
-# 461
+
+if (status == 0 && command != 1) {
+status = SYSC.ERROR == 1 ? 1 : 0;
+}
+
+# 436
+if (status == 0 && command != 2) {
+status = Temp.ERROR == 1 ? 2 : 0;
+}
+
+
+
+
+if (status == 0 && command != 3) {
+status = Load.ERROR == 1 ? 3 : 0;
+}
+
+# 455
 return status;
 }
 
@@ -2537,55 +2663,82 @@ return status;
 char getMain_Lights_Count() {
 char count = 0;
 
-# 482
-char status1 = Lights1.Loop == 1 ? 1 : 0;
+# 476
+char status1 = Lights1.Status == 1 ? 1 : 0;
 
 
-char status2 = Lights2.Loop == 1 ? 1 : 0;
+char status2 = Lights2.Status == 1 ? 1 : 0;
 
-# 496
+# 490
 return count = (status1 + status2);
 
-# 502
+# 496
 }
 
 
 void Exception_Main() {
 char error = getMain_All_Error_Status(0);
 char lights = 0, count = 2;
+char status = 0;
+
 if (myMain.Error_Run == 1) {
 if (error == 0) {
 myMain.Error_Run = 0;
 
-setLED(error, 110);
 
-# 521
+setLED(99, 10);
+
+# 523
 }
 } else {
 if (error != 0) {
 myMain.Error_Run = 1;
 
-# 585
-setLED(error, 111);
-if (error == 3) {
-char status = getAll_Lights_Line();
-if (getLights_Status(status) == 1) {
-setLights_Trigger(status, 0);
+# 588
+setLED(99, 11);
+
+# 592
+switch (error) {
+case 1:
+for (int i = 0; i < count; i++) {
+if (getLights_Status(i + 1) == 1) {
+
+setLights_SwOn(i + 1);
+setLights_SwOff(i + 1);
 }
-} else {
+}
+break;
+case 2:
+if (getMain_All_LightsStatus() == 1) {
+setBuz(10, 300);
+}
 
 for (int i = 0; i < count; i++) {
 if (getLights_Status(i + 1) == 1) {
-setLights_Trigger(i + 1, 0);
+setLights_SwOn(i + 1);
+setLights_SwOff(i + 1);
+}
+}
+break;
+case 3:
+status = getAll_Lights_Line();
+
+if (getLights_Status(status) == 1) {
+setLights_SwOn(status);
+setLights_SwOff(status);
+
+}
+
+setBuz(status, 300);
+break;
+}
+
+# 640
 }
 }
 }
 
-}
-}
-}
-
-# 613
+# 653
 void setCmd_Status(char number, char cmd) {
 switch (number) {
 case 1:

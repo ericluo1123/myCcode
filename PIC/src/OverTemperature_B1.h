@@ -4,28 +4,29 @@
 
 #if OverTemperature_use == 1
 #define Temp_Debug 0
+
 struct OverTemp {
 
-        struct {
-            unsigned Enable : 1;
-            unsigned ERROR : 1;
-            unsigned ADtoGO : 1;
-            unsigned LoadADGO : 1;
-            unsigned GO : 1;
-            unsigned empty : 3;
-        };
-   
+    struct {
+        unsigned Enable : 1;
+        unsigned ERROR : 1;
+        unsigned ADtoGO : 1;
+        unsigned LoadADGO : 1;
+        unsigned GO : 1;
+        unsigned empty : 3;
+    };
+
     unsigned int Time;
     unsigned char Count;
 
-    unsigned char AD1;
-    unsigned char AD2;
+    //    unsigned char AD1;
+    //    unsigned char AD2;
 
-    ADtype AD;
+//    ADtype AD;
     ADtype ADH[2];
-    ADtype ADRES;
-    ADtype SafeValue;
-    ADtype DangerValue;
+    //    ADtype ADRES;
+//    ADtype SafeValue;
+//    ADtype DangerValue;
 
 };
 #ifdef SYSC1
