@@ -6,6 +6,10 @@
 //=================================================================
 #if LightsControl_use == 1 
 
+#define setLights_SwOn_Mode setLights_SwOn_Value
+#define setLights_SwOff_Mode setLights_SwOff_Value
+#define setLights_Mode setLights_Value
+ 
 //Global extern variable declaration
 
 struct LightsControl {
@@ -78,9 +82,12 @@ char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
+
+//char getAll_Lights_Status();
+
 void setLights_SwOn(char sw);
 void setLights_SwOff(char sw);
-//char getAll_Lights_Status();
+
 #else
 
 #define LightsPointSelect(char) ;

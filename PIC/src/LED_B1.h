@@ -100,8 +100,8 @@ void setLED(char led, char command);
 #define setLED(char,char) ;
 #endif
 
-#if PIR_use == true
-
+#if PIRLED_use == 1
+ 
 struct PIRLED {
 
     union {
@@ -118,10 +118,9 @@ struct PIRLED {
     unsigned char Count;
     unsigned int Time;
 };
-#if SeriesNumber == 020401L
-#else
+
 struct PIRLED PIRLED;
-#endif
+
 
 void setPIRLED_Main();
 #else

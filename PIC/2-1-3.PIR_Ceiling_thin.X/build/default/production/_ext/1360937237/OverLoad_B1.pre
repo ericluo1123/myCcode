@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 159 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/Activity_B1.h"
+# 160 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -1949,18 +1949,7 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
-# 97
-struct {
-unsigned i : 1;
-unsigned j : 1;
-unsigned k : 1;
-unsigned l : 1;
-unsigned m : 1;
-unsigned n : 1;
-unsigned o : 1;
-unsigned p : 1;
-};
-
+# 108
 struct {
 unsigned q : 1;
 unsigned r : 1;
@@ -1993,7 +1982,7 @@ char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
 
-# 90 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h"
+# 92 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2063,11 +2052,14 @@ unsigned empty : 3;
 unsigned char Count;
 unsigned int Time;
 };
+
+
 struct PIRLED PIRLED;
+
 
 void setPIRLED_Main();
 
-# 7 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/OverTemperature_B1.h"
+# 8 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/OverTemperature_B1.h"
 struct OverTemp {
 
 struct {
@@ -2082,20 +2074,17 @@ unsigned empty : 3;
 unsigned int Time;
 unsigned char Count;
 
-unsigned char AD1;
-unsigned char AD2;
-
-ADtype AD;
+# 26
 ADtype ADH[2];
-ADtype ADRES;
-ADtype SafeValue;
-ADtype DangerValue;
+
+
+
 
 };
 
 struct OverTemp Temp;
 
-# 81
+# 82
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -2127,16 +2116,16 @@ ADtype TotalLoad;
 ADtype AH[5];
 ADtype AL[5];
 ADtype AD;
-ADtype ADRES;
+
 
 unsigned int LightsJudgeValue;
 unsigned int JudgeValue;
-unsigned int Judge;
+
 
 unsigned char Count;
 unsigned char ErrorCount;
-unsigned char ErrorCountValue;
-unsigned char LightsCount;
+
+
 unsigned char SafeCount;
 
 };
@@ -2172,7 +2161,6 @@ unsigned char Time;
 
 unsigned char VRAD;
 unsigned char SignalAD;
-unsigned char ADRES;
 
 # 31
 };
@@ -2202,9 +2190,6 @@ unsigned Available : 1;
 
 
 unsigned char SignalAD;
-unsigned char ADRES;
-unsigned char VRAD;
-unsigned char VRAD1;
 
 # 44
 unsigned char Time;
@@ -2222,7 +2207,7 @@ unsigned int HundredAverageValue;
 
 
 unsigned int Count;
-unsigned char TriggerValue;
+
 unsigned int CloseTimeMinutes;
 unsigned char CloseTimeSeconds;
 unsigned int CloseTimeValue;
@@ -2299,13 +2284,15 @@ unsigned RelaySet : 1;
 struct {
 unsigned Line : 1;
 unsigned Loop : 1;
-unsigned empty : 6;
+unsigned SwFlag : 1;
+unsigned SwStatus : 1;
+unsigned empty : 4;
 };
 
 unsigned char Time;
-unsigned char TriacTime;
+
 unsigned char TriacValue;
-unsigned char RelayTime;
+
 unsigned char RelayValue;
 };
 struct Lights *Lights;
@@ -2314,7 +2301,7 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 63
+# 65
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2331,8 +2318,10 @@ char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
+void setLights_SwOn(char sw);
+void setLights_SwOff(char sw);
 
-# 106
+# 110
 struct Light {
 
 struct {
@@ -2355,20 +2344,20 @@ setLoad_AH_AL_Restore();
 
 inline void getLoad_AD(char channel) {
 char i = 0, j = 0, k = 0;
-
+ADtype ADRES = 0;
 if (Load.ADtoGO == 1) {
-Load.ADRES = getAD(channel, 0x73);
 
+ADRES = getAD(channel, 0x73);
 for (i = 0; i < 4; i++) {
-if (Load.AH[i] < Load.ADRES && j == 0) {
-Load.AH[i] = Load.ADRES;
+if (Load.AH[i] < ADRES && j == 0) {
+Load.AH[i] = ADRES;
 j = 1;
 }
 }
 if (j == 0) {
 for (i = 0; i < 4; i++) {
-if (Load.AL[i] > Load.ADRES && k == 0) {
-Load.AL[i] = Load.ADRES;
+if (Load.AL[i] > ADRES && k == 0) {
+Load.AL[i] = ADRES;
 k = 1;
 }
 }
@@ -2379,15 +2368,14 @@ k = 1;
 
 inline void Load_Main() {
 char error = getMain_All_Error_Status(0);
-char Load_Status = 0;
-
+char Load_RunStatus = 0, ErrorCountValue = 0, LightsCount=0;
 if (Load.Enable == 1) {
 
 if (getMain_All_LightsStatus() == 0) {
 Load.GO = 0;
 } else {
 
-# 70
+# 69
 if (error == 0) {
 Load.GO = 1;
 
@@ -2436,20 +2424,21 @@ if (Load.Run == 1) {
 if (Load.Count < 2) {
 Load.Count++;
 
-# 121
-Load_Status = getLight_Load_Status();
+# 120
+Load_RunStatus = getLight_Load_Status();
 
-Load.LightsCount = getMain_Lights_Count();
+LightsCount = getMain_Lights_Count();
+
 if (Load.Count == 1) {
-Load.ErrorCountValue = 2;
+
 Load.JudgeValue = (int)(20*1.7);
 } else if (Load.Count == 2) {
-if (Load.LightsCount == 1) {
+if (LightsCount == 1) {
 Load.JudgeValue = (int)(7*1.7);
 } else {
-if (Load_Status == 0) {
-Load.JudgeValue = (int)(7*1.7) * Load.LightsCount;
-} else if (Load_Status == 1) {
+if (Load_RunStatus == 0) {
+Load.JudgeValue = (int)(7*1.7) * LightsCount;
+} else if (Load_RunStatus == 1) {
 Load.JudgeValue = (int)(7*1.7) + Load.TotalLoad;
 }
 }
@@ -2458,12 +2447,13 @@ Load.JudgeValue = (int)(7*1.7) + Load.TotalLoad;
 }
 
 if (Load.AD >= Load.JudgeValue) {
+ErrorCountValue = LightsCount == 1 ? 2 : 3;
 Load.ErrorCount++;
-if (Load.ErrorCount > Load.ErrorCountValue) {
+if (Load.ErrorCount > ErrorCountValue) {
 Load.ErrorCount = 0;
 Load.ERROR = 1;
 
-# 167
+# 168
 }
 } else {
 Load.ErrorCount = 0;
@@ -2475,13 +2465,13 @@ Load.OK = 1;
 Load.Run = 0;
 Load.Count = 0;
 Load.TotalLoad = Load.AD;
-Load.ErrorCountValue = 3;
+
 
 
 }
 }
 
-# 205
+# 206
 }
 }
 }
@@ -2503,12 +2493,12 @@ Load.SafeCount = 0;
 Load.ADH = 0;
 Load.ADL = 0;
 
-# 230
+# 231
 Load.Run = 0;
 Load.Count = 0;
 Load.OK = 0;
 
-# 254
+# 255
 }
 if (Load.ERROR == 1) {
 Load.ErrorTime++;

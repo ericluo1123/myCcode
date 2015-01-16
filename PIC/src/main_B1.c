@@ -284,75 +284,75 @@ inline void set_TimeoutCleared() {
 }
 //*****************************************************************************
 
-void setMain_Exception(char command) {
-    char status = 0, buz = 0;
-#if LightsControl_use == 1
-    status = command == 3 ? getAll_Lights_Line() : 255;
-
-    if (command == 0) {
-        setLED(command, 110);
-    } else {
-        setLED(command, 111);
-
-
-        if (status == 255) {
-#if Switch_Class == 1
-            char count = 1;
-#endif
-#if Switch_Class == 2
-            char count = 2;
-#endif
-#if Switch_Class == 3
-            char count = 3;
-#endif
-            for (int i = 0; i < count; i++) {
-                if (getLights_Status(i + 1) == 1) {
-                    setLights_Trigger(i + 1, 0);
-                }
-            }
-        } else {
-            if (getLights_Status(status) == 1) {
-                setLights_Trigger(status, 0);
-            }
-        }
-    }
-
-    //    if (command == 5) {
-    //#if PIR_use == 1
-    //        if (_PIR.OK == true) {
-    //            if (getLights_Status(1) == 1) {
-    //                setLights_Trigger(1, 0);
-    //            }
-    //        }
-    //#endif
-    //    }
-#endif
-#if Dimmer_use == 1
-    //    status = command == 3 ? getDimmerLights_Line() : 255;
-    //
-    //    if (command == 0) {
-    //        setLED(99, 10);
-    //    } else {
-    //        setLED(99, 11);
-    //    }
-    //
-    //    if (command != 0) {
-    //        switch (command) {
-    //            case 2:
-    //                if (getMain_All_LightsStatus() == 1) {
-    //                    setBuz(10, BuzzerErrorTime);
-    //                }
-    //                break;
-    //            case 3:
-    //                if (getMain_All_LightsStatus() == 1) {
-    //                    setBuz(5, BuzzerErrorTime);
-    //                }
-    //                break;
-    //        }
-    //        setDimmerLights_ErrorClose(status);
-    //    }
-#endif
-}
+//void setMain_Exception(char command) {
+//    char status = 0, buz = 0;
+//#if LightsControl_use == 1
+//    status = command == 3 ? getAll_Lights_Line() : 255;
+//
+//    if (command == 0) {
+//        setLED(command, 110);
+//    } else {
+//        setLED(command, 111);
+//
+//
+//        if (status == 255) {
+//#if Switch_Class == 1
+//            char count = 1;
+//#endif
+//#if Switch_Class == 2
+//            char count = 2;
+//#endif
+//#if Switch_Class == 3
+//            char count = 3;
+//#endif
+//            for (int i = 0; i < count; i++) {
+//                if (getLights_Status(i + 1) == 1) {
+//                    setLights_Trigger(i + 1, 0);
+//                }
+//            }
+//        } else {
+//            if (getLights_Status(status) == 1) {
+//                setLights_Trigger(status, 0);
+//            }
+//        }
+//    }
+//
+//    //    if (command == 5) {
+//    //#if PIR_use == 1
+//    //        if (_PIR.OK == true) {
+//    //            if (getLights_Status(1) == 1) {
+//    //                setLights_Trigger(1, 0);
+//    //            }
+//    //        }
+//    //#endif
+//    //    }
+//#endif
+//#if Dimmer_use == 1
+//    //    status = command == 3 ? getDimmerLights_Line() : 255;
+//    //
+//    //    if (command == 0) {
+//    //        setLED(99, 10);
+//    //    } else {
+//    //        setLED(99, 11);
+//    //    }
+//    //
+//    //    if (command != 0) {
+//    //        switch (command) {
+//    //            case 2:
+//    //                if (getMain_All_LightsStatus() == 1) {
+//    //                    setBuz(10, BuzzerErrorTime);
+//    //                }
+//    //                break;
+//    //            case 3:
+//    //                if (getMain_All_LightsStatus() == 1) {
+//    //                    setBuz(5, BuzzerErrorTime);
+//    //                }
+//    //                break;
+//    //        }
+//    //        setDimmerLights_ErrorClose(status);
+//    //    }
+//#endif
+//}
 //*****************************************************************************
 
 char getMain_AD_OK() {
@@ -505,32 +505,36 @@ void Exception_Main() {
         if (error == 0) {
             myMain.Error_Run = false;
 
-#if SeriesNumber ==  020401L
+#if Exception_Main_Mode == 1
             setLED(99, 10);
-#else
-#if LightsControl_use == 1
-            setLED(error, 110);
-#endif
-#if Dimmer_use == 1
-#if PIR_use == 1
+#elif Exception_Main_Mode == 2
             setLED(error, 110);
 #else
-            setLED(99, 10);
-#endif
-#endif
 #endif
 
+#if Dimmer_use == 1
+            //#if PIR_use == 1
+            //            setLED(error, 110);
+            //#else
+            //            setLED(99, 10);
+            //#endif
+#endif
         }
     } else {
         if (error != 0) {
             myMain.Error_Run = true;
-
-#if   Dimmer_use == 1
-#if PIR_use == 1
+#if Exception_Main_Mode == 1
+            setLED(99, 11);
+#elif Exception_Main_Mode == 2
             setLED(error, 111);
 #else
-            setLED(99, 11);
 #endif
+#if   Dimmer_use == 1
+            //#if PIR_use == 1
+            //            setLED(error, 111);
+            //#else
+            //            setLED(99, 11);
+            //#endif
             switch (error) {
                 case 2:
 #if OverTemperature_use == 1                   
@@ -584,11 +588,6 @@ void Exception_Main() {
 #endif
 
 #if LightsControl_use == 1
-#if SeriesNumber ==  020401L
-            setLED(99, 11);
-#else
-            setLED(error, 111);
-#endif
             switch (error) {
                 case 1:
                     for (int i = 0; i < count; i++) {
@@ -613,14 +612,13 @@ void Exception_Main() {
                     break;
                 case 3://Load 
                     status = getAll_Lights_Line();
-
+                    //                    status = 1;
                     if (getLights_Status(status) == 1) {
                         setLights_SwOn(status);
                         setLights_SwOff(status);
                         //                        setLights_Trigger(status, 0);
                     }
-
-                    setBuz(status, BuzzerErrorTime);
+                    setBuz(5, BuzzerErrorTime);
                     break;
             }
             //            if (error == 3) {

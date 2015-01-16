@@ -149,12 +149,12 @@ void setSw_Main(char sw) {
                     Sw->Hold1Time++;
                     if (Sw->Hold1Time >= (Hold1TimeValue / Main_Time)) {
                         Sw->Hold1Time = 0;
-#if LightsControl_use == 1
                         Sw->Hold1 = true;
+#if LightsControl_use == 1
+                        setLights_SwOff(sw);
 #endif
 #if Dimmer_use == 1
 #if Dimmable_Func == 1
-                        Sw->Hold1 = true;
                         setDimmerLights_DimmingOn(sw); //key on function
 #endif
 #endif
@@ -207,6 +207,7 @@ void setSw_Main(char sw) {
                     Sw->Hold2Time = 0;
                     Sw->Hold3Time = 0;
 #endif
+
 #if LightsControl_use == 1
                     setLights_SwOff(sw);
 #endif

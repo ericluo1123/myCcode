@@ -343,7 +343,7 @@ typedef unsigned int ADtype;
 #define TriacTimeValue	1
 #define DetectTime 50
 #define DimmerTuneValue 157
-  
+
 #if Control_Method_Triac == 1  
 //maxum 
 #define Dimmer_Maxum 	((char)((100-Max_Percent)*One_Percent))
@@ -354,7 +354,7 @@ typedef unsigned int ADtype;
 //minimun
 #define Dimmer_Minimum	((char)((100-Mini_Percent)*One_Percent))
 #endif 
- 
+
 #if Control_Method_Mosfet == 1
 //maxum
 #define Dimmer_Maxum 	((char)(Max_Percent*One_Percent))
@@ -369,6 +369,7 @@ typedef unsigned int ADtype;
 
 //PIR
 #if PIR_use == 1
+#define PIRLED_use PIRLED_use_Value
 #endif
 
 //CDS
@@ -385,6 +386,6 @@ typedef unsigned int ADtype;
 #define DisplayValue PORTB
 #endif
 
-
+#define Exception_Main_Mode Exception_Main_Value
 //end file
 #endif

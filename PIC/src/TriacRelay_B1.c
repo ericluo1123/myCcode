@@ -111,7 +111,7 @@ void setLights(char lights, char status) {
     //    //    LightsControl.LoadGO = status == 1 ? true : LightsControl.LoadGO;
     //#endif
     //    LightsPointSelect(lights);
-    Lights->GO = true;
+
 
     if (status == 1) {
 #if PIR_use == 1
@@ -126,14 +126,44 @@ void setLights(char lights, char status) {
 
         if (Lights->Status == false) {
             Lights->Status = true;
-            Lights->RelayValue = 100;
-            Lights->TriacValue = 140;
-            Lights->Time = 0;
-#if OverLoad_use == 1
-            Light.Load_Status = true;
-            setLights_Line(lights);
+#ifdef use_1KEY
+            if (lights == 1) {
+                Triac1 = true;
+                Lights->RelayValue = 100;
+                Lights->TriacValue = 140;
+                Lights->Time = 0;
+                Lights->GO = true;
+            }
+#endif
+#ifdef use_2KEY
+            else if (lights == 2) {
+#if setLights_Mode == 1
+                Triac2 = true;
+                Lights->RelayValue = 100;
+                Lights->TriacValue = 140;
+                Lights->Time = 0;
+                Lights->GO = true;
+#elif setLights_Mode == 2
+                Triac2 = true; 
+#elif setLights_Mode == 3
+                Relay2 = true;
+#endif
+            }
+#endif
+#ifdef use_3KEY
+            else if (lights == 3) {
+                Triac3 = true;
+                Lights->RelayValue = 100;
+                Lights->TriacValue = 140;
+                Lights->Time = 0;
+                Lights->GO = true;
+            }
 #endif
         }
+#if OverLoad_use == 1
+        Light.Load_Status = true;
+        setLights_Line(lights);
+#endif
     } else {
 
 #if PIR_use == 1
@@ -144,30 +174,46 @@ void setLights(char lights, char status) {
 #endif
         if (Lights->Status == true) {
             Lights->Status = false;
-            Lights->RelayValue = 40;
-            Lights->TriacValue = 80;
-            Lights->Time = 0;
-#if OverLoad_use == 1
-            Light.Load_Status = false;
-            setLights_Line(0);
-#endif
-        }
-    }
 #ifdef use_1KEY
-    if (lights == 1) {
-        Triac1 = true;
-    }
+            if (lights == 1) {
+                Triac1 = true;
+                Lights->RelayValue = 40;
+                Lights->TriacValue = 80;
+                Lights->Time = 0;
+                Lights->GO = true;
+            }
 #endif
 #ifdef use_2KEY
-    else if (lights == 2) {
-        Triac2 = true;
-    }
+            else if (lights == 2) {
+#if setLights_Mode == 1
+                Triac2 = true;
+                Lights->RelayValue = 40;
+                Lights->TriacValue = 80;
+                Lights->Time = 0;
+                Lights->GO = true;
+#elif setLights_Mode == 2
+                Triac2 = false;
+#elif setLights_Mode == 3
+                Relay2 = false;
+#endif
+            }
 #endif
 #ifdef use_3KEY
-    else if (lights == 3) {
-        Triac3 = true;
-    }
+            else if (lights == 3) {
+                Triac3 = true;
+                Lights->RelayValue = 40;
+                Lights->TriacValue = 80;
+                Lights->Time = 0;
+                Lights->GO = true;
+            }
 #endif
+
+        }
+#if OverLoad_use == 1
+        Light.Load_Status = false;
+        setLights_Line(0);
+#endif
+    }
 }
 //*****************************************************************************
 
@@ -264,16 +310,19 @@ void setLights_Line(char lights) {
 char getAll_Lights_Line() {
     char line = 0;
 #ifdef use_1KEY
-    LightsPointSelect(1);
-    line = Lights->Line == true ? 1 : 0;
+    if (Lights1.Line == true) {
+        line = 1;
+    }
 #endif
 #ifdef use_2KEY
-    LightsPointSelect(2);
-    line = Lights->Line == true ? 2 : 0;
+    else if (Lights2.Line == true) {
+        line = 2;
+    }
 #endif
 #ifdef use_3KEY
-    LightsPointSelect(3);
-    line = Lights->Line == true ? 3 : 0;
+    else if (Lights3.Line == true) {
+        line = 3;
+    }
 #endif
     return line;
 }
@@ -359,9 +408,9 @@ char getLight_Load_Status() {
 }
 
 void setLights_SwOn(char sw) {
-
     LightsPointSelect(sw);
 
+#if setLights_SwOn_Mode == 1
     Lights->SwFlag = true;
     if (getLights_Status(sw) == 0) {
         Lights->SwStatus = true;
@@ -369,17 +418,48 @@ void setLights_SwOn(char sw) {
     } else {
         Lights->SwStatus = false;
     }
+#elif setLights_SwOn_Mode == 2
+    Lights->SwFlag = true;
+    if (sw == 1) {
+        if (getLights_Status(sw) == 0) {
+            Lights->SwStatus = true;
+            setLights_Trigger(sw, 1);
+        } else {
+            Lights->SwStatus = false;
+        }
+    } else if (sw == 2) {
+        if (getLights_Status(sw) == 0) {
+            setLights_Trigger(sw, 1);
+        }
+    }
+#endif
 }
 
 void setLights_SwOff(char sw) {
-    LightsPointSelect(sw);
 
+    LightsPointSelect(sw);
+#if setLights_SwOff_Mode == 1
     if (Lights->SwFlag == true) {
         Lights->SwFlag = false;
         if (Lights->SwStatus == false) {
             setLights_Trigger(sw, 0);
         }
     }
+#elif setLights_SwOff_Mode == 2
+    if (sw == 1) {
+        if (Lights->SwFlag == true) {
+            Lights->SwFlag = false;
+            if (Lights->SwStatus == false) {
+                setLights_Trigger(sw, 0);
+            }
+        }
+    } else if (sw == 2) {
+        if (getLights_Status(sw) == 1) {
+            setLights_Trigger(sw, 0);
+        }
+    }
+#endif
 }
+
 #endif
 

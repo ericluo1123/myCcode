@@ -67,7 +67,7 @@ struct OverLoad {
 //    ADtype ADRES;
 
     unsigned int LightsJudgeValue;
-//    unsigned int JudgeValue;
+    unsigned int JudgeValue;
 //    unsigned int Judge;
 
     unsigned char Count;

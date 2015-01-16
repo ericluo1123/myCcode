@@ -1982,7 +1982,7 @@ char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
 
-# 14 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Switch_B1.h"
+# 18 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Switch_B1.h"
 struct Switch {
 
 struct {
@@ -2005,7 +2005,7 @@ unsigned empty : 6;
 unsigned char DebounceTime;
 unsigned int Hold1Time;
 
-# 39
+# 43
 };
 struct Switch *Sw;
 
@@ -2016,7 +2016,7 @@ struct Switch Sw1;
 
 struct Switch Sw2;
 
-# 54
+# 58
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
 inline void Switch_Main();
@@ -2032,7 +2032,7 @@ char getSw_KeyStatus(char sw);
 
 void TouchPower();
 
-# 92
+# 96
 struct SwitchDetect {
 
 union {
@@ -2132,27 +2132,6 @@ void setLED_Main(char led);
 # 93
 void setLED(char led, char command);
 
-# 105
-struct PIRLED {
-
-union {
-
-struct {
-unsigned GO : 1;
-unsigned GO1 : 1;
-unsigned GO2 : 1;
-unsigned GO3 : 1;
-unsigned status : 1;
-unsigned empty : 3;
-};
-};
-unsigned char Count;
-unsigned int Time;
-};
-
-# 126
-void setPIRLED_Main();
-
 # 8 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/OverTemperature_B1.h"
 struct OverTemp {
 
@@ -2213,7 +2192,7 @@ ADtype AD;
 
 
 unsigned int LightsJudgeValue;
-
+unsigned int JudgeValue;
 
 
 unsigned char Count;
@@ -2349,7 +2328,7 @@ void setSYSC_Initialization();
 void setSYSC_Main();
 inline void DetectSYSC_Signal();
 
-# 11 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/TriacRelay_B1.h"
+# 15 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/TriacRelay_B1.h"
 struct LightsControl {
 
 struct {
@@ -2399,7 +2378,7 @@ struct Lights Lights1;
 
 struct Lights Lights2;
 
-# 65
+# 69
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2416,10 +2395,13 @@ char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
+
+
+
 void setLights_SwOn(char sw);
 void setLights_SwOff(char sw);
 
-# 110
+# 117
 struct Light {
 
 struct {
@@ -2511,9 +2493,7 @@ setLights(lights, 0);
 
 void setLights(char lights, char status) {
 
-# 114
-Lights->GO = 1;
-
+# 116
 if (status == 1) {
 
 if (lights == 2) {
@@ -2524,14 +2504,33 @@ setLED(2, 1);
 # 127
 if (Lights->Status == 0) {
 Lights->Status = 1;
+
+if (lights == 1) {
+RA7 = 1;
 Lights->RelayValue = 100;
 Lights->TriacValue = 140;
 Lights->Time = 0;
+Lights->GO = 1;
+}
+
+
+else if (lights == 2) {
+
+RC4 = 1;
+Lights->RelayValue = 100;
+Lights->TriacValue = 140;
+Lights->Time = 0;
+Lights->GO = 1;
+
+# 151
+}
+
+# 162
+}
 
 Light.Load_Status = 1;
 setLights_Line(lights);
 
-}
 } else {
 
 
@@ -2542,26 +2541,34 @@ setLED(2, 0);
 
 if (Lights->Status == 1) {
 Lights->Status = 0;
+
+if (lights == 1) {
+RA7 = 1;
 Lights->RelayValue = 40;
 Lights->TriacValue = 80;
 Lights->Time = 0;
+Lights->GO = 1;
+}
+
+
+else if (lights == 2) {
+
+RC4 = 1;
+Lights->RelayValue = 40;
+Lights->TriacValue = 80;
+Lights->Time = 0;
+Lights->GO = 1;
+
+# 199
+}
+
+# 211
+}
 
 Light.Load_Status = 0;
 setLights_Line(0);
 
 }
-}
-
-if (lights == 1) {
-RA7 = 1;
-}
-
-
-else if (lights == 2) {
-RC4 = 1;
-}
-
-# 171
 }
 
 
@@ -2582,7 +2589,7 @@ else if (lights == 2) {
 RC5 = Lights->Status == 1 ? 1 : 0;
 }
 
-# 196
+# 242
 }
 } else {
 if (Lights->Time >= (Lights->TriacValue / 20)) {
@@ -2600,7 +2607,7 @@ else if (lights == 2) {
 RC4 = 0;
 }
 
-# 219
+# 265
 }
 }
 }
@@ -2635,21 +2642,23 @@ if (lights == 2 && lights != 0) {
 Lights2.Line = 1;
 }
 
-# 261
+# 307
 }
 
 
 char getAll_Lights_Line() {
 char line = 0;
 
-LightsPointSelect(1);
-line = Lights->Line == 1 ? 1 : 0;
+if (Lights1.Line == 1) {
+line = 1;
+}
 
 
-LightsPointSelect(2);
-line = Lights->Line == 1 ? 2 : 0;
+else if (Lights2.Line == 1) {
+line = 2;
+}
 
-# 278
+# 327
 return line;
 }
 
@@ -2669,10 +2678,10 @@ return loadok;
 void setLights_ErrorClose(char lights) {
 if (lights == 255) {
 
-# 300
+# 349
 char count = 2;
 
-# 305
+# 354
 for (int i = 0; i < count; i++) {
 if (getLights_Status(i + 1) == 1) {
 setLights_Trigger(i + 1, 0);
@@ -2692,7 +2701,7 @@ char allow = 0;
 
 allow = getLoad_OK() == 0 && Light.LoadGO == 0 ? 0 : 1;
 
-# 347
+# 396
 return allow;
 }
 
@@ -2708,8 +2717,8 @@ return loadstatus;
 }
 
 void setLights_SwOn(char sw) {
-
 LightsPointSelect(sw);
+
 
 Lights->SwFlag = 1;
 if (getLights_Status(sw) == 0) {
@@ -2718,9 +2727,12 @@ setLights_Trigger(sw, 1);
 } else {
 Lights->SwStatus = 0;
 }
+
+# 436
 }
 
 void setLights_SwOff(char sw) {
+
 LightsPointSelect(sw);
 
 if (Lights->SwFlag == 1) {
@@ -2729,5 +2741,7 @@ if (Lights->SwStatus == 0) {
 setLights_Trigger(sw, 0);
 }
 }
+
+# 462
 }
 

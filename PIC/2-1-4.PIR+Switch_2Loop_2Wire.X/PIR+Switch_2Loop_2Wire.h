@@ -29,7 +29,7 @@
 #define Properties_Product_Value	2	//3
 #define Properties_Keys_Value		2	//4
 #define Properties_Country_Value	3	//5
-#define SeriesNumber_Value              020401L
+#define SeriesNumber_Value              020104L
 
 //Control Option
 #define Control_Method_Mosfet_Value         0
@@ -101,7 +101,7 @@
 //interrupt time
 #define IntrTime_100us
 //Main Time
-#define Main_Time_Value 20
+#define Main_Time_Value         20
 //Timer0
 #define Timer0_use_Value	0
 //Timer1
@@ -150,8 +150,8 @@
 
 //OverLoad
 #define OverLoad_use_Value  1
-#define LimitCurrent_Value  1//A
-#define LinearParam_Value   50
+#define LimitCurrent_Value  3.5//A
+#define LinearParam_Value   2.5
 //LED
 #define LED_use_Value 1
 //Buzzer
@@ -159,9 +159,12 @@
 //Switch
 #define Switch_use_Value 1 
 //Lights
-#define LightsControl_use_Value 	1
+#define LightsControl_use_Value     1
+#define setLights_SwOn_Value 1
+#define setLights_SwOff_Value 1
+#define setLights_Value 1
 //RF cc2500
-#define CC2500_use_Value	0
+#define CC2500_use_Value            0
 #define Tx_Enable 	1
 #define Rx_Enable 	1
 //DelayOff
@@ -179,11 +182,13 @@
 #define SegmentDisplay_use_Value 0
 //PIR
 #define  PIR_use_Value  1
+#define PIRLED_use_Value 0
 //CDS
 #define CDS_use_Value  1
 //UART to RF
 #define myUARTtoRF_use_Value 0
-
+//Main
+#define Exception_Main_Value 1
 
 //include
 #include "../src/Activity_B1.h"

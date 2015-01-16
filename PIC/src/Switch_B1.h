@@ -5,7 +5,11 @@
 #if Switch_use == 1
 //define
 #define DebounceTimeValue 	60//ms
+#if SeriesNumber == 020105L
+#define Hold1TimeValue 		3000//ms
+#else 
 #define Hold1TimeValue 		1500//ms
+#endif
 #define Hold2TimeValue 		1500//ms
 #define Hold3TimeValue 		3000//ms
 

@@ -1982,7 +1982,7 @@ char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
 
-# 14 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Switch_B1.h"
+# 18 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Switch_B1.h"
 struct Switch {
 
 struct {
@@ -2005,7 +2005,7 @@ unsigned empty : 6;
 unsigned char DebounceTime;
 unsigned int Hold1Time;
 
-# 39
+# 43
 };
 struct Switch *Sw;
 
@@ -2016,7 +2016,7 @@ struct Switch Sw1;
 
 struct Switch Sw2;
 
-# 54
+# 58
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
 inline void Switch_Main();
@@ -2032,7 +2032,7 @@ char getSw_KeyStatus(char sw);
 
 void TouchPower();
 
-# 92
+# 96
 struct SwitchDetect {
 
 union {
@@ -2132,27 +2132,6 @@ void setLED_Main(char led);
 # 93
 void setLED(char led, char command);
 
-# 105
-struct PIRLED {
-
-union {
-
-struct {
-unsigned GO : 1;
-unsigned GO1 : 1;
-unsigned GO2 : 1;
-unsigned GO3 : 1;
-unsigned status : 1;
-unsigned empty : 3;
-};
-};
-unsigned char Count;
-unsigned int Time;
-};
-
-# 126
-void setPIRLED_Main();
-
 # 8 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/OverTemperature_B1.h"
 struct OverTemp {
 
@@ -2213,7 +2192,7 @@ ADtype AD;
 
 
 unsigned int LightsJudgeValue;
-
+unsigned int JudgeValue;
 
 
 unsigned char Count;
@@ -2349,7 +2328,7 @@ void setSYSC_Initialization();
 void setSYSC_Main();
 inline void DetectSYSC_Signal();
 
-# 11 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/TriacRelay_B1.h"
+# 15 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/TriacRelay_B1.h"
 struct LightsControl {
 
 struct {
@@ -2399,7 +2378,7 @@ struct Lights Lights1;
 
 struct Lights Lights2;
 
-# 65
+# 69
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2416,10 +2395,13 @@ char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
+
+
+
 void setLights_SwOn(char sw);
 void setLights_SwOff(char sw);
 
-# 110
+# 117
 struct Light {
 
 struct {
