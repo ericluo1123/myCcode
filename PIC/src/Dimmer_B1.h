@@ -182,7 +182,9 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
+#if PIR_use == 1
 void DimmerLights_PIR_Control();
+#endif
 //******************************************************************************
 
 struct Dimmer {

@@ -26,13 +26,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 "73
 [s S142 `S143 1 `uc 1 `S144 1 `ui 1 ]
 [n S142 myMain . PowerCount . Timeout_Counter ]
-"96 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h
+"100 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h
 [s S147 :1 `uc 1 :7 `uc 1 ]
 [n S147 . Error empty ]
-"94
+"98
 [u S146 `S147 1 ]
 [n S146 . . ]
-"92
+"96
 [s S145 `S146 1 ]
 [n S145 SwitchDetect . ]
 "12 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/LED_B1.h
@@ -54,8 +54,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S154 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
 [n S154 . Enable ERROR ADtoGO LoadADGO GO empty ]
 "8
-[s S153 `S154 1 `ui 1 `uc 1 `uc -> 2 `i ]
-[n S153 OverTemp . Time Count ADH ]
+[s S153 `S154 1 `ui 1 `uc 1 `uc -> 2 `i `uc 1 ]
+[n S153 OverTemp . Time Count ADH ADV ]
 "46 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/OverLoad_B1.h
 [s S156 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S156 . Enable GO LightsON Run ADtoGO ERROR Status OK ]
@@ -79,31 +79,31 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S162 . Enable ERROR PowerON Signal empty ]
 "8
 [s S161 `S162 1 `ui 1 `ui 1 ]
-[n S161 SYSC . Timer Counter ]
-"13 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/TriacRelay_B1.h
+[n S161 SYSC . Time Counter ]
+"17 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/TriacRelay_B1.h
 [s S164 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
 [n S164 . Detect LoadGO LoadOK empty ]
-"11
+"15
 [s S163 `S164 1 ]
 [n S163 LightsControl . ]
-"25
+"29
 [s S166 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S166 . Enable GO Status Trigger Switch Relay Triac RelaySet ]
-"36
+"40
 [s S167 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :4 `uc 1 ]
 [n S167 . Line Loop SwFlag SwStatus empty ]
-"23
+"27
 [s S165 `S166 1 `S167 1 `uc 1 `uc 1 `uc 1 ]
 [n S165 Lights . . Time TriacValue RelayValue ]
-"112
+"119
 [s S169 :1 `uc 1 :1 `uc 1 :6 `uc 1 ]
 [n S169 . LoadGO Load_Status empty ]
-"110
+"117
 [s S168 `S169 1 ]
 [n S168 Light . ]
 "70 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/LED_B1.h
 [v _setLED_Initialization `(v ~T0 @X0 0 ef1`uc ]
-"126
+"125
 [v _setPIRLED_Main `(v ~T0 @X0 0 ef ]
 "93
 [v _setLED `(v ~T0 @X0 0 ef2`uc`uc ]
@@ -1531,17 +1531,17 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 148: char getMain_All_Error_Status(char command);
 [; ;Main_B1.h: 149: char getMain_Lights_Count();
 [; ;Main_B1.h: 150: void Exception_Main();
-[; ;Switch_B1.h: 92: struct SwitchDetect {
-[; ;Switch_B1.h: 94: union {
-[; ;Switch_B1.h: 96: struct {
-[; ;Switch_B1.h: 97: unsigned Error : 1;
-[; ;Switch_B1.h: 98: unsigned empty : 7;
-[; ;Switch_B1.h: 99: };
-[; ;Switch_B1.h: 100: };
-[; ;Switch_B1.h: 101: };
-"102 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h
+[; ;Switch_B1.h: 96: struct SwitchDetect {
+[; ;Switch_B1.h: 98: union {
+[; ;Switch_B1.h: 100: struct {
+[; ;Switch_B1.h: 101: unsigned Error : 1;
+[; ;Switch_B1.h: 102: unsigned empty : 7;
+[; ;Switch_B1.h: 103: };
+[; ;Switch_B1.h: 104: };
+[; ;Switch_B1.h: 105: };
+"106 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h
 [v _SwDetect `S145 ~T0 @X0 1 e ]
-[; ;Switch_B1.h: 102: struct SwitchDetect SwDetect;
+[; ;Switch_B1.h: 106: struct SwitchDetect SwDetect;
 [; ;LED_B1.h: 10: struct LED {
 [; ;LED_B1.h: 12: struct {
 [; ;LED_B1.h: 13: unsigned Enable : 1;
@@ -1580,10 +1580,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;LED_B1.h: 118: unsigned char Count;
 [; ;LED_B1.h: 119: unsigned int Time;
 [; ;LED_B1.h: 120: };
-"123
+"122
 [v _PIRLED `S150 ~T0 @X0 1 e ]
-[; ;LED_B1.h: 123: struct PIRLED PIRLED;
-[; ;LED_B1.h: 126: void setPIRLED_Main();
+[; ;LED_B1.h: 122: struct PIRLED PIRLED;
+[; ;LED_B1.h: 125: void setPIRLED_Main();
 [; ;OverTemperature_B1.h: 8: struct OverTemp {
 [; ;OverTemperature_B1.h: 10: struct {
 [; ;OverTemperature_B1.h: 11: unsigned Enable : 1;
@@ -1596,16 +1596,17 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.h: 19: unsigned int Time;
 [; ;OverTemperature_B1.h: 20: unsigned char Count;
 [; ;OverTemperature_B1.h: 26: ADtype ADH[2];
-[; ;OverTemperature_B1.h: 31: };
-"33 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/OverTemperature_B1.h
+[; ;OverTemperature_B1.h: 27: ADtype ADV;
+[; ;OverTemperature_B1.h: 32: };
+"34 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/OverTemperature_B1.h
 [v _Temp `S153 ~T0 @X0 1 e ]
-[; ;OverTemperature_B1.h: 33: struct OverTemp Temp;
-[; ;OverTemperature_B1.h: 82: inline void Temp_Initialization();
-[; ;OverTemperature_B1.h: 83: inline void Temp_Main();
-[; ;OverTemperature_B1.h: 84: void setTemp_Main();
-[; ;OverTemperature_B1.h: 85: void setTemp_Initialization();
-[; ;OverTemperature_B1.h: 86: inline void getTemp_AD(char channel);
-[; ;OverTemperature_B1.h: 87: void setOverTemp_Exceptions(char command);
+[; ;OverTemperature_B1.h: 34: struct OverTemp Temp;
+[; ;OverTemperature_B1.h: 83: inline void Temp_Initialization();
+[; ;OverTemperature_B1.h: 84: inline void Temp_Main();
+[; ;OverTemperature_B1.h: 85: void setTemp_Main();
+[; ;OverTemperature_B1.h: 86: void setTemp_Initialization();
+[; ;OverTemperature_B1.h: 87: inline void getTemp_AD(char channel);
+[; ;OverTemperature_B1.h: 88: void setOverTemp_Exceptions(char command);
 [; ;OverLoad_B1.h: 44: struct OverLoad {
 [; ;OverLoad_B1.h: 46: struct {
 [; ;OverLoad_B1.h: 47: unsigned Enable : 1;
@@ -1707,7 +1708,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;SYSC_B1.h: 14: unsigned Signal : 1;
 [; ;SYSC_B1.h: 15: unsigned empty : 4;
 [; ;SYSC_B1.h: 16: };
-[; ;SYSC_B1.h: 18: unsigned int Timer;
+[; ;SYSC_B1.h: 18: unsigned int Time;
 [; ;SYSC_B1.h: 19: unsigned int Counter;
 [; ;SYSC_B1.h: 20: };
 "23 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/SYSC_B1.h
@@ -1718,74 +1719,74 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;SYSC_B1.h: 28: void setSYSC_Initialization();
 [; ;SYSC_B1.h: 29: void setSYSC_Main();
 [; ;SYSC_B1.h: 30: inline void DetectSYSC_Signal();
-[; ;TriacRelay_B1.h: 11: struct LightsControl {
-[; ;TriacRelay_B1.h: 13: struct {
-[; ;TriacRelay_B1.h: 14: unsigned Detect : 1;
-[; ;TriacRelay_B1.h: 15: unsigned LoadGO : 1;
-[; ;TriacRelay_B1.h: 16: unsigned LoadOK : 1;
-[; ;TriacRelay_B1.h: 17: unsigned empty : 5;
-[; ;TriacRelay_B1.h: 18: };
-[; ;TriacRelay_B1.h: 20: };
-"21 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/TriacRelay_B1.h
+[; ;TriacRelay_B1.h: 15: struct LightsControl {
+[; ;TriacRelay_B1.h: 17: struct {
+[; ;TriacRelay_B1.h: 18: unsigned Detect : 1;
+[; ;TriacRelay_B1.h: 19: unsigned LoadGO : 1;
+[; ;TriacRelay_B1.h: 20: unsigned LoadOK : 1;
+[; ;TriacRelay_B1.h: 21: unsigned empty : 5;
+[; ;TriacRelay_B1.h: 22: };
+[; ;TriacRelay_B1.h: 24: };
+"25 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/TriacRelay_B1.h
 [v _LightsControl `S163 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 21: struct LightsControl LightsControl;
-[; ;TriacRelay_B1.h: 23: struct Lights {
-[; ;TriacRelay_B1.h: 25: struct {
-[; ;TriacRelay_B1.h: 26: unsigned Enable : 1;
-[; ;TriacRelay_B1.h: 27: unsigned GO : 1;
-[; ;TriacRelay_B1.h: 28: unsigned Status : 1;
-[; ;TriacRelay_B1.h: 29: unsigned Trigger : 1;
-[; ;TriacRelay_B1.h: 30: unsigned Switch : 1;
-[; ;TriacRelay_B1.h: 31: unsigned Relay : 1;
-[; ;TriacRelay_B1.h: 32: unsigned Triac : 1;
-[; ;TriacRelay_B1.h: 33: unsigned RelaySet : 1;
-[; ;TriacRelay_B1.h: 34: };
-[; ;TriacRelay_B1.h: 36: struct {
-[; ;TriacRelay_B1.h: 37: unsigned Line : 1;
-[; ;TriacRelay_B1.h: 38: unsigned Loop : 1;
-[; ;TriacRelay_B1.h: 39: unsigned SwFlag : 1;
-[; ;TriacRelay_B1.h: 40: unsigned SwStatus : 1;
-[; ;TriacRelay_B1.h: 41: unsigned empty : 4;
-[; ;TriacRelay_B1.h: 42: };
-[; ;TriacRelay_B1.h: 44: unsigned char Time;
-[; ;TriacRelay_B1.h: 46: unsigned char TriacValue;
-[; ;TriacRelay_B1.h: 48: unsigned char RelayValue;
-[; ;TriacRelay_B1.h: 49: };
-"50
-[v _Lights `*S165 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 50: struct Lights *Lights;
+[; ;TriacRelay_B1.h: 25: struct LightsControl LightsControl;
+[; ;TriacRelay_B1.h: 27: struct Lights {
+[; ;TriacRelay_B1.h: 29: struct {
+[; ;TriacRelay_B1.h: 30: unsigned Enable : 1;
+[; ;TriacRelay_B1.h: 31: unsigned GO : 1;
+[; ;TriacRelay_B1.h: 32: unsigned Status : 1;
+[; ;TriacRelay_B1.h: 33: unsigned Trigger : 1;
+[; ;TriacRelay_B1.h: 34: unsigned Switch : 1;
+[; ;TriacRelay_B1.h: 35: unsigned Relay : 1;
+[; ;TriacRelay_B1.h: 36: unsigned Triac : 1;
+[; ;TriacRelay_B1.h: 37: unsigned RelaySet : 1;
+[; ;TriacRelay_B1.h: 38: };
+[; ;TriacRelay_B1.h: 40: struct {
+[; ;TriacRelay_B1.h: 41: unsigned Line : 1;
+[; ;TriacRelay_B1.h: 42: unsigned Loop : 1;
+[; ;TriacRelay_B1.h: 43: unsigned SwFlag : 1;
+[; ;TriacRelay_B1.h: 44: unsigned SwStatus : 1;
+[; ;TriacRelay_B1.h: 45: unsigned empty : 4;
+[; ;TriacRelay_B1.h: 46: };
+[; ;TriacRelay_B1.h: 48: unsigned char Time;
+[; ;TriacRelay_B1.h: 50: unsigned char TriacValue;
+[; ;TriacRelay_B1.h: 52: unsigned char RelayValue;
+[; ;TriacRelay_B1.h: 53: };
 "54
+[v _Lights `*S165 ~T0 @X0 1 e ]
+[; ;TriacRelay_B1.h: 54: struct Lights *Lights;
+"58
 [v _Lights1 `S165 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 54: struct Lights Lights1;
-[; ;TriacRelay_B1.h: 65: void LightsPointSelect(char lights);
-[; ;TriacRelay_B1.h: 66: void Lights_Initialization();
-[; ;TriacRelay_B1.h: 67: void Lights_Main();
-[; ;TriacRelay_B1.h: 69: void setLights_Initialization(char lights);
-[; ;TriacRelay_B1.h: 70: void setLights_Main(char lights);
-[; ;TriacRelay_B1.h: 71: void Lights_Control(char lights);
-[; ;TriacRelay_B1.h: 72: void setLights_Trigger(char lights, char command);
-[; ;TriacRelay_B1.h: 73: void setLights(char lights, char status);
-[; ;TriacRelay_B1.h: 74: char getLights_Status(char lights);
-[; ;TriacRelay_B1.h: 75: void setLights_Line(char lights);
-[; ;TriacRelay_B1.h: 76: char getAll_Lights_Line();
-[; ;TriacRelay_B1.h: 77: char getLightsControl_GO();
-[; ;TriacRelay_B1.h: 78: char getLightsControl_OK();
-[; ;TriacRelay_B1.h: 79: void setLights_ErrorClose(char lights);
-[; ;TriacRelay_B1.h: 80: char getLights_Allow_Condition(char lights);
-[; ;TriacRelay_B1.h: 81: void setLights_SwOn(char sw);
-[; ;TriacRelay_B1.h: 82: void setLights_SwOff(char sw);
-[; ;TriacRelay_B1.h: 110: struct Light {
-[; ;TriacRelay_B1.h: 112: struct {
-[; ;TriacRelay_B1.h: 113: unsigned LoadGO : 1;
-[; ;TriacRelay_B1.h: 114: unsigned Load_Status : 1;
-[; ;TriacRelay_B1.h: 115: unsigned empty : 6;
-[; ;TriacRelay_B1.h: 116: };
-[; ;TriacRelay_B1.h: 117: };
-"118
+[; ;TriacRelay_B1.h: 58: struct Lights Lights1;
+[; ;TriacRelay_B1.h: 69: void LightsPointSelect(char lights);
+[; ;TriacRelay_B1.h: 70: void Lights_Initialization();
+[; ;TriacRelay_B1.h: 71: void Lights_Main();
+[; ;TriacRelay_B1.h: 73: void setLights_Initialization(char lights);
+[; ;TriacRelay_B1.h: 74: void setLights_Main(char lights);
+[; ;TriacRelay_B1.h: 75: void Lights_Control(char lights);
+[; ;TriacRelay_B1.h: 76: void setLights_Trigger(char lights, char command);
+[; ;TriacRelay_B1.h: 77: void setLights(char lights, char status);
+[; ;TriacRelay_B1.h: 78: char getLights_Status(char lights);
+[; ;TriacRelay_B1.h: 79: void setLights_Line(char lights);
+[; ;TriacRelay_B1.h: 80: char getAll_Lights_Line();
+[; ;TriacRelay_B1.h: 81: char getLightsControl_GO();
+[; ;TriacRelay_B1.h: 82: char getLightsControl_OK();
+[; ;TriacRelay_B1.h: 83: void setLights_ErrorClose(char lights);
+[; ;TriacRelay_B1.h: 84: char getLights_Allow_Condition(char lights);
+[; ;TriacRelay_B1.h: 88: void setLights_SwOn(char sw);
+[; ;TriacRelay_B1.h: 89: void setLights_SwOff(char sw);
+[; ;TriacRelay_B1.h: 117: struct Light {
+[; ;TriacRelay_B1.h: 119: struct {
+[; ;TriacRelay_B1.h: 120: unsigned LoadGO : 1;
+[; ;TriacRelay_B1.h: 121: unsigned Load_Status : 1;
+[; ;TriacRelay_B1.h: 122: unsigned empty : 6;
+[; ;TriacRelay_B1.h: 123: };
+[; ;TriacRelay_B1.h: 124: };
+"125
 [v _Light `S168 ~T0 @X0 1 e ]
-[; ;TriacRelay_B1.h: 118: struct Light Light;
-[; ;TriacRelay_B1.h: 120: char getLight_LoadGO();
-[; ;TriacRelay_B1.h: 121: char getLight_Load_Status();
+[; ;TriacRelay_B1.h: 125: struct Light Light;
+[; ;TriacRelay_B1.h: 127: char getLight_LoadGO();
+[; ;TriacRelay_B1.h: 128: char getLight_Load_Status();
 "7 ../src/LED_B1.c
 [v _LedPointSelect `(v ~T0 @X0 1 ef1`uc ]
 {
@@ -2125,116 +2126,116 @@ Version 3.2 HI-TECH Software Intermediate Code
 "258
 [e :UE 196 ]
 }
-"263
+"265
 [v _setPIRLED_Main `(v ~T0 @X0 1 ef ]
 {
-[; ;LED_B1.c: 263: void setPIRLED_Main() {
+[; ;LED_B1.c: 265: void setPIRLED_Main() {
 [e :U _setPIRLED_Main ]
 [f ]
-"266
-[v _count `uc ~T0 @X0 1 a ]
-[; ;LED_B1.c: 266: char count;
-[; ;LED_B1.c: 267: if (PIRLED.GO == 1) {
 "267
+[v _count `uc ~T0 @X0 1 a ]
+[; ;LED_B1.c: 267: char count;
+[; ;LED_B1.c: 268: if (PIRLED.GO == 1) {
+"268
 [e $ ! == -> . . . _PIRLED 0 0 0 `i -> 1 `i 202  ]
 {
-[; ;LED_B1.c: 268: PIRLED.Time++;
-"268
-[e ++ . _PIRLED 2 -> -> 1 `i `ui ]
-[; ;LED_B1.c: 269: if (PIRLED.Time >= 500 / 20) {
+[; ;LED_B1.c: 269: PIRLED.Time++;
 "269
+[e ++ . _PIRLED 2 -> -> 1 `i `ui ]
+[; ;LED_B1.c: 270: if (PIRLED.Time >= 500 / 20) {
+"270
 [e $ ! >= . _PIRLED 2 -> / -> 500 `i -> 20 `i `ui 203  ]
 {
-[; ;LED_B1.c: 270: PIRLED.Time = 0;
-"270
-[e = . _PIRLED 2 -> -> 0 `i `ui ]
-[; ;LED_B1.c: 271: setLED(1, 0);
+[; ;LED_B1.c: 271: PIRLED.Time = 0;
 "271
-[e ( _setLED (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
-[; ;LED_B1.c: 272: setLED(2, 0);
+[e = . _PIRLED 2 -> -> 0 `i `ui ]
+[; ;LED_B1.c: 272: setLED(1, 0);
 "272
-[e ( _setLED (2 , -> -> 2 `i `uc -> -> 0 `i `uc ]
-[; ;LED_B1.c: 273: if (PIRLED.GO1 == 1) {
+[e ( _setLED (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[; ;LED_B1.c: 273: setLED(2, 0);
 "273
+[e ( _setLED (2 , -> -> 2 `i `uc -> -> 0 `i `uc ]
+[; ;LED_B1.c: 274: if (PIRLED.GO1 == 1) {
+"274
 [e $ ! == -> . . . _PIRLED 0 0 1 `i -> 1 `i 204  ]
 {
-[; ;LED_B1.c: 274: count = 4;
-"274
-[e = _count -> -> 4 `i `uc ]
+[; ;LED_B1.c: 275: count = 4;
 "275
+[e = _count -> -> 4 `i `uc ]
+"276
 }
 [e :U 204 ]
-[; ;LED_B1.c: 275: }
-[; ;LED_B1.c: 276: if (PIRLED.GO2 == 1) {
-"276
+[; ;LED_B1.c: 276: }
+[; ;LED_B1.c: 277: if (PIRLED.GO2 == 1) {
+"277
 [e $ ! == -> . . . _PIRLED 0 0 2 `i -> 1 `i 205  ]
 {
-[; ;LED_B1.c: 277: count = 6;
-"277
-[e = _count -> -> 6 `i `uc ]
+[; ;LED_B1.c: 278: count = 6;
 "278
+[e = _count -> -> 6 `i `uc ]
+"279
 }
 [e :U 205 ]
-[; ;LED_B1.c: 278: }
-[; ;LED_B1.c: 279: if (PIRLED.GO3 == 1) {
-"279
+[; ;LED_B1.c: 279: }
+[; ;LED_B1.c: 280: if (PIRLED.GO3 == 1) {
+"280
 [e $ ! == -> . . . _PIRLED 0 0 3 `i -> 1 `i 206  ]
 {
-[; ;LED_B1.c: 280: count = 8;
-"280
-[e = _count -> -> 8 `i `uc ]
+[; ;LED_B1.c: 281: count = 8;
 "281
+[e = _count -> -> 8 `i `uc ]
+"282
 }
 [e :U 206 ]
-[; ;LED_B1.c: 281: }
-[; ;LED_B1.c: 282: PIRLED.Count++;
-"282
-[e ++ . _PIRLED 1 -> -> 1 `i `uc ]
-[; ;LED_B1.c: 283: if (PIRLED.Count == 1 || PIRLED.Count == 2) {
+[; ;LED_B1.c: 282: }
+[; ;LED_B1.c: 283: PIRLED.Count++;
 "283
+[e ++ . _PIRLED 1 -> -> 1 `i `uc ]
+[; ;LED_B1.c: 284: if (PIRLED.Count == 1 || PIRLED.Count == 2) {
+"284
 [e $ ! || == -> . _PIRLED 1 `i -> 1 `i == -> . _PIRLED 1 `i -> 2 `i 207  ]
 {
-[; ;LED_B1.c: 284: PIRLED.status = PIRLED.status == 1 ? 0 : 1;
-"284
-[e = . . . _PIRLED 0 0 4 -> ? == -> . . . _PIRLED 0 0 4 `i -> 1 `i : -> 0 `i -> 1 `i `uc ]
-[; ;LED_B1.c: 285: setLED(2, PIRLED.status);
+[; ;LED_B1.c: 285: PIRLED.status = PIRLED.status == 1 ? 0 : 1;
 "285
-[e ( _setLED (2 , -> -> 2 `i `uc . . . _PIRLED 0 0 4 ]
+[e = . . . _PIRLED 0 0 4 -> ? == -> . . . _PIRLED 0 0 4 `i -> 1 `i : -> 0 `i -> 1 `i `uc ]
+[; ;LED_B1.c: 286: setLED(2, PIRLED.status);
 "286
+[e ( _setLED (2 , -> -> 2 `i `uc . . . _PIRLED 0 0 4 ]
+"287
 }
-[; ;LED_B1.c: 286: } else {
+[; ;LED_B1.c: 287: } else {
 [e $U 208  ]
 [e :U 207 ]
 {
-[; ;LED_B1.c: 287: PIRLED.status = PIRLED.status == 1 ? 0 : 1;
-"287
-[e = . . . _PIRLED 0 0 4 -> ? == -> . . . _PIRLED 0 0 4 `i -> 1 `i : -> 0 `i -> 1 `i `uc ]
-[; ;LED_B1.c: 288: setLED(1, PIRLED.status);
+[; ;LED_B1.c: 288: PIRLED.status = PIRLED.status == 1 ? 0 : 1;
 "288
-[e ( _setLED (2 , -> -> 1 `i `uc . . . _PIRLED 0 0 4 ]
-[; ;LED_B1.c: 289: if (PIRLED.Count == count) {
+[e = . . . _PIRLED 0 0 4 -> ? == -> . . . _PIRLED 0 0 4 `i -> 1 `i : -> 0 `i -> 1 `i `uc ]
+[; ;LED_B1.c: 289: setLED(1, PIRLED.status);
 "289
+[e ( _setLED (2 , -> -> 1 `i `uc . . . _PIRLED 0 0 4 ]
+[; ;LED_B1.c: 290: if (PIRLED.Count == count) {
+"290
 [e $ ! == -> . _PIRLED 1 `i -> _count `i 209  ]
 {
-[; ;LED_B1.c: 290: PIRLED.Count = 0;
-"290
-[e = . _PIRLED 1 -> -> 0 `i `uc ]
+[; ;LED_B1.c: 291: PIRLED.Count = 0;
 "291
-}
-[e :U 209 ]
+[e = . _PIRLED 1 -> -> 0 `i `uc ]
 "292
 }
-[e :U 208 ]
+[e :U 209 ]
 "293
 }
-[e :U 203 ]
+[e :U 208 ]
 "294
 }
+[e :U 203 ]
+"295
+}
 [e :U 202 ]
-[; ;LED_B1.c: 291: }
 [; ;LED_B1.c: 292: }
 [; ;LED_B1.c: 293: }
 [; ;LED_B1.c: 294: }
+[; ;LED_B1.c: 295: }
 [; ;LED_B1.c: 296: }
 "296
 [e :UE 201 ]

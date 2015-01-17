@@ -1982,7 +1982,7 @@ char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
 
-# 92 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h"
+# 96 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2053,7 +2053,6 @@ unsigned char Count;
 unsigned int Time;
 };
 
-
 struct PIRLED PIRLED;
 
 
@@ -2076,6 +2075,7 @@ unsigned char Count;
 
 # 26
 ADtype ADH[2];
+ADtype ADV;
 
 
 
@@ -2084,7 +2084,7 @@ ADtype ADH[2];
 
 struct OverTemp Temp;
 
-# 82
+# 83
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -2241,7 +2241,7 @@ unsigned Signal : 1;
 unsigned empty : 4;
 };
 
-unsigned int Timer;
+unsigned int Time;
 unsigned int Counter;
 };
 
@@ -2255,7 +2255,7 @@ void setSYSC_Initialization();
 void setSYSC_Main();
 inline void DetectSYSC_Signal();
 
-# 11 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/TriacRelay_B1.h"
+# 15 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/TriacRelay_B1.h"
 struct LightsControl {
 
 struct {
@@ -2301,7 +2301,7 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 65
+# 69
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2318,10 +2318,13 @@ char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
+
+
+
 void setLights_SwOn(char sw);
 void setLights_SwOff(char sw);
 
-# 110
+# 117
 struct Light {
 
 struct {
@@ -2356,16 +2359,16 @@ void setSYSC_Main() {
 
 if (SYSC.Enable == 1) {
 if (SYSC.ERROR == 0) {
-SYSC.Timer++;
-if (SYSC.Timer >= (160 / 20)) {
-SYSC.Timer = 0;
+SYSC.Time++;
+if (SYSC.Time >= (500 / 20)) {
+SYSC.Time = 0;
 SYSC.ERROR = 1;
 }
 } else {
 if (getMain_All_Error_Status(1) == 0) {
-SYSC.Timer++;
-if (SYSC.Timer == (500 / 20)) {
-SYSC.Timer = 0;
+SYSC.Time++;
+if (SYSC.Time >= (500 / 20)) {
+SYSC.Time = 0;
 SYSC.Counter = 0;
 } else {
 SYSC.Counter++;
@@ -2383,7 +2386,7 @@ inline void DetectSYSC_Signal() {
 if (SYSC.Signal == 0) {
 if (RA5 == 1) {
 SYSC.Signal = 1;
-SYSC.Timer = 0;
+SYSC.Time = 0;
 }
 } else {
 if (RA5 == 0) {

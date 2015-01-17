@@ -84,7 +84,7 @@ char getDimmerIntr_DimmingValue(char lights) {
     return value;
 }
 
-#if CC2500_use == 1 || Properties_Product == 2
+#if CC2500_use == 1 || PIR_use == 1
 
 void setDimmerIntr_MaxmumValue(char lights, char value) {
 #ifdef use_1KEY
@@ -1254,14 +1254,14 @@ inline void DimmerLights_TMR_1() {
     if (Triac1 == true) {
         if (DimmerIntr1.Count >= Dimmer_Minimum - 10) {
             Triac1 = false;
-//            ID_1KEY_0;
+            //            ID_1KEY_0;
         }
     }
 }
 
 inline void DimmerLights_IOC_1() {
 
-#if Properties_Product == 2
+#if PIR_use == 1
     if (DimmerReference1 == true) {
         if (Dimmer.PIR_DimmerSignal == true) {
             Dimmer.PIR_DimmerSignal = false;
@@ -1446,6 +1446,8 @@ inline void DimmerLights_IOC_2() {
 
 //******************************************************************************
 
+#if PIR_use == 1
+
 void DimmerLights_PIR_Control() {
 
     if (Dimmer.PIR_Trigger == true) {
@@ -1493,6 +1495,7 @@ void DimmerLights_PIR_Control() {
     }
 }
 
+#endif
 
 
 //end

@@ -129,12 +129,16 @@
 #define OverLoad_use 0
 //LED
 #define LED_use 1
+#define PIRLED_use_Value 0
 //Buzzer
 #define Buzzer_use 1	
 //Switch
 #define Switch_use 1
 //Lights
 #define LightsControl_use 	0
+#define setLights_SwOn_Value 1
+#define setLights_SwOff_Value 1
+#define setLights_Value 1
 //RF cc2500
 #define CC2500_use	1
 #define Tx_Enable 	1
@@ -149,6 +153,14 @@
 #define Dimmer_Full_Wave	0
 //SegmentDisplay
 #define SegmentDisplay_use 0
+//CDS
+#define CDS_use             0
+//PIR
+#define PIR_use             0
+//UART to RF
+#define myUARTtoRF_use_Value 0
+//Main
+#define Exception_Main_Value 2
 
 
 //include

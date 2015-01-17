@@ -141,6 +141,8 @@
 #define TempSafeValueH_Value      0x85		//NTC 47 value 600
 #define TempDangerValueL_Value    0x40		//NTC 68 value 500
 #define TempSafeValueL_Value      0x4f		//NTC 47 value 600
+#define TempDangerValue_Value     0x75
+#define TempSafeValue_Value       0x85
 /*
  * lights on max temperature value      0xaa
  * lights on mini temperature value     0x64
@@ -150,10 +152,11 @@
 
 //OverLoad
 #define OverLoad_use_Value  1
-#define LimitCurrent_Value  7//A
+#define LimitCurrent_Value  8//A
 #define LinearParam_Value   1.7
 //LED
 #define LED_use_Value 1
+#define PIRLED_use_Value 1
 //Buzzer
 #define Buzzer_use_Value 0
 //Switch
@@ -182,7 +185,7 @@
 #define SegmentDisplay_use_Value 0
 //PIR
 #define  PIR_use_Value  1
-#define PIRLED_use_Value 1
+#define PIR_Control_Mode_Value 1
 //CDS
 #define CDS_use_Value  1
 //UART to RF

@@ -151,6 +151,7 @@
 #define LinearParam_Value   1.7
 //LED
 #define LED_use_Value 1
+#define PIRLED_use_Value 1
 //Buzzer
 #define Buzzer_use_Value 0
 //Switch
@@ -179,7 +180,7 @@
 #define SegmentDisplay_use_Value 0
 //PIR
 #define  PIR_use_Value  1
-#define PIRLED_use_Value 1
+#define PIR_Control_Mode_Value 1
 //CDS
 #define CDS_use_Value  1
 //UART to RF

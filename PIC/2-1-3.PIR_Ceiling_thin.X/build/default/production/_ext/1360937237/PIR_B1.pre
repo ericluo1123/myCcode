@@ -1982,7 +1982,7 @@ char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
 
-# 92 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h"
+# 96 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2053,7 +2053,6 @@ unsigned char Count;
 unsigned int Time;
 };
 
-
 struct PIRLED PIRLED;
 
 
@@ -2076,6 +2075,7 @@ unsigned char Count;
 
 # 26
 ADtype ADH[2];
+ADtype ADV;
 
 
 
@@ -2084,7 +2084,7 @@ ADtype ADH[2];
 
 struct OverTemp Temp;
 
-# 82
+# 83
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -2241,7 +2241,7 @@ unsigned Signal : 1;
 unsigned empty : 4;
 };
 
-unsigned int Timer;
+unsigned int Time;
 unsigned int Counter;
 };
 
@@ -2255,7 +2255,7 @@ void setSYSC_Initialization();
 void setSYSC_Main();
 inline void DetectSYSC_Signal();
 
-# 11 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/TriacRelay_B1.h"
+# 15 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/TriacRelay_B1.h"
 struct LightsControl {
 
 struct {
@@ -2301,7 +2301,7 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 65
+# 69
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2318,10 +2318,13 @@ char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
+
+
+
 void setLights_SwOn(char sw);
 void setLights_SwOff(char sw);
 
-# 110
+# 117
 struct Light {
 
 struct {
@@ -2360,7 +2363,10 @@ if (cds == 1 && Enable_Switch == 1) {
 _PIR.Available = 1;
 } else {
 _PIR.Available = 0;
+
 if (_PIR.OK == 1) {
+setLED(1, 0);
+setLED(2, 0);
 
 if (getLights_Status(1) == 1) {
 setLights_SwOn(1);
@@ -2368,11 +2374,11 @@ setLights_SwOff(1);
 
 }
 
-# 59
+# 62
 }
 }
 
-# 64
+# 67
 if (_PIR.Detect == 0) {
 _PIR.Detect = 1;
 
@@ -2386,7 +2392,7 @@ if (_PIR.Detect == 1) {
 _PIR.Detect = 0;
 _PIR.Available = 0;
 
-# 93
+# 96
 }
 }
 
@@ -2435,7 +2441,7 @@ if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - _PIR.RangeValue))
 
 _PIR.Count = 0;
 
-# 146
+# 149
 setLED(1, 0);
 setLED(2, 0);
 
@@ -2453,14 +2459,14 @@ _PIR.Count = 0;
 _PIR.CloseTimeSeconds = 0;
 _PIR.CloseTimeMinutes = 0;
 
-# 167
+# 170
 if (getLights_Status(1) == 0) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 185
+# 188
 if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
 setLED(1, 1);
 setLED(2, 0);
@@ -2469,7 +2475,7 @@ setLED(1, 0);
 setLED(2, 1);
 }
 
-# 231
+# 234
 }
 }
 }
@@ -2493,7 +2499,7 @@ setLights_SwOff(1);
 
 }
 
-# 264
+# 267
 }
 }
 } else {
@@ -2505,14 +2511,14 @@ _PIR.CloseTimeMinutes++;
 if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
 _PIR.CloseTimeMinutes = 0;
 
-# 279
+# 282
 if (getLights_Status(1) == 1) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 295
+# 298
 }
 }
 }
@@ -2531,7 +2537,7 @@ setLights_SwOff(1);
 
 }
 
-# 322
+# 325
 }
 }
 }
@@ -2543,12 +2549,12 @@ char VRAD = 0, VRAD1 = 0;
 if (_PIR.ADtoGO == 1 && _PIR.GO == 0) {
 _PIR.GO = 1;
 
-# 338
+# 341
 VRAD1 = getAD(channel1, 0x70);
 VRAD = VRAD1 / 25;
 _PIR.SignalAD = getAD(channel2, 0x70);
 
-# 354
+# 357
 if (VRAD < 1) {
 _PIR.CloseTimeValue = 5;
 } else if (VRAD < 3) {
@@ -2563,7 +2569,7 @@ _PIR.CloseTimeValue = 900;
 _PIR.CloseTimeValue = 1200;
 }
 
-# 375
+# 378
 _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
 for (i = 0; i < 10; i++) {
 _PIR.TenAverageValue += _PIR.TenAverage[i];
@@ -2587,7 +2593,7 @@ else
 _PIR.HundreCount = 0;
 }
 
-# 411
+# 414
 }
 }
 

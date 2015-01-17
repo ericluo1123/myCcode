@@ -15,7 +15,7 @@ struct SYSC {
         unsigned empty : 4;
     };
 
-    unsigned int Timer;
+    unsigned int Time;
     unsigned int Counter;
 };
 

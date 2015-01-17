@@ -132,12 +132,16 @@
 #define OverLoad_use 0
 //LED
 #define LED_use 0
+#define PIRLED_use_Value 0
 //Buzzer
 #define Buzzer_use 0
 //Switch
 #define Switch_use 0
 //Lights
 #define LightsControl_use 	0
+#define setLights_SwOn_Value 1
+#define setLights_SwOff_Value 1
+#define setLights_Value 1
 //RF cc2500
 #define CC2500_use	0
 //DelayOff
@@ -148,26 +152,35 @@
 #define Dimmer_use 	0
 //SegmentDisplay
 #define SegmentDisplay_use 1
+//CDS
+#define CDS_use_Value   0
+//PIR
+#define PIR_use_Value   0
+//UART to RF
+#define myUARTtoRF_use_Value 0
+//Main
+#define Exception_Main_Value 2
 
 
 //include
-#include "../../src/Main_B1.h"
-#include "../../src/Activity_B1.h"
-#include "../../src/Switch_B1.h"
-#include "../../src/Buzzer_B1.h"
-#include "../../src/LED_B1.h"
-#include "../../src/OverTemperature_B1.h"
-#include "../../src/CC2500_B1.h"
-#include "../../src/RF_Control_B1.h"
-#include "../../src/OverLoad_B1.h"
-#include "../../src/Dimmer_B1.h"
-#include "../../src/DelayOff_B1.h"
-#include "../../src/PowerFault_B1.h"
-#include "../../src/CDS_B1.h"
-#include "../../src/PIR_B1.h"
-#include "../../src/SYSC_B1.h"
-#include "../../src/TriacRelay_B1.h"
-#include "../../src/MCU_B1.h"
-#include "../../src/SegmentDisplay_A2.h"
+#include "../src/Activity_B1.h"
+#include "../src/MCU_B1.h"
+#include "../src/Main_B1.h"
+#include "../src/Switch_B1.h"
+#include "../src/Buzzer_B1.h"
+#include "../src/LED_B1.h"
+#include "../src/OverTemperature_B1.h"
+#include "../src/CC2500_B1.h"
+#include "../src/RF_Control_B1.h"
+#include "../src/OverLoad_B1.h"
+#include "../src/Dimmer_B1.h"
+#include "../src/DelayOff_B1.h"
+#include "../src/PowerFault_B1.h"
+#include "../src/CDS_B1.h"
+#include "../src/PIR_B1.h"
+#include "../src/SYSC_B1.h"
+#include "../src/TriacRelay_B1.h"
+#include "../src/SegmentDisplay_A2.h"
+#include "../src/myUARTtoRF.h"
 
 #endif

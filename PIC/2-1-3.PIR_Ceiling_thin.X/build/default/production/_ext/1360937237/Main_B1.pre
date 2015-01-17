@@ -1982,7 +1982,7 @@ char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
 
-# 92 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h"
+# 96 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2053,7 +2053,6 @@ unsigned char Count;
 unsigned int Time;
 };
 
-
 struct PIRLED PIRLED;
 
 
@@ -2076,6 +2075,7 @@ unsigned char Count;
 
 # 26
 ADtype ADH[2];
+ADtype ADV;
 
 
 
@@ -2084,7 +2084,7 @@ ADtype ADH[2];
 
 struct OverTemp Temp;
 
-# 82
+# 83
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -2241,7 +2241,7 @@ unsigned Signal : 1;
 unsigned empty : 4;
 };
 
-unsigned int Timer;
+unsigned int Time;
 unsigned int Counter;
 };
 
@@ -2255,7 +2255,7 @@ void setSYSC_Initialization();
 void setSYSC_Main();
 inline void DetectSYSC_Signal();
 
-# 11 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/TriacRelay_B1.h"
+# 15 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/TriacRelay_B1.h"
 struct LightsControl {
 
 struct {
@@ -2301,7 +2301,7 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 65
+# 69
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
@@ -2318,10 +2318,13 @@ char getLightsControl_GO();
 char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
+
+
+
 void setLights_SwOn(char sw);
 void setLights_SwOff(char sw);
 
-# 110
+# 117
 struct Light {
 
 struct {
@@ -2477,39 +2480,7 @@ myMain.Timeout = 0;
 myMain.Timeout_Counter = 0;
 }
 
-
-void setMain_Exception(char command) {
-char status = 0, buz = 0;
-
-status = command == 3 ? getAll_Lights_Line() : 255;
-
-if (command == 0) {
-setLED(command, 110);
-} else {
-setLED(command, 111);
-
-
-if (status == 255) {
-
-char count = 1;
-
-# 308
-for (int i = 0; i < count; i++) {
-if (getLights_Status(i + 1) == 1) {
-setLights_Trigger(i + 1, 0);
-}
-}
-} else {
-if (getLights_Status(status) == 1) {
-setLights_Trigger(status, 0);
-}
-}
-}
-
-# 355
-}
-
-
+# 358
 char getMain_AD_OK() {
 char result = 0;
 
@@ -2581,18 +2552,22 @@ if (myMain.Error_Run == 1) {
 if (error == 0) {
 myMain.Error_Run = 0;
 
-# 512
+
+
+
 setLED(error, 110);
 
-# 523
+# 522
 }
 } else {
 if (error != 0) {
 myMain.Error_Run = 1;
 
-# 590
+
+
 setLED(error, 111);
 
+# 591
 switch (error) {
 case 1:
 for (int i = 0; i < count; i++) {
@@ -2623,17 +2598,16 @@ setLights_SwOn(status);
 setLights_SwOff(status);
 
 }
-
 ;;
 break;
 }
 
-# 640
+# 638
 }
 }
 }
 
-# 653
+# 651
 void setCmd_Status(char number, char cmd) {
 switch (number) {
 case 1:

@@ -22,11 +22,12 @@ struct OverTemp {
     //    unsigned char AD1;
     //    unsigned char AD2;
 
-//    ADtype AD;
+    //    ADtype AD;
     ADtype ADH[2];
+    ADtype ADV;
     //    ADtype ADRES;
-//    ADtype SafeValue;
-//    ADtype DangerValue;
+    //    ADtype SafeValue;
+    //    ADtype DangerValue;
 
 };
 #ifdef SYSC1

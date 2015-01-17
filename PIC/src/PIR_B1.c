@@ -39,7 +39,14 @@ void PIR_Main() {
                 _PIR.Available = true;
             } else {
                 _PIR.Available = false;
+
                 if (_PIR.OK == true) {
+#if PIR_Control_Mode == 1
+                    setLED(1, 0);
+                    setLED(2, 0);
+#elif PIR_Control_Mode == 2
+#endif
+
 #if LightsControl_use == 1
                     if (getLights_Status(1) == 1) {
                         setLights_SwOn(1);
@@ -52,6 +59,7 @@ void PIR_Main() {
                     if (getDimmerLights_Status(1) == 1) {
                         Dimmer.PIR_Trigger = true;
                         Dimmer.PIR_Sw = false;
+                        Dimmer.PIR_Lights_Status = true;
                     }
 
 #endif
@@ -63,10 +71,11 @@ void PIR_Main() {
 #endif
             if (_PIR.Detect == false) {
                 _PIR.Detect = true;
-#if Switch_use == 0
+#if PIR_Control_Mode == 1
                 if (_PIR.OK == false) {
                     setLED(1, 1);
                 }
+#elif PIR_Control_Mode == 2
 #endif
             }
         } else {
@@ -142,9 +151,10 @@ void PIR_Main() {
                                 _PIR.Count = 0;
                             }
 #endif
-#if Switch_use == 0
+#if PIR_Control_Mode == 1
                             setLED(1, 0);
                             setLED(2, 0);
+#elif PIR_Control_Mode == 2
 #endif
                         } else {
 
@@ -181,7 +191,7 @@ void PIR_Main() {
 
 #endif
 #endif
-#if Switch_use == 0
+#if PIR_Control_Mode == 1
                                 if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
                                     setLED(1, 1);
                                     setLED(2, 0);
@@ -189,6 +199,7 @@ void PIR_Main() {
                                     setLED(1, 0);
                                     setLED(2, 1);
                                 }
+#elif PIR_Control_Mode == 2
 #endif
 
 #else
@@ -217,71 +228,41 @@ void PIR_Main() {
 
 #endif
 #endif
-#if Switch_use == 0
+#if PIR_Control_Mode == 1
                                     if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - (_PIR.RangeValue + _PIR.Offset)))) {
                                         setLED(1, 1);
                                         setLED(2, 0);
                                     } else {
                                         setLED(1, 0);
                                         setLED(2, 1);
+#elif PIR_Control_Mode == 2
+                                }
+#endif
                                     }
 #endif
                                 }
-#endif
                             }
                         }
                     }
                 }
             }
-        }
-        if (_PIR.OK == false) {
-            _PIR.Count++;
-            if (_PIR.Count == (30000 / Main_Time)) {
-                _PIR.Count = 0;
-                _PIR.OK = true;
-#if Switch_use == 0
-                setLED(1, 0);
+            if (_PIR.OK == false) {
+                _PIR.Count++;
+                if (_PIR.Count == (30000 / Main_Time)) {
+                    _PIR.Count = 0;
+                    _PIR.OK = true;
+#if PIR_Control_Mode == 1
+                    setLED(1, 0);
+#elif PIR_Control_Mode == 2
 #endif
-                if (cds == 0) {
+                    if (cds == 0) {
 #if LightsControl_use == 1
 #ifdef use_1KEY
-                    if (getLights_Status(1) == 1) {
-                        setLights_SwOn(1);
-                        setLights_SwOff(1);
-                        //                        setLights_Trigger(1, 0);
-                    }
-#endif
-#endif
-#if Dimmer_use == 1
-#ifdef use_1KEY
-                    if (getDimmerLights_Status(1) == 1) {
-                        Dimmer.PIR_Trigger = true;
-                        Dimmer.PIR_Sw = false;
-                    }
-
-#endif
-#endif
-                }
-            }
-        } else {
-            if (LightsStatus == 1) {
-                _PIR.CloseTimeSeconds++;
-                if (_PIR.CloseTimeSeconds == (1000 / Main_Time)) {
-                    _PIR.CloseTimeSeconds = 0;
-                    _PIR.CloseTimeMinutes++;
-                    if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
-                        _PIR.CloseTimeMinutes = 0;
-                        //                    _PIR.Status = false;
-
-#if LightsControl_use == 1
-#ifdef use_1KEY
-#if PIR_Test_Mode == 0
                         if (getLights_Status(1) == 1) {
                             setLights_SwOn(1);
                             setLights_SwOff(1);
-                            //                            setLights_Trigger(1, 0);
+                            //                        setLights_Trigger(1, 0);
                         }
-#endif
 #endif
 #endif
 #if Dimmer_use == 1
@@ -290,130 +271,163 @@ void PIR_Main() {
                             Dimmer.PIR_Trigger = true;
                             Dimmer.PIR_Sw = false;
                         }
+
 #endif
 #endif
                     }
                 }
+            } else {
+                if (LightsStatus == 1) {
+                    _PIR.CloseTimeSeconds++;
+                    if (_PIR.CloseTimeSeconds == (1000 / Main_Time)) {
+                        _PIR.CloseTimeSeconds = 0;
+                        _PIR.CloseTimeMinutes++;
+                        if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
+                            _PIR.CloseTimeMinutes = 0;
+                            //                    _PIR.Status = false;
+
+#if LightsControl_use == 1
+#ifdef use_1KEY
+#if PIR_Test_Mode == 0
+                            if (getLights_Status(1) == 1) {
+                                setLights_SwOn(1);
+                                setLights_SwOff(1);
+                                //                            setLights_Trigger(1, 0);
+                            }
+#endif
+#endif
+#endif
+#if Dimmer_use == 1
+#ifdef use_1KEY
+                            if (getDimmerLights_Status(1) == 1) {
+                                Dimmer.PIR_Trigger = true;
+                                Dimmer.PIR_Sw = false;
+                            }
+#endif
+#endif
+                        }
+                    }
+                }
             }
-        }
-    } else {
-        if (myMain.PowerON == true) {
-            _PIR.Enable = true;
-#if Switch_use == 0
-            setLED(1, 1);
+        } else {
+            if (myMain.PowerON == true) {
+                _PIR.Enable = true;
+#if PIR_Control_Mode == 1
+                setLED(1, 1);
+#elif PIR_Control_Mode == 2
 #endif
 #if LightsControl_use == 1
 #ifdef use_1KEY
-            if (getLights_Status(1) == 0) {
-                setLights_SwOn(1);
-                setLights_SwOff(1);
-                //                setLights_Trigger(1, 1);
-            }
+                if (getLights_Status(1) == 0) {
+                    setLights_SwOn(1);
+                    setLights_SwOff(1);
+                    //                setLights_Trigger(1, 1);
+                }
 #endif
 #endif
 #if Dimmer_use == 1
 #ifdef use_1KEY
 
-            Dimmer.PIR_Trigger = true;
-            Dimmer.PIR_Sw = true;
+                Dimmer.PIR_Trigger = true;
+                Dimmer.PIR_Sw = true;
 
 #endif
 #endif
+            }
         }
     }
-}
-//******************************************************************************
+    //******************************************************************************
 
-void getPIR_AD(char channel1, char channel2) {
-    char i = 0, j = 0;
-    char VRAD = 0, VRAD1 = 0;
-    if (_PIR.ADtoGO == true && _PIR.GO == false) {
-        _PIR.GO = true;
+    void getPIR_AD(char channel1, char channel2) {
+        char i = 0, j = 0;
+        char VRAD = 0, VRAD1 = 0;
+        if (_PIR.ADtoGO == true && _PIR.GO == false) {
+            _PIR.GO = true;
 
-        //        _PIR.ADRES = getAD(channel1, ADCON1_VDD);
-        //        _PIR.VRAD = _PIR.ADRES / 25;
-        //        _PIR.VRAD1 = _PIR.ADRES;
-        //        _PIR.ADRES = getAD(channel2, ADCON1_VDD);
-        //        _PIR.SignalAD = _PIR.ADRES;
-        VRAD1 = getAD(channel1, ADCON1_VDD);
-        VRAD = VRAD1 / 25;
-        _PIR.SignalAD = getAD(channel2, ADCON1_VDD);
-        //        if (_PIR.VRAD < 1) {
-        //            _PIR.CloseTimeValue = 5;
-        //        } else if (_PIR.VRAD < 3) {
-        //            _PIR.CloseTimeValue = 60;
-        //        } else if (_PIR.VRAD < 5) {
-        //            _PIR.CloseTimeValue = 300;
-        //        } else if (_PIR.VRAD < 7) {
-        //            _PIR.CloseTimeValue = 600;
-        //        } else if (_PIR.VRAD < 9) {
-        //            _PIR.CloseTimeValue = 900;
-        //        } else {
-        //            _PIR.CloseTimeValue = 1200;
-        //        }
-        if (VRAD < 1) {
-            _PIR.CloseTimeValue = 5;
-        } else if (VRAD < 3) {
-            _PIR.CloseTimeValue = 60;
-        } else if (VRAD < 5) {
-            _PIR.CloseTimeValue = 300;
-        } else if (VRAD < 7) {
-            _PIR.CloseTimeValue = 600;
-        } else if (VRAD < 9) {
-            _PIR.CloseTimeValue = 900;
-        } else {
-            _PIR.CloseTimeValue = 1200;
-        }
+            //        _PIR.ADRES = getAD(channel1, ADCON1_VDD);
+            //        _PIR.VRAD = _PIR.ADRES / 25;
+            //        _PIR.VRAD1 = _PIR.ADRES;
+            //        _PIR.ADRES = getAD(channel2, ADCON1_VDD);
+            //        _PIR.SignalAD = _PIR.ADRES;
+            VRAD1 = getAD(channel1, ADCON1_VDD);
+            VRAD = VRAD1 / 25;
+            _PIR.SignalAD = getAD(channel2, ADCON1_VDD);
+            //        if (_PIR.VRAD < 1) {
+            //            _PIR.CloseTimeValue = 5;
+            //        } else if (_PIR.VRAD < 3) {
+            //            _PIR.CloseTimeValue = 60;
+            //        } else if (_PIR.VRAD < 5) {
+            //            _PIR.CloseTimeValue = 300;
+            //        } else if (_PIR.VRAD < 7) {
+            //            _PIR.CloseTimeValue = 600;
+            //        } else if (_PIR.VRAD < 9) {
+            //            _PIR.CloseTimeValue = 900;
+            //        } else {
+            //            _PIR.CloseTimeValue = 1200;
+            //        }
+            if (VRAD < 1) {
+                _PIR.CloseTimeValue = 5;
+            } else if (VRAD < 3) {
+                _PIR.CloseTimeValue = 60;
+            } else if (VRAD < 5) {
+                _PIR.CloseTimeValue = 300;
+            } else if (VRAD < 7) {
+                _PIR.CloseTimeValue = 600;
+            } else if (VRAD < 9) {
+                _PIR.CloseTimeValue = 900;
+            } else {
+                _PIR.CloseTimeValue = 1200;
+            }
 
 #if PIR_TestTime_Mode == 1
 #if UART_use == 1
-        UART.Data[0] = _PIR.VRAD1;
-        UART.Data[1] = _PIR.VRAD;
+            UART.Data[0] = _PIR.VRAD1;
+            UART.Data[1] = _PIR.VRAD;
 #endif
 #endif
 #if Hunder_Average == 1
-        _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
-        for (i = 0; i < 10; i++) {
-            _PIR.TenAverageValue += _PIR.TenAverage[i];
-        }
-        _PIR.HundredAverage[_PIR.HundreCount] = (_PIR.TenAverageValue / 10);
-        _PIR.TenAverageValue = 0;
+            _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
+            for (i = 0; i < 10; i++) {
+                _PIR.TenAverageValue += _PIR.TenAverage[i];
+            }
+            _PIR.HundredAverage[_PIR.HundreCount] = (_PIR.TenAverageValue / 10);
+            _PIR.TenAverageValue = 0;
 
-        for (i = 0; i <= 9; i++) {
-            _PIR.HundredAverageValue += _PIR.HundredAverage[i];
-        }
-        _PIR.ReferenceVoltage = (_PIR.HundredAverageValue / 10);
-        _PIR.HundredAverageValue = 0;
+            for (i = 0; i <= 9; i++) {
+                _PIR.HundredAverageValue += _PIR.HundredAverage[i];
+            }
+            _PIR.ReferenceVoltage = (_PIR.HundredAverageValue / 10);
+            _PIR.HundredAverageValue = 0;
 
-        if (_PIR.TenCount < 10) {
-            _PIR.TenCount++;
-        } else {
-            _PIR.TenCount = 0;
-            if (_PIR.HundreCount < 10)
-                _PIR.HundreCount++;
-            else
-                _PIR.HundreCount = 0;
-        }
+            if (_PIR.TenCount < 10) {
+                _PIR.TenCount++;
+            } else {
+                _PIR.TenCount = 0;
+                if (_PIR.HundreCount < 10)
+                    _PIR.HundreCount++;
+                else
+                    _PIR.HundreCount = 0;
+            }
 #else
-        _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
-        for (i = 0; i < 10; i++) {
-            _PIR.TenAverageValue += _PIR.TenAverage[i];
-        }
-        _PIR.ReferenceVoltage = (_PIR.TenAverageValue / 10);
-        _PIR.TenAverageValue = 0;
+            _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
+            for (i = 0; i < 10; i++) {
+                _PIR.TenAverageValue += _PIR.TenAverage[i];
+            }
+            _PIR.ReferenceVoltage = (_PIR.TenAverageValue / 10);
+            _PIR.TenAverageValue = 0;
 
-        if (_PIR.TenCount < 10) {
-            _PIR.TenCount++;
-        } else {
-            _PIR.TenCount = 0;
-        }
+            if (_PIR.TenCount < 10) {
+                _PIR.TenCount++;
+            } else {
+                _PIR.TenCount = 0;
+            }
 #endif
+        }
     }
-}
-//******************************************************************************
+    //******************************************************************************
 
-char getPIR_OK() {
-    char ok = _PIR.OK == true ? 1 : 0;
-    return ok;
-}
+    char getPIR_OK() {
+        char ok = _PIR.OK == true ? 1 : 0;
+        return ok;
+    }
 #endif

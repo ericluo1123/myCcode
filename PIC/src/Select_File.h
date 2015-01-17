@@ -7,6 +7,6 @@
 #define enable      1
 #define disable     0
 
-#include "../2-1-6.PIR+DC_DoorBell_2Loop_2Wire.X/PIR+DC_DoorBell_2Loop_2Wire.h"
+#include "../2-1-4.PIR+Switch_2Loop_2Wire.X/PIR+Switch_2Loop_2Wire.h"
 
 #endif

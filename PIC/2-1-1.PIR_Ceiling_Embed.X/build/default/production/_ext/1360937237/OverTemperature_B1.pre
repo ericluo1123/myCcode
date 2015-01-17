@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 159 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
+# 160 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -1873,7 +1873,7 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/MCU_B1.h"
+# 8 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/MCU_B1.h"
 void interrupt ISR(void);
 
 # 17
@@ -1921,7 +1921,7 @@ void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
 
-# 61 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
+# 61 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/Main_B1.h"
 struct command {
 
 struct {
@@ -1949,18 +1949,7 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
-# 97
-struct {
-unsigned i : 1;
-unsigned j : 1;
-unsigned k : 1;
-unsigned l : 1;
-unsigned m : 1;
-unsigned n : 1;
-unsigned o : 1;
-unsigned p : 1;
-};
-
+# 108
 struct {
 unsigned q : 1;
 unsigned r : 1;
@@ -1993,7 +1982,7 @@ char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
 
-# 90 "../src/../2-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
+# 96 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2006,7 +1995,7 @@ unsigned empty : 7;
 };
 struct SwitchDetect SwDetect;
 
-# 10 "../src/../2-1.PIR_Ceiling_Embed.X/../src/LED_B1.h"
+# 10 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/LED_B1.h"
 struct LED {
 
 struct {
@@ -2024,7 +2013,9 @@ struct LED *LED;
 
 struct LED VarErrLED;
 
-# 32
+
+
+
 struct LED VarLED1;
 
 
@@ -2032,25 +2023,25 @@ struct LED VarLED1;
 
 struct LED VarLED2;
 
-# 49
+# 47
 inline void LED_Initialization();
 
-# 54
+# 52
 inline void LED_Main();
 
-# 63
+# 61
 void LedPointSelect(char led);
 
-# 72
+# 70
 void setLED_Initialization(char led);
 
-# 81
+# 79
 void setLED_Main(char led);
 
-# 95
+# 93
 void setLED(char led, char command);
 
-# 107
+# 105
 struct PIRLED {
 
 union {
@@ -2067,11 +2058,13 @@ unsigned empty : 3;
 unsigned char Count;
 unsigned int Time;
 };
+
 struct PIRLED PIRLED;
+
 
 void setPIRLED_Main();
 
-# 7 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h"
+# 8 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/OverTemperature_B1.h"
 struct OverTemp {
 
 struct {
@@ -2086,20 +2079,18 @@ unsigned empty : 3;
 unsigned int Time;
 unsigned char Count;
 
-unsigned char AD1;
-unsigned char AD2;
-
-ADtype AD;
+# 26
 ADtype ADH[2];
-ADtype ADRES;
-ADtype SafeValue;
-ADtype DangerValue;
+ADtype ADV;
+
+
+
 
 };
 
 struct OverTemp Temp;
 
-# 81
+# 83
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -2107,7 +2098,7 @@ void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
 
-# 44 "../src/../2-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
+# 44 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/OverLoad_B1.h"
 struct OverLoad {
 
 struct {
@@ -2131,16 +2122,16 @@ ADtype TotalLoad;
 ADtype AH[5];
 ADtype AL[5];
 ADtype AD;
-ADtype ADRES;
+
 
 unsigned int LightsJudgeValue;
 unsigned int JudgeValue;
-unsigned int Judge;
+
 
 unsigned char Count;
 unsigned char ErrorCount;
-unsigned char ErrorCountValue;
-unsigned char LightsCount;
+
+
 unsigned char SafeCount;
 
 };
@@ -2159,7 +2150,7 @@ void setLoad_AH_AL_Restore();
 char getLoad_OK();
 void setLoad_OK();
 
-# 9 "../src/../2-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
+# 9 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/CDS_B1.h"
 struct CDS {
 
 struct {
@@ -2176,7 +2167,6 @@ unsigned char Time;
 
 unsigned char VRAD;
 unsigned char SignalAD;
-unsigned char ADRES;
 
 # 31
 };
@@ -2190,7 +2180,7 @@ inline void CDS_Main();
 inline void getCDS_AD(char channel1, char channel2);
 char getCDS_Status();
 
-# 18 "../src/../2-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
+# 18 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
 struct PIR {
 
 struct {
@@ -2206,9 +2196,6 @@ unsigned Available : 1;
 
 
 unsigned char SignalAD;
-unsigned char ADRES;
-unsigned char VRAD;
-unsigned char VRAD1;
 
 # 44
 unsigned char Time;
@@ -2226,7 +2213,7 @@ unsigned int HundredAverageValue;
 
 
 unsigned int Count;
-unsigned char TriggerValue;
+
 unsigned int CloseTimeMinutes;
 unsigned char CloseTimeSeconds;
 unsigned int CloseTimeValue;
@@ -2249,7 +2236,7 @@ void PIR_Main();
 void getPIR_AD(char channel1, char channel2);
 char getPIR_OK();
 
-# 8 "../src/../2-1.PIR_Ceiling_Embed.X/../src/SYSC_B1.h"
+# 8 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/SYSC_B1.h"
 struct SYSC {
 
 struct {
@@ -2260,7 +2247,7 @@ unsigned Signal : 1;
 unsigned empty : 4;
 };
 
-unsigned int Timer;
+unsigned int Time;
 unsigned int Counter;
 };
 
@@ -2274,7 +2261,7 @@ void setSYSC_Initialization();
 void setSYSC_Main();
 inline void DetectSYSC_Signal();
 
-# 11 "../src/../2-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
+# 15 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/TriacRelay_B1.h"
 struct LightsControl {
 
 struct {
@@ -2303,13 +2290,15 @@ unsigned RelaySet : 1;
 struct {
 unsigned Line : 1;
 unsigned Loop : 1;
-unsigned empty : 6;
+unsigned SwFlag : 1;
+unsigned SwStatus : 1;
+unsigned empty : 4;
 };
 
 unsigned char Time;
-unsigned char TriacTime;
+
 unsigned char TriacValue;
-unsigned char RelayTime;
+
 unsigned char RelayValue;
 };
 struct Lights *Lights;
@@ -2318,11 +2307,11 @@ struct Lights *Lights;
 
 struct Lights Lights1;
 
-# 63
+# 69
 void LightsPointSelect(char lights);
 void Lights_Initialization();
 void Lights_Main();
-void Lights_Close();
+
 void setLights_Initialization(char lights);
 void setLights_Main(char lights);
 void Lights_Control(char lights);
@@ -2336,7 +2325,12 @@ char getLightsControl_OK();
 void setLights_ErrorClose(char lights);
 char getLights_Allow_Condition(char lights);
 
-# 106
+
+
+void setLights_SwOn(char sw);
+void setLights_SwOff(char sw);
+
+# 117
 struct Light {
 
 struct {
@@ -2359,20 +2353,25 @@ setTemp_Initialization();
 
 
 inline void getTemp_AD(char channel) {
+ADtype ADRES = 0;
 
 
 if (Temp.ADtoGO == 1) {
-Temp.ADRES = getAD(channel, 0x70);
-if (Temp.ADRES > 0) {
-if (Temp.ADH[0] < Temp.ADRES) {
-Temp.ADH[0] = Temp.ADRES;
-} else if (Temp.ADH[1] < Temp.ADRES) {
-Temp.ADH[1] = Temp.ADRES;
+
+ADRES = getAD(channel, 0x70);
+
+# 29
+if (ADRES > 0) {
+if (Temp.ADV < ADRES) {
+Temp.ADV = ADRES;
 }
 }
 }
 
 # 41
+ADRES = getAD(channel, 0x70);
+
+# 49
 }
 
 
@@ -2390,36 +2389,41 @@ setTemp_Main();
 
 void setTemp_Main() {
 char error = getMain_All_Error_Status(0);
+ADtype SafeValue = 0, DangerValue = 0, AD;
+char TempGO = getMain_All_LightsStatus();
+
 if (Temp.Enable == 1) {
 
-# 65
+# 77
 if (Temp.ADtoGO == 0) {
+if ((TempGO == 1 && Temp.ERROR == 0) || Temp.ERROR == 1) {
 Temp.Time++;
 if (Temp.Time >= (5000 / 20)) {
 Temp.Time = 0;
 Temp.ADtoGO = 1;
 }
 } else {
+Temp.Time = 0;
+}
+} else {
 Temp.Time++;
-if (Temp.Time >= (40 / 20)) {
+if (Temp.Time >= (100 / 20)) {
 Temp.Time = 0;
 
-if (Temp.ADH[0] > 0 && Temp.ADH[1] > 0) {
+
+
+
+if (Temp.ADV > 0) {
 Temp.ADtoGO = 0;
-Temp.AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
+AD = Temp.ADV;
 
+# 106
+SafeValue = 0x85;
+DangerValue = 0x75;
 
-if (getMain_All_LightsStatus() == 1) {
-Temp.SafeValue = 0x85;
-Temp.DangerValue = 0x70;
-} else {
-Temp.SafeValue = 0x4f;
-Temp.DangerValue = 0x40;
-}
-
-# 96
+# 119
 if (Temp.ERROR == 1) {
-if (Temp.AD >= Temp.SafeValue) {
+if (AD >= SafeValue) {
 Temp.Count++;
 if (Temp.Count >= 3) {
 Temp.Count = 0;
@@ -2430,7 +2434,7 @@ Temp.ERROR = 0;
 Temp.Count = 0;
 }
 } else {
-if (Temp.AD <= Temp.DangerValue) {
+if (AD <= DangerValue) {
 Temp.Count++;
 if (Temp.Count >= 3) {
 Temp.Count = 0;
@@ -2443,12 +2447,14 @@ Temp.Count = 0;
 ;;
 ;;
 
-# 135
+# 158
 }
 Temp.ADH[0] = 0;
 Temp.ADH[1] = 0;
+Temp.ADV = 0;
 }
 }
+
 
 } else {
 if (myMain.PowerON == 1) {

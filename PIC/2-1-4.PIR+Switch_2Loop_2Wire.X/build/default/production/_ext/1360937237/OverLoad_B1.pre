@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 160 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Activity_B1.h"
+# 161 "../src/../2-1-4.PIR+Switch_2Loop_2Wire.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2149,6 +2149,7 @@ unsigned char Count;
 
 # 26
 ADtype ADH[2];
+ADtype ADV;
 
 
 
@@ -2157,7 +2158,7 @@ ADtype ADH[2];
 
 struct OverTemp Temp;
 
-# 82
+# 83
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -2314,7 +2315,7 @@ unsigned Signal : 1;
 unsigned empty : 4;
 };
 
-unsigned int Timer;
+unsigned int Time;
 unsigned int Counter;
 };
 
@@ -2511,15 +2512,15 @@ LightsCount = getMain_Lights_Count();
 
 if (Load.Count == 1) {
 
-Load.JudgeValue = (int)(20*2.5);
+Load.JudgeValue = (int)(20*2.3);
 } else if (Load.Count == 2) {
 if (LightsCount == 1) {
-Load.JudgeValue = (int)(3.5*2.5);
+Load.JudgeValue = (int)(4.5*2.3);
 } else {
 if (Load_RunStatus == 0) {
-Load.JudgeValue = (int)(3.5*2.5) * LightsCount;
+Load.JudgeValue = (int)(4.5*2.3) * LightsCount;
 } else if (Load_RunStatus == 1) {
-Load.JudgeValue = (int)(3.5*2.5) + Load.TotalLoad;
+Load.JudgeValue = (int)(4.5*2.3) + Load.TotalLoad;
 }
 }
 }

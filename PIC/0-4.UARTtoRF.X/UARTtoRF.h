@@ -136,12 +136,16 @@
 #define LinearParam_Value   55
 //LED
 #define LED_use_Value 0
+#define PIRLED_use_Value 0
 //Buzzer
 #define Buzzer_use_Value 0
 //Switch
 #define Switch_use_Value 0
 //Lights
 #define LightsControl_use_Value 0
+#define setLights_SwOn_Value 1
+#define setLights_SwOff_Value 1
+#define setLights_Value 1
 //RF cc2500
 #define CC2500_use_Value        1
 #define Tx_Enable               1
@@ -162,6 +166,8 @@
 #define PIR_use_Value   0
 //UART to RF
 #define myUARTtoRF_use_Value 1
+//Main
+#define Exception_Main_Value 2
 
 //include
 #include "../src/Activity_B1.h"

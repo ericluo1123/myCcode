@@ -102,6 +102,7 @@
 #define CDS_use CDS_use_Value
 //PIR
 #define PIR_use PIR_use_Value
+#define PIR_Control_Mode PIR_Control_Mode_Value
 //UART to RFue
 #define myUARTtoRF_use myUARTtoRF_use_Value
 //******************************************************************************
