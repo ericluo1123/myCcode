@@ -1305,9 +1305,15 @@ inline void DimmerLights_IOC_2() {
 #ifdef use_1KEY
 
 inline void DimmerLights_TMR_1() {
+    char count = 0;
+#if Dimmer_Trigger_Mode == 3
+    count = TotalCount;
+#else
+    count = Dimmer_Maxum;
+#endif
     if (DimmerIntr1.Start == true) {
         DimmerIntr1.Count++;
-        if (DimmerIntr1.Count >= Dimmer_Maxum + 1) {
+        if (DimmerIntr1.Count >= count - 1) {
             DimmerIntr1.Count = 0;
             DimmerIntr1.Start = false;
         }
@@ -1318,7 +1324,8 @@ inline void DimmerLights_TMR_1() {
         if (DimmerIntr1.Count >= DimmerIntr1.DimmingValue) {
             DimmerIntr1.Trigger = false;
             DimmerIntr1.GO = true;
-            DimmerIntr1.DimmingValue = (DimmerIntr1.TuneValue + DimmerIntr1.DimmingValue);
+            DimmerIntr1.DimmingValue = DimmerIntr1.DimmingValue+DimmerIntr1.DimmingValue+DimmerIntr1.DimmingValue;
+
             if (DimmerIntr1.ControlStatus == true) {
                 Mosfet1 = true;
                 //                ID_1KEY_1;
@@ -1372,12 +1379,19 @@ inline void DimmerLights_TMR_1() {
 }
 
 inline void DimmerLights_IOC_1() {
-    if (DimmerIntr1.Start == false && DimmerReference1 == true) {
+
+    if (DimmerIntr1.Start ==false &&DimmerReference1 == true) {
         DimmerIntr1.Start = true;
+        DimmerIntr1.Count=0;
+        
 #if Dimmer_Trigger_Mode == 3
-        DimmerIntr1.Trigger = true;
-        DimmerIntr1.TuneValue = DimmerIntr1.DimmingValue;
-        DimmerIntr1.DimmingValue = Dimmer_TriggerTime - (DimmerIntr1.TuneValue / 2);
+        if (DimmerIntr1.ControlStatus == true) {
+            DimmerIntr1.Trigger = true;
+            DimmerIntr1.TuneValue = DimmerIntr1.DimmingValue;
+            DimmerIntr1.DimmingValue = ((char)(TotalCount / 2) - (char)(DimmerIntr1.TuneValue / 2));
+//             DimmerIntr1.TuneValue = 30;
+//            DimmerIntr1.DimmingValue = 10;
+        }
 #else
         DimmerIntr1.GO = true;
 
