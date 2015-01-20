@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 172 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
+# 174 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2729,7 +2729,10 @@ Product _product = {
 }
 };
 
-# 62
+# 56
+inline void setProductData(char address, char value);
+
+# 61
 struct command {
 
 struct {
@@ -2762,18 +2765,7 @@ unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 98
-struct {
-unsigned i : 1;
-unsigned j : 1;
-unsigned k : 1;
-unsigned l : 1;
-unsigned m : 1;
-unsigned n : 1;
-unsigned o : 1;
-unsigned p : 1;
-};
-
+# 108
 struct {
 unsigned q : 1;
 unsigned r : 1;
@@ -2787,16 +2779,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 129
+# 128
 void myMain_Initialization();
 
-# 134
+# 133
 inline void my_Main();
 
-# 139
+# 138
 inline void my_MainTimer();
 
-# 144
+# 143
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2805,9 +2797,8 @@ char getMain_All_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
-inline void setProductData(char address, char value);
 
-# 14 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
+# 18 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
 struct Switch {
 
 struct {
@@ -2829,8 +2820,10 @@ unsigned empty : 6;
 
 unsigned char DebounceTime;
 unsigned int Hold1Time;
+
 unsigned int Hold2Time;
 unsigned int Hold3Time;
+
 };
 struct Switch *Sw;
 
@@ -2838,7 +2831,7 @@ struct Switch *Sw;
 
 struct Switch Sw1;
 
-# 52
+# 58
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
 inline void Switch_Main();
@@ -2854,7 +2847,7 @@ char getSw_KeyStatus(char sw);
 
 void TouchPower();
 
-# 90
+# 96
 struct SwitchDetect {
 
 union {
@@ -2926,25 +2919,25 @@ struct LED *LED;
 
 struct LED VarErrLED;
 
-# 49
+# 47
 inline void LED_Initialization();
 
-# 54
+# 52
 inline void LED_Main();
 
-# 63
+# 61
 void LedPointSelect(char led);
 
-# 72
+# 70
 void setLED_Initialization(char led);
 
-# 81
+# 79
 void setLED_Main(char led);
 
-# 95
+# 93
 void setLED(char led, char command);
 
-# 7 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/OverTemperature_B1.h"
+# 8 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/OverTemperature_B1.h"
 struct OverTemp {
 
 struct {
@@ -2959,20 +2952,18 @@ unsigned empty : 3;
 unsigned int Time;
 unsigned char Count;
 
-unsigned char AD1;
-unsigned char AD2;
-
-ADtype AD;
+# 26
 ADtype ADH[2];
-ADtype ADRES;
-ADtype SafeValue;
-ADtype DangerValue;
+ADtype ADV;
+
+
+
 
 };
 
 struct OverTemp Temp;
 
-# 81
+# 83
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -3216,16 +3207,16 @@ ADtype TotalLoad;
 ADtype AH[5];
 ADtype AL[5];
 ADtype AD;
-ADtype ADRES;
+
 
 unsigned int LightsJudgeValue;
 unsigned int JudgeValue;
-unsigned int Judge;
+
 
 unsigned char Count;
 unsigned char ErrorCount;
-unsigned char ErrorCountValue;
-unsigned char LightsCount;
+
+
 unsigned char SafeCount;
 
 };
@@ -3310,8 +3301,10 @@ char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
 
+
 char getDimmerLights_PercentToValue(char value);
 char getDimmerLights_ValueToPercent(char value);
+
 
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);
@@ -3331,7 +3324,7 @@ unsigned ControlStatus : 1;
 unsigned Dimming_Sw : 1;
 unsigned Dimming_Status : 1;
 unsigned Dimming_RF : 1;
-unsigned empty : 1;
+unsigned Trigger : 1;
 };
 };
 
@@ -3341,19 +3334,18 @@ unsigned char TuneTimeValue;
 unsigned char DimmingValue;
 unsigned char MaxmumValue;
 unsigned char MinimumValue;
+unsigned char TuneValue;
 };
 struct Dimmer_Interrupt *DimmerIntr;
 
 
 struct Dimmer_Interrupt DimmerIntr1;
 
-# 153
+# 156
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
 char getDimmerIntr_DimmingValue(char lights);
-void setDimmerIntr_MaxmumValue(char lights, char value);
-char getDimmerIntr_MaxmumValue(char lights);
 void setDimmerIntr_MinimumValue(char lights, char value);
 char getDimmerIntr_MinimumValue(char lights);
 void setDimmerIntr_Dimming_Sw(char lights, char command);
@@ -3362,17 +3354,21 @@ char getAll_DimmerIntr_ControlStatus();
 char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
 
+
+void setDimmerIntr_MaxmumValue(char lights, char value);
+char getDimmerIntr_MaxmumValue(char lights);
+
+# 176
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
-inline void DimmerLights_MOSFET_TMR_1();
-inline void DimmerLights_MOSFET_TMR_2();
+inline void DimmerLights_TMR_1();
+inline void DimmerLights_TMR_2();
 
-inline void DimmerLights_MOSFET_IOC_1();
-inline void DimmerLights_MOSFET_IOC_2();
+inline void DimmerLights_IOC_1();
+inline void DimmerLights_IOC_2();
 
-
-
+# 190
 struct Dimmer {
 
 
@@ -3384,7 +3380,22 @@ struct {
 unsigned AdjGO : 1;
 unsigned LoadGO : 1;
 unsigned Load_Status : 1;
-unsigned empty : 4;
+unsigned PIR_DimmerSignal : 1;
+unsigned PIR_Sw : 1;
+unsigned PIR_Trigger : 1;
+unsigned PIR_Sw_S : 1;
+unsigned PIR_Trigger_S : 1;
+};
+};
+
+union {
+
+struct {
+unsigned PIR_Close_Status : 1;
+unsigned PIR_Open_Status : 1;
+unsigned PIR_Lights_Status : 1;
+unsigned PIR_CDS_Status : 1;
+unsigned empty : 5;
 };
 };
 
@@ -3393,7 +3404,6 @@ unsigned char Correction;
 };
 
 struct Dimmer Dimmer;
-
 
 inline void Dimmer_Initialization();
 char getDimmer_LoadGO();
@@ -3426,6 +3436,20 @@ void DlyOff_Main(char sw);
 void setDelayOff_GO(char sw, char command, char value);
 char getDelayOff_GO(char sw);
 void DelayOffPointSelect(char sw);
+
+# 117 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/TriacRelay_B1.h"
+struct Light {
+
+struct {
+unsigned LoadGO : 1;
+unsigned Load_Status : 1;
+unsigned empty : 6;
+};
+};
+struct Light Light;
+
+char getLight_LoadGO();
+char getLight_Load_Status();
 
 # 9 "../src/RF_Control_B1.c"
 inline void RF_Initialization() {

@@ -260,6 +260,7 @@ typedef unsigned int ADtype;
 #endif
 //Switch
 #if Switch_use == 1
+#define Switch_Mode Switch_Mode_Value
 #endif
 //Lights
 #if LightsControl_use == 1
@@ -281,7 +282,7 @@ typedef unsigned int ADtype;
 
 //Dimmer Lights
 #if Dimmer_use == 1
-
+#define Dimmer_Trigger_Mode Dimmer_Trigger_Mode_Value
 #define Dimmable_Func 				1	
 #define Dimmer_Smooth				0
 #define DimmerValue_SaveMemory			0
@@ -306,8 +307,8 @@ typedef unsigned int ADtype;
 #endif
 
 #ifdef IntrTime_100us
-#define TotalCount		86
-#define One_Percent		0.8
+#define TotalCount		60//83
+#define One_Percent		0.6//0.83
 #define Tune_Percent		40
 /**
  * dimmer delay time
@@ -366,6 +367,12 @@ typedef unsigned int ADtype;
 //minimun
 #define Dimmer_Minimum	((char)(Mini_Percent*One_Percent))
 #endif
+
+#define Dimmer_TriggerTime (char)(TotalCount/2)
+
+
+
+
 #endif
 
 //PIR

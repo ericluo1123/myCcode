@@ -156,6 +156,7 @@
 #define Buzzer_use_Value 0
 //Switch
 #define Switch_use_Value 0
+#define Switch_Mode_Value 1
 //Lights
 #define LightsControl_use_Value 0
 #define setLights_SwOn_Value 1

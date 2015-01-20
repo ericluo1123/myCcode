@@ -2,7 +2,7 @@
 // Includes
 #include "Select_File.h"
 
-#if PIR_use == 1
+#if PIR_use == 1 
 
 void PIR_Initialization() {
     _PIR.RangeValue = RangeMinimum;

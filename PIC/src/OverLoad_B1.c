@@ -114,7 +114,7 @@ inline void Load_Main() {
                             if (Load.Count < 2) {
                                 Load.Count++;
 #if Dimmer_use == 1
-                                Load_Status = getDimmer_Load_Status();
+                                Load_RunStatus = getDimmer_Load_Status();
 #endif
 #if LightsControl_use == 1
                                 Load_RunStatus = getLight_Load_Status();

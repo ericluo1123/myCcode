@@ -7,6 +7,6 @@
 #define enable      1
 #define disable     0
 
-#include "../2-1-4.PIR+Switch_2Loop_2Wire.X/PIR+Switch_2Loop_2Wire.h"
+#include "../1-8-1.Switch_1Key_Dimmer_MOSFET.X/Switch_1Key_Dimmer_MOSFET_V1.1.1.1.1.h"
 
 #endif

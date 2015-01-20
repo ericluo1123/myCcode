@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 160 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/Activity_B1.h"
+# 161 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2387,14 +2387,17 @@ ADtype SafeValue = 0, DangerValue = 0, AD;
 char TempGO = getMain_All_LightsStatus();
 
 if (Temp.Enable == 1) {
-if (TempGO == 1) {
 
 # 77
 if (Temp.ADtoGO == 0) {
+if ((TempGO == 1 && Temp.ERROR == 0) || Temp.ERROR == 1) {
 Temp.Time++;
 if (Temp.Time >= (5000 / 20)) {
 Temp.Time = 0;
 Temp.ADtoGO = 1;
+}
+} else {
+Temp.Time = 0;
 }
 } else {
 Temp.Time++;
@@ -2408,11 +2411,11 @@ if (Temp.ADV > 0) {
 Temp.ADtoGO = 0;
 AD = Temp.ADV;
 
-# 102
+# 106
 SafeValue = 0x85;
 DangerValue = 0x75;
 
-# 115
+# 119
 if (Temp.ERROR == 1) {
 if (AD >= SafeValue) {
 Temp.Count++;
@@ -2438,7 +2441,7 @@ Temp.Count = 0;
 ;;
 ;;
 
-# 154
+# 158
 }
 Temp.ADH[0] = 0;
 Temp.ADH[1] = 0;
@@ -2446,7 +2449,7 @@ Temp.ADV = 0;
 }
 }
 
-}
+
 } else {
 if (myMain.PowerON == 1) {
 Temp.Enable = 1;

@@ -160,7 +160,8 @@
 //Buzzer
 #define Buzzer_use_Value 1
 //Switch
-#define Switch_use_Value 1 
+#define Switch_use_Value 1
+#define Switch_Mode_Value 2
 //Lights
 #define LightsControl_use_Value     1
 #define setLights_SwOn_Value 1

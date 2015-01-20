@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 160 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
+# 161 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2371,20 +2371,22 @@ _PIR.Available = 1;
 _PIR.Available = 0;
 
 if (_PIR.OK == 1) {
+
 setLED(1, 0);
 setLED(2, 0);
 
+# 51
 if (getLights_Status(1) == 1) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 63
+# 67
 }
 }
 
-# 68
+# 72
 if (_PIR.Detect == 0) {
 _PIR.Detect = 1;
 
@@ -2392,13 +2394,14 @@ if (_PIR.OK == 0) {
 setLED(1, 1);
 }
 
+# 80
 }
 } else {
 if (_PIR.Detect == 1) {
 _PIR.Detect = 0;
 _PIR.Available = 0;
 
-# 97
+# 102
 }
 }
 
@@ -2447,10 +2450,11 @@ if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - _PIR.RangeValue))
 
 _PIR.Count = 0;
 
-# 150
+# 155
 setLED(1, 0);
 setLED(2, 0);
 
+# 159
 } else {
 
 
@@ -2465,14 +2469,14 @@ _PIR.Count = 0;
 _PIR.CloseTimeSeconds = 0;
 _PIR.CloseTimeMinutes = 0;
 
-# 171
+# 177
 if (getLights_Status(1) == 0) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 189
+# 195
 if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
 setLED(1, 1);
 setLED(2, 0);
@@ -2481,7 +2485,7 @@ setLED(1, 0);
 setLED(2, 1);
 }
 
-# 235
+# 243
 }
 }
 }
@@ -2496,6 +2500,7 @@ _PIR.OK = 1;
 
 setLED(1, 0);
 
+# 258
 if (cds == 0) {
 
 
@@ -2505,7 +2510,7 @@ setLights_SwOff(1);
 
 }
 
-# 268
+# 277
 }
 }
 } else {
@@ -2517,14 +2522,14 @@ _PIR.CloseTimeMinutes++;
 if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
 _PIR.CloseTimeMinutes = 0;
 
-# 283
+# 292
 if (getLights_Status(1) == 1) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 299
+# 308
 }
 }
 }
@@ -2535,15 +2540,14 @@ _PIR.Enable = 1;
 
 setLED(1, 1);
 
-
-
+# 321
 if (getLights_Status(1) == 0) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 326
+# 336
 }
 }
 }
@@ -2555,12 +2559,12 @@ char VRAD = 0, VRAD1 = 0;
 if (_PIR.ADtoGO == 1 && _PIR.GO == 0) {
 _PIR.GO = 1;
 
-# 342
+# 352
 VRAD1 = getAD(channel1, 0x70);
 VRAD = VRAD1 / 25;
 _PIR.SignalAD = getAD(channel2, 0x70);
 
-# 358
+# 368
 if (VRAD < 1) {
 _PIR.CloseTimeValue = 5;
 } else if (VRAD < 3) {
@@ -2575,7 +2579,7 @@ _PIR.CloseTimeValue = 900;
 _PIR.CloseTimeValue = 1200;
 }
 
-# 379
+# 389
 _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
 for (i = 0; i < 10; i++) {
 _PIR.TenAverageValue += _PIR.TenAverage[i];
@@ -2599,7 +2603,7 @@ else
 _PIR.HundreCount = 0;
 }
 
-# 415
+# 425
 }
 }
 

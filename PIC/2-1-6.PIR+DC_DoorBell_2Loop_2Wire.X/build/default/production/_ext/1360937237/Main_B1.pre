@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 160 "../src/../2-1-6.PIR+DC_DoorBell_2Loop_2Wire.X/../src/Activity_B1.h"
+# 161 "../src/../2-1-6.PIR+DC_DoorBell_2Loop_2Wire.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2149,6 +2149,7 @@ unsigned char Count;
 
 # 26
 ADtype ADH[2];
+ADtype ADV;
 
 
 
@@ -2157,7 +2158,7 @@ ADtype ADH[2];
 
 struct OverTemp Temp;
 
-# 82
+# 83
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -2314,7 +2315,7 @@ unsigned Signal : 1;
 unsigned empty : 4;
 };
 
-unsigned int Timer;
+unsigned int Time;
 unsigned int Counter;
 };
 
@@ -2557,40 +2558,7 @@ myMain.Timeout = 0;
 myMain.Timeout_Counter = 0;
 }
 
-
-void setMain_Exception(char command) {
-char status = 0, buz = 0;
-
-status = command == 3 ? getAll_Lights_Line() : 255;
-
-if (command == 0) {
-setLED(command, 110);
-} else {
-setLED(command, 111);
-
-
-if (status == 255) {
-
-# 303
-char count = 2;
-
-# 308
-for (int i = 0; i < count; i++) {
-if (getLights_Status(i + 1) == 1) {
-setLights_Trigger(i + 1, 0);
-}
-}
-} else {
-if (getLights_Status(status) == 1) {
-setLights_Trigger(status, 0);
-}
-}
-}
-
-# 355
-}
-
-
+# 358
 char getMain_AD_OK() {
 char result = 0;
 
@@ -2670,16 +2638,15 @@ myMain.Error_Run = 0;
 
 setLED(99, 10);
 
-# 521
+# 522
 }
 } else {
 if (error != 0) {
 myMain.Error_Run = 1;
 
-# 586
 setLED(99, 11);
 
-# 590
+# 591
 switch (error) {
 case 1:
 for (int i = 0; i < count; i++) {
@@ -2714,12 +2681,12 @@ setBuz(5, 300);
 break;
 }
 
-# 637
+# 638
 }
 }
 }
 
-# 650
+# 651
 void setCmd_Status(char number, char cmd) {
 switch (number) {
 case 1:

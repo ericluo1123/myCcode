@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 160 "../src/../2-1-5.PIR+AC_DoorBell_2Loop_2Wire.X/../src/Activity_B1.h"
+# 161 "../src/../2-1-5.PIR+AC_DoorBell_2Loop_2Wire.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2149,6 +2149,7 @@ unsigned char Count;
 
 # 26
 ADtype ADH[2];
+ADtype ADV;
 
 
 
@@ -2157,7 +2158,7 @@ ADtype ADH[2];
 
 struct OverTemp Temp;
 
-# 82
+# 83
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -2314,7 +2315,7 @@ unsigned Signal : 1;
 unsigned empty : 4;
 };
 
-unsigned int Timer;
+unsigned int Time;
 unsigned int Counter;
 };
 
@@ -2444,30 +2445,32 @@ if (cds == 1 && Enable_Switch == 1) {
 _PIR.Available = 1;
 } else {
 _PIR.Available = 0;
+
 if (_PIR.OK == 1) {
 
+# 51
 if (getLights_Status(1) == 1) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 59
+# 67
 }
 }
 
-# 64
+# 72
 if (_PIR.Detect == 0) {
 _PIR.Detect = 1;
 
-# 71
+# 80
 }
 } else {
 if (_PIR.Detect == 1) {
 _PIR.Detect = 0;
 _PIR.Available = 0;
 
-# 93
+# 102
 }
 }
 
@@ -2516,7 +2519,7 @@ if ((_PIR.SignalAD >= (_PIR.ReferenceVoltage - _PIR.RangeValue))
 
 _PIR.Count = 0;
 
-# 149
+# 159
 } else {
 
 
@@ -2531,14 +2534,14 @@ _PIR.Count = 0;
 _PIR.CloseTimeSeconds = 0;
 _PIR.CloseTimeMinutes = 0;
 
-# 167
+# 177
 if (getLights_Status(1) == 0) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 231
+# 243
 }
 }
 }
@@ -2551,7 +2554,9 @@ if (_PIR.Count == (30000 / 20)) {
 _PIR.Count = 0;
 _PIR.OK = 1;
 
-# 245
+
+
+
 if (cds == 0) {
 
 
@@ -2561,7 +2566,7 @@ setLights_SwOff(1);
 
 }
 
-# 264
+# 277
 }
 }
 } else {
@@ -2573,14 +2578,14 @@ _PIR.CloseTimeMinutes++;
 if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
 _PIR.CloseTimeMinutes = 0;
 
-# 279
+# 292
 if (getLights_Status(1) == 1) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 295
+# 308
 }
 }
 }
@@ -2589,14 +2594,14 @@ setLights_SwOff(1);
 if (myMain.PowerON == 1) {
 _PIR.Enable = 1;
 
-# 307
+# 321
 if (getLights_Status(1) == 0) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 322
+# 336
 }
 }
 }
@@ -2608,12 +2613,12 @@ char VRAD = 0, VRAD1 = 0;
 if (_PIR.ADtoGO == 1 && _PIR.GO == 0) {
 _PIR.GO = 1;
 
-# 338
+# 352
 VRAD1 = getAD(channel1, 0x70);
 VRAD = VRAD1 / 25;
 _PIR.SignalAD = getAD(channel2, 0x70);
 
-# 354
+# 368
 if (VRAD < 1) {
 _PIR.CloseTimeValue = 5;
 } else if (VRAD < 3) {
@@ -2628,7 +2633,7 @@ _PIR.CloseTimeValue = 900;
 _PIR.CloseTimeValue = 1200;
 }
 
-# 375
+# 389
 _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
 for (i = 0; i < 10; i++) {
 _PIR.TenAverageValue += _PIR.TenAverage[i];
@@ -2652,7 +2657,7 @@ else
 _PIR.HundreCount = 0;
 }
 
-# 411
+# 425
 }
 }
 

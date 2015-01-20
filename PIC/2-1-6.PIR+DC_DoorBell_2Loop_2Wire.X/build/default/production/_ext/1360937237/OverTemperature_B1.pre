@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 160 "../src/../2-1-6.PIR+DC_DoorBell_2Loop_2Wire.X/../src/Activity_B1.h"
+# 161 "../src/../2-1-6.PIR+DC_DoorBell_2Loop_2Wire.X/../src/Activity_B1.h"
 typedef unsigned char ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2149,6 +2149,7 @@ unsigned char Count;
 
 # 26
 ADtype ADH[2];
+ADtype ADV;
 
 
 
@@ -2157,7 +2158,7 @@ ADtype ADH[2];
 
 struct OverTemp Temp;
 
-# 82
+# 83
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -2314,7 +2315,7 @@ unsigned Signal : 1;
 unsigned empty : 4;
 };
 
-unsigned int Timer;
+unsigned int Time;
 unsigned int Counter;
 };
 
@@ -2430,19 +2431,19 @@ ADtype ADRES = 0;
 if (Temp.ADtoGO == 1) {
 
 ADRES = getAD(channel, 0x70);
+
+# 29
 if (ADRES > 0) {
-if (Temp.ADH[0] < ADRES) {
-Temp.ADH[0] = ADRES;
-} else if (Temp.ADH[1] < ADRES) {
-Temp.ADH[1] = ADRES;
+if (Temp.ADV < ADRES) {
+Temp.ADV = ADRES;
 }
 }
 }
 
-# 36
+# 41
 ADRES = getAD(channel, 0x70);
 
-# 44
+# 49
 }
 
 
@@ -2461,34 +2462,38 @@ setTemp_Main();
 void setTemp_Main() {
 char error = getMain_All_Error_Status(0);
 ADtype SafeValue = 0, DangerValue = 0, AD;
+char TempGO = getMain_All_LightsStatus();
+
 if (Temp.Enable == 1) {
 
-# 69
+# 77
 if (Temp.ADtoGO == 0) {
+if ((TempGO == 1 && Temp.ERROR == 0) || Temp.ERROR == 1) {
 Temp.Time++;
 if (Temp.Time >= (5000 / 20)) {
 Temp.Time = 0;
 Temp.ADtoGO = 1;
 }
 } else {
+Temp.Time = 0;
+}
+} else {
 Temp.Time++;
-if (Temp.Time >= (40 / 20)) {
+if (Temp.Time >= (100 / 20)) {
 Temp.Time = 0;
 
-if (Temp.ADH[0] > 0 && Temp.ADH[1] > 0) {
+
+
+
+if (Temp.ADV > 0) {
 Temp.ADtoGO = 0;
-AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
+AD = Temp.ADV;
 
-
-if (getMain_All_LightsStatus() == 1) {
+# 106
 SafeValue = 0x85;
-DangerValue = 0x70;
-} else {
-SafeValue = 0x4f;
-DangerValue = 0x40;
-}
+DangerValue = 0x75;
 
-# 103
+# 119
 if (Temp.ERROR == 1) {
 if (AD >= SafeValue) {
 Temp.Count++;
@@ -2514,12 +2519,14 @@ Temp.Count = 0;
 ;;
 ;;
 
-# 142
+# 158
 }
 Temp.ADH[0] = 0;
 Temp.ADH[1] = 0;
+Temp.ADV = 0;
 }
 }
+
 
 } else {
 if (myMain.PowerON == 1) {

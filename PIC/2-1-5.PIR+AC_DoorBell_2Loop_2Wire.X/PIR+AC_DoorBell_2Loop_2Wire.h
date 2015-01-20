@@ -29,7 +29,6 @@
 #define Properties_Product_Value	2	//3
 #define Properties_Keys_Value		2	//4
 #define Properties_Country_Value	3	//5
-#define SeriesNumber_Value              020105L
 
 //Control Option
 #define Control_Method_Mosfet_Value         0
@@ -152,15 +151,16 @@
 
 //OverLoad
 #define OverLoad_use_Value  1
-#define LimitCurrent_Value  3.5//A
-#define LinearParam_Value   2.5
+#define LimitCurrent_Value  4.5//A
+#define LinearParam_Value   2.3
 //LED
 #define LED_use_Value 1
 #define PIRLED_use_Value 0
 //Buzzer
 #define Buzzer_use_Value 1
 //Switch
-#define Switch_use_Value 1 
+#define Switch_use_Value 1
+#define Switch_Mode_Value 2
 //Lights
 #define LightsControl_use_Value     1
 #define setLights_SwOn_Value 2

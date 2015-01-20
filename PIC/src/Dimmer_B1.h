@@ -127,7 +127,7 @@ struct Dimmer_Interrupt {
             unsigned Dimming_Sw : 1;
             unsigned Dimming_Status : 1;
             unsigned Dimming_RF : 1;
-            unsigned empty : 1;
+            unsigned Trigger : 1;
         };
     };
 
@@ -137,7 +137,7 @@ struct Dimmer_Interrupt {
     unsigned char DimmingValue;
     unsigned char MaxmumValue;
     unsigned char MinimumValue;
-
+    unsigned char TuneValue;
 };
 struct Dimmer_Interrupt *DimmerIntr;
 

@@ -1313,6 +1313,20 @@ inline void DimmerLights_TMR_1() {
         }
     }
 
+#if Dimmer_Trigger_Mode == 3
+    if (DimmerIntr1.Trigger == true) {
+        if (DimmerIntr1.Count >= DimmerIntr1.DimmingValue) {
+            DimmerIntr1.Trigger = false;
+            DimmerIntr1.GO = true;
+            DimmerIntr1.DimmingValue = (DimmerIntr1.TuneValue + DimmerIntr1.DimmingValue);
+            if (DimmerIntr1.ControlStatus == true) {
+                Mosfet1 = true;
+                //                ID_1KEY_1;
+            }
+        }
+    }
+#endif
+
     if (DimmerIntr1.GO == true) {
         if (DimmerIntr1.Count >= DimmerIntr1.DimmingValue) {
             DimmerIntr1.GO = false;
@@ -1360,12 +1374,18 @@ inline void DimmerLights_TMR_1() {
 inline void DimmerLights_IOC_1() {
     if (DimmerIntr1.Start == false && DimmerReference1 == true) {
         DimmerIntr1.Start = true;
+#if Dimmer_Trigger_Mode == 3
+        DimmerIntr1.Trigger = true;
+        DimmerIntr1.TuneValue = DimmerIntr1.DimmingValue;
+        DimmerIntr1.DimmingValue = Dimmer_TriggerTime - (DimmerIntr1.TuneValue / 2);
+#else
         DimmerIntr1.GO = true;
 
         if (DimmerIntr1.ControlStatus == true) {
             Mosfet1 = true;
             //                ID_1KEY_1;
         }
+#endif
     }
 }
 
