@@ -111,7 +111,7 @@ char getDimmerLights_ValueToPercent(char value);
 
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);
-
+char Division(char value, char num);
 //Global extern variable declaration
 //******************************************************************************
 
@@ -128,6 +128,18 @@ struct Dimmer_Interrupt {
             unsigned Dimming_Status : 1;
             unsigned Dimming_RF : 1;
             unsigned Trigger : 1;
+        };
+    };
+
+    union {
+
+        struct {
+            unsigned Trigger1 : 1;
+            unsigned Trigger2 : 1;
+            unsigned Trigger3 : 1;
+            unsigned Trigger4 : 1;
+            unsigned Trigger5 : 1;
+            unsigned empty:3;
         };
     };
 
