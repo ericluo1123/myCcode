@@ -1300,29 +1300,29 @@ inline void DimmerLights_IOC_2() {
 
 
 #endif
+
 #if Control_Method_Mosfet == 1
 
 #ifdef use_1KEY
 
-char Division(char value, char num) {
+inline char Division(char value, char num) {
     char result = (char) (value / num);
     return result;
 }
 
 inline void DimmerLights_TMR_1() {
-    char count = 0;
-    count = TotalCount;
-#if Dimmer_Trigger_Mode == 3
+    char count = TotalCount;
+
+#if Dimmer_Trigger_Mode == 1 
+    char TuneValue4 = DimmerIntr1.DimmingValue;
+#elif Dimmer_Trigger_Mode == 3
     char dimming = Division(DimmerIntr1.DimmingValue, 2);
     char TuneValue1 = 8;
     char TuneValue2 = TuneValue1 + dimming;
     char TuneValue3 = TuneValue2 + ((count - 10) - DimmerIntr1.DimmingValue);
     char TuneValue4 = TuneValue3 + dimming;
-#else
 
 #endif
-
-
 
     if (DimmerIntr1.Start == true) {
         DimmerIntr1.Count++;
@@ -1366,6 +1366,20 @@ inline void DimmerLights_TMR_1() {
             }
         }
     }
+    //#else
+    //    if (DimmerIntr1.GO == true) {
+    //        if (DimmerIntr1.Count >= DimmerIntr1.TuneTimeValue) {
+    //            DimmerIntr1.GO = false;
+    //            DimmerIntr1.Tune = true;
+    //
+    //            if (DimmerIntr1.ControlStatus == true) {
+    //                Mosfet1 = false;
+    //                //                    ID_1KEY_0;
+    //            }
+    //        }
+    //    }
+#endif
+
     if (DimmerIntr1.Trigger4 == true) {
         if (DimmerIntr1.Count >= TuneValue4) {
             DimmerIntr1.Trigger4 = false;
@@ -1376,21 +1390,6 @@ inline void DimmerLights_TMR_1() {
             }
         }
     }
-#else
-        if (DimmerIntr1.GO == true) {
-            if (DimmerIntr1.Count >= DimmerIntr1.TuneTimeValue) {
-                DimmerIntr1.GO = false;
-                DimmerIntr1.Tune = true;
-
-                if (DimmerIntr1.ControlStatus == true) {
-                    Mosfet1 = false;
-                    //                    ID_1KEY_0;
-                }
-            }
-        }
-#endif
-
-
 
     if (DimmerIntr1.Tune == true) {
         DimmerIntr1.Tune = false;
@@ -1426,22 +1425,46 @@ inline void DimmerLights_TMR_1() {
 
 inline void DimmerLights_IOC_1() {
 
-    if (DimmerIntr1.Start == false && DimmerReference1 == true) {
+
+#if Dimmer_Trigger_Mode == 1
+
+    if (DimmerIntr1.Start == false) {
         DimmerIntr1.Start = true;
         DimmerIntr1.Count = 0;
 
-#if Dimmer_Trigger_Mode == 3
+        if (DimmerIntr1.ControlStatus == true) {
+            DimmerIntr1.Trigger4 = true;
+            Mosfet1 = true;
+        }
+    }
+#elif Dimmer_Trigger_Mode == 3
+    if (DimmerIntr1.Start == false) {
+        DimmerIntr1.Start = true;
+        DimmerIntr1.Count = 0;
+
         if (DimmerIntr1.ControlStatus == true) {
             DimmerIntr1.Trigger1 = true;
         }
-#else
-        DimmerIntr1.GO = true;
-        if (DimmerIntr1.ControlStatus == true) {
-            Mosfet1 = true;
-            //                ID_1KEY_1;
-        }
-#endif
     }
+    //    if (DimmerReference1 == true) {
+    //        if (Dimmer.PIR_DimmerSignal == true) {
+    //            Dimmer.PIR_DimmerSignal = false;
+    //        }
+    //    } else {
+    //        if (Dimmer.PIR_DimmerSignal == false) {
+    //            Dimmer.PIR_DimmerSignal = true;
+    //
+    //            if (DimmerIntr1.Start == false) {
+    //                DimmerIntr1.Start = true;
+    //                //                DimmerIntr1.GO = true;
+    //                if (DimmerIntr1.ControlStatus == true) {
+    //                    Mosfet1 = true;
+    //                }
+    //            }
+    //        }
+    //    }
+
+#endif
 }
 
 #endif
@@ -1450,52 +1473,109 @@ inline void DimmerLights_IOC_1() {
 #ifdef use_2KEY
 
 inline void DimmerLights_TMR_2() {
+    char count = TotalCount; 
+#if Dimmer_Trigger_Mode == 1
+    char TuneValue4 = DimmerIntr2.DimmingValue;
+#elif Dimmer_Trigger_Mode == 3
+    char dimming = Division(DimmerIntr2.DimmingValue, 2);
+    char TuneValue1 = 8;
+    char TuneValue2 = TuneValue1 + dimming;
+    char TuneValue3 = TuneValue2 + ((count - 10) - DimmerIntr2.DimmingValue);
+    char TuneValue4 = TuneValue3 + dimming;
+
+#endif
+
     if (DimmerIntr2.Start == true) {
         DimmerIntr2.Count++;
-        if (DimmerIntr2.Count >= Dimmer_Maxum + 1) {
+        if (DimmerIntr2.Count >= count) {
             DimmerIntr2.Count = 0;
             DimmerIntr2.Start = false;
         }
     }
-
-    if (DimmerIntr2.GO == true) {
-        if (DimmerIntr2.Count >= DimmerIntr2.DimmingValue) {
-            DimmerIntr2.GO = false;
-            DimmerIntr2.Tune = true;
+ 
+#if Dimmer_Trigger_Mode == 3
+    if (DimmerIntr2.Trigger1 == true) {
+        if (DimmerIntr2.Count >= TuneValue1) {
+            DimmerIntr2.Trigger1 = false;
+            DimmerIntr2.Trigger2 = true;
 
             if (DimmerIntr2.ControlStatus == true) {
-                Mosfet2 = false;
-                //                    ID_1KEY_0;
+                Mosfet2 = true;
+                //                ID_1KEY_1;
             }
         }
-    } else {
-        if (DimmerIntr2.Tune == true) {
-            DimmerIntr2.Tune = false;
-            DimmerIntr2.TuneTime++;
-            if (DimmerIntr2.TuneTime >= DimmerIntr2.TuneTimeValue) {
-                DimmerIntr2.TuneTime = 0;
-                if (DimmerIntr2.Dimming_Sw == true) {
-                    if (DimmerIntr2.Dimming_Status == false) {
-                        if (DimmerIntr2.DimmingValue < Dimmer_Maxum) {
-                            DimmerIntr2.DimmingValue++;
-                        } else {
-                            DimmerIntr2.Dimming_Status = true;
-                        }
-                    } else {
-                        if (DimmerIntr2.DimmingValue > Dimmer_Minimum) {
-                            DimmerIntr2.DimmingValue--;
-                        } else {
-                            DimmerIntr2.Dimming_Status = false;
-                        }
-                    }
-                } else if (DimmerIntr2.Dimming_RF == true) {
-                    if (DimmerIntr2.DimmingValue < DimmerIntr2.MaxmumValue) {
+    }
+
+    if (DimmerIntr2.Trigger2 == true) {
+        if (DimmerIntr2.Count >= TuneValue2) {
+            DimmerIntr2.Trigger2 = false;
+            DimmerIntr2.Trigger3 = true;
+            if (DimmerIntr2.ControlStatus == true) {
+                Mosfet2 = false;
+                //                ID_1KEY_1;
+            }
+        }
+    }
+
+    if (DimmerIntr2.Trigger3 == true) {
+        if (DimmerIntr2.Count >= TuneValue3) {
+            DimmerIntr2.Trigger3 = false;
+            DimmerIntr2.Trigger4 = true;
+            if (DimmerIntr2.ControlStatus == true) {
+                Mosfet2 = true;
+                //                ID_1KEY_1;
+            }
+        }
+    }
+#endif
+
+    if (DimmerIntr2.Trigger4 == true) {
+        if (DimmerIntr2.Count >= TuneValue4) {
+            DimmerIntr2.Trigger4 = false;
+            DimmerIntr2.Tune = true;
+            if (DimmerIntr2.ControlStatus == true) {
+                Mosfet2 = false;
+                //                ID_1KEY_1;
+            }
+        }
+    }
+    //    if (DimmerIntr2.GO == true) {
+    //        if (DimmerIntr2.Count >= DimmerIntr2.DimmingValue) {
+    //            DimmerIntr2.GO = false;
+    //            DimmerIntr2.Tune = true;
+    //
+    //            if (DimmerIntr2.ControlStatus == true) {
+    //                Mosfet2 = false;
+    //                //                    ID_1KEY_0;
+    //            }
+    //        }
+    //    }
+    if (DimmerIntr2.Tune == true) {
+        DimmerIntr2.Tune = false;
+        DimmerIntr2.TuneTime++;
+        if (DimmerIntr2.TuneTime >= DimmerIntr2.TuneTimeValue) {
+            DimmerIntr2.TuneTime = 0;
+            if (DimmerIntr2.Dimming_Sw == true) {
+                if (DimmerIntr2.Dimming_Status == false) {
+                    if (DimmerIntr2.DimmingValue < Dimmer_Maxum) {
                         DimmerIntr2.DimmingValue++;
-                    } else if (DimmerIntr2.DimmingValue > DimmerIntr2.MaxmumValue) {
+                    } else {
+                        DimmerIntr2.Dimming_Status = true;
+                    }
+                } else {
+                    if (DimmerIntr2.DimmingValue > Dimmer_Minimum) {
                         DimmerIntr2.DimmingValue--;
                     } else {
-                        DimmerIntr2.Dimming_RF = false;
+                        DimmerIntr2.Dimming_Status = false;
                     }
+                }
+            } else if (DimmerIntr2.Dimming_RF == true) {
+                if (DimmerIntr2.DimmingValue < DimmerIntr2.MaxmumValue) {
+                    DimmerIntr2.DimmingValue++;
+                } else if (DimmerIntr2.DimmingValue > DimmerIntr2.MaxmumValue) {
+                    DimmerIntr2.DimmingValue--;
+                } else {
+                    DimmerIntr2.Dimming_RF = false;
                 }
             }
         }
@@ -1503,18 +1583,29 @@ inline void DimmerLights_TMR_2() {
 }
 
 inline void DimmerLights_IOC_2() {
-    if (DimmerIntr2.Start == false && DimmerReference1 == true) {
-        DimmerIntr2.Start = true;
-        DimmerIntr2.GO = true;
+#if Dimmer_Trigger_Mode == 1
+if (DimmerIntr2.Start == false) {
+    DimmerIntr2.Start = true;
+    DimmerIntr2.GO = true;
 
-        if (DimmerIntr2.ControlStatus == true) {
-            Mosfet2 = true;
-            //                ID_1KEY_1;
-        }
+    if (DimmerIntr2.ControlStatus == true) {
+        DimmerIntr2.Trigger4 = true;
+        Mosfet2 = true;
+        //                ID_1KEY_1;
+    }
+}
+
+#elif Dimmer_Trigger_Mode == 3
+if (DimmerIntr2.Start == false) {
+    DimmerIntr2.Start = true;
+    DimmerIntr2.Count = 0;
+
+    if (DimmerIntr2.ControlStatus == true) {
+        DimmerIntr2.Trigger1 = true;
     }
 }
 #endif
-
+}
 
 
 #endif
@@ -1571,6 +1662,8 @@ void DimmerLights_PIR_Control() {
 }
 
 #endif
+#endif
+
 
 
 //end

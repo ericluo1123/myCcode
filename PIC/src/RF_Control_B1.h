@@ -7,7 +7,7 @@
 
 #if CC2500_use == 1 
 //Global extern variable declaration
-#define RF_RunTime_Value 150
+#define RF_RunTime_Value 200
 
 struct RF {
 

@@ -111,7 +111,7 @@ char getDimmerLights_ValueToPercent(char value);
 
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);
-char Division(char value, char num);
+inline char Division(char value, char num);
 //Global extern variable declaration
 //******************************************************************************
 
@@ -288,6 +288,8 @@ char getDimmer_Load_Status();
 #define getDimmer_LoadGO() ;
 #define getAll_DimmerLights_AdjSw() ;
 #define getDimmer_Load_Status() ;
+#define DimmerLights_TMR_1() ;
+#define getDimmerLights_ValueToPercent() 0
 #endif
 
 //End file

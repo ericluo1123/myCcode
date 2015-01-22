@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 172 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
+# 174 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2624,7 +2624,7 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 8 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/MCU_B1.h"
+# 8 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/MCU_B1.h"
 void interrupt ISR(void);
 
 # 17
@@ -2713,7 +2713,7 @@ void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
 
-# 11 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h"
+# 11 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
 } Product;
@@ -2729,7 +2729,10 @@ Product _product = {
 }
 };
 
-# 62
+# 56
+inline void setProductData(char address, char value);
+
+# 61
 struct command {
 
 struct {
@@ -2762,18 +2765,7 @@ unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 98
-struct {
-unsigned i : 1;
-unsigned j : 1;
-unsigned k : 1;
-unsigned l : 1;
-unsigned m : 1;
-unsigned n : 1;
-unsigned o : 1;
-unsigned p : 1;
-};
-
+# 108
 struct {
 unsigned q : 1;
 unsigned r : 1;
@@ -2787,16 +2779,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 129
+# 128
 void myMain_Initialization();
 
-# 134
+# 133
 inline void my_Main();
 
-# 139
+# 138
 inline void my_MainTimer();
 
-# 144
+# 143
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2805,9 +2797,8 @@ char getMain_All_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
-inline void setProductData(char address, char value);
 
-# 14 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
+# 18 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Switch_B1.h"
 struct Switch {
 
 struct {
@@ -2829,8 +2820,10 @@ unsigned empty : 6;
 
 unsigned char DebounceTime;
 unsigned int Hold1Time;
+
 unsigned int Hold2Time;
 unsigned int Hold3Time;
+
 };
 struct Switch *Sw;
 
@@ -2838,10 +2831,7 @@ struct Switch *Sw;
 
 struct Switch Sw1;
 
-
-struct Switch Sw2;
-
-# 52
+# 58
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
 inline void Switch_Main();
@@ -2857,7 +2847,7 @@ char getSw_KeyStatus(char sw);
 
 void TouchPower();
 
-# 90
+# 96
 struct SwitchDetect {
 
 union {
@@ -2870,7 +2860,7 @@ unsigned empty : 7;
 };
 struct SwitchDetect SwDetect;
 
-# 11 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Buzzer_B1.h"
+# 11 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Buzzer_B1.h"
 struct Buzzer {
 
 struct {
@@ -2911,7 +2901,7 @@ void setBuz_Enable(char command);
 # 72
 int getBuz_GO();
 
-# 10 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/LED_B1.h"
+# 10 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/LED_B1.h"
 struct LED {
 
 struct {
@@ -2929,33 +2919,25 @@ struct LED *LED;
 
 struct LED VarErrLED;
 
-# 32
-struct LED VarLED1;
-
-
-
-
-struct LED VarLED2;
-
-# 49
+# 47
 inline void LED_Initialization();
 
-# 54
+# 52
 inline void LED_Main();
 
-# 63
+# 61
 void LedPointSelect(char led);
 
-# 72
+# 70
 void setLED_Initialization(char led);
 
-# 81
+# 79
 void setLED_Main(char led);
 
-# 95
+# 93
 void setLED(char led, char command);
 
-# 7 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/OverTemperature_B1.h"
+# 8 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverTemperature_B1.h"
 struct OverTemp {
 
 struct {
@@ -2970,20 +2952,18 @@ unsigned empty : 3;
 unsigned int Time;
 unsigned char Count;
 
-unsigned char AD1;
-unsigned char AD2;
-
-ADtype AD;
+# 26
 ADtype ADH[2];
-ADtype ADRES;
-ADtype SafeValue;
-ADtype DangerValue;
+ADtype ADV;
+
+
+
 
 };
 
 struct OverTemp Temp;
 
-# 81
+# 83
 inline void Temp_Initialization();
 inline void Temp_Main();
 void setTemp_Main();
@@ -2991,7 +2971,7 @@ void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
 
-# 161 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/CC2500_B1.h"
+# 161 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/CC2500_B1.h"
 const unsigned char CC2500_rfSettings[47] = {
 
 
@@ -3136,7 +3116,7 @@ void CC2500_TxData();
 void CC2500_RxData(void);
 void DelayTime_1us(int count);
 
-# 12 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h"
+# 12 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/RF_Control_B1.h"
 struct RF {
 
 struct {
@@ -3203,7 +3183,7 @@ inline void setRF_TransceiveGO(char command);
 
 inline void setRF_DimmerLights(char lights, char on);
 
-# 44 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h"
+# 44 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverLoad_B1.h"
 struct OverLoad {
 
 struct {
@@ -3227,16 +3207,16 @@ ADtype TotalLoad;
 ADtype AH[5];
 ADtype AL[5];
 ADtype AD;
-ADtype ADRES;
+
 
 unsigned int LightsJudgeValue;
 unsigned int JudgeValue;
-unsigned int Judge;
+
 
 unsigned char Count;
 unsigned char ErrorCount;
-unsigned char ErrorCountValue;
-unsigned char LightsCount;
+
+
 unsigned char SafeCount;
 
 };
@@ -3255,7 +3235,7 @@ void setLoad_AH_AL_Restore();
 char getLoad_OK();
 void setLoad_OK();
 
-# 11 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
+# 11 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
 
@@ -3303,10 +3283,6 @@ struct DimmerLights *DimmerLights;
 # 71
 struct DimmerLights DimmerLights1;
 
-
-
-struct DimmerLights DimmerLights2;
-
 # 90
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
@@ -3325,12 +3301,14 @@ char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
 
+
 char getDimmerLights_PercentToValue(char value);
 char getDimmerLights_ValueToPercent(char value);
 
+
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);
-
+inline char Division(char value, char num);
 
 
 
@@ -3346,7 +3324,19 @@ unsigned ControlStatus : 1;
 unsigned Dimming_Sw : 1;
 unsigned Dimming_Status : 1;
 unsigned Dimming_RF : 1;
-unsigned empty : 1;
+unsigned Trigger : 1;
+};
+};
+
+union {
+
+struct {
+unsigned Trigger1 : 1;
+unsigned Trigger2 : 1;
+unsigned Trigger3 : 1;
+unsigned Trigger4 : 1;
+unsigned Trigger5 : 1;
+unsigned empty:3;
 };
 };
 
@@ -3356,23 +3346,18 @@ unsigned char TuneTimeValue;
 unsigned char DimmingValue;
 unsigned char MaxmumValue;
 unsigned char MinimumValue;
+unsigned char TuneValue;
 };
 struct Dimmer_Interrupt *DimmerIntr;
 
 
 struct Dimmer_Interrupt DimmerIntr1;
 
-
-
-struct Dimmer_Interrupt DimmerIntr2;
-
-# 153
+# 168
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
 char getDimmerIntr_DimmingValue(char lights);
-void setDimmerIntr_MaxmumValue(char lights, char value);
-char getDimmerIntr_MaxmumValue(char lights);
 void setDimmerIntr_MinimumValue(char lights, char value);
 char getDimmerIntr_MinimumValue(char lights);
 void setDimmerIntr_Dimming_Sw(char lights, char command);
@@ -3381,17 +3366,21 @@ char getAll_DimmerIntr_ControlStatus();
 char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
 
+
+void setDimmerIntr_MaxmumValue(char lights, char value);
+char getDimmerIntr_MaxmumValue(char lights);
+
+# 188
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
-inline void DimmerLights_MOSFET_TMR_1();
-inline void DimmerLights_MOSFET_TMR_2();
+inline void DimmerLights_TMR_1();
+inline void DimmerLights_TMR_2();
 
-inline void DimmerLights_MOSFET_IOC_1();
-inline void DimmerLights_MOSFET_IOC_2();
+inline void DimmerLights_IOC_1();
+inline void DimmerLights_IOC_2();
 
-
-
+# 202
 struct Dimmer {
 
 
@@ -3403,7 +3392,22 @@ struct {
 unsigned AdjGO : 1;
 unsigned LoadGO : 1;
 unsigned Load_Status : 1;
-unsigned empty : 4;
+unsigned PIR_DimmerSignal : 1;
+unsigned PIR_Sw : 1;
+unsigned PIR_Trigger : 1;
+unsigned PIR_Sw_S : 1;
+unsigned PIR_Trigger_S : 1;
+};
+};
+
+union {
+
+struct {
+unsigned PIR_Close_Status : 1;
+unsigned PIR_Open_Status : 1;
+unsigned PIR_Lights_Status : 1;
+unsigned PIR_CDS_Status : 1;
+unsigned empty : 5;
 };
 };
 
@@ -3413,12 +3417,11 @@ unsigned char Correction;
 
 struct Dimmer Dimmer;
 
-
 inline void Dimmer_Initialization();
 char getDimmer_LoadGO();
 char getDimmer_Load_Status();
 
-# 24 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
+# 24 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/DelayOff_B1.h"
 struct DelayOff {
 
 struct {
@@ -3436,10 +3439,6 @@ struct DelayOff *DelayOff;
 
 struct DelayOff DlySw1;
 
-
-
-struct DelayOff DlySw2;
-
 # 50
 inline void DelayOff_Initialization();
 inline void DelayOff_Main();
@@ -3449,4 +3448,18 @@ void DlyOff_Main(char sw);
 void setDelayOff_GO(char sw, char command, char value);
 char getDelayOff_GO(char sw);
 void DelayOffPointSelect(char sw);
+
+# 117 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/TriacRelay_B1.h"
+struct Light {
+
+struct {
+unsigned LoadGO : 1;
+unsigned Load_Status : 1;
+unsigned empty : 6;
+};
+};
+struct Light Light;
+
+char getLight_LoadGO();
+char getLight_Load_Status();
 

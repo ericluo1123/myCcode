@@ -117,7 +117,7 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
 
 
 #if Timer0_use == 1
-    else if (TMR0IE == true && TMR0IF == true) {
+else if (TMR0IE == true && TMR0IF == true) {
         TMR0_ISR();
     }
 #endif
@@ -135,7 +135,7 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
     INT_ISR();
 #endif
 #if IOC_use == 1
-    else if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
+else if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
         IOC_ISR();
     }
 #endif
@@ -372,9 +372,9 @@ void setINT_GO(char command) {
 }
 #endif
 //*********************************************************
-
+ 
 //*********************************************************
-#if IOC_use == true
+#if IOC_use == 1
 
 void IOC_Set() {
 

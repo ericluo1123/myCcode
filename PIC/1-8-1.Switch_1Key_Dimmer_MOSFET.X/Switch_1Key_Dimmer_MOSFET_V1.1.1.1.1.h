@@ -121,7 +121,7 @@
 //IOC
 #define IOC_use_Value 1
 #define _IOCBP_Value    0b00000100; //Positive edge
-#define _IOCBN_Value    0b00000000; //Negative edge
+#define _IOCBN_Value    0b00000100; //Negative edge
 //FlashMemory
 #define FlashMemory_use_Value 1
 //Watchdog timer 
