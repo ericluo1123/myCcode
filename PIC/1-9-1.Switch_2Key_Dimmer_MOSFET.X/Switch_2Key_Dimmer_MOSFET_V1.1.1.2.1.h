@@ -118,8 +118,8 @@
 #define Slave_Mode_Value 0
 //IOC
 #define IOC_use_Value 1
-#define _IOCBP_Value    0b00000100; //Positive edge
-#define _IOCBN_Value    0b00000000; //Negative edge
+#define _IOCBP_Value    0b00000000; //Positive edge
+#define _IOCBN_Value    0b00000100; //Negative edge
 //FlashMemory_use
 #define FlashMemory_use_Value 1
 //watchdog timer
@@ -163,7 +163,7 @@
 #define Dimmer_Trigger_Mode_Value   3
 #define Dimmer_Half_Wave_Value  0
 #define Dimmer_Full_Wave_Value  1
-#define Max_Percent             70
+#define Max_Percent             65
 #define Mini_Percent            20
 #define Med_Percent             Med_Percent+(char)((Max_Percent-Mini_Percent)/2)
 //SegmentDisplay

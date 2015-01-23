@@ -3308,7 +3308,7 @@ char getDimmerLights_ValueToPercent(char value);
 
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);
-char Division(char value, char num);
+inline char Division(char value, char num);
 
 
 
@@ -3571,7 +3571,7 @@ Timer1.Timeout = 1;
 void IOC_Set() {
 
 IOCBP = 0b00000100;;
-IOCBN = 0b00000000;;
+IOCBN = 0b00000100;;
 
 IOCBF = 0b00000000;
 
@@ -3623,7 +3623,7 @@ product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
 # 941
-i = getDimmerLights_ValueToPercent(((char)(80*0.8)));
+i = getDimmerLights_ValueToPercent(((char)(65*0.75)));
 product->Data[21] = i;
 product->Data[22] = i;
 product->Data[23] = i;
@@ -3633,7 +3633,7 @@ myMain.FirstOpen = 1;
 myMain.First = 1;
 }
 } else {
-i = getDimmerLights_ValueToPercent(((char)(80*0.8)));
+i = getDimmerLights_ValueToPercent(((char)(65*0.75)));
 setMemory_Data(0, 0xff);
 setMemory_Data(1, 0xff);
 setMemory_Data(2, 0xff);
