@@ -5,6 +5,7 @@
  * Dimmer header
  */
 #if Dimmer_use == 1
+#define TuneValue1 7
 #define Dimmer_Debug 0
 //private
 
@@ -139,7 +140,7 @@ struct Dimmer_Interrupt {
             unsigned Trigger3 : 1;
             unsigned Trigger4 : 1;
             unsigned Trigger5 : 1;
-            unsigned empty:3;
+            unsigned empty : 3;
         };
     };
 
@@ -150,6 +151,11 @@ struct Dimmer_Interrupt {
     unsigned char MaxmumValue;
     unsigned char MinimumValue;
     unsigned char TuneValue;
+
+    unsigned char TuneValue2;
+    unsigned char TuneValue3;
+    unsigned char TuneValue4;
+
 };
 struct Dimmer_Interrupt *DimmerIntr;
 

@@ -307,8 +307,8 @@ typedef unsigned int ADtype;
 #endif
 
 #ifdef IntrTime_100us
-#define TotalCount              75//83
-#define One_Percent		0.75//0.83
+#define TotalCount              79//83
+#define One_Percent		0.79//0.83
 #define Tune_Percent		40
 /**
  * dimmer delay time
