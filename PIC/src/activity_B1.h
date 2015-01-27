@@ -307,8 +307,15 @@ typedef unsigned int ADtype;
 #endif
 
 #ifdef IntrTime_100us
+
+#if Properties_Keys == 1
 #define TotalCount              79//83
 #define One_Percent		0.79//0.83
+#elif Properties_Keys == 2
+#define TotalCount              65//83
+#define One_Percent		0.65//0.83
+#endif
+
 #define Tune_Percent		40
 /**
  * dimmer delay time

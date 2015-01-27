@@ -5,7 +5,13 @@
  * Dimmer header
  */
 #if Dimmer_use == 1
+
+#if Properties_Keys == 1
 #define TuneValue1 7
+#elif Properties_Keys == 2
+#define TuneValue1 5
+#endif
+
 #define Dimmer_Debug 0
 //private
 

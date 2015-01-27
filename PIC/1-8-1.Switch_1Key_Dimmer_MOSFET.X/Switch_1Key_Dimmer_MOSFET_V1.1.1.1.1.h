@@ -161,7 +161,7 @@
 #define DelayOff_use_Value          1
 //PowerFault
 #define PowerFault_use_Value        0
-//Dimmer Lights
+//Dimmer Lights 
 #define Dimmer_use_Value            1
 #define Dimmer_Trigger_Mode_Value   3
 #define Dimmer_Half_Wave_Value      0
