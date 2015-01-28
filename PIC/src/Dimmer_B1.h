@@ -146,7 +146,8 @@ struct Dimmer_Interrupt {
             unsigned Trigger3 : 1;
             unsigned Trigger4 : 1;
             unsigned Trigger5 : 1;
-            unsigned empty : 3;
+            unsigned Status:1;
+            unsigned empty : 2;
         };
     };
 

@@ -3353,7 +3353,8 @@ unsigned Trigger2 : 1;
 unsigned Trigger3 : 1;
 unsigned Trigger4 : 1;
 unsigned Trigger5 : 1;
-unsigned empty : 3;
+unsigned Status:1;
+unsigned empty : 2;
 };
 };
 
@@ -3379,7 +3380,7 @@ struct Dimmer_Interrupt DimmerIntr1;
 
 struct Dimmer_Interrupt DimmerIntr2;
 
-# 180
+# 181
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3396,7 +3397,7 @@ char getAll_DimmerIntr_Dimming_Sw_RF();
 void setDimmerIntr_MaxmumValue(char lights, char value);
 char getDimmerIntr_MaxmumValue(char lights);
 
-# 200
+# 201
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
@@ -3406,7 +3407,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
-# 214
+# 215
 struct Dimmer {
 
 
@@ -3605,7 +3606,7 @@ Timer1.Timeout = 1;
 # 379
 void IOC_Set() {
 
-IOCBP = 0b00000000;;
+IOCBP = 0b00000100;;
 IOCBN = 0b00000100;;
 
 IOCBF = 0b00000000;
@@ -3663,7 +3664,7 @@ product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
 # 941
-i = getDimmerLights_ValueToPercent(((char)(65*0.65)));
+i = getDimmerLights_ValueToPercent(((char)(60*0.65)));
 product->Data[21] = i;
 product->Data[22] = i;
 product->Data[23] = i;
@@ -3673,7 +3674,7 @@ myMain.FirstOpen = 1;
 myMain.First = 1;
 }
 } else {
-i = getDimmerLights_ValueToPercent(((char)(65*0.65)));
+i = getDimmerLights_ValueToPercent(((char)(60*0.65)));
 setMemory_Data(0, 0xff);
 setMemory_Data(1, 0xff);
 setMemory_Data(2, 0xff);
