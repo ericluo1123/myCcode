@@ -1329,6 +1329,7 @@ inline void DimmerLights_TMR_1() {
         if (DimmerIntr1.Count >= count) {
             DimmerIntr1.Count = 0;
             DimmerIntr1.Start = false;
+           
         }
     }
 

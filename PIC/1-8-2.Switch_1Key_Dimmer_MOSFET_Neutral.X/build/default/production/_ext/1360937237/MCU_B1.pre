@@ -3235,7 +3235,7 @@ void setLoad_AH_AL_Restore();
 char getLoad_OK();
 void setLoad_OK();
 
-# 11 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h"
+# 18 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
 
@@ -3280,10 +3280,10 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 71
+# 78
 struct DimmerLights DimmerLights1;
 
-# 90
+# 97
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3336,7 +3336,8 @@ unsigned Trigger2 : 1;
 unsigned Trigger3 : 1;
 unsigned Trigger4 : 1;
 unsigned Trigger5 : 1;
-unsigned empty:3;
+unsigned Status:1;
+unsigned empty : 2;
 };
 };
 
@@ -3347,13 +3348,18 @@ unsigned char DimmingValue;
 unsigned char MaxmumValue;
 unsigned char MinimumValue;
 unsigned char TuneValue;
+
+unsigned char TuneValue2;
+unsigned char TuneValue3;
+unsigned char TuneValue4;
+
 };
 struct Dimmer_Interrupt *DimmerIntr;
 
 
 struct Dimmer_Interrupt DimmerIntr1;
 
-# 168
+# 181
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3370,7 +3376,7 @@ char getAll_DimmerIntr_Dimming_Sw_RF();
 void setDimmerIntr_MaxmumValue(char lights, char value);
 char getDimmerIntr_MaxmumValue(char lights);
 
-# 188
+# 201
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
@@ -3380,7 +3386,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
-# 202
+# 215
 struct Dimmer {
 
 
@@ -3623,7 +3629,7 @@ product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
 # 941
-i = getDimmerLights_ValueToPercent(((char)(65*0.75)));
+i = getDimmerLights_ValueToPercent(((char)(65*0.78)));
 product->Data[21] = i;
 product->Data[22] = i;
 product->Data[23] = i;
@@ -3633,7 +3639,7 @@ myMain.FirstOpen = 1;
 myMain.First = 1;
 }
 } else {
-i = getDimmerLights_ValueToPercent(((char)(65*0.75)));
+i = getDimmerLights_ValueToPercent(((char)(65*0.78)));
 setMemory_Data(0, 0xff);
 setMemory_Data(1, 0xff);
 setMemory_Data(2, 0xff);
