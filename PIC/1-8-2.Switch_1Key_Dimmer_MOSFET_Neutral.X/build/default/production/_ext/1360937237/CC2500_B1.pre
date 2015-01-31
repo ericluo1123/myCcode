@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 174 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Activity_B1.h"
+# 174 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2624,7 +2624,7 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 8 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/MCU_B1.h"
+# 8 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/MCU_B1.h"
 void interrupt ISR(void);
 
 # 17
@@ -2713,7 +2713,7 @@ void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
 
-# 11 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Main_B1.h"
+# 11 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
 } Product;
@@ -2798,7 +2798,7 @@ char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
 void Exception_Main();
 
-# 18 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Switch_B1.h"
+# 18 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Switch_B1.h"
 struct Switch {
 
 struct {
@@ -2831,6 +2831,9 @@ struct Switch *Sw;
 
 struct Switch Sw1;
 
+
+struct Switch Sw2;
+
 # 58
 void SwPointSelect(char sw);
 inline void Switch_Initialization();
@@ -2860,7 +2863,7 @@ unsigned empty : 7;
 };
 struct SwitchDetect SwDetect;
 
-# 11 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Buzzer_B1.h"
+# 11 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Buzzer_B1.h"
 struct Buzzer {
 
 struct {
@@ -2901,7 +2904,7 @@ void setBuz_Enable(char command);
 # 72
 int getBuz_GO();
 
-# 10 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/LED_B1.h"
+# 10 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/LED_B1.h"
 struct LED {
 
 struct {
@@ -2918,6 +2921,16 @@ struct LED *LED;
 
 
 struct LED VarErrLED;
+
+
+
+
+struct LED VarLED1;
+
+
+
+
+struct LED VarLED2;
 
 # 47
 inline void LED_Initialization();
@@ -2937,7 +2950,7 @@ void setLED_Main(char led);
 # 93
 void setLED(char led, char command);
 
-# 8 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverTemperature_B1.h"
+# 8 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/OverTemperature_B1.h"
 struct OverTemp {
 
 struct {
@@ -2971,7 +2984,7 @@ void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
 
-# 161 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/CC2500_B1.h"
+# 161 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/CC2500_B1.h"
 const unsigned char CC2500_rfSettings[47] = {
 
 
@@ -3116,7 +3129,7 @@ void CC2500_TxData();
 void CC2500_RxData(void);
 void DelayTime_1us(int count);
 
-# 12 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/RF_Control_B1.h"
+# 12 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h"
 struct RF {
 
 struct {
@@ -3183,7 +3196,7 @@ inline void setRF_TransceiveGO(char command);
 
 inline void setRF_DimmerLights(char lights, char on);
 
-# 44 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverLoad_B1.h"
+# 44 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h"
 struct OverLoad {
 
 struct {
@@ -3235,7 +3248,7 @@ void setLoad_AH_AL_Restore();
 char getLoad_OK();
 void setLoad_OK();
 
-# 18 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h"
+# 18 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
 
@@ -3282,6 +3295,10 @@ struct DimmerLights *DimmerLights;
 
 # 78
 struct DimmerLights DimmerLights1;
+
+
+
+struct DimmerLights DimmerLights2;
 
 # 97
 inline void DimmerLights_SelectPointer(char lights);
@@ -3359,6 +3376,10 @@ struct Dimmer_Interrupt *DimmerIntr;
 
 struct Dimmer_Interrupt DimmerIntr1;
 
+
+
+struct Dimmer_Interrupt DimmerIntr2;
+
 # 181
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
@@ -3427,7 +3448,7 @@ inline void Dimmer_Initialization();
 char getDimmer_LoadGO();
 char getDimmer_Load_Status();
 
-# 24 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/DelayOff_B1.h"
+# 24 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
 struct DelayOff {
 
 struct {
@@ -3445,6 +3466,10 @@ struct DelayOff *DelayOff;
 
 struct DelayOff DlySw1;
 
+
+
+struct DelayOff DlySw2;
+
 # 50
 inline void DelayOff_Initialization();
 inline void DelayOff_Main();
@@ -3455,7 +3480,7 @@ void setDelayOff_GO(char sw, char command, char value);
 char getDelayOff_GO(char sw);
 void DelayOffPointSelect(char sw);
 
-# 117 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/TriacRelay_B1.h"
+# 117 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/TriacRelay_B1.h"
 struct Light {
 
 struct {
@@ -3481,9 +3506,9 @@ unsigned char loop_e;
 CC2500_WriteCommand(0x36);
 CC2500_WriteCommand(0x3B);
 
-RC0 = 0;
+RC4 = 0;
 SPI0Buffer = 0x3F + 0x40;
-while (RC5 == 1 && RF1.Timeout == 0) {
+while (RC2 == 1 && RF1.Timeout == 0) {
 RF_Timeout_Counter();
 };
 setRF_TimeoutCleared();
@@ -3495,14 +3520,14 @@ for (loop_e = 0; loop_e < Tx_Length; loop_e++) {
 SPI0Buffer = RF_Data[loop_e];
 CC2500_WriteByte();
 }
-RC0 = 1;
+RC4 = 1;
 CC2500_WriteCommand(0x35);
-while (RC1 == 0 && RF1.Timeout == 0) {
+while (RB0 == 0 && RF1.Timeout == 0) {
 RF_Timeout_Counter();
 };
 setRF_TimeoutCleared();
 
-while (RC1 == 1 && RF1.Timeout == 0) {
+while (RB0 == 1 && RF1.Timeout == 0) {
 RF_Timeout_Counter();
 };
 setRF_TimeoutCleared();
@@ -3521,16 +3546,16 @@ unsigned char loop_f;
 
 
 
-if (RC1 == 0) {
+if (RB0 == 0) {
 
 # 87
 CC2500_ReadStatus(0x3B);
 
 if (s_data != 0) {
-RC0 = 0;
+RC4 = 0;
 SPI0Buffer = 0x3F + 0xC0;
 
-while (RC5 == 1 && RF1.Timeout == 0) {
+while (RC2 == 1 && RF1.Timeout == 0) {
 RF_Timeout_Counter();
 };
 setRF_TimeoutCleared();
@@ -3546,7 +3571,7 @@ CC2500_ReadByte();
 RSSI = SPI0Buffer;
 CC2500_ReadByte();
 CRC = SPI0Buffer;
-RC0 = 1;
+RC4 = 1;
 if (CRC & 0x80)
 Receive_OK = 1;
 
@@ -3577,27 +3602,27 @@ CC2500_SIDLEMode();
 
 
 void CC2500_PowerRST(void) {
-RC3 = 0;
+RC1 = 0;
+RC0 = 0;
+RC4 = 1;
+DelayTime_1us(10);
 RC4 = 0;
-RC0 = 1;
 DelayTime_1us(10);
-RC0 = 0;
-DelayTime_1us(10);
-RC0 = 1;
+RC4 = 1;
 DelayTime_1us(40);
-RC0 = 0;
+RC4 = 0;
 SPI0Buffer = 0x30;
-while (RC5 == 1 && RF1.Timeout == 0) {
+while (RC2 == 1 && RF1.Timeout == 0) {
 RF_Timeout_Counter();
 };
 setRF_TimeoutCleared();
 CC2500_WriteByte();
-while (RC5 == 1 && RF1.Timeout == 0) {
+while (RC2 == 1 && RF1.Timeout == 0) {
 RF_Timeout_Counter();
 };
 setRF_TimeoutCleared();
-RC4 = 0;
-RC0 = 1;
+RC0 = 0;
+RC4 = 1;
 }
 
 
@@ -3662,12 +3687,12 @@ void CC2500_WriteByte(void) {
 unsigned char loop_a;
 for (loop_a = 0; loop_a < 8; loop_a++) {
 if (SPI0Buffer & 0x80)
-RC4 = 1;
+RC0 = 1;
 else
-RC4 = 0;
-RC3 = 1;
+RC0 = 0;
+RC1 = 1;
 SPI0Buffer <<= 1;
-RC3 = 0;
+RC1 = 0;
 }
 }
 
@@ -3677,13 +3702,13 @@ RC3 = 0;
 void CC2500_ReadByte(void) {
 unsigned char loop_b;
 for (loop_b = 0; loop_b < 8; loop_b++) {
-RC3 = 1;
+RC1 = 1;
 SPI0Buffer <<= 1;
-if (RC5 == 1)
+if (RC2 == 1)
 SPI0Buffer |= 0x01;
 else
 SPI0Buffer &= 0xFE;
-RC3 = 0;
+RC1 = 0;
 }
 }
 
@@ -3691,9 +3716,9 @@ RC3 = 0;
 
 
 void CC2500_WriteREG(unsigned char w_addr, unsigned char value) {
-RC0 = 0;
+RC4 = 0;
 SPI0Buffer = w_addr;
-while (RC5 == 1 && RF1.Timeout == 0) {
+while (RC2 == 1 && RF1.Timeout == 0) {
 RF_Timeout_Counter();
 };
 setRF_TimeoutCleared();
@@ -3701,23 +3726,23 @@ setRF_TimeoutCleared();
 CC2500_WriteByte();
 SPI0Buffer = value;
 CC2500_WriteByte();
-RC0 = 1;
+RC4 = 1;
 }
 
 
 
 
 void CC2500_ReadREG(unsigned char r_addr) {
-RC0 = 0;
+RC4 = 0;
 SPI0Buffer = r_addr + 0x80;
-while (RC5 == 1 && RF1.Timeout == 0) {
+while (RC2 == 1 && RF1.Timeout == 0) {
 RF_Timeout_Counter();
 };
 setRF_TimeoutCleared();
 
 CC2500_WriteByte();
 CC2500_ReadByte();
-RC0 = 1;
+RC4 = 1;
 r_data = SPI0Buffer;
 }
 
@@ -3725,33 +3750,33 @@ r_data = SPI0Buffer;
 
 
 void CC2500_WriteCommand(unsigned char command) {
-RC0 = 0;
+RC4 = 0;
 SPI0Buffer = command;
 
-while (RC5 == 1 && RF1.Timeout == 0) {
+while (RC2 == 1 && RF1.Timeout == 0) {
 RF_Timeout_Counter();
 };
 setRF_TimeoutCleared();
 
 CC2500_WriteByte();
-RC0 = 1;
+RC4 = 1;
 }
 
 
 
 
 void CC2500_ReadStatus(unsigned char status_addr) {
-RC0 = 0;
+RC4 = 0;
 SPI0Buffer = status_addr + 0xC0;
 
-while (RC5 == 1 && RF1.Timeout == 0) {
+while (RC2 == 1 && RF1.Timeout == 0) {
 RF_Timeout_Counter();
 };
 setRF_TimeoutCleared();
 
 CC2500_WriteByte();
 CC2500_ReadByte();
-RC0 = 1;
+RC4 = 1;
 
 s_data = SPI0Buffer;
 }

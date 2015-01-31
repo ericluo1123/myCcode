@@ -139,6 +139,10 @@
 [v _DimmerLights_TMR_1 DimmerLights_TMR_1 `T(v  1 e 0 0 ]
 "1425
 [v _DimmerLights_IOC_1 DimmerLights_IOC_1 `T(v  1 e 0 0 ]
+"1492
+[v _DimmerLights_TMR_2 DimmerLights_TMR_2 `T(v  1 e 0 0 ]
+"1609
+[v _DimmerLights_IOC_2 DimmerLights_IOC_2 `T(v  1 e 0 0 ]
 "7 C:\Users\taianluo\Documents\GitHub\myCcode\PIC/src/LED_B1.c
 [v _LedPointSelect LedPointSelect `(v  1 e 0 0 ]
 "31
@@ -415,6 +419,8 @@
 [v _DelayOff DelayOff `*.5S284  1 e 1 0 ]
 "39
 [v _DlySw1 DlySw1 `S284  1 e 5 0 ]
+"43
+[v _DlySw2 DlySw2 `S284  1 e 5 0 ]
 [s S191 . 1 `uc 1 SwFlag 1 0 :1:0 
 `uc 1 Trigger 1 0 :1:1 
 `uc 1 Switch 1 0 :1:2 
@@ -430,6 +436,8 @@
 [v _DimmerLights DimmerLights `*.5S213  1 e 1 0 ]
 "78
 [v _DimmerLights1 DimmerLights1 `S213  1 e 8 0 ]
+"82
+[v _DimmerLights2 DimmerLights2 `S213  1 e 8 0 ]
 "167
 [s S233 . 1 `uc 1 Trigger1 1 0 :1:0 
 `uc 1 Trigger2 1 0 :1:1 
@@ -444,6 +452,8 @@
 [v _DimmerIntr DimmerIntr `*.1S243  1 e 1 0 ]
 "170
 [v _DimmerIntr1 DimmerIntr1 `S243  1 e 12 0 ]
+"174
+[v _DimmerIntr2 DimmerIntr2 `S243  1 e 12 0 ]
 "249
 [s S267 . 2 `uc 1 PIR_Close_Status 1 0 :1:0 
 `uc 1 PIR_Open_Status 1 0 :1:1 
@@ -459,6 +469,10 @@
 [v _LED LED `*.5S122  1 e 1 0 ]
 "25
 [v _VarErrLED VarErrLED `S122  1 e 4 0 ]
+"30
+[v _VarLED1 VarLED1 `S122  1 e 4 0 ]
+"35
+[v _VarLED2 VarLED2 `S122  1 e 4 0 ]
 [s S43 Product 32 `[32]uc 1 Data 32 0 ]
 "15 C:\Users\taianluo\Documents\GitHub\myCcode\PIC/src/Main_B1.h
 [v _product product `*.6S43  1 e 1 0 ]
@@ -570,6 +584,8 @@
 [v _Sw Sw `*.5S87  1 e 1 0 ]
 "48
 [v _Sw1 Sw1 `S87  1 e 9 0 ]
+"51
+[v _Sw2 Sw2 `S87  1 e 9 0 ]
 [s S94 . 1 `uc 1 Error 1 0 :1:0 
 `uc 1 empty 1 0 :7:1 
 ]
@@ -669,6 +685,8 @@
 [v _PEIE PEIE `VEb  1 e 0 @94 ]
 "4507
 [v _RA0 RA0 `VEb  1 e 0 @96 ]
+"4513
+[v _RA3 RA3 `VEb  1 e 0 @99 ]
 "4515
 [v _RA4 RA4 `VEb  1 e 0 @100 ]
 "4519
@@ -683,18 +701,22 @@
 [v _RB2 RB2 `VEb  1 e 0 @106 ]
 "4529
 [v _RB3 RB3 `VEb  1 e 0 @107 ]
+"4531
+[v _RB4 RB4 `VEb  1 e 0 @108 ]
 "4533
 [v _RB5 RB5 `VEb  1 e 0 @109 ]
 "4539
 [v _RC0 RC0 `VEb  1 e 0 @112 ]
 "4541
 [v _RC1 RC1 `VEb  1 e 0 @113 ]
-"4545
-[v _RC3 RC3 `VEb  1 e 0 @115 ]
+"4543
+[v _RC2 RC2 `VEb  1 e 0 @114 ]
 "4547
 [v _RC4 RC4 `VEb  1 e 0 @116 ]
 "4549
 [v _RC5 RC5 `VEb  1 e 0 @117 ]
+"4553
+[v _RC7 RC7 `VEb  1 e 0 @119 ]
 "4563
 [v _RD RD `VEb  1 e 0 @3240 ]
 "4687
@@ -802,7 +824,7 @@
 {
 [v setSw_Main@sw sw `uc  1 a 1 wreg ]
 [v setSw_Main@sw sw `uc  1 a 1 wreg ]
-[v setSw_Main@sw sw `uc  1 a 1 18 ]
+[v setSw_Main@sw sw `uc  1 a 1 21 ]
 "234
 } 0
 "33 C:\Users\taianluo\Documents\GitHub\myCcode\PIC/src/RF_Control_B1.c
@@ -827,9 +849,10 @@
 {
 [v getSw_KeyStatus@sw sw `uc  1 a 1 wreg ]
 "238
-[v getSw_KeyStatus@status status `uc  1 a 1 2 ]
+[v getSw_KeyStatus@status status `uc  1 a 1 4 ]
 "237
 [v getSw_KeyStatus@sw sw `uc  1 a 1 wreg ]
+[v getSw_KeyStatus@sw sw `uc  1 a 1 5 ]
 "276
 } 0
 "25
@@ -1148,6 +1171,8 @@
 "459 C:\Users\taianluo\Documents\GitHub\myCcode\PIC/src/Main_B1.c
 [v _getMain_Lights_Count getMain_Lights_Count `(uc  1 e 1 0 ]
 {
+"467
+[v getMain_Lights_Count@status2 status2 `uc  1 a 1 3 ]
 "464
 [v getMain_Lights_Count@status1 status1 `uc  1 a 1 2 ]
 "460
@@ -1172,7 +1197,7 @@
 [v _getAll_DimmerIntr_Dimming_Sw_RF getAll_DimmerIntr_Dimming_Sw_RF `(uc  1 e 1 0 ]
 {
 "243
-[v getAll_DimmerIntr_Dimming_Sw_RF@status status `uc  1 a 1 1 ]
+[v getAll_DimmerIntr_Dimming_Sw_RF@status status `uc  1 a 1 4 ]
 "273
 } 0
 "15 C:\Program Files (x86)\Microchip\xc8\v1.32\sources\common\Umul16.c
@@ -1296,7 +1321,7 @@
 [v _Exception_Main Exception_Main `(v  1 e 0 0 ]
 {
 "567
-[v Exception_Main@i_3552 i `i  1 a 2 19 ]
+[v Exception_Main@i_3748 i `i  1 a 2 19 ]
 "550
 [v Exception_Main@i i `i  1 a 2 17 ]
 "500
@@ -1312,7 +1337,7 @@
 [v _getDimmerLights_Line getDimmerLights_Line `(uc  1 e 1 0 ]
 {
 "979
-[v getDimmerLights_Line@line line `uc  1 a 1 1 ]
+[v getDimmerLights_Line@line line `uc  1 a 1 2 ]
 "996
 } 0
 "736
@@ -1353,7 +1378,7 @@
 {
 [v LedPointSelect@led led `uc  1 a 1 wreg ]
 [v LedPointSelect@led led `uc  1 a 1 wreg ]
-"24
+"9
 [v LedPointSelect@led led `uc  1 a 1 2 ]
 "28
 } 0
@@ -1620,10 +1645,10 @@
 {
 [v getDimmerIntr_DimmingValue@lights lights `uc  1 a 1 wreg ]
 "68
-[v getDimmerIntr_DimmingValue@value value `uc  1 a 1 3 ]
+[v getDimmerIntr_DimmingValue@value value `uc  1 a 1 2 ]
 "67
 [v getDimmerIntr_DimmingValue@lights lights `uc  1 a 1 wreg ]
-[v getDimmerIntr_DimmingValue@lights lights `uc  1 a 1 2 ]
+[v getDimmerIntr_DimmingValue@lights lights `uc  1 a 1 3 ]
 "85
 } 0
 "916
@@ -1631,9 +1656,10 @@
 {
 [v getDimmerLights_Allow_Condition@lights lights `uc  1 a 1 wreg ]
 "917
-[v getDimmerLights_Allow_Condition@allow allow `uc  1 a 1 3 ]
+[v getDimmerLights_Allow_Condition@allow allow `uc  1 a 1 7 ]
 "916
 [v getDimmerLights_Allow_Condition@lights lights `uc  1 a 1 wreg ]
+[v getDimmerLights_Allow_Condition@lights lights `uc  1 a 1 6 ]
 "951
 } 0
 "272 C:\Users\taianluo\Documents\GitHub\myCcode\PIC/src/OverLoad_B1.c
@@ -1699,10 +1725,10 @@
 {
 [v setDimmerLights_SwOn@sw sw `uc  1 a 1 wreg ]
 "654
-[v setDimmerLights_SwOn@idle idle `uc  1 a 1 15 ]
+[v setDimmerLights_SwOn@idle idle `uc  1 a 1 17 ]
 "653
 [v setDimmerLights_SwOn@sw sw `uc  1 a 1 wreg ]
-[v setDimmerLights_SwOn@sw sw `uc  1 a 1 14 ]
+[v setDimmerLights_SwOn@sw sw `uc  1 a 1 18 ]
 "691
 } 0
 "22 C:\Users\taianluo\Documents\GitHub\myCcode\PIC/src/Buzzer_B1.c
@@ -1797,7 +1823,14 @@
 {
 "276
 } 0
-"1313 C:\Users\taianluo\Documents\GitHub\myCcode\PIC/src/Dimmer_B1.c
+"1492 C:\Users\taianluo\Documents\GitHub\myCcode\PIC/src/Dimmer_B1.c
+[v _DimmerLights_TMR_2 DimmerLights_TMR_2 `T(v  1 e 0 0 ]
+{
+"1493
+[v DimmerLights_TMR_2@count count `uc  1 a 1 1 ]
+"1607
+} 0
+"1313
 [v _DimmerLights_TMR_1 DimmerLights_TMR_1 `T(v  1 e 0 0 ]
 {
 "1314
@@ -1809,7 +1842,16 @@
 {
 "418
 } 0
-"1425 C:\Users\taianluo\Documents\GitHub\myCcode\PIC/src/Dimmer_B1.c
+"1609 C:\Users\taianluo\Documents\GitHub\myCcode\PIC/src/Dimmer_B1.c
+[v _DimmerLights_IOC_2 DimmerLights_IOC_2 `T(v  1 e 0 0 ]
+{
+"1633
+[v DimmerLights_IOC_2@dimming dimming `uc  1 a 1 13 ]
+"1632
+[v DimmerLights_IOC_2@count count `uc  1 a 1 12 ]
+"1663
+} 0
+"1425
 [v _DimmerLights_IOC_1 DimmerLights_IOC_1 `T(v  1 e 0 0 ]
 {
 "1447
