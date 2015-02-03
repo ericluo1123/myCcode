@@ -131,12 +131,12 @@
 #define SYSC_use_Value 0
 //OverTemperature
 #define OverTemperature_use_Value   1
-#define TempDangerValue_Value       380     //NTC 70度
-#define TempSafeValue_Value         425     //NTC 61度
+#define TempDangerValue_Value       370     //NTC 70度
+#define TempSafeValue_Value         420     //NTC 61度
 //OverLoad
 #define OverLoad_use_Value  1
 #define LimitCurrent_Value  1.1//A
-#define LinearParam_Value   50
+#define LinearParam_Value   80
 //LED
 #define LED_use_Value 1
 #define PIRLED_use_Value 0
@@ -175,7 +175,7 @@
 //UART to RF
 #define myUARTtoRF_use_Value 0
 //Main
-#define Exception_Main_Value 2
+#define Exception_Main_Value 1
 
 
 //include

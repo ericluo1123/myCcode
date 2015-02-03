@@ -179,7 +179,7 @@
 //UART to RF
 #define myUARTtoRF_use_Value 0
 //Main
-#define Exception_Main_Value 2
+#define Exception_Main_Value 1
 
 
 //include
