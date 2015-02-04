@@ -44,13 +44,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 "18
 [s S250 `S251 1 `S252 1 `uc 1 `ui 1 `ui 1 `ui 1 ]
 [n S250 Switch . . DebounceTime Hold1Time Hold2Time Hold3Time ]
-"100
+"101
 [s S255 :1 `uc 1 :7 `uc 1 ]
 [n S255 . Error empty ]
-"98
+"99
 [u S254 `S255 1 ]
 [n S254 . . ]
-"96
+"97
 [s S253 `S254 1 ]
 [n S253 SwitchDetect . ]
 "13 ../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Buzzer_B1.h
@@ -108,27 +108,27 @@ Version 3.2 HI-TECH Software Intermediate Code
 [u S273 `S274 1 ]
 [n S273 . . ]
 "143
-[s S276 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
-[n S276 . Trigger1 Trigger2 Trigger3 Trigger4 Trigger5 empty ]
+[s S276 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :2 `uc 1 ]
+[n S276 . Trigger1 Trigger2 Trigger3 Trigger4 Trigger5 Status empty ]
 "141
 [u S275 `S276 1 ]
 [n S275 . . ]
 "125
 [s S272 `S273 1 `S275 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
 [n S272 Dimmer_Interrupt . . Count TuneTime TuneTimeValue DimmingValue MaxmumValue MinimumValue TuneValue TuneValue2 TuneValue3 TuneValue4 ]
-"221
+"222
 [s S279 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S279 . AdjGO LoadGO Load_Status PIR_DimmerSignal PIR_Sw PIR_Trigger PIR_Sw_S PIR_Trigger_S ]
-"219
+"220
 [u S278 `S279 1 ]
 [n S278 . . ]
-"235
+"236
 [s S281 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :5 `uc 1 ]
 [n S281 . PIR_Close_Status PIR_Open_Status PIR_Lights_Status PIR_CDS_Status empty ]
-"233
+"234
 [u S280 `S281 1 ]
 [n S280 . . ]
-"214
+"215
 [s S277 `S278 1 `S280 1 `uc 1 `uc 1 ]
 [n S277 Dimmer . . Load Correction ]
 "26 ../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h
@@ -210,18 +210,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _PEIE `Vb ~T0 @X0 0 e@94 ]
 "4357
 [v _GIE `Vb ~T0 @X0 0 e@95 ]
-[v F2557 `(v ~T0 @X0 1 tf ]
-"203 ../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h
-[v _DimmerLights_TMR_1 `TF2557 ~T0 @X0 0 e ]
+[v F2559 `(v ~T0 @X0 1 tf ]
+"204 ../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h
+[v _DimmerLights_TMR_1 `TF2559 ~T0 @X0 0 e ]
 "3743 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _IOCBP `Vuc ~T0 @X0 0 e@916 ]
 "3812
 [v _IOCBN `Vuc ~T0 @X0 0 e@917 ]
 "3881
 [v _IOCBF `Vuc ~T0 @X0 0 e@918 ]
-[v F2561 `(v ~T0 @X0 1 tf ]
-"206 ../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h
-[v _DimmerLights_IOC_1 `TF2561 ~T0 @X0 0 e ]
+[v F2563 `(v ~T0 @X0 1 tf ]
+"207 ../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h
+[v _DimmerLights_IOC_1 `TF2563 ~T0 @X0 0 e ]
 "1741 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
 [v _ADCON1 `Vuc ~T0 @X0 0 e@158 ]
 "2021
@@ -248,6 +248,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _setMemory_Data `(v ~T0 @X0 0 ef2`uc`uc ]
 "717
 [v _Flash_Memory_Write `(v ~T0 @X0 0 ef ]
+"67 ../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Switch_B1.h
+[v _getAll_Sw_KeyStatus `(uc ~T0 @X0 0 ef ]
 "147 ../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Main_B1.h
 [v _getMain_All_LightsStatus `(uc ~T0 @X0 0 ef ]
 "719 ../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/MCU_B1.h
@@ -2442,18 +2444,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Switch_B1.h: 64: void Switch_Exception(char command);
 [; ;Switch_B1.h: 65: void setSw_Status(char sw, char command);
 [; ;Switch_B1.h: 66: char getSw_KeyStatus(char sw);
-[; ;Switch_B1.h: 71: void TouchPower();
-[; ;Switch_B1.h: 96: struct SwitchDetect {
-[; ;Switch_B1.h: 98: union {
-[; ;Switch_B1.h: 100: struct {
-[; ;Switch_B1.h: 101: unsigned Error : 1;
-[; ;Switch_B1.h: 102: unsigned empty : 7;
-[; ;Switch_B1.h: 103: };
+[; ;Switch_B1.h: 67: char getAll_Sw_KeyStatus();
+[; ;Switch_B1.h: 72: void TouchPower();
+[; ;Switch_B1.h: 97: struct SwitchDetect {
+[; ;Switch_B1.h: 99: union {
+[; ;Switch_B1.h: 101: struct {
+[; ;Switch_B1.h: 102: unsigned Error : 1;
+[; ;Switch_B1.h: 103: unsigned empty : 7;
 [; ;Switch_B1.h: 104: };
 [; ;Switch_B1.h: 105: };
-"106
+[; ;Switch_B1.h: 106: };
+"107
 [v _SwDetect `S253 ~T0 @X0 1 e ]
-[; ;Switch_B1.h: 106: struct SwitchDetect SwDetect;
+[; ;Switch_B1.h: 107: struct SwitchDetect SwDetect;
 [; ;Buzzer_B1.h: 11: struct Buzzer {
 [; ;Buzzer_B1.h: 13: struct {
 [; ;Buzzer_B1.h: 14: unsigned Enable : 1;
@@ -3048,76 +3051,77 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.h: 146: unsigned Trigger3 : 1;
 [; ;Dimmer_B1.h: 147: unsigned Trigger4 : 1;
 [; ;Dimmer_B1.h: 148: unsigned Trigger5 : 1;
-[; ;Dimmer_B1.h: 149: unsigned empty : 3;
-[; ;Dimmer_B1.h: 150: };
+[; ;Dimmer_B1.h: 149: unsigned Status:1;
+[; ;Dimmer_B1.h: 150: unsigned empty : 2;
 [; ;Dimmer_B1.h: 151: };
-[; ;Dimmer_B1.h: 153: unsigned char Count;
-[; ;Dimmer_B1.h: 154: unsigned char TuneTime;
-[; ;Dimmer_B1.h: 155: unsigned char TuneTimeValue;
-[; ;Dimmer_B1.h: 156: unsigned char DimmingValue;
-[; ;Dimmer_B1.h: 157: unsigned char MaxmumValue;
-[; ;Dimmer_B1.h: 158: unsigned char MinimumValue;
-[; ;Dimmer_B1.h: 159: unsigned char TuneValue;
-[; ;Dimmer_B1.h: 161: unsigned char TuneValue2;
-[; ;Dimmer_B1.h: 162: unsigned char TuneValue3;
-[; ;Dimmer_B1.h: 163: unsigned char TuneValue4;
-[; ;Dimmer_B1.h: 165: };
-"166
+[; ;Dimmer_B1.h: 152: };
+[; ;Dimmer_B1.h: 154: unsigned char Count;
+[; ;Dimmer_B1.h: 155: unsigned char TuneTime;
+[; ;Dimmer_B1.h: 156: unsigned char TuneTimeValue;
+[; ;Dimmer_B1.h: 157: unsigned char DimmingValue;
+[; ;Dimmer_B1.h: 158: unsigned char MaxmumValue;
+[; ;Dimmer_B1.h: 159: unsigned char MinimumValue;
+[; ;Dimmer_B1.h: 160: unsigned char TuneValue;
+[; ;Dimmer_B1.h: 162: unsigned char TuneValue2;
+[; ;Dimmer_B1.h: 163: unsigned char TuneValue3;
+[; ;Dimmer_B1.h: 164: unsigned char TuneValue4;
+[; ;Dimmer_B1.h: 166: };
+"167
 [v _DimmerIntr `*S272 ~T0 @X0 1 e ]
-[; ;Dimmer_B1.h: 166: struct Dimmer_Interrupt *DimmerIntr;
-"169
+[; ;Dimmer_B1.h: 167: struct Dimmer_Interrupt *DimmerIntr;
+"170
 [v _DimmerIntr1 `S272 ~T0 @X0 1 e ]
-[; ;Dimmer_B1.h: 169: struct Dimmer_Interrupt DimmerIntr1;
-[; ;Dimmer_B1.h: 180: void DimmerIntr_Initialization();
-[; ;Dimmer_B1.h: 181: void setDimmerIntr_ControlStatus(char lights, char command);
-[; ;Dimmer_B1.h: 182: void setDimmerIntr_DimmingValue(char lights, char value);
-[; ;Dimmer_B1.h: 183: char getDimmerIntr_DimmingValue(char lights);
-[; ;Dimmer_B1.h: 184: void setDimmerIntr_MinimumValue(char lights, char value);
-[; ;Dimmer_B1.h: 185: char getDimmerIntr_MinimumValue(char lights);
-[; ;Dimmer_B1.h: 186: void setDimmerIntr_Dimming_Sw(char lights, char command);
-[; ;Dimmer_B1.h: 187: void setDimmerIntr_Dimming_RF(char lights, char command);
-[; ;Dimmer_B1.h: 188: char getAll_DimmerIntr_ControlStatus();
-[; ;Dimmer_B1.h: 189: char getAll_DimmerIntr_Dimming_Sw();
-[; ;Dimmer_B1.h: 190: char getAll_DimmerIntr_Dimming_Sw_RF();
-[; ;Dimmer_B1.h: 193: void setDimmerIntr_MaxmumValue(char lights, char value);
-[; ;Dimmer_B1.h: 194: char getDimmerIntr_MaxmumValue(char lights);
-[; ;Dimmer_B1.h: 200: inline void setDimmerIntr_TMR(char lights);
-[; ;Dimmer_B1.h: 201: inline void setDimmerIntr_IOC(char lights);
-[; ;Dimmer_B1.h: 203: inline void DimmerLights_TMR_1();
-[; ;Dimmer_B1.h: 204: inline void DimmerLights_TMR_2();
-[; ;Dimmer_B1.h: 206: inline void DimmerLights_IOC_1();
-[; ;Dimmer_B1.h: 207: inline void DimmerLights_IOC_2();
-[; ;Dimmer_B1.h: 214: struct Dimmer {
-[; ;Dimmer_B1.h: 219: union {
-[; ;Dimmer_B1.h: 221: struct {
-[; ;Dimmer_B1.h: 222: unsigned AdjGO : 1;
-[; ;Dimmer_B1.h: 223: unsigned LoadGO : 1;
-[; ;Dimmer_B1.h: 224: unsigned Load_Status : 1;
-[; ;Dimmer_B1.h: 225: unsigned PIR_DimmerSignal : 1;
-[; ;Dimmer_B1.h: 226: unsigned PIR_Sw : 1;
-[; ;Dimmer_B1.h: 227: unsigned PIR_Trigger : 1;
-[; ;Dimmer_B1.h: 228: unsigned PIR_Sw_S : 1;
-[; ;Dimmer_B1.h: 229: unsigned PIR_Trigger_S : 1;
-[; ;Dimmer_B1.h: 230: };
+[; ;Dimmer_B1.h: 170: struct Dimmer_Interrupt DimmerIntr1;
+[; ;Dimmer_B1.h: 181: void DimmerIntr_Initialization();
+[; ;Dimmer_B1.h: 182: void setDimmerIntr_ControlStatus(char lights, char command);
+[; ;Dimmer_B1.h: 183: void setDimmerIntr_DimmingValue(char lights, char value);
+[; ;Dimmer_B1.h: 184: char getDimmerIntr_DimmingValue(char lights);
+[; ;Dimmer_B1.h: 185: void setDimmerIntr_MinimumValue(char lights, char value);
+[; ;Dimmer_B1.h: 186: char getDimmerIntr_MinimumValue(char lights);
+[; ;Dimmer_B1.h: 187: void setDimmerIntr_Dimming_Sw(char lights, char command);
+[; ;Dimmer_B1.h: 188: void setDimmerIntr_Dimming_RF(char lights, char command);
+[; ;Dimmer_B1.h: 189: char getAll_DimmerIntr_ControlStatus();
+[; ;Dimmer_B1.h: 190: char getAll_DimmerIntr_Dimming_Sw();
+[; ;Dimmer_B1.h: 191: char getAll_DimmerIntr_Dimming_Sw_RF();
+[; ;Dimmer_B1.h: 194: void setDimmerIntr_MaxmumValue(char lights, char value);
+[; ;Dimmer_B1.h: 195: char getDimmerIntr_MaxmumValue(char lights);
+[; ;Dimmer_B1.h: 201: inline void setDimmerIntr_TMR(char lights);
+[; ;Dimmer_B1.h: 202: inline void setDimmerIntr_IOC(char lights);
+[; ;Dimmer_B1.h: 204: inline void DimmerLights_TMR_1();
+[; ;Dimmer_B1.h: 205: inline void DimmerLights_TMR_2();
+[; ;Dimmer_B1.h: 207: inline void DimmerLights_IOC_1();
+[; ;Dimmer_B1.h: 208: inline void DimmerLights_IOC_2();
+[; ;Dimmer_B1.h: 215: struct Dimmer {
+[; ;Dimmer_B1.h: 220: union {
+[; ;Dimmer_B1.h: 222: struct {
+[; ;Dimmer_B1.h: 223: unsigned AdjGO : 1;
+[; ;Dimmer_B1.h: 224: unsigned LoadGO : 1;
+[; ;Dimmer_B1.h: 225: unsigned Load_Status : 1;
+[; ;Dimmer_B1.h: 226: unsigned PIR_DimmerSignal : 1;
+[; ;Dimmer_B1.h: 227: unsigned PIR_Sw : 1;
+[; ;Dimmer_B1.h: 228: unsigned PIR_Trigger : 1;
+[; ;Dimmer_B1.h: 229: unsigned PIR_Sw_S : 1;
+[; ;Dimmer_B1.h: 230: unsigned PIR_Trigger_S : 1;
 [; ;Dimmer_B1.h: 231: };
-[; ;Dimmer_B1.h: 233: union {
-[; ;Dimmer_B1.h: 235: struct {
-[; ;Dimmer_B1.h: 236: unsigned PIR_Close_Status : 1;
-[; ;Dimmer_B1.h: 237: unsigned PIR_Open_Status : 1;
-[; ;Dimmer_B1.h: 238: unsigned PIR_Lights_Status : 1;
-[; ;Dimmer_B1.h: 239: unsigned PIR_CDS_Status : 1;
-[; ;Dimmer_B1.h: 240: unsigned empty : 5;
-[; ;Dimmer_B1.h: 241: };
+[; ;Dimmer_B1.h: 232: };
+[; ;Dimmer_B1.h: 234: union {
+[; ;Dimmer_B1.h: 236: struct {
+[; ;Dimmer_B1.h: 237: unsigned PIR_Close_Status : 1;
+[; ;Dimmer_B1.h: 238: unsigned PIR_Open_Status : 1;
+[; ;Dimmer_B1.h: 239: unsigned PIR_Lights_Status : 1;
+[; ;Dimmer_B1.h: 240: unsigned PIR_CDS_Status : 1;
+[; ;Dimmer_B1.h: 241: unsigned empty : 5;
 [; ;Dimmer_B1.h: 242: };
-[; ;Dimmer_B1.h: 244: unsigned char Load;
-[; ;Dimmer_B1.h: 245: unsigned char Correction;
-[; ;Dimmer_B1.h: 246: };
-"248
+[; ;Dimmer_B1.h: 243: };
+[; ;Dimmer_B1.h: 245: unsigned char Load;
+[; ;Dimmer_B1.h: 246: unsigned char Correction;
+[; ;Dimmer_B1.h: 247: };
+"249
 [v _Dimmer `S277 ~T0 @X0 1 e ]
-[; ;Dimmer_B1.h: 248: struct Dimmer Dimmer;
-[; ;Dimmer_B1.h: 250: inline void Dimmer_Initialization();
-[; ;Dimmer_B1.h: 251: char getDimmer_LoadGO();
-[; ;Dimmer_B1.h: 252: char getDimmer_Load_Status();
+[; ;Dimmer_B1.h: 249: struct Dimmer Dimmer;
+[; ;Dimmer_B1.h: 251: inline void Dimmer_Initialization();
+[; ;Dimmer_B1.h: 252: char getDimmer_LoadGO();
+[; ;Dimmer_B1.h: 253: char getDimmer_Load_Status();
 [; ;DelayOff_B1.h: 24: struct DelayOff {
 [; ;DelayOff_B1.h: 26: struct {
 [; ;DelayOff_B1.h: 27: unsigned Enable : 1;
@@ -3502,18 +3506,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.c: 935: product->Data[14] = Flash_Memory_Read(2);
 "935
 [e = *U + &U . *U _product 0 * -> -> -> 14 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ( _Flash_Memory_Read (1 -> -> 2 `i `uc ]
-[; ;MCU_B1.c: 941: i = getDimmerLights_ValueToPercent(((char)(60*0.79)));
-"941
-[e = _i ( _getDimmerLights_ValueToPercent (1 -> * -> -> 60 `i `d .0.79 `uc ]
-[; ;MCU_B1.c: 942: product->Data[21] = i;
-"942
-[e = *U + &U . *U _product 0 * -> -> -> 21 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux _i ]
-[; ;MCU_B1.c: 943: product->Data[22] = i;
-"943
-[e = *U + &U . *U _product 0 * -> -> -> 22 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux _i ]
-[; ;MCU_B1.c: 944: product->Data[23] = i;
-"944
-[e = *U + &U . *U _product 0 * -> -> -> 23 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux _i ]
+[; ;MCU_B1.c: 937: product->Data[21] = Flash_Memory_Read(3);
+"937
+[e = *U + &U . *U _product 0 * -> -> -> 21 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ( _Flash_Memory_Read (1 -> -> 3 `i `uc ]
+[; ;MCU_B1.c: 938: product->Data[22] = Flash_Memory_Read(4);
+"938
+[e = *U + &U . *U _product 0 * -> -> -> 22 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ( _Flash_Memory_Read (1 -> -> 4 `i `uc ]
+[; ;MCU_B1.c: 939: product->Data[23] = Flash_Memory_Read(5);
+"939
+[e = *U + &U . *U _product 0 * -> -> -> 23 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ( _Flash_Memory_Read (1 -> -> 5 `i `uc ]
 [; ;MCU_B1.c: 946: if (product->Data[12] == 0xff && product->Data[13] == 0xff && product->Data[14] == 0xff) {
 "946
 [e $ ! && && == -> *U + &U . *U _product 0 * -> -> -> 12 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux `i -> 255 `i == -> *U + &U . *U _product 0 * -> -> -> 13 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux `i -> 255 `i == -> *U + &U . *U _product 0 * -> -> -> 14 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux `i -> 255 `i 306  ]
@@ -3534,9 +3535,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 307  ]
 [e :U 305 ]
 {
-[; ;MCU_B1.c: 951: i = getDimmerLights_ValueToPercent(((char)(60*0.79)));
+[; ;MCU_B1.c: 951: i = getDimmerLights_ValueToPercent(((char)(60*0.78)));
 "951
-[e = _i ( _getDimmerLights_ValueToPercent (1 -> * -> -> 60 `i `d .0.79 `uc ]
+[e = _i ( _getDimmerLights_ValueToPercent (1 -> * -> -> 60 `i `d .0.78 `uc ]
 [; ;MCU_B1.c: 952: setMemory_Data(0, 0xff);
 "952
 [e ( _setMemory_Data (2 , -> -> 0 `i `uc -> -> 255 `i `uc ]
@@ -3596,416 +3597,432 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.c: 971: void Flash_Memory_Main() {
 [e :U _Flash_Memory_Main ]
 [f ]
-[; ;MCU_B1.c: 972: if (Memory.Modify == 1) {
 "972
+[v _key_Status `uc ~T0 @X0 1 a ]
+[; ;MCU_B1.c: 972: char key_Status = 0;
+[e = _key_Status -> -> 0 `i `uc ]
+[; ;MCU_B1.c: 974: key_Status = getAll_Sw_KeyStatus();
+"974
+[e = _key_Status ( _getAll_Sw_KeyStatus ..  ]
+[; ;MCU_B1.c: 976: if (Memory.Modify == 1) {
+"976
 [e $ ! == -> . . _Memory 4 0 `i -> 1 `i 309  ]
 {
-[; ;MCU_B1.c: 973: Memory.GO = getMain_All_LightsStatus() == 0 ? 1 : 0;
-"973
-[e = . . _Memory 4 1 -> ? == -> ( _getMain_All_LightsStatus ..  `i -> 0 `i : -> 1 `i -> 0 `i `uc ]
-[; ;MCU_B1.c: 974: if (Memory.GO == 1) {
-"974
+[; ;MCU_B1.c: 977: Memory.GO = getMain_All_LightsStatus() == 0 && key_Status == 0 ? 1 : 0;
+"977
+[e = . . _Memory 4 1 -> ? && == -> ( _getMain_All_LightsStatus ..  `i -> 0 `i == -> _key_Status `i -> 0 `i : -> 1 `i -> 0 `i `uc ]
+[; ;MCU_B1.c: 978: if (Memory.GO == 1) {
+"978
 [e $ ! == -> . . _Memory 4 1 `i -> 1 `i 310  ]
 {
-[; ;MCU_B1.c: 975: Memory.Runtime = 1;
-"975
+[; ;MCU_B1.c: 979: Memory.Runtime = 1;
+"979
 [e = . . _Memory 4 3 -> -> 1 `i `uc ]
-[; ;MCU_B1.c: 976: Memory.Time++;
-"976
+[; ;MCU_B1.c: 980: Memory.Time++;
+"980
 [e ++ . _Memory 3 -> -> 1 `i `ui ]
-[; ;MCU_B1.c: 977: if (Memory.Time == (200 / 20)) {
-"977
+[; ;MCU_B1.c: 981: if (Memory.Time == (200 / 20)) {
+"981
 [e $ ! == . _Memory 3 -> / -> 200 `i -> 20 `i `ui 311  ]
 {
-[; ;MCU_B1.c: 978: Memory.Time = 0;
-"978
-[e = . _Memory 3 -> -> 0 `i `ui ]
-[; ;MCU_B1.c: 979: Memory.Modify = 0;
-"979
-[e = . . _Memory 4 0 -> -> 0 `i `uc ]
-[; ;MCU_B1.c: 980: Memory.GO = 0;
-"980
-[e = . . _Memory 4 1 -> -> 0 `i `uc ]
-[; ;MCU_B1.c: 981: Flash_Memory_Modify();
-"981
-[e ( _Flash_Memory_Modify ..  ]
+[; ;MCU_B1.c: 982: Memory.Time = 0;
 "982
+[e = . _Memory 3 -> -> 0 `i `ui ]
+[; ;MCU_B1.c: 983: Memory.Modify = 0;
+"983
+[e = . . _Memory 4 0 -> -> 0 `i `uc ]
+[; ;MCU_B1.c: 984: Memory.GO = 0;
+"984
+[e = . . _Memory 4 1 -> -> 0 `i `uc ]
+[; ;MCU_B1.c: 985: Flash_Memory_Modify();
+"985
+[e ( _Flash_Memory_Modify ..  ]
+"986
 }
 [e :U 311 ]
-"983
+"987
 }
-[; ;MCU_B1.c: 982: }
-[; ;MCU_B1.c: 983: } else {
+[; ;MCU_B1.c: 986: }
+[; ;MCU_B1.c: 987: } else {
 [e $U 312  ]
 [e :U 310 ]
 {
-[; ;MCU_B1.c: 984: if (Memory.Runtime == 1) {
-"984
+[; ;MCU_B1.c: 988: if (Memory.Runtime == 1) {
+"988
 [e $ ! == -> . . _Memory 4 3 `i -> 1 `i 313  ]
 {
-[; ;MCU_B1.c: 985: Memory.Runtime = 0;
-"985
+[; ;MCU_B1.c: 989: Memory.Runtime = 0;
+"989
 [e = . . _Memory 4 3 -> -> 0 `i `uc ]
-[; ;MCU_B1.c: 986: Memory.Time = 0;
-"986
+[; ;MCU_B1.c: 990: Memory.Time = 0;
+"990
 [e = . _Memory 3 -> -> 0 `i `ui ]
-"987
+"991
 }
 [e :U 313 ]
-"988
+"992
 }
 [e :U 312 ]
-"989
+"993
 }
 [e :U 309 ]
-[; ;MCU_B1.c: 987: }
-[; ;MCU_B1.c: 988: }
-[; ;MCU_B1.c: 989: }
-[; ;MCU_B1.c: 990: }
-"990
+[; ;MCU_B1.c: 991: }
+[; ;MCU_B1.c: 992: }
+[; ;MCU_B1.c: 993: }
+[; ;MCU_B1.c: 994: }
+"994
 [e :UE 308 ]
 }
-"993
+"997
 [v _Flash_Memory_Unlock `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 993: void Flash_Memory_Unlock() {
+[; ;MCU_B1.c: 997: void Flash_Memory_Unlock() {
 [e :U _Flash_Memory_Unlock ]
 [f ]
-[; ;MCU_B1.c: 994: PMCON2 = 0x55;
-"994
-[e = _PMCON2 -> -> 85 `i `uc ]
-[; ;MCU_B1.c: 995: PMCON2 = 0xaa;
-"995
-[e = _PMCON2 -> -> 170 `i `uc ]
-[; ;MCU_B1.c: 996: WR = 1;
-"996
-[e = _WR -> -> 1 `i `b ]
-[; ;MCU_B1.c: 997: __nop();
-"997
-[e ( ___nop ..  ]
-[; ;MCU_B1.c: 998: __nop();
+[; ;MCU_B1.c: 998: PMCON2 = 0x55;
 "998
-[e ( ___nop ..  ]
-[; ;MCU_B1.c: 999: }
+[e = _PMCON2 -> -> 85 `i `uc ]
+[; ;MCU_B1.c: 999: PMCON2 = 0xaa;
 "999
+[e = _PMCON2 -> -> 170 `i `uc ]
+[; ;MCU_B1.c: 1000: WR = 1;
+"1000
+[e = _WR -> -> 1 `i `b ]
+[; ;MCU_B1.c: 1001: __nop();
+"1001
+[e ( ___nop ..  ]
+[; ;MCU_B1.c: 1002: __nop();
+"1002
+[e ( ___nop ..  ]
+[; ;MCU_B1.c: 1003: }
+"1003
 [e :UE 314 ]
 }
-"1002
+"1006
 [v _Flash_Memory_Read `(uc ~T0 @X0 1 ef1`uc ]
 {
-[; ;MCU_B1.c: 1002: char Flash_Memory_Read(char address) {
+[; ;MCU_B1.c: 1006: char Flash_Memory_Read(char address) {
 [e :U _Flash_Memory_Read ]
 [v _address `uc ~T0 @X0 1 r1 ]
 [f ]
-"1003
+"1007
 [v _i `uc ~T0 @X0 1 a ]
-[; ;MCU_B1.c: 1003: char i = 0, ret = 0;
+[; ;MCU_B1.c: 1007: char i = 0, ret = 0;
 [e = _i -> -> 0 `i `uc ]
 [v _ret `uc ~T0 @X0 1 a ]
 [e = _ret -> -> 0 `i `uc ]
-[; ;MCU_B1.c: 1004: PMADRH = 0x30;
-"1004
-[e = _PMADRH -> -> 48 `i `uc ]
-[; ;MCU_B1.c: 1005: PMADRL = address;
-"1005
-[e = _PMADRL _address ]
-[; ;MCU_B1.c: 1006: CFGS = 0;
-"1006
-[e = _CFGS -> -> 0 `i `b ]
-[; ;MCU_B1.c: 1007: RD = 1;
-"1007
-[e = _RD -> -> 1 `i `b ]
-[; ;MCU_B1.c: 1008: i = PMDATH;
+[; ;MCU_B1.c: 1008: PMADRH = 0x30;
 "1008
-[e = _i _PMDATH ]
-[; ;MCU_B1.c: 1009: ret = PMDATL;
+[e = _PMADRH -> -> 48 `i `uc ]
+[; ;MCU_B1.c: 1009: PMADRL = address;
 "1009
-[e = _ret _PMDATL ]
-[; ;MCU_B1.c: 1010: return ret;
+[e = _PMADRL _address ]
+[; ;MCU_B1.c: 1010: CFGS = 0;
 "1010
+[e = _CFGS -> -> 0 `i `b ]
+[; ;MCU_B1.c: 1011: RD = 1;
+"1011
+[e = _RD -> -> 1 `i `b ]
+[; ;MCU_B1.c: 1012: i = PMDATH;
+"1012
+[e = _i _PMDATH ]
+[; ;MCU_B1.c: 1013: ret = PMDATL;
+"1013
+[e = _ret _PMDATL ]
+[; ;MCU_B1.c: 1014: return ret;
+"1014
 [e ) _ret ]
 [e $UE 315  ]
-[; ;MCU_B1.c: 1011: }
-"1011
+[; ;MCU_B1.c: 1015: }
+"1015
 [e :UE 315 ]
 }
-"1014
+"1018
 [v _Flash_Memory_Write `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 1014: void Flash_Memory_Write() {
+[; ;MCU_B1.c: 1018: void Flash_Memory_Write() {
 [e :U _Flash_Memory_Write ]
 [f ]
-"1015
-[v _i `uc ~T0 @X0 1 a ]
-[; ;MCU_B1.c: 1015: char i = 0;
-[e = _i -> -> 0 `i `uc ]
-[; ;MCU_B1.c: 1016: CFGS = 0;
-"1016
-[e = _CFGS -> -> 0 `i `b ]
-[; ;MCU_B1.c: 1017: PMADRH = 0x30;
-"1017
-[e = _PMADRH -> -> 48 `i `uc ]
-[; ;MCU_B1.c: 1018: PMDATH = 0;
-"1018
-[e = _PMDATH -> -> 0 `i `uc ]
-[; ;MCU_B1.c: 1019: FREE = 0;
 "1019
-[e = _FREE -> -> 0 `i `b ]
-[; ;MCU_B1.c: 1020: LWLO = 1;
+[v _i `uc ~T0 @X0 1 a ]
+[; ;MCU_B1.c: 1019: char i = 0;
+[e = _i -> -> 0 `i `uc ]
+[; ;MCU_B1.c: 1020: CFGS = 0;
 "1020
-[e = _LWLO -> -> 1 `i `b ]
-[; ;MCU_B1.c: 1021: WREN = 1;
+[e = _CFGS -> -> 0 `i `b ]
+[; ;MCU_B1.c: 1021: PMADRH = 0x30;
 "1021
-[e = _WREN -> -> 1 `i `b ]
-[; ;MCU_B1.c: 1022: for (i = 0; i < 32; i++) {
+[e = _PMADRH -> -> 48 `i `uc ]
+[; ;MCU_B1.c: 1022: PMDATH = 0;
 "1022
+[e = _PMDATH -> -> 0 `i `uc ]
+[; ;MCU_B1.c: 1023: FREE = 0;
+"1023
+[e = _FREE -> -> 0 `i `b ]
+[; ;MCU_B1.c: 1024: LWLO = 1;
+"1024
+[e = _LWLO -> -> 1 `i `b ]
+[; ;MCU_B1.c: 1025: WREN = 1;
+"1025
+[e = _WREN -> -> 1 `i `b ]
+[; ;MCU_B1.c: 1026: for (i = 0; i < 32; i++) {
+"1026
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 32 `i 317  ]
 [e $U 318  ]
 [e :U 317 ]
 {
-[; ;MCU_B1.c: 1023: PMADRL = i;
-"1023
+[; ;MCU_B1.c: 1027: PMADRL = i;
+"1027
 [e = _PMADRL _i ]
-[; ;MCU_B1.c: 1024: PMDATL = Memory.Data[i];
-"1024
+[; ;MCU_B1.c: 1028: PMDATL = Memory.Data[i];
+"1028
 [e = _PMDATL *U + &U . _Memory 0 * -> _i `ux -> -> # *U &U . _Memory 0 `ui `ux ]
-[; ;MCU_B1.c: 1025: Flash_Memory_Unlock();
-"1025
+[; ;MCU_B1.c: 1029: Flash_Memory_Unlock();
+"1029
 [e ( _Flash_Memory_Unlock ..  ]
-"1026
+"1030
 }
-"1022
+"1026
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 32 `i 317  ]
 [e :U 318 ]
-"1026
-}
-[; ;MCU_B1.c: 1026: }
-[; ;MCU_B1.c: 1027: LWLO = 0;
-"1027
-[e = _LWLO -> -> 0 `i `b ]
-[; ;MCU_B1.c: 1028: Flash_Memory_Unlock();
-"1028
-[e ( _Flash_Memory_Unlock ..  ]
-[; ;MCU_B1.c: 1029: WREN = 0;
-"1029
-[e = _WREN -> -> 0 `i `b ]
-[; ;MCU_B1.c: 1030: }
 "1030
+}
+[; ;MCU_B1.c: 1030: }
+[; ;MCU_B1.c: 1031: LWLO = 0;
+"1031
+[e = _LWLO -> -> 0 `i `b ]
+[; ;MCU_B1.c: 1032: Flash_Memory_Unlock();
+"1032
+[e ( _Flash_Memory_Unlock ..  ]
+[; ;MCU_B1.c: 1033: WREN = 0;
+"1033
+[e = _WREN -> -> 0 `i `b ]
+[; ;MCU_B1.c: 1034: }
+"1034
 [e :UE 316 ]
 }
-"1033
+"1037
 [v _Flash_Memory_Erasing `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 1033: void Flash_Memory_Erasing() {
+[; ;MCU_B1.c: 1037: void Flash_Memory_Erasing() {
 [e :U _Flash_Memory_Erasing ]
 [f ]
-[; ;MCU_B1.c: 1034: CFGS = 0;
-"1034
-[e = _CFGS -> -> 0 `i `b ]
-[; ;MCU_B1.c: 1035: PMADRH = 0x30;
-"1035
-[e = _PMADRH -> -> 48 `i `uc ]
-[; ;MCU_B1.c: 1036: PMADRL = 0x00;
-"1036
-[e = _PMADRL -> -> 0 `i `uc ]
-[; ;MCU_B1.c: 1037: FREE = 1;
-"1037
-[e = _FREE -> -> 1 `i `b ]
-[; ;MCU_B1.c: 1038: WREN = 1;
+[; ;MCU_B1.c: 1038: CFGS = 0;
 "1038
-[e = _WREN -> -> 1 `i `b ]
-[; ;MCU_B1.c: 1039: Flash_Memory_Unlock();
+[e = _CFGS -> -> 0 `i `b ]
+[; ;MCU_B1.c: 1039: PMADRH = 0x30;
 "1039
-[e ( _Flash_Memory_Unlock ..  ]
-[; ;MCU_B1.c: 1040: WREN = 0;
+[e = _PMADRH -> -> 48 `i `uc ]
+[; ;MCU_B1.c: 1040: PMADRL = 0x00;
 "1040
-[e = _WREN -> -> 0 `i `b ]
-[; ;MCU_B1.c: 1041: }
+[e = _PMADRL -> -> 0 `i `uc ]
+[; ;MCU_B1.c: 1041: FREE = 1;
 "1041
+[e = _FREE -> -> 1 `i `b ]
+[; ;MCU_B1.c: 1042: WREN = 1;
+"1042
+[e = _WREN -> -> 1 `i `b ]
+[; ;MCU_B1.c: 1043: Flash_Memory_Unlock();
+"1043
+[e ( _Flash_Memory_Unlock ..  ]
+[; ;MCU_B1.c: 1044: WREN = 0;
+"1044
+[e = _WREN -> -> 0 `i `b ]
+[; ;MCU_B1.c: 1045: }
+"1045
 [e :UE 320 ]
 }
-"1044
+"1048
 [v _Flash_Memory_Modify `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 1044: void Flash_Memory_Modify() {
+[; ;MCU_B1.c: 1048: void Flash_Memory_Modify() {
 [e :U _Flash_Memory_Modify ]
 [f ]
-"1045
+"1049
 [v _i `uc ~T0 @X0 1 a ]
-[; ;MCU_B1.c: 1045: char i = 0;
+[; ;MCU_B1.c: 1049: char i = 0;
 [e = _i -> -> 0 `i `uc ]
-[; ;MCU_B1.c: 1046: for (i = 0; i < 32; i++) {
-"1046
+[; ;MCU_B1.c: 1050: for (i = 0; i < 32; i++) {
+"1050
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 32 `i 322  ]
 [e $U 323  ]
 [e :U 322 ]
 {
-[; ;MCU_B1.c: 1047: Memory.Data[i] = Flash_Memory_Read(i);
-"1047
+[; ;MCU_B1.c: 1051: Memory.Data[i] = Flash_Memory_Read(i);
+"1051
 [e = *U + &U . _Memory 0 * -> _i `ux -> -> # *U &U . _Memory 0 `ui `ux ( _Flash_Memory_Read (1 _i ]
-"1048
+"1052
 }
-"1046
+"1050
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 32 `i 322  ]
 [e :U 323 ]
-"1048
+"1052
 }
-[; ;MCU_B1.c: 1048: }
-[; ;MCU_B1.c: 1049: setMemory_Data(0, product->Data[12]);
-"1049
+[; ;MCU_B1.c: 1052: }
+[; ;MCU_B1.c: 1053: setMemory_Data(0, product->Data[12]);
+"1053
 [e ( _setMemory_Data (2 , -> -> 0 `i `uc *U + &U . *U _product 0 * -> -> -> 12 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-[; ;MCU_B1.c: 1050: setMemory_Data(1, product->Data[13]);
-"1050
+[; ;MCU_B1.c: 1054: setMemory_Data(1, product->Data[13]);
+"1054
 [e ( _setMemory_Data (2 , -> -> 1 `i `uc *U + &U . *U _product 0 * -> -> -> 13 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-[; ;MCU_B1.c: 1051: setMemory_Data(2, product->Data[14]);
-"1051
+[; ;MCU_B1.c: 1055: setMemory_Data(2, product->Data[14]);
+"1055
 [e ( _setMemory_Data (2 , -> -> 2 `i `uc *U + &U . *U _product 0 * -> -> -> 14 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-[; ;MCU_B1.c: 1057: if (Memory.LoopSave == 1) {
+[; ;MCU_B1.c: 1057: setMemory_Data(3, product->Data[21]);
 "1057
+[e ( _setMemory_Data (2 , -> -> 3 `i `uc *U + &U . *U _product 0 * -> -> -> 21 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
+[; ;MCU_B1.c: 1058: setMemory_Data(4, product->Data[22]);
+"1058
+[e ( _setMemory_Data (2 , -> -> 4 `i `uc *U + &U . *U _product 0 * -> -> -> 22 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
+[; ;MCU_B1.c: 1059: setMemory_Data(5, product->Data[23]);
+"1059
+[e ( _setMemory_Data (2 , -> -> 5 `i `uc *U + &U . *U _product 0 * -> -> -> 23 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
+[; ;MCU_B1.c: 1061: if (Memory.LoopSave == 1) {
+"1061
 [e $ ! == -> . . _Memory 4 2 `i -> 1 `i 325  ]
 {
-[; ;MCU_B1.c: 1058: Memory.LoopSave = 0;
-"1058
-[e = . . _Memory 4 2 -> -> 0 `i `uc ]
-[; ;MCU_B1.c: 1059: myMain.FirstOpen = 0;
-"1059
-[e = . . _myMain 0 3 -> -> 0 `i `uc ]
-[; ;MCU_B1.c: 1060: myMain.First = 0;
-"1060
-[e = . . _myMain 0 5 -> -> 0 `i `uc ]
+[; ;MCU_B1.c: 1062: Memory.LoopSave = 0;
 "1062
+[e = . . _Memory 4 2 -> -> 0 `i `uc ]
+[; ;MCU_B1.c: 1063: myMain.FirstOpen = 0;
+"1063
+[e = . . _myMain 0 3 -> -> 0 `i `uc ]
+[; ;MCU_B1.c: 1064: myMain.First = 0;
+"1064
+[e = . . _myMain 0 5 -> -> 0 `i `uc ]
+"1066
 }
 [e :U 325 ]
-[; ;MCU_B1.c: 1062: }
-[; ;MCU_B1.c: 1063: GIE = 0;
-"1063
-[e = _GIE -> -> 0 `i `b ]
-[; ;MCU_B1.c: 1064: Flash_Memory_Erasing();
-"1064
-[e ( _Flash_Memory_Erasing ..  ]
-[; ;MCU_B1.c: 1065: Flash_Memory_Write();
-"1065
-[e ( _Flash_Memory_Write ..  ]
-[; ;MCU_B1.c: 1066: GIE = 1;
-"1066
-[e = _GIE -> -> 1 `i `b ]
-[; ;MCU_B1.c: 1067: }
+[; ;MCU_B1.c: 1066: }
+[; ;MCU_B1.c: 1067: GIE = 0;
 "1067
+[e = _GIE -> -> 0 `i `b ]
+[; ;MCU_B1.c: 1068: Flash_Memory_Erasing();
+"1068
+[e ( _Flash_Memory_Erasing ..  ]
+[; ;MCU_B1.c: 1069: Flash_Memory_Write();
+"1069
+[e ( _Flash_Memory_Write ..  ]
+[; ;MCU_B1.c: 1070: GIE = 1;
+"1070
+[e = _GIE -> -> 1 `i `b ]
+[; ;MCU_B1.c: 1071: }
+"1071
 [e :UE 321 ]
 }
-"1070
+"1074
 [v _setMemory_Modify `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;MCU_B1.c: 1070: void setMemory_Modify(char command) {
+[; ;MCU_B1.c: 1074: void setMemory_Modify(char command) {
 [e :U _setMemory_Modify ]
 [v _command `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;MCU_B1.c: 1071: Memory.Modify = command == 1 ? 1 : 0;
-"1071
+[; ;MCU_B1.c: 1075: Memory.Modify = command == 1 ? 1 : 0;
+"1075
 [e = . . _Memory 4 0 -> ? == -> _command `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;MCU_B1.c: 1072: Memory.Time = 0;
-"1072
+[; ;MCU_B1.c: 1076: Memory.Time = 0;
+"1076
 [e = . _Memory 3 -> -> 0 `i `ui ]
-[; ;MCU_B1.c: 1073: }
-"1073
+[; ;MCU_B1.c: 1077: }
+"1077
 [e :UE 326 ]
 }
-"1076
+"1080
 [v _setMemory_LoopSave `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;MCU_B1.c: 1076: void setMemory_LoopSave(char command) {
+[; ;MCU_B1.c: 1080: void setMemory_LoopSave(char command) {
 [e :U _setMemory_LoopSave ]
 [v _command `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;MCU_B1.c: 1077: Memory.LoopSave = command == 1 ? 1 : 0;
-"1077
+[; ;MCU_B1.c: 1081: Memory.LoopSave = command == 1 ? 1 : 0;
+"1081
 [e = . . _Memory 4 2 -> ? == -> _command `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;MCU_B1.c: 1078: }
-"1078
+[; ;MCU_B1.c: 1082: }
+"1082
 [e :UE 327 ]
 }
-"1081
+"1085
 [v _setMemory_Data `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;MCU_B1.c: 1081: void setMemory_Data(char address, char data) {
+[; ;MCU_B1.c: 1085: void setMemory_Data(char address, char data) {
 [e :U _setMemory_Data ]
 [v _address `uc ~T0 @X0 1 r1 ]
 [v _data `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;MCU_B1.c: 1082: Memory.Data[address] = data;
-"1082
+[; ;MCU_B1.c: 1086: Memory.Data[address] = data;
+"1086
 [e = *U + &U . _Memory 0 * -> _address `ux -> -> # *U &U . _Memory 0 `ui `ux _data ]
-[; ;MCU_B1.c: 1083: }
-"1083
+[; ;MCU_B1.c: 1087: }
+"1087
 [e :UE 328 ]
 }
-"1089
+"1093
 [v _WDT_Set `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 1089: void WDT_Set() {
+[; ;MCU_B1.c: 1093: void WDT_Set() {
 [e :U _WDT_Set ]
 [f ]
-[; ;MCU_B1.c: 1096: WDTCON = 0b00010111;;
-"1096
-[e = _WDTCON -> -> 23 `i `uc ]
-[; ;MCU_B1.c: 1098: WDT.Enable = 1;
-"1098
-[e = . . _WDT 0 0 -> -> 1 `i `uc ]
-[; ;MCU_B1.c: 1099: WDT.Timer = 10;
-"1099
-[e = . _WDT 1 -> -> 10 `i `uc ]
-[; ;MCU_B1.c: 1100: }
+[; ;MCU_B1.c: 1100: WDTCON = 0b00010111;;
 "1100
+[e = _WDTCON -> -> 23 `i `uc ]
+[; ;MCU_B1.c: 1102: WDT.Enable = 1;
+"1102
+[e = . . _WDT 0 0 -> -> 1 `i `uc ]
+[; ;MCU_B1.c: 1103: WDT.Timer = 10;
+"1103
+[e = . _WDT 1 -> -> 10 `i `uc ]
+[; ;MCU_B1.c: 1104: }
+"1104
 [e :UE 329 ]
 }
-"1103
+"1107
 [v _WDT_Main `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 1103: void WDT_Main() {
+[; ;MCU_B1.c: 1107: void WDT_Main() {
 [e :U _WDT_Main ]
 [f ]
-[; ;MCU_B1.c: 1104: if (WDT.Enable == 1) {
-"1104
+[; ;MCU_B1.c: 1108: if (WDT.Enable == 1) {
+"1108
 [e $ ! == -> . . _WDT 0 0 `i -> 1 `i 331  ]
 {
-[; ;MCU_B1.c: 1105: if (WDT.Timer-- > 0) {
-"1105
+[; ;MCU_B1.c: 1109: if (WDT.Timer-- > 0) {
+"1109
 [e $ ! > -> -- . _WDT 1 -> -> 1 `i `uc `i -> 0 `i 332  ]
 {
-[; ;MCU_B1.c: 1106: WDT.Timer = 100;
-"1106
+[; ;MCU_B1.c: 1110: WDT.Timer = 100;
+"1110
 [e = . _WDT 1 -> -> 100 `i `uc ]
-[; ;MCU_B1.c: 1107: WDT_Clearing();
-"1107
+[; ;MCU_B1.c: 1111: WDT_Clearing();
+"1111
 [e ( _WDT_Clearing ..  ]
-"1108
+"1112
 }
 [e :U 332 ]
-"1109
+"1113
 }
 [e :U 331 ]
-[; ;MCU_B1.c: 1108: }
-[; ;MCU_B1.c: 1109: }
-[; ;MCU_B1.c: 1110: }
-"1110
+[; ;MCU_B1.c: 1112: }
+[; ;MCU_B1.c: 1113: }
+[; ;MCU_B1.c: 1114: }
+"1114
 [e :UE 330 ]
 }
-"1113
+"1117
 [v _WDT_Clearing `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 1113: void WDT_Clearing() {
+[; ;MCU_B1.c: 1117: void WDT_Clearing() {
 [e :U _WDT_Clearing ]
 [f ]
-[; ;MCU_B1.c: 1114: asm("clrwdt");
-"1114
+[; ;MCU_B1.c: 1118: asm("clrwdt");
+"1118
 [; <" clrwdt ;# ">
-[; ;MCU_B1.c: 1115: }
-"1115
+[; ;MCU_B1.c: 1119: }
+"1119
 [e :UE 333 ]
 }

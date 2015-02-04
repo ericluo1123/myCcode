@@ -812,10 +812,11 @@ void setDimmerLights_OnOff(char lights, char command) {
         setLED(lights, 0);
         setLED2(0);
 
+#if DimmerValue_SaveMemory == 0
         //調光值在關燈後不記錄而且不存入記憶體，開燈後恢復最大值
-#if DimmerValue_CloseLightsSave == 0 && DimmerValue_SaveMemory == 0
-
         setDimmerIntr_DimmingValue(lights, Dimmer_Maxum);
+
+#if CC2500_use == 1
         //RF set
         if (DimmerLights->DimmingRun == true) {
             DimmerLights->DimmingRun = false;
@@ -826,6 +827,21 @@ void setDimmerLights_OnOff(char lights, char command) {
             setProductData((20 + lights), getDimmerLights_ValueToPercent(Dimmer_Maxum));
         }
 #endif
+#else
+        setDimmerIntr_DimmingValue(lights, getDimmerLights_PercentToValue(product->Data[20 + lights]));
+#if CC2500_use == 1
+        //RF set
+        if (DimmerLights->DimmingRun == true) {
+            DimmerLights->DimmingRun = false;
+            setDimmerIntr_MaxmumValue(lights, getDimmerLights_PercentToValue(product->Data[20 + lights]));
+            setDimmerIntr_Dimming_RF(lights, 1);
+        } else {
+            //            setDimmerIntr_MaxmumValue(lights, getDimmerLights_PercentToValue(product->Data[20 + lights]));
+            //            setProductData((20 + lights), getDimmerLights_ValueToPercent(Dimmer_Maxum));
+        }
+#endif
+#endif
+
 #endif
     } else if (command == 0) {
         setDimmerIntr_ControlStatus(lights, 0);
@@ -895,20 +911,22 @@ void setDimmerLights_Dimming(char lights, char status) {
         Dimmer.Load_Status = false;
         setDimmerLights_Line(lights);
 #endif
+        char value = getDimmerIntr_DimmingValue(lights);
+        setDimmerIntr_MaxmumValue(lights, value);
+        setProductData((20 + lights), getDimmerLights_ValueToPercent(value));
 
-        setDimmerIntr_MaxmumValue(lights, getDimmerIntr_DimmingValue(lights));
-        setProductData((20 + lights), getDimmerLights_ValueToPercent(getDimmerIntr_DimmingValue(lights)));
+        //#if DimmerValue_CloseLightsSave == 1
+        //        setProductData((20 + lights), getDimmerLights_ValueToPercent(getDimmerIntr_DimmingValue(lights)));
+        //#endif
 
-#if DimmerValue_CloseLightsSave == true
-        setProductData((20 + lights), setPercentValue(DimmerLights->MaxmumValue));
-#if DimmerValue_SaveMemory == true
+#if DimmerValue_SaveMemory == 1
         setMemory_Modify(1);
-#endif
 #endif
 
         //set RF transmit data and allow transmit
         setRF_DimmerLights(lights, 1);
         setTxData();
+
     }
 }
 //******************************************************************************
@@ -1313,23 +1331,12 @@ inline char Division(char value, char num) {
 inline void DimmerLights_TMR_1() {
     char count = TotalCount;
 
-#if Dimmer_Trigger_Mode == 1 
-    char TuneValue4 = DimmerIntr1.DimmingValue;
-#elif Dimmer_Trigger_Mode == 3
-    //    char dimming = Division(DimmerIntr1.DimmingValue, 2);
-    //    char TuneValue1 = First_TuneValue;
-    //    char TuneValue2 = TuneValue1 + dimming;
-    //    char TuneValue3 = TuneValue2 + ((count - 10) - DimmerIntr1.DimmingValue);
-    //    char TuneValue4 = TuneValue3 + dimming;
-
-#endif
-
     if (DimmerIntr1.Start == true) {
         DimmerIntr1.Count++;
         if (DimmerIntr1.Count >= count) {
             DimmerIntr1.Count = 0;
             DimmerIntr1.Start = false;
-           
+
         }
     }
 

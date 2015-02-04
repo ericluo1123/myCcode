@@ -285,8 +285,8 @@ typedef unsigned int ADtype;
 #define Dimmer_Trigger_Mode Dimmer_Trigger_Mode_Value
 #define Dimmable_Func 				1	
 #define Dimmer_Smooth				0
-#define DimmerValue_SaveMemory			0
-#define DimmerValue_CloseLightsSave		0
+#define DimmerValue_SaveMemory			1   //save memory?
+#define DimmerValue_CloseLightsSave		1   //new dimmer value save?
 #define TriacTimeValue				1
 /**
  * close mosfet delay time to allow recook

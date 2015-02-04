@@ -2841,13 +2841,14 @@ void setSw_Enable(char command);
 void Switch_Exception(char command);
 void setSw_Status(char sw, char command);
 char getSw_KeyStatus(char sw);
+char getAll_Sw_KeyStatus();
 
 
 
 
 void TouchPower();
 
-# 96
+# 97
 struct SwitchDetect {
 
 union {
@@ -3336,7 +3337,8 @@ unsigned Trigger2 : 1;
 unsigned Trigger3 : 1;
 unsigned Trigger4 : 1;
 unsigned Trigger5 : 1;
-unsigned empty : 3;
+unsigned Status:1;
+unsigned empty : 2;
 };
 };
 
@@ -3358,7 +3360,7 @@ struct Dimmer_Interrupt *DimmerIntr;
 
 struct Dimmer_Interrupt DimmerIntr1;
 
-# 180
+# 181
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3375,7 +3377,7 @@ char getAll_DimmerIntr_Dimming_Sw_RF();
 void setDimmerIntr_MaxmumValue(char lights, char value);
 char getDimmerIntr_MaxmumValue(char lights);
 
-# 200
+# 201
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
@@ -3385,7 +3387,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
-# 214
+# 215
 struct Dimmer {
 
 
@@ -3627,18 +3629,17 @@ product->Data[12] = Flash_Memory_Read(0);
 product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
-# 941
-i = getDimmerLights_ValueToPercent(((char)(60*0.79)));
-product->Data[21] = i;
-product->Data[22] = i;
-product->Data[23] = i;
+product->Data[21] = Flash_Memory_Read(3);
+product->Data[22] = Flash_Memory_Read(4);
+product->Data[23] = Flash_Memory_Read(5);
 
+# 946
 if (product->Data[12] == 0xff && product->Data[13] == 0xff && product->Data[14] == 0xff) {
 myMain.FirstOpen = 1;
 myMain.First = 1;
 }
 } else {
-i = getDimmerLights_ValueToPercent(((char)(60*0.79)));
+i = getDimmerLights_ValueToPercent(((char)(60*0.78)));
 setMemory_Data(0, 0xff);
 setMemory_Data(1, 0xff);
 setMemory_Data(2, 0xff);
@@ -3659,8 +3660,12 @@ myMain.First = 1;
 
 
 void Flash_Memory_Main() {
+char key_Status = 0;
+
+key_Status = getAll_Sw_KeyStatus();
+
 if (Memory.Modify == 1) {
-Memory.GO = getMain_All_LightsStatus() == 0 ? 1 : 0;
+Memory.GO = getMain_All_LightsStatus() == 0 && key_Status == 0 ? 1 : 0;
 if (Memory.GO == 1) {
 Memory.Runtime = 1;
 Memory.Time++;
@@ -3740,7 +3745,10 @@ setMemory_Data(0, product->Data[12]);
 setMemory_Data(1, product->Data[13]);
 setMemory_Data(2, product->Data[14]);
 
-# 1057
+setMemory_Data(3, product->Data[21]);
+setMemory_Data(4, product->Data[22]);
+setMemory_Data(5, product->Data[23]);
+
 if (Memory.LoopSave == 1) {
 Memory.LoopSave = 0;
 myMain.FirstOpen = 0;
@@ -3769,10 +3777,10 @@ void setMemory_Data(char address, char data) {
 Memory.Data[address] = data;
 }
 
-# 1089
+# 1093
 void WDT_Set() {
 
-# 1096
+# 1100
 WDTCON = 0b00010111;;
 
 WDT.Enable = 1;

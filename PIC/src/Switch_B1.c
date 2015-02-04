@@ -275,6 +275,36 @@ char getSw_KeyStatus(char sw) {
     return status;
 }
 
+char getAll_Sw_KeyStatus() {
+    char status = 0;
+#if Switch_Class == 3
+    status = Key1 == true || Key2 == true || Key3 == true ? 1 : 0;
+#endif
+
+#if Switch_Class == 2
+
+#if PIR_use == 1
+    if (sw == 1) {
+        NOP();
+    } else if (sw == 2) {
+        status = Key2_1 == true ? 1 : 0;
+    }
+#else
+    status = Key1_1 == true || Key1_2 == true || Key2_1 == true || Key2_2 == true ? 1 : 0;
+#endif
+
+#endif
+
+#if Switch_Class == 1
+#if PIR_use == 1
+    status = Key1_1 == true ? 1 : 0;
+#else
+    status = Key1_1 == true || Key1_2 == true || Key1_3 == true || Key1_4 == true ? 1 : 0;
+#endif
+#endif
+
+    return status;
+}
 //******************************************************************************
 //void Sw_Detect() {
 //    if (getLoad_ERROR() == false && getTemp_ERROR() == false && getPF_ERROR() == false && myMain.SelfTest == true) {

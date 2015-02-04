@@ -64,6 +64,7 @@ void setSw_Enable(char command);
 void Switch_Exception(char command);
 void setSw_Status(char sw, char command);
 char getSw_KeyStatus(char sw);
+char getAll_Sw_KeyStatus();
 
 //void Sw_Detect();
 

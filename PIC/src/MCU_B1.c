@@ -117,7 +117,7 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
 
 
 #if Timer0_use == 1
-else if (TMR0IE == true && TMR0IF == true) {
+    else if (TMR0IE == true && TMR0IF == true) {
         TMR0_ISR();
     }
 #endif
@@ -135,7 +135,7 @@ else if (TMR0IE == true && TMR0IF == true) {
     INT_ISR();
 #endif
 #if IOC_use == 1
-else if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
+    else if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
         IOC_ISR();
     }
 #endif
@@ -372,7 +372,7 @@ void setINT_GO(char command) {
 }
 #endif
 //*********************************************************
- 
+
 //*********************************************************
 #if IOC_use == 1
 
@@ -933,7 +933,7 @@ void Flash_Memory_Initialization() {
         product->Data[12] = Flash_Memory_Read(0);
         product->Data[13] = Flash_Memory_Read(1);
         product->Data[14] = Flash_Memory_Read(2);
-#if DimmerValue_SaveMemory == true
+#if DimmerValue_SaveMemory == 1
         product->Data[21] = Flash_Memory_Read(3);
         product->Data[22] = Flash_Memory_Read(4);
         product->Data[23] = Flash_Memory_Read(5);
@@ -969,8 +969,12 @@ void Flash_Memory_Initialization() {
 //*********************************************************
 
 void Flash_Memory_Main() {
+    char key_Status = 0;
+#if Switch_use == 1
+    key_Status = getAll_Sw_KeyStatus();
+#endif
     if (Memory.Modify == true) {
-        Memory.GO = getMain_All_LightsStatus() == 0 ? true : false;
+        Memory.GO = getMain_All_LightsStatus() == 0 && key_Status == 0 ? true : false;
         if (Memory.GO == true) {
             Memory.Runtime = true;
             Memory.Time++;

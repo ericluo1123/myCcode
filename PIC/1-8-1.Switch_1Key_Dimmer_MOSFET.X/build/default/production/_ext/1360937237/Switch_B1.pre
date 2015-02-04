@@ -2841,13 +2841,14 @@ void setSw_Enable(char command);
 void Switch_Exception(char command);
 void setSw_Status(char sw, char command);
 char getSw_KeyStatus(char sw);
+char getAll_Sw_KeyStatus();
 
 
 
 
 void TouchPower();
 
-# 96
+# 97
 struct SwitchDetect {
 
 union {
@@ -3336,7 +3337,8 @@ unsigned Trigger2 : 1;
 unsigned Trigger3 : 1;
 unsigned Trigger4 : 1;
 unsigned Trigger5 : 1;
-unsigned empty : 3;
+unsigned Status:1;
+unsigned empty : 2;
 };
 };
 
@@ -3358,7 +3360,7 @@ struct Dimmer_Interrupt *DimmerIntr;
 
 struct Dimmer_Interrupt DimmerIntr1;
 
-# 180
+# 181
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3375,7 +3377,7 @@ char getAll_DimmerIntr_Dimming_Sw_RF();
 void setDimmerIntr_MaxmumValue(char lights, char value);
 char getDimmerIntr_MaxmumValue(char lights);
 
-# 200
+# 201
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
@@ -3385,7 +3387,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
-# 214
+# 215
 struct Dimmer {
 
 
@@ -3638,6 +3640,17 @@ char getSw_KeyStatus(char sw) {
 char status = 0;
 
 # 271
+status = RA6 == 1 || RA4 == 1 || RA0 == 1 || RA7 == 1 ? 1 : 0;
+
+
+
+return status;
+}
+
+char getAll_Sw_KeyStatus() {
+char status = 0;
+
+# 302
 status = RA6 == 1 || RA4 == 1 || RA0 == 1 || RA7 == 1 ? 1 : 0;
 
 
