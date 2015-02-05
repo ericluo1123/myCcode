@@ -2771,7 +2771,9 @@ unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
 unsigned Error_Run : 1;
-unsigned empty : 4;
+unsigned InitDimmer : 1;
+unsigned SaveDimmer:1;
+unsigned empty:2;
 };
 
 unsigned int Timeout_Counter;
@@ -2779,16 +2781,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 128
+# 130
 void myMain_Initialization();
 
-# 133
+# 135
 inline void my_Main();
 
-# 138
+# 140
 inline void my_MainTimer();
 
-# 143
+# 145
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2844,13 +2846,14 @@ void setSw_Enable(char command);
 void Switch_Exception(char command);
 void setSw_Status(char sw, char command);
 char getSw_KeyStatus(char sw);
+char getAll_Sw_KeyStatus();
 
 
 
 
 void TouchPower();
 
-# 96
+# 97
 struct SwitchDetect {
 
 union {
@@ -3248,7 +3251,7 @@ void setLoad_AH_AL_Restore();
 char getLoad_OK();
 void setLoad_OK();
 
-# 18 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
+# 30 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
 
@@ -3279,7 +3282,7 @@ unsigned TriacFlag : 1;
 unsigned OK : 1;
 unsigned Triac : 1;
 unsigned DimmingRun : 1;
-unsigned empty : 1;
+unsigned GO : 1;
 };
 };
 
@@ -3293,14 +3296,14 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 78
+# 90
 struct DimmerLights DimmerLights1;
 
 
 
 struct DimmerLights DimmerLights2;
 
-# 97
+# 109
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3364,8 +3367,8 @@ unsigned char TuneTimeValue;
 unsigned char DimmingValue;
 unsigned char MaxmumValue;
 unsigned char MinimumValue;
-unsigned char TuneValue;
 
+unsigned char TuneValue;
 unsigned char TuneValue2;
 unsigned char TuneValue3;
 unsigned char TuneValue4;
@@ -3380,7 +3383,7 @@ struct Dimmer_Interrupt DimmerIntr1;
 
 struct Dimmer_Interrupt DimmerIntr2;
 
-# 181
+# 193
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3397,7 +3400,7 @@ char getAll_DimmerIntr_Dimming_Sw_RF();
 void setDimmerIntr_MaxmumValue(char lights, char value);
 char getDimmerIntr_MaxmumValue(char lights);
 
-# 201
+# 213
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
@@ -3407,7 +3410,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
-# 215
+# 227
 struct Dimmer {
 
 
@@ -3657,24 +3660,24 @@ return ((ADRESH*256)+ADRESL);
 
 # 930
 void Flash_Memory_Initialization() {
-char i = 0;
+char value = 0;
 if (Flash_Memory_Read(31) == 0xaa) {
 product->Data[12] = Flash_Memory_Read(0);
 product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
 
-# 941
-i = getDimmerLights_ValueToPercent(((char)(60*0.65)));
-product->Data[21] = i;
-product->Data[22] = i;
-product->Data[23] = i;
 
+product->Data[21] = Flash_Memory_Read(3);
+product->Data[22] = Flash_Memory_Read(4);
+product->Data[23] = Flash_Memory_Read(5);
+
+# 947
 if (product->Data[12] == 0xff && product->Data[13] == 0xff && product->Data[14] == 0xff) {
 myMain.FirstOpen = 1;
 myMain.First = 1;
 }
 } else {
-i = getDimmerLights_ValueToPercent(((char)(60*0.65)));
+
 setMemory_Data(0, 0xff);
 setMemory_Data(1, 0xff);
 setMemory_Data(2, 0xff);
@@ -3682,21 +3685,27 @@ setMemory_Data(3, 0xff);
 setMemory_Data(4, 0xff);
 setMemory_Data(5, 0xff);
 setMemory_Data(31, 0xaa);
-product->Data[21] = i;
-product->Data[22] = i;
-product->Data[23] = i;
+
+
+
+
 GIE = 0;
 Flash_Memory_Write();
 GIE = 1;
 myMain.FirstOpen = 1;
 myMain.First = 1;
+myMain.InitDimmer = 1;
 }
 }
 
 
 void Flash_Memory_Main() {
+char key_Status = 0;
+
+key_Status = getAll_Sw_KeyStatus();
+
 if (Memory.Modify == 1) {
-Memory.GO = getMain_All_LightsStatus() == 0 ? 1 : 0;
+Memory.GO = getMain_All_LightsStatus() == 0 && key_Status == 0 ? 1 : 0;
 if (Memory.GO == 1) {
 Memory.Runtime = 1;
 Memory.Time++;
@@ -3776,7 +3785,14 @@ setMemory_Data(0, product->Data[12]);
 setMemory_Data(1, product->Data[13]);
 setMemory_Data(2, product->Data[14]);
 
-# 1057
+setMemory_Data(3, product->Data[21]);
+setMemory_Data(4, product->Data[22]);
+setMemory_Data(5, product->Data[23]);
+if (myMain.SaveDimmer == 1) {
+myMain.SaveDimmer = 0;
+setMemory_Data(30, 0xaa);
+}
+
 if (Memory.LoopSave == 1) {
 Memory.LoopSave = 0;
 myMain.FirstOpen = 0;
@@ -3805,10 +3821,10 @@ void setMemory_Data(char address, char data) {
 Memory.Data[address] = data;
 }
 
-# 1089
+# 1100
 void WDT_Set() {
 
-# 1096
+# 1107
 WDTCON = 0b00010111;;
 
 WDT.Enable = 1;

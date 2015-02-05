@@ -309,11 +309,16 @@ typedef unsigned int ADtype;
 #ifdef IntrTime_100us
 
 #if Properties_Keys == 1
+#if Properties_Neutral == 1
 #define TotalCount              78//83
 #define One_Percent		0.78//0.83
+#else
+#define TotalCount              80//83
+#define One_Percent		0.8//0.83
+#endif
 #elif Properties_Keys == 2
-#define TotalCount              65//83
-#define One_Percent		0.65//0.83
+#define TotalCount              60//83
+#define One_Percent		0.6//0.83
 #endif
 
 #define Tune_Percent		40

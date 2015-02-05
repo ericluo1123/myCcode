@@ -110,7 +110,9 @@ struct myMain {
         unsigned r : 1;
         unsigned Timeout : 1;
         unsigned Error_Run : 1;
-        unsigned empty : 4;
+        unsigned InitDimmer : 1;
+        unsigned SaveDimmer:1;
+        unsigned empty:2;
     };
 
     unsigned int Timeout_Counter;

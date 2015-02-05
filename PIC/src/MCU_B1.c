@@ -117,7 +117,7 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
 
 
 #if Timer0_use == 1
-    else if (TMR0IE == true && TMR0IF == true) {
+else if (TMR0IE == true && TMR0IF == true) {
         TMR0_ISR();
     }
 #endif
@@ -135,7 +135,7 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
     INT_ISR();
 #endif
 #if IOC_use == 1
-    else if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
+else if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
         IOC_ISR();
     }
 #endif
@@ -928,27 +928,28 @@ unsigned char getche(void) {
 //flash memry control
 
 void Flash_Memory_Initialization() {
-    char i = 0;
+    char value = 0;
     if (Flash_Memory_Read(31) == 0xaa) {
         product->Data[12] = Flash_Memory_Read(0);
         product->Data[13] = Flash_Memory_Read(1);
         product->Data[14] = Flash_Memory_Read(2);
 #if DimmerValue_SaveMemory == 1
+
         product->Data[21] = Flash_Memory_Read(3);
         product->Data[22] = Flash_Memory_Read(4);
         product->Data[23] = Flash_Memory_Read(5);
-#else
-        i = getDimmerLights_ValueToPercent(Dimmer_Maxum);
-        product->Data[21] = i;
-        product->Data[22] = i;
-        product->Data[23] = i;
+        //#else
+        //        value = getDimmerLights_ValueToPercent(Dimmer_Maxum);
+        //        product->Data[21] = value;
+        //        product->Data[22] = value;
+        //        product->Data[23] = value
 #endif
         if (product->Data[12] == 0xff && product->Data[13] == 0xff && product->Data[14] == 0xff) {
             myMain.FirstOpen = true;
             myMain.First = true;
         }
     } else {
-        i = getDimmerLights_ValueToPercent(Dimmer_Maxum);
+
         setMemory_Data(0, 0xff);
         setMemory_Data(1, 0xff);
         setMemory_Data(2, 0xff);
@@ -956,14 +957,16 @@ void Flash_Memory_Initialization() {
         setMemory_Data(4, 0xff);
         setMemory_Data(5, 0xff);
         setMemory_Data(31, 0xaa);
-        product->Data[21] = i;
-        product->Data[22] = i;
-        product->Data[23] = i;
+        //        value = getDimmerLights_ValueToPercent(Dimmer_Maxum);
+        //        product->Data[21] = value;
+        //        product->Data[22] = value;
+        //        product->Data[23] = value;
         GIE = false;
         Flash_Memory_Write();
         GIE = true;
         myMain.FirstOpen = true;
         myMain.First = true;
+        myMain.InitDimmer = true;
     }
 }
 //*********************************************************
@@ -1057,6 +1060,10 @@ void Flash_Memory_Modify() {
     setMemory_Data(3, product->Data[21]);
     setMemory_Data(4, product->Data[22]);
     setMemory_Data(5, product->Data[23]);
+    if (myMain.SaveDimmer == true) {
+        myMain.SaveDimmer = false;
+        setMemory_Data(30, 0xaa);
+    }
 #endif
     if (Memory.LoopSave == true) {
         Memory.LoopSave = false;

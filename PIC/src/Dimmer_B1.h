@@ -7,9 +7,21 @@
 #if Dimmer_use == 1
  
 #if Properties_Keys == 1
-#define TuneValue1 7
-#elif Properties_Keys == 2
+#if Properties_Neutral == 1
 #define TuneValue1 5
+#define TuneTime1 1
+#else
+#define TuneValue1 5
+#define TuneTime1 5
+#endif
+#elif Properties_Keys == 2
+#if Properties_Neutral == 1
+#define TuneValue1 5
+#define TuneTime1 1
+#else
+#define TuneValue1 2
+#define TuneTime1 1
+#endif
 #endif
 
 #define Dimmer_Debug 0
@@ -45,7 +57,7 @@ struct DimmerLights {
             unsigned OK : 1;
             unsigned Triac : 1;
             unsigned DimmingRun : 1;
-            unsigned empty : 1;
+            unsigned GO : 1;
         };
     };
 
@@ -157,8 +169,8 @@ struct Dimmer_Interrupt {
     unsigned char DimmingValue;
     unsigned char MaxmumValue;
     unsigned char MinimumValue;
-    unsigned char TuneValue;
 
+    unsigned char TuneValue;
     unsigned char TuneValue2;
     unsigned char TuneValue3;
     unsigned char TuneValue4;
