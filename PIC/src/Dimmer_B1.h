@@ -12,7 +12,7 @@
 #define TuneTime1 1
 #else
 #define TuneValue1 5
-#define TuneTime1 5
+#define TuneTime1 5 
 #endif
 #elif Properties_Keys == 2
 #if Properties_Neutral == 1
@@ -20,7 +20,7 @@
 #define TuneTime1 1
 #else
 #define TuneValue1 2
-#define TuneTime1 1
+#define TuneTime1 2
 #endif
 #endif
 

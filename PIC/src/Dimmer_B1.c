@@ -1497,7 +1497,7 @@ inline void DimmerLights_IOC_1() {
             char count = TotalCount;
             char dimming = Division(DimmerIntr1.DimmingValue, 2);
             DimmerIntr1.TuneValue = TuneValue1;
-            DimmerIntr1.TuneValue2 = TuneValue1 + dimming;
+            DimmerIntr1.TuneValue2 = DimmerIntr1.TuneValue + dimming;
             DimmerIntr1.TuneValue3 = DimmerIntr1.TuneValue2 + ((count - (TuneValue1 + TuneValue1)) - DimmerIntr1.DimmingValue);
             DimmerIntr1.TuneValue4 = DimmerIntr1.TuneValue3 + dimming;
 
@@ -1552,7 +1552,7 @@ inline void DimmerLights_TMR_2() {
 
 #if Dimmer_Trigger_Mode == 3
         //    if (DimmerIntr2.Trigger1 == true) {
-        if (DimmerIntr2.Count == TuneValue1) {
+        if (DimmerIntr2.Count == DimmerIntr2.TuneValue) {
             //            DimmerIntr2.Trigger1 = false;
             //            DimmerIntr2.Trigger2 = true;
             if (DimmerIntr2.ControlStatus == true) {
@@ -1684,7 +1684,7 @@ inline void DimmerLights_IOC_2() {
             char count = TotalCount;
             char dimming = Division(DimmerIntr2.DimmingValue, 2);
             DimmerIntr2.TuneValue = TuneValue1;
-            DimmerIntr2.TuneValue2 = TuneValue1 + dimming;
+            DimmerIntr2.TuneValue2 = DimmerIntr2.TuneValue + dimming;
             DimmerIntr2.TuneValue3 = DimmerIntr2.TuneValue2 + ((count - (TuneValue1 + TuneValue1)) - DimmerIntr2.DimmingValue);
             DimmerIntr2.TuneValue4 = DimmerIntr2.TuneValue3 + dimming;
 
