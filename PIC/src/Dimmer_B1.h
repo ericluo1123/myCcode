@@ -19,8 +19,8 @@
 #define TuneValue1 5
 #define TuneTime1 1
 #else
-#define TuneValue1 2
-#define TuneTime1 2
+//#define TuneValue1 5
+#define TuneTime1 3
 #endif
 #endif
 
@@ -159,7 +159,8 @@ struct Dimmer_Interrupt {
             unsigned Trigger4 : 1;
             unsigned Trigger5 : 1;
             unsigned Status:1;
-            unsigned empty : 2;
+            unsigned TuneGO:1;
+            unsigned empty : 1;
         };
     };
 
@@ -170,7 +171,7 @@ struct Dimmer_Interrupt {
     unsigned char MaxmumValue;
     unsigned char MinimumValue;
 
-    unsigned char TuneValue;
+//    unsigned char TuneValue;
     unsigned char TuneValue2;
     unsigned char TuneValue3;
     unsigned char TuneValue4;

@@ -131,12 +131,12 @@
 #define SYSC_use_Value 0
 //OverTemperature
 #define OverTemperature_use_Value   1
-#define TempDangerValue_Value       370     //NTC 70度
+#define TempDangerValue_Value       365     //NTC 70度
 #define TempSafeValue_Value         420     //NTC 61度
 //OverLoad
 #define OverLoad_use_Value  1
 #define LimitCurrent_Value  1.1//A
-#define LinearParam_Value   80
+#define LinearParam_Value   85
 //LED
 #define LED_use_Value 1
 #define PIRLED_use_Value 0

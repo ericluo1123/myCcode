@@ -317,8 +317,8 @@ typedef unsigned int ADtype;
 #define One_Percent		0.8//0.83
 #endif
 #elif Properties_Keys == 2
-#define TotalCount              65//83
-#define One_Percent		0.65//0.83
+#define TotalCount              50//83
+#define One_Percent		0.5//0.83
 #endif
 
 #define Tune_Percent		40
