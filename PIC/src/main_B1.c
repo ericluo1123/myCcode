@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     myUARTtoRF_Initialization();
 
     while (true) {
-
+    
         if (myMain.PowerON == true) {
 #if SYSC_use == 1
             DetectSYSC_Signal();

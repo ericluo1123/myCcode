@@ -42,20 +42,20 @@
 
 
 //MCU define
-#define	Key2_1				RA0		//pin2  1	
+#define	Key1_1				RA0		//pin2  1
 #define OverLoad1			RA1		//pin3	1	
 #define SYSC1				RA2		//pin4	1		
 #define	LED1				RA3		//pin5	0	
-#define	Key1_2				RA4		//pin6 	1	
+#define	Key2_2				RA4		//pin6 	1
 #define PFV1				RA5		//pin7	1
-#define	Key1_1				RA6		//pin10 1			
-#define	Mosfet1				RA7		//pin9	0			
+#define	Key2_1				RA6		//pin10 1
+#define	Mosfet2				RA7		//pin9	0
 
 #define CC2500_GDO0			RB0		//pin21 1	
-#define Key2_2				RB1		//pin22 1	
+#define Key1_2				RB1		//pin22 1
 #define DimmerReference1                RB2		//pin23 1
 #define Buzzer1				RB3		//pin24	0
-#define Mosfet2				RB4		//pin25 0	
+#define Mosfet1				RB4		//pin25 0
 #define ErrLED				RB5		//pin26	0
 #define PinEmpty1			RB6		//pin27	0	
 #define PinEmpty2			RB7		//pin28 0	
@@ -99,7 +99,7 @@
 //Interrupt Time
 #define IntrTime_100us
 //Main Time
-#define Main_Time_Value 20
+#define Main_Time_Value 20//ms
 //Timer0
 #define Timer0_use_value 0
 //Timer1
@@ -163,9 +163,8 @@
 #define Dimmer_Trigger_Mode_Value   3
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
-#define Max_Percent                 55
+#define Max_Percent                 50
 #define Mini_Percent                4
-#define Med_Percent                 (char)((Max_Percent-Mini_Percent)/2)
 //SegmentDisplay
 #define SegmentDisplay_use_Value 0
 //CDS

@@ -5,14 +5,15 @@
  * Dimmer header
  */
 #if Dimmer_use == 1
- 
+
+
 #if Properties_Keys == 1
 #if Properties_Neutral == 1
 #define TuneValue1 5
 #define TuneTime1 1
 #else
 #define TuneValue1 5
-#define TuneTime1 5 
+#define TuneTime1 10
 #endif
 #elif Properties_Keys == 2
 #if Properties_Neutral == 1
@@ -20,9 +21,10 @@
 #define TuneTime1 1
 #else
 //#define TuneValue1 5
-#define TuneTime1 3
+#define TuneTime1 2
 #endif
 #endif
+
 
 #define Dimmer_Debug 0
 //private
@@ -175,6 +177,7 @@ struct Dimmer_Interrupt {
     unsigned char TuneValue2;
     unsigned char TuneValue3;
     unsigned char TuneValue4;
+    unsigned char TuneEnd;
 
 };
 struct Dimmer_Interrupt *DimmerIntr;

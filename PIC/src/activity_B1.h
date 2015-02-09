@@ -282,11 +282,26 @@ typedef unsigned int ADtype;
 
 //Dimmer Lights
 #if Dimmer_use == 1
+
+#if Properties_Keys == 1
+#if Properties_Neutral == 1
+#define TotalCount              78//83
+#define One_Percent		0.78//0.83
+#else 
+#define TotalCount              80//83
+#define One_Percent		0.8//0.83
+#endif
+#elif Properties_Keys == 2 
+#define TotalCount              60//83
+#define One_Percent		0.6//0.83
+#endif
+
+
 #define Dimmer_Trigger_Mode Dimmer_Trigger_Mode_Value
 #define Dimmable_Func 				1	
 #define Dimmer_Smooth				0
-#define DimmerValue_SaveMemory			1   //save memory?
-#define DimmerValue_CloseLightsSave		1   //new dimmer value save?
+#define DimmerValue_SaveMemory			1   //save memory enable/disable
+#define DimmerValue_CloseLightsSave		1   //new dimmer value save enable/disable
 #define TriacTimeValue				1
 /**
  * close mosfet delay time to allow recook
@@ -307,19 +322,6 @@ typedef unsigned int ADtype;
 #endif
 
 #ifdef IntrTime_100us
-
-#if Properties_Keys == 1
-#if Properties_Neutral == 1
-#define TotalCount              78//83
-#define One_Percent		0.78//0.83
-#else
-#define TotalCount              80//83
-#define One_Percent		0.8//0.83
-#endif
-#elif Properties_Keys == 2
-#define TotalCount              50//83
-#define One_Percent		0.5//0.83
-#endif
 
 #define Tune_Percent		40
 /**
@@ -358,26 +360,27 @@ typedef unsigned int ADtype;
 #define DetectTime 50
 #define DimmerTuneValue 157
 
+
 #if Control_Method_Triac == 1  
 //maxum 
 #define Dimmer_Maxum 	((char)((100-Max_Percent)*One_Percent))
 
-//medium
-#define Dimmer_Medium 	((char)((100-Med_Percent)*One_Percent))
-
 //minimun
 #define Dimmer_Minimum	((char)((100-Mini_Percent)*One_Percent))
+
+//medium
+#define Dimmer_Medium 	(Dimmer_Minimum-Dimmer_Maxum)
 #endif 
 
 #if Control_Method_Mosfet == 1
 //maxum
 #define Dimmer_Maxum 	((char)(Max_Percent*One_Percent))
 
-//medium
-#define Dimmer_Medium 	((char)(Med_Percent*One_Percent))
-
 //minimun
 #define Dimmer_Minimum	((char)(Mini_Percent*One_Percent))
+
+//medium
+#define Dimmer_Medium 	(Dimmer_Maxum-Dimmer_Minimum)
 #endif
 
 

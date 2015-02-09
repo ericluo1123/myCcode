@@ -117,7 +117,7 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
 
 
 #if Timer0_use == 1
-else if (TMR0IE == true && TMR0IF == true) {
+    else if (TMR0IE == true && TMR0IF == true) {
         TMR0_ISR();
     }
 #endif
@@ -135,7 +135,7 @@ else if (TMR0IE == true && TMR0IF == true) {
     INT_ISR();
 #endif
 #if IOC_use == 1
-else if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
+    if (IOCIE == true && IOCIF == true && IOCBF2 == true) {
         IOC_ISR();
     }
 #endif
@@ -235,9 +235,6 @@ inline void TMR1_Set() {
 
 inline void TMR1_ISR() {
 
-    TMR1H = TMR1H_Value;
-    TMR1L = TMR1L_Value;
-    TMR1IF = false;
 #if Dimmer_use == true
 
 #if PIR_use == 1
@@ -273,6 +270,10 @@ inline void TMR1_ISR() {
         Timer1.Count = 0;
         Timer1.Timeout = true;
     }
+
+    TMR1H = TMR1H_Value;
+    TMR1L = TMR1L_Value;
+    TMR1IF = false;
 }
 
 #endif
@@ -392,8 +393,6 @@ void IOC_Set() {
 //*********************************************************
 
 inline void IOC_ISR() {
-    IOCBF2 = false;
-    IOCIF = false;
 
     if (myMain.PowerON == true) {
 
@@ -415,6 +414,9 @@ inline void IOC_ISR() {
 
 #endif
     }
+
+    IOCBF2 = false;
+    IOCIF = false;
 }
 
 #endif
