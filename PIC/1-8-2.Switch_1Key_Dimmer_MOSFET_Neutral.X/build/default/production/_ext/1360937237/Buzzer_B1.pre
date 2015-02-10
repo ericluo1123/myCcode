@@ -2643,7 +2643,7 @@ void setADCGO();
 # 303
 inline int getAD(char, char);
 
-# 445
+# 446
 struct Timer1 {
 
 struct {
@@ -2657,11 +2657,11 @@ struct Timer1 Timer1;
 inline void TMR1_Set();
 inline void TMR1_ISR();
 
-# 532
+# 533
 void IOC_Set();
 inline void IOC_ISR();
 
-# 686
+# 687
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2685,7 +2685,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 714
+# 715
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -2697,7 +2697,7 @@ void setMemory_Modify(char command);
 void setMemory_LoopSave(char command);
 void setMemory_Data(char address, char data);
 
-# 744
+# 745
 struct WDT {
 
 struct {
@@ -2708,7 +2708,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 769
+# 770
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -3238,7 +3238,7 @@ void setLoad_AH_AL_Restore();
 char getLoad_OK();
 void setLoad_OK();
 
-# 24 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h"
+# 28 "../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
 
@@ -3283,10 +3283,10 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 84
+# 88
 struct DimmerLights DimmerLights1;
 
-# 103
+# 107
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3340,7 +3340,8 @@ unsigned Trigger3 : 1;
 unsigned Trigger4 : 1;
 unsigned Trigger5 : 1;
 unsigned Status:1;
-unsigned empty : 2;
+unsigned TuneGO:1;
+unsigned empty : 1;
 };
 };
 
@@ -3351,10 +3352,11 @@ unsigned char DimmingValue;
 unsigned char MaxmumValue;
 unsigned char MinimumValue;
 
-unsigned char TuneValue;
+
 unsigned char TuneValue2;
 unsigned char TuneValue3;
 unsigned char TuneValue4;
+unsigned char TuneEnd;
 
 };
 struct Dimmer_Interrupt *DimmerIntr;
@@ -3362,7 +3364,7 @@ struct Dimmer_Interrupt *DimmerIntr;
 
 struct Dimmer_Interrupt DimmerIntr1;
 
-# 187
+# 193
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3379,7 +3381,7 @@ char getAll_DimmerIntr_Dimming_Sw_RF();
 void setDimmerIntr_MaxmumValue(char lights, char value);
 char getDimmerIntr_MaxmumValue(char lights);
 
-# 207
+# 213
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
@@ -3389,7 +3391,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
-# 221
+# 227
 struct Dimmer {
 
 

@@ -45,7 +45,7 @@
 #define	PinEmpty5        		RA3		//pin5	0
 #define	Key1_2				RA4		//pin6 	1	
 #define PFV1				RA5		//pin7	1
-#define	Key1_1				RA6		//pin10 1			
+#define	Key1_1				RA6     	//pin10 1
 #define	Key1_4                  	RA7		//pin9	1
 
 #define TTPW    			RB0		//pin21 0
@@ -167,7 +167,7 @@
 #define Dimmer_Trigger_Mode_Value   3
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
-#define Max_Percent                 70
+#define Max_Percent                 65
 #define Mini_Percent                10
 
 

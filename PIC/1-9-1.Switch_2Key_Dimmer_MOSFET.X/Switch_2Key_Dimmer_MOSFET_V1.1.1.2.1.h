@@ -45,7 +45,7 @@
 #define	Key1_1				RA0		//pin2  1
 #define OverLoad1			RA1		//pin3	1	
 #define SYSC1				RA2		//pin4	1		
-#define	LED1				RA3		//pin5	0	
+#define	LED2				RA3		//pin5	0
 #define	Key2_2				RA4		//pin6 	1
 #define PFV1				RA5		//pin7	1
 #define	Key2_1				RA6		//pin10 1
@@ -67,7 +67,7 @@
 #define CC2500_CSN			RC4		//pin15	0	
 #define	TTPW				RC5		//pin16	0	
 //#define LED3				RC6		//pin17	0
-#define	LED2				RC7		//pin18	0	
+#define	LED1				RC7		//pin18	0
 
 //I/O
 #define _TRISA 	0b01110111;
@@ -163,8 +163,8 @@
 #define Dimmer_Trigger_Mode_Value   3
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
-#define Max_Percent                 50
-#define Mini_Percent                4
+#define Max_Percent                 75
+#define Mini_Percent                5
 //SegmentDisplay
 #define SegmentDisplay_use_Value 0
 //CDS

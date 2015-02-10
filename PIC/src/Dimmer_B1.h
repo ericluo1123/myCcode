@@ -9,19 +9,15 @@
 
 #if Properties_Keys == 1
 #if Properties_Neutral == 1
-#define TuneValue1 5
-#define TuneTime1 1
+#define TuneTime1 6
 #else
-#define TuneValue1 5
 #define TuneTime1 10
 #endif
 #elif Properties_Keys == 2
 #if Properties_Neutral == 1
-#define TuneValue1 5
 #define TuneTime1 1
 #else
-//#define TuneValue1 5
-#define TuneTime1 2
+#define TuneTime1 4
 #endif
 #endif
 
