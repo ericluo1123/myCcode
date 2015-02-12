@@ -11,7 +11,7 @@
 #if Properties_Neutral == 1
 #define TuneTime1 6
 #else
-#define TuneTime1 10
+#define TuneTime1 8
 #endif
 #elif Properties_Keys == 2
 #if Properties_Neutral == 1
@@ -46,6 +46,10 @@ struct DimmerLights {
     };
 
     union {
+
+
+
+
 
         struct {
             unsigned Status : 1;

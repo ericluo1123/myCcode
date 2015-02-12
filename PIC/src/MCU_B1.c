@@ -9,7 +9,7 @@
 #pragma config VCAPEN = DIS
 //__CONFIG(FOSC_INTOSCIO & _WDTE & BOREN_OFF & PLEEN_Value); // v8.84
 //__CONFIG(VCAPEN_DIS); // WRT_OFF
-#endif
+#endif 
 
 #ifdef MCU_16F1516
 #pragma config FOSC = INTOSC , WDTE = _WDTE , BOREN=OFF

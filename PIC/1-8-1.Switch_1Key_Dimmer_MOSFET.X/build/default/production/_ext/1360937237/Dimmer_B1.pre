@@ -3238,7 +3238,7 @@ void setLoad_AH_AL_Restore();
 char getLoad_OK();
 void setLoad_OK();
 
-# 32 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
+# 28 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
 
@@ -3261,6 +3261,7 @@ unsigned MosfetClose : 1;
 
 union {
 
+# 54
 struct {
 unsigned Status : 1;
 unsigned Line : 1;
@@ -3479,12 +3480,12 @@ void DimmerIntr_Initialization() {
 
 
 DimmerIntr1.TuneTimeValue = 7;
-DimmerIntr1.MaxmumValue = ((char)(60*0.65));
-DimmerIntr1.MinimumValue = ((char)(5*0.65));
+DimmerIntr1.MaxmumValue = ((char)(65*0.6));
+DimmerIntr1.MinimumValue = ((char)(10*0.6));
 
 
 if (myMain.InitDimmer == 1) {
-product->Data[21] = getDimmerLights_ValueToPercent(((char)(60*0.65)));
+product->Data[21] = getDimmerLights_ValueToPercent(((char)(65*0.6)));
 } else {
 DimmerIntr1.DimmingValue = getDimmerLights_PercentToValue(product->Data[21]);
 }
@@ -3947,10 +3948,10 @@ return status;
 char getDimmerLights_PercentToValue(char value) {
 
 # 1111
-float i = ((char)(60*0.65)) - ((char)(5*0.65));
+float i = ((char)(65*0.6)) - ((char)(10*0.6));
 i /= 100;
 
-return (char) (((char)(60*0.65)) - ((100 - value) * i));
+return (char) (((char)(65*0.6)) - ((100 - value) * i));
 
 }
 
@@ -3958,10 +3959,10 @@ return (char) (((char)(60*0.65)) - ((100 - value) * i));
 char getDimmerLights_ValueToPercent(char value) {
 
 # 1127
-float i = ((char)(60*0.65)) - ((char)(5*0.65));
+float i = ((char)(65*0.6)) - ((char)(10*0.6));
 i /= 100;
 
-return (char) (100 - ((((char)(60*0.65)) - value) / i));
+return (char) (100 - ((((char)(65*0.6)) - value) / i));
 
 }
 
@@ -4026,7 +4027,7 @@ RB1 = 0;
 } else {
 if (DimmerIntr1.GO == 1) {
 DimmerIntr1.Count++;
-if (DimmerIntr1.Count == 10) {
+if (DimmerIntr1.Count == 8) {
 DimmerIntr1.Count = 0;
 DimmerIntr1.GO = 0;
 DimmerIntr1.Start = 1;
@@ -4046,13 +4047,13 @@ DimmerIntr1.TuneTime = 0;
 DimmerIntr1.TuneGO = 1;
 if (DimmerIntr1.Dimming_Sw == 1) {
 if (DimmerIntr1.Dimming_Status == 0) {
-if (DimmerIntr1.DimmingValue < ((char)(60*0.65))) {
+if (DimmerIntr1.DimmingValue < ((char)(65*0.6))) {
 DimmerIntr1.DimmingValue++;
 } else {
 DimmerIntr1.Dimming_Status = 1;
 }
 } else {
-if (DimmerIntr1.DimmingValue > ((char)(5*0.65))) {
+if (DimmerIntr1.DimmingValue > ((char)(10*0.6))) {
 DimmerIntr1.DimmingValue--;
 } else {
 DimmerIntr1.Dimming_Status = 0;
@@ -4089,9 +4090,9 @@ DimmerIntr1.TuneGO = 0;
 
 
 DimmerIntr1.TuneValue2 = Division(DimmerIntr1.DimmingValue, 2);
-DimmerIntr1.TuneValue3 = DimmerIntr1.TuneValue2 + (65 - DimmerIntr1.DimmingValue);
+DimmerIntr1.TuneValue3 = DimmerIntr1.TuneValue2 + (60 - DimmerIntr1.DimmingValue);
 DimmerIntr1.TuneValue4 = DimmerIntr1.TuneValue3 + DimmerIntr1.TuneValue2;
-DimmerIntr1.TuneEnd = DimmerIntr1.TuneValue4 + 5;
+DimmerIntr1.TuneEnd = DimmerIntr1.TuneValue4 + 3;
 }
 
 
