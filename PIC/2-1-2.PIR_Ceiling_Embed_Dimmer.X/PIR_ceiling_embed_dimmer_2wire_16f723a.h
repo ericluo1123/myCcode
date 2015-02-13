@@ -135,8 +135,8 @@
 //OverTemperature
 #define OverTemperature_use_Value 1
 #define Cut_Off_electricity_Value 1
-#define TempDangerValue_Value    0x70		//NTC 68 value 500
-#define TempSafeValue_Value      0x85		//NTC 47 value 600
+#define TempDangerValue_Value    0x64		//NTC 68 value 500
+#define TempSafeValue_Value      0x73		//NTC 47 value 600
 
 /*
  * lights on max temperature value      0xaa

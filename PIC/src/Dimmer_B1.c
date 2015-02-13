@@ -11,14 +11,17 @@ void DimmerIntr_Initialization() {
     DimmerIntr1.MaxmumValue = Dimmer_Maxum;
     DimmerIntr1.MinimumValue = Dimmer_Minimum;
 
+#ifndef MCU_16F723A
 #if DimmerValue_SaveMemory == 1
     if (myMain.InitDimmer == true) {
         product->Data[21] = getDimmerLights_ValueToPercent(Dimmer_Maxum);
     } else {
         DimmerIntr1.DimmingValue = getDimmerLights_PercentToValue(product->Data[21]);
     }
+
 #else
     product->Data[21] = getDimmerLights_ValueToPercent(Dimmer_Maxum);
+#endif
 #endif
 
     //    DimmerIntr1.DimmingValue = Dimmer_Maxum;
@@ -1544,7 +1547,7 @@ inline void DimmerLights_TMR_2() {
     if (DimmerIntr2.Start == true) {
         DimmerIntr2.Count++;
 
-        if (DimmerIntr2.Count == DimmerIntr2.TuneEnd ) {
+        if (DimmerIntr2.Count == DimmerIntr2.TuneEnd) {
             DimmerIntr2.Count = 0;
             DimmerIntr2.Start = false;
         }
@@ -1727,7 +1730,7 @@ inline void DimmerLights_IOC_2() {
 
 
 #endif
-
+#endif
 //******************************************************************************
 
 #if PIR_use == 1
@@ -1780,7 +1783,7 @@ void DimmerLights_PIR_Control() {
 }
 
 #endif
-#endif
+
 
 
 

@@ -1,14 +1,14 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"447 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/MCU_B1.h
+"448 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/MCU_B1.h
 [s S137 :1 `uc 1 :7 `uc 1 ]
 [n S137 . Timeout empty ]
-"445
+"446
 [s S136 `S137 1 `ui 1 ]
 [n S136 Timer1 . Count ]
-"746
+"747
 [s S139 :1 `uc 1 :7 `uc 1 ]
 [n S139 . Enable empty ]
-"744
+"745
 [s S138 `S139 1 `uc 1 ]
 [n S138 WDT . Timer ]
 "63 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/Main_B1.h
@@ -21,18 +21,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S143 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S143 . PowerON Flag GO FirstOpen SelfTest First Test Tempty ]
 "108
-[s S144 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :4 `uc 1 ]
-[n S144 . q r Timeout Error_Run empty ]
+[s S144 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :2 `uc 1 ]
+[n S144 . q r Timeout Error_Run InitDimmer SaveDimmer empty ]
 "73
 [s S142 `S143 1 `uc 1 `S144 1 `ui 1 ]
 [n S142 myMain . PowerCount . Timeout_Counter ]
-"100 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h
+"101 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h
 [s S147 :1 `uc 1 :7 `uc 1 ]
 [n S147 . Error empty ]
-"98
+"99
 [u S146 `S147 1 ]
 [n S146 . . ]
-"96
+"97
 [s S145 `S146 1 ]
 [n S145 SwitchDetect . ]
 "12 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/LED_B1.h
@@ -1453,31 +1453,31 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.h: 294: void ADC_Set();
 [; ;MCU_B1.h: 295: void setADCGO();
 [; ;MCU_B1.h: 297: inline char getAD(char, char);
-[; ;MCU_B1.h: 445: struct Timer1 {
-[; ;MCU_B1.h: 447: struct {
-[; ;MCU_B1.h: 448: unsigned Timeout : 1;
-[; ;MCU_B1.h: 449: unsigned empty : 7;
-[; ;MCU_B1.h: 450: };
-[; ;MCU_B1.h: 451: unsigned int Count;
-[; ;MCU_B1.h: 452: };
-"453 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/MCU_B1.h
+[; ;MCU_B1.h: 446: struct Timer1 {
+[; ;MCU_B1.h: 448: struct {
+[; ;MCU_B1.h: 449: unsigned Timeout : 1;
+[; ;MCU_B1.h: 450: unsigned empty : 7;
+[; ;MCU_B1.h: 451: };
+[; ;MCU_B1.h: 452: unsigned int Count;
+[; ;MCU_B1.h: 453: };
+"454 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/MCU_B1.h
 [v _Timer1 `S136 ~T0 @X0 1 e ]
-[; ;MCU_B1.h: 453: struct Timer1 Timer1;
-[; ;MCU_B1.h: 455: inline void TMR1_Set();
-[; ;MCU_B1.h: 456: inline void TMR1_ISR();
-[; ;MCU_B1.h: 744: struct WDT {
-[; ;MCU_B1.h: 746: struct {
-[; ;MCU_B1.h: 747: unsigned Enable : 1;
-[; ;MCU_B1.h: 748: unsigned empty : 7;
-[; ;MCU_B1.h: 749: };
-[; ;MCU_B1.h: 750: unsigned char Timer;
-[; ;MCU_B1.h: 751: };
-"752
+[; ;MCU_B1.h: 454: struct Timer1 Timer1;
+[; ;MCU_B1.h: 456: inline void TMR1_Set();
+[; ;MCU_B1.h: 457: inline void TMR1_ISR();
+[; ;MCU_B1.h: 745: struct WDT {
+[; ;MCU_B1.h: 747: struct {
+[; ;MCU_B1.h: 748: unsigned Enable : 1;
+[; ;MCU_B1.h: 749: unsigned empty : 7;
+[; ;MCU_B1.h: 750: };
+[; ;MCU_B1.h: 751: unsigned char Timer;
+[; ;MCU_B1.h: 752: };
+"753
 [v _WDT `S138 ~T0 @X0 1 e ]
-[; ;MCU_B1.h: 752: struct WDT WDT;
-[; ;MCU_B1.h: 769: void WDT_Set();
-[; ;MCU_B1.h: 770: void WDT_Main();
-[; ;MCU_B1.h: 771: void WDT_Clearing();
+[; ;MCU_B1.h: 753: struct WDT WDT;
+[; ;MCU_B1.h: 770: void WDT_Set();
+[; ;MCU_B1.h: 771: void WDT_Main();
+[; ;MCU_B1.h: 772: void WDT_Clearing();
 [; ;Main_B1.h: 61: struct command {
 [; ;Main_B1.h: 63: struct {
 [; ;Main_B1.h: 64: unsigned all_off : 1;
@@ -1506,35 +1506,37 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 110: unsigned r : 1;
 [; ;Main_B1.h: 111: unsigned Timeout : 1;
 [; ;Main_B1.h: 112: unsigned Error_Run : 1;
-[; ;Main_B1.h: 113: unsigned empty : 4;
-[; ;Main_B1.h: 114: };
-[; ;Main_B1.h: 116: unsigned int Timeout_Counter;
-[; ;Main_B1.h: 118: };
-"119
+[; ;Main_B1.h: 113: unsigned InitDimmer : 1;
+[; ;Main_B1.h: 114: unsigned SaveDimmer:1;
+[; ;Main_B1.h: 115: unsigned empty:2;
+[; ;Main_B1.h: 116: };
+[; ;Main_B1.h: 118: unsigned int Timeout_Counter;
+[; ;Main_B1.h: 120: };
+"121
 [v _myMain `S142 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 119: struct myMain myMain;
-[; ;Main_B1.h: 128: void myMain_Initialization();
-[; ;Main_B1.h: 133: inline void my_Main();
-[; ;Main_B1.h: 138: inline void my_MainTimer();
-[; ;Main_B1.h: 143: inline void Timeout_Counter();
-[; ;Main_B1.h: 144: inline void set_TimeoutCleared();
-[; ;Main_B1.h: 145: void setMain_Exception(char command);
-[; ;Main_B1.h: 146: char getMain_AD_OK();
-[; ;Main_B1.h: 147: char getMain_All_LightsStatus();
-[; ;Main_B1.h: 148: char getMain_All_Error_Status(char command);
-[; ;Main_B1.h: 149: char getMain_Lights_Count();
-[; ;Main_B1.h: 150: void Exception_Main();
-[; ;Switch_B1.h: 96: struct SwitchDetect {
-[; ;Switch_B1.h: 98: union {
-[; ;Switch_B1.h: 100: struct {
-[; ;Switch_B1.h: 101: unsigned Error : 1;
-[; ;Switch_B1.h: 102: unsigned empty : 7;
-[; ;Switch_B1.h: 103: };
+[; ;Main_B1.h: 121: struct myMain myMain;
+[; ;Main_B1.h: 130: void myMain_Initialization();
+[; ;Main_B1.h: 135: inline void my_Main();
+[; ;Main_B1.h: 140: inline void my_MainTimer();
+[; ;Main_B1.h: 145: inline void Timeout_Counter();
+[; ;Main_B1.h: 146: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 147: void setMain_Exception(char command);
+[; ;Main_B1.h: 148: char getMain_AD_OK();
+[; ;Main_B1.h: 149: char getMain_All_LightsStatus();
+[; ;Main_B1.h: 150: char getMain_All_Error_Status(char command);
+[; ;Main_B1.h: 151: char getMain_Lights_Count();
+[; ;Main_B1.h: 152: void Exception_Main();
+[; ;Switch_B1.h: 97: struct SwitchDetect {
+[; ;Switch_B1.h: 99: union {
+[; ;Switch_B1.h: 101: struct {
+[; ;Switch_B1.h: 102: unsigned Error : 1;
+[; ;Switch_B1.h: 103: unsigned empty : 7;
 [; ;Switch_B1.h: 104: };
 [; ;Switch_B1.h: 105: };
-"106 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h
+[; ;Switch_B1.h: 106: };
+"107 ../src/../2-1-3.PIR_Ceiling_thin.X/../src/Switch_B1.h
 [v _SwDetect `S145 ~T0 @X0 1 e ]
-[; ;Switch_B1.h: 106: struct SwitchDetect SwDetect;
+[; ;Switch_B1.h: 107: struct SwitchDetect SwDetect;
 [; ;LED_B1.h: 10: struct LED {
 [; ;LED_B1.h: 12: struct {
 [; ;LED_B1.h: 13: unsigned Enable : 1;
@@ -1780,9 +1782,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;TriacRelay_B1.h: 125: struct Light Light;
 [; ;TriacRelay_B1.h: 127: char getLight_LoadGO();
 [; ;TriacRelay_B1.h: 128: char getLight_Load_Status();
-[v F1733 `(v ~T0 @X0 1 tf ]
+[v F1735 `(v ~T0 @X0 1 tf ]
 "7 ../src/CDS_B1.c
-[v _CDS_Initialization `TF1733 ~T0 @X0 1 e ]
+[v _CDS_Initialization `TF1735 ~T0 @X0 1 e ]
 {
 [; ;CDS_B1.c: 7: inline void CDS_Initialization() {
 [e :U _CDS_Initialization ]
@@ -1794,9 +1796,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "9
 [e :UE 170 ]
 }
-[v F1735 `(v ~T0 @X0 1 tf ]
+[v F1737 `(v ~T0 @X0 1 tf ]
 "11
-[v _CDS_Main `TF1735 ~T0 @X0 1 e ]
+[v _CDS_Main `TF1737 ~T0 @X0 1 e ]
 {
 [; ;CDS_B1.c: 11: inline void CDS_Main() {
 [e :U _CDS_Main ]
@@ -1919,9 +1921,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "45
 [e :UE 182 ]
 }
-[v F1739 `(v ~T0 @X0 1 tf2`uc`uc ]
+[v F1741 `(v ~T0 @X0 1 tf2`uc`uc ]
 "48
-[v _getCDS_AD `TF1739 ~T0 @X0 1 e ]
+[v _getCDS_AD `TF1741 ~T0 @X0 1 e ]
 {
 [; ;CDS_B1.c: 48: inline void getCDS_AD(char channel1, char channel2) {
 [e :U _getCDS_AD ]
