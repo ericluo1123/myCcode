@@ -253,6 +253,7 @@ void Fosc_Set();
 //ADC Conversion Clock = 111 = FRC (clock supplied from a dedicated FRC oscillator)
 
 #ifdef MCU_16F723A
+
 #define	ADCON1_VDD		0x70 
 #define	ADCON1_RA3		0x72
 #define	ADCON1_Fixed		0x73

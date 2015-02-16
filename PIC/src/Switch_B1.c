@@ -284,11 +284,7 @@ char getAll_Sw_KeyStatus() {
 #if Switch_Class == 2
 
 #if PIR_use == 1
-    if (sw == 1) {
-        NOP();
-    } else if (sw == 2) {
-        status = Key2_1 == true ? 1 : 0;
-    }
+    status = Key2_1 == true ? 1 : 0;
 #else
     status = Key1_1 == true || Key1_2 == true || Key2_1 == true || Key2_2 == true ? 1 : 0;
 #endif

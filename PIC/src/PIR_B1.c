@@ -167,8 +167,6 @@ void PIR_Main() {
                             if (_PIR.Count == TriggerValue) {
                                 _PIR.Count = 0;
 #if PIR_TestTime_Mode == 0
-                                _PIR.CloseTimeSeconds = 0;
-                                _PIR.CloseTimeMinutes = 0;
                                 //                                _PIR.Status = true;
 
 #if LightsControl_use == 1
@@ -255,26 +253,26 @@ void PIR_Main() {
                     setLED(1, 0);
 #elif PIR_Control_Mode == 2
 #endif
-                    if (cds == 0) {
+
 #if LightsControl_use == 1
 #ifdef use_1KEY
-                        if (getLights_Status(1) == 1) {
-                            setLights_SwOn(1);
-                            setLights_SwOff(1);
-                            //                        setLights_Trigger(1, 0);
-                        }
+                    if (getLights_Status(1) == 1) {
+                        setLights_SwOn(1);
+                        setLights_SwOff(1);
+                        //                        setLights_Trigger(1, 0);
+                    }
 #endif
 #endif
 #if Dimmer_use == 1
 #ifdef use_1KEY
-                        if (getDimmerLights_Status(1) == 1) {
-                            Dimmer.PIR_Trigger = true;
-                            Dimmer.PIR_Sw = false;
-                        }
+                    if (getDimmerLights_Status(1) == 1) {
+                        Dimmer.PIR_Trigger = true;
+                        Dimmer.PIR_Sw = false;
+                    }
 
 #endif
 #endif
-                    }
+
                 }
             } else {
                 if (LightsStatus == 1) {
@@ -307,6 +305,9 @@ void PIR_Main() {
 #endif
                         }
                     }
+                } else {
+                    _PIR.CloseTimeSeconds = 0;
+                    _PIR.CloseTimeMinutes = 0;
                 }
             }
         } else {

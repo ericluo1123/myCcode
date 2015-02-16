@@ -7,7 +7,7 @@
 #define enable      1
 #define disable     0
 
-#include "../2-1-3.PIR_Ceiling_thin.X/PIR_ceiling_thin_2wire_16f723a.h"
+#include "../2-1-5.PIR+AC_DoorBell_2Loop_2Wire.X/PIR+AC_DoorBell_2Loop_2Wire.h"
 
 #endif
 

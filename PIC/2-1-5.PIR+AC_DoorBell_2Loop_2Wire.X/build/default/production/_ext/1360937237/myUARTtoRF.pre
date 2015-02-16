@@ -1885,13 +1885,13 @@ void IO_Set();
 # 226
 void Fosc_Set();
 
-# 294
+# 295
 void ADC_Set();
 void setADCGO();
 
 inline char getAD(char, char);
 
-# 445
+# 447
 struct Timer1 {
 
 struct {
@@ -1905,7 +1905,7 @@ struct Timer1 Timer1;
 inline void TMR1_Set();
 inline void TMR1_ISR();
 
-# 744
+# 746
 struct WDT {
 
 struct {
@@ -1916,7 +1916,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 769
+# 771
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -1955,7 +1955,9 @@ unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
 unsigned Error_Run : 1;
-unsigned empty : 4;
+unsigned InitDimmer : 1;
+unsigned SaveDimmer:1;
+unsigned empty:2;
 };
 
 unsigned int Timeout_Counter;
@@ -1963,16 +1965,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 128
+# 130
 void myMain_Initialization();
 
-# 133
+# 135
 inline void my_Main();
 
-# 138
+# 140
 inline void my_MainTimer();
 
-# 143
+# 145
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2026,13 +2028,14 @@ void setSw_Enable(char command);
 void Switch_Exception(char command);
 void setSw_Status(char sw, char command);
 char getSw_KeyStatus(char sw);
+char getAll_Sw_KeyStatus();
 
 
 
 
 void TouchPower();
 
-# 96
+# 97
 struct SwitchDetect {
 
 union {
