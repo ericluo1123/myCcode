@@ -2636,14 +2636,14 @@ void IO_Set();
 # 226
 void Fosc_Set();
 
-# 294
+# 295
 void ADC_Set();
 void setADCGO();
 
-# 303
+# 304
 inline int getAD(char, char);
 
-# 446
+# 447
 struct Timer1 {
 
 struct {
@@ -2657,11 +2657,11 @@ struct Timer1 Timer1;
 inline void TMR1_Set();
 inline void TMR1_ISR();
 
-# 533
+# 534
 void IOC_Set();
 inline void IOC_ISR();
 
-# 687
+# 688
 struct FlashMemory {
 unsigned char Data[32];
 unsigned char ReadDataH;
@@ -2685,7 +2685,7 @@ struct FlashMemory Memory = {
 }
 };
 
-# 715
+# 716
 void Flash_Memory_Initialization();
 void Flash_Memory_Unlock();
 char Flash_Memory_Read(char address);
@@ -2697,7 +2697,7 @@ void setMemory_Modify(char command);
 void setMemory_LoopSave(char command);
 void setMemory_Data(char address, char data);
 
-# 745
+# 746
 struct WDT {
 
 struct {
@@ -2708,7 +2708,7 @@ unsigned char Timer;
 };
 struct WDT WDT;
 
-# 770
+# 771
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
@@ -3480,13 +3480,13 @@ void DimmerIntr_Initialization() {
 
 
 DimmerIntr1.TuneTimeValue = 7;
-DimmerIntr1.MaxmumValue = ((char)(80*0.6));
+DimmerIntr1.MaxmumValue = ((char)(75*0.6));
 DimmerIntr1.MinimumValue = ((char)(10*0.6));
 
 
 
 if (myMain.InitDimmer == 1) {
-product->Data[21] = getDimmerLights_ValueToPercent(((char)(80*0.6)));
+product->Data[21] = getDimmerLights_ValueToPercent(((char)(75*0.6)));
 } else {
 DimmerIntr1.DimmingValue = getDimmerLights_PercentToValue(product->Data[21]);
 }
@@ -3949,10 +3949,10 @@ return status;
 char getDimmerLights_PercentToValue(char value) {
 
 # 1114
-float i = ((char)(80*0.6)) - ((char)(10*0.6));
+float i = ((char)(75*0.6)) - ((char)(10*0.6));
 i /= 100;
 
-return (char) (((char)(80*0.6)) - ((100 - value) * i));
+return (char) (((char)(75*0.6)) - ((100 - value) * i));
 
 }
 
@@ -3960,10 +3960,10 @@ return (char) (((char)(80*0.6)) - ((100 - value) * i));
 char getDimmerLights_ValueToPercent(char value) {
 
 # 1130
-float i = ((char)(80*0.6)) - ((char)(10*0.6));
+float i = ((char)(75*0.6)) - ((char)(10*0.6));
 i /= 100;
 
-return (char) (100 - ((((char)(80*0.6)) - value) / i));
+return (char) (100 - ((((char)(75*0.6)) - value) / i));
 
 }
 
@@ -4048,7 +4048,7 @@ DimmerIntr1.TuneTime = 0;
 DimmerIntr1.TuneGO = 1;
 if (DimmerIntr1.Dimming_Sw == 1) {
 if (DimmerIntr1.Dimming_Status == 0) {
-if (DimmerIntr1.DimmingValue < ((char)(80*0.6))) {
+if (DimmerIntr1.DimmingValue < ((char)(75*0.6))) {
 DimmerIntr1.DimmingValue++;
 } else {
 DimmerIntr1.Dimming_Status = 1;

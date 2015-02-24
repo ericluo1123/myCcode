@@ -167,7 +167,7 @@
 #define Dimmer_Trigger_Mode_Value   3
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
-#define Max_Percent                 80 //(72%) 65 (60%)
+#define Max_Percent                 75 //(72%) 65 (60%)
 #define Mini_Percent                10
 
 

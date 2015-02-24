@@ -1,7 +1,7 @@
 
 
 Microchip Technology PIC LITE Macro Assembler V1.32 build 58300 
-                                                                                               Fri Feb 13 13:57:04 2015
+                                                                                               Tue Feb 24 16:46:04 2015
 
 Microchip Technology Omniscient Code Generator (Lite mode) build 58300
      1                           	processor	16F1518
@@ -12423,7 +12423,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  12025  1CF3  0020               	movlb	0	; select bank0
  12026  1CF4  01A1               	clrf	getAll_Sw_KeyStatus@status
  12027                           
- 12028                           ;Switch_B1.c: 302: status = RA6 == 1 || RA4 == 1 || RA0 == 1 || RA7 == 1 ? 1 : 0;
+ 12028                           ;Switch_B1.c: 298: status = RA6 == 1 || RA4 == 1 || RA0 == 1 || RA7 == 1 ? 1 : 0;
  12029  1CF5  01A2               	clrf	_getAll_Sw_KeyStatus$6387
  12030  1CF6  0AA2               	incf	_getAll_Sw_KeyStatus$6387,f
  12031  1CF7  1F0C               	btfss	12,6	;volatile
@@ -12439,7 +12439,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  12041  1D00  0820               	movf	??_getAll_Sw_KeyStatus,w
  12042  1D01  00A1               	movwf	getAll_Sw_KeyStatus@status
  12043                           
- 12044                           ;Switch_B1.c: 306: return status;
+ 12044                           ;Switch_B1.c: 302: return status;
  12045  1D02  0821               	movf	getAll_Sw_KeyStatus@status,w
  12046  1D03  0008               	return
  12047  1D04                     __end_of_getAll_Sw_KeyStatus:	
@@ -16725,8 +16725,8 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  16134  132E  0021               	movlb	1	; select bank1
  16135  132F  00BF               	movwf	(_DimmerIntr1^(0+128)+4)
  16136                           
- 16137                           ;Dimmer_B1.c: 11: DimmerIntr1.MaxmumValue = ((char)(80*0.6));
- 16138  1330  3030               	movlw	48
+ 16137                           ;Dimmer_B1.c: 11: DimmerIntr1.MaxmumValue = ((char)(75*0.6));
+ 16138  1330  302D               	movlw	45
  16139  1331  0020               	movlb	0	; select bank0
  16140  1332  00E2               	movwf	??_DimmerIntr_Initialization
  16141  1333  0862               	movf	??_DimmerIntr_Initialization,w
@@ -16745,8 +16745,8 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  16154  133C  1E38               	btfss	(_myMain^(0+128)+10),4
  16155  133D  2B4E               	goto	l9542
  16156                           
- 16157                           ;Dimmer_B1.c: 17: product->Data[21] = getDimmerLights_ValueToPercent(((char)(80*0.6)));
- 16158  133E  3030               	movlw	48
+ 16157                           ;Dimmer_B1.c: 17: product->Data[21] = getDimmerLights_ValueToPercent(((char)(75*0.6)));
+ 16158  133E  302D               	movlw	45
  16159  133F  3196  26CB  3193   	fcall	_getDimmerLights_ValueToPercent
  16160  1342  0020               	movlb	0	; select bank0
  16161  1343  00E2               	movwf	??_DimmerIntr_Initialization
@@ -16924,10 +16924,10 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  16322  16CB  0020               	movlb	0	; select bank0
  16323  16CC  00DE               	movwf	getDimmerLights_ValueToPercent@value
  16324                           
- 16325                           ;Dimmer_B1.c: 1130: float i = ((char)(80*0.6)) - ((char)(10*0.6));
+ 16325                           ;Dimmer_B1.c: 1130: float i = ((char)(75*0.6)) - ((char)(10*0.6));
  16326  16CD  3000               	movlw	0
  16327  16CE  00DF               	movwf	getDimmerLights_ValueToPercent@i
- 16328  16CF  3028               	movlw	40
+ 16328  16CF  301C               	movlw	28
  16329  16D0  00E0               	movwf	getDimmerLights_ValueToPercent@i+1
  16330  16D1  3042               	movlw	66
  16331  16D2  00E1               	movwf	getDimmerLights_ValueToPercent@i+2
@@ -16954,7 +16954,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  16352  16E7  0830               	movf	?___ftdiv+2,w
  16353  16E8  00E1               	movwf	getDimmerLights_ValueToPercent@i+2
  16354                           
- 16355                           ;Dimmer_B1.c: 1133: return (char) (100 - ((((char)(80*0.6)) - value) / i));
+ 16355                           ;Dimmer_B1.c: 1133: return (char) (100 - ((((char)(75*0.6)) - value) / i));
  16356  16E9  085E               	movf	getDimmerLights_ValueToPercent@value,w
  16357  16EA  00DC               	movwf	??_getDimmerLights_ValueToPercent
  16358  16EB  01DD               	clrf	??_getDimmerLights_ValueToPercent+1
@@ -16964,7 +16964,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  16362  16EF  1903               	skipnz
  16363  16F0  0ADD               	incf	??_getDimmerLights_ValueToPercent+1,f
  16364  16F1  085C               	movf	??_getDimmerLights_ValueToPercent,w
- 16365  16F2  3E30               	addlw	48
+ 16365  16F2  3E2D               	addlw	45
  16366  16F3  00A8               	movwf	___awtoft@c
  16367  16F4  3000               	movlw	0
  16368  16F5  3D5D               	addwfc	??_getDimmerLights_ValueToPercent+1,w
@@ -17074,10 +17074,10 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  16467  1666  0020               	movlb	0	; select bank0
  16468  1667  00DE               	movwf	getDimmerLights_PercentToValue@value
  16469                           
- 16470                           ;Dimmer_B1.c: 1114: float i = ((char)(80*0.6)) - ((char)(10*0.6));
+ 16470                           ;Dimmer_B1.c: 1114: float i = ((char)(75*0.6)) - ((char)(10*0.6));
  16471  1668  3000               	movlw	0
  16472  1669  00DF               	movwf	getDimmerLights_PercentToValue@i
- 16473  166A  3028               	movlw	40
+ 16473  166A  301C               	movlw	28
  16474  166B  00E0               	movwf	getDimmerLights_PercentToValue@i+1
  16475  166C  3042               	movlw	66
  16476  166D  00E1               	movwf	getDimmerLights_PercentToValue@i+2
@@ -17104,7 +17104,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  16497  1682  0830               	movf	?___ftdiv+2,w
  16498  1683  00E1               	movwf	getDimmerLights_PercentToValue@i+2
  16499                           
- 16500                           ;Dimmer_B1.c: 1117: return (char) (((char)(80*0.6)) - ((100 - value) * i));
+ 16500                           ;Dimmer_B1.c: 1117: return (char) (((char)(75*0.6)) - ((100 - value) * i));
  16501  1684  085E               	movf	getDimmerLights_PercentToValue@value,w
  16502  1685  00DC               	movwf	??_getDimmerLights_PercentToValue
  16503  1686  01DD               	clrf	??_getDimmerLights_PercentToValue+1
@@ -17151,7 +17151,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  16544  16B5  00C6               	movwf	___ftadd@f2+2
  16545  16B6  3000               	movlw	0
  16546  16B7  00C1               	movwf	___ftadd@f1
- 16547  16B8  3040               	movlw	64
+ 16547  16B8  3034               	movlw	52
  16548  16B9  00C2               	movwf	___ftadd@f1+1
  16549  16BA  3042               	movlw	66
  16550  16BB  00C3               	movwf	___ftadd@f1+2
@@ -20215,8 +20215,8 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
  19486  099E  1ABB               	btfsc	_DimmerIntr1^(0+128),5
  19487  099F  29AB               	goto	i1l7192
  19488                           
- 19489                           ;Dimmer_B1.c: 1447: if (DimmerIntr1.DimmingValue < ((char)(80*0.6))) {
- 19490  09A0  3030               	movlw	48
+ 19489                           ;Dimmer_B1.c: 1447: if (DimmerIntr1.DimmingValue < ((char)(75*0.6))) {
+ 19490  09A0  302D               	movlw	45
  19491  09A1  0240               	subwf	(_DimmerIntr1^(0+128)+5),w
  19492  09A2  1803               	skipnc
  19493  09A3  29A9               	goto	i1l857
@@ -23865,7 +23865,7 @@ SFR31                0      0       0      32        0.0%
 
 
 Microchip Technology PIC Macro Assembler V1.32 build 58300 
-Symbol Table                                                                                   Fri Feb 13 13:57:04 2015
+Symbol Table                                                                                   Tue Feb 24 16:46:04 2015
 
                     __size_of_Switch_Main 0007                     ?_Flash_Memory_Erasing 0070  
                             _WDT_Clearing 0002                     __end_of_setCmd_Status 1ECD  
