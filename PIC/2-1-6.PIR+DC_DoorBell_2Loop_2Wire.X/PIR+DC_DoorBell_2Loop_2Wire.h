@@ -136,12 +136,12 @@
 //OverTemperature
 #define OverTemperature_use_Value 1
 #define Cut_Off_electricity_Value 1
-#define TempDangerValueH_Value    0x70		
-#define TempSafeValueH_Value      0x85		
-#define TempDangerValueL_Value    0x40		
-#define TempSafeValueL_Value      0x4f
-#define TempDangerValue_Value     0x75
-#define TempSafeValue_Value       0x85
+//#define TempDangerValueH_Value    0x70
+//#define TempSafeValueH_Value      0x85
+//#define TempDangerValueL_Value    0x40
+//#define TempSafeValueL_Value      0x4f
+#define TempDangerValue_Value     0x76
+#define TempSafeValue_Value       0x79
 /*
  * lights on max temperature value      0xaa
  * lights on mini temperature value     0x64
@@ -180,7 +180,7 @@
 #define Dimmer_Full_Wave_Value      0
 #define Max_Percent                 70
 #define Mini_Percent                30
-#define Med_Percent                 Med_Percent+(char)((Max_Percent-Mini_Percent)/2)
+#define Med_Percent                 (char)((Max_Percent-Mini_Percent)/2)
 //SegmentDisplay
 #define SegmentDisplay_use_Value 0
 //PIR

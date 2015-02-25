@@ -38,7 +38,7 @@ inline void getTemp_AD(char channel) {
     //    if (Temp.ADtoGO == true) {
     //        Temp.GO = true;
     ////            Temp.ADRES = getAD(channel, ADCON1_VDD);
-    ADRES = getAD(channel, ADCON1_VDD);
+    //    ADRES = getAD(channel, ADCON1_VDD);
     //        if (Temp.ADH[0] < ADRES) {
     //            Temp.ADH[0] = ADRES;
     //        } else if (Temp.ADH[1] < ADRES) {
