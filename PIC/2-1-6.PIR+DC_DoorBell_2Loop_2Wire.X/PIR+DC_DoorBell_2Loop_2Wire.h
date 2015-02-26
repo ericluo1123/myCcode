@@ -140,8 +140,8 @@
 //#define TempSafeValueH_Value      0x85
 //#define TempDangerValueL_Value    0x40
 //#define TempSafeValueL_Value      0x4f
-#define TempDangerValue_Value     0x76
-#define TempSafeValue_Value       0x79
+#define TempDangerValue_Value     0x7b
+#define TempSafeValue_Value       0x7b
 /*
  * lights on max temperature value      0xaa
  * lights on mini temperature value     0x64

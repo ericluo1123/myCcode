@@ -1708,7 +1708,7 @@ inline void DimmerLights_IOC_2() {
             DimmerIntr2.Status = DimmerReference1 == true ? true : false;
 #endif
 
-#elif Properties_Keys == 2
+#elif Properties_Keys == 2 
             DimmerIntr2.Status = DimmerReference1 == true ? true : false;
 #endif
         }
