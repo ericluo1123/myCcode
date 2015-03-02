@@ -11,7 +11,7 @@
 #if Properties_Neutral == 1
 #define TuneTime1 6
 #else
-#define TuneTime1 8
+#define TuneTime1 4
 #endif
 #elif Properties_Keys == 2
 #if Properties_Neutral == 1
@@ -46,10 +46,6 @@ struct DimmerLights {
     };
 
     union {
-
-
-
-
 
         struct {
             unsigned Status : 1;
@@ -160,8 +156,8 @@ struct Dimmer_Interrupt {
             unsigned Trigger3 : 1;
             unsigned Trigger4 : 1;
             unsigned Trigger5 : 1;
-            unsigned Status:1;
-            unsigned TuneGO:1;
+            unsigned Status : 1;
+            unsigned TuneGO : 1;
             unsigned empty : 1;
         };
     };
@@ -173,7 +169,7 @@ struct Dimmer_Interrupt {
     unsigned char MaxmumValue;
     unsigned char MinimumValue;
 
-//    unsigned char TuneValue;
+    //    unsigned char TuneValue;
     unsigned char TuneValue2;
     unsigned char TuneValue3;
     unsigned char TuneValue4;

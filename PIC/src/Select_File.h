@@ -7,7 +7,7 @@
 #define enable      1
 #define disable     0
 
-#include "../2-1-3.PIR_Ceiling_thin.X/PIR_ceiling_thin_2wire_16f723a.h"
+#include "../1-8-1.Switch_1Key_Dimmer_MOSFET.X/Switch_1Key_Dimmer_MOSFET_V1.1.1.1.1.h"
 
 #endif
 

@@ -15,6 +15,7 @@ void DimmerIntr_Initialization() {
 #if DimmerValue_SaveMemory == 1
     if (myMain.InitDimmer == true) {
         product->Data[21] = getDimmerLights_ValueToPercent(Dimmer_Maxum);
+        DimmerIntr1.DimmingValue = getDimmerLights_PercentToValue(product->Data[21]);
     } else {
         DimmerIntr1.DimmingValue = getDimmerLights_PercentToValue(product->Data[21]);
     }
@@ -26,6 +27,10 @@ void DimmerIntr_Initialization() {
 
     //    DimmerIntr1.DimmingValue = Dimmer_Maxum;
 
+    DimmerIntr1.TuneValue2 = Division(DimmerIntr1.DimmingValue, 2);
+    DimmerIntr1.TuneValue3 = DimmerIntr1.TuneValue2 + (TotalCount - DimmerIntr1.DimmingValue);
+    DimmerIntr1.TuneValue4 = DimmerIntr1.TuneValue3 + DimmerIntr1.TuneValue2;
+    DimmerIntr1.TuneEnd = DimmerIntr1.TuneValue4 + 1;
 
 #endif
 #ifdef use_2KEY
@@ -1484,7 +1489,9 @@ inline void DimmerLights_IOC_1() {
     }
 #elif Dimmer_Trigger_Mode == 3
     if (DimmerIntr1.Start == false && DimmerIntr1.GO == false) {
+
         if (DimmerReference1 != DimmerIntr1.Status) {
+            ErrLED = ErrLED == true ? false : true;
             //            DimmerIntr1.Start = true;
             DimmerIntr1.Count = 0;
             DimmerIntr1.GO = true;
@@ -1500,11 +1507,12 @@ inline void DimmerLights_IOC_1() {
                 DimmerIntr1.TuneValue2 = Division(DimmerIntr1.DimmingValue, 2);
                 DimmerIntr1.TuneValue3 = DimmerIntr1.TuneValue2 + (TotalCount - DimmerIntr1.DimmingValue);
                 DimmerIntr1.TuneValue4 = DimmerIntr1.TuneValue3 + DimmerIntr1.TuneValue2;
-                DimmerIntr1.TuneEnd = DimmerIntr1.TuneValue4 + 3;
+                DimmerIntr1.TuneEnd = DimmerIntr1.TuneValue4 + 1;
             }
 #if Properties_Keys == 1
 #if Properties_Neutral == 0
-            DimmerIntr1.Status = false;
+            //            DimmerIntr1.Status = false;
+            DimmerIntr1.Status = DimmerReference1 == true ? true : false;
 #else
             DimmerIntr1.Status = DimmerReference1 == true ? true : false;
 #endif

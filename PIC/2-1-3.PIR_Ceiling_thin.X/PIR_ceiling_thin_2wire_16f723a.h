@@ -141,8 +141,8 @@
 //#define TempSafeValueH_Value      0x85		//NTC 47 value 600
 //#define TempDangerValueL_Value    0x40		//NTC 68 value 500
 //#define TempSafeValueL_Value      0x4f		//NTC 47 value 600
-#define TempDangerValue_Value     0x7d
-#define TempSafeValue_Value       0x7a
+#define TempDangerValue_Value     0x6a
+#define TempSafeValue_Value       0x39
 /*
  * lights on max temperature value      0xaa
  * lights on mini temperature value     0x64
