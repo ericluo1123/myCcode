@@ -11,7 +11,7 @@
 #if Properties_Neutral == 1
 #define TuneTime1 6
 #else
-#define TuneTime1 4
+#define TuneTime1 7
 #endif
 #elif Properties_Keys == 2
 #if Properties_Neutral == 1

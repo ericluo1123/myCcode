@@ -27,8 +27,8 @@ void DimmerIntr_Initialization() {
 
     //    DimmerIntr1.DimmingValue = Dimmer_Maxum;
 
-    DimmerIntr1.TuneValue2 = Division(DimmerIntr1.DimmingValue, 2);
-    DimmerIntr1.TuneValue3 = DimmerIntr1.TuneValue2 + (TotalCount - DimmerIntr1.DimmingValue);
+    DimmerIntr1.TuneValue2 = Division(Dimmer_Maxum, 2);
+    DimmerIntr1.TuneValue3 = DimmerIntr1.TuneValue2 + (TotalCount - Dimmer_Maxum);
     DimmerIntr1.TuneValue4 = DimmerIntr1.TuneValue3 + DimmerIntr1.TuneValue2;
     DimmerIntr1.TuneEnd = DimmerIntr1.TuneValue4 + 1;
 
@@ -1491,7 +1491,7 @@ inline void DimmerLights_IOC_1() {
     if (DimmerIntr1.Start == false && DimmerIntr1.GO == false) {
 
         if (DimmerReference1 != DimmerIntr1.Status) {
-            ErrLED = ErrLED == true ? false : true;
+            //            ErrLED = ErrLED == true ? false : true;
             //            DimmerIntr1.Start = true;
             DimmerIntr1.Count = 0;
             DimmerIntr1.GO = true;

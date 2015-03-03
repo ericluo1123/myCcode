@@ -275,6 +275,7 @@ void PIR_Main() {
 
                 }
             } else {
+#if PIR_Temp_Test_Mode == 0
                 if (LightsStatus == 1) {
                     _PIR.CloseTimeSeconds++;
                     if (_PIR.CloseTimeSeconds == (1000 / Main_Time)) {
@@ -309,6 +310,7 @@ void PIR_Main() {
                     _PIR.CloseTimeSeconds = 0;
                     _PIR.CloseTimeMinutes = 0;
                 }
+#endif
             }
         } else {
             if (myMain.PowerON == true) {

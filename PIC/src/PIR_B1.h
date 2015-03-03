@@ -7,6 +7,7 @@
 #if PIR_use == 1
 #define PIR_Test_Mode 0
 #define PIR_TestTime_Mode 0
+#define PIR_Temp_Test_Mode 0
 //detect range
 #define RangeMinimum	25
 #define RangeMedium	(RangeMinimum+10)

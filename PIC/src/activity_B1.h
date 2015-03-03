@@ -328,7 +328,7 @@ typedef unsigned int ADtype;
  * dimmer delay time
  */
 #define DimmingDelayTime 7
-#define TriacCountValue 60
+#define TriacCountValue 60 
 #endif
 
 #ifdef IntrTime_150us
