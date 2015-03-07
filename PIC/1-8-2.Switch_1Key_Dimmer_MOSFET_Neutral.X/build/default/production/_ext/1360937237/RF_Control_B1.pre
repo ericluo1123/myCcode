@@ -3133,7 +3133,6 @@ unsigned Learn : 1;
 unsigned Key : 1;
 };
 
-
 struct {
 unsigned Sleep : 1;
 unsigned Run : 1;
@@ -3143,6 +3142,11 @@ unsigned RxChecked : 1;
 unsigned Correction : 1;
 unsigned Timeout : 1;
 unsigned All_Lights_Close : 1;
+};
+
+struct {
+unsigned flagDimming : 1;
+unsigned empty : 7;
 };
 
 unsigned int Count;
@@ -3181,6 +3185,9 @@ void setRFSW_Control(char sw);
 void setRFSW_AdjControl(char sw);
 inline void setRFSW_Status(char sw, char command);
 inline void setRF_TransceiveGO(char command);
+void setRF_AdjControl(char sw);
+char getRF_flagDimming();
+void setRF_flagDimming(char command);
 
 
 
@@ -3681,17 +3688,14 @@ if (RF_Data[20] == 209 || RF_Data[20] == 0x0a) {
 
 if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {
 
-if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
-__nop();
-} else {
 if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_Data[14] == product->Data[14]) {
 setControl_Lights_Table();
 }
-}
+
 
 }
 
-# 267
+# 264
 }
 }
 } else {
@@ -3715,6 +3719,7 @@ setMemory_Modify(1);
 
 
 inline void setControl_Lights_Table() {
+
 switch (RF_Data[15]) {
 
 case 0x00:
@@ -3726,7 +3731,7 @@ setDimmerLights_SwOn(1);
 setDimmerLights_SwOff(1);
 }
 
-# 314
+# 312
 setCmd_Status(1, 1);
 } else {
 setProductData(9, 0);
@@ -3756,11 +3761,15 @@ case 0x11:
 setRFSW_AdjControl(1);
 break;
 
-# 370
+case 0xd1:
+setRF_AdjControl(1);
+break;
+
+# 372
 }
 }
 
-# 378
+# 380
 void setRFSW_Control(char sw) {
 char status = 0;
 
@@ -3798,7 +3807,7 @@ setProductData(11, sw);
 setProductData(17, product->Data[26 + sw]);
 setProductData((20 + sw), RF_Data[9]);
 
-# 421
+# 423
 setMemory_Modify(1);
 
 
@@ -3818,7 +3827,41 @@ setDimmerLights_SwOff(sw);
 }
 }
 
-# 455
+
+void setRF_AdjControl(char sw) {
+char status = 0;
+
+status = getDimmerLights_Status(sw);
+
+if (status == 1) {
+if (RF1.flagDimming == 0) {
+RF1.flagDimming = 1;
+DimmerLights_SelectPointer(sw);
+
+DimmerLights->DimmingSwFlag = 1;
+DimmerLights->DimmingTrigger = 1;
+DimmerLights->DimmingSwitch = 1;
+
+} else {
+RF1.flagDimming = 0;
+DimmerLights->DimmingTrigger = 1;
+DimmerLights->DimmingSwitch = 0;
+}
+}
+setBuz(1, 100);
+}
+
+
+char getRF_flagDimming() {
+char result = RF1.flagDimming == 1 ? 1 : 0;
+return result;
+}
+
+void setRF_flagDimming(char command) {
+RF1.flagDimming = command == 1 ? 1 : 0;
+}
+
+# 491
 inline void setRF_DimmerLights(char lights, char on) {
 char status = 1;
 status <<= (lights - 1);

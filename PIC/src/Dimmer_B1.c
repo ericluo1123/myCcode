@@ -721,6 +721,7 @@ void setDimmerLights_SwOn(char sw) {
 #endif
     DimmerLights_SelectPointer(sw);
     if (idle == 0) {
+
         DimmerLights->SwFlag = true;
         if (DimmerLights->Status == false) {
             DimmerLights->Status = true;

@@ -64,16 +64,16 @@ struct OverLoad {
     ADtype AH[5];
     ADtype AL[5];
     ADtype AD;
-//    ADtype ADRES;
+    //    ADtype ADRES;
 
     unsigned int LightsJudgeValue;
     unsigned int JudgeValue;
-//    unsigned int Judge;
+    //    unsigned int Judge;
 
     unsigned char Count;
     unsigned char ErrorCount;
-//    unsigned char ErrorCountValue;
-//    unsigned char LightsCount;
+    //    unsigned char ErrorCountValue;
+    //    unsigned char LightsCount;
     unsigned char SafeCount;
 
 };

@@ -10,6 +10,7 @@ inline void Load_Initialization() {
     //    Load.OK = true;
     setLoad_AH_AL_Restore();
 }
+
 //******************************************************************************
 
 inline void getLoad_AD(char channel) {
@@ -38,7 +39,7 @@ inline void getLoad_AD(char channel) {
 
 inline void Load_Main() {
     char error = getMain_All_Error_Status(0);
-    char Load_RunStatus = 0, ErrorCountValue = 0, LightsCount=0;
+    char Load_RunStatus = 0, ErrorCountValue = 0, LightsCount = 0;
     if (Load.Enable == true) {
 
         if (getMain_All_LightsStatus() == 0) {
@@ -103,6 +104,7 @@ inline void Load_Main() {
                     }
                     Load.ADH /= 3;
                     Load.ADL /= 3;
+
                     setLoad_AH_AL_Restore();
 
                     if (Load.ADH >= Load.ADL) {
@@ -274,7 +276,7 @@ char getLoad_OK() {
     return ok;
 }
 //******************************************************************************
- 
+
 void setLoad_OK() {
     Load.OK = false;
     Load.SafeCount = 0;

@@ -245,13 +245,10 @@ inline void getRxData() {
                     //0x00,0x02
                     if (RF_Data[0] == 0x00 && RF_Data[1] == 0x02) {
                         //loop code
-                        if (RF_Data[12] == 0xff && RF_Data[13] == 0xff && RF_Data[14] == 0xff) {
-                            NOP();
-                        } else {
-                            if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_Data[14] == product->Data[14]) {
-                                setControl_Lights_Table();
-                            }
+                        if (RF_Data[12] == product->Data[12] && RF_Data[13] == product->Data[13] && RF_Data[14] == product->Data[14]) {
+                            setControl_Lights_Table();
                         }
+
                         //0xff,0x02
                     } //else if (RF_Data[0] == 0xff && RF_Data[1] == 0x02) {
                     //                    NOP(); //Broadcasting command
@@ -287,6 +284,7 @@ inline void setLog_Code() {
 //*********************************************************
 
 inline void setControl_Lights_Table() {
+
     switch (RF_Data[15]) {
 
         case 0x00://all lights close code
@@ -338,6 +336,10 @@ inline void setControl_Lights_Table() {
 
         case 0x11://first lights dimmer control code
             setRFSW_AdjControl(1);
+            break;
+
+        case 0xd1:
+            setRF_AdjControl(1);
             break;
 #endif
 #endif
@@ -435,6 +437,40 @@ void setRFSW_AdjControl(char sw) {
         setDimmerLights_SwOn(sw);
         setDimmerLights_SwOff(sw);
     }
+}
+//*********************************************************
+
+void setRF_AdjControl(char sw) {
+    char status = 0;
+#if Dimmer_use == 1
+    status = getDimmerLights_Status(sw);
+#endif
+    if (status == 1) {
+        if (RF1.flagDimming == false) {
+            RF1.flagDimming = true;
+            DimmerLights_SelectPointer(sw);
+
+            DimmerLights->DimmingSwFlag = true;
+            DimmerLights->DimmingTrigger = true;
+            DimmerLights->DimmingSwitch = true;
+            //            ErrLED = ErrLED == true ? false : true;
+        } else {
+            RF1.flagDimming = false;
+            DimmerLights->DimmingTrigger = true;
+            DimmerLights->DimmingSwitch = false;
+        }
+    }
+    setBuz(1, BuzzerOnOffTime);
+}
+//*********************************************************
+
+char getRF_flagDimming() {
+    char result = RF1.flagDimming == true ? 1 : 0;
+    return result;
+}
+
+void setRF_flagDimming(char command) {
+    RF1.flagDimming = command == 1 ? true : false;
 }
 //*********************************************************
 #if Dimmer_use == 1

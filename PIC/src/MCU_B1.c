@@ -117,7 +117,7 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
 
 
 #if Timer0_use == 1
-    else if (TMR0IE == true && TMR0IF == true) {
+else if (TMR0IE == true && TMR0IF == true) {
         TMR0_ISR();
     }
 #endif

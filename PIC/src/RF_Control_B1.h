@@ -22,7 +22,6 @@ struct RF {
         unsigned Key : 1;
     };
 
-
     struct {
         unsigned Sleep : 1;
         unsigned Run : 1;
@@ -32,6 +31,11 @@ struct RF {
         unsigned Correction : 1;
         unsigned Timeout : 1;
         unsigned All_Lights_Close : 1;
+    };
+
+    struct {
+        unsigned flagDimming : 1;
+        unsigned empty : 7;
     };
 
     unsigned int Count;
@@ -70,6 +74,9 @@ void setRFSW_Control(char sw);
 void setRFSW_AdjControl(char sw);
 inline void setRFSW_Status(char sw, char command);
 inline void setRF_TransceiveGO(char command);
+void setRF_AdjControl(char sw);
+char getRF_flagDimming();
+void setRF_flagDimming(char command);
 
 #if Dimmer_use == 1
 //inline void setRF_DimmerValue(char lights);
