@@ -2182,7 +2182,7 @@ inline void CDS_Main();
 inline void getCDS_AD(char channel1, char channel2);
 char getCDS_Status();
 
-# 18 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
+# 19 "../src/../2-1-1.PIR_Ceiling_Embed.X/../src/PIR_B1.h"
 struct PIR {
 
 struct {
@@ -2199,7 +2199,7 @@ unsigned Available : 1;
 
 unsigned char SignalAD;
 
-# 44
+# 45
 unsigned char Time;
 unsigned char ReferenceVoltage;
 
@@ -2466,16 +2466,20 @@ _PIR.Count++;
 TriggerValue = LightsStatus == 1 ? 3 : 3;
 
 if (_PIR.Count == TriggerValue) {
+
+_PIR.CloseTimeSeconds = 0;
+_PIR.CloseTimeMinutes = 0;
+
 _PIR.Count = 0;
 
-# 175
+# 179
 if (getLights_Status(1) == 0) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 193
+# 197
 if ((_PIR.SignalAD <= (_PIR.ReferenceVoltage - _PIR.RangeValue))) {
 setLED(1, 1);
 setLED(2, 0);
@@ -2484,7 +2488,7 @@ setLED(1, 0);
 setLED(2, 1);
 }
 
-# 241
+# 245
 }
 }
 }
@@ -2499,16 +2503,17 @@ _PIR.OK = 1;
 
 setLED(1, 0);
 
-# 259
+# 263
 if (getLights_Status(1) == 1) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 276
+# 280
 }
 } else {
+
 if (LightsStatus == 1) {
 _PIR.CloseTimeSeconds++;
 if (_PIR.CloseTimeSeconds == (1000 / 20)) {
@@ -2517,20 +2522,21 @@ _PIR.CloseTimeMinutes++;
 if (_PIR.CloseTimeMinutes == _PIR.CloseTimeValue) {
 _PIR.CloseTimeMinutes = 0;
 
-# 290
+# 295
 if (getLights_Status(1) == 1) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 306
+# 311
 }
 }
 } else {
 _PIR.CloseTimeSeconds = 0;
 _PIR.CloseTimeMinutes = 0;
 }
+
 }
 } else {
 if (myMain.PowerON == 1) {
@@ -2538,14 +2544,14 @@ _PIR.Enable = 1;
 
 setLED(1, 1);
 
-# 322
+# 328
 if (getLights_Status(1) == 0) {
 setLights_SwOn(1);
 setLights_SwOff(1);
 
 }
 
-# 337
+# 343
 }
 }
 }
@@ -2557,12 +2563,12 @@ char VRAD = 0, VRAD1 = 0;
 if (_PIR.ADtoGO == 1 && _PIR.GO == 0) {
 _PIR.GO = 1;
 
-# 353
+# 359
 VRAD1 = getAD(channel1, 0x70);
 VRAD = VRAD1 / 25;
 _PIR.SignalAD = getAD(channel2, 0x70);
 
-# 369
+# 375
 if (VRAD < 1) {
 _PIR.CloseTimeValue = 5;
 } else if (VRAD < 3) {
@@ -2577,7 +2583,7 @@ _PIR.CloseTimeValue = 900;
 _PIR.CloseTimeValue = 1200;
 }
 
-# 390
+# 396
 _PIR.TenAverage[_PIR.TenCount] = _PIR.SignalAD;
 for (i = 0; i < 10; i++) {
 _PIR.TenAverageValue += _PIR.TenAverage[i];
@@ -2601,7 +2607,7 @@ else
 _PIR.HundreCount = 0;
 }
 
-# 426
+# 432
 }
 }
 

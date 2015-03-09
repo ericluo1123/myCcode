@@ -23,7 +23,6 @@ void DimmerIntr_Initialization() {
 #else
     product->Data[21] = getDimmerLights_ValueToPercent(Dimmer_Maxum);
 #endif
-#endif
 
     //    DimmerIntr1.DimmingValue = Dimmer_Maxum;
 
@@ -31,6 +30,7 @@ void DimmerIntr_Initialization() {
     DimmerIntr1.TuneValue3 = DimmerIntr1.TuneValue2 + (TotalCount - Dimmer_Maxum);
     DimmerIntr1.TuneValue4 = DimmerIntr1.TuneValue3 + DimmerIntr1.TuneValue2;
     DimmerIntr1.TuneEnd = DimmerIntr1.TuneValue4 + 1;
+#endif
 
 #endif
 #ifdef use_2KEY

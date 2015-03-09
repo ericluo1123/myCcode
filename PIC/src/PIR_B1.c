@@ -165,6 +165,10 @@ void PIR_Main() {
                             TriggerValue = LightsStatus == 1 ? 3 : 3;
 
                             if (_PIR.Count == TriggerValue) {
+
+                                _PIR.CloseTimeSeconds = 0;
+                                _PIR.CloseTimeMinutes = 0;
+
                                 _PIR.Count = 0;
 #if PIR_TestTime_Mode == 0
                                 //                                _PIR.Status = true;

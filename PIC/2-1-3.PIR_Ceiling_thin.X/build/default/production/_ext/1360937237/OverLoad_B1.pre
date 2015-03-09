@@ -2347,6 +2347,7 @@ setLoad_AH_AL_Restore();
 }
 
 
+
 inline void getLoad_AD(char channel) {
 char i = 0, j = 0, k = 0;
 ADtype ADRES = 0;
@@ -2373,14 +2374,14 @@ k = 1;
 
 inline void Load_Main() {
 char error = getMain_All_Error_Status(0);
-char Load_RunStatus = 0, ErrorCountValue = 0, LightsCount=0;
+char Load_RunStatus = 0, ErrorCountValue = 0, LightsCount = 0;
 if (Load.Enable == 1) {
 
 if (getMain_All_LightsStatus() == 0) {
 Load.GO = 0;
 } else {
 
-# 69
+# 70
 if (error == 0) {
 Load.GO = 1;
 
@@ -2418,6 +2419,7 @@ Load.ADL += Load.AL[i];
 }
 Load.ADH /= 3;
 Load.ADL /= 3;
+
 setLoad_AH_AL_Restore();
 
 if (Load.ADH >= Load.ADL) {
@@ -2429,7 +2431,7 @@ if (Load.Run == 1) {
 if (Load.Count < 2) {
 Load.Count++;
 
-# 120
+# 122
 Load_RunStatus = getLight_Load_Status();
 
 LightsCount = getMain_Lights_Count();
@@ -2458,7 +2460,7 @@ if (Load.ErrorCount > ErrorCountValue) {
 Load.ErrorCount = 0;
 Load.ERROR = 1;
 
-# 168
+# 170
 }
 } else {
 Load.ErrorCount = 0;
@@ -2476,7 +2478,7 @@ Load.TotalLoad = Load.AD;
 }
 }
 
-# 206
+# 208
 }
 }
 }
@@ -2498,12 +2500,12 @@ Load.SafeCount = 0;
 Load.ADH = 0;
 Load.ADL = 0;
 
-# 231
+# 233
 Load.Run = 0;
 Load.Count = 0;
 Load.OK = 0;
 
-# 255
+# 257
 }
 if (Load.ERROR == 1) {
 Load.ErrorTime++;

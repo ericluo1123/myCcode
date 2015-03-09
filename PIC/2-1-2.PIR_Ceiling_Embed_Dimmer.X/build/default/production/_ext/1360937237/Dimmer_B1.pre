@@ -2123,7 +2123,6 @@ unsigned MosfetClose : 1;
 
 union {
 
-# 54
 struct {
 unsigned Status : 1;
 unsigned Line : 1;
@@ -2146,10 +2145,10 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 92
+# 88
 struct DimmerLights DimmerLights1;
 
-# 111
+# 107
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -2202,8 +2201,8 @@ unsigned Trigger2 : 1;
 unsigned Trigger3 : 1;
 unsigned Trigger4 : 1;
 unsigned Trigger5 : 1;
-unsigned Status:1;
-unsigned TuneGO:1;
+unsigned Status : 1;
+unsigned TuneGO : 1;
 unsigned empty : 1;
 };
 };
@@ -2227,7 +2226,7 @@ struct Dimmer_Interrupt *DimmerIntr;
 
 struct Dimmer_Interrupt DimmerIntr1;
 
-# 197
+# 193
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -2244,7 +2243,7 @@ char getAll_DimmerIntr_Dimming_Sw_RF();
 void setDimmerIntr_MaxmumValue(char lights, char value);
 char getDimmerIntr_MaxmumValue(char lights);
 
-# 217
+# 213
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
@@ -2329,7 +2328,7 @@ inline void CDS_Main();
 inline void getCDS_AD(char channel1, char channel2);
 char getCDS_Status();
 
-# 18 "../src/../2-1-2.PIR_Ceiling_Embed_Dimmer.X/../src/PIR_B1.h"
+# 19 "../src/../2-1-2.PIR_Ceiling_Embed_Dimmer.X/../src/PIR_B1.h"
 struct PIR {
 
 struct {
@@ -2346,7 +2345,7 @@ unsigned Available : 1;
 
 unsigned char SignalAD;
 
-# 44
+# 45
 unsigned char Time;
 unsigned char ReferenceVoltage;
 
@@ -2407,7 +2406,7 @@ DimmerIntr1.TuneTimeValue = 7;
 DimmerIntr1.MaxmumValue = ((char)((100-70)*0.6));
 DimmerIntr1.MinimumValue = ((char)((100-10)*0.6));
 
-# 61
+# 66
 if (myMain.InitDimmer == 1) {
 myMain.InitDimmer = 0;
 myMain.SaveDimmer = 1;
@@ -2422,7 +2421,7 @@ if (lights == 1) {
 DimmerIntr1.ControlStatus = command == 1 ? 1 : 0;
 }
 
-# 85
+# 90
 }
 
 void setDimmerIntr_DimmingValue(char lights, char value) {
@@ -2431,7 +2430,7 @@ if (lights == 1) {
 DimmerIntr1.DimmingValue = value;
 }
 
-# 103
+# 108
 }
 
 char getDimmerIntr_DimmingValue(char lights) {
@@ -2441,7 +2440,7 @@ if (lights == 1) {
 value = DimmerIntr1.DimmingValue;
 }
 
-# 122
+# 127
 return value;
 }
 
@@ -2453,7 +2452,7 @@ if (lights == 1) {
 DimmerIntr1.MaxmumValue = value;
 }
 
-# 143
+# 148
 }
 
 char getDimmerIntr_MaxmumValue(char lights) {
@@ -2463,7 +2462,7 @@ if (lights == 1) {
 value = DimmerIntr1.MaxmumValue;
 }
 
-# 162
+# 167
 return value;
 }
 
@@ -2474,7 +2473,7 @@ if (lights == 1) {
 DimmerIntr1.MinimumValue = value;
 }
 
-# 182
+# 187
 }
 
 char getDimmerIntr_MinimumValue(char lights) {
@@ -2484,7 +2483,7 @@ if (lights == 1) {
 value = DimmerIntr1.MinimumValue;
 }
 
-# 201
+# 206
 return value;
 }
 
@@ -2494,7 +2493,7 @@ if (lights == 1) {
 DimmerIntr1.Dimming_Sw = command == 1 ? 1 : 0;
 }
 
-# 220
+# 225
 }
 
 void setDimmerIntr_Dimming_RF(char lights, char command) {
@@ -2503,14 +2502,14 @@ if (lights == 1) {
 DimmerIntr1.Dimming_RF = command == 1 ? 1 : 0;
 }
 
-# 238
+# 243
 }
 
 
 char getAll_DimmerIntr_ControlStatus() {
 char status = 0;
 
-# 253
+# 258
 status = (DimmerIntr1.ControlStatus == 1) ? 1 : 0;
 
 
@@ -2521,7 +2520,7 @@ return status;
 char getAll_DimmerIntr_Dimming_Sw() {
 char status = 0;
 
-# 272
+# 277
 status = (DimmerIntr1.Dimming_Sw == 1) ? 1 : 0;
 
 
@@ -2533,21 +2532,21 @@ return status;
 char getAll_DimmerIntr_Dimming_Sw_RF() {
 char status = 0;
 
-# 292
+# 297
 status = (DimmerIntr1.Dimming_Sw == 1) ? 1 : 0;
 
-# 310
+# 315
 return status;
 }
 
-# 614
+# 619
 inline void DimmerLights_SelectPointer(char lights) {
 
 if (lights == 1) {
 DimmerLights = &DimmerLights1;
 }
 
-# 632
+# 637
 }
 
 
@@ -2555,14 +2554,14 @@ void DimmerLights_Initialization() {
 
 setDimmerLights_Initialization(1);
 
-# 647
+# 652
 DimmerIntr_Initialization();
 }
 
 
 void setDimmerLights_Initialization(char lights) {
 
-# 687
+# 692
 }
 
 
@@ -2570,9 +2569,10 @@ void setDimmerLights_Initialization(char lights) {
 void setDimmerLights_SwOn(char sw) {
 char idle = 0;
 
-# 717
+# 722
 DimmerLights_SelectPointer(sw);
 if (idle == 0) {
+
 DimmerLights->SwFlag = 1;
 if (DimmerLights->Status == 0) {
 DimmerLights->Status = 1;
@@ -2609,7 +2609,7 @@ DimmerLights->Switch = 0;
 
 void setDimmerLights_DimmingOn(char sw) {
 
-# 759
+# 765
 DimmerLights_SelectPointer(sw);
 if (DimmerLights->Trigger == 0) {
 if (DimmerLights->SwFlag == 1) {
@@ -2627,10 +2627,10 @@ DimmerLights->DimmingSwitch = 1;
 
 void DimmerLights_Main() {
 
-# 785
+# 791
 setDimmerLights_Main(1);
 
-# 797
+# 803
 DimmerLights_PIR_Control();
 
 
@@ -2676,14 +2676,14 @@ void setDimmerLights_OnOff(char lights, char command) {
 if (command == 1) {
 setDimmerIntr_ControlStatus(lights, 1);
 
-# 848
+# 854
 Dimmer.PIR_Open_Status = 1;
 
-# 895
+# 901
 } else if (command == 0) {
 setDimmerIntr_ControlStatus(lights, 0);
 
-# 929
+# 935
 }
 
 
@@ -2707,17 +2707,17 @@ void setDimmerLights_Dimming(char lights, char status) {
 if (status == 1) {
 setDimmerIntr_Dimming_Sw(lights, 1);
 
-# 955
+# 961
 ;;
 } else if (status == 0) {
 setDimmerIntr_Dimming_Sw(lights, 0);
 
-# 963
+# 969
 char value = getDimmerIntr_DimmingValue(lights);
 setDimmerIntr_MaxmumValue(lights, value);
 ;;
 
-# 972
+# 978
 ;;
 
 
@@ -2732,7 +2732,7 @@ setDimmerIntr_MaxmumValue(lights, value);
 char getDimmerLights_Allow_Condition(char lights) {
 char allow = 0;
 
-# 1017
+# 1023
 return allow;
 }
 
@@ -2746,7 +2746,7 @@ if (lights == 1 && lights != 0) {
 DimmerLights1.Line = 1;
 }
 
-# 1042
+# 1048
 }
 
 
@@ -2757,7 +2757,7 @@ if (DimmerLights1.Line == 1) {
 line = 1;
 }
 
-# 1062
+# 1068
 return line;
 }
 
@@ -2784,14 +2784,14 @@ DimmerLights->DimmingRun = command == 1 ? 1 : 0;
 char getAll_DimmerLights_Trigger() {
 char status = 0;
 
-# 1097
+# 1103
 status = (DimmerLights1.Trigger) ? 1 : 0;
 
 
 return status;
 }
 
-# 1140
+# 1146
 inline void Dimmer_Initialization() {
 
 }
@@ -2808,7 +2808,7 @@ char status = Dimmer.Load_Status == 1 ? 1 : 0;
 return status;
 }
 
-# 1270
+# 1276
 inline void DimmerLights_TMR_1() {
 if (DimmerIntr1.Start == 1) {
 DimmerIntr1.Count++;
@@ -2886,10 +2886,10 @@ DimmerIntr1.GO = 1;
 }
 }
 
-# 1353
+# 1359
 }
 
-# 1738
+# 1747
 void DimmerLights_PIR_Control() {
 
 if (Dimmer.PIR_Trigger == 1) {
