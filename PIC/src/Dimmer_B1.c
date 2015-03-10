@@ -15,10 +15,10 @@ void DimmerIntr_Initialization() {
 #if DimmerValue_SaveMemory == 1
     if (myMain.InitDimmer == true) {
         product->Data[21] = getDimmerLights_ValueToPercent(Dimmer_Maxum);
-        DimmerIntr1.DimmingValue = getDimmerLights_PercentToValue(product->Data[21]);
-    } else {
-        DimmerIntr1.DimmingValue = getDimmerLights_PercentToValue(product->Data[21]);
     }
+
+    DimmerIntr1.DimmingValue = getDimmerLights_PercentToValue(product->Data[21]);
+
 
 #else
     product->Data[21] = getDimmerLights_ValueToPercent(Dimmer_Maxum);
@@ -37,6 +37,7 @@ void DimmerIntr_Initialization() {
     DimmerIntr2.TuneTimeValue = 7;
     DimmerIntr2.MaxmumValue = Dimmer_Maxum;
     DimmerIntr2.MinimumValue = Dimmer_Minimum;
+
 #if DimmerValue_SaveMemory == 1
     if (myMain.InitDimmer == true) {
         product->Data[22] = getDimmerLights_ValueToPercent(Dimmer_Maxum);

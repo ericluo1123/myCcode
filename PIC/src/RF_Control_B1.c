@@ -460,7 +460,6 @@ void setRF_AdjControl(char sw) {
             DimmerLights->DimmingSwitch = false;
         }
     }
-    setBuz(1, BuzzerOnOffTime);
 }
 //*********************************************************
 
