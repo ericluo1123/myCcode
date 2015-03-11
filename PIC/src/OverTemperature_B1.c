@@ -95,6 +95,7 @@ void setTemp_Main() {
                 if (Temp.ADV > 0) {
                     Temp.ADtoGO = false;
                     AD = Temp.ADV;
+                    Temp.ADV = 0;
 #if PIR_use == 1 && Dimmer_use == 0
                     //                        if (getMain_All_LightsStatus() == 1) {
                     //                            SafeValue = TempSafeValueH;
@@ -157,8 +158,7 @@ void setTemp_Main() {
 #endif
                 }
                 Temp.ADH[0] = 0;
-                Temp.ADH[1] = 0;
-                Temp.ADV = 0;
+                Temp.ADH[1] = 0;               
             }
         }
         //        }

@@ -1,7 +1,7 @@
 
 
 Microchip Technology PIC LITE Macro Assembler V1.32 build 58300 
-                                                                                               Mon Mar 09 14:59:08 2015
+                                                                                               Wed Mar 11 11:30:46 2015
 
 Microchip Technology Omniscient Code Generator (Lite mode) build 58300
      1                           	processor	16F723A
@@ -6205,7 +6205,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6199  0DA8                     __ptext34:	
   6200 ;; *************** function _DimmerLights_Main *****************
   6201 ;; Defined at:
-  6202 ;;		line 780 in file "../src/Dimmer_B1.c"
+  6202 ;;		line 781 in file "../src/Dimmer_B1.c"
   6203 ;; Parameters:    Size  Location     Type
   6204 ;;		None
   6205 ;; Auto vars:     Size  Location     Type
@@ -6238,14 +6238,14 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6232                           ;psect for function _DimmerLights_Main
   6233  0DA8                     _DimmerLights_Main:	
   6234                           
-  6235                           ;Dimmer_B1.c: 791: setDimmerLights_Main(1);
+  6235                           ;Dimmer_B1.c: 792: setDimmerLights_Main(1);
   6236                           
   6237                           ;incstack = 0
   6238                           ; Regs used in _DimmerLights_Main: [wreg-fsr0h+status,2+status,0+pclath+cstack]
   6239  0DA8  3001               	movlw	1
   6240  0DA9  118A  2530  158A   	fcall	_setDimmerLights_Main
   6241                           
-  6242                           ;Dimmer_B1.c: 803: DimmerLights_PIR_Control();
+  6242                           ;Dimmer_B1.c: 804: DimmerLights_PIR_Control();
   6243  0DAC  118A  233F         	fcall	_DimmerLights_PIR_Control
   6244  0DAE  0008               	return
   6245  0DAF                     __end_of_DimmerLights_Main:	
@@ -6254,7 +6254,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6248  0530                     __ptext35:	
   6249 ;; *************** function _setDimmerLights_Main *****************
   6250 ;; Defined at:
-  6251 ;;		line 809 in file "../src/Dimmer_B1.c"
+  6251 ;;		line 810 in file "../src/Dimmer_B1.c"
   6252 ;; Parameters:    Size  Location     Type
   6253 ;;  lights          1    wreg     unsigned char 
   6254 ;; Auto vars:     Size  Location     Type
@@ -6297,18 +6297,18 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6291  0531  1303               	bcf	3,6	;RP1=0, select bank0
   6292  0532  00DE               	movwf	setDimmerLights_Main@lights
   6293                           
-  6294                           ;Dimmer_B1.c: 811: DimmerLights_SelectPointer(lights);
+  6294                           ;Dimmer_B1.c: 812: DimmerLights_SelectPointer(lights);
   6295  0533  085E               	movf	setDimmerLights_Main@lights,w
   6296  0534  158A  25C6  118A   	fcall	_DimmerLights_SelectPointer
   6297                           
-  6298                           ;Dimmer_B1.c: 812: if (DimmerLights->Trigger == 1) {
+  6298                           ;Dimmer_B1.c: 813: if (DimmerLights->Trigger == 1) {
   6299  0537  0872               	movf	_DimmerLights,w
   6300  0538  0084               	movwf	4
   6301  0539  1383               	bcf	3,7	;select IRP bank0
   6302  053A  1C80               	btfss	0,1
   6303  053B  2D5C               	goto	l4283
   6304                           
-  6305                           ;Dimmer_B1.c: 813: if (getDimmerLights_Allow_Condition(lights) == 0) {
+  6305                           ;Dimmer_B1.c: 814: if (getDimmerLights_Allow_Condition(lights) == 0) {
   6306  053C  1283               	bcf	3,5	;RP0=0, select bank0
   6307  053D  1303               	bcf	3,6	;RP1=0, select bank0
   6308  053E  085E               	movf	setDimmerLights_Main@lights,w
@@ -6317,19 +6317,19 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6311  0543  1D03               	skipz
   6312  0544  0008               	return
   6313                           
-  6314                           ;Dimmer_B1.c: 814: DimmerLights->Trigger = 0;
+  6314                           ;Dimmer_B1.c: 815: DimmerLights->Trigger = 0;
   6315  0545  0872               	movf	_DimmerLights,w
   6316  0546  0084               	movwf	4
   6317  0547  1383               	bcf	3,7	;select IRP bank0
   6318  0548  1080               	bcf	0,1
   6319                           
-  6320                           ;Dimmer_B1.c: 815: if (DimmerLights->Switch == 1) {
+  6320                           ;Dimmer_B1.c: 816: if (DimmerLights->Switch == 1) {
   6321  0549  0872               	movf	_DimmerLights,w
   6322  054A  0084               	movwf	4
   6323  054B  1D00               	btfss	0,2
   6324  054C  2D55               	goto	l4281
   6325                           
-  6326                           ;Dimmer_B1.c: 816: setDimmerLights_OnOff(lights, 1);
+  6326                           ;Dimmer_B1.c: 817: setDimmerLights_OnOff(lights, 1);
   6327  054D  1283               	bcf	3,5	;RP0=0, select bank0
   6328  054E  1303               	bcf	3,6	;RP1=0, select bank0
   6329  054F  01DA               	clrf	setDimmerLights_OnOff@command
@@ -6337,37 +6337,37 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6331  0551  085E               	movf	setDimmerLights_Main@lights,w
   6332  0552  118A  2749         	fcall	_setDimmerLights_OnOff
   6333                           
-  6334                           ;Dimmer_B1.c: 817: } else {
+  6334                           ;Dimmer_B1.c: 818: } else {
   6335  0554  0008               	return
   6336  0555                     l4281:	
   6337                           
-  6338                           ;Dimmer_B1.c: 818: setDimmerLights_OnOff(lights, 0);
+  6338                           ;Dimmer_B1.c: 819: setDimmerLights_OnOff(lights, 0);
   6339  0555  1283               	bcf	3,5	;RP0=0, select bank0
   6340  0556  1303               	bcf	3,6	;RP1=0, select bank0
   6341  0557  01DA               	clrf	setDimmerLights_OnOff@command
   6342  0558  085E               	movf	setDimmerLights_Main@lights,w
   6343  0559  118A  2749         	fcall	_setDimmerLights_OnOff
   6344                           
-  6345                           ;Dimmer_B1.c: 819: }
-  6346                           ;Dimmer_B1.c: 820: }
-  6347                           ;Dimmer_B1.c: 821: } else {
+  6345                           ;Dimmer_B1.c: 820: }
+  6346                           ;Dimmer_B1.c: 821: }
+  6347                           ;Dimmer_B1.c: 822: } else {
   6348  055B  0008               	return
   6349  055C                     l4283:	
   6350                           
-  6351                           ;Dimmer_B1.c: 822: if (getMain_All_LightsStatus() == 1) {
+  6351                           ;Dimmer_B1.c: 823: if (getMain_All_LightsStatus() == 1) {
   6352  055C  158A  25F6  118A   	fcall	_getMain_All_LightsStatus
   6353  055F  3A01               	xorlw	1
   6354  0560  1D03               	skipz
   6355  0561  2D87               	goto	l4295
   6356                           
-  6357                           ;Dimmer_B1.c: 823: if (DimmerLights->DimmingTrigger == 1) {
+  6357                           ;Dimmer_B1.c: 824: if (DimmerLights->DimmingTrigger == 1) {
   6358  0562  0872               	movf	_DimmerLights,w
   6359  0563  0084               	movwf	4
   6360  0564  1383               	bcf	3,7	;select IRP bank0
   6361  0565  1E00               	btfss	0,4
   6362  0566  0008               	return
   6363                           
-  6364                           ;Dimmer_B1.c: 824: if (getDimmerLights_Allow_Condition(lights) == 0) {
+  6364                           ;Dimmer_B1.c: 825: if (getDimmerLights_Allow_Condition(lights) == 0) {
   6365  0567  1283               	bcf	3,5	;RP0=0, select bank0
   6366  0568  1303               	bcf	3,6	;RP1=0, select bank0
   6367  0569  085E               	movf	setDimmerLights_Main@lights,w
@@ -6376,19 +6376,19 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6370  056E  1D03               	skipz
   6371  056F  0008               	return
   6372                           
-  6373                           ;Dimmer_B1.c: 825: DimmerLights->DimmingTrigger = 0;
+  6373                           ;Dimmer_B1.c: 826: DimmerLights->DimmingTrigger = 0;
   6374  0570  0872               	movf	_DimmerLights,w
   6375  0571  0084               	movwf	4
   6376  0572  1383               	bcf	3,7	;select IRP bank0
   6377  0573  1200               	bcf	0,4
   6378                           
-  6379                           ;Dimmer_B1.c: 826: if (DimmerLights->DimmingSwitch == 1) {
+  6379                           ;Dimmer_B1.c: 827: if (DimmerLights->DimmingSwitch == 1) {
   6380  0574  0872               	movf	_DimmerLights,w
   6381  0575  0084               	movwf	4
   6382  0576  1E80               	btfss	0,5
   6383  0577  2D80               	goto	l4293
   6384                           
-  6385                           ;Dimmer_B1.c: 827: setDimmerLights_Dimming(lights, 1);
+  6385                           ;Dimmer_B1.c: 828: setDimmerLights_Dimming(lights, 1);
   6386  0578  1283               	bcf	3,5	;RP0=0, select bank0
   6387  0579  1303               	bcf	3,6	;RP1=0, select bank0
   6388  057A  01DA               	clrf	setDimmerLights_Dimming@status
@@ -6396,32 +6396,32 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6390  057C  085E               	movf	setDimmerLights_Main@lights,w
   6391  057D  118A  2776         	fcall	_setDimmerLights_Dimming
   6392                           
-  6393                           ;Dimmer_B1.c: 828: } else {
+  6393                           ;Dimmer_B1.c: 829: } else {
   6394  057F  0008               	return
   6395  0580                     l4293:	
   6396                           
-  6397                           ;Dimmer_B1.c: 829: setDimmerLights_Dimming(lights, 0);
+  6397                           ;Dimmer_B1.c: 830: setDimmerLights_Dimming(lights, 0);
   6398  0580  1283               	bcf	3,5	;RP0=0, select bank0
   6399  0581  1303               	bcf	3,6	;RP1=0, select bank0
   6400  0582  01DA               	clrf	setDimmerLights_Dimming@status
   6401  0583  085E               	movf	setDimmerLights_Main@lights,w
   6402  0584  118A  2776         	fcall	_setDimmerLights_Dimming
   6403                           
-  6404                           ;Dimmer_B1.c: 830: }
-  6405                           ;Dimmer_B1.c: 831: }
-  6406                           ;Dimmer_B1.c: 832: }
-  6407                           ;Dimmer_B1.c: 833: } else {
+  6404                           ;Dimmer_B1.c: 831: }
+  6405                           ;Dimmer_B1.c: 832: }
+  6406                           ;Dimmer_B1.c: 833: }
+  6407                           ;Dimmer_B1.c: 834: } else {
   6408  0586  0008               	return
   6409  0587                     l4295:	
   6410                           
-  6411                           ;Dimmer_B1.c: 834: if (DimmerLights->DimmingTrigger == 1) {
+  6411                           ;Dimmer_B1.c: 835: if (DimmerLights->DimmingTrigger == 1) {
   6412  0587  0872               	movf	_DimmerLights,w
   6413  0588  0084               	movwf	4
   6414  0589  1383               	bcf	3,7	;select IRP bank0
   6415  058A  1E00               	btfss	0,4
   6416  058B  0008               	return
   6417                           
-  6418                           ;Dimmer_B1.c: 835: DimmerLights->DimmingTrigger = 0;
+  6418                           ;Dimmer_B1.c: 836: DimmerLights->DimmingTrigger = 0;
   6419  058C  0872               	movf	_DimmerLights,w
   6420  058D  0084               	movwf	4
   6421  058E  1200               	bcf	0,4
@@ -6432,7 +6432,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6426  0749                     __ptext36:	
   6427 ;; *************** function _setDimmerLights_OnOff *****************
   6428 ;; Defined at:
-  6429 ;;		line 843 in file "../src/Dimmer_B1.c"
+  6429 ;;		line 844 in file "../src/Dimmer_B1.c"
   6430 ;; Parameters:    Size  Location     Type
   6431 ;;  lights          1    wreg     unsigned char 
   6432 ;;  command         1    3[BANK0 ] unsigned char 
@@ -6475,74 +6475,74 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6469  074A  1303               	bcf	3,6	;RP1=0, select bank0
   6470  074B  00DB               	movwf	setDimmerLights_OnOff@lights
   6471                           
-  6472                           ;Dimmer_B1.c: 845: if (command == 1) {
+  6472                           ;Dimmer_B1.c: 846: if (command == 1) {
   6473  074C  085A               	movf	setDimmerLights_OnOff@command,w
   6474  074D  3A01               	xorlw	1
   6475  074E  1D03               	skipz
   6476  074F  2F5A               	goto	l4107
   6477                           
-  6478                           ;Dimmer_B1.c: 846: setDimmerIntr_ControlStatus(lights, 1);
+  6478                           ;Dimmer_B1.c: 847: setDimmerIntr_ControlStatus(lights, 1);
   6479  0750  01D7               	clrf	setDimmerIntr_ControlStatus@command
   6480  0751  0AD7               	incf	setDimmerIntr_ControlStatus@command,f
   6481  0752  085B               	movf	setDimmerLights_OnOff@lights,w
   6482  0753  158A  26F1  118A   	fcall	_setDimmerIntr_ControlStatus
   6483                           
-  6484                           ;Dimmer_B1.c: 854: Dimmer.PIR_Open_Status = 1;
+  6484                           ;Dimmer_B1.c: 855: Dimmer.PIR_Open_Status = 1;
   6485  0756  1283               	bcf	3,5	;RP0=0, select bank0
   6486  0757  1303               	bcf	3,6	;RP1=0, select bank0
   6487  0758  14AD               	bsf	_Dimmer+1,1
   6488                           
-  6489                           ;Dimmer_B1.c: 901: } else if (command == 0) {
+  6489                           ;Dimmer_B1.c: 902: } else if (command == 0) {
   6490  0759  2F62               	goto	l4111
   6491  075A                     l4107:	
   6492  075A  08DA               	movf	setDimmerLights_OnOff@command,f
   6493  075B  1D03               	skipz
   6494  075C  2F62               	goto	l4111
   6495                           
-  6496                           ;Dimmer_B1.c: 902: setDimmerIntr_ControlStatus(lights, 0);
+  6496                           ;Dimmer_B1.c: 903: setDimmerIntr_ControlStatus(lights, 0);
   6497  075D  01D7               	clrf	setDimmerIntr_ControlStatus@command
   6498  075E  085B               	movf	setDimmerLights_OnOff@lights,w
   6499  075F  158A  26F1  118A   	fcall	_setDimmerIntr_ControlStatus
   6500  0762                     l4111:	
   6501                           
-  6502                           ;Dimmer_B1.c: 935: }
-  6503                           ;Dimmer_B1.c: 938: ;;
-  6504                           ;Dimmer_B1.c: 940: if (getCmd_Status(1) == 1) {
+  6502                           ;Dimmer_B1.c: 936: }
+  6503                           ;Dimmer_B1.c: 939: ;;
+  6504                           ;Dimmer_B1.c: 941: if (getCmd_Status(1) == 1) {
   6505  0762  3001               	movlw	1
   6506  0763  158A  266A  118A   	fcall	_getCmd_Status
   6507  0766  3A01               	xorlw	1
   6508  0767  1D03               	skipz
   6509  0768  0008               	return
   6510                           
-  6511                           ;Dimmer_B1.c: 941: if (getMain_All_LightsStatus() == 0) {
+  6511                           ;Dimmer_B1.c: 942: if (getMain_All_LightsStatus() == 0) {
   6512  0769  158A  25F6  118A   	fcall	_getMain_All_LightsStatus
   6513  076C  3800               	iorlw	0
   6514  076D  1D03               	skipz
   6515  076E  0008               	return
   6516                           
-  6517                           ;Dimmer_B1.c: 942: setCmd_Status(1, 0);
+  6517                           ;Dimmer_B1.c: 943: setCmd_Status(1, 0);
   6518  076F  1283               	bcf	3,5	;RP0=0, select bank0
   6519  0770  1303               	bcf	3,6	;RP1=0, select bank0
   6520  0771  01D7               	clrf	setCmd_Status@cmd
   6521  0772  3001               	movlw	1
   6522  0773  158A  26DB         	fcall	_setCmd_Status
   6523                           
-  6524                           ;Dimmer_B1.c: 946: }
-  6525                           ;Dimmer_B1.c: 947: } else {
+  6524                           ;Dimmer_B1.c: 947: }
+  6525                           ;Dimmer_B1.c: 948: } else {
   6526                           
-  6527                           ;Dimmer_B1.c: 943: ;;
-  6528                           ;Dimmer_B1.c: 944: ;;
-  6529                           ;Dimmer_B1.c: 945: ;;
+  6527                           ;Dimmer_B1.c: 944: ;;
+  6528                           ;Dimmer_B1.c: 945: ;;
+  6529                           ;Dimmer_B1.c: 946: ;;
   6530  0775  0008               	return
   6531  0776                     __end_of_setDimmerLights_OnOff:	
-  6532                           ;Dimmer_B1.c: 948: ;;
+  6532                           ;Dimmer_B1.c: 949: ;;
   6533                           
   6534                           
   6535                           	psect	text37
   6536  0EF1                     __ptext37:	
   6537 ;; *************** function _setDimmerIntr_ControlStatus *****************
   6538 ;; Defined at:
-  6539 ;;		line 74 in file "../src/Dimmer_B1.c"
+  6539 ;;		line 75 in file "../src/Dimmer_B1.c"
   6540 ;; Parameters:    Size  Location     Type
   6541 ;;  lights          1    wreg     unsigned char 
   6542 ;;  command         1    0[BANK0 ] unsigned char 
@@ -6582,13 +6582,13 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6576  0EF2  1303               	bcf	3,6	;RP1=0, select bank0
   6577  0EF3  00D9               	movwf	setDimmerIntr_ControlStatus@lights
   6578                           
-  6579                           ;Dimmer_B1.c: 76: if (lights == 1) {
+  6579                           ;Dimmer_B1.c: 77: if (lights == 1) {
   6580  0EF4  0859               	movf	setDimmerIntr_ControlStatus@lights,w
   6581  0EF5  3A01               	xorlw	1
   6582  0EF6  1D03               	skipz
   6583  0EF7  0008               	return
   6584                           
-  6585                           ;Dimmer_B1.c: 77: DimmerIntr1.ControlStatus = command == 1 ? 1 : 0;
+  6585                           ;Dimmer_B1.c: 78: DimmerIntr1.ControlStatus = command == 1 ? 1 : 0;
   6586  0EF8  0857               	movf	setDimmerIntr_ControlStatus@command,w
   6587  0EF9  3A01               	xorlw	1
   6588  0EFA  3000               	movlw	0
@@ -6842,7 +6842,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6836  0776                     __ptext41:	
   6837 ;; *************** function _setDimmerLights_Dimming *****************
   6838 ;; Defined at:
-  6839 ;;		line 954 in file "../src/Dimmer_B1.c"
+  6839 ;;		line 955 in file "../src/Dimmer_B1.c"
   6840 ;; Parameters:    Size  Location     Type
   6841 ;;  lights          1    wreg     unsigned char 
   6842 ;;  status          1    3[BANK0 ] unsigned char 
@@ -6885,20 +6885,20 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6879  0777  1303               	bcf	3,6	;RP1=0, select bank0
   6880  0778  00DD               	movwf	setDimmerLights_Dimming@lights
   6881                           
-  6882                           ;Dimmer_B1.c: 955: if (status == 1) {
+  6882                           ;Dimmer_B1.c: 956: if (status == 1) {
   6883  0779  085A               	movf	setDimmerLights_Dimming@status,w
   6884  077A  3A01               	xorlw	1
   6885  077B  1D03               	skipz
   6886  077C  2F83               	goto	l4121
   6887                           
-  6888                           ;Dimmer_B1.c: 956: setDimmerIntr_Dimming_Sw(lights, 1);
+  6888                           ;Dimmer_B1.c: 957: setDimmerIntr_Dimming_Sw(lights, 1);
   6889  077D  01D7               	clrf	setDimmerIntr_Dimming_Sw@command
   6890  077E  0AD7               	incf	setDimmerIntr_Dimming_Sw@command,f
   6891  077F  085D               	movf	setDimmerLights_Dimming@lights,w
   6892  0780  158A  26B1         	fcall	_setDimmerIntr_Dimming_Sw
   6893                           
-  6894                           ;Dimmer_B1.c: 961: ;;
-  6895                           ;Dimmer_B1.c: 962: } else if (status == 0) {
+  6894                           ;Dimmer_B1.c: 962: ;;
+  6895                           ;Dimmer_B1.c: 963: } else if (status == 0) {
   6896  0782  0008               	return
   6897  0783                     l4121:	
   6898  0783  1283               	bcf	3,5	;RP0=0, select bank0
@@ -6907,12 +6907,12 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6901  0786  1D03               	skipz
   6902  0787  0008               	return
   6903                           
-  6904                           ;Dimmer_B1.c: 963: setDimmerIntr_Dimming_Sw(lights, 0);
+  6904                           ;Dimmer_B1.c: 964: setDimmerIntr_Dimming_Sw(lights, 0);
   6905  0788  01D7               	clrf	setDimmerIntr_Dimming_Sw@command
   6906  0789  085D               	movf	setDimmerLights_Dimming@lights,w
   6907  078A  158A  26B1  118A   	fcall	_setDimmerIntr_Dimming_Sw
   6908                           
-  6909                           ;Dimmer_B1.c: 969: char value = getDimmerIntr_DimmingValue(lights);
+  6909                           ;Dimmer_B1.c: 970: char value = getDimmerIntr_DimmingValue(lights);
   6910  078D  1283               	bcf	3,5	;RP0=0, select bank0
   6911  078E  1303               	bcf	3,6	;RP1=0, select bank0
   6912  078F  085D               	movf	setDimmerLights_Dimming@lights,w
@@ -6923,7 +6923,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6917  0796  085B               	movf	??_setDimmerLights_Dimming,w
   6918  0797  00DC               	movwf	setDimmerLights_Dimming@value
   6919                           
-  6920                           ;Dimmer_B1.c: 970: setDimmerIntr_MaxmumValue(lights, value);
+  6920                           ;Dimmer_B1.c: 971: setDimmerIntr_MaxmumValue(lights, value);
   6921  0798  085C               	movf	setDimmerLights_Dimming@value,w
   6922  0799  00DB               	movwf	??_setDimmerLights_Dimming
   6923  079A  085B               	movf	??_setDimmerLights_Dimming,w
@@ -6931,10 +6931,10 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6925  079C  085D               	movf	setDimmerLights_Dimming@lights,w
   6926  079D  158A  25DE         	fcall	_setDimmerIntr_MaxmumValue
   6927                           
-  6928                           ;Dimmer_B1.c: 971: ;;
-  6929                           ;Dimmer_B1.c: 978: ;;
-  6930                           ;Dimmer_B1.c: 982: ;;
-  6931                           ;Dimmer_B1.c: 983: ;;
+  6928                           ;Dimmer_B1.c: 972: ;;
+  6929                           ;Dimmer_B1.c: 979: ;;
+  6930                           ;Dimmer_B1.c: 983: ;;
+  6931                           ;Dimmer_B1.c: 984: ;;
   6932  079F  0008               	return
   6933  07A0                     __end_of_setDimmerLights_Dimming:	
   6934                           
@@ -6942,7 +6942,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6936  0EB1                     __ptext42:	
   6937 ;; *************** function _setDimmerIntr_Dimming_Sw *****************
   6938 ;; Defined at:
-  6939 ;;		line 209 in file "../src/Dimmer_B1.c"
+  6939 ;;		line 210 in file "../src/Dimmer_B1.c"
   6940 ;; Parameters:    Size  Location     Type
   6941 ;;  lights          1    wreg     unsigned char 
   6942 ;;  command         1    0[BANK0 ] unsigned char 
@@ -6982,13 +6982,13 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6976  0EB2  1303               	bcf	3,6	;RP1=0, select bank0
   6977  0EB3  00D9               	movwf	setDimmerIntr_Dimming_Sw@lights
   6978                           
-  6979                           ;Dimmer_B1.c: 211: if (lights == 1) {
+  6979                           ;Dimmer_B1.c: 212: if (lights == 1) {
   6980  0EB4  0859               	movf	setDimmerIntr_Dimming_Sw@lights,w
   6981  0EB5  3A01               	xorlw	1
   6982  0EB6  1D03               	skipz
   6983  0EB7  0008               	return
   6984                           
-  6985                           ;Dimmer_B1.c: 212: DimmerIntr1.Dimming_Sw = command == 1 ? 1 : 0;
+  6985                           ;Dimmer_B1.c: 213: DimmerIntr1.Dimming_Sw = command == 1 ? 1 : 0;
   6986  0EB8  0857               	movf	setDimmerIntr_Dimming_Sw@command,w
   6987  0EB9  3A01               	xorlw	1
   6988  0EBA  3000               	movlw	0
@@ -7008,7 +7008,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7002  0E10                     __ptext43:	
   7003 ;; *************** function _getDimmerIntr_DimmingValue *****************
   7004 ;; Defined at:
-  7005 ;;		line 110 in file "../src/Dimmer_B1.c"
+  7005 ;;		line 111 in file "../src/Dimmer_B1.c"
   7006 ;; Parameters:    Size  Location     Type
   7007 ;;  lights          1    wreg     unsigned char 
   7008 ;; Auto vars:     Size  Location     Type
@@ -7048,24 +7048,24 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7042  0E11  1303               	bcf	3,6	;RP1=0, select bank0
   7043  0E12  00D8               	movwf	getDimmerIntr_DimmingValue@lights
   7044                           
-  7045                           ;Dimmer_B1.c: 111: char value = 0;
+  7045                           ;Dimmer_B1.c: 112: char value = 0;
   7046  0E13  01D9               	clrf	getDimmerIntr_DimmingValue@value
   7047                           
-  7048                           ;Dimmer_B1.c: 113: if (lights == 1) {
+  7048                           ;Dimmer_B1.c: 114: if (lights == 1) {
   7049  0E14  0858               	movf	getDimmerIntr_DimmingValue@lights,w
   7050  0E15  3A01               	xorlw	1
   7051  0E16  1D03               	skipz
   7052  0E17  2E1C               	goto	l252
   7053                           
-  7054                           ;Dimmer_B1.c: 114: value = DimmerIntr1.DimmingValue;
+  7054                           ;Dimmer_B1.c: 115: value = DimmerIntr1.DimmingValue;
   7055  0E18  0825               	movf	_DimmerIntr1+5,w
   7056  0E19  00D7               	movwf	??_getDimmerIntr_DimmingValue
   7057  0E1A  0857               	movf	??_getDimmerIntr_DimmingValue,w
   7058  0E1B  00D9               	movwf	getDimmerIntr_DimmingValue@value
   7059  0E1C                     l252:	
   7060                           
-  7061                           ;Dimmer_B1.c: 115: }
-  7062                           ;Dimmer_B1.c: 127: return value;
+  7061                           ;Dimmer_B1.c: 116: }
+  7062                           ;Dimmer_B1.c: 128: return value;
   7063  0E1C  0859               	movf	getDimmerIntr_DimmingValue@value,w
   7064  0E1D  0008               	return
   7065  0E1E                     __end_of_getDimmerIntr_DimmingValue:	
@@ -7074,7 +7074,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7068  0D91                     __ptext44:	
   7069 ;; *************** function _getDimmerLights_Allow_Condition *****************
   7070 ;; Defined at:
-  7071 ;;		line 989 in file "../src/Dimmer_B1.c"
+  7071 ;;		line 990 in file "../src/Dimmer_B1.c"
   7072 ;; Parameters:    Size  Location     Type
   7073 ;;  lights          1    wreg     unsigned char 
   7074 ;; Auto vars:     Size  Location     Type
@@ -7107,7 +7107,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7101                           ;psect for function _getDimmerLights_Allow_Condition
   7102  0D91                     _getDimmerLights_Allow_Condition:	
   7103                           
-  7104                           ;Dimmer_B1.c: 990: char allow = 0;
+  7104                           ;Dimmer_B1.c: 991: char allow = 0;
   7105                           
   7106                           ;incstack = 0
   7107                           ; Regs used in _getDimmerLights_Allow_Condition: [wreg+status,2]
@@ -7115,7 +7115,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7109  0D92  1303               	bcf	3,6	;RP1=0, select bank0
   7110  0D93  01D7               	clrf	getDimmerLights_Allow_Condition@allow
   7111                           
-  7112                           ;Dimmer_B1.c: 1023: return allow;
+  7112                           ;Dimmer_B1.c: 1024: return allow;
   7113  0D94  0857               	movf	getDimmerLights_Allow_Condition@allow,w
   7114  0D95  0008               	return
   7115  0D96                     __end_of_getDimmerLights_Allow_Condition:	
@@ -7124,7 +7124,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7118  033F                     __ptext45:	
   7119 ;; *************** function _DimmerLights_PIR_Control *****************
   7120 ;; Defined at:
-  7121 ;;		line 1747 in file "../src/Dimmer_B1.c"
+  7121 ;;		line 1748 in file "../src/Dimmer_B1.c"
   7122 ;; Parameters:    Size  Location     Type
   7123 ;;		None
   7124 ;; Auto vars:     Size  Location     Type
@@ -7161,7 +7161,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7155                           ;psect for function _DimmerLights_PIR_Control
   7156  033F                     _DimmerLights_PIR_Control:	
   7157                           
-  7158                           ;Dimmer_B1.c: 1749: if (Dimmer.PIR_Trigger == 1) {
+  7158                           ;Dimmer_B1.c: 1750: if (Dimmer.PIR_Trigger == 1) {
   7159                           
   7160                           ;incstack = 0
   7161                           ; Regs used in _DimmerLights_PIR_Control: [wreg-fsr0h+status,2+status,0+pclath+cstack]
@@ -7170,21 +7170,21 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7164  0341  1EAC               	btfss	_Dimmer,5
   7165  0342  2BAF               	goto	l4327
   7166                           
-  7167                           ;Dimmer_B1.c: 1750: Dimmer.PIR_Trigger = 0;
+  7167                           ;Dimmer_B1.c: 1751: Dimmer.PIR_Trigger = 0;
   7168  0343  12AC               	bcf	_Dimmer,5
   7169                           
-  7170                           ;Dimmer_B1.c: 1751: if (Dimmer.PIR_Sw == 1) {
+  7170                           ;Dimmer_B1.c: 1752: if (Dimmer.PIR_Sw == 1) {
   7171  0344  1E2C               	btfss	_Dimmer,4
   7172  0345  2B7C               	goto	l417
   7173                           
-  7174                           ;Dimmer_B1.c: 1753: if (getDimmerLights_Status(1) == 0) {
+  7174                           ;Dimmer_B1.c: 1754: if (getDimmerLights_Status(1) == 0) {
   7175  0346  3001               	movlw	1
   7176  0347  158A  2659  118A   	fcall	_getDimmerLights_Status
   7177  034A  3800               	iorlw	0
   7178  034B  1D03               	skipz
   7179  034C  2B60               	goto	l418
   7180                           
-  7181                           ;Dimmer_B1.c: 1754: setDimmerIntr_DimmingValue(1, ((char)((100-10)*0.6)));
+  7181                           ;Dimmer_B1.c: 1755: setDimmerIntr_DimmingValue(1, ((char)((100-10)*0.6)));
   7182  034D  3036               	movlw	54
   7183  034E  1283               	bcf	3,5	;RP0=0, select bank0
   7184  034F  1303               	bcf	3,6	;RP1=0, select bank0
@@ -7194,36 +7194,36 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7188  0353  3001               	movlw	1
   7189  0354  158A  25D2  118A   	fcall	_setDimmerIntr_DimmingValue
   7190                           
-  7191                           ;Dimmer_B1.c: 1755: setDimmerLights_SwOn(1);
+  7191                           ;Dimmer_B1.c: 1756: setDimmerLights_SwOn(1);
   7192  0357  3001               	movlw	1
   7193  0358  118A  27C8  118A   	fcall	_setDimmerLights_SwOn
   7194                           
-  7195                           ;Dimmer_B1.c: 1756: setDimmerLights_SwOff(1);
+  7195                           ;Dimmer_B1.c: 1757: setDimmerLights_SwOff(1);
   7196  035B  3001               	movlw	1
   7197  035C  118A  27A0  118A   	fcall	_setDimmerLights_SwOff
   7198                           
-  7199                           ;Dimmer_B1.c: 1757: } else {
+  7199                           ;Dimmer_B1.c: 1758: } else {
   7200  035F  2BAF               	goto	l4327
   7201  0360                     l418:	
   7202                           
-  7203                           ;Dimmer_B1.c: 1758: if (Dimmer.PIR_Lights_Status == 1) {
+  7203                           ;Dimmer_B1.c: 1759: if (Dimmer.PIR_Lights_Status == 1) {
   7204  0360  1283               	bcf	3,5	;RP0=0, select bank0
   7205  0361  1303               	bcf	3,6	;RP1=0, select bank0
   7206  0362  1D2D               	btfss	_Dimmer+1,2
   7207  0363  2BAF               	goto	l4327
   7208                           
-  7209                           ;Dimmer_B1.c: 1759: Dimmer.PIR_Lights_Status = 0;
+  7209                           ;Dimmer_B1.c: 1760: Dimmer.PIR_Lights_Status = 0;
   7210  0364  112D               	bcf	_Dimmer+1,2
   7211                           
-  7212                           ;Dimmer_B1.c: 1760: Dimmer.PIR_Close_Status = 0;
+  7212                           ;Dimmer_B1.c: 1761: Dimmer.PIR_Close_Status = 0;
   7213  0365  102D               	bcf	_Dimmer+1,0
   7214                           
-  7215                           ;Dimmer_B1.c: 1761: DimmerLights1.Trigger = 0;
+  7215                           ;Dimmer_B1.c: 1762: DimmerLights1.Trigger = 0;
   7216  0366  1683               	bsf	3,5	;RP0=1, select bank1
   7217  0367  1303               	bcf	3,6	;RP1=0, select bank1
   7218  0368  10CA               	bcf	_DimmerLights1^(0+128),1
   7219                           
-  7220                           ;Dimmer_B1.c: 1763: setDimmerIntr_MaxmumValue(1, ((char)((100-70)*0.6)));
+  7220                           ;Dimmer_B1.c: 1764: setDimmerIntr_MaxmumValue(1, ((char)((100-70)*0.6)));
   7221  0369  3012               	movlw	18
   7222  036A  1283               	bcf	3,5	;RP0=0, select bank0
   7223  036B  1303               	bcf	3,6	;RP1=0, select bank0
@@ -7233,7 +7233,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7227  036F  3001               	movlw	1
   7228  0370  158A  25DE  118A   	fcall	_setDimmerIntr_MaxmumValue
   7229                           
-  7230                           ;Dimmer_B1.c: 1764: setDimmerIntr_Dimming_RF(1, 1);
+  7230                           ;Dimmer_B1.c: 1765: setDimmerIntr_Dimming_RF(1, 1);
   7231  0373  1283               	bcf	3,5	;RP0=0, select bank0
   7232  0374  1303               	bcf	3,6	;RP1=0, select bank0
   7233  0375  01D7               	clrf	setDimmerIntr_Dimming_RF@command
@@ -7241,31 +7241,31 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7235  0377  3001               	movlw	1
   7236  0378  158A  26C5  118A   	fcall	_setDimmerIntr_Dimming_RF
   7237                           
-  7238                           ;Dimmer_B1.c: 1765: }
-  7239                           ;Dimmer_B1.c: 1766: }
-  7240                           ;Dimmer_B1.c: 1767: } else if (Dimmer.PIR_Sw == 0) {
+  7238                           ;Dimmer_B1.c: 1766: }
+  7239                           ;Dimmer_B1.c: 1767: }
+  7240                           ;Dimmer_B1.c: 1768: } else if (Dimmer.PIR_Sw == 0) {
   7241  037B  2BAF               	goto	l4327
   7242  037C                     l417:	
   7243  037C  1A2C               	btfsc	_Dimmer,4
   7244  037D  2BAF               	goto	l4327
   7245                           
-  7246                           ;Dimmer_B1.c: 1768: if (getDimmerLights_Status(1) == 1) {
+  7246                           ;Dimmer_B1.c: 1769: if (getDimmerLights_Status(1) == 1) {
   7247  037E  3001               	movlw	1
   7248  037F  158A  2659  118A   	fcall	_getDimmerLights_Status
   7249  0382  3A01               	xorlw	1
   7250  0383  1D03               	skipz
   7251  0384  2BAF               	goto	l4327
   7252                           
-  7253                           ;Dimmer_B1.c: 1769: if (Dimmer.PIR_Lights_Status == 0) {
+  7253                           ;Dimmer_B1.c: 1770: if (Dimmer.PIR_Lights_Status == 0) {
   7254  0385  1283               	bcf	3,5	;RP0=0, select bank0
   7255  0386  1303               	bcf	3,6	;RP1=0, select bank0
   7256  0387  192D               	btfsc	_Dimmer+1,2
   7257  0388  2B9B               	goto	l424
   7258                           
-  7259                           ;Dimmer_B1.c: 1770: Dimmer.PIR_Lights_Status = 1;
+  7259                           ;Dimmer_B1.c: 1771: Dimmer.PIR_Lights_Status = 1;
   7260  0389  152D               	bsf	_Dimmer+1,2
   7261                           
-  7262                           ;Dimmer_B1.c: 1771: setDimmerIntr_MaxmumValue(1, (((char)((100-10)*0.6))-((char)((100-70
+  7262                           ;Dimmer_B1.c: 1772: setDimmerIntr_MaxmumValue(1, (((char)((100-10)*0.6))-((char)((100-70
       +                          )*0.6))));
   7263  038A  3024               	movlw	36
   7264  038B  00DB               	movwf	??_DimmerLights_PIR_Control
@@ -7274,7 +7274,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7267  038E  3001               	movlw	1
   7268  038F  158A  25DE  118A   	fcall	_setDimmerIntr_MaxmumValue
   7269                           
-  7270                           ;Dimmer_B1.c: 1772: setDimmerIntr_Dimming_RF(1, 1);
+  7270                           ;Dimmer_B1.c: 1773: setDimmerIntr_Dimming_RF(1, 1);
   7271  0392  1283               	bcf	3,5	;RP0=0, select bank0
   7272  0393  1303               	bcf	3,6	;RP1=0, select bank0
   7273  0394  01D7               	clrf	setDimmerIntr_Dimming_RF@command
@@ -7282,14 +7282,14 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7275  0396  3001               	movlw	1
   7276  0397  158A  26C5  118A   	fcall	_setDimmerIntr_Dimming_RF
   7277                           
-  7278                           ;Dimmer_B1.c: 1773: } else {
+  7278                           ;Dimmer_B1.c: 1774: } else {
   7279  039A  2BAF               	goto	l4327
   7280  039B                     l424:	
   7281                           
-  7282                           ;Dimmer_B1.c: 1774: Dimmer.PIR_Lights_Status = 0;
+  7282                           ;Dimmer_B1.c: 1775: Dimmer.PIR_Lights_Status = 0;
   7283  039B  112D               	bcf	_Dimmer+1,2
   7284                           
-  7285                           ;Dimmer_B1.c: 1775: setDimmerIntr_MaxmumValue(1, ((char)((100-10)*0.6)));
+  7285                           ;Dimmer_B1.c: 1776: setDimmerIntr_MaxmumValue(1, ((char)((100-10)*0.6)));
   7286  039C  3036               	movlw	54
   7287  039D  00DB               	movwf	??_DimmerLights_PIR_Control
   7288  039E  085B               	movf	??_DimmerLights_PIR_Control,w
@@ -7297,7 +7297,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7290  03A0  3001               	movlw	1
   7291  03A1  158A  25DE  118A   	fcall	_setDimmerIntr_MaxmumValue
   7292                           
-  7293                           ;Dimmer_B1.c: 1776: setDimmerIntr_Dimming_RF(1, 1);
+  7293                           ;Dimmer_B1.c: 1777: setDimmerIntr_Dimming_RF(1, 1);
   7294  03A4  1283               	bcf	3,5	;RP0=0, select bank0
   7295  03A5  1303               	bcf	3,6	;RP1=0, select bank0
   7296  03A6  01D7               	clrf	setDimmerIntr_Dimming_RF@command
@@ -7305,26 +7305,26 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7298  03A8  3001               	movlw	1
   7299  03A9  158A  26C5  118A   	fcall	_setDimmerIntr_Dimming_RF
   7300                           
-  7301                           ;Dimmer_B1.c: 1777: Dimmer.PIR_Close_Status = 1;
+  7301                           ;Dimmer_B1.c: 1778: Dimmer.PIR_Close_Status = 1;
   7302  03AC  1283               	bcf	3,5	;RP0=0, select bank0
   7303  03AD  1303               	bcf	3,6	;RP1=0, select bank0
   7304  03AE  142D               	bsf	_Dimmer+1,0
   7305  03AF                     l4327:	
   7306                           
-  7307                           ;Dimmer_B1.c: 1778: }
-  7308                           ;Dimmer_B1.c: 1779: }
-  7309                           ;Dimmer_B1.c: 1780: }
-  7310                           ;Dimmer_B1.c: 1781: }
-  7311                           ;Dimmer_B1.c: 1782: if (Dimmer.PIR_Open_Status == 1) {
+  7307                           ;Dimmer_B1.c: 1779: }
+  7308                           ;Dimmer_B1.c: 1780: }
+  7309                           ;Dimmer_B1.c: 1781: }
+  7310                           ;Dimmer_B1.c: 1782: }
+  7311                           ;Dimmer_B1.c: 1783: if (Dimmer.PIR_Open_Status == 1) {
   7312  03AF  1283               	bcf	3,5	;RP0=0, select bank0
   7313  03B0  1303               	bcf	3,6	;RP1=0, select bank0
   7314  03B1  1CAD               	btfss	_Dimmer+1,1
   7315  03B2  2BC4               	goto	l4333
   7316                           
-  7317                           ;Dimmer_B1.c: 1783: Dimmer.PIR_Open_Status = 0;
+  7317                           ;Dimmer_B1.c: 1784: Dimmer.PIR_Open_Status = 0;
   7318  03B3  10AD               	bcf	_Dimmer+1,1
   7319                           
-  7320                           ;Dimmer_B1.c: 1784: setDimmerIntr_MaxmumValue(1, ((char)((100-70)*0.6)));
+  7320                           ;Dimmer_B1.c: 1785: setDimmerIntr_MaxmumValue(1, ((char)((100-70)*0.6)));
   7321  03B4  3012               	movlw	18
   7322  03B5  00DB               	movwf	??_DimmerLights_PIR_Control
   7323  03B6  085B               	movf	??_DimmerLights_PIR_Control,w
@@ -7332,7 +7332,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7325  03B8  3001               	movlw	1
   7326  03B9  158A  25DE  118A   	fcall	_setDimmerIntr_MaxmumValue
   7327                           
-  7328                           ;Dimmer_B1.c: 1785: setDimmerIntr_Dimming_RF(1, 1);
+  7328                           ;Dimmer_B1.c: 1786: setDimmerIntr_Dimming_RF(1, 1);
   7329  03BC  1283               	bcf	3,5	;RP0=0, select bank0
   7330  03BD  1303               	bcf	3,6	;RP1=0, select bank0
   7331  03BE  01D7               	clrf	setDimmerIntr_Dimming_RF@command
@@ -7341,8 +7341,8 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7334  03C1  158A  26C5  118A   	fcall	_setDimmerIntr_Dimming_RF
   7335  03C4                     l4333:	
   7336                           
-  7337                           ;Dimmer_B1.c: 1786: }
-  7338                           ;Dimmer_B1.c: 1787: if (Dimmer.PIR_Close_Status == 1 && DimmerIntr1.Dimming_RF == 0) {
+  7337                           ;Dimmer_B1.c: 1787: }
+  7338                           ;Dimmer_B1.c: 1788: if (Dimmer.PIR_Close_Status == 1 && DimmerIntr1.Dimming_RF == 0) {
   7339  03C4  1283               	bcf	3,5	;RP0=0, select bank0
   7340  03C5  1303               	bcf	3,6	;RP1=0, select bank0
   7341  03C6  1C2D               	btfss	_Dimmer+1,0
@@ -7350,14 +7350,14 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7343  03C8  1B20               	btfsc	_DimmerIntr1,6
   7344  03C9  0008               	return
   7345                           
-  7346                           ;Dimmer_B1.c: 1788: Dimmer.PIR_Close_Status = 0;
+  7346                           ;Dimmer_B1.c: 1789: Dimmer.PIR_Close_Status = 0;
   7347  03CA  102D               	bcf	_Dimmer+1,0
   7348                           
-  7349                           ;Dimmer_B1.c: 1789: setDimmerLights_SwOn(1);
+  7349                           ;Dimmer_B1.c: 1790: setDimmerLights_SwOn(1);
   7350  03CB  3001               	movlw	1
   7351  03CC  118A  27C8  118A   	fcall	_setDimmerLights_SwOn
   7352                           
-  7353                           ;Dimmer_B1.c: 1790: setDimmerLights_SwOff(1);
+  7353                           ;Dimmer_B1.c: 1791: setDimmerLights_SwOff(1);
   7354  03CF  3001               	movlw	1
   7355  03D0  118A  27A0         	fcall	_setDimmerLights_SwOff
   7356  03D2  0008               	return
@@ -7367,7 +7367,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7360  07C8                     __ptext46:	
   7361 ;; *************** function _setDimmerLights_SwOn *****************
   7362 ;; Defined at:
-  7363 ;;		line 696 in file "../src/Dimmer_B1.c"
+  7363 ;;		line 697 in file "../src/Dimmer_B1.c"
   7364 ;; Parameters:    Size  Location     Type
   7365 ;;  sw              1    wreg     unsigned char 
   7366 ;; Auto vars:     Size  Location     Type
@@ -7407,66 +7407,66 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7400  07C9  1303               	bcf	3,6	;RP1=0, select bank0
   7401  07CA  00D9               	movwf	setDimmerLights_SwOn@sw
   7402                           
-  7403                           ;Dimmer_B1.c: 697: char idle = 0;
+  7403                           ;Dimmer_B1.c: 698: char idle = 0;
   7404  07CB  01DA               	clrf	setDimmerLights_SwOn@idle
   7405                           
-  7406                           ;Dimmer_B1.c: 722: DimmerLights_SelectPointer(sw);
+  7406                           ;Dimmer_B1.c: 723: DimmerLights_SelectPointer(sw);
   7407  07CC  0859               	movf	setDimmerLights_SwOn@sw,w
   7408  07CD  158A  25C6  118A   	fcall	_DimmerLights_SelectPointer
   7409                           
-  7410                           ;Dimmer_B1.c: 723: if (idle == 0) {
+  7410                           ;Dimmer_B1.c: 724: if (idle == 0) {
   7411  07D0  1283               	bcf	3,5	;RP0=0, select bank0
   7412  07D1  1303               	bcf	3,6	;RP1=0, select bank0
   7413  07D2  08DA               	movf	setDimmerLights_SwOn@idle,f
   7414  07D3  1D03               	skipz
   7415  07D4  0008               	return
   7416                           
-  7417                           ;Dimmer_B1.c: 725: DimmerLights->SwFlag = 1;
+  7417                           ;Dimmer_B1.c: 726: DimmerLights->SwFlag = 1;
   7418  07D5  0872               	movf	_DimmerLights,w
   7419  07D6  0084               	movwf	4
   7420  07D7  1383               	bcf	3,7	;select IRP bank0
   7421  07D8  1400               	bsf	0,0
   7422                           
-  7423                           ;Dimmer_B1.c: 726: if (DimmerLights->Status == 0) {
+  7423                           ;Dimmer_B1.c: 727: if (DimmerLights->Status == 0) {
   7424  07D9  0A72               	incf	_DimmerLights,w
   7425  07DA  0084               	movwf	4
   7426  07DB  1800               	btfsc	0,0
   7427  07DC  2FE7               	goto	l4081
   7428                           
-  7429                           ;Dimmer_B1.c: 727: DimmerLights->Status = 1;
+  7429                           ;Dimmer_B1.c: 728: DimmerLights->Status = 1;
   7430  07DD  0A72               	incf	_DimmerLights,w
   7431  07DE  0084               	movwf	4
   7432  07DF  1400               	bsf	0,0
   7433                           
-  7434                           ;Dimmer_B1.c: 728: DimmerLights->Trigger = 1;
+  7434                           ;Dimmer_B1.c: 729: DimmerLights->Trigger = 1;
   7435  07E0  0872               	movf	_DimmerLights,w
   7436  07E1  0084               	movwf	4
   7437  07E2  1480               	bsf	0,1
   7438                           
-  7439                           ;Dimmer_B1.c: 729: DimmerLights->Switch = 1;
+  7439                           ;Dimmer_B1.c: 730: DimmerLights->Switch = 1;
   7440  07E3  0872               	movf	_DimmerLights,w
   7441  07E4  0084               	movwf	4
   7442  07E5  1500               	bsf	0,2
   7443                           
-  7444                           ;Dimmer_B1.c: 730: } else {
+  7444                           ;Dimmer_B1.c: 731: } else {
   7445  07E6  0008               	return
   7446  07E7                     l4081:	
   7447                           
-  7448                           ;Dimmer_B1.c: 731: DimmerLights->Status = 0;
+  7448                           ;Dimmer_B1.c: 732: DimmerLights->Status = 0;
   7449  07E7  0A72               	incf	_DimmerLights,w
   7450  07E8  0084               	movwf	4
   7451  07E9  1000               	bcf	0,0
   7452  07EA  0008               	return
   7453  07EB                     __end_of_setDimmerLights_SwOn:	
-  7454                           ;Dimmer_B1.c: 732: }
-  7455                           ;Dimmer_B1.c: 733: ;;
+  7454                           ;Dimmer_B1.c: 733: }
+  7455                           ;Dimmer_B1.c: 734: ;;
   7456                           
   7457                           
   7458                           	psect	text47
   7459  07A0                     __ptext47:	
   7460 ;; *************** function _setDimmerLights_SwOff *****************
   7461 ;; Defined at:
-  7462 ;;		line 738 in file "../src/Dimmer_B1.c"
+  7462 ;;		line 739 in file "../src/Dimmer_B1.c"
   7463 ;; Parameters:    Size  Location     Type
   7464 ;;  sw              1    wreg     unsigned char 
   7465 ;; Auto vars:     Size  Location     Type
@@ -7505,60 +7505,60 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7498  07A1  1303               	bcf	3,6	;RP1=0, select bank0
   7499  07A2  00D9               	movwf	setDimmerLights_SwOff@sw
   7500                           
-  7501                           ;Dimmer_B1.c: 739: DimmerLights_SelectPointer(sw);
+  7501                           ;Dimmer_B1.c: 740: DimmerLights_SelectPointer(sw);
   7502  07A3  0859               	movf	setDimmerLights_SwOff@sw,w
   7503  07A4  158A  25C6  118A   	fcall	_DimmerLights_SelectPointer
   7504                           
-  7505                           ;Dimmer_B1.c: 741: if (DimmerLights->SwFlag == 1) {
+  7505                           ;Dimmer_B1.c: 742: if (DimmerLights->SwFlag == 1) {
   7506  07A7  0872               	movf	_DimmerLights,w
   7507  07A8  0084               	movwf	4
   7508  07A9  1383               	bcf	3,7	;select IRP bank0
   7509  07AA  1C00               	btfss	0,0
   7510  07AB  0008               	return
   7511                           
-  7512                           ;Dimmer_B1.c: 742: DimmerLights->SwFlag = 0;
+  7512                           ;Dimmer_B1.c: 743: DimmerLights->SwFlag = 0;
   7513  07AC  0872               	movf	_DimmerLights,w
   7514  07AD  0084               	movwf	4
   7515  07AE  1000               	bcf	0,0
   7516                           
-  7517                           ;Dimmer_B1.c: 743: if (DimmerLights->Status == 1) {
+  7517                           ;Dimmer_B1.c: 744: if (DimmerLights->Status == 1) {
   7518  07AF  0A72               	incf	_DimmerLights,w
   7519  07B0  0084               	movwf	4
   7520  07B1  1C00               	btfss	0,0
   7521  07B2  2FC1               	goto	l4093
   7522                           
-  7523                           ;Dimmer_B1.c: 744: if (DimmerLights->DimmingSwFlag == 1) {
+  7523                           ;Dimmer_B1.c: 745: if (DimmerLights->DimmingSwFlag == 1) {
   7524  07B3  0872               	movf	_DimmerLights,w
   7525  07B4  0084               	movwf	4
   7526  07B5  1D80               	btfss	0,3
   7527  07B6  0008               	return
   7528                           
-  7529                           ;Dimmer_B1.c: 745: DimmerLights->DimmingSwFlag = 0;
+  7529                           ;Dimmer_B1.c: 746: DimmerLights->DimmingSwFlag = 0;
   7530  07B7  0872               	movf	_DimmerLights,w
   7531  07B8  0084               	movwf	4
   7532  07B9  1180               	bcf	0,3
   7533                           
-  7534                           ;Dimmer_B1.c: 747: DimmerLights->DimmingTrigger = 1;
+  7534                           ;Dimmer_B1.c: 748: DimmerLights->DimmingTrigger = 1;
   7535  07BA  0872               	movf	_DimmerLights,w
   7536  07BB  0084               	movwf	4
   7537  07BC  1600               	bsf	0,4
   7538                           
-  7539                           ;Dimmer_B1.c: 748: DimmerLights->DimmingSwitch = 0;
+  7539                           ;Dimmer_B1.c: 749: DimmerLights->DimmingSwitch = 0;
   7540  07BD  0872               	movf	_DimmerLights,w
   7541  07BE  0084               	movwf	4
   7542  07BF  1280               	bcf	0,5
   7543                           
-  7544                           ;Dimmer_B1.c: 749: }
-  7545                           ;Dimmer_B1.c: 750: } else {
+  7544                           ;Dimmer_B1.c: 750: }
+  7545                           ;Dimmer_B1.c: 751: } else {
   7546  07C0  0008               	return
   7547  07C1                     l4093:	
   7548                           
-  7549                           ;Dimmer_B1.c: 752: DimmerLights->Trigger = 1;
+  7549                           ;Dimmer_B1.c: 753: DimmerLights->Trigger = 1;
   7550  07C1  0872               	movf	_DimmerLights,w
   7551  07C2  0084               	movwf	4
   7552  07C3  1480               	bsf	0,1
   7553                           
-  7554                           ;Dimmer_B1.c: 753: DimmerLights->Switch = 0;
+  7554                           ;Dimmer_B1.c: 754: DimmerLights->Switch = 0;
   7555  07C4  0872               	movf	_DimmerLights,w
   7556  07C5  0084               	movwf	4
   7557  07C6  1100               	bcf	0,2
@@ -7569,7 +7569,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7562  0DDE                     __ptext48:	
   7563 ;; *************** function _setDimmerIntr_MaxmumValue *****************
   7564 ;; Defined at:
-  7565 ;;		line 132 in file "../src/Dimmer_B1.c"
+  7565 ;;		line 133 in file "../src/Dimmer_B1.c"
   7566 ;; Parameters:    Size  Location     Type
   7567 ;;  lights          1    wreg     unsigned char 
   7568 ;;  value           1    0[BANK0 ] unsigned char 
@@ -7610,13 +7610,13 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7603  0DDF  1303               	bcf	3,6	;RP1=0, select bank0
   7604  0DE0  00D9               	movwf	setDimmerIntr_MaxmumValue@lights
   7605                           
-  7606                           ;Dimmer_B1.c: 134: if (lights == 1) {
+  7606                           ;Dimmer_B1.c: 135: if (lights == 1) {
   7607  0DE1  0859               	movf	setDimmerIntr_MaxmumValue@lights,w
   7608  0DE2  3A01               	xorlw	1
   7609  0DE3  1D03               	skipz
   7610  0DE4  0008               	return
   7611                           
-  7612                           ;Dimmer_B1.c: 135: DimmerIntr1.MaxmumValue = value;
+  7612                           ;Dimmer_B1.c: 136: DimmerIntr1.MaxmumValue = value;
   7613  0DE5  0857               	movf	setDimmerIntr_MaxmumValue@value,w
   7614  0DE6  00D8               	movwf	??_setDimmerIntr_MaxmumValue
   7615  0DE7  0858               	movf	??_setDimmerIntr_MaxmumValue,w
@@ -7628,7 +7628,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7621  0EC5                     __ptext49:	
   7622 ;; *************** function _setDimmerIntr_Dimming_RF *****************
   7623 ;; Defined at:
-  7624 ;;		line 227 in file "../src/Dimmer_B1.c"
+  7624 ;;		line 228 in file "../src/Dimmer_B1.c"
   7625 ;; Parameters:    Size  Location     Type
   7626 ;;  lights          1    wreg     unsigned char 
   7627 ;;  command         1    0[BANK0 ] unsigned char 
@@ -7668,13 +7668,13 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7661  0EC6  1303               	bcf	3,6	;RP1=0, select bank0
   7662  0EC7  00D9               	movwf	setDimmerIntr_Dimming_RF@lights
   7663                           
-  7664                           ;Dimmer_B1.c: 229: if (lights == 1) {
+  7664                           ;Dimmer_B1.c: 230: if (lights == 1) {
   7665  0EC8  0859               	movf	setDimmerIntr_Dimming_RF@lights,w
   7666  0EC9  3A01               	xorlw	1
   7667  0ECA  1D03               	skipz
   7668  0ECB  0008               	return
   7669                           
-  7670                           ;Dimmer_B1.c: 230: DimmerIntr1.Dimming_RF = command == 1 ? 1 : 0;
+  7670                           ;Dimmer_B1.c: 231: DimmerIntr1.Dimming_RF = command == 1 ? 1 : 0;
   7671  0ECC  0857               	movf	setDimmerIntr_Dimming_RF@command,w
   7672  0ECD  3A01               	xorlw	1
   7673  0ECE  3000               	movlw	0
@@ -7696,7 +7696,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7689  0DD2                     __ptext50:	
   7690 ;; *************** function _setDimmerIntr_DimmingValue *****************
   7691 ;; Defined at:
-  7692 ;;		line 92 in file "../src/Dimmer_B1.c"
+  7692 ;;		line 93 in file "../src/Dimmer_B1.c"
   7693 ;; Parameters:    Size  Location     Type
   7694 ;;  lights          1    wreg     unsigned char 
   7695 ;;  value           1    0[BANK0 ] unsigned char 
@@ -7736,13 +7736,13 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7729  0DD3  1303               	bcf	3,6	;RP1=0, select bank0
   7730  0DD4  00D9               	movwf	setDimmerIntr_DimmingValue@lights
   7731                           
-  7732                           ;Dimmer_B1.c: 94: if (lights == 1) {
+  7732                           ;Dimmer_B1.c: 95: if (lights == 1) {
   7733  0DD5  0859               	movf	setDimmerIntr_DimmingValue@lights,w
   7734  0DD6  3A01               	xorlw	1
   7735  0DD7  1D03               	skipz
   7736  0DD8  0008               	return
   7737                           
-  7738                           ;Dimmer_B1.c: 95: DimmerIntr1.DimmingValue = value;
+  7738                           ;Dimmer_B1.c: 96: DimmerIntr1.DimmingValue = value;
   7739  0DD9  0857               	movf	setDimmerIntr_DimmingValue@value,w
   7740  0DDA  00D8               	movwf	??_setDimmerIntr_DimmingValue
   7741  0DDB  0858               	movf	??_setDimmerIntr_DimmingValue,w
@@ -7754,7 +7754,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7747  0E59                     __ptext51:	
   7748 ;; *************** function _getDimmerLights_Status *****************
   7749 ;; Defined at:
-  7750 ;;		line 1079 in file "../src/Dimmer_B1.c"
+  7750 ;;		line 1080 in file "../src/Dimmer_B1.c"
   7751 ;; Parameters:    Size  Location     Type
   7752 ;;  lights          1    wreg     unsigned char 
   7753 ;; Auto vars:     Size  Location     Type
@@ -7796,11 +7796,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7789  0E5A  1303               	bcf	3,6	;RP1=0, select bank0
   7790  0E5B  00D9               	movwf	getDimmerLights_Status@lights
   7791                           
-  7792                           ;Dimmer_B1.c: 1080: DimmerLights_SelectPointer(lights);
+  7792                           ;Dimmer_B1.c: 1081: DimmerLights_SelectPointer(lights);
   7793  0E5C  0859               	movf	getDimmerLights_Status@lights,w
   7794  0E5D  158A  25C6         	fcall	_DimmerLights_SelectPointer
   7795                           
-  7796                           ;Dimmer_B1.c: 1081: char status = DimmerLights->Status == 1 ? 1 : 0;
+  7796                           ;Dimmer_B1.c: 1082: char status = DimmerLights->Status == 1 ? 1 : 0;
   7797  0E5F  0A72               	incf	_DimmerLights,w
   7798  0E60  0084               	movwf	4
   7799  0E61  3000               	movlw	0
@@ -7811,7 +7811,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7804  0E66  1303               	bcf	3,6	;RP1=0, select bank0
   7805  0E67  00DA               	movwf	getDimmerLights_Status@status
   7806                           
-  7807                           ;Dimmer_B1.c: 1082: return status;
+  7807                           ;Dimmer_B1.c: 1083: return status;
   7808  0E68  085A               	movf	getDimmerLights_Status@status,w
   7809  0E69  0008               	return
   7810  0E6A                     __end_of_getDimmerLights_Status:	
@@ -7820,7 +7820,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7813  0DC6                     __ptext52:	
   7814 ;; *************** function _DimmerLights_SelectPointer *****************
   7815 ;; Defined at:
-  7816 ;;		line 619 in file "../src/Dimmer_B1.c"
+  7816 ;;		line 620 in file "../src/Dimmer_B1.c"
   7817 ;; Parameters:    Size  Location     Type
   7818 ;;  lights          1    wreg     unsigned char 
   7819 ;; Auto vars:     Size  Location     Type
@@ -7865,13 +7865,13 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7858  0DC7  1303               	bcf	3,6	;RP1=0, select bank0
   7859  0DC8  00D8               	movwf	DimmerLights_SelectPointer@lights
   7860                           
-  7861                           ;Dimmer_B1.c: 621: if (lights == 1) {
+  7861                           ;Dimmer_B1.c: 622: if (lights == 1) {
   7862  0DC9  0858               	movf	DimmerLights_SelectPointer@lights,w
   7863  0DCA  3A01               	xorlw	1
   7864  0DCB  1D03               	skipz
   7865  0DCC  0008               	return
   7866                           
-  7867                           ;Dimmer_B1.c: 622: DimmerLights = &DimmerLights1;
+  7867                           ;Dimmer_B1.c: 623: DimmerLights = &DimmerLights1;
   7868  0DCD  30CA               	movlw	_DimmerLights1& (0+255)
   7869  0DCE  00D7               	movwf	??_DimmerLights_SelectPointer
   7870  0DCF  0857               	movf	??_DimmerLights_SelectPointer,w
@@ -7883,7 +7883,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7876  0DA1                     __ptext53:	
   7877 ;; *************** function _DimmerLights_Initialization *****************
   7878 ;; Defined at:
-  7879 ;;		line 640 in file "../src/Dimmer_B1.c"
+  7879 ;;		line 641 in file "../src/Dimmer_B1.c"
   7880 ;; Parameters:    Size  Location     Type
   7881 ;;		None
   7882 ;; Auto vars:     Size  Location     Type
@@ -7916,14 +7916,14 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7909                           ;psect for function _DimmerLights_Initialization
   7910  0DA1                     _DimmerLights_Initialization:	
   7911                           
-  7912                           ;Dimmer_B1.c: 642: setDimmerLights_Initialization(1);
+  7912                           ;Dimmer_B1.c: 643: setDimmerLights_Initialization(1);
   7913                           
   7914                           ;incstack = 0
   7915                           ; Regs used in _DimmerLights_Initialization: [wreg+status,2+status,0+pclath+cstack]
   7916  0DA1  3001               	movlw	1
   7917  0DA2  158A  2582  158A   	fcall	_setDimmerLights_Initialization
   7918                           
-  7919                           ;Dimmer_B1.c: 652: DimmerIntr_Initialization();
+  7919                           ;Dimmer_B1.c: 653: DimmerIntr_Initialization();
   7920  0DA5  158A  269E         	fcall	_DimmerIntr_Initialization
   7921  0DA7  0008               	return
   7922  0DA8                     __end_of_DimmerLights_Initialization:	
@@ -7932,7 +7932,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   7925  0D82                     __ptext54:	
   7926 ;; *************** function _setDimmerLights_Initialization *****************
   7927 ;; Defined at:
-  7928 ;;		line 656 in file "../src/Dimmer_B1.c"
+  7928 ;;		line 657 in file "../src/Dimmer_B1.c"
   7929 ;; Parameters:    Size  Location     Type
   7930 ;;  lights          1    wreg     unsigned char 
   7931 ;; Auto vars:     Size  Location     Type
@@ -8028,18 +8028,18 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   8021  0EAA  0857               	movf	??_DimmerIntr_Initialization,w
   8022  0EAB  00A7               	movwf	_DimmerIntr1+7
   8023                           
-  8024                           ;Dimmer_B1.c: 66: if (myMain.InitDimmer == 1) {
+  8024                           ;Dimmer_B1.c: 67: if (myMain.InitDimmer == 1) {
   8025  0EAC  1E33               	btfss	_myMain+2,4
   8026  0EAD  0008               	return
   8027                           
-  8028                           ;Dimmer_B1.c: 67: myMain.InitDimmer = 0;
+  8028                           ;Dimmer_B1.c: 68: myMain.InitDimmer = 0;
   8029  0EAE  1233               	bcf	_myMain+2,4
   8030                           
-  8031                           ;Dimmer_B1.c: 68: myMain.SaveDimmer = 1;
+  8031                           ;Dimmer_B1.c: 69: myMain.SaveDimmer = 1;
   8032  0EAF  16B3               	bsf	_myMain+2,5
   8033  0EB0  0008               	return
   8034  0EB1                     __end_of_DimmerIntr_Initialization:	
-  8035                           ;Dimmer_B1.c: 69: ;;
+  8035                           ;Dimmer_B1.c: 70: ;;
   8036                           
   8037                           
   8038                           	psect	text56
@@ -8395,7 +8395,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   8388  0640                     __ptext60:	
   8389 ;; *************** function _DimmerLights_TMR_1 *****************
   8390 ;; Defined at:
-  8391 ;;		line 1276 in file "../src/Dimmer_B1.c"
+  8391 ;;		line 1277 in file "../src/Dimmer_B1.c"
   8392 ;; Parameters:    Size  Location     Type
   8393 ;;		None
   8394 ;; Auto vars:     Size  Location     Type
@@ -8426,7 +8426,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   8419                           ;psect for function _DimmerLights_TMR_1
   8420  0640                     _DimmerLights_TMR_1:	
   8421                           
-  8422                           ;Dimmer_B1.c: 1277: if (DimmerIntr1.Start == 1) {
+  8422                           ;Dimmer_B1.c: 1278: if (DimmerIntr1.Start == 1) {
   8423                           
   8424                           ;incstack = 0
   8425                           ; Regs used in _DimmerLights_TMR_1: [wreg+status,2+status,0]
@@ -8435,137 +8435,137 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   8428  0642  1D20               	btfss	_DimmerIntr1,2
   8429  0643  2E4E               	goto	i1l3223
   8430                           
-  8431                           ;Dimmer_B1.c: 1278: DimmerIntr1.Count++;
+  8431                           ;Dimmer_B1.c: 1279: DimmerIntr1.Count++;
   8432  0644  3001               	movlw	1
   8433  0645  00F5               	movwf	??_DimmerLights_TMR_1
   8434  0646  0875               	movf	??_DimmerLights_TMR_1,w
   8435  0647  07A2               	addwf	_DimmerIntr1+2,f
   8436                           
-  8437                           ;Dimmer_B1.c: 1279: if (DimmerIntr1.Count >= ((char)((100-10)*0.6)) + 1) {
+  8437                           ;Dimmer_B1.c: 1280: if (DimmerIntr1.Count >= ((char)((100-10)*0.6)) + 1) {
   8438  0648  3037               	movlw	55
   8439  0649  0222               	subwf	_DimmerIntr1+2,w
   8440  064A  1C03               	skipc
   8441  064B  2E4E               	goto	i1l3223
   8442                           
-  8443                           ;Dimmer_B1.c: 1280: DimmerIntr1.Count = 0;
+  8443                           ;Dimmer_B1.c: 1281: DimmerIntr1.Count = 0;
   8444  064C  01A2               	clrf	_DimmerIntr1+2
   8445                           
-  8446                           ;Dimmer_B1.c: 1281: DimmerIntr1.Start = 0;
+  8446                           ;Dimmer_B1.c: 1282: DimmerIntr1.Start = 0;
   8447  064D  1120               	bcf	_DimmerIntr1,2
   8448  064E                     i1l3223:	
   8449                           
-  8450                           ;Dimmer_B1.c: 1282: }
-  8451                           ;Dimmer_B1.c: 1283: }
-  8452                           ;Dimmer_B1.c: 1285: if (DimmerIntr1.GO == 1) {
+  8450                           ;Dimmer_B1.c: 1283: }
+  8451                           ;Dimmer_B1.c: 1284: }
+  8452                           ;Dimmer_B1.c: 1286: if (DimmerIntr1.GO == 1) {
   8453  064E  1C20               	btfss	_DimmerIntr1,0
   8454  064F  2E5A               	goto	i1l384
   8455                           
-  8456                           ;Dimmer_B1.c: 1286: if (DimmerIntr1.Count >= DimmerIntr1.DimmingValue) {
+  8456                           ;Dimmer_B1.c: 1287: if (DimmerIntr1.Count >= DimmerIntr1.DimmingValue) {
   8457  0650  0825               	movf	_DimmerIntr1+5,w
   8458  0651  0222               	subwf	_DimmerIntr1+2,w
   8459  0652  1C03               	skipc
   8460  0653  2E89               	goto	i1l387
   8461                           
-  8462                           ;Dimmer_B1.c: 1287: DimmerIntr1.GO = 0;
+  8462                           ;Dimmer_B1.c: 1288: DimmerIntr1.GO = 0;
   8463  0654  1020               	bcf	_DimmerIntr1,0
   8464                           
-  8465                           ;Dimmer_B1.c: 1288: DimmerIntr1.Tune = 1;
+  8465                           ;Dimmer_B1.c: 1289: DimmerIntr1.Tune = 1;
   8466  0655  14A0               	bsf	_DimmerIntr1,1
   8467                           
-  8468                           ;Dimmer_B1.c: 1290: if (DimmerIntr1.ControlStatus == 1) {
+  8468                           ;Dimmer_B1.c: 1291: if (DimmerIntr1.ControlStatus == 1) {
   8469  0656  1DA0               	btfss	_DimmerIntr1,3
   8470  0657  2E89               	goto	i1l387
   8471                           
-  8472                           ;Dimmer_B1.c: 1291: RB2 = 1;
+  8472                           ;Dimmer_B1.c: 1292: RB2 = 1;
   8473  0658  1506               	bsf	6,2	;volatile
   8474                           
-  8475                           ;Dimmer_B1.c: 1293: }
-  8476                           ;Dimmer_B1.c: 1294: }
-  8477                           ;Dimmer_B1.c: 1295: } else {
+  8475                           ;Dimmer_B1.c: 1294: }
+  8476                           ;Dimmer_B1.c: 1295: }
+  8477                           ;Dimmer_B1.c: 1296: } else {
   8478  0659  2E89               	goto	i1l387
   8479  065A                     i1l384:	
   8480                           
-  8481                           ;Dimmer_B1.c: 1296: if (DimmerIntr1.Tune == 1) {
+  8481                           ;Dimmer_B1.c: 1297: if (DimmerIntr1.Tune == 1) {
   8482  065A  1CA0               	btfss	_DimmerIntr1,1
   8483  065B  2E89               	goto	i1l387
   8484                           
-  8485                           ;Dimmer_B1.c: 1297: DimmerIntr1.Tune = 0;
+  8485                           ;Dimmer_B1.c: 1298: DimmerIntr1.Tune = 0;
   8486  065C  10A0               	bcf	_DimmerIntr1,1
   8487                           
-  8488                           ;Dimmer_B1.c: 1298: DimmerIntr1.TuneTime++;
+  8488                           ;Dimmer_B1.c: 1299: DimmerIntr1.TuneTime++;
   8489  065D  3001               	movlw	1
   8490  065E  00F5               	movwf	??_DimmerLights_TMR_1
   8491  065F  0875               	movf	??_DimmerLights_TMR_1,w
   8492  0660  07A3               	addwf	_DimmerIntr1+3,f
   8493                           
-  8494                           ;Dimmer_B1.c: 1299: if (DimmerIntr1.TuneTime >= DimmerIntr1.TuneTimeValue) {
+  8494                           ;Dimmer_B1.c: 1300: if (DimmerIntr1.TuneTime >= DimmerIntr1.TuneTimeValue) {
   8495  0661  0824               	movf	_DimmerIntr1+4,w
   8496  0662  0223               	subwf	_DimmerIntr1+3,w
   8497  0663  1C03               	skipc
   8498  0664  2E89               	goto	i1l387
   8499                           
-  8500                           ;Dimmer_B1.c: 1300: DimmerIntr1.TuneTime = 0;
+  8500                           ;Dimmer_B1.c: 1301: DimmerIntr1.TuneTime = 0;
   8501  0665  01A3               	clrf	_DimmerIntr1+3
   8502                           
-  8503                           ;Dimmer_B1.c: 1301: if (DimmerIntr1.Dimming_Sw == 1) {
+  8503                           ;Dimmer_B1.c: 1302: if (DimmerIntr1.Dimming_Sw == 1) {
   8504  0666  1E20               	btfss	_DimmerIntr1,4
   8505  0667  2E76               	goto	i1l390
   8506                           
-  8507                           ;Dimmer_B1.c: 1302: if (DimmerIntr1.Dimming_Status == 0) {
+  8507                           ;Dimmer_B1.c: 1303: if (DimmerIntr1.Dimming_Status == 0) {
   8508  0668  1AA0               	btfsc	_DimmerIntr1,5
   8509  0669  2E70               	goto	i1l3247
   8510                           
-  8511                           ;Dimmer_B1.c: 1303: if (DimmerIntr1.DimmingValue > ((char)((100-70)*0.6))) {
+  8511                           ;Dimmer_B1.c: 1304: if (DimmerIntr1.DimmingValue > ((char)((100-70)*0.6))) {
   8512  066A  3013               	movlw	19
   8513  066B  0225               	subwf	_DimmerIntr1+5,w
   8514  066C  1803               	btfsc	3,0
   8515  066D  2E7C               	goto	i1l3253
   8516                           
-  8517                           ;Dimmer_B1.c: 1306: DimmerIntr1.Dimming_Status = 1;
+  8517                           ;Dimmer_B1.c: 1307: DimmerIntr1.Dimming_Status = 1;
   8518                           
-  8519                           ;Dimmer_B1.c: 1305: } else {
+  8519                           ;Dimmer_B1.c: 1306: } else {
   8520                           
-  8521                           ;Dimmer_B1.c: 1304: DimmerIntr1.DimmingValue--;
+  8521                           ;Dimmer_B1.c: 1305: DimmerIntr1.DimmingValue--;
   8522  066E  16A0               	bsf	_DimmerIntr1,5
   8523                           
-  8524                           ;Dimmer_B1.c: 1307: }
-  8525                           ;Dimmer_B1.c: 1308: } else {
+  8524                           ;Dimmer_B1.c: 1308: }
+  8525                           ;Dimmer_B1.c: 1309: } else {
   8526  066F  2E89               	goto	i1l387
   8527  0670                     i1l3247:	
   8528                           
-  8529                           ;Dimmer_B1.c: 1309: if (DimmerIntr1.DimmingValue < ((char)((100-10)*0.6))) {
+  8529                           ;Dimmer_B1.c: 1310: if (DimmerIntr1.DimmingValue < ((char)((100-10)*0.6))) {
   8530  0670  3036               	movlw	54
   8531  0671  0225               	subwf	_DimmerIntr1+5,w
   8532  0672  1C03               	btfss	3,0
   8533  0673  2E83               	goto	i1l3257
   8534                           
-  8535                           ;Dimmer_B1.c: 1312: DimmerIntr1.Dimming_Status = 0;
+  8535                           ;Dimmer_B1.c: 1313: DimmerIntr1.Dimming_Status = 0;
   8536                           
-  8537                           ;Dimmer_B1.c: 1311: } else {
+  8537                           ;Dimmer_B1.c: 1312: } else {
   8538                           
-  8539                           ;Dimmer_B1.c: 1310: DimmerIntr1.DimmingValue++;
+  8539                           ;Dimmer_B1.c: 1311: DimmerIntr1.DimmingValue++;
   8540  0674  12A0               	bcf	_DimmerIntr1,5
   8541                           
-  8542                           ;Dimmer_B1.c: 1313: }
-  8543                           ;Dimmer_B1.c: 1314: }
-  8544                           ;Dimmer_B1.c: 1315: } else if (DimmerIntr1.Dimming_RF == 1) {
+  8542                           ;Dimmer_B1.c: 1314: }
+  8543                           ;Dimmer_B1.c: 1315: }
+  8544                           ;Dimmer_B1.c: 1316: } else if (DimmerIntr1.Dimming_RF == 1) {
   8545  0675  2E89               	goto	i1l387
   8546  0676                     i1l390:	
   8547  0676  1F20               	btfss	_DimmerIntr1,6
   8548  0677  2E89               	goto	i1l387
   8549                           
-  8550                           ;Dimmer_B1.c: 1316: if (DimmerIntr1.DimmingValue > DimmerIntr1.MaxmumValue) {
+  8550                           ;Dimmer_B1.c: 1317: if (DimmerIntr1.DimmingValue > DimmerIntr1.MaxmumValue) {
   8551  0678  0825               	movf	_DimmerIntr1+5,w
   8552  0679  0226               	subwf	_DimmerIntr1+6,w
   8553  067A  1803               	skipnc
   8554  067B  2E7F               	goto	i1l3255
   8555  067C                     i1l3253:	
   8556                           
-  8557                           ;Dimmer_B1.c: 1317: DimmerIntr1.DimmingValue--;
+  8557                           ;Dimmer_B1.c: 1318: DimmerIntr1.DimmingValue--;
   8558  067C  3001               	movlw	1
   8559  067D  02A5               	subwf	_DimmerIntr1+5,f
   8560                           
-  8561                           ;Dimmer_B1.c: 1318: } else if (DimmerIntr1.DimmingValue < DimmerIntr1.MaxmumValue) {
+  8561                           ;Dimmer_B1.c: 1319: } else if (DimmerIntr1.DimmingValue < DimmerIntr1.MaxmumValue) {
   8562  067E  2E89               	goto	i1l387
   8563  067F                     i1l3255:	
   8564  067F  0826               	movf	_DimmerIntr1+6,w
@@ -8574,36 +8574,36 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   8567  0682  2E88               	goto	i1l401
   8568  0683                     i1l3257:	
   8569                           
-  8570                           ;Dimmer_B1.c: 1319: DimmerIntr1.DimmingValue++;
+  8570                           ;Dimmer_B1.c: 1320: DimmerIntr1.DimmingValue++;
   8571  0683  3001               	movlw	1
   8572  0684  00F5               	movwf	??_DimmerLights_TMR_1
   8573  0685  0875               	movf	??_DimmerLights_TMR_1,w
   8574  0686  07A5               	addwf	_DimmerIntr1+5,f
   8575                           
-  8576                           ;Dimmer_B1.c: 1320: } else {
+  8576                           ;Dimmer_B1.c: 1321: } else {
   8577  0687  2E89               	goto	i1l387
   8578  0688                     i1l401:	
   8579                           
-  8580                           ;Dimmer_B1.c: 1321: DimmerIntr1.Dimming_RF = 0;
+  8580                           ;Dimmer_B1.c: 1322: DimmerIntr1.Dimming_RF = 0;
   8581  0688  1320               	bcf	_DimmerIntr1,6
   8582  0689                     i1l387:	
   8583                           
-  8584                           ;Dimmer_B1.c: 1322: }
-  8585                           ;Dimmer_B1.c: 1323: }
-  8586                           ;Dimmer_B1.c: 1324: }
-  8587                           ;Dimmer_B1.c: 1325: }
-  8588                           ;Dimmer_B1.c: 1326: }
-  8589                           ;Dimmer_B1.c: 1327: if (RB2 == 1) {
+  8584                           ;Dimmer_B1.c: 1323: }
+  8585                           ;Dimmer_B1.c: 1324: }
+  8586                           ;Dimmer_B1.c: 1325: }
+  8587                           ;Dimmer_B1.c: 1326: }
+  8588                           ;Dimmer_B1.c: 1327: }
+  8589                           ;Dimmer_B1.c: 1328: if (RB2 == 1) {
   8590  0689  1D06               	btfss	6,2	;volatile
   8591  068A  0008               	return
   8592                           
-  8593                           ;Dimmer_B1.c: 1328: if (DimmerIntr1.Count >= ((char)((100-10)*0.6)) - 10) {
+  8593                           ;Dimmer_B1.c: 1329: if (DimmerIntr1.Count >= ((char)((100-10)*0.6)) - 10) {
   8594  068B  302C               	movlw	44
   8595  068C  0222               	subwf	_DimmerIntr1+2,w
   8596  068D  1C03               	skipc
   8597  068E  0008               	return
   8598                           
-  8599                           ;Dimmer_B1.c: 1329: RB2 = 0;
+  8599                           ;Dimmer_B1.c: 1330: RB2 = 0;
   8600  068F  1106               	bcf	6,2	;volatile
   8601  0690  0008               	return
   8602  0691                     __end_of_DimmerLights_TMR_1:	
@@ -8612,7 +8612,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   8605  0E49                     __ptext61:	
   8606 ;; *************** function _DimmerLights_IOC_1 *****************
   8607 ;; Defined at:
-  8608 ;;		line 1335 in file "../src/Dimmer_B1.c"
+  8608 ;;		line 1336 in file "../src/Dimmer_B1.c"
   8609 ;; Parameters:    Size  Location     Type
   8610 ;;		None
   8611 ;; Auto vars:     Size  Location     Type
@@ -8643,7 +8643,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   8636                           ;psect for function _DimmerLights_IOC_1
   8637  0E49                     _DimmerLights_IOC_1:	
   8638                           
-  8639                           ;Dimmer_B1.c: 1338: if (RA7 == 1) {
+  8639                           ;Dimmer_B1.c: 1339: if (RA7 == 1) {
   8640                           
   8641                           ;incstack = 0
   8642                           ; Regs used in _DimmerLights_IOC_1: []
@@ -8652,33 +8652,33 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   8645  0E4B  1F85               	btfss	5,7	;volatile
   8646  0E4C  2E51               	goto	i1l408
   8647                           
-  8648                           ;Dimmer_B1.c: 1339: if (Dimmer.PIR_DimmerSignal == 1) {
+  8648                           ;Dimmer_B1.c: 1340: if (Dimmer.PIR_DimmerSignal == 1) {
   8649  0E4D  1DAC               	btfss	_Dimmer,3
   8650  0E4E  0008               	return
   8651                           
-  8652                           ;Dimmer_B1.c: 1340: Dimmer.PIR_DimmerSignal = 0;
+  8652                           ;Dimmer_B1.c: 1341: Dimmer.PIR_DimmerSignal = 0;
   8653  0E4F  11AC               	bcf	_Dimmer,3
   8654                           
-  8655                           ;Dimmer_B1.c: 1341: }
-  8656                           ;Dimmer_B1.c: 1342: } else {
+  8655                           ;Dimmer_B1.c: 1342: }
+  8656                           ;Dimmer_B1.c: 1343: } else {
   8657  0E50  0008               	return
   8658  0E51                     i1l408:	
   8659                           
-  8660                           ;Dimmer_B1.c: 1343: if (Dimmer.PIR_DimmerSignal == 0) {
+  8660                           ;Dimmer_B1.c: 1344: if (Dimmer.PIR_DimmerSignal == 0) {
   8661  0E51  19AC               	btfsc	_Dimmer,3
   8662  0E52  0008               	return
   8663                           
-  8664                           ;Dimmer_B1.c: 1344: Dimmer.PIR_DimmerSignal = 1;
+  8664                           ;Dimmer_B1.c: 1345: Dimmer.PIR_DimmerSignal = 1;
   8665  0E53  15AC               	bsf	_Dimmer,3
   8666                           
-  8667                           ;Dimmer_B1.c: 1346: if (DimmerIntr1.Start == 0) {
+  8667                           ;Dimmer_B1.c: 1347: if (DimmerIntr1.Start == 0) {
   8668  0E54  1920               	btfsc	_DimmerIntr1,2
   8669  0E55  0008               	return
   8670                           
-  8671                           ;Dimmer_B1.c: 1347: DimmerIntr1.Start = 1;
+  8671                           ;Dimmer_B1.c: 1348: DimmerIntr1.Start = 1;
   8672  0E56  1520               	bsf	_DimmerIntr1,2
   8673                           
-  8674                           ;Dimmer_B1.c: 1348: DimmerIntr1.GO = 1;
+  8674                           ;Dimmer_B1.c: 1349: DimmerIntr1.GO = 1;
   8675  0E57  1420               	bsf	_DimmerIntr1,0
   8676  0E58  0008               	return
   8677  0E59                     __end_of_DimmerLights_IOC_1:	
@@ -9160,7 +9160,7 @@ DATA                 0      0      8A      10        0.0%
 
 
 Microchip Technology PIC Macro Assembler V1.32 build 58300 
-Symbol Table                                                                                   Mon Mar 09 14:59:08 2015
+Symbol Table                                                                                   Wed Mar 11 11:30:46 2015
 
                               __CFG_CP$ON 0000                              _WDT_Clearing 0002  
                    __end_of_setCmd_Status 0EF1                              ___awdiv@sign 005D  
