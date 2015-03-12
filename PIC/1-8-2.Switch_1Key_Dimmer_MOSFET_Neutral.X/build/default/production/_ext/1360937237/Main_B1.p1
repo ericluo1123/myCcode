@@ -69,8 +69,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S261 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
 [n S261 . Enable ERROR ADtoGO LoadADGO GO empty ]
 "8
-[s S260 `S261 1 `ui 1 `uc 1 `ui -> 2 `i `ui 1 ]
-[n S260 OverTemp . Time Count ADH ADV ]
+[s S260 `S261 1 `ui 1 `uc 1 `ui -> 5 `i ]
+[n S260 OverTemp . Time Count ADV ]
 "14 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/RF_Control_B1.h
 [s S263 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S263 . Enable ReceiveGO TransceiveGO RxStatus TxStatus Debounce Learn Key ]
@@ -159,9 +159,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v F2200 `(v ~T0 @X0 1 tf ]
 "46 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Buzzer_B1.h
 [v _Buzzer_Initialization `TF2200 ~T0 @X0 0 e ]
-[v F2247 `(v ~T0 @X0 1 tf ]
+[v F2246 `(v ~T0 @X0 1 tf ]
 "83 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverTemperature_B1.h
-[v _Temp_Initialization `TF2247 ~T0 @X0 0 e ]
+[v _Temp_Initialization `TF2246 ~T0 @X0 0 e ]
 [v F2412 `(v ~T0 @X0 1 tf ]
 "88 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverLoad_B1.h
 [v _Load_Initialization `TF2412 ~T0 @X0 0 e ]
@@ -181,9 +181,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v F2417 `(v ~T0 @X0 1 tf1`uc ]
 "90 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverLoad_B1.h
 [v _getLoad_AD `TF2417 ~T0 @X0 0 e ]
-[v F2254 `(v ~T0 @X0 1 tf1`uc ]
+[v F2253 `(v ~T0 @X0 1 tf1`uc ]
 "87 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverTemperature_B1.h
-[v _getTemp_AD `TF2254 ~T0 @X0 0 e ]
+[v _getTemp_AD `TF2253 ~T0 @X0 0 e ]
 [v F2117 `(v ~T0 @X0 1 tf ]
 "140 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Main_B1.h
 [v _my_MainTimer `TF2117 ~T0 @X0 0 e ]
@@ -197,9 +197,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v F2202 `(v ~T0 @X0 1 tf ]
 "51 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Buzzer_B1.h
 [v _Buzzer_Main `TF2202 ~T0 @X0 0 e ]
-[v F2249 `(v ~T0 @X0 1 tf ]
+[v F2248 `(v ~T0 @X0 1 tf ]
 "84 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverTemperature_B1.h
-[v _Temp_Main `TF2249 ~T0 @X0 0 e ]
+[v _Temp_Main `TF2248 ~T0 @X0 0 e ]
 [v F2414 `(v ~T0 @X0 1 tf ]
 "89 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverLoad_B1.h
 [v _Load_Main `TF2414 ~T0 @X0 0 e ]
@@ -218,6 +218,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _Exception_Main `(v ~T0 @X0 0 ef ]
 "60 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Buzzer_B1.h
 [v _setBuz `(v ~T0 @X0 0 ef2`uc`i ]
+[v F2345 `(v ~T0 @X0 1 tf ]
+"59 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/RF_Control_B1.h
+[v _setTxData `TF2345 ~T0 @X0 0 e ]
 "93 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/LED_B1.h
 [v _setLED `(v ~T0 @X0 0 ef2`uc`uc ]
 "122 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h
@@ -2460,8 +2463,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.h: 17: };
 [; ;OverTemperature_B1.h: 19: unsigned int Time;
 [; ;OverTemperature_B1.h: 20: unsigned char Count;
-[; ;OverTemperature_B1.h: 26: ADtype ADH[2];
-[; ;OverTemperature_B1.h: 27: ADtype ADV;
+[; ;OverTemperature_B1.h: 26: ADtype ADV[5];
 [; ;OverTemperature_B1.h: 32: };
 "34 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverTemperature_B1.h
 [v _Temp `S260 ~T0 @X0 1 e ]
@@ -2472,6 +2474,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.h: 86: void setTemp_Initialization();
 [; ;OverTemperature_B1.h: 87: inline void getTemp_AD(char channel);
 [; ;OverTemperature_B1.h: 88: void setOverTemp_Exceptions(char command);
+[; ;OverTemperature_B1.h: 89: void setOverTemp_ADV_Restore();
 "161 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/CC2500_B1.h
 [v _CC2500_rfSettings `Cuc ~T0 @X0 -> 47 `i e ]
 [i _CC2500_rfSettings
@@ -3324,6 +3327,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.c: 210: myMain.PowerCount = 0;
 "210
 [e = . _myMain 1 -> -> 0 `i `uc ]
+[; ;Main_B1.c: 222: setTxData();
+"222
+[e ( _setTxData ..  ]
 "226
 }
 [e :U 299 ]

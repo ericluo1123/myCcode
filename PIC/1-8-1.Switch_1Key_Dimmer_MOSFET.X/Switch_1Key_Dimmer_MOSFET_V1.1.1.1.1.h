@@ -134,8 +134,8 @@
 #define SYSC_use_Value 0
 //OverTemperature
 #define OverTemperature_use_Value   1
-#define TempDangerValue_Value       345   //NTC 70度
-#define TempSafeValue_Value         400   //NTC 61度
+#define TempDangerValue_Value       0x1ba   //NTC 70度
+#define TempSafeValue_Value         0x205   //NTC 61度
 //OverLoad
 #define OverLoad_use_Value 1
 #define LimitCurrent_Value  1.8//A
@@ -167,6 +167,7 @@
 #define Dimmer_Trigger_Mode_Value   3
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
+#define Dimmable_Func               0
 #define Max_Percent                 87 //75(69%) 80(72%) 65 (60%)
 #define Mini_Percent                10
 

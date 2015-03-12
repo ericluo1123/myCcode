@@ -3,7 +3,7 @@
 #define _OverTemperature_H_
 
 #if OverTemperature_use == 1
-#define Temp_Debug 1
+#define Temp_Debug 0
 
 struct OverTemp {
 
@@ -23,8 +23,8 @@ struct OverTemp {
     //    unsigned char AD2;
 
     //    ADtype AD;
-    ADtype ADH[2];
-    ADtype ADV;
+    ADtype ADV[5];
+    //    ADtype ADVE;
     //    ADtype ADRES;
     //    ADtype SafeValue;
     //    ADtype DangerValue;
@@ -86,6 +86,7 @@ void setTemp_Main();
 void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
+void setOverTemp_ADV_Restore();
 
 #else
 

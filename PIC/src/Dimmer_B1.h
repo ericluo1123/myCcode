@@ -9,7 +9,7 @@
 
 #if Properties_Keys == 1
 #if Properties_Neutral == 1
-#define TuneTime1 4
+#define TuneTime1 6
 #else 
 #define TuneTime1 7
 #endif
@@ -201,6 +201,7 @@ void setDimmerIntr_Dimming_RF(char lights, char command);
 char getAll_DimmerIntr_ControlStatus();
 char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
+void setDimmerLights_DimmingClose();
 
 #if CC2500_use == 1 || Properties_Product == 2
 void setDimmerIntr_MaxmumValue(char lights, char value);

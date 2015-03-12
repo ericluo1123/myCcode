@@ -844,6 +844,8 @@ void setDimmerLights_Main(char lights) {
 void setDimmerLights_OnOff(char lights, char command) {
 
     if (command == 1) {
+        setDimmerLights_DimmingClose();
+
         setDimmerIntr_ControlStatus(lights, 1);
 
 #if OverLoad_use == 1
@@ -900,6 +902,7 @@ void setDimmerLights_OnOff(char lights, char command) {
 
 #endif
     } else if (command == 0) {
+        setDimmerLights_DimmingClose();
         setDimmerIntr_ControlStatus(lights, 0);
 #if OverLoad_use == 1
         Dimmer.Load_Status = false;
@@ -1443,6 +1446,7 @@ inline void DimmerLights_TMR_1() {
         }
     }
 
+#if Dimmable_Func == 1
     if (DimmerIntr1.Tune == true) {
         DimmerIntr1.Tune = false;
         DimmerIntr1.TuneTime++;
@@ -1474,6 +1478,8 @@ inline void DimmerLights_TMR_1() {
             }
         }
     }
+#endif
+
 }
 
 inline void DimmerLights_IOC_1() {
@@ -1741,6 +1747,22 @@ inline void DimmerLights_IOC_2() {
 
 #endif
 #endif
+
+//******************************************************************************
+
+void setDimmerLights_DimmingClose() {
+#ifdef use_1KEY
+    setDimmerIntr_Dimming_Sw(1, 0);
+#endif
+
+#ifdef use_2KEY
+    setDimmerIntr_Dimming_Sw(2, 0);
+#endif
+
+#ifdef use_3KEY
+    setDimmerIntr_Dimming_Sw(3, 0);
+#endif
+}
 //******************************************************************************
 
 #if PIR_use == 1

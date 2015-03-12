@@ -2076,8 +2076,8 @@ unsigned int Time;
 unsigned char Count;
 
 # 26
-ADtype ADH[2];
-ADtype ADV;
+ADtype ADV[5];
+ADtype ADVE;
 
 
 
@@ -2093,6 +2093,7 @@ void setTemp_Main();
 void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
+void setOverTemp_ADV_Restore();
 
 # 44 "../src/../2-1-3.PIR_Ceiling_thin.X/../src/OverLoad_B1.h"
 struct OverLoad {
@@ -2358,13 +2359,21 @@ ADRES = getAD(channel, 0x70);
 
 # 29
 if (ADRES > 0) {
-if (Temp.ADV < ADRES) {
-Temp.ADV = ADRES;
-}
+if (Temp.ADV[0] < ADRES) {
+Temp.ADV[0] = ADRES;
+} else if (Temp.ADV[1] < ADRES) {
+Temp.ADV[1] = ADRES;
+} else if (Temp.ADV[2] < ADRES) {
+Temp.ADV[2] = ADRES;
+} else if (Temp.ADV[3] < ADRES) {
+Temp.ADV[3] = ADRES;
+} else if (Temp.ADV[4] < ADRES) {
+Temp.ADV[4] = ADRES;
 }
 }
 
-# 49
+# 56
+}
 }
 
 
@@ -2382,12 +2391,13 @@ setTemp_Main();
 
 void setTemp_Main() {
 char error = getMain_All_Error_Status(0);
-ADtype SafeValue = 0, DangerValue = 0, AD;
+ADtype SafeValue = 0, DangerValue = 0;
+int AD = 0;
 char TempGO = getMain_All_LightsStatus();
 
 if (Temp.Enable == 1) {
 
-# 77
+# 86
 if (Temp.ADtoGO == 0) {
 if ((TempGO == 1 && Temp.ERROR == 0) || Temp.ERROR == 1) {
 Temp.Time++;
@@ -2406,15 +2416,16 @@ Temp.Time = 0;
 
 
 
-if (Temp.ADV > 0) {
+AD = (Temp.ADV[1] + Temp.ADV[2] + Temp.ADV[3]) / 3;
+setOverTemp_ADV_Restore();
+if (AD > 0) {
 Temp.ADtoGO = 0;
-AD = Temp.ADV;
 
-# 106
+# 117
 SafeValue = 0x39;
 DangerValue = 0x6a;
 
-# 119
+# 130
 if (Temp.ERROR == 1) {
 if (AD >= SafeValue) {
 Temp.Count++;
@@ -2440,11 +2451,8 @@ Temp.Count = 0;
 ;;
 ;;
 
-# 158
+# 169
 }
-Temp.ADH[0] = 0;
-Temp.ADH[1] = 0;
-Temp.ADV = 0;
 }
 }
 
@@ -2453,6 +2461,13 @@ Temp.ADV = 0;
 if (myMain.PowerON == 1) {
 Temp.Enable = 1;
 }
+}
+}
+
+
+void setOverTemp_ADV_Restore() {
+for (int i = 0; i < 5; i++) {
+Temp.ADV[i] = 0;
 }
 }
 

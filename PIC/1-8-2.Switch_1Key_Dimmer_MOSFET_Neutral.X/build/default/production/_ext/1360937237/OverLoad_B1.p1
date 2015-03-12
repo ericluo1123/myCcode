@@ -69,8 +69,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S261 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
 [n S261 . Enable ERROR ADtoGO LoadADGO GO empty ]
 "8
-[s S260 `S261 1 `ui 1 `uc 1 `ui -> 2 `i `ui 1 ]
-[n S260 OverTemp . Time Count ADH ADV ]
+[s S260 `S261 1 `ui 1 `uc 1 `ui -> 5 `i ]
+[n S260 OverTemp . Time Count ADV ]
 "14 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/RF_Control_B1.h
 [s S263 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S263 . Enable ReceiveGO TransceiveGO RxStatus TxStatus Debounce Learn Key ]
@@ -2397,8 +2397,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.h: 17: };
 [; ;OverTemperature_B1.h: 19: unsigned int Time;
 [; ;OverTemperature_B1.h: 20: unsigned char Count;
-[; ;OverTemperature_B1.h: 26: ADtype ADH[2];
-[; ;OverTemperature_B1.h: 27: ADtype ADV;
+[; ;OverTemperature_B1.h: 26: ADtype ADV[5];
 [; ;OverTemperature_B1.h: 32: };
 "34 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverTemperature_B1.h
 [v _Temp `S260 ~T0 @X0 1 e ]
@@ -2409,6 +2408,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.h: 86: void setTemp_Initialization();
 [; ;OverTemperature_B1.h: 87: inline void getTemp_AD(char channel);
 [; ;OverTemperature_B1.h: 88: void setOverTemp_Exceptions(char command);
+[; ;OverTemperature_B1.h: 89: void setOverTemp_ADV_Restore();
 "161 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/CC2500_B1.h
 [v _CC2500_rfSettings `Cuc ~T0 @X0 -> 47 `i e ]
 [i _CC2500_rfSettings

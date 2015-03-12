@@ -27,25 +27,33 @@ inline void getTemp_AD(char channel) {
         //            }
         //        }
         if (ADRES > 0) {
-            if (Temp.ADV < ADRES) {
-                Temp.ADV = ADRES;
+            if (Temp.ADV[0] < ADRES) {
+                Temp.ADV[0] = ADRES;
+            } else if (Temp.ADV[1] < ADRES) {
+                Temp.ADV[1] = ADRES;
+            } else if (Temp.ADV[2] < ADRES) {
+                Temp.ADV[2] = ADRES;
+            } else if (Temp.ADV[3] < ADRES) {
+                Temp.ADV[3] = ADRES;
+            } else if (Temp.ADV[4] < ADRES) {
+                Temp.ADV[4] = ADRES;
             }
         }
-    }
-    //    }
+        //    }
 
-    //#else
-    //    if (Temp.ADtoGO == true) {
-    //        Temp.GO = true;
-    ////            Temp.ADRES = getAD(channel, ADCON1_VDD);
-    //    ADRES = getAD(channel, ADCON1_VDD);
-    //        if (Temp.ADH[0] < ADRES) {
-    //            Temp.ADH[0] = ADRES;
-    //        } else if (Temp.ADH[1] < ADRES) {
-    //            Temp.ADH[1] = ADRES;
-    //        }
-    //    }
-    //#endif
+        //#else
+        //    if (Temp.ADtoGO == true) {
+        //        Temp.GO = true;
+        ////            Temp.ADRES = getAD(channel, ADCON1_VDD);
+        //    ADRES = getAD(channel, ADCON1_VDD);
+        //        if (Temp.ADH[0] < ADRES) {
+        //            Temp.ADH[0] = ADRES;
+        //        } else if (Temp.ADH[1] < ADRES) {
+        //            Temp.ADH[1] = ADRES;
+        //        }
+        //    }
+        //#endif
+    }
 }
 //*********************************************************
 
@@ -63,7 +71,8 @@ inline void Temp_Main() {
 
 void setTemp_Main() {
     char error = getMain_All_Error_Status(0);
-    ADtype SafeValue = 0, DangerValue = 0, AD;
+    ADtype SafeValue = 0, DangerValue = 0;
+    int AD = 0;
     char TempGO = getMain_All_LightsStatus();
 
     if (Temp.Enable == true) {
@@ -92,10 +101,11 @@ void setTemp_Main() {
                 //                if (Temp.ADH[0] > 0 && Temp.ADH[1] > 0) {
                 //                    Temp.ADtoGO = false;
                 //                    AD = (Temp.ADH[0] + Temp.ADH[1]) / 2;
-                if (Temp.ADV > 0) {
+                AD = (Temp.ADV[1] + Temp.ADV[2] + Temp.ADV[3]) / 3;
+                setOverTemp_ADV_Restore();
+                if (AD > 0) {
                     Temp.ADtoGO = false;
-                    AD = Temp.ADV;
-                    Temp.ADV = 0;
+
 #if PIR_use == 1 && Dimmer_use == 0
                     //                        if (getMain_All_LightsStatus() == 1) {
                     //                            SafeValue = TempSafeValueH;
@@ -157,8 +167,6 @@ void setTemp_Main() {
 #endif
 #endif
                 }
-                Temp.ADH[0] = 0;
-                Temp.ADH[1] = 0;               
             }
         }
         //        }
@@ -167,6 +175,13 @@ void setTemp_Main() {
         if (myMain.PowerON == true) {
             Temp.Enable = true;
         }
+    }
+}
+//*********************************************************
+
+void setOverTemp_ADV_Restore() {
+    for (int i = 0; i < 5; i++) {
+        Temp.ADV[i] = 0;
     }
 }
 //*********************************************************

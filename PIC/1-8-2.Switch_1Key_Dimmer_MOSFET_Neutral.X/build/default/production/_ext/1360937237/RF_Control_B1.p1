@@ -69,8 +69,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S261 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
 [n S261 . Enable ERROR ADtoGO LoadADGO GO empty ]
 "8
-[s S260 `S261 1 `ui 1 `uc 1 `ui -> 2 `i `ui 1 ]
-[n S260 OverTemp . Time Count ADH ADV ]
+[s S260 `S261 1 `ui 1 `uc 1 `ui -> 5 `i ]
+[n S260 OverTemp . Time Count ADV ]
 "14 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/RF_Control_B1.h
 [s S263 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S263 . Enable ReceiveGO TransceiveGO RxStatus TxStatus Debounce Learn Key ]
@@ -2465,8 +2465,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.h: 17: };
 [; ;OverTemperature_B1.h: 19: unsigned int Time;
 [; ;OverTemperature_B1.h: 20: unsigned char Count;
-[; ;OverTemperature_B1.h: 26: ADtype ADH[2];
-[; ;OverTemperature_B1.h: 27: ADtype ADV;
+[; ;OverTemperature_B1.h: 26: ADtype ADV[5];
 [; ;OverTemperature_B1.h: 32: };
 "34 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/OverTemperature_B1.h
 [v _Temp `S260 ~T0 @X0 1 e ]
@@ -2477,6 +2476,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;OverTemperature_B1.h: 86: void setTemp_Initialization();
 [; ;OverTemperature_B1.h: 87: inline void getTemp_AD(char channel);
 [; ;OverTemperature_B1.h: 88: void setOverTemp_Exceptions(char command);
+[; ;OverTemperature_B1.h: 89: void setOverTemp_ADV_Restore();
 "161 ../src/../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/../src/CC2500_B1.h
 [v _CC2500_rfSettings `Cuc ~T0 @X0 -> 47 `i e ]
 [i _CC2500_rfSettings
@@ -4071,108 +4071,105 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U 353 ]
 [; ;RF_Control_B1.c: 461: }
 [; ;RF_Control_B1.c: 462: }
-[; ;RF_Control_B1.c: 463: setBuz(1, 100);
+[; ;RF_Control_B1.c: 463: }
 "463
-[e ( _setBuz (2 , -> -> 1 `i `uc -> 100 `i ]
-[; ;RF_Control_B1.c: 464: }
-"464
 [e :UE 352 ]
 }
-"467
+"466
 [v _getRF_flagDimming `(uc ~T0 @X0 1 ef ]
 {
-[; ;RF_Control_B1.c: 467: char getRF_flagDimming() {
+[; ;RF_Control_B1.c: 466: char getRF_flagDimming() {
 [e :U _getRF_flagDimming ]
 [f ]
-"468
+"467
 [v _result `uc ~T0 @X0 1 a ]
-[; ;RF_Control_B1.c: 468: char result = RF1.flagDimming == 1 ? 1 : 0;
+[; ;RF_Control_B1.c: 467: char result = RF1.flagDimming == 1 ? 1 : 0;
 [e = _result -> ? == -> . . _RF1 2 0 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 469: return result;
-"469
+[; ;RF_Control_B1.c: 468: return result;
+"468
 [e ) _result ]
 [e $UE 356  ]
-[; ;RF_Control_B1.c: 470: }
-"470
+[; ;RF_Control_B1.c: 469: }
+"469
 [e :UE 356 ]
 }
-"472
+"471
 [v _setRF_flagDimming `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;RF_Control_B1.c: 472: void setRF_flagDimming(char command) {
+[; ;RF_Control_B1.c: 471: void setRF_flagDimming(char command) {
 [e :U _setRF_flagDimming ]
 [v _command `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;RF_Control_B1.c: 473: RF1.flagDimming = command == 1 ? 1 : 0;
-"473
+[; ;RF_Control_B1.c: 472: RF1.flagDimming = command == 1 ? 1 : 0;
+"472
 [e = . . _RF1 2 0 -> ? == -> _command `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 474: }
-"474
+[; ;RF_Control_B1.c: 473: }
+"473
 [e :UE 357 ]
 }
-"491
+"490
 [v _setRF_DimmerLights `TF2385 ~T0 @X0 1 e ]
 {
-[; ;RF_Control_B1.c: 491: inline void setRF_DimmerLights(char lights, char on) {
+[; ;RF_Control_B1.c: 490: inline void setRF_DimmerLights(char lights, char on) {
 [e :U _setRF_DimmerLights ]
 [v _lights `uc ~T0 @X0 1 r1 ]
 [v _on `uc ~T0 @X0 1 r2 ]
 [f ]
-"492
+"491
 [v _status `uc ~T0 @X0 1 a ]
-[; ;RF_Control_B1.c: 492: char status = 1;
+[; ;RF_Control_B1.c: 491: char status = 1;
 [e = _status -> -> 1 `i `uc ]
-[; ;RF_Control_B1.c: 493: status <<= (lights - 1);
-"493
+[; ;RF_Control_B1.c: 492: status <<= (lights - 1);
+"492
 [e =<< _status - -> _lights `i -> 1 `i ]
-[; ;RF_Control_B1.c: 494: setProductData(11, lights);
-"494
+[; ;RF_Control_B1.c: 493: setProductData(11, lights);
+"493
 [e ( _setProductData (2 , -> -> 11 `i `uc _lights ]
-[; ;RF_Control_B1.c: 495: setProductData(17, product->Data[26 + lights]);
-"495
+[; ;RF_Control_B1.c: 494: setProductData(17, product->Data[26 + lights]);
+"494
 [e ( _setProductData (2 , -> -> 17 `i `uc *U + &U . *U _product 0 * -> -> + -> 26 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-[; ;RF_Control_B1.c: 496: if (on == 1) {
-"496
+[; ;RF_Control_B1.c: 495: if (on == 1) {
+"495
 [e $ ! == -> _on `i -> 1 `i 359  ]
 {
-[; ;RF_Control_B1.c: 497: setProductData(9, product->Data[20 + lights]);
-"497
+[; ;RF_Control_B1.c: 496: setProductData(9, product->Data[20 + lights]);
+"496
 [e ( _setProductData (2 , -> -> 9 `i `uc *U + &U . *U _product 0 * -> -> + -> 20 `i -> _lights `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux ]
-[; ;RF_Control_B1.c: 498: setProductData(15, (product->Data[15] | status));
-"498
+[; ;RF_Control_B1.c: 497: setProductData(15, (product->Data[15] | status));
+"497
 [e ( _setProductData (2 , -> -> 15 `i `uc -> | -> *U + &U . *U _product 0 * -> -> -> 15 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux `i -> _status `i `uc ]
-"499
+"498
 }
-[; ;RF_Control_B1.c: 499: } else {
+[; ;RF_Control_B1.c: 498: } else {
 [e $U 360  ]
 [e :U 359 ]
 {
-[; ;RF_Control_B1.c: 500: setProductData(9, 0x00);
-"500
+[; ;RF_Control_B1.c: 499: setProductData(9, 0x00);
+"499
 [e ( _setProductData (2 , -> -> 9 `i `uc -> -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 501: setProductData(15, (product->Data[15]&(~status)));
-"501
+[; ;RF_Control_B1.c: 500: setProductData(15, (product->Data[15]&(~status)));
+"500
 [e ( _setProductData (2 , -> -> 15 `i `uc -> & -> *U + &U . *U _product 0 * -> -> -> 15 `i `ui `ux -> -> # *U &U . *U _product 0 `ui `ux `i ~ -> _status `i `uc ]
-"502
+"501
 }
 [e :U 360 ]
+[; ;RF_Control_B1.c: 501: }
 [; ;RF_Control_B1.c: 502: }
-[; ;RF_Control_B1.c: 503: }
-"503
+"502
 [e :UE 358 ]
 }
 [v F2376 `(v ~T0 @X0 1 tf1`uc ]
-"506
+"505
 [v _setRF_TransceiveGO `TF2376 ~T0 @X0 1 e ]
 {
-[; ;RF_Control_B1.c: 506: inline void setRF_TransceiveGO(char command) {
+[; ;RF_Control_B1.c: 505: inline void setRF_TransceiveGO(char command) {
 [e :U _setRF_TransceiveGO ]
 [v _command `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;RF_Control_B1.c: 507: RF1.TransceiveGO = command == 1 ? 1 : 0;
-"507
+[; ;RF_Control_B1.c: 506: RF1.TransceiveGO = command == 1 ? 1 : 0;
+"506
 [e = . . _RF1 0 2 -> ? == -> _command `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
-[; ;RF_Control_B1.c: 508: }
-"508
+[; ;RF_Control_B1.c: 507: }
+"507
 [e :UE 361 ]
 }
