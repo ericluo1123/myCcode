@@ -696,6 +696,8 @@ void setDimmerLights_Initialization(char lights) {
 
 void setDimmerLights_SwOn(char sw) {
     char idle = 0;
+    char rfDimming = 0;
+    rfDimming = RF1.flagDimming == true ? 1 : 0;
 #if Switch_Class == 2
     if (idle == 0) {
         if (sw == 1) {
@@ -723,15 +725,21 @@ void setDimmerLights_SwOn(char sw) {
     DimmerLights_SelectPointer(sw);
     if (idle == 0) {
 
-        DimmerLights->SwFlag = true;
-        if (DimmerLights->Status == false) {
-            DimmerLights->Status = true;
-            DimmerLights->Trigger = true;
-            DimmerLights->Switch = true;
+        if (rfDimming == 0) {
+            DimmerLights->SwFlag = true;
+            if (DimmerLights->Status == false) {
+                DimmerLights->Status = true;
+                DimmerLights->Trigger = true;
+                DimmerLights->Switch = true;
+            } else {
+                DimmerLights->Status = false;
+            }
+            setBuz(1, BuzzerOnOffTime);
         } else {
-            DimmerLights->Status = false;
+            RF1.flagDimming = false;
+            DimmerLights->Trigger = true;
+            DimmerLights->Switch = false;
         }
-        setBuz(1, BuzzerOnOffTime);
     }
 }
 //*********************************************************
@@ -844,7 +852,6 @@ void setDimmerLights_Main(char lights) {
 void setDimmerLights_OnOff(char lights, char command) {
 
     if (command == 1) {
-        setDimmerLights_DimmingClose();
 
         setDimmerIntr_ControlStatus(lights, 1);
 
@@ -902,7 +909,7 @@ void setDimmerLights_OnOff(char lights, char command) {
 
 #endif
     } else if (command == 0) {
-        setDimmerLights_DimmingClose();
+
         setDimmerIntr_ControlStatus(lights, 0);
 #if OverLoad_use == 1
         Dimmer.Load_Status = false;
@@ -938,6 +945,7 @@ void setDimmerLights_OnOff(char lights, char command) {
 
     }
 
+    setDimmerLights_DimmingClose();
     //set RF transmit data and allow transmit
     setRF_DimmerLights(lights, command);
 

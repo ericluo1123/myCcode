@@ -139,6 +139,7 @@ void setSw_Main(char sw) {
 #if LightsControl_use == 1
                     setLights_SwOn(sw);
 #endif
+                    
 #if Dimmer_use == 1
                     setDimmerLights_SwOn(sw); //key on function
 #endif

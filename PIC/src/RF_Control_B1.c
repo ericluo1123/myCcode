@@ -450,7 +450,6 @@ void setRF_AdjControl(char sw) {
             RF1.flagDimming = true;
             DimmerLights_SelectPointer(sw);
 
-            DimmerLights->DimmingSwFlag = true;
             DimmerLights->DimmingTrigger = true;
             DimmerLights->DimmingSwitch = true;
             //            ErrLED = ErrLED == true ? false : true;
