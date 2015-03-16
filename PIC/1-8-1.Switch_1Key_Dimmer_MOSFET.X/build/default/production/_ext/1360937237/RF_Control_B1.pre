@@ -3308,6 +3308,7 @@ void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
+void DimmerLights_DimmingFunction(char lights);
 
 
 char getDimmerLights_PercentToValue(char value);
@@ -3369,7 +3370,7 @@ struct Dimmer_Interrupt *DimmerIntr;
 
 struct Dimmer_Interrupt DimmerIntr1;
 
-# 193
+# 194
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3377,6 +3378,7 @@ char getDimmerIntr_DimmingValue(char lights);
 void setDimmerIntr_MinimumValue(char lights, char value);
 char getDimmerIntr_MinimumValue(char lights);
 void setDimmerIntr_Dimming_Sw(char lights, char command);
+char getDimmerIntr_Dimming_Sw(char lights);
 void setDimmerIntr_Dimming_RF(char lights, char command);
 char getAll_DimmerIntr_ControlStatus();
 char getAll_DimmerIntr_Dimming_Sw();
@@ -3387,7 +3389,7 @@ void setDimmerLights_DimmingClose();
 void setDimmerIntr_MaxmumValue(char lights, char value);
 char getDimmerIntr_MaxmumValue(char lights);
 
-# 214
+# 216
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
@@ -3397,7 +3399,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
-# 228
+# 230
 struct Dimmer {
 
 
@@ -3764,14 +3766,17 @@ case 0xd1:
 setRF_AdjControl(1);
 break;
 
-# 372
+# 376
 }
 }
 
-# 380
+# 384
 void setRFSW_Control(char sw) {
 char status = 0;
+char rfDimming = 0;
+rfDimming = RF1.flagDimming == 1 ? 1 : 0;
 
+if (rfDimming == 0) {
 if (RF_Data[16] == 0x80) {
 setDelayOff_GO(sw, 1, RF_Data[17]);
 if (getDimmerLights_Status(sw) == 1) {
@@ -3787,6 +3792,13 @@ if (status == 0) {
 setDimmerLights_SwOn(sw);
 setDimmerLights_SwOff(sw);
 
+}
+} else {
+
+RF1.flagDimming = 0;
+DimmerLights->DimmingTrigger = 1;
+DimmerLights->DimmingSwitch = 0;
+setBuz(1, 100);
 }
 }
 
@@ -3806,7 +3818,7 @@ setProductData(11, sw);
 setProductData(17, product->Data[26 + sw]);
 setProductData((20 + sw), RF_Data[9]);
 
-# 423
+# 437
 setMemory_Modify(1);
 
 
@@ -3831,17 +3843,17 @@ void setRF_AdjControl(char sw) {
 char status = 0;
 
 status = getDimmerLights_Status(sw);
+char dimmingStatus = 0;
+dimmingStatus = getDimmerIntr_Dimming_Sw(sw);
 
 if (status == 1) {
-if (RF1.flagDimming == 0) {
-RF1.flagDimming = 1;
+if (dimmingStatus == 0) {
 DimmerLights_SelectPointer(sw);
-
 DimmerLights->DimmingTrigger = 1;
 DimmerLights->DimmingSwitch = 1;
 
 } else {
-RF1.flagDimming = 0;
+DimmerLights_SelectPointer(sw);
 DimmerLights->DimmingTrigger = 1;
 DimmerLights->DimmingSwitch = 0;
 }
@@ -3858,7 +3870,7 @@ void setRF_flagDimming(char command) {
 RF1.flagDimming = command == 1 ? 1 : 0;
 }
 
-# 489
+# 503
 inline void setRF_DimmerLights(char lights, char on) {
 char status = 1;
 status <<= (lights - 1);

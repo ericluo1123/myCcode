@@ -2969,12 +2969,9 @@ unsigned int Time;
 unsigned char Count;
 
 # 26
-ADtype ADH[2];
-ADtype ADV;
+ADtype ADV[5];
 
-
-
-
+# 32
 };
 
 struct OverTemp Temp;
@@ -2986,6 +2983,7 @@ void setTemp_Main();
 void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
+void setOverTemp_ADV_Restore();
 
 # 161 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/CC2500_B1.h"
 const unsigned char CC2500_rfSettings[47] = {
@@ -3146,7 +3144,6 @@ unsigned Learn : 1;
 unsigned Key : 1;
 };
 
-
 struct {
 unsigned Sleep : 1;
 unsigned Run : 1;
@@ -3156,6 +3153,11 @@ unsigned RxChecked : 1;
 unsigned Correction : 1;
 unsigned Timeout : 1;
 unsigned All_Lights_Close : 1;
+};
+
+struct {
+unsigned flagDimming : 1;
+unsigned empty : 7;
 };
 
 unsigned int Count;
@@ -3194,6 +3196,9 @@ void setRFSW_Control(char sw);
 void setRFSW_AdjControl(char sw);
 inline void setRFSW_Status(char sw, char command);
 inline void setRF_TransceiveGO(char command);
+void setRF_AdjControl(char sw);
+char getRF_flagDimming();
+void setRF_flagDimming(char command);
 
 
 
@@ -3274,7 +3279,6 @@ unsigned MosfetClose : 1;
 
 union {
 
-# 54
 struct {
 unsigned Status : 1;
 unsigned Line : 1;
@@ -3297,14 +3301,14 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 92
+# 88
 struct DimmerLights DimmerLights1;
 
 
 
 struct DimmerLights DimmerLights2;
 
-# 111
+# 107
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3321,6 +3325,7 @@ void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
+void DimmerLights_DimmingFunction(char lights);
 
 
 char getDimmerLights_PercentToValue(char value);
@@ -3357,8 +3362,8 @@ unsigned Trigger2 : 1;
 unsigned Trigger3 : 1;
 unsigned Trigger4 : 1;
 unsigned Trigger5 : 1;
-unsigned Status:1;
-unsigned TuneGO:1;
+unsigned Status : 1;
+unsigned TuneGO : 1;
 unsigned empty : 1;
 };
 };
@@ -3386,7 +3391,7 @@ struct Dimmer_Interrupt DimmerIntr1;
 
 struct Dimmer_Interrupt DimmerIntr2;
 
-# 197
+# 194
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3394,16 +3399,18 @@ char getDimmerIntr_DimmingValue(char lights);
 void setDimmerIntr_MinimumValue(char lights, char value);
 char getDimmerIntr_MinimumValue(char lights);
 void setDimmerIntr_Dimming_Sw(char lights, char command);
+char getDimmerIntr_Dimming_Sw(char lights);
 void setDimmerIntr_Dimming_RF(char lights, char command);
 char getAll_DimmerIntr_ControlStatus();
 char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
+void setDimmerLights_DimmingClose();
 
 
 void setDimmerIntr_MaxmumValue(char lights, char value);
 char getDimmerIntr_MaxmumValue(char lights);
 
-# 217
+# 216
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
@@ -3413,7 +3420,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
-# 231
+# 230
 struct Dimmer {
 
 
@@ -3507,6 +3514,7 @@ setLoad_AH_AL_Restore();
 }
 
 
+
 inline void getLoad_AD(char channel) {
 char i = 0, j = 0, k = 0;
 ADtype ADRES = 0;
@@ -3533,7 +3541,7 @@ k = 1;
 
 inline void Load_Main() {
 char error = getMain_All_Error_Status(0);
-char Load_RunStatus = 0, ErrorCountValue = 0, LightsCount=0;
+char Load_RunStatus = 0, ErrorCountValue = 0, LightsCount = 0;
 if (Load.Enable == 1) {
 
 if (getMain_All_LightsStatus() == 0) {
@@ -3560,7 +3568,7 @@ Load.GO = 0;
 }
 }
 
-# 88
+# 89
 }
 
 
@@ -3579,6 +3587,7 @@ Load.ADL += Load.AL[i];
 }
 Load.ADH /= 3;
 Load.ADL /= 3;
+
 setLoad_AH_AL_Restore();
 
 if (Load.ADH >= Load.ADL) {
@@ -3592,7 +3601,7 @@ Load.Count++;
 
 Load_RunStatus = getDimmer_Load_Status();
 
-# 122
+# 124
 LightsCount = getMain_Lights_Count();
 
 if (Load.Count == 1) {
@@ -3619,7 +3628,7 @@ if (Load.ErrorCount > ErrorCountValue) {
 Load.ErrorCount = 0;
 Load.ERROR = 1;
 
-# 168
+# 170
 }
 } else {
 Load.ErrorCount = 0;
@@ -3637,7 +3646,7 @@ Load.TotalLoad = Load.AD;
 }
 }
 
-# 206
+# 208
 }
 }
 }
@@ -3659,12 +3668,12 @@ Load.SafeCount = 0;
 Load.ADH = 0;
 Load.ADL = 0;
 
-# 231
+# 233
 Load.Run = 0;
 Load.Count = 0;
 Load.OK = 0;
 
-# 255
+# 257
 }
 if (Load.ERROR == 1) {
 Load.ErrorTime++;

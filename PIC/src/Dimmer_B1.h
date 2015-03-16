@@ -15,7 +15,7 @@
 #endif
 #elif Properties_Keys == 2
 #if Properties_Neutral == 1
-#define TuneTime1 1
+#define TuneTime1 4
 #else
 #define TuneTime1 4
 #endif
@@ -120,6 +120,7 @@ void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
+void DimmerLights_DimmingFunction(char lights);
 
 #if CC2500_use == 1 || Properties_Product == 2
 char getDimmerLights_PercentToValue(char value);
@@ -197,6 +198,7 @@ char getDimmerIntr_DimmingValue(char lights);
 void setDimmerIntr_MinimumValue(char lights, char value);
 char getDimmerIntr_MinimumValue(char lights);
 void setDimmerIntr_Dimming_Sw(char lights, char command);
+char getDimmerIntr_Dimming_Sw(char lights);
 void setDimmerIntr_Dimming_RF(char lights, char command);
 char getAll_DimmerIntr_ControlStatus();
 char getAll_DimmerIntr_Dimming_Sw();
