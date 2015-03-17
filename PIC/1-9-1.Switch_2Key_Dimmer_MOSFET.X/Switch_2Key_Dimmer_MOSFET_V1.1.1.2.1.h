@@ -163,7 +163,8 @@
 #define Dimmer_Trigger_Mode_Value   3
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
-#define Max_Percent                 75
+#define Dimmable_Func           1
+#define Max_Percent                 77
 #define Mini_Percent                5
 //SegmentDisplay
 #define SegmentDisplay_use_Value 0

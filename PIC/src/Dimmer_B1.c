@@ -56,6 +56,7 @@ void DimmerIntr_Initialization() {
     DimmerIntr2.TuneValue3 = DimmerIntr2.TuneValue2 + (TotalCount - Dimmer_Maxum);
     DimmerIntr2.TuneValue4 = DimmerIntr2.TuneValue3 + DimmerIntr2.TuneValue2;
     DimmerIntr2.TuneEnd = DimmerIntr2.TuneValue4 + 1;
+
 #endif
 
 #endif
@@ -1162,7 +1163,7 @@ char getAll_DimmerLights_Trigger() {
 }
 
 //*********************************************************
-#if CC2500_use == 1
+//#if CC2500_use == 1
 
 char getDimmerLights_PercentToValue(char value) {
 #if Control_Method_Triac == 1
@@ -1195,7 +1196,7 @@ char getDimmerLights_ValueToPercent(char value) {
 #endif
 }
 
-#endif
+//#endif
 //******************************************************************************
 
 inline void Dimmer_Initialization() {

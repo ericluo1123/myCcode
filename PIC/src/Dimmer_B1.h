@@ -13,11 +13,12 @@
 #else 
 #define TuneTime1 7
 #endif
+
 #elif Properties_Keys == 2
 #if Properties_Neutral == 1
-#define TuneTime1 4
+#define TuneTime1 5
 #else
-#define TuneTime1 4
+#define TuneTime1 5
 #endif
 #endif
 
@@ -122,10 +123,11 @@ void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
 void DimmerLights_DimmingFunction(char lights);
 
-#if CC2500_use == 1 || Properties_Product == 2
+
+//#if CC2500_use == 1 || Properties_Product == 2
 char getDimmerLights_PercentToValue(char value);
 char getDimmerLights_ValueToPercent(char value);
-#endif
+//#endif
 
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);

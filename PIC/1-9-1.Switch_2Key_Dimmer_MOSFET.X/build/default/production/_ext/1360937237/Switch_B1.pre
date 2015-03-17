@@ -2969,12 +2969,9 @@ unsigned int Time;
 unsigned char Count;
 
 # 26
-ADtype ADH[2];
-ADtype ADV;
+ADtype ADV[5];
 
-
-
-
+# 32
 };
 
 struct OverTemp Temp;
@@ -2986,6 +2983,7 @@ void setTemp_Main();
 void setTemp_Initialization();
 inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
+void setOverTemp_ADV_Restore();
 
 # 161 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/CC2500_B1.h"
 const unsigned char CC2500_rfSettings[47] = {
@@ -3146,7 +3144,6 @@ unsigned Learn : 1;
 unsigned Key : 1;
 };
 
-
 struct {
 unsigned Sleep : 1;
 unsigned Run : 1;
@@ -3156,6 +3153,11 @@ unsigned RxChecked : 1;
 unsigned Correction : 1;
 unsigned Timeout : 1;
 unsigned All_Lights_Close : 1;
+};
+
+struct {
+unsigned flagDimming : 1;
+unsigned empty : 7;
 };
 
 unsigned int Count;
@@ -3194,6 +3196,9 @@ void setRFSW_Control(char sw);
 void setRFSW_AdjControl(char sw);
 inline void setRFSW_Status(char sw, char command);
 inline void setRF_TransceiveGO(char command);
+void setRF_AdjControl(char sw);
+char getRF_flagDimming();
+void setRF_flagDimming(char command);
 
 
 
@@ -3251,7 +3256,7 @@ void setLoad_AH_AL_Restore();
 char getLoad_OK();
 void setLoad_OK();
 
-# 28 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
+# 29 "../src/../1-9-1.Switch_2Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
 
@@ -3274,7 +3279,6 @@ unsigned MosfetClose : 1;
 
 union {
 
-# 54
 struct {
 unsigned Status : 1;
 unsigned Line : 1;
@@ -3297,14 +3301,14 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 92
+# 89
 struct DimmerLights DimmerLights1;
 
 
 
 struct DimmerLights DimmerLights2;
 
-# 111
+# 108
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3321,6 +3325,8 @@ void setDimmerLights_Line(char lights);
 char getDimmerLights_Line();
 void setDimmerLights_Status(char lights, char command);
 char getDimmerLights_Status(char lights);
+void DimmerLights_DimmingFunction(char lights);
+
 
 
 char getDimmerLights_PercentToValue(char value);
@@ -3357,8 +3363,8 @@ unsigned Trigger2 : 1;
 unsigned Trigger3 : 1;
 unsigned Trigger4 : 1;
 unsigned Trigger5 : 1;
-unsigned Status:1;
-unsigned TuneGO:1;
+unsigned Status : 1;
+unsigned TuneGO : 1;
 unsigned empty : 1;
 };
 };
@@ -3386,7 +3392,7 @@ struct Dimmer_Interrupt DimmerIntr1;
 
 struct Dimmer_Interrupt DimmerIntr2;
 
-# 197
+# 196
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3394,16 +3400,18 @@ char getDimmerIntr_DimmingValue(char lights);
 void setDimmerIntr_MinimumValue(char lights, char value);
 char getDimmerIntr_MinimumValue(char lights);
 void setDimmerIntr_Dimming_Sw(char lights, char command);
+char getDimmerIntr_Dimming_Sw(char lights);
 void setDimmerIntr_Dimming_RF(char lights, char command);
 char getAll_DimmerIntr_ControlStatus();
 char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
+void setDimmerLights_DimmingClose();
 
 
 void setDimmerIntr_MaxmumValue(char lights, char value);
 char getDimmerIntr_MaxmumValue(char lights);
 
-# 217
+# 218
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
@@ -3413,7 +3421,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
-# 231
+# 232
 struct Dimmer {
 
 
@@ -3592,7 +3600,7 @@ if (Sw->DebounceTime >= (60 / 20)) {
 Sw->DebounceTime = 0;
 Sw->Debounce = 1;
 
-# 143
+# 144
 setDimmerLights_SwOn(sw);
 
 
@@ -3604,7 +3612,7 @@ if (Sw->Hold1Time >= (1500 / 20)) {
 Sw->Hold1Time = 0;
 Sw->Hold1 = 1;
 
-# 158
+# 159
 setDimmerLights_DimmingOn(sw);
 
 
@@ -3657,7 +3665,7 @@ Sw->Hold3 = 0;
 Sw->Hold2Time = 0;
 Sw->Hold3Time = 0;
 
-# 215
+# 216
 setDimmerLights_SwOff(sw);
 
 
@@ -3671,7 +3679,7 @@ setRF_Learn(0);
 if (myMain.PowerON == 1) {
 Sw->Enable = 1;
 
-# 232
+# 233
 }
 }
 }
@@ -3680,24 +3688,24 @@ Sw->Enable = 1;
 char getSw_KeyStatus(char sw) {
 char status = 0;
 
-# 258
+# 259
 if (sw == 1) {
 status = RA0 == 1 || RB1 == 1 ? 1 : 0;
 } else if (sw == 2) {
 status = RA6 == 1 || RA4 == 1 ? 1 : 0;
 }
 
-# 275
+# 276
 return status;
 }
 
 char getAll_Sw_KeyStatus() {
 char status = 0;
 
-# 289
+# 290
 status = RA0 == 1 || RB1 == 1 || RA6 == 1 || RA4 == 1 ? 1 : 0;
 
-# 302
+# 303
 return status;
 }
 
