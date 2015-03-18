@@ -291,9 +291,14 @@ typedef unsigned int ADtype;
 #define TotalCount              60//83
 #define One_Percent		0.6//0.83
 #endif 
-#elif Properties_Keys == 2  
+#elif Properties_Keys == 2
+#if Properties_Neutral == 1
 #define TotalCount              55//83
 #define One_Percent		0.55//0.83
+#else
+#define TotalCount              55//83
+#define One_Percent		0.55//0.83
+#endif
 #endif
 
 

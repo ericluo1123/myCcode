@@ -1567,7 +1567,7 @@ inline void DimmerLights_IOC_1() {
                 DimmerIntr1.TuneValue2 = Division(DimmerIntr1.DimmingValue, 2);
                 DimmerIntr1.TuneValue3 = DimmerIntr1.TuneValue2 + (TotalCount - DimmerIntr1.DimmingValue);
                 DimmerIntr1.TuneValue4 = DimmerIntr1.TuneValue3 + DimmerIntr1.TuneValue2;
-                DimmerIntr1.TuneEnd = DimmerIntr1.TuneValue4 + 1;
+                DimmerIntr1.TuneEnd = DimmerIntr1.TuneValue4 + 5;
             }
 #if Properties_Keys == 1
 #if Properties_Neutral == 0
@@ -1737,7 +1737,7 @@ inline void DimmerLights_IOC_2() {
                 DimmerIntr2.TuneValue2 = Division(DimmerIntr2.DimmingValue, 2);
                 DimmerIntr2.TuneValue3 = DimmerIntr2.TuneValue2 + (TotalCount - DimmerIntr2.DimmingValue);
                 DimmerIntr2.TuneValue4 = DimmerIntr2.TuneValue3 + DimmerIntr2.TuneValue2;
-                DimmerIntr2.TuneEnd = DimmerIntr2.TuneValue4 + 1;
+                DimmerIntr2.TuneEnd = DimmerIntr2.TuneValue4 + 5;
             }
 #if Properties_Keys == 1
 #if Properties_Neutral == 0

@@ -170,7 +170,7 @@
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
 #define Dimmable_Func               1
-#define Max_Percent                 87 //75(69%) 80(72%) 65 (60%)
+#define Max_Percent                 87 // 75(69%) , 80(72%) , 65(60%) , 87(80%)
 #define Mini_Percent                10
 
 

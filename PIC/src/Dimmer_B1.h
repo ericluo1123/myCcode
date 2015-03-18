@@ -18,7 +18,7 @@
 #if Properties_Neutral == 1
 #define TuneTime1 5
 #else
-#define TuneTime1 5
+#define TuneTime1 4
 #endif
 #endif
 
