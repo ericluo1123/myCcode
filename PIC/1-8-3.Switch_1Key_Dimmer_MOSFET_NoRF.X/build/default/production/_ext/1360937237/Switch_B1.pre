@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 174 "../src/../1-8-3.Switch_1Key_Dimmer_MOSFET_NoRF.X/../src/Activity_B1.h"
+# 175 "../src/../1-8-3.Switch_1Key_Dimmer_MOSFET_NoRF.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -3059,6 +3059,16 @@ unsigned GO : 1;
 };
 };
 
+union {
+
+struct {
+unsigned Phase : 1;
+unsigned PhaseFirst : 1;
+unsigned PhaseSwitch : 1;
+unsigned empty : 5;
+};
+};
+
 
 unsigned char TriacCount;
 unsigned char MosfetSignalCount;
@@ -3069,10 +3079,10 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 89
+# 99
 struct DimmerLights DimmerLights1;
 
-# 108
+# 118
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3100,6 +3110,8 @@ char getDimmerLights_ValueToPercent(char value);
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);
 inline char Division(char value, char num);
+void DimmerLights_TwoPhase_Main(char lights);
+void DimmerLights_AssignationDimming(char sw);
 
 
 
@@ -3152,7 +3164,7 @@ struct Dimmer_Interrupt *DimmerIntr;
 
 struct Dimmer_Interrupt DimmerIntr1;
 
-# 196
+# 208
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3167,7 +3179,9 @@ char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
 void setDimmerLights_DimmingClose();
 
-# 218
+void setDimmerIntr_MaxmumValue(char lights, char value);
+char getDimmerIntr_MaxmumValue(char lights);
+
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
@@ -3177,7 +3191,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
-# 232
+# 239
 struct Dimmer {
 
 
@@ -3337,7 +3351,7 @@ Sw->Debounce = 1;
 if (Sw->Touch == 1) {
 if (Sw->Debounce == 0) {
 Sw->DebounceTime++;
-if (Sw->DebounceTime >= (60 / 20)) {
+if (Sw->DebounceTime >= (100 / 20)) {
 Sw->DebounceTime = 0;
 Sw->Debounce = 1;
 
@@ -3385,7 +3399,7 @@ Sw->Hold3 = 1;
 } else {
 if (Sw->Debounce == 1) {
 Sw->DebounceTime++;
-if (Sw->DebounceTime >= (60 / 20)) {
+if (Sw->DebounceTime >= (100 / 20)) {
 Sw->DebounceTime = 0;
 Sw->Debounce = 0;
 Sw->Hold1Time = 0;

@@ -142,8 +142,6 @@ char getDimmerIntr_DimmingValue(char lights) {
     return value;
 }
 
-#if CC2500_use == 1 || PIR_use == 1
-
 void setDimmerIntr_MaxmumValue(char lights, char value) {
 #ifdef use_1KEY
     if (lights == 1) {
@@ -181,7 +179,6 @@ char getDimmerIntr_MaxmumValue(char lights) {
 #endif
     return value;
 }
-#endif
 
 void setDimmerIntr_MinimumValue(char lights, char value) {
 #ifdef use_1KEY
@@ -767,8 +764,16 @@ void setDimmerLights_SwOn(char sw) {
             DimmerLights->SwFlag = true;
             if (DimmerLights->Status == false) {
                 DimmerLights->Status = true;
+
+#if Properties_NoRF == 0
                 DimmerLights->Trigger = true;
                 DimmerLights->Switch = true;
+#else
+                DimmerLights->Phase = true;
+                DimmerLights->PhaseSwitch = true;
+
+#endif
+
             } else {
                 DimmerLights->Status = false;
             }
@@ -795,8 +800,14 @@ void setDimmerLights_SwOff(char sw) {
                 DimmerLights->DimmingSwitch = false;
             }
         } else {
+
+#if Properties_NoRF == 0
             DimmerLights->Trigger = true;
             DimmerLights->Switch = false;
+#else
+            DimmerLights->Phase = true;
+            DimmerLights->PhaseSwitch = false;
+#endif
         }
     }
 }
@@ -839,6 +850,10 @@ void DimmerLights_Main() {
 
 #if Dimmable_Func == 1
     DimmerLights_DimmingFunction(1);
+#endif
+
+#if Properties_NoRF ==1
+    DimmerLights_TwoPhase_Main(1);
 #endif
 
 #endif
@@ -892,7 +907,50 @@ void setDimmerLights_Main(char lights) {
         }
     }
 }
+//******************************************************************************
 
+void DimmerLights_TwoPhase_Main(char lights) {
+
+    DimmerLights_SelectPointer(lights);
+    if (DimmerLights->Phase == true) {
+        if (DimmerLights->PhaseFirst == false) {
+  
+            if (DimmerLights->PhaseSwitch == true) {
+                DimmerLights->PhaseFirst = true;
+                DimmerLights->Trigger = true;
+                DimmerLights->Switch = true;
+            } else {
+                DimmerLights->Phase = false;
+                DimmerLights->Trigger = true;
+                DimmerLights->Switch = false;
+            }
+        } else {
+            if (DimmerLights->Trigger == false) {
+                DimmerLights->PhaseFirst = false;
+                DimmerLights->Phase = false;
+                DimmerLights_AssignationDimming(lights);
+            }
+        }
+    }
+}
+//******************************************************************************
+
+void DimmerLights_AssignationDimming(char sw) {
+    char status = 0;
+#if Dimmer_use == 1
+    status = getDimmerLights_Status(sw);
+#endif
+
+#if DimmerValue_SaveMemory == 1
+    setMemory_Modify(1);
+    //    setMemory_Modify(1);
+#endif
+
+    if (status == 1) {
+        setDimmerIntr_MaxmumValue(sw, Dimmer_Maxum);
+        setDimmerIntr_Dimming_RF(sw, 1);
+    }
+}
 //******************************************************************************
 
 void setDimmerLights_OnOff(char lights, char command) {
@@ -935,7 +993,11 @@ void setDimmerLights_OnOff(char lights, char command) {
             setDimmerIntr_MaxmumValue(lights, getDimmerLights_PercentToValue(product->Data[20 + lights]));
             setDimmerIntr_Dimming_RF(lights, 1);
         } else {
+#if Properties_NoRF == 0
             setDimmerIntr_DimmingValue(lights, getDimmerLights_PercentToValue(product->Data[20 + lights]));
+#else
+            setDimmerIntr_DimmingValue(lights, Dimmer_Medium);
+#endif
             //            setDimmerIntr_MaxmumValue(lights, getDimmerLights_PercentToValue(product->Data[20 + lights]));
             //            setProductData((20 + lights), getDimmerLights_ValueToPercent(Dimmer_Maxum));
         }

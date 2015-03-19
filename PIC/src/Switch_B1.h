@@ -4,7 +4,7 @@
 
 #if Switch_use == 1
 //define  
-#define DebounceTimeValue 	60//ms
+#define DebounceTimeValue 	100//ms
 #if Switch_Mode == 2
 #define Hold1TimeValue 		3000//ms
 #else 

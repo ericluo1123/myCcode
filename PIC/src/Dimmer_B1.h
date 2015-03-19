@@ -60,6 +60,16 @@ struct DimmerLights {
         };
     };
 
+    union {
+
+        struct {
+            unsigned Phase : 1;
+            unsigned PhaseFirst : 1;
+            unsigned PhaseSwitch : 1;
+            unsigned empty : 5;
+        };
+    };
+
 
     unsigned char TriacCount;
     unsigned char MosfetSignalCount;
@@ -132,6 +142,8 @@ char getDimmerLights_ValueToPercent(char value);
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);
 inline char Division(char value, char num);
+void DimmerLights_TwoPhase_Main(char lights);
+void DimmerLights_AssignationDimming(char sw);
 //Global extern variable declaration
 //******************************************************************************
 
@@ -207,13 +219,8 @@ char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
 void setDimmerLights_DimmingClose();
 
-#if CC2500_use == 1 || Properties_Product == 2
 void setDimmerIntr_MaxmumValue(char lights, char value);
 char getDimmerIntr_MaxmumValue(char lights);
-#else
-#define setDimmerIntr_MaxmumValue(lights,value) ;
-#define getDimmerIntr_MaxmumValue(lights) ;
-#endif
 
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);

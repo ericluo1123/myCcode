@@ -34,6 +34,7 @@
 #define Properties_Neutral_Value            0
 #define Properties_Dimmer_Value             1
 #define Debug_Value                         1
+#define Properties_NoRF_Value               1
 
 #define Create_Date "2015/03/18"
 
@@ -169,7 +170,7 @@
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
 #define Dimmable_Func               1
-#define Max_Percent                 70 // 75(69%) , 80(72%) , 65(60%) , 87(80%)
+#define Max_Percent                 82 // 75(69%) , 80(72%) , 65(60%) , 87(80%)
 #define Mini_Percent                10
 
 
