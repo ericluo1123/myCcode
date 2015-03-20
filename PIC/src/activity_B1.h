@@ -25,7 +25,7 @@
 #define Properties_Neutral Properties_Neutral_Value
 #define Properties_Dimmer Properties_Dimmer_Value
 #define Debug Debug_Value
-#define Properties_NoRF Properties_NoRF_Value
+#define Properties_TwoPhase Properties_TwoPhase_Value
 //******************************************************************************
 //Mcu Function Option
 

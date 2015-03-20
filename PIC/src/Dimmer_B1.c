@@ -765,7 +765,7 @@ void setDimmerLights_SwOn(char sw) {
             if (DimmerLights->Status == false) {
                 DimmerLights->Status = true;
 
-#if Properties_NoRF == 0
+#if Properties_TwoPhase == 0
                 DimmerLights->Trigger = true;
                 DimmerLights->Switch = true;
 #else
@@ -801,7 +801,7 @@ void setDimmerLights_SwOff(char sw) {
             }
         } else {
 
-#if Properties_NoRF == 0
+#if Properties_TwoPhase == 0
             DimmerLights->Trigger = true;
             DimmerLights->Switch = false;
 #else
@@ -852,7 +852,7 @@ void DimmerLights_Main() {
     DimmerLights_DimmingFunction(1);
 #endif
 
-#if Properties_NoRF ==1
+#if Properties_TwoPhase ==1
     DimmerLights_TwoPhase_Main(1);
 #endif
 
@@ -863,6 +863,11 @@ void DimmerLights_Main() {
 #if Dimmable_Func == 1
     DimmerLights_DimmingFunction(2);
 #endif
+
+#if Properties_TwoPhase ==1
+    DimmerLights_TwoPhase_Main(2);
+#endif
+
 #endif
 
 #ifdef use_3KEY
@@ -914,7 +919,7 @@ void DimmerLights_TwoPhase_Main(char lights) {
     DimmerLights_SelectPointer(lights);
     if (DimmerLights->Phase == true) {
         if (DimmerLights->PhaseFirst == false) {
-  
+
             if (DimmerLights->PhaseSwitch == true) {
                 DimmerLights->PhaseFirst = true;
                 DimmerLights->Trigger = true;
@@ -947,7 +952,7 @@ void DimmerLights_AssignationDimming(char sw) {
 #endif
 
     if (status == 1) {
-        setDimmerIntr_MaxmumValue(sw, Dimmer_Maxum);
+        setDimmerIntr_MaxmumValue(sw, getDimmerLights_PercentToValue(product->Data[20 + sw]));
         setDimmerIntr_Dimming_RF(sw, 1);
     }
 }
@@ -993,7 +998,7 @@ void setDimmerLights_OnOff(char lights, char command) {
             setDimmerIntr_MaxmumValue(lights, getDimmerLights_PercentToValue(product->Data[20 + lights]));
             setDimmerIntr_Dimming_RF(lights, 1);
         } else {
-#if Properties_NoRF == 0
+#if Properties_TwoPhase == 0
             setDimmerIntr_DimmingValue(lights, getDimmerLights_PercentToValue(product->Data[20 + lights]));
 #else
             setDimmerIntr_DimmingValue(lights, Dimmer_Medium);

@@ -35,7 +35,7 @@
 #define Properties_Neutral_Value            1
 #define Properties_Dimmer_Value             1
 #define Debug_Value                         1
-
+#define Properties_TwoPhase_Value           1
 
 #define Create_Date "2014/10/29"
 #define PCB_Name "TH-302PV11-1-Dim(20140722)"

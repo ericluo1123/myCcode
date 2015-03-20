@@ -35,6 +35,7 @@
 #define Properties_Neutral_Value            0
 #define Properties_Dimmer_Value             1
 #define Debug_Value                         1
+#define Properties_TwoPhase_Value           1
 
 
 #define Create_Date "2014/10/29"
@@ -135,8 +136,8 @@
 #define TempSafeValue_Value         420     //NTC 61度
 //OverLoad
 #define OverLoad_use_Value  1
-#define LimitCurrent_Value  1.1//A
-#define LinearParam_Value   85
+#define LimitCurrent_Value  1.2//A
+#define LinearParam_Value   56
 //LED
 #define LED_use_Value 1
 #define PIRLED_use_Value 0

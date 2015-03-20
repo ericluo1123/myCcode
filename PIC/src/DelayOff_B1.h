@@ -5,9 +5,10 @@
 #define _DelayOff_H_
 
 #if DelayOff_use == 1
-#define DelayOff_Debug  0
 
-#define SecondTimeValue 60000/Main_Time
+#define DelayOff_Debug  0
+#define DelayOffset 10000
+#define SecondTimeValue (60000-DelayOffset)/Main_Time
 
 //#if	Switch_Class == 1
 //#define SecondTimeValue 5600	//*10ms

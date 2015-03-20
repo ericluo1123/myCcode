@@ -34,7 +34,7 @@
 #define Properties_Neutral_Value            0
 #define Properties_Dimmer_Value             1
 #define Debug_Value                         1
-#define Properties_NoRF_Value               1
+#define Properties_TwoPhase_Value           1
 
 #define Create_Date "2015/03/18"
 
