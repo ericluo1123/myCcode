@@ -7,7 +7,15 @@
 #if DelayOff_use == 1
 
 #define DelayOff_Debug  0
+#if	Switch_Class == 1
 #define DelayOffset 10000
+#endif
+#if	Switch_Class == 2
+#define DelayOffset 10000
+#endif
+#if	Switch_Class == 3
+#define DelayOffset 10000
+#endif
 #define SecondTimeValue (60000-DelayOffset)/Main_Time
 
 //#if	Switch_Class == 1

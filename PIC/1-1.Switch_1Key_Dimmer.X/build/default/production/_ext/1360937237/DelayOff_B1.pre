@@ -831,7 +831,7 @@ inline void Dimmer_Initialization();
 char getDimmer_LoadGO();
 char getDimmer_Load_Status();
 
-# 24 "../src/../1-1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h"
+# 25 "../src/../1-1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h"
 struct DelayOff {
 
 struct {
@@ -849,7 +849,7 @@ struct DelayOff *DelayOff;
 
 struct DelayOff DlySw1;
 
-# 50
+# 51
 inline void DelayOff_Initialization();
 inline void DelayOff_Main();
 char DelayTimejudge(char value);
@@ -3517,7 +3517,7 @@ void DlyOff_Main(char sw) {
 DelayOffPointSelect(sw);
 if (DelayOff->GO == 1) {
 DelayOff->SecondTime++;
-if (DelayOff->SecondTime >= 60000/Main_Time_Value) {
+if (DelayOff->SecondTime >= (60000-10000)/20) {
 DelayOff->SecondTime = 0;
 DelayOff->MinuteTime++;
 if (DelayOff->MinuteTime >= DelayOff->Value) {

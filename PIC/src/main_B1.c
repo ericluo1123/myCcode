@@ -484,15 +484,15 @@ char getMain_Lights_Count() {
 #endif
 
 #if Switch_Class == 1
-    return count = status1;
+    count = status1;
 #endif
 #if Switch_Class == 2
-    return count = (status1 + status2);
+    count = (status1 + status2);
 #endif 
 #if Switch_Class == 3
-    return count = (status1 + status2 + status3);
+    count = (status1 + status2 + status3);
 #endif
-
+    return count;
 }
 //*****************************************************************************
 

@@ -43,10 +43,10 @@
 #define LED1    			RA1		//pin3	1
 #define LED2				RA2		//pin4	1
 #define	PinEmpty5        		RA3		//pin5	0
-#define	Key1_2				RA4		//pin6 	1	
+#define	undefined1			RA4		//pin6 	1
 #define PFV1				RA5		//pin7	1
-#define	Key1_1				RA6		//pin10 1			
-#define	Key1_4                  	RA7		//pin9	1
+#define	undefined2			RA6		//pin10 1
+#define undefined3                     	RA7		//pin9	1
 
 #define TTPW    			RB0		//pin21 0
 #define PinEmpty6			RB1		//pin22 0
@@ -68,7 +68,7 @@
 
 //I/O
 #define _TRISA 	0b00000000;
-#define _TRISB 	0b00000000;
+#define _TRISB 	0b00000001;
 #define _TRISC 	0b11100110;
 #define _LATA	0b00000000;
 #define _LATB	0b00000000;
@@ -77,9 +77,10 @@
 #define _ANSELB 0b00000000;
 #define _ANSELC 0b00000000;
 #define _PORTA 	0b00000000;
-#define _PORTB 	0b00000000;
+#define _PORTB 	0b00000001;
 #define _PORTC 	0b11100110;
 
+#define _WPUB   0b00000001;
 //ADC channel
 #define OverLoad_Channel		AN1
 #define OverTemp_Channel		AN2
@@ -89,6 +90,8 @@
 
 //Oscillator (System FOSC)
 #define	System_Fosc_16M
+//Main Time
+#define Main_Time_Value 20//ms
 //MCU
 #define MCU_16F1516
 //interrupt time
@@ -104,7 +107,7 @@
 //INT
 #define INT_use_Value   0
 //UART
-#define UART_use_Value              1
+#define UART_use_Value              0
 #define UART_Master_Value           1
 #define UART_Slave_Value            0
 #define UART_Data_Length_Vallue     9

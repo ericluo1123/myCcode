@@ -2621,16 +2621,19 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 15 "../src/../0-4.UARTtoRF.X/../src/MCU_B1.h"
+# 8 "../src/../0-4.UARTtoRF.X/../src/MCU_B1.h"
+void interrupt ISR(void);
+
+# 17
 void Mcu_Initialization();
 
-# 20
+# 22
 void IO_Set();
 
-# 224
+# 226
 void Fosc_Set();
 
-# 440
+# 447
 struct Timer1 {
 
 struct {
@@ -2643,38 +2646,6 @@ struct Timer1 Timer1;
 
 inline void TMR1_Set();
 inline void TMR1_ISR();
-inline void setDimmerReClock();
-
-# 634
-struct UART {
-
-
-unsigned char Data[9];
-unsigned char Count;
-unsigned char Time;
-
-
-struct {
-unsigned TxGO : 1;
-unsigned RxGO : 1;
-unsigned TxRun : 1;
-unsigned RxRun : 1;
-unsigned RxAllow : 1;
-unsigned empty : 3;
-};
-
-};
-struct UART UART;
-
-void putch(unsigned char);
-unsigned char getch(void);
-unsigned char getche(void);
-void UART_Set();
-void UART_ISR();
-void UART_Main();
-void UART_Transmit();
-void UART_Receive();
-void UART_SetData();
 
 # 11 "../src/../0-4.UARTtoRF.X/../src/Main_B1.h"
 typedef struct Product {
@@ -2692,7 +2663,22 @@ Product _product = {
 }
 };
 
-# 62
+# 56
+inline void setProductData(char address, char value);
+
+# 61
+struct command {
+
+struct {
+unsigned all_off : 1;
+unsigned empty : 7;
+};
+};
+struct command Cmd;
+
+void setCmd_Status(char number, char cmd);
+char getCmd_Status(char number);
+
 struct myMain {
 
 struct {
@@ -2713,24 +2699,15 @@ unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 86
-struct {
-unsigned i : 1;
-unsigned j : 1;
-unsigned k : 1;
-unsigned l : 1;
-unsigned m : 1;
-unsigned n : 1;
-unsigned o : 1;
-unsigned p : 1;
-};
-
+# 108
 struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
-unsigned Error_Run:1;
-unsigned empty : 4;
+unsigned Error_Run : 1;
+unsigned InitDimmer : 1;
+unsigned SaveDimmer:1;
+unsigned empty:2;
 };
 
 unsigned int Timeout_Counter;
@@ -2738,27 +2715,26 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 117
+# 130
 void myMain_Initialization();
 
-# 122
+# 135
 inline void my_Main();
 
-# 127
+# 140
 inline void my_MainTimer();
 
-# 132
+# 145
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
 char getMain_AD_OK();
-char getMain_LightsStatus();
+char getMain_All_LightsStatus();
 char getMain_All_Error_Status(char command);
 char getMain_Lights_Count();
-char getMain_LoadOK();
 void Exception_Main();
 
-# 90 "../src/../0-4.UARTtoRF.X/../src/Switch_B1.h"
+# 97 "../src/../0-4.UARTtoRF.X/../src/Switch_B1.h"
 struct SwitchDetect {
 
 union {
@@ -2772,7 +2748,7 @@ unsigned empty : 7;
 struct SwitchDetect SwDetect;
 
 # 161 "../src/../0-4.UARTtoRF.X/../src/CC2500_B1.h"
-const unsigned char CC2500_rfSettings[47] ={
+const unsigned char CC2500_rfSettings[47] = {
 
 
 0x07,
@@ -2828,7 +2804,7 @@ const unsigned char CC2500_rfSettings[47] ={
 
 
 
-const unsigned char CC2500_registers_address[47] ={
+const unsigned char CC2500_registers_address[47] = {
 
 0x03,
 0x16,
@@ -2904,19 +2880,19 @@ void CC2500_InitPATable(void);
 void CC2500_ClearTXFIFO(void);
 void CC2500_ClearRXFIFO(void);
 void CC2500_FrequencyCabr(void);
-inline void CC2500_SIDLEMode(void);
+void CC2500_SIDLEMode(void);
 
-inline void CC2500_WriteByte(void);
-inline void CC2500_WriteREG(unsigned char addr, unsigned char value);
-inline void CC2500_ReadByte(void);
-inline void CC2500_ReadREG(unsigned char addr);
-inline void CC2500_ReadStatus(unsigned char s_addr);
-inline void CC2500_WriteCommand(unsigned char command);
-inline void CC2500_TxData();
-inline void CC2500_RxData(void);
+void CC2500_WriteByte(void);
+void CC2500_WriteREG(unsigned char addr, unsigned char value);
+void CC2500_ReadByte(void);
+void CC2500_ReadREG(unsigned char addr);
+void CC2500_ReadStatus(unsigned char s_addr);
+void CC2500_WriteCommand(unsigned char command);
+void CC2500_TxData();
+void CC2500_RxData(void);
 void DelayTime_1us(int count);
 
-# 11 "../src/../0-4.UARTtoRF.X/../src/RF_Control_B1.h"
+# 12 "../src/../0-4.UARTtoRF.X/../src/RF_Control_B1.h"
 struct RF {
 
 struct {
@@ -2937,7 +2913,13 @@ unsigned Bus : 1;
 unsigned Checked : 1;
 unsigned RxChecked : 1;
 unsigned Correction : 1;
-unsigned empty : 2;
+unsigned Timeout : 1;
+unsigned All_Lights_Close : 1;
+};
+
+struct {
+unsigned flagDimming : 1;
+unsigned empty : 7;
 };
 
 unsigned int Count;
@@ -2946,6 +2928,7 @@ unsigned int CheckedCounter;
 unsigned int RunTime;
 unsigned char DebounceTime;
 unsigned int CorrectionCounter;
+unsigned int TimeoutCount;
 
 };
 
@@ -2954,28 +2937,65 @@ struct RF RF1;
 
 
 inline void RF_Initialization();
+inline void setRF_Initialization();
 inline void RF_Main();
-void setRF_Initialization();
-void setRF_Main();
-void setTxData();
-void getRxData();
-void setRF_Enable(char command);
-void setLog_Code();
-void setControl_Lights_Table();
-void RF_RxDisable();
-void setRF_Learn(char command);
-void setRF_ReceiveGO(char command);
-void setRF_RxStatus(char command);
-char getRF_KeyStatus();
+inline void setRF_Main();
+inline void setTxData();
+inline void getRxData();
 
+inline void setLog_Code();
+inline void setControl_Lights_Table();
+inline void RF_RxDisable();
+inline void setRF_Learn(char command);
 
+inline void setRF_RxStatus(char command);
+inline char getRF_KeyStatus();
+inline void RF_Timeout_Counter();
+inline void setRF_TimeoutCleared();
 
 
 void setRFSW_Control(char sw);
 void setRFSW_AdjControl(char sw);
-void setRFSW_Status(char sw, char command);
+inline void setRFSW_Status(char sw, char command);
+inline void setRF_TransceiveGO(char command);
+void setRF_AdjControl(char sw);
+char getRF_flagDimming();
+void setRF_flagDimming(char command);
 
-# 25 "../src/../0-4.UARTtoRF.X/../src/myUARTtoRF.h"
+# 117 "../src/../0-4.UARTtoRF.X/../src/TriacRelay_B1.h"
+struct Light {
+
+struct {
+unsigned LoadGO : 1;
+unsigned Load_Status : 1;
+unsigned empty : 6;
+};
+};
+struct Light Light;
+
+char getLight_LoadGO();
+char getLight_Load_Status();
+
+# 19 "../src/../0-4.UARTtoRF.X/../src/myUARTtoRF.h"
+void uartC_timer_strat(int time_ms);
+void uartC_switch_function_1();
 void myUARTtoRF_Initialization();
 void myUARTtoRF_Main();
+
+# 29
+struct uartC {
+
+union {
+
+struct {
+unsigned Timer_Enable : 1;
+unsigned Switch_Enable_1:1;
+unsigned Switch_Status:1;
+};
+};
+int time;
+int time_value;
+};
+
+struct uartC u1;
 

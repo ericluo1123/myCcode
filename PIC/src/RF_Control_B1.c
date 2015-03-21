@@ -402,7 +402,7 @@ void setRFSW_Control(char sw) {
     }
 }
 //*********************************************************
-
+#if Dimmer_use == 1
 void setRFSW_AdjControl(char sw) {
     char status = 0;
 #if Dimmer_use == 1
@@ -429,8 +429,10 @@ void setRFSW_AdjControl(char sw) {
 #endif
 
     if (status == 1) {
+
         setDimmerIntr_MaxmumValue(sw, getDimmerLights_PercentToValue(RF_Data[9]));
         setDimmerIntr_Dimming_RF(sw, 1);
+
         setTxData();
         //        setRF_DimmerValue(sw);
     } else if (status == 0) {
@@ -442,8 +444,11 @@ void setRFSW_AdjControl(char sw) {
         setDimmerLights_SwOff(sw);
     }
 }
-//*********************************************************
+#endif
 
+#endif
+//*********************************************************
+#if Dimmer_use == 1
 void setRF_AdjControl(char sw) {
     char status = 0;
 #if Dimmer_use == 1

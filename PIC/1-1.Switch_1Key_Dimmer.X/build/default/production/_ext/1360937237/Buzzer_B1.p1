@@ -152,6 +152,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 "746
 [s S287 `S288 1 `uc 1 ]
 [n S287 WDT . Timer ]
+"4529 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f1518.h
+[v _RB3 `Vb ~T0 @X0 0 e@107 ]
 [; ;Main_B1.h: 11: typedef struct Product {
 [; ;Main_B1.h: 12: unsigned char Data[32];
 [; ;Main_B1.h: 13: } Product;
@@ -3042,3 +3044,257 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.h: 771: void WDT_Set();
 [; ;MCU_B1.h: 772: void WDT_Main();
 [; ;MCU_B1.h: 773: void WDT_Clearing();
+[v F318 `(v ~T0 @X0 1 tf ]
+"11 ../src/Buzzer_B1.c
+[v _Buzzer_Initialization `TF318 ~T0 @X0 1 e ]
+{
+[; ;Buzzer_B1.c: 11: inline void Buzzer_Initialization() {
+[e :U _Buzzer_Initialization ]
+[f ]
+[; ;Buzzer_B1.c: 13: Buz1.Enable = 1;
+"13
+[e = . . _Buz1 0 0 -> -> 1 `i `uc ]
+[; ;Buzzer_B1.c: 14: }
+"14
+[e :UE 289 ]
+}
+"17
+[v _setBuz_Enable `(v ~T0 @X0 1 ef1`uc ]
+{
+[; ;Buzzer_B1.c: 17: void setBuz_Enable(char command) {
+[e :U _setBuz_Enable ]
+[v _command `uc ~T0 @X0 1 r1 ]
+[f ]
+[; ;Buzzer_B1.c: 18: Buz1.Enable = command;
+"18
+[e = . . _Buz1 0 0 _command ]
+[; ;Buzzer_B1.c: 19: }
+"19
+[e :UE 290 ]
+}
+"22
+[v _setBuz `(v ~T0 @X0 1 ef2`uc`i ]
+{
+[; ;Buzzer_B1.c: 22: void setBuz(char count, int time) {
+[e :U _setBuz ]
+[v _count `uc ~T0 @X0 1 r1 ]
+[v _time `i ~T0 @X0 1 r2 ]
+[f ]
+[; ;Buzzer_B1.c: 23: time /= 20;
+"23
+[e =/ _time -> -> 20 `uc `i ]
+[; ;Buzzer_B1.c: 24: if (Buz1.Enable == 1) {
+"24
+[e $ ! == -> . . _Buz1 0 0 `i -> 1 `i 292  ]
+{
+[; ;Buzzer_B1.c: 25: if (Buz1.GO == 0) {
+"25
+[e $ ! == -> . . _Buz1 0 1 `i -> 0 `i 293  ]
+{
+[; ;Buzzer_B1.c: 26: Buz1.GO = 1;
+"26
+[e = . . _Buz1 0 1 -> -> 1 `i `uc ]
+[; ;Buzzer_B1.c: 27: Buz1.Counter = 0;
+"27
+[e = . _Buz1 1 -> -> 0 `i `ui ]
+[; ;Buzzer_B1.c: 28: Buz1.Count = count;
+"28
+[e = . _Buz1 2 _count ]
+[; ;Buzzer_B1.c: 29: Buz1.TimeValue = time;
+"29
+[e = . _Buz1 5 -> _time `ui ]
+[; ;Buzzer_B1.c: 30: RB3 = 1;
+"30
+[e = _RB3 -> -> 1 `i `b ]
+"31
+}
+[; ;Buzzer_B1.c: 31: } else {
+[e $U 294  ]
+[e :U 293 ]
+{
+[; ;Buzzer_B1.c: 32: if (Buz1.BufferStatus1 == 0) {
+"32
+[e $ ! == -> . . _Buz1 0 3 `i -> 0 `i 295  ]
+{
+[; ;Buzzer_B1.c: 33: Buz1.BufferStatus1 = 1;
+"33
+[e = . . _Buz1 0 3 -> -> 1 `i `uc ]
+[; ;Buzzer_B1.c: 34: Buz1.CountBuffer1 = count;
+"34
+[e = . _Buz1 3 _count ]
+[; ;Buzzer_B1.c: 35: Buz1.TimeValueBuffer1 = time;
+"35
+[e = . _Buz1 6 -> _time `ui ]
+"36
+}
+[; ;Buzzer_B1.c: 36: } else if (Buz1.BufferStatus2 == 0) {
+[e $U 296  ]
+[e :U 295 ]
+[e $ ! == -> . . _Buz1 0 4 `i -> 0 `i 297  ]
+{
+[; ;Buzzer_B1.c: 37: Buz1.BufferStatus2 = 1;
+"37
+[e = . . _Buz1 0 4 -> -> 1 `i `uc ]
+[; ;Buzzer_B1.c: 38: Buz1.CountBuffer2 = count;
+"38
+[e = . _Buz1 4 _count ]
+[; ;Buzzer_B1.c: 39: Buz1.TimeValueBuffer2 = time;
+"39
+[e = . _Buz1 7 -> _time `ui ]
+"40
+}
+[e :U 297 ]
+"41
+[e :U 296 ]
+}
+[e :U 294 ]
+"42
+}
+[e :U 292 ]
+[; ;Buzzer_B1.c: 40: }
+[; ;Buzzer_B1.c: 41: }
+[; ;Buzzer_B1.c: 42: }
+[; ;Buzzer_B1.c: 43: }
+"43
+[e :UE 291 ]
+}
+[v F320 `(v ~T0 @X0 1 tf ]
+"46
+[v _Buzzer_Main `TF320 ~T0 @X0 1 e ]
+{
+[; ;Buzzer_B1.c: 46: inline void Buzzer_Main() {
+[e :U _Buzzer_Main ]
+[f ]
+[; ;Buzzer_B1.c: 47: if (Buz1.GO == 1) {
+"47
+[e $ ! == -> . . _Buz1 0 1 `i -> 1 `i 299  ]
+{
+[; ;Buzzer_B1.c: 48: Buz1.Counter++;
+"48
+[e ++ . _Buz1 1 -> -> 1 `i `ui ]
+[; ;Buzzer_B1.c: 49: if (Buz1.Counter >= Buz1.TimeValue) {
+"49
+[e $ ! >= . _Buz1 1 . _Buz1 5 300  ]
+{
+[; ;Buzzer_B1.c: 50: Buz1.Counter = 0;
+"50
+[e = . _Buz1 1 -> -> 0 `i `ui ]
+[; ;Buzzer_B1.c: 51: Buz1.Switch = (RB3 == 1) ? 1 : 0;
+"51
+[e = . . _Buz1 0 5 -> ? == -> _RB3 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
+[; ;Buzzer_B1.c: 52: if (Buz1.Switch == 0) {
+"52
+[e $ ! == -> . . _Buz1 0 5 `i -> 0 `i 301  ]
+{
+[; ;Buzzer_B1.c: 53: if (Buz1.Count == 0) {
+"53
+[e $ ! == -> . _Buz1 2 `i -> 0 `i 302  ]
+{
+[; ;Buzzer_B1.c: 54: if (Buz1.BufferStatus1 == 1) {
+"54
+[e $ ! == -> . . _Buz1 0 3 `i -> 1 `i 303  ]
+{
+[; ;Buzzer_B1.c: 55: Buz1.BufferStatus1 = 0;
+"55
+[e = . . _Buz1 0 3 -> -> 0 `i `uc ]
+[; ;Buzzer_B1.c: 56: Buz1.Count = Buz1.CountBuffer1;
+"56
+[e = . _Buz1 2 . _Buz1 3 ]
+[; ;Buzzer_B1.c: 57: Buz1.TimeValue = Buz1.TimeValueBuffer1;
+"57
+[e = . _Buz1 5 . _Buz1 6 ]
+"58
+}
+[; ;Buzzer_B1.c: 58: } else if (Buz1.BufferStatus2 == 1) {
+[e $U 304  ]
+[e :U 303 ]
+[e $ ! == -> . . _Buz1 0 4 `i -> 1 `i 305  ]
+{
+[; ;Buzzer_B1.c: 59: Buz1.BufferStatus2 = 0;
+"59
+[e = . . _Buz1 0 4 -> -> 0 `i `uc ]
+[; ;Buzzer_B1.c: 60: Buz1.Count = Buz1.CountBuffer2;
+"60
+[e = . _Buz1 2 . _Buz1 4 ]
+[; ;Buzzer_B1.c: 61: Buz1.TimeValue = Buz1.TimeValueBuffer2;
+"61
+[e = . _Buz1 5 . _Buz1 7 ]
+"62
+}
+[; ;Buzzer_B1.c: 62: } else {
+[e $U 306  ]
+[e :U 305 ]
+{
+[; ;Buzzer_B1.c: 63: Buz1.GO = 0;
+"63
+[e = . . _Buz1 0 1 -> -> 0 `i `uc ]
+"64
+}
+[e :U 306 ]
+[e :U 304 ]
+"65
+}
+[; ;Buzzer_B1.c: 64: }
+[; ;Buzzer_B1.c: 65: } else {
+[e $U 307  ]
+[e :U 302 ]
+{
+[; ;Buzzer_B1.c: 66: Buz1.Switch = 1;
+"66
+[e = . . _Buz1 0 5 -> -> 1 `i `uc ]
+[; ;Buzzer_B1.c: 68: RB3 = 1;
+"68
+[e = _RB3 -> -> 1 `i `b ]
+"69
+}
+[e :U 307 ]
+"70
+}
+[; ;Buzzer_B1.c: 69: }
+[; ;Buzzer_B1.c: 70: } else {
+[e $U 308  ]
+[e :U 301 ]
+{
+[; ;Buzzer_B1.c: 71: Buz1.Switch = 0;
+"71
+[e = . . _Buz1 0 5 -> -> 0 `i `uc ]
+[; ;Buzzer_B1.c: 73: RB3 = 0;
+"73
+[e = _RB3 -> -> 0 `i `b ]
+[; ;Buzzer_B1.c: 75: Buz1.Count--;
+"75
+[e -- . _Buz1 2 -> -> 1 `i `uc ]
+"76
+}
+[e :U 308 ]
+"77
+}
+[e :U 300 ]
+"78
+}
+[e :U 299 ]
+[; ;Buzzer_B1.c: 76: }
+[; ;Buzzer_B1.c: 77: }
+[; ;Buzzer_B1.c: 78: }
+[; ;Buzzer_B1.c: 79: }
+"79
+[e :UE 298 ]
+}
+"82
+[v _getBuz_GO `(i ~T0 @X0 1 ef ]
+{
+[; ;Buzzer_B1.c: 82: int getBuz_GO() {
+[e :U _getBuz_GO ]
+[f ]
+"83
+[v _i `i ~T0 @X0 1 a ]
+[; ;Buzzer_B1.c: 83: int i = Buz1.GO;
+[e = _i -> . . _Buz1 0 1 `i ]
+[; ;Buzzer_B1.c: 84: return i;
+"84
+[e ) _i ]
+[e $UE 309  ]
+[; ;Buzzer_B1.c: 85: }
+"85
+[e :UE 309 ]
+}

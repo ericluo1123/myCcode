@@ -152,6 +152,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 "746
 [s S287 `S288 1 `uc 1 ]
 [n S287 WDT . Timer ]
+"54 ../src/../1-1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h
+[v _DlyOff_Initialization `(v ~T0 @X0 0 ef1`uc ]
+"55
+[v _DlyOff_Main `(v ~T0 @X0 0 ef1`uc ]
+"133 ../src/../1-1.Switch_1Key_Dimmer.X/../src/Dimmer_B1.h
+[v _getDimmerLights_Status `(uc ~T0 @X0 0 ef1`uc ]
+"121
+[v _setDimmerLights_SwOn `(v ~T0 @X0 0 ef1`uc ]
+"122
+[v _setDimmerLights_SwOff `(v ~T0 @X0 0 ef1`uc ]
+[v F9 `(v ~T0 @X0 1 tf2`uc`uc ]
+"56 ../src/../1-1.Switch_1Key_Dimmer.X/../src/Main_B1.h
+[v _setProductData `TF9 ~T0 @X0 0 e ]
 [; ;Main_B1.h: 11: typedef struct Product {
 [; ;Main_B1.h: 12: unsigned char Data[32];
 [; ;Main_B1.h: 13: } Product;
@@ -3042,3 +3055,283 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.h: 771: void WDT_Set();
 [; ;MCU_B1.h: 772: void WDT_Main();
 [; ;MCU_B1.h: 773: void WDT_Clearing();
+"7 ../src/DelayOff_B1.c
+[v _DelayOffPointSelect `(v ~T0 @X0 1 ef1`uc ]
+{
+[; ;DelayOff_B1.c: 7: void DelayOffPointSelect(char sw) {
+[e :U _DelayOffPointSelect ]
+[v _sw `uc ~T0 @X0 1 r1 ]
+[f ]
+[; ;DelayOff_B1.c: 9: if (sw == 1) {
+"9
+[e $ ! == -> _sw `i -> 1 `i 290  ]
+{
+[; ;DelayOff_B1.c: 10: DelayOff = &DlySw1;
+"10
+[e = _DelayOff &U _DlySw1 ]
+"11
+}
+[e :U 290 ]
+[; ;DelayOff_B1.c: 11: }
+[; ;DelayOff_B1.c: 23: }
+"23
+[e :UE 289 ]
+}
+[v F719 `(v ~T0 @X0 1 tf ]
+"26
+[v _DelayOff_Initialization `TF719 ~T0 @X0 1 e ]
+{
+[; ;DelayOff_B1.c: 26: inline void DelayOff_Initialization() {
+[e :U _DelayOff_Initialization ]
+[f ]
+[; ;DelayOff_B1.c: 28: DlyOff_Initialization(1);
+"28
+[e ( _DlyOff_Initialization (1 -> -> 1 `i `uc ]
+[; ;DelayOff_B1.c: 38: }
+"38
+[e :UE 291 ]
+}
+[v F721 `(v ~T0 @X0 1 tf ]
+"41
+[v _DelayOff_Main `TF721 ~T0 @X0 1 e ]
+{
+[; ;DelayOff_B1.c: 41: inline void DelayOff_Main() {
+[e :U _DelayOff_Main ]
+[f ]
+[; ;DelayOff_B1.c: 43: DlyOff_Main(1);
+"43
+[e ( _DlyOff_Main (1 -> -> 1 `i `uc ]
+[; ;DelayOff_B1.c: 53: }
+"53
+[e :UE 292 ]
+}
+"56
+[v _DlyOff_Initialization `(v ~T0 @X0 1 ef1`uc ]
+{
+[; ;DelayOff_B1.c: 56: void DlyOff_Initialization(char sw) {
+[e :U _DlyOff_Initialization ]
+[v _sw `uc ~T0 @X0 1 r1 ]
+[f ]
+[; ;DelayOff_B1.c: 57: DelayOffPointSelect(sw);
+"57
+[e ( _DelayOffPointSelect (1 _sw ]
+[; ;DelayOff_B1.c: 58: }
+"58
+[e :UE 293 ]
+}
+"61
+[v _DlyOff_Main `(v ~T0 @X0 1 ef1`uc ]
+{
+[; ;DelayOff_B1.c: 61: void DlyOff_Main(char sw) {
+[e :U _DlyOff_Main ]
+[v _sw `uc ~T0 @X0 1 r1 ]
+[f ]
+[; ;DelayOff_B1.c: 63: DelayOffPointSelect(sw);
+"63
+[e ( _DelayOffPointSelect (1 _sw ]
+[; ;DelayOff_B1.c: 64: if (DelayOff->GO == 1) {
+"64
+[e $ ! == -> . . *U _DelayOff 0 1 `i -> 1 `i 295  ]
+{
+[; ;DelayOff_B1.c: 65: DelayOff->SecondTime++;
+"65
+[e ++ . *U _DelayOff 2 -> -> 1 `i `ui ]
+[; ;DelayOff_B1.c: 66: if (DelayOff->SecondTime >= (60000-10000)/20) {
+"66
+[e $ ! >= -> . *U _DelayOff 2 `l / - -> 60000 `l -> -> 10000 `i `l -> -> 20 `i `l 296  ]
+{
+[; ;DelayOff_B1.c: 67: DelayOff->SecondTime = 0;
+"67
+[e = . *U _DelayOff 2 -> -> 0 `i `ui ]
+[; ;DelayOff_B1.c: 68: DelayOff->MinuteTime++;
+"68
+[e ++ . *U _DelayOff 3 -> -> 1 `i `uc ]
+[; ;DelayOff_B1.c: 69: if (DelayOff->MinuteTime >= DelayOff->Value) {
+"69
+[e $ ! >= -> . *U _DelayOff 3 `i -> . *U _DelayOff 1 `i 297  ]
+{
+[; ;DelayOff_B1.c: 70: DelayOff->MinuteTime = 0;
+"70
+[e = . *U _DelayOff 3 -> -> 0 `i `uc ]
+[; ;DelayOff_B1.c: 71: DelayOff->GO = 0;
+"71
+[e = . . *U _DelayOff 0 1 -> -> 0 `i `uc ]
+[; ;DelayOff_B1.c: 75: if (getDimmerLights_Status(sw) == 1) {
+"75
+[e $ ! == -> ( _getDimmerLights_Status (1 _sw `i -> 1 `i 298  ]
+{
+[; ;DelayOff_B1.c: 76: setDimmerLights_SwOn(sw);
+"76
+[e ( _setDimmerLights_SwOn (1 _sw ]
+[; ;DelayOff_B1.c: 77: setDimmerLights_SwOff(sw);
+"77
+[e ( _setDimmerLights_SwOff (1 _sw ]
+"78
+}
+[e :U 298 ]
+[; ;DelayOff_B1.c: 78: }
+[; ;DelayOff_B1.c: 80: setProductData(26 + sw, 0);
+"80
+[e ( _setProductData (2 , -> + -> 26 `i -> _sw `i `uc -> -> 0 `i `uc ]
+"81
+}
+[e :U 297 ]
+"82
+}
+[e :U 296 ]
+"83
+}
+[e :U 295 ]
+[; ;DelayOff_B1.c: 81: }
+[; ;DelayOff_B1.c: 82: }
+[; ;DelayOff_B1.c: 83: }
+[; ;DelayOff_B1.c: 84: }
+"84
+[e :UE 294 ]
+}
+"87
+[v _setDelayOff_GO `(v ~T0 @X0 1 ef3`uc`uc`uc ]
+{
+[; ;DelayOff_B1.c: 87: void setDelayOff_GO(char sw, char command, char value) {
+[e :U _setDelayOff_GO ]
+[v _sw `uc ~T0 @X0 1 r1 ]
+[v _command `uc ~T0 @X0 1 r2 ]
+[v _value `uc ~T0 @X0 1 r3 ]
+[f ]
+[; ;DelayOff_B1.c: 89: DelayOffPointSelect(sw);
+"89
+[e ( _DelayOffPointSelect (1 _sw ]
+[; ;DelayOff_B1.c: 90: DelayOff->GO = command == 1 ? 1 : 0;
+"90
+[e = . . *U _DelayOff 0 1 -> ? == -> _command `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
+[; ;DelayOff_B1.c: 91: DelayOff->SecondTime = 0;
+"91
+[e = . *U _DelayOff 2 -> -> 0 `i `ui ]
+[; ;DelayOff_B1.c: 92: DelayOff->MinuteTime = 0;
+"92
+[e = . *U _DelayOff 3 -> -> 0 `i `uc ]
+[; ;DelayOff_B1.c: 94: if (command == 1) {
+"94
+[e $ ! == -> _command `i -> 1 `i 300  ]
+{
+"96
+[v _i `uc ~T0 @X0 1 a ]
+[; ;DelayOff_B1.c: 96: char i = 5, j = 0, k = 0;
+[e = _i -> -> 5 `i `uc ]
+[v _j `uc ~T0 @X0 1 a ]
+[e = _j -> -> 0 `i `uc ]
+[v _k `uc ~T0 @X0 1 a ]
+[e = _k -> -> 0 `i `uc ]
+[; ;DelayOff_B1.c: 97: if (((value % 16) == 5 || (value % 16) == 0) && value <= 0x30) {
+"97
+[e $ ! && || == % -> _value `i -> 16 `i -> 5 `i == % -> _value `i -> 16 `i -> 0 `i <= -> _value `i -> 48 `i 301  ]
+{
+[; ;DelayOff_B1.c: 98: j = value & 0x0f;
+"98
+[e = _j -> & -> _value `i -> 15 `i `uc ]
+[; ;DelayOff_B1.c: 99: k = (value >> 4) & 0x0f;
+"99
+[e = _k -> & >> -> _value `i -> 4 `i -> 15 `i `uc ]
+[; ;DelayOff_B1.c: 100: DelayOff->Value = j + (k * 10);
+"100
+[e = . *U _DelayOff 1 -> + -> _j `i * -> _k `i -> 10 `i `uc ]
+[; ;DelayOff_B1.c: 102: setProductData(26 + sw, value);
+"102
+[e ( _setProductData (2 , -> + -> 26 `i -> _sw `i `uc _value ]
+"103
+}
+[; ;DelayOff_B1.c: 103: } else {
+[e $U 302  ]
+[e :U 301 ]
+{
+[; ;DelayOff_B1.c: 104: DelayOff->Value = 0x05;
+"104
+[e = . *U _DelayOff 1 -> -> 5 `i `uc ]
+[; ;DelayOff_B1.c: 105: setProductData(26 + sw, 0x05);
+"105
+[e ( _setProductData (2 , -> + -> 26 `i -> _sw `i `uc -> -> 5 `i `uc ]
+"106
+}
+[e :U 302 ]
+"108
+}
+[; ;DelayOff_B1.c: 106: }
+[; ;DelayOff_B1.c: 108: } else if (command == 0) {
+[e $U 303  ]
+[e :U 300 ]
+[e $ ! == -> _command `i -> 0 `i 304  ]
+{
+[; ;DelayOff_B1.c: 109: setProductData(26 + sw, 0);
+"109
+[e ( _setProductData (2 , -> + -> 26 `i -> _sw `i `uc -> -> 0 `i `uc ]
+"110
+}
+[e :U 304 ]
+"111
+[e :U 303 ]
+[; ;DelayOff_B1.c: 110: }
+[; ;DelayOff_B1.c: 111: }
+[e :UE 299 ]
+}
+"114
+[v _getDelayOff_GO `(uc ~T0 @X0 1 ef1`uc ]
+{
+[; ;DelayOff_B1.c: 114: char getDelayOff_GO(char sw) {
+[e :U _getDelayOff_GO ]
+[v _sw `uc ~T0 @X0 1 r1 ]
+[f ]
+[; ;DelayOff_B1.c: 115: DelayOffPointSelect(sw);
+"115
+[e ( _DelayOffPointSelect (1 _sw ]
+"116
+[v _go `uc ~T0 @X0 1 a ]
+[; ;DelayOff_B1.c: 116: char go = DelayOff->GO == 1 ? 1 : 0;
+[e = _go -> ? == -> . . *U _DelayOff 0 1 `i -> 1 `i : -> 1 `i -> 0 `i `uc ]
+[; ;DelayOff_B1.c: 117: return go;
+"117
+[e ) _go ]
+[e $UE 305  ]
+[; ;DelayOff_B1.c: 118: }
+"118
+[e :UE 305 ]
+}
+"121
+[v _DelayTimejudge `(uc ~T0 @X0 1 ef1`uc ]
+{
+[; ;DelayOff_B1.c: 121: char DelayTimejudge(char value) {
+[e :U _DelayTimejudge ]
+[v _value `uc ~T0 @X0 1 r1 ]
+[f ]
+"122
+[v _i `uc ~T0 @X0 1 a ]
+[; ;DelayOff_B1.c: 122: char i = 5, j = 0, k = 0;
+[e = _i -> -> 5 `i `uc ]
+[v _j `uc ~T0 @X0 1 a ]
+[e = _j -> -> 0 `i `uc ]
+[v _k `uc ~T0 @X0 1 a ]
+[e = _k -> -> 0 `i `uc ]
+[; ;DelayOff_B1.c: 123: if (value <= 0x30) {
+"123
+[e $ ! <= -> _value `i -> 48 `i 307  ]
+{
+[; ;DelayOff_B1.c: 124: j = value & 0x0f;
+"124
+[e = _j -> & -> _value `i -> 15 `i `uc ]
+[; ;DelayOff_B1.c: 125: k = (value >> 4) & 0x0f;
+"125
+[e = _k -> & >> -> _value `i -> 4 `i -> 15 `i `uc ]
+[; ;DelayOff_B1.c: 126: i = j + (k * 10);
+"126
+[e = _i -> + -> _j `i * -> _k `i -> 10 `i `uc ]
+"127
+}
+[e :U 307 ]
+[; ;DelayOff_B1.c: 127: }
+[; ;DelayOff_B1.c: 128: return i;
+"128
+[e ) _i ]
+[e $UE 306  ]
+[; ;DelayOff_B1.c: 129: }
+"129
+[e :UE 306 ]
+}
