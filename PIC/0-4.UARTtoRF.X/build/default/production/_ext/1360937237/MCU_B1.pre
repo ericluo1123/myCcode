@@ -2647,6 +2647,42 @@ struct Timer1 Timer1;
 inline void TMR1_Set();
 inline void TMR1_ISR();
 
+# 688
+struct FlashMemory {
+unsigned char Data[32];
+unsigned char ReadDataH;
+unsigned char ReadDataL;
+unsigned int Time;
+
+struct {
+unsigned Modify : 1;
+unsigned GO : 1;
+unsigned LoopSave : 1;
+unsigned Runtime : 1;
+unsigned empty : 4;
+};
+};
+struct FlashMemory Memory = {
+{
+0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0,
+}
+};
+
+# 716
+void Flash_Memory_Initialization();
+void Flash_Memory_Unlock();
+char Flash_Memory_Read(char address);
+void Flash_Memory_Write();
+void Flash_Memory_Erasing();
+void Flash_Memory_Modify();
+void Flash_Memory_Main();
+void setMemory_Modify(char command);
+void setMemory_LoopSave(char command);
+void setMemory_Data(char address, char data);
+
 # 11 "../src/../0-4.UARTtoRF.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
@@ -2663,10 +2699,10 @@ Product _product = {
 }
 };
 
-# 56
+# 57
 inline void setProductData(char address, char value);
 
-# 61
+# 62
 struct command {
 
 struct {
@@ -2699,15 +2735,15 @@ unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 108
+# 109
 struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
 unsigned Error_Run : 1;
 unsigned InitDimmer : 1;
-unsigned SaveDimmer:1;
-unsigned empty:2;
+unsigned SaveDimmer : 1;
+unsigned empty : 2;
 };
 
 unsigned int Timeout_Counter;
@@ -2715,16 +2751,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 130
+# 131
 void myMain_Initialization();
 
-# 135
+# 136
 inline void my_Main();
 
-# 140
+# 141
 inline void my_MainTimer();
 
-# 145
+# 146
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2977,7 +3013,7 @@ char getLight_LoadGO();
 char getLight_Load_Status();
 
 # 19 "../src/../0-4.UARTtoRF.X/../src/myUARTtoRF.h"
-void uartC_timer_strat(int time_ms);
+void uartC_timer1(int time_ms);
 void uartC_switch_function_1();
 void myUARTtoRF_Initialization();
 void myUARTtoRF_Main();
@@ -2988,13 +3024,36 @@ struct uartC {
 union {
 
 struct {
-unsigned Timer_Enable : 1;
-unsigned Switch_Enable_1:1;
-unsigned Switch_Status:1;
+unsigned Timer1_start : 1;
+unsigned Switch_Enable_1 : 1;
+unsigned switch_status : 1;
+unsigned switch_status2 : 1;
+unsigned switch_already_press : 1;
+unsigned LED_Mode1 : 1;
+unsigned switch_already_release : 1;
+unsigned switch_debounce : 1;
+unsigned siwtch_debounce1 : 1;
+unsigned switch_function : 1;
+unsigned LED_GO : 1;
+unsigned switch_Mode1 : 1;
+unsigned switch_Mode2 : 1;
+unsigned switch_learn : 1;
+unsigned switch_dimming:1;
 };
 };
-int time;
-int time_value;
+int time1;
+int timer1_value;
+
+int time2;
+int time3;
+
+int LED_Time;
+int LED_Time_Value;
+
+int LED_Time2;
+
+
+
 };
 
 struct uartC u1;
@@ -3091,5 +3150,158 @@ Timer1.Timeout = 1;
 TMR1H = (int)((65536-1480)/256);
 TMR1L = (int)((65536-1480)%256);
 TMR1IF = 0;
+}
+
+# 932
+void Flash_Memory_Initialization() {
+char value = 0;
+if (Flash_Memory_Read(31) == 0xaa) {
+product->Data[11] = Flash_Memory_Read(6);
+product->Data[12] = Flash_Memory_Read(0);
+product->Data[13] = Flash_Memory_Read(1);
+product->Data[14] = Flash_Memory_Read(2);
+
+# 950
+if (product->Data[12] == 0xff && product->Data[13] == 0xff && product->Data[14] == 0xff) {
+myMain.FirstOpen = 1;
+myMain.First = 1;
+}
+} else {
+
+setMemory_Data(0, 0xff);
+setMemory_Data(1, 0xff);
+setMemory_Data(2, 0xff);
+setMemory_Data(3, 0xff);
+setMemory_Data(4, 0xff);
+setMemory_Data(5, 0xff);
+setMemory_Data(6, 0xff);
+setMemory_Data(31, 0xaa);
+
+
+
+
+GIE = 0;
+Flash_Memory_Write();
+GIE = 1;
+myMain.FirstOpen = 1;
+myMain.First = 1;
+myMain.InitDimmer = 1;
+}
+}
+
+
+void Flash_Memory_Main() {
+char key_Status = 0;
+
+# 983
+if (Memory.Modify == 1) {
+Memory.GO = getMain_All_LightsStatus() == 0 && key_Status == 0 ? 1 : 0;
+if (Memory.GO == 1) {
+Memory.Runtime = 1;
+Memory.Time++;
+if (Memory.Time == (200 / 20)) {
+Memory.Time = 0;
+Memory.Modify = 0;
+Memory.GO = 0;
+Flash_Memory_Modify();
+}
+} else {
+if (Memory.Runtime == 1) {
+Memory.Runtime = 0;
+Memory.Time = 0;
+}
+}
+}
+}
+
+
+void Flash_Memory_Unlock() {
+PMCON2 = 0x55;
+PMCON2 = 0xaa;
+WR = 1;
+__nop();
+__nop();
+}
+
+
+char Flash_Memory_Read(char address) {
+char i = 0, ret = 0;
+PMADRH = 0x30;
+PMADRL = address;
+CFGS = 0;
+RD = 1;
+i = PMDATH;
+ret = PMDATL;
+return ret;
+}
+
+
+void Flash_Memory_Write() {
+char i = 0;
+CFGS = 0;
+PMADRH = 0x30;
+PMDATH = 0;
+FREE = 0;
+LWLO = 1;
+WREN = 1;
+for (i = 0; i < 32; i++) {
+PMADRL = i;
+PMDATL = Memory.Data[i];
+Flash_Memory_Unlock();
+}
+LWLO = 0;
+Flash_Memory_Unlock();
+WREN = 0;
+}
+
+
+void Flash_Memory_Erasing() {
+CFGS = 0;
+PMADRH = 0x30;
+PMADRL = 0x00;
+FREE = 1;
+WREN = 1;
+Flash_Memory_Unlock();
+WREN = 0;
+}
+
+
+void Flash_Memory_Modify() {
+char i = 0;
+for (i = 0; i < 32; i++) {
+Memory.Data[i] = Flash_Memory_Read(i);
+}
+setMemory_Data(6, product->Data[11]);
+setMemory_Data(0, product->Data[12]);
+setMemory_Data(1, product->Data[13]);
+setMemory_Data(2, product->Data[14]);
+
+# 1073
+if (Memory.LoopSave == 1) {
+Memory.LoopSave = 0;
+myMain.FirstOpen = 0;
+myMain.First = 0;
+
+}
+GIE = 0;
+Flash_Memory_Erasing();
+Flash_Memory_Write();
+GIE = 1;
+}
+
+
+void setMemory_Modify(char command) {
+Memory.Modify = command == 1 ? 1 : 0;
+Memory.Time = 0;
+}
+
+
+void setMemory_LoopSave(char command) {
+Memory.LoopSave = command == 1 ? 1 : 0;
+}
+
+
+void setMemory_Data(char address, char data) {
+Memory.Data[address] = data;
 }
 

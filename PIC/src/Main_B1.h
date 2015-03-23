@@ -22,6 +22,7 @@ Product _product = {
         0x00, 0x00
     }
 };
+
 //0=Command	
 //1=Command
 //1=Temperature
@@ -111,8 +112,8 @@ struct myMain {
         unsigned Timeout : 1;
         unsigned Error_Run : 1;
         unsigned InitDimmer : 1;
-        unsigned SaveDimmer:1;
-        unsigned empty:2;
+        unsigned SaveDimmer : 1;
+        unsigned empty : 2;
     };
 
     unsigned int Timeout_Counter;

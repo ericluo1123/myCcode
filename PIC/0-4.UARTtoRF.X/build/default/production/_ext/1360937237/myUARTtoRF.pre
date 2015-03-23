@@ -2647,6 +2647,42 @@ struct Timer1 Timer1;
 inline void TMR1_Set();
 inline void TMR1_ISR();
 
+# 688
+struct FlashMemory {
+unsigned char Data[32];
+unsigned char ReadDataH;
+unsigned char ReadDataL;
+unsigned int Time;
+
+struct {
+unsigned Modify : 1;
+unsigned GO : 1;
+unsigned LoopSave : 1;
+unsigned Runtime : 1;
+unsigned empty : 4;
+};
+};
+struct FlashMemory Memory = {
+{
+0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0,
+}
+};
+
+# 716
+void Flash_Memory_Initialization();
+void Flash_Memory_Unlock();
+char Flash_Memory_Read(char address);
+void Flash_Memory_Write();
+void Flash_Memory_Erasing();
+void Flash_Memory_Modify();
+void Flash_Memory_Main();
+void setMemory_Modify(char command);
+void setMemory_LoopSave(char command);
+void setMemory_Data(char address, char data);
+
 # 11 "../src/../0-4.UARTtoRF.X/../src/Main_B1.h"
 typedef struct Product {
 unsigned char Data[32];
@@ -2663,10 +2699,10 @@ Product _product = {
 }
 };
 
-# 56
+# 57
 inline void setProductData(char address, char value);
 
-# 61
+# 62
 struct command {
 
 struct {
@@ -2699,15 +2735,15 @@ unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 108
+# 109
 struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
 unsigned Error_Run : 1;
 unsigned InitDimmer : 1;
-unsigned SaveDimmer:1;
-unsigned empty:2;
+unsigned SaveDimmer : 1;
+unsigned empty : 2;
 };
 
 unsigned int Timeout_Counter;
@@ -2715,16 +2751,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 130
+# 131
 void myMain_Initialization();
 
-# 135
+# 136
 inline void my_Main();
 
-# 140
+# 141
 inline void my_MainTimer();
 
-# 145
+# 146
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2977,7 +3013,7 @@ char getLight_LoadGO();
 char getLight_Load_Status();
 
 # 19 "../src/../0-4.UARTtoRF.X/../src/myUARTtoRF.h"
-void uartC_timer_strat(int time_ms);
+void uartC_timer1(int time_ms);
 void uartC_switch_function_1();
 void myUARTtoRF_Initialization();
 void myUARTtoRF_Main();
@@ -2988,61 +3024,182 @@ struct uartC {
 union {
 
 struct {
-unsigned Timer_Enable : 1;
-unsigned Switch_Enable_1:1;
-unsigned Switch_Status:1;
+unsigned Timer1_start : 1;
+unsigned Switch_Enable_1 : 1;
+unsigned switch_status : 1;
+unsigned switch_status2 : 1;
+unsigned switch_already_press : 1;
+unsigned LED_Mode1 : 1;
+unsigned switch_already_release : 1;
+unsigned switch_debounce : 1;
+unsigned siwtch_debounce1 : 1;
+unsigned switch_function : 1;
+unsigned LED_GO : 1;
+unsigned switch_Mode1 : 1;
+unsigned switch_Mode2 : 1;
+unsigned switch_learn : 1;
+unsigned switch_dimming:1;
 };
 };
-int time;
-int time_value;
+int time1;
+int timer1_value;
+
+int time2;
+int time3;
+
+int LED_Time;
+int LED_Time_Value;
+
+int LED_Time2;
+
+
+
 };
 
 struct uartC u1;
 
 # 7 "../src/myUARTtoRF.c"
 void myUARTtoRF_Initialization() {
-u1.time_value = 0;
 RA0 = 0;
 RA1 = 1;
 RA2 = 1;
+
 }
+
+void uartC_timer1_start(int time_ms);
+void uartC_timer1_reset();
+void uartC_timer1_close();
+void uartC_Button();
+void uartC_switch_control();
+void uartC_LED();
+void uartC_LED_start(char time_ms);
+void uartC_LED_close();
+
 
 
 void myUARTtoRF_Main() {
-uartC_timer_strat(u1.time_value);
+
+uartC_LED();
+uartC_Button();
+
+if (u1.switch_Mode2 == 1) {
+u1.time3++;
+if (u1.time3 >= 3000 / 20) {
+u1.time3 = 0;
+u1.switch_Mode2 = 0;
+u1.LED_Mode1 = 1;
+setRF_Learn(0);
+}
+}
+}
+
+void uartC_LED() {
+
+if (u1.LED_GO == 1) {
+u1.LED_Time++;
+if (u1.LED_Time == u1.LED_Time_Value / 20) {
+u1.LED_Time = 0;
+RA1 = RA1 == 1 ? 0 : 1;
+if (u1.switch_Mode1 == 1) {
+u1.switch_Mode1 = 0;
+u1.LED_GO = 0;
+}
+
+if (u1.LED_Mode1 == 1) {
+u1.LED_Mode1 = 0;
+u1.LED_GO = 0;
+RA1 = 1;
+}
+}
+}
+}
+
+void uartC_LED_start(char time_ms) {
+u1.LED_Time_Value = time_ms;
+u1.LED_GO = 1;
+u1.LED_Time = 0;
+RA1 = 0;
+}
+
+void uartC_LED_close() {
+u1.LED_GO = 0;
+u1.LED_Time = 0;
+RA1 = 1;
+}
+
+void uartC_Button() {
 
 if (RB0 == 0) {
-if (u1.Switch_Status == 0) {
-u1.Switch_Status = 1;
-u1.Timer_Enable = 1;
-u1.time_value = 100;
-u1.time = 0;
+
+if (u1.switch_debounce == 0) {
+uartC_timer1(100);
+} else if (u1.siwtch_debounce1 == 0) {
+uartC_timer1(1500);
 }
+
 } else {
-if (u1.Switch_Status == 1) {
-u1.Timer_Enable = 1;
-u1.time_value = 100;
-u1.time = 0;
-u1.Switch_Status = 0;
+if (u1.switch_debounce == 1) {
+u1.time2++;
+if (u1.time2 >= 100 / 20) {
+u1.time2 = 0;
+u1.switch_debounce = 0;
+u1.siwtch_debounce1 = 0;
+}
+}
+uartC_timer1_reset();
 }
 }
 
-if (u1.Switch_Enable_1 == 1) {
-u1.Switch_Enable_1 = 0;
-RA1 = RA1 == 1 ? 0 : 1;
+void uartC_switch_control() {
+if (u1.switch_Mode1 == 1) {
+if (u1.switch_Mode2 == 1) {
+u1.switch_Mode2 = 0;
+u1.time3 = 0;
+uartC_LED_close();
+setRF_Learn(0);
+u1.switch_dimming = 1;
+}
+setTxData();
+uartC_LED_start(100);
+
+} else if (u1.switch_Mode2 == 1) {
+uartC_LED_start(300);
+setRF_Learn(1);
 }
 }
 
-void uartC_timer_strat(int time_ms) {
+void uartC_timer1(int time_ms) {
 
-if (u1.Timer_Enable == 1) {
-u1.time++;
-if (u1.time == time_ms / 20) {
-u1.time = 0;
-u1.Timer_Enable = 0;
-u1.Switch_Enable_1 = u1.Switch_Status == 1 ? 0 : 1;
+u1.time1++;
+if (u1.time1 == time_ms / 20) {
+u1.time1 = 0;
+
+if (u1.switch_debounce == 0) {
+u1.switch_debounce = 1;
+u1.switch_Mode1 = 1;
+} else if (u1.siwtch_debounce1 == 0) {
+u1.siwtch_debounce1 = 1;
+u1.switch_Mode2 = 1;
+}
+
+uartC_switch_control();
+
+u1.time2 = 0;
 }
 }
 
+void uartC_timer1_start(int time_ms) {
+u1.Timer1_start = 1;
+u1.timer1_value = time_ms;
+u1.time1 = 0;
+}
+
+void uartC_timer1_reset() {
+u1.time1 = 0;
+}
+
+void uartC_timer1_close() {
+u1.Timer1_start = 0;
+u1.time1 = 0;
 }
 

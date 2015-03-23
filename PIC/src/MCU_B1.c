@@ -932,6 +932,7 @@ unsigned char getche(void) {
 void Flash_Memory_Initialization() {
     char value = 0;
     if (Flash_Memory_Read(31) == 0xaa) {
+        product->Data[11] = Flash_Memory_Read(6);
         product->Data[12] = Flash_Memory_Read(0);
         product->Data[13] = Flash_Memory_Read(1);
         product->Data[14] = Flash_Memory_Read(2);
@@ -958,6 +959,7 @@ void Flash_Memory_Initialization() {
         setMemory_Data(3, 0xff);
         setMemory_Data(4, 0xff);
         setMemory_Data(5, 0xff);
+        setMemory_Data(6, 0xff);
         setMemory_Data(31, 0xaa);
         //        value = getDimmerLights_ValueToPercent(Dimmer_Maxum);
         //        product->Data[21] = value;
@@ -1055,6 +1057,7 @@ void Flash_Memory_Modify() {
     for (i = 0; i < 32; i++) {
         Memory.Data[i] = Flash_Memory_Read(i);
     }
+    setMemory_Data(6, product->Data[11]);
     setMemory_Data(0, product->Data[12]);
     setMemory_Data(1, product->Data[13]);
     setMemory_Data(2, product->Data[14]);

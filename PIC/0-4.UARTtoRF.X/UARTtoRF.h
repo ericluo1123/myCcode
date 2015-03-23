@@ -34,6 +34,8 @@
 #define Properties_Neutral_Value            0
 #define Properties_Dimmer_Value             0
 #define Debug_Value                         1
+#define remote_mode                         1
+#define KeyID 0x0a
 
 #define Create_Date "2014/11/26"
 #define PCB_Name "Sample"
@@ -120,7 +122,7 @@
 //IOC
 #define IOC_use_Value 0
 //FlashMemory
-#define FlashMemory_use_Value 0
+#define FlashMemory_use_Value 1
 //Watchdog timer 
 #define WDT_use_Value 0
 
@@ -152,7 +154,7 @@
 //RF cc2500
 #define CC2500_use_Value        1
 #define Tx_Enable               1
-#define Rx_Enable               0
+#define Rx_Enable               1
 //DelayOff
 #define DelayOff_use_Value      0
 //PowerFault

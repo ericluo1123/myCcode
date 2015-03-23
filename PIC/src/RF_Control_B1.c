@@ -194,8 +194,26 @@ inline void setTxData() {
         //            RF_Data[i] = product->Data[i];
         //        }
 #if myUARTtoRF_use == 1
+#if remote_mode == 1
+        RF_Data[0] = 0x00; //Product->Data[0];		//Command
+        RF_Data[1] = 0x02; //Product->Data[1];		//Command
+
+        if (u1.switch_dimming == true) {
+            u1.switch_dimming = false;
+            if (product->Data[11] != 0) {
+                char value = 208;
+                value += product->Data[11];
+                product->Data[15] = value;
+            }
+        } else {
+            product->Data[15] = product->Data[11];
+        }
+
+#else
         RF_Data[0] = 0xAA; //Product->Data[0];		//Command
         RF_Data[1] = 0x01; //Product->Data[1];		//Command
+#endif
+
 #else
         RF_Data[0] = 0x63; //Product->Data[0];		//Command
         RF_Data[1] = 0x02; //Product->Data[1];		//Command
@@ -240,6 +258,23 @@ inline void getRxData() {
                 if (RF_Data[0] == 0x00 && RF_Data[1] == 0x64) {
                     setLog_Code();
                 }
+#if remote_mode == 1
+                if (RF_Data[0] == 0x63 && RF_Data[1] == 0x02) {
+                    product->Data[11] = RF_Data[11];
+                    product->Data[12] = RF_Data[12];
+                    product->Data[13] = RF_Data[13];
+                    product->Data[14] = RF_Data[14];
+                    product->Data[15] = RF_Data[11];
+                    RF1.Learn = false;
+                    u1.switch_Mode2 = false;
+                    u1.time3 = 0;
+                    uartC_LED_close();
+                    if (myMain.First == true) {
+                        setMemory_LoopSave(1);
+                    }
+                    setMemory_Modify(1);
+                }
+#endif
             } else {
                 if (RF_Data[20] == KeyID || RF_Data[20] == 0x0a) {
                     //0x00,0x02
@@ -403,6 +438,7 @@ void setRFSW_Control(char sw) {
 }
 //*********************************************************
 #if Dimmer_use == 1
+
 void setRFSW_AdjControl(char sw) {
     char status = 0;
 #if Dimmer_use == 1
@@ -449,6 +485,7 @@ void setRFSW_AdjControl(char sw) {
 #endif
 //*********************************************************
 #if Dimmer_use == 1
+
 void setRF_AdjControl(char sw) {
     char status = 0;
 #if Dimmer_use == 1
