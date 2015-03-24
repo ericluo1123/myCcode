@@ -137,7 +137,7 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 174 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
+# 175 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
 # 21 "C:\Program Files (x86)\Microchip\xc8\v1.32\include\htc.h"
@@ -2729,10 +2729,10 @@ Product _product = {
 }
 };
 
-# 56
+# 57
 inline void setProductData(char address, char value);
 
-# 61
+# 62
 struct command {
 
 struct {
@@ -2765,15 +2765,15 @@ unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 108
+# 109
 struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
 unsigned Error_Run : 1;
 unsigned InitDimmer : 1;
-unsigned SaveDimmer:1;
-unsigned empty:2;
+unsigned SaveDimmer : 1;
+unsigned empty : 2;
 };
 
 unsigned int Timeout_Counter;
@@ -2781,16 +2781,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 130
+# 131
 void myMain_Initialization();
 
-# 135
+# 136
 inline void my_Main();
 
-# 140
+# 141
 inline void my_MainTimer();
 
-# 145
+# 146
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -2972,6 +2972,225 @@ inline void getTemp_AD(char channel);
 void setOverTemp_Exceptions(char command);
 void setOverTemp_ADV_Restore();
 
+# 161 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/CC2500_B1.h"
+const unsigned char CC2500_rfSettings[47] = {
+
+
+0x07,
+0x07,
+0x30,
+0x87,
+0x6B,
+0xF8,
+0x7F,
+0x3F,
+
+0x09,
+0x00,
+0x5C,
+0xA7,
+0x62,
+0x86,
+0x83,
+0x03,
+0x22,
+0xF8,
+0x00,
+0x44,
+0xB6,
+0x10,
+0x18,
+0x1D,
+0x1C,
+0xC7,
+0x00,
+0xB2,
+0xEA,
+0x0A,
+0x00,
+0x11,
+0x59,
+0x88,
+0x31,
+0x0B,
+0x2F,
+0x2E,
+0x06,
+0x04,
+0x05,
+0x00,
+0x30,
+0xD3,
+0x91,
+0x41,
+0x00
+
+};
+
+
+
+const unsigned char CC2500_registers_address[47] = {
+
+0x03,
+0x16,
+0x17,
+0x1E,
+0x1F,
+0x20,
+0x2A,
+0x2B,
+
+0x0B,
+0x0C,
+0x0D,
+0x0E,
+0x0F,
+0x10,
+0x11,
+0x12,
+0x13,
+0x14,
+0x0A,
+0x15,
+0x21,
+0x22,
+0x18,
+0x19,
+0x1A,
+0x1B,
+0x1C,
+0x1D,
+0x23,
+0x24,
+0x25,
+0x26,
+0x29,
+0x2C,
+0x2D,
+0x2E,
+0x00,
+0x01,
+0x02,
+0x07,
+0x08,
+0x09,
+0x06,
+0x04,
+0x05,
+0x27,
+0x28
+};
+
+# 277
+unsigned int RF_Count;
+unsigned char SPI0Buffer;
+unsigned char r_data;
+unsigned char s_data;
+unsigned char r_address;
+unsigned char RF_Data[30];
+unsigned char RSSI;
+unsigned char CRC;
+unsigned char Rx_Length;
+unsigned char Tx_Length;
+
+
+
+
+const unsigned char CC2500_patable_vaule[8] = {0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE};
+
+void CC2500_PowerOnInitial();
+void CC2500_PowerRST(void);
+void CC2500_InitSetREG(void);
+void CC2500_InitPATable(void);
+void CC2500_ClearTXFIFO(void);
+void CC2500_ClearRXFIFO(void);
+void CC2500_FrequencyCabr(void);
+void CC2500_SIDLEMode(void);
+
+void CC2500_WriteByte(void);
+void CC2500_WriteREG(unsigned char addr, unsigned char value);
+void CC2500_ReadByte(void);
+void CC2500_ReadREG(unsigned char addr);
+void CC2500_ReadStatus(unsigned char s_addr);
+void CC2500_WriteCommand(unsigned char command);
+void CC2500_TxData();
+void CC2500_RxData(void);
+void DelayTime_1us(int count);
+
+# 12 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h"
+struct RF {
+
+struct {
+unsigned Enable : 1;
+unsigned ReceiveGO : 1;
+unsigned TransceiveGO : 1;
+unsigned RxStatus : 1;
+unsigned TxStatus : 1;
+unsigned Debounce : 1;
+unsigned Learn : 1;
+unsigned Key : 1;
+};
+
+struct {
+unsigned Sleep : 1;
+unsigned Run : 1;
+unsigned Bus : 1;
+unsigned Checked : 1;
+unsigned RxChecked : 1;
+unsigned Correction : 1;
+unsigned Timeout : 1;
+unsigned All_Lights_Close : 1;
+};
+
+struct {
+unsigned flagDimming : 1;
+unsigned empty : 7;
+};
+
+unsigned int Count;
+unsigned char CheckCount;
+unsigned int CheckedCounter;
+unsigned int RunTime;
+unsigned char DebounceTime;
+unsigned int CorrectionCounter;
+unsigned int TimeoutCount;
+
+};
+
+
+struct RF RF1;
+
+
+inline void RF_Initialization();
+inline void setRF_Initialization();
+inline void RF_Main();
+inline void setRF_Main();
+inline void setTxData();
+inline void getRxData();
+
+inline void setLog_Code();
+inline void setControl_Lights_Table();
+inline void RF_RxDisable();
+inline void setRF_Learn(char command);
+
+inline void setRF_RxStatus(char command);
+inline char getRF_KeyStatus();
+inline void RF_Timeout_Counter();
+inline void setRF_TimeoutCleared();
+
+
+void setRFSW_Control(char sw);
+void setRFSW_AdjControl(char sw);
+inline void setRFSW_Status(char sw, char command);
+inline void setRF_TransceiveGO(char command);
+void setRF_AdjControl(char sw);
+char getRF_flagDimming();
+void setRF_flagDimming(char command);
+
+
+
+inline void setRF_DimmerLights(char lights, char on);
+
 # 44 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/OverLoad_B1.h"
 struct OverLoad {
 
@@ -3059,6 +3278,16 @@ unsigned GO : 1;
 };
 };
 
+union {
+
+struct {
+unsigned Phase : 1;
+unsigned PhaseFirst : 1;
+unsigned PhaseSwitch : 1;
+unsigned empty : 5;
+};
+};
+
 
 unsigned char TriacCount;
 unsigned char MosfetSignalCount;
@@ -3069,10 +3298,10 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 89
+# 99
 struct DimmerLights DimmerLights1;
 
-# 108
+# 118
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3100,6 +3329,8 @@ char getDimmerLights_ValueToPercent(char value);
 char getAll_DimmerLights_Trigger();
 void setDimmerLights_DimmingRun(char lights, char command);
 inline char Division(char value, char num);
+void DimmerLights_TwoPhase_Main(char lights);
+void DimmerLights_AssignationDimming(char sw);
 
 
 
@@ -3152,7 +3383,7 @@ struct Dimmer_Interrupt *DimmerIntr;
 
 struct Dimmer_Interrupt DimmerIntr1;
 
-# 196
+# 208
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3167,7 +3398,9 @@ char getAll_DimmerIntr_Dimming_Sw();
 char getAll_DimmerIntr_Dimming_Sw_RF();
 void setDimmerLights_DimmingClose();
 
-# 218
+void setDimmerIntr_MaxmumValue(char lights, char value);
+char getDimmerIntr_MaxmumValue(char lights);
+
 inline void setDimmerIntr_TMR(char lights);
 inline void setDimmerIntr_IOC(char lights);
 
@@ -3177,7 +3410,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
-# 232
+# 239
 struct Dimmer {
 
 
@@ -3218,7 +3451,7 @@ inline void Dimmer_Initialization();
 char getDimmer_LoadGO();
 char getDimmer_Load_Status();
 
-# 24 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
+# 33 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/DelayOff_B1.h"
 struct DelayOff {
 
 struct {
@@ -3236,7 +3469,7 @@ struct DelayOff *DelayOff;
 
 struct DelayOff DlySw1;
 
-# 50
+# 59
 inline void DelayOff_Initialization();
 inline void DelayOff_Main();
 char DelayTimejudge(char value);
@@ -3260,26 +3493,66 @@ struct Light Light;
 char getLight_LoadGO();
 char getLight_Load_Status();
 
+# 29 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/myUARTtoRF.h"
+struct uartC {
+
+union {
+
+struct {
+unsigned Timer1_start : 1;
+unsigned Switch_Enable_1 : 1;
+unsigned switch_status : 1;
+unsigned switch_status2 : 1;
+unsigned switch_already_press : 1;
+unsigned LED_Mode1 : 1;
+unsigned switch_already_release : 1;
+unsigned switch_debounce : 1;
+unsigned siwtch_debounce1 : 1;
+unsigned switch_function : 1;
+unsigned LED_GO : 1;
+unsigned switch_Mode1 : 1;
+unsigned switch_Mode2 : 1;
+unsigned switch_learn : 1;
+unsigned switch_dimming:1;
+};
+};
+int time1;
+int timer1_value;
+
+int time2;
+int time3;
+
+int LED_Time;
+int LED_Time_Value;
+
+int LED_Time2;
+
+
+
+};
+
+struct uartC u1;
+
 # 7 "../src/Dimmer_B1.c"
 void DimmerIntr_Initialization() {
 
 
 DimmerIntr1.TuneTimeValue = 3;
-DimmerIntr1.MaxmumValue = ((char)(70*0.6));
+DimmerIntr1.MaxmumValue = ((char)(87*0.6));
 DimmerIntr1.MinimumValue = ((char)(10*0.6));
 DimmerIntr1.Tune = 0;
 
 
 
 if (myMain.InitDimmer == 1) {
-product->Data[21] = getDimmerLights_ValueToPercent(((char)(70*0.6)));
+product->Data[21] = getDimmerLights_ValueToPercent(((char)(87*0.6)));
 }
 
 DimmerIntr1.DimmingValue = getDimmerLights_PercentToValue(product->Data[21]);
 
 # 28
-DimmerIntr1.TuneValue2 = Division(((char)(70*0.6)), 2);
-DimmerIntr1.TuneValue3 = DimmerIntr1.TuneValue2 + (60 - ((char)(70*0.6)));
+DimmerIntr1.TuneValue2 = Division(((char)(87*0.6)), 2);
+DimmerIntr1.TuneValue3 = DimmerIntr1.TuneValue2 + (60 - ((char)(87*0.6)));
 DimmerIntr1.TuneValue4 = DimmerIntr1.TuneValue3 + DimmerIntr1.TuneValue2;
 DimmerIntr1.TuneEnd = DimmerIntr1.TuneValue4 + 1;
 
@@ -3321,14 +3594,33 @@ value = DimmerIntr1.DimmingValue;
 return value;
 }
 
-# 186
+void setDimmerIntr_MaxmumValue(char lights, char value) {
+
+if (lights == 1) {
+DimmerIntr1.MaxmumValue = value;
+}
+
+# 161
+}
+
+char getDimmerIntr_MaxmumValue(char lights) {
+char value = 0;
+
+if (lights == 1) {
+value = DimmerIntr1.MaxmumValue;
+}
+
+# 180
+return value;
+}
+
 void setDimmerIntr_MinimumValue(char lights, char value) {
 
 if (lights == 1) {
 DimmerIntr1.MinimumValue = value;
 }
 
-# 202
+# 199
 }
 
 char getDimmerIntr_MinimumValue(char lights) {
@@ -3338,7 +3630,7 @@ if (lights == 1) {
 value = DimmerIntr1.MinimumValue;
 }
 
-# 221
+# 218
 return value;
 }
 
@@ -3348,7 +3640,7 @@ if (lights == 1) {
 DimmerIntr1.Dimming_Sw = command == 1 ? 1 : 0;
 }
 
-# 240
+# 237
 }
 
 char getDimmerIntr_Dimming_Sw(char lights) {
@@ -3358,7 +3650,7 @@ if (lights == 1) {
 status = DimmerIntr1.Dimming_Sw == 1 ? 1 : 0;
 }
 
-# 260
+# 257
 return status;
 }
 
@@ -3368,14 +3660,14 @@ if (lights == 1) {
 DimmerIntr1.Dimming_RF = command == 1 ? 1 : 0;
 }
 
-# 279
+# 276
 }
 
 
 char getAll_DimmerIntr_ControlStatus() {
 char status = 0;
 
-# 294
+# 291
 status = (DimmerIntr1.ControlStatus == 1) ? 1 : 0;
 
 
@@ -3386,7 +3678,7 @@ return status;
 char getAll_DimmerIntr_Dimming_Sw() {
 char status = 0;
 
-# 313
+# 310
 status = (DimmerIntr1.Dimming_Sw == 1) ? 1 : 0;
 
 
@@ -3398,21 +3690,29 @@ return status;
 char getAll_DimmerIntr_Dimming_Sw_RF() {
 char status = 0;
 
-# 333
+# 330
 status = (DimmerIntr1.Dimming_Sw == 1) ? 1 : 0;
 
-# 351
+
+
+if (status == 0) {
+
+# 344
+status = (DimmerIntr1.Dimming_RF == 1) ? 1 : 0;
+
+}
+
 return status;
 }
 
-# 655
+# 652
 inline void DimmerLights_SelectPointer(char lights) {
 
 if (lights == 1) {
 DimmerLights = &DimmerLights1;
 }
 
-# 673
+# 670
 }
 
 
@@ -3420,14 +3720,14 @@ void DimmerLights_Initialization() {
 
 setDimmerLights_Initialization(1);
 
-# 688
+# 685
 DimmerIntr_Initialization();
 }
 
 
 void setDimmerLights_Initialization(char lights) {
 
-# 728
+# 725
 }
 
 
@@ -3438,7 +3738,7 @@ char idle = 0;
 char dimmingStatus = 0;
 dimmingStatus = getDimmerIntr_Dimming_Sw(sw);
 
-# 763
+# 760
 DimmerLights_SelectPointer(sw);
 if (idle == 0) {
 
@@ -3446,8 +3746,12 @@ if (dimmingStatus == 0) {
 DimmerLights->SwFlag = 1;
 if (DimmerLights->Status == 0) {
 DimmerLights->Status = 1;
+
+
 DimmerLights->Trigger = 1;
 DimmerLights->Switch = 1;
+
+# 777
 } else {
 DimmerLights->Status = 0;
 }
@@ -3474,8 +3778,12 @@ DimmerLights->DimmingTrigger = 1;
 DimmerLights->DimmingSwitch = 0;
 }
 } else {
+
+
 DimmerLights->Trigger = 1;
 DimmerLights->Switch = 0;
+
+# 811
 }
 }
 }
@@ -3483,7 +3791,7 @@ DimmerLights->Switch = 0;
 
 void setDimmerLights_DimmingOn(char sw) {
 
-# 811
+# 822
 DimmerLights_SelectPointer(sw);
 if (DimmerLights->Trigger == 0) {
 if (DimmerLights->SwFlag == 1) {
@@ -3516,7 +3824,7 @@ setDimmerLights_Main(1);
 
 DimmerLights_DimmingFunction(1);
 
-# 861
+# 881
 }
 
 
@@ -3553,6 +3861,49 @@ DimmerLights->DimmingTrigger = 0;
 }
 
 
+void DimmerLights_TwoPhase_Main(char lights) {
+
+DimmerLights_SelectPointer(lights);
+if (DimmerLights->Phase == 1) {
+if (DimmerLights->PhaseFirst == 0) {
+
+if (DimmerLights->PhaseSwitch == 1) {
+DimmerLights->PhaseFirst = 1;
+DimmerLights->Trigger = 1;
+DimmerLights->Switch = 1;
+} else {
+DimmerLights->Phase = 0;
+DimmerLights->Trigger = 1;
+DimmerLights->Switch = 0;
+}
+} else {
+if (DimmerLights->Trigger == 0) {
+DimmerLights->PhaseFirst = 0;
+DimmerLights->Phase = 0;
+DimmerLights_AssignationDimming(lights);
+}
+}
+}
+}
+
+
+void DimmerLights_AssignationDimming(char sw) {
+char status = 0;
+
+status = getDimmerLights_Status(sw);
+
+
+
+setMemory_Modify(1);
+
+
+
+if (status == 1) {
+setDimmerIntr_MaxmumValue(sw, getDimmerLights_PercentToValue(product->Data[20 + sw]));
+setDimmerIntr_Dimming_RF(sw, 1);
+}
+}
+
 
 void setDimmerLights_OnOff(char lights, char command) {
 
@@ -3564,19 +3915,20 @@ setDimmerIntr_ControlStatus(lights, 1);
 Dimmer.Load_Status = 1;
 setDimmerLights_Line(lights);
 
-# 912
+# 975
 setLED(lights, 0);
 ;;
 
-# 933
+# 996
 if (DimmerLights->DimmingRun == 1) {
 DimmerLights->DimmingRun = 0;
-;;
+setDimmerIntr_MaxmumValue(lights, getDimmerLights_PercentToValue(product->Data[20 + lights]));
 setDimmerIntr_Dimming_RF(lights, 1);
 } else {
+
 setDimmerIntr_DimmingValue(lights, getDimmerLights_PercentToValue(product->Data[20 + lights]));
 
-
+# 1008
 }
 
 if (lights == 1) {
@@ -3585,10 +3937,10 @@ DimmerIntr1.TuneGO = 1;
 
 } else if (lights == 2) {
 
-# 951
+# 1018
 }
 
-# 957
+# 1024
 } else if (command == 0) {
 
 setDimmerIntr_ControlStatus(lights, 0);
@@ -3615,22 +3967,22 @@ RB1 = 0;
 
 }
 
-# 992
+# 1059
 }
 
 setDimmerLights_DimmingClose();
 
-;;
+setRF_DimmerLights(lights, command);
 
 if (getCmd_Status(1) == 1) {
 if (getMain_All_LightsStatus() == 0) {
 setCmd_Status(1, 0);
 setProductData(11, 0);
 setProductData(17, 0);
-;;
+setTxData();
 }
 } else {
-;;
+setTxData();
 }
 }
 
@@ -3640,7 +3992,8 @@ void setDimmerLights_Dimming(char lights, char status) {
 setDimmerIntr_Dimming_Sw(lights, status);
 if (status == 1) {
 
-# 1018
+setRF_TransceiveGO(0);
+
 setBuz(1, 100);
 } else if (status == 0) {
 
@@ -3649,16 +4002,16 @@ Dimmer.Load_Status = 0;
 setDimmerLights_Line(lights);
 
 char value = getDimmerIntr_DimmingValue(lights);
-;;
+setDimmerIntr_MaxmumValue(lights, value);
 setProductData((20 + lights), getDimmerLights_ValueToPercent(value));
 
-# 1034
+# 1101
 setMemory_Modify(1);
 
 
 
-;;
-;;
+setRF_DimmerLights(lights, 1);
+setTxData();
 
 }
 }
@@ -3667,10 +4020,10 @@ setMemory_Modify(1);
 char getDimmerLights_Allow_Condition(char lights) {
 char allow = 0;
 
-# 1052
+# 1119
 allow = getLoad_OK() == 0 && Dimmer.LoadGO == 0 ? 0 : 1;
 
-# 1079
+# 1146
 return allow;
 }
 
@@ -3684,7 +4037,7 @@ if (lights == 1 && lights != 0) {
 DimmerLights1.Line = 1;
 }
 
-# 1104
+# 1171
 }
 
 
@@ -3695,7 +4048,7 @@ if (DimmerLights1.Line == 1) {
 line = 1;
 }
 
-# 1124
+# 1191
 return line;
 }
 
@@ -3722,7 +4075,7 @@ DimmerLights->DimmingRun = command == 1 ? 1 : 0;
 char getAll_DimmerLights_Trigger() {
 char status = 0;
 
-# 1159
+# 1226
 status = (DimmerLights1.Trigger) ? 1 : 0;
 
 
@@ -3734,22 +4087,22 @@ return status;
 
 char getDimmerLights_PercentToValue(char value) {
 
-# 1176
-float i = ((char)(70*0.6)) - ((char)(10*0.6));
+# 1243
+float i = ((char)(87*0.6)) - ((char)(10*0.6));
 i /= 100;
 
-return (char) (((char)(70*0.6)) - ((100 - value) * i));
+return (char) (((char)(87*0.6)) - ((100 - value) * i));
 
 }
 
 
 char getDimmerLights_ValueToPercent(char value) {
 
-# 1192
-float i = ((char)(70*0.6)) - ((char)(10*0.6));
+# 1259
+float i = ((char)(87*0.6)) - ((char)(10*0.6));
 i /= 100;
 
-return (char) (100 - ((((char)(70*0.6)) - value) / i));
+return (char) (100 - ((((char)(87*0.6)) - value) / i));
 
 }
 
@@ -3772,7 +4125,7 @@ char status = Dimmer.Load_Status == 1 ? 1 : 0;
 return status;
 }
 
-# 1437
+# 1504
 inline char Division(char value, char num) {
 char result = (char) (value / num);
 return result;
@@ -3788,7 +4141,7 @@ DimmerIntr1.Count = 0;
 DimmerIntr1.Start = 0;
 }
 
-# 1464
+# 1531
 if (DimmerIntr1.Count == DimmerIntr1.TuneValue2) {
 if (DimmerIntr1.ControlStatus == 1) {
 RB1 = 0;
@@ -3826,12 +4179,12 @@ RB1 = 1;
 }
 }
 
-# 1535
+# 1602
 }
 
 inline void DimmerLights_IOC_1() {
 
-# 1551
+# 1618
 if (DimmerIntr1.Start == 0 && DimmerIntr1.GO == 0) {
 
 if (RB2 != DimmerIntr1.Status) {
@@ -3851,29 +4204,29 @@ DimmerIntr1.TuneGO = 0;
 DimmerIntr1.TuneValue2 = Division(DimmerIntr1.DimmingValue, 2);
 DimmerIntr1.TuneValue3 = DimmerIntr1.TuneValue2 + (60 - DimmerIntr1.DimmingValue);
 DimmerIntr1.TuneValue4 = DimmerIntr1.TuneValue3 + DimmerIntr1.TuneValue2;
-DimmerIntr1.TuneEnd = DimmerIntr1.TuneValue4 + 1;
+DimmerIntr1.TuneEnd = DimmerIntr1.TuneValue4 + 5;
 }
 
 
 
 DimmerIntr1.Status = RB2 == 1 ? 1 : 0;
 
-# 1582
+# 1649
 }
 
 
 
 }
 
-# 1606
+# 1673
 }
 
-# 1775
+# 1842
 void setDimmerLights_DimmingClose() {
 
 setDimmerIntr_Dimming_Sw(1, 0);
 
-# 1787
+# 1854
 }
 
 
@@ -3888,7 +4241,7 @@ DimmerIntr1.TuneTime = 0;
 DimmerIntr1.TuneGO = 1;
 if (DimmerIntr1.Dimming_Sw == 1) {
 if (DimmerIntr1.Dimming_Status == 0) {
-if (DimmerIntr1.DimmingValue < ((char)(70*0.6))) {
+if (DimmerIntr1.DimmingValue < ((char)(87*0.6))) {
 DimmerIntr1.DimmingValue++;
 } else {
 DimmerIntr1.Dimming_Status = 1;
@@ -3913,6 +4266,6 @@ DimmerIntr1.Dimming_RF = 0;
 }
 }
 
-# 1862
+# 1929
 }
 

@@ -471,6 +471,7 @@ void setRFSW_AdjControl(char sw) {
 
         setTxData();
         //        setRF_DimmerValue(sw);
+        setBuz(1, BuzzerOnOffTime);
     } else if (status == 0) {
         //        setProductData(9, product->Data[20 + sw]);
         //        setProductData((20 + sw), 0x00);
