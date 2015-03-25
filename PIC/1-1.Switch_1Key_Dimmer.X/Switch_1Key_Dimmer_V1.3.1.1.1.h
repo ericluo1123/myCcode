@@ -40,6 +40,8 @@
 #define PCB_Name "TH-302PV11-1-Dim(20140722)"
 
 #define MCU_16F1518
+//Oscillator (System FOSC)
+#define	System_Fosc_16M
 //MCU define
 #define	Key1_3				RA0		//pin2  1	
 #define OverLoad1			RA1		//pin3	1	
@@ -82,6 +84,8 @@
 #define _PORTB 	0b00000111;
 #define _PORTC 	0b00001100;
 
+#define _WPUB   0b00000000;
+
 //ADC channel
 #define OverLoad_Channel		AN1
 #define OverTemp_Channel		AN2
@@ -95,6 +99,8 @@
 #define	System_Fosc_16M_Value				//_16M
 //Main Time
 #define Main_Time_Value 20//ms
+//interrupt time
+#define IntrTime_100us
 //Timer0
 #define Timer0_use_Value	0
 #define TMR0_IntrTime_100us
@@ -116,6 +122,8 @@
 #define Slave_Mode_Value 0
 //IOC
 #define IOC_use_Value 1
+#define _IOCBP_Value    0b00000100; //Positive edge
+#define _IOCBN_Value    0b00000100; //Negative edge
 //FlashMemory
 #define FlashMemory_use_Value 1
 //watchdog timer
@@ -154,8 +162,12 @@
 #define PowerFault_use_Value 1
 //Dimmer Lights
 #define Dimmer_use_Value 	1
+#define Dimmer_Trigger_Mode_Value   3
 #define Dimmer_Half_Wave_Value	1
 #define Dimmer_Full_Wave_Value	0
+#define Dimmable_Func               1
+#define Max_Percent                 87 // 75(69%) , 80(72%) , 65(60%) , 87(80%)
+#define Mini_Percent                10
 //SegmentDisplay
 #define SegmentDisplay_use_Value    0
 //CDS

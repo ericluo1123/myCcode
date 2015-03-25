@@ -8,13 +8,11 @@
 
 #ifndef MCU_16F723A 
 
-typedef struct Product {
+struct Product {
     unsigned char Data[32];
-} Product;
+};
 
-Product *product;
-
-Product _product = {
+struct Product _product = {
     {
         0x63, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -22,6 +20,10 @@ Product _product = {
         0x00, 0x00
     }
 };
+
+struct Product *product;
+
+
 
 //0=Command	
 //1=Command

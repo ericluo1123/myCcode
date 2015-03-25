@@ -173,7 +173,7 @@ struct Dimmer_Interrupt {
             unsigned Trigger5 : 1;
             unsigned Status : 1;
             unsigned TuneGO : 1;
-            unsigned empty : 1;
+            unsigned Calculate : 1;
         };
     };
 
@@ -190,6 +190,11 @@ struct Dimmer_Interrupt {
     unsigned char TuneValue4;
     unsigned char TuneEnd;
 
+    unsigned char TuneValue2_Value;
+    unsigned char TuneValue3_Value;
+    unsigned char TuneValue4_Value;
+    unsigned char TuneEnd_Value;
+
 };
 struct Dimmer_Interrupt *DimmerIntr;
 
@@ -204,6 +209,8 @@ struct Dimmer_Interrupt DimmerIntr2;
 #ifdef use_3KEY
 struct Dimmer_Interrupt DimmerIntr3;
 #endif
+void DimmerIntr_ValueCalculate(char lights);
+
 
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
@@ -272,7 +279,7 @@ struct Dimmer {
 
 struct Dimmer Dimmer;
 
-inline void Dimmer_Initialization();
+void Dimmer_Initialization();
 char getDimmer_LoadGO();
 char getDimmer_Load_Status();
 

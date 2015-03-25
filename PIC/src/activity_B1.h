@@ -376,7 +376,7 @@ typedef unsigned int ADtype;
 
 //medium
 #define Dimmer_Medium 	(Dimmer_Minimum-Dimmer_Maxum)
-#endif 
+#endif  
 
 #if Control_Method_Mosfet == 1
 //maxum

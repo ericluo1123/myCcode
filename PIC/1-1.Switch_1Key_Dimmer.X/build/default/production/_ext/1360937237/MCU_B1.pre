@@ -17,10 +17,10 @@ Product _product = {
 }
 };
 
-# 56
+# 57
 inline void setProductData(char address, char value);
 
-# 61
+# 62
 struct command {
 
 struct {
@@ -48,15 +48,15 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
-# 108
+# 109
 struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
 unsigned Error_Run : 1;
 unsigned InitDimmer : 1;
-unsigned SaveDimmer:1;
-unsigned empty:2;
+unsigned SaveDimmer : 1;
+unsigned empty : 2;
 };
 
 unsigned int Timeout_Counter;
@@ -64,16 +64,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 130
+# 131
 void myMain_Initialization();
 
-# 135
+# 136
 inline void my_Main();
 
-# 140
+# 141
 inline void my_MainTimer();
 
-# 145
+# 146
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -831,7 +831,7 @@ inline void Dimmer_Initialization();
 char getDimmer_LoadGO();
 char getDimmer_Load_Status();
 
-# 25 "../src/../1-1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h"
+# 33 "../src/../1-1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h"
 struct DelayOff {
 
 struct {
@@ -849,7 +849,7 @@ struct DelayOff *DelayOff;
 
 struct DelayOff DlySw1;
 
-# 51
+# 59
 inline void DelayOff_Initialization();
 inline void DelayOff_Main();
 char DelayTimejudge(char value);
@@ -3513,7 +3513,7 @@ WDT_Set();
 
 
 void Fosc_Set() {
-OSCCON = _OSCCON;
+OSCCON = 0x78;
 }
 
 void IO_Set() {
@@ -3535,7 +3535,7 @@ PORTA = 0b01110111;;
 PORTB = 0b00000111;;
 PORTC = 0b00001100;;
 
-WPUB = _WPUB;
+WPUB = 0b00000000;;
 
 }
 
@@ -3558,9 +3558,9 @@ return;
 
 # 226
 inline void TMR1_Set() {
-T1CON = (0x40 | _CKPS | _TMR1ON);
-TMR1H = TMR1H_Value;
-TMR1L = TMR1L_Value;
+T1CON = (0x40 | 0x00 | 0x01);
+TMR1H = (int)((65536-1480)/256);
+TMR1L = (int)((65536-1480)%256);
 TMR1IE = 1;
 PEIE = 1;
 GIE = 1;
@@ -3574,21 +3574,21 @@ DimmerLights_TMR_1();
 
 # 268
 Timer1.Count++;
-if (Timer1.Count == TMR1_Time) {
+if (Timer1.Count == (int)(20*10)) {
 Timer1.Count = 0;
 Timer1.Timeout = 1;
 }
 
-TMR1H = TMR1H_Value;
-TMR1L = TMR1L_Value;
+TMR1H = (int)((65536-1480)/256);
+TMR1L = (int)((65536-1480)%256);
 TMR1IF = 0;
 }
 
 # 380
 void IOC_Set() {
 
-IOCBP = _IOCBP_Value;
-IOCBN = _IOCBN_Value;
+IOCBP = 0b00000100;;
+IOCBN = 0b00000100;;
 
 IOCBF = 0b00000000;
 
@@ -3636,6 +3636,7 @@ return ((ADRESH*256)+ADRESL);
 void Flash_Memory_Initialization() {
 char value = 0;
 if (Flash_Memory_Read(31) == 0xaa) {
+product->Data[11] = Flash_Memory_Read(6);
 product->Data[12] = Flash_Memory_Read(0);
 product->Data[13] = Flash_Memory_Read(1);
 product->Data[14] = Flash_Memory_Read(2);
@@ -3645,7 +3646,7 @@ product->Data[21] = Flash_Memory_Read(3);
 product->Data[22] = Flash_Memory_Read(4);
 product->Data[23] = Flash_Memory_Read(5);
 
-# 949
+# 950
 if (product->Data[12] == 0xff && product->Data[13] == 0xff && product->Data[14] == 0xff) {
 myMain.FirstOpen = 1;
 myMain.First = 1;
@@ -3658,6 +3659,7 @@ setMemory_Data(2, 0xff);
 setMemory_Data(3, 0xff);
 setMemory_Data(4, 0xff);
 setMemory_Data(5, 0xff);
+setMemory_Data(6, 0xff);
 setMemory_Data(31, 0xaa);
 
 
@@ -3755,6 +3757,7 @@ char i = 0;
 for (i = 0; i < 32; i++) {
 Memory.Data[i] = Flash_Memory_Read(i);
 }
+setMemory_Data(6, product->Data[11]);
 setMemory_Data(0, product->Data[12]);
 setMemory_Data(1, product->Data[13]);
 setMemory_Data(2, product->Data[14]);
@@ -3795,10 +3798,10 @@ void setMemory_Data(char address, char data) {
 Memory.Data[address] = data;
 }
 
-# 1102
+# 1105
 void WDT_Set() {
 
-# 1109
+# 1112
 WDTCON = 0b00010111;;
 
 WDT.Enable = 1;

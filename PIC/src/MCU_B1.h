@@ -24,7 +24,7 @@ void IO_Set();
 //*********************************************************
 //oscillator
 //System Clock Select=FOSC<2:0>
-
+ 
 #ifdef MCU_16F723A
 //PLLEN = 1
 #ifdef System_Fosc_16M
@@ -150,12 +150,12 @@ void IO_Set();
 #endif	
 
 #endif
-
+ 
 #ifdef MCU_16F1518
 #ifdef System_Fosc_16M
 #define _OSCCON 0x78
 #define _FOSC 16000000L
-#endif
+#endif 
 
 #ifdef System_Fosc_8M									
 #define _OSCCON 0x38
@@ -436,7 +436,7 @@ inline void setDimmerReClock();
 #define TMR1_Count	7500
 #define TMR1_1ms	2
 #endif
-
+ 
 #define _TMR1ON 0x01
 #define TMR1H_Value 	(int)((65536-TMR1_Count)/256)
 #define TMR1L_Value  	(int)((65536-TMR1_Count)%256)

@@ -2,19 +2,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11 ../src/../1-1.Switch_1Key_Dimmer.X/../src/Main_B1.h
 [s S1 `uc -> 32 `i ]
 [n S1 Product Data ]
-"63
+"64
 [s S3 :1 `uc 1 :7 `uc 1 ]
 [n S3 . all_off empty ]
-"61
+"62
 [s S2 `S3 1 ]
 [n S2 command . ]
-"75
+"76
 [s S5 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S5 . PowerON Flag GO FirstOpen SelfTest First Test Tempty ]
-"108
+"109
 [s S6 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :2 `uc 1 ]
 [n S6 . q r Timeout Error_Run InitDimmer SaveDimmer empty ]
-"73
+"74
 [s S4 `S5 1 `uc 1 `S6 1 `ui 1 ]
 [n S4 myMain . PowerCount . Timeout_Counter ]
 "20 ../src/../1-1.Switch_1Key_Dimmer.X/../src/Switch_B1.h
@@ -116,10 +116,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 "239
 [s S40 `S41 1 `S43 1 `uc 1 `uc 1 ]
 [n S40 Dimmer . . Load Correction ]
-"27 ../src/../1-1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h
+"35 ../src/../1-1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h
 [s S46 :1 `uc 1 :1 `uc 1 :6 `uc 1 ]
 [n S46 . Enable GO empty ]
-"25
+"33
 [s S45 `S46 1 `uc 1 `ui 1 `uc 1 ]
 [n S45 DelayOff . Value SecondTime MinuteTime ]
 "9 ../src/../1-1.Switch_1Key_Dimmer.X/../src/PowerFault_B1.h
@@ -255,55 +255,55 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 22: 0x00, 0x00
 [; ;Main_B1.h: 23: }
 [; ;Main_B1.h: 24: };
-[; ;Main_B1.h: 56: inline void setProductData(char address, char value);
-[; ;Main_B1.h: 61: struct command {
-[; ;Main_B1.h: 63: struct {
-[; ;Main_B1.h: 64: unsigned all_off : 1;
-[; ;Main_B1.h: 65: unsigned empty : 7;
-[; ;Main_B1.h: 66: };
+[; ;Main_B1.h: 57: inline void setProductData(char address, char value);
+[; ;Main_B1.h: 62: struct command {
+[; ;Main_B1.h: 64: struct {
+[; ;Main_B1.h: 65: unsigned all_off : 1;
+[; ;Main_B1.h: 66: unsigned empty : 7;
 [; ;Main_B1.h: 67: };
-"68
+[; ;Main_B1.h: 68: };
+"69
 [v _Cmd `S2 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 68: struct command Cmd;
-[; ;Main_B1.h: 70: void setCmd_Status(char number, char cmd);
-[; ;Main_B1.h: 71: char getCmd_Status(char number);
-[; ;Main_B1.h: 73: struct myMain {
-[; ;Main_B1.h: 75: struct {
-[; ;Main_B1.h: 76: unsigned PowerON : 1;
-[; ;Main_B1.h: 77: unsigned Flag : 1;
-[; ;Main_B1.h: 78: unsigned GO : 1;
-[; ;Main_B1.h: 79: unsigned FirstOpen : 1;
-[; ;Main_B1.h: 80: unsigned SelfTest : 1;
-[; ;Main_B1.h: 81: unsigned First : 1;
-[; ;Main_B1.h: 82: unsigned Test : 1;
-[; ;Main_B1.h: 83: unsigned Tempty : 1;
-[; ;Main_B1.h: 84: };
-[; ;Main_B1.h: 86: unsigned char PowerCount;
-[; ;Main_B1.h: 108: struct {
-[; ;Main_B1.h: 109: unsigned q : 1;
-[; ;Main_B1.h: 110: unsigned r : 1;
-[; ;Main_B1.h: 111: unsigned Timeout : 1;
-[; ;Main_B1.h: 112: unsigned Error_Run : 1;
-[; ;Main_B1.h: 113: unsigned InitDimmer : 1;
-[; ;Main_B1.h: 114: unsigned SaveDimmer:1;
-[; ;Main_B1.h: 115: unsigned empty:2;
-[; ;Main_B1.h: 116: };
-[; ;Main_B1.h: 118: unsigned int Timeout_Counter;
-[; ;Main_B1.h: 120: };
-"121
+[; ;Main_B1.h: 69: struct command Cmd;
+[; ;Main_B1.h: 71: void setCmd_Status(char number, char cmd);
+[; ;Main_B1.h: 72: char getCmd_Status(char number);
+[; ;Main_B1.h: 74: struct myMain {
+[; ;Main_B1.h: 76: struct {
+[; ;Main_B1.h: 77: unsigned PowerON : 1;
+[; ;Main_B1.h: 78: unsigned Flag : 1;
+[; ;Main_B1.h: 79: unsigned GO : 1;
+[; ;Main_B1.h: 80: unsigned FirstOpen : 1;
+[; ;Main_B1.h: 81: unsigned SelfTest : 1;
+[; ;Main_B1.h: 82: unsigned First : 1;
+[; ;Main_B1.h: 83: unsigned Test : 1;
+[; ;Main_B1.h: 84: unsigned Tempty : 1;
+[; ;Main_B1.h: 85: };
+[; ;Main_B1.h: 87: unsigned char PowerCount;
+[; ;Main_B1.h: 109: struct {
+[; ;Main_B1.h: 110: unsigned q : 1;
+[; ;Main_B1.h: 111: unsigned r : 1;
+[; ;Main_B1.h: 112: unsigned Timeout : 1;
+[; ;Main_B1.h: 113: unsigned Error_Run : 1;
+[; ;Main_B1.h: 114: unsigned InitDimmer : 1;
+[; ;Main_B1.h: 115: unsigned SaveDimmer : 1;
+[; ;Main_B1.h: 116: unsigned empty : 2;
+[; ;Main_B1.h: 117: };
+[; ;Main_B1.h: 119: unsigned int Timeout_Counter;
+[; ;Main_B1.h: 121: };
+"122
 [v _myMain `S4 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 121: struct myMain myMain;
-[; ;Main_B1.h: 130: void myMain_Initialization();
-[; ;Main_B1.h: 135: inline void my_Main();
-[; ;Main_B1.h: 140: inline void my_MainTimer();
-[; ;Main_B1.h: 145: inline void Timeout_Counter();
-[; ;Main_B1.h: 146: inline void set_TimeoutCleared();
-[; ;Main_B1.h: 147: void setMain_Exception(char command);
-[; ;Main_B1.h: 148: char getMain_AD_OK();
-[; ;Main_B1.h: 149: char getMain_All_LightsStatus();
-[; ;Main_B1.h: 150: char getMain_All_Error_Status(char command);
-[; ;Main_B1.h: 151: char getMain_Lights_Count();
-[; ;Main_B1.h: 152: void Exception_Main();
+[; ;Main_B1.h: 122: struct myMain myMain;
+[; ;Main_B1.h: 131: void myMain_Initialization();
+[; ;Main_B1.h: 136: inline void my_Main();
+[; ;Main_B1.h: 141: inline void my_MainTimer();
+[; ;Main_B1.h: 146: inline void Timeout_Counter();
+[; ;Main_B1.h: 147: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 148: void setMain_Exception(char command);
+[; ;Main_B1.h: 149: char getMain_AD_OK();
+[; ;Main_B1.h: 150: char getMain_All_LightsStatus();
+[; ;Main_B1.h: 151: char getMain_All_Error_Status(char command);
+[; ;Main_B1.h: 152: char getMain_Lights_Count();
+[; ;Main_B1.h: 153: void Exception_Main();
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -1095,30 +1095,30 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Dimmer_B1.h: 275: inline void Dimmer_Initialization();
 [; ;Dimmer_B1.h: 276: char getDimmer_LoadGO();
 [; ;Dimmer_B1.h: 277: char getDimmer_Load_Status();
-[; ;DelayOff_B1.h: 25: struct DelayOff {
-[; ;DelayOff_B1.h: 27: struct {
-[; ;DelayOff_B1.h: 28: unsigned Enable : 1;
-[; ;DelayOff_B1.h: 29: unsigned GO : 1;
-[; ;DelayOff_B1.h: 30: unsigned empty : 6;
-[; ;DelayOff_B1.h: 31: };
-[; ;DelayOff_B1.h: 33: unsigned char Value;
-[; ;DelayOff_B1.h: 34: unsigned int SecondTime;
-[; ;DelayOff_B1.h: 35: unsigned char MinuteTime;
-[; ;DelayOff_B1.h: 36: };
-"37 ../src/../1-1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h
+[; ;DelayOff_B1.h: 33: struct DelayOff {
+[; ;DelayOff_B1.h: 35: struct {
+[; ;DelayOff_B1.h: 36: unsigned Enable : 1;
+[; ;DelayOff_B1.h: 37: unsigned GO : 1;
+[; ;DelayOff_B1.h: 38: unsigned empty : 6;
+[; ;DelayOff_B1.h: 39: };
+[; ;DelayOff_B1.h: 41: unsigned char Value;
+[; ;DelayOff_B1.h: 42: unsigned int SecondTime;
+[; ;DelayOff_B1.h: 43: unsigned char MinuteTime;
+[; ;DelayOff_B1.h: 44: };
+"45 ../src/../1-1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h
 [v _DelayOff `*S45 ~T0 @X0 1 e ]
-[; ;DelayOff_B1.h: 37: struct DelayOff *DelayOff;
-"40
+[; ;DelayOff_B1.h: 45: struct DelayOff *DelayOff;
+"48
 [v _DlySw1 `S45 ~T0 @X0 1 e ]
-[; ;DelayOff_B1.h: 40: struct DelayOff DlySw1;
-[; ;DelayOff_B1.h: 51: inline void DelayOff_Initialization();
-[; ;DelayOff_B1.h: 52: inline void DelayOff_Main();
-[; ;DelayOff_B1.h: 53: char DelayTimejudge(char value);
-[; ;DelayOff_B1.h: 54: void DlyOff_Initialization(char sw);
-[; ;DelayOff_B1.h: 55: void DlyOff_Main(char sw);
-[; ;DelayOff_B1.h: 56: void setDelayOff_GO(char sw, char command, char value);
-[; ;DelayOff_B1.h: 57: char getDelayOff_GO(char sw);
-[; ;DelayOff_B1.h: 58: void DelayOffPointSelect(char sw);
+[; ;DelayOff_B1.h: 48: struct DelayOff DlySw1;
+[; ;DelayOff_B1.h: 59: inline void DelayOff_Initialization();
+[; ;DelayOff_B1.h: 60: inline void DelayOff_Main();
+[; ;DelayOff_B1.h: 61: char DelayTimejudge(char value);
+[; ;DelayOff_B1.h: 62: void DlyOff_Initialization(char sw);
+[; ;DelayOff_B1.h: 63: void DlyOff_Main(char sw);
+[; ;DelayOff_B1.h: 64: void setDelayOff_GO(char sw, char command, char value);
+[; ;DelayOff_B1.h: 65: char getDelayOff_GO(char sw);
+[; ;DelayOff_B1.h: 66: void DelayOffPointSelect(char sw);
 [; ;PowerFault_B1.h: 7: struct PF {
 [; ;PowerFault_B1.h: 9: struct {
 [; ;PowerFault_B1.h: 10: unsigned Enable : 1;

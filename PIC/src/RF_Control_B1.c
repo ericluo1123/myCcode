@@ -72,6 +72,7 @@ inline void setRF_Main() {
                             RF1.TransceiveGO = false;
                             RF1.CorrectionCounter = 0;
                             RF_RxDisable();
+                            setData();
                             CC2500_TxData();
                             //                    ErrLED = ErrLED == true ? false : true;
                         }
@@ -121,7 +122,7 @@ inline void setRF_Main() {
             RF1.RxStatus = false;
             RF1.ReceiveGO = false;
             CC2500_WriteCommand(CC2500_SIDLE); // idle
-            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+            //            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
         }
 
         if (RF1.Timeout == true) {
@@ -155,8 +156,8 @@ inline void RF_RxDisable() {
     if (RF1.ReceiveGO == true || RF1.RxStatus == true) {
         RF1.RxStatus = false;
         RF1.ReceiveGO = false;
-        CC2500_WriteCommand(CC2500_SIDLE); // idle
-        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+        //        CC2500_WriteCommand(CC2500_SIDLE); // idle
+        //        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
         //        CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
         //        setINT_GO(0);
     }
@@ -169,8 +170,12 @@ inline char getRF_KeyStatus() {
     key = (Key1 == true || Key2 == true || Key3 == true) ? 1 : 0;
 #endif
 
-#if	Switch_Class == 2
+#if Switch_Class == 2
+#if Micro_Switch == 1
+    key = (Key1 == true || Key2 == true) ? 1 : 0;
+#else
     key = (Key1_1 == true || Key1_2 == true || Key2_1 == true || Key2_2 == true) ? 1 : 0;
+#endif
 #endif
 
 #if	Switch_Class == 1
@@ -179,6 +184,55 @@ inline char getRF_KeyStatus() {
     return key;
 }
 //*********************************************************
+
+inline void setData() {
+
+#if myUARTtoRF_use == 1
+#if remote_mode == 1
+    RF_Data[0] = 0x00; //Product->Data[0];		//Command
+    RF_Data[1] = 0x02; //Product->Data[1];		//Command
+
+    if (u1.switch_dimming == true) {
+        u1.switch_dimming = false;
+        if (product->Data[11] != 0) {
+            char value = 208;
+            value += product->Data[11];
+            product->Data[15] = value;
+        }
+    } else {
+        product->Data[15] = product->Data[11];
+    }
+
+#else
+    RF_Data[0] = 0xAA; //Product->Data[0];		//Command
+    RF_Data[1] = 0x01; //Product->Data[1];		//Command
+#endif
+
+#else
+    RF_Data[0] = 0x63; //Product->Data[0];		//Command
+    RF_Data[1] = 0x02; //Product->Data[1];		//Command
+#endif
+    RF_Data[2] = 0; //product->Data[2]; //Temperature
+    RF_Data[3] = 0; //product->Data[3]; //Temperature
+    RF_Data[4] = 0; //product->Data[4]; //Humidity
+    RF_Data[5] = 0; //product->Data[5]; //Humidity
+    RF_Data[6] = 0; //product->Data[6]; //Barometric pressure
+    RF_Data[7] = 0; //product->Data[7]; //Barometric pressure
+    RF_Data[8] = 0; //product->Data[8]; //Electricity
+    RF_Data[9] = product->Data[9]; //Dimmer
+    RF_Data[10] = 0; // product->Data[10]; //Electric  current
+    RF_Data[11] = product->Data[11]; //Year
+    RF_Data[12] = product->Data[12]; //Week
+    RF_Data[13] = product->Data[13]; //Serial  Number
+    RF_Data[14] = product->Data[14]; //Serial  Number
+    RF_Data[15] = product->Data[15]; //Lights Status
+    RF_Data[16] = 0; //product->Data[16]; //Timmer Command
+    RF_Data[17] = 0; //product->Data[17]; //Timmer Time
+    RF_Data[18] = 0; //product->Data[18]; //Reserved
+    RF_Data[19] = 0; //product->Data[19]; //Reserved
+    RF_Data[20] = KeyID; //Product->Data[20];	//Key ID
+
+}
 
 inline void setTxData() {
     char i;
@@ -193,50 +247,7 @@ inline void setTxData() {
         //        for (i = 0; i < 20; i++) {
         //            RF_Data[i] = product->Data[i];
         //        }
-#if myUARTtoRF_use == 1
-#if remote_mode == 1
-        RF_Data[0] = 0x00; //Product->Data[0];		//Command
-        RF_Data[1] = 0x02; //Product->Data[1];		//Command
 
-        if (u1.switch_dimming == true) {
-            u1.switch_dimming = false;
-            if (product->Data[11] != 0) {
-                char value = 208;
-                value += product->Data[11];
-                product->Data[15] = value;
-            }
-        } else {
-            product->Data[15] = product->Data[11];
-        }
-
-#else
-        RF_Data[0] = 0xAA; //Product->Data[0];		//Command
-        RF_Data[1] = 0x01; //Product->Data[1];		//Command
-#endif
-
-#else
-        RF_Data[0] = 0x63; //Product->Data[0];		//Command
-        RF_Data[1] = 0x02; //Product->Data[1];		//Command
-#endif
-        RF_Data[2] = product->Data[2]; //Temperature
-        RF_Data[3] = product->Data[3]; //Temperature
-        RF_Data[4] = product->Data[4]; //Humidity
-        RF_Data[5] = product->Data[5]; //Humidity
-        RF_Data[6] = product->Data[6]; //Barometric pressure
-        RF_Data[7] = product->Data[7]; //Barometric pressure
-        RF_Data[8] = product->Data[8]; //Electricity
-        RF_Data[9] = product->Data[9]; //Dimmer
-        RF_Data[10] = product->Data[10]; //Electric  current
-        RF_Data[11] = product->Data[11]; //Year
-        RF_Data[12] = product->Data[12]; //Week
-        RF_Data[13] = product->Data[13]; //Serial  Number
-        RF_Data[14] = product->Data[14]; //Serial  Number
-        RF_Data[15] = product->Data[15]; //Lights Status
-        RF_Data[16] = product->Data[16]; //Timmer Command
-        RF_Data[17] = product->Data[17]; //Timmer Time
-        RF_Data[18] = product->Data[18]; //Reserved
-        RF_Data[19] = product->Data[19]; //Reserved
-        RF_Data[20] = KeyID; //Product->Data[20];	//Key ID
     }
 #endif
 }
@@ -535,15 +546,24 @@ void setRF_flagDimming(char command) {
 
 inline void setRF_DimmerLights(char lights, char on) {
     char status = 1;
-    status <<= (lights - 1);
+    switch (lights) {
+        case 2:
+            status <<= 1;
+            break;
+        case 3:
+            status <<= 2;
+            break;
+    }
+    status = ~status;
+
     setProductData(11, lights);
     setProductData(17, product->Data[26 + lights]);
     if (on == 1) {
         setProductData(9, product->Data[20 + lights]);
-        setProductData(15, (product->Data[15] | status));
+        setProductData(15, (product->Data[15] | lights));
     } else {
         setProductData(9, 0x00);
-        setProductData(15, (product->Data[15]&(~status)));
+        setProductData(15, (product->Data[15] & status));
     }
 }
 //******************************************************************************

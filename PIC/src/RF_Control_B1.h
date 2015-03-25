@@ -57,6 +57,7 @@ inline void setRF_Initialization();
 inline void RF_Main();
 inline void setRF_Main();
 inline void setTxData();
+inline void setData();
 inline void getRxData();
 //inline void setRF_Enable(char command);
 inline void setLog_Code();

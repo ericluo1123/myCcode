@@ -139,7 +139,7 @@ void setSw_Main(char sw) {
 #if LightsControl_use == 1
                     setLights_SwOn(sw);
 #endif
-                    
+
 #if Dimmer_use == 1
                     setDimmerLights_SwOn(sw); //key on function
 #endif
@@ -255,6 +255,13 @@ char getSw_KeyStatus(char sw) {
     } else if (sw == 2) {
         status = Key2_1 == true ? 1 : 0;
     }
+#elif Micro_Switch == 1 
+    if (sw == 1) {
+        status = Key1 == true ? 1 : 0;
+    } else if (sw == 2) {
+        status = Key2 == true ? 1 : 0;
+    }
+
 #else
     if (sw == 1) {
         status = Key1_1 == true || Key1_2 == true ? 1 : 0;
@@ -287,9 +294,14 @@ char getAll_Sw_KeyStatus() {
 #if PIR_use == 1
     status = Key2_1 == true ? 1 : 0;
 #else
+
+#if Micro_Switch == 1
+    status = (Key1 == true || Key2 == true) ? 1 : 0;
+#else
     status = Key1_1 == true || Key1_2 == true || Key2_1 == true || Key2_2 == true ? 1 : 0;
 #endif
 
+#endif
 #endif
 
 #if Switch_Class == 1
@@ -301,6 +313,7 @@ char getAll_Sw_KeyStatus() {
 #endif
 
     return status;
+
 }
 //******************************************************************************
 //void Sw_Detect() {

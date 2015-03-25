@@ -7,7 +7,7 @@
 #define enable      1
 #define disable     0
 
-#include "../1-8-2.Switch_1Key_Dimmer_MOSFET_Neutral.X/Switch_1Key_Dimmer_MOSFET_Neutral_V1.1.1.1.1.h"
+#include "../1-7-2.Mirco_Switch_2Key_2Wire_MosFET.X/Micro_Switch_2Key_2Wire_MOSFET.h"
 
 #endif
 
