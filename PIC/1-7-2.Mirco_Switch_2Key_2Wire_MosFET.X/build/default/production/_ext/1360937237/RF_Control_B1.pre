@@ -2848,11 +2848,6 @@ void setSw_Status(char sw, char command);
 char getSw_KeyStatus(char sw);
 char getAll_Sw_KeyStatus();
 
-
-
-
-void TouchPower();
-
 # 97
 struct SwitchDetect {
 
@@ -3257,7 +3252,7 @@ void setLoad_AH_AL_Restore();
 char getLoad_OK();
 void setLoad_OK();
 
-# 29 "../src/../1-7-2.Mirco_Switch_2Key_2Wire_MosFET.X/../src/Dimmer_B1.h"
+# 36 "../src/../1-7-2.Mirco_Switch_2Key_2Wire_MosFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
 
@@ -3312,14 +3307,14 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 99
+# 106
 struct DimmerLights DimmerLights1;
 
 
 
 struct DimmerLights DimmerLights2;
 
-# 118
+# 125
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3410,7 +3405,7 @@ struct Dimmer_Interrupt DimmerIntr1;
 
 struct Dimmer_Interrupt DimmerIntr2;
 
-# 212
+# 219
 void DimmerIntr_ValueCalculate(char lights);
 
 
@@ -3440,7 +3435,7 @@ inline void DimmerLights_TMR_2();
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
 
-# 246
+# 253
 struct Dimmer {
 
 
@@ -3972,6 +3967,7 @@ DimmerLights->DimmingSwitch = 0;
 }
 
 
+
 char getRF_flagDimming() {
 char result = RF1.flagDimming == 1 ? 1 : 0;
 return result;
@@ -3981,7 +3977,7 @@ void setRF_flagDimming(char command) {
 RF1.flagDimming = command == 1 ? 1 : 0;
 }
 
-# 547
+# 550
 inline void setRF_DimmerLights(char lights, char on) {
 char status = 1;
 switch (lights) {
@@ -4004,6 +4000,7 @@ setProductData(9, 0x00);
 setProductData(15, (product->Data[15] & status));
 }
 }
+
 
 
 inline void setRF_TransceiveGO(char command) {

@@ -520,6 +520,7 @@ void setRF_AdjControl(char sw) {
 }
 //*********************************************************
 
+#if CC2500_use == 1
 char getRF_flagDimming() {
     char result = RF1.flagDimming == true ? 1 : 0;
     return result;
@@ -528,6 +529,7 @@ char getRF_flagDimming() {
 void setRF_flagDimming(char command) {
     RF1.flagDimming = command == 1 ? true : false;
 }
+#endif
 //*********************************************************
 #if Dimmer_use == 1
 
@@ -544,6 +546,7 @@ void setRF_flagDimming(char command) {
 //}
 //*********************************************************
 
+#if CC2500_use == 1
 inline void setRF_DimmerLights(char lights, char on) {
     char status = 1;
     switch (lights) {
@@ -566,11 +569,14 @@ inline void setRF_DimmerLights(char lights, char on) {
         setProductData(15, (product->Data[15] & status));
     }
 }
+
 //******************************************************************************
 
 inline void setRF_TransceiveGO(char command) {
     RF1.TransceiveGO = command == 1 ? true : false;
 }
+
+#endif
 //******************************************************************************
 #endif
 

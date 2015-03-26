@@ -7,7 +7,7 @@
 #define enable      1
 #define disable     0
 
-#include "../1-7-2.Mirco_Switch_2Key_2Wire_MosFET.X/Micro_Switch_2Key_2Wire_MOSFET.h"
+#include "../1-7-3.Micro_Switch_3Key_2Wire_Triac.X/Micro_Switch_3Key_2Wire_TRIAC.h"
 
 #endif
 

@@ -4,7 +4,7 @@
 
 
 
-//Routine main
+//Routine main 
 #if LightsControl_use == 1
 
 void LightsPointSelect(char lights) {
@@ -127,6 +127,7 @@ void setLights(char lights, char status) {
         if (Lights->Status == false) {
             Lights->Status = true;
 #ifdef use_1KEY
+#if Control_Method_TriacRelay == 1
             if (lights == 1) {
                 Triac1 = true;
                 Lights->RelayValue = 100;
@@ -135,8 +136,14 @@ void setLights(char lights, char status) {
                 Lights->GO = true;
             }
 #endif
+
+#if Control_Method_Triac == 1
+            Triac1 = true;
+#endif
+
+#endif
 #ifdef use_2KEY
-            else if (lights == 2) {
+else if (lights == 2) {
 #if setLights_Mode == 1
                 Triac2 = true;
                 Lights->RelayValue = 100;
@@ -144,7 +151,7 @@ void setLights(char lights, char status) {
                 Lights->Time = 0;
                 Lights->GO = true;
 #elif setLights_Mode == 2
-                Triac2 = true; 
+                Triac2 = true;
 #elif setLights_Mode == 3
                 Relay2 = true;
 #endif
@@ -175,6 +182,7 @@ void setLights(char lights, char status) {
         if (Lights->Status == true) {
             Lights->Status = false;
 #ifdef use_1KEY
+#if Control_Method_TriacRelay == 1
             if (lights == 1) {
                 Triac1 = true;
                 Lights->RelayValue = 40;
@@ -183,8 +191,14 @@ void setLights(char lights, char status) {
                 Lights->GO = true;
             }
 #endif
+
+#if Control_Method_Triac == 1
+            Triac1 = false;
+#endif
+
+#endif
 #ifdef use_2KEY
-            else if (lights == 2) {
+else if (lights == 2) {
 #if setLights_Mode == 1
                 Triac2 = true;
                 Lights->RelayValue = 40;

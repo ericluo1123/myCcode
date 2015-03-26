@@ -409,7 +409,8 @@ inline void IOC_ISR() {
 #endif
 
 #ifdef use_3KEY
-        setDimmerIntr_IOC(3);
+//        setDimmerIntr_IOC(3);
+         DimmerLights_IOC_3();
 #endif
 
 #endif

@@ -14,9 +14,9 @@ void DimmerIntr_Initialization() {
 
 #ifndef MCU_16F723A
 #if DimmerValue_SaveMemory == 1
-    if (myMain.InitDimmer == true) {
-        product->Data[21] = getDimmerLights_ValueToPercent(Dimmer_Maxum);
-    }
+    //    if (myMain.InitDimmer == true) {
+    product->Data[21] = getDimmerLights_ValueToPercent(Dimmer_Maxum);
+    //    }
 
     DimmerIntr1.DimmingValue = getDimmerLights_PercentToValue(product->Data[21]);
 
@@ -43,9 +43,9 @@ void DimmerIntr_Initialization() {
 
 #ifndef MCU_16F723A
 #if DimmerValue_SaveMemory == 1
-    if (myMain.InitDimmer == true) {
-        product->Data[22] = getDimmerLights_ValueToPercent(Dimmer_Maxum);
-    }
+    //    if (myMain.InitDimmer == true) {
+    product->Data[22] = getDimmerLights_ValueToPercent(Dimmer_Maxum);
+    //    }
 
     DimmerIntr2.DimmingValue = getDimmerLights_PercentToValue(product->Data[22]);
 
@@ -1133,17 +1133,18 @@ char getDimmerLights_Allow_Condition(char lights) {
         }
     }
 #endif
+
 #if Switch_Class == 3
     if (allow == 0) {
-        if (sw == 1) {
-            idle = DimmerLights2.DimmingTrigger == true || DimmerLights3.TriggerAdj == true
-                    || DimmerIntr2.Dimming_Sw == true || DimmerIntr3.Dimming_Sw == true ? 1 : 0;
-        } else if (sw == 2) {
-            idle = DimmerLights1.DimmingTrigger == true || DimmerLights3.TriggerAdj == true
-                    || DimmerIntr1.Dimming_Sw == true || DimmerIntr3.Dimming_Sw == true ? 1 : 0;
-        } else if (sw == 3) {
-            idle = DimmerLights1.DimmingTrigger == true || DimmerLights2.DimmingTrigger == true
-                    || DimmerIntr1.Dimming_Sw == true || DimmerIntr2.Dimming_Sw == true ? 1 : 0;
+        if (lights == 1) {
+            allow = DimmerLights2.DimmingTrigger == true || DimmerIntr2.Dimming_Sw == true
+                    || DimmerLights3.DimmingTrigger == true || DimmerIntr3.Dimming_Sw == true ? 1 : 0;
+        } else if (lights == 2) {
+            allow = DimmerLights1.DimmingTrigger == true || DimmerIntr1.Dimming_Sw == true
+                    || DimmerLights3.DimmingTrigger == true || DimmerIntr3.Dimming_Sw == true ? 1 : 0;
+        } else if (lights == 3) {
+            allow = DimmerLights2.DimmingTrigger == true || DimmerIntr2.Dimming_Sw == true
+                    || DimmerLights1.DimmingTrigger == true || DimmerIntr1.Dimming_Sw == true ? 1 : 0;
         }
     }
 #endif
@@ -1499,17 +1500,23 @@ inline void DimmerLights_IOC_2() {
 }
 #endif
 
+#ifdef use_2KEY
+
+inline void DimmerLights_TMR_3() {
+
+}
+
+inline void DimmerLights_IOC_3() {
+
+}
+#endif
 
 #endif
+
 
 #if Control_Method_Mosfet == 1
 
 #ifdef use_1KEY
-
-inline char Division(char value, char num) {
-    char result = (char) (value / num);
-    return result;
-}
 
 inline void DimmerLights_TMR_1() {
 
@@ -1523,16 +1530,6 @@ inline void DimmerLights_TMR_1() {
         }
 
 #if Dimmer_Trigger_Mode == 3
-
-        //        if (DimmerIntr1.Count == DimmerIntr1.TuneValue) {
-        //            //            DimmerIntr1.Trigger1 = false;
-        //            //            DimmerIntr1.Trigger2 = true;
-        //            if (DimmerIntr1.ControlStatus == true) {
-        //                Mosfet1 = true;
-        //                //                ID_1KEY_1;
-        //            }
-        //        }
-
 
         if (DimmerIntr1.Count == DimmerIntr1.TuneValue2_Value) {
             if (DimmerIntr1.ControlStatus == true) {
@@ -2013,7 +2010,12 @@ void DimmerLights_PIR_Control() {
 
 #endif
 
+//******************************************************************************
 
+inline char Division(char value, char num) {
+    char result = (char) (value / num);
+    return result;
+}
 
 
 //end

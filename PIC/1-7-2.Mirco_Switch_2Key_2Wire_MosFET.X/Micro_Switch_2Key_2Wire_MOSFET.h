@@ -1,6 +1,6 @@
 
-#ifndef _Micro_Switch_2Key_2Wire_MOSFET_H_
-#define	_Micro_Switch_2Key_2Wire_MOSFET_H_
+#ifndef _Micro_Switch_2Key_2Wire_TRIAC_H_
+#define	_Micro_Switch_2Key_2Wire_TRIAC_H_
 
 /**Version information
         Name_Version 			:	1~255
@@ -36,28 +36,24 @@
 #define Properties_Dimmer_Value             1
 #define Debug_Value                         1
 #define Properties_TwoPhase_Value           1
-#define Micro_Switch    1
-
-
-#define Create_Date "2014/10/29"
-#define PCB_Name "TH-302PV11-1-Dim(20140722)"
+#define Micro_Switch                        1
 
 
 //MCU define
 #define	Key2				RA0		//pin2  1
 #define OverLoad1			RA1		//pin3	1	
 #define SYSC1				RA2		//pin4	1		
-#define	LED2				RA3		//pin5	0
+#define	LED1				RA3		//pin5	0
 //#define	Key2_2				RA4		//pin6 	1
 #define PFV1				RA5		//pin7	1
 #define	Key1				RA6		//pin10 1
-#define	Mosfet2				RA7		//pin9	0
+#define	Mosfet1				RA7		//pin9	0
 
 #define CC2500_GDO0			RB0		//pin21 1	
 //#define Key1_2				RB1		//pin22 1
 #define DimmerReference1                RB2		//pin23 1
 #define Buzzer1				RB3		//pin24	0
-#define Mosfet1				RB4		//pin25 0
+#define Mosfet2				RB4		//pin25 0
 #define ErrLED				RB5		//pin26	0
 #define PinEmpty1			RB6		//pin27	0	
 #define PinEmpty2			RB7		//pin28 0	
@@ -67,9 +63,9 @@
 #define CC2500_SO			RC2		//pin13	1		
 #define	CC2500_GDO2			RC3		//pin14	1	
 #define CC2500_CSN			RC4		//pin15	0	
-#define	TTPW				RC5		//pin16	0	
+//#define	TTPW				RC5		//pin16	0
 //#define LED3				RC6		//pin17	0
-#define	LED1				RC7		//pin18	0
+#define	LED2				RC7		//pin18	0
 
 //I/O
 #define _TRISA 	0b01010111;
@@ -165,7 +161,7 @@
 #define Dimmer_Trigger_Mode_Value   3
 #define Dimmer_Half_Wave_Value      0
 #define Dimmer_Full_Wave_Value      1
-#define Dimmable_Func           1
+#define Dimmable_Func               1
 #define Max_Percent                 77
 #define Mini_Percent                5
 //SegmentDisplay

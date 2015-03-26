@@ -248,7 +248,7 @@ char getSw_KeyStatus(char sw) {
 #endif
 
 #if Switch_Class == 2
-
+ 
 #if PIR_use == 1
     if (sw == 1) {
         NOP();

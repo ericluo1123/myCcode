@@ -66,7 +66,7 @@
 #define CC2500_SO			RC2		//pin13	1		
 #define	CC2500_GDO2			RC3		//pin14	1	
 #define CC2500_CSN			RC4		//pin15	0	
-#define	TTPW				RC5		//pin16	0	
+//#define	TTPW				RC5		//pin16	0
 //#define LED3				RC6		//pin17	0
 #define	LED1				RC7		//pin18	0
 

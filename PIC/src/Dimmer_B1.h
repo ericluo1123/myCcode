@@ -20,6 +20,13 @@
 #else
 #define TuneTime1 4
 #endif
+
+#elif Properties_Keys == 3
+#if Properties_Neutral == 1
+#define TuneTime1 5
+#else
+#define TuneTime1 4
+#endif
 #endif
 
 
@@ -234,9 +241,12 @@ inline void setDimmerIntr_IOC(char lights);
 
 inline void DimmerLights_TMR_1();
 inline void DimmerLights_TMR_2();
+inline void DimmerLights_TMR_3();
 
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
+inline void DimmerLights_IOC_3();
+
 
 #if PIR_use == 1
 void DimmerLights_PIR_Control();
