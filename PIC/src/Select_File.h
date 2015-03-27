@@ -6,8 +6,8 @@
 #define false       0
 #define enable      1
 #define disable     0
-
-#include "../1-7-3.Micro_Switch_3Key_2Wire_Triac.X/Micro_Switch_3Key_2Wire_TRIAC.h"
+ 
+#include "../1-1-3.Switch_3Key_Dimmer.X/Switch_3Key_Dimmer_V1.1.1.3.1.h"
 
 #endif
 

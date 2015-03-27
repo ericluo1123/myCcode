@@ -209,10 +209,10 @@ inline void my_MainTimer() {
         if (myMain.PowerCount == (1000 / Main_Time)) {
             myMain.PowerCount = 0;
 
-//            LED1 = LED1 == true ? false : true;
-//            LED2 = LED2 == true ? false : true;
-//            LED3 = LED3 == true ? false : true;
-//            ErrLED = ErrLED == true ? false : true;
+            //            LED1 = LED1 == true ? false : true;
+            //            LED2 = LED2 == true ? false : true;
+            //            LED3 = LED3 == true ? false : true;
+            //            ErrLED = ErrLED == true ? false : true;
 
 
 #if Load_Debug == 1 || Temp_Debug == 1 || DelayOff_Debug == 1 || PIR_TestTime_Mode == 1 || Dimmer_Debug == 1
@@ -415,10 +415,10 @@ char getMain_All_LightsStatus() {
 #endif
 #if Dimmer_use == 1
     status = DimmerLights1.Status == true ? 1 : 0;
-    if (status) {
+    if (status == 0) {
         status = DimmerLights2.Status == true ? 1 : 0;
     }
-    if (status) {
+    if (status == 0) {
         status = DimmerLights3.Status == true ? 1 : 0;
     }
 #endif

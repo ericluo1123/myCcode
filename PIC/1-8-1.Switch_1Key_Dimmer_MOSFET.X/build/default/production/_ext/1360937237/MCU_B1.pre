@@ -2714,13 +2714,11 @@ void WDT_Main();
 void WDT_Clearing();
 
 # 11 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Main_B1.h"
-typedef struct Product {
+struct Product {
 unsigned char Data[32];
-} Product;
+};
 
-Product *product;
-
-Product _product = {
+struct Product _product = {
 {
 0x63, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -2729,10 +2727,12 @@ Product _product = {
 }
 };
 
-# 57
+struct Product *product;
+
+# 59
 inline void setProductData(char address, char value);
 
-# 62
+# 64
 struct command {
 
 struct {
@@ -2760,12 +2760,13 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
+
 unsigned int Count;
 unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 109
+# 113
 struct {
 unsigned q : 1;
 unsigned r : 1;
@@ -2781,16 +2782,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 131
+# 135
 void myMain_Initialization();
 
-# 136
+# 140
 inline void my_Main();
 
-# 141
+# 145
 inline void my_MainTimer();
 
-# 146
+# 150
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -3166,6 +3167,7 @@ inline void setRF_Initialization();
 inline void RF_Main();
 inline void setRF_Main();
 inline void setTxData();
+inline void setData();
 inline void getRxData();
 
 inline void setLog_Code();
@@ -3243,7 +3245,7 @@ void setLoad_AH_AL_Restore();
 char getLoad_OK();
 void setLoad_OK();
 
-# 29 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
+# 36 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
 
@@ -3298,10 +3300,10 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 99
+# 106
 struct DimmerLights DimmerLights1;
 
-# 118
+# 125
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3360,7 +3362,7 @@ unsigned Trigger4 : 1;
 unsigned Trigger5 : 1;
 unsigned Status : 1;
 unsigned TuneGO : 1;
-unsigned empty : 1;
+unsigned Calculate : 1;
 };
 };
 
@@ -3377,13 +3379,21 @@ unsigned char TuneValue3;
 unsigned char TuneValue4;
 unsigned char TuneEnd;
 
+unsigned char TuneValue2_Value;
+unsigned char TuneValue3_Value;
+unsigned char TuneValue4_Value;
+unsigned char TuneEnd_Value;
+
 };
 struct Dimmer_Interrupt *DimmerIntr;
 
 
 struct Dimmer_Interrupt DimmerIntr1;
 
-# 208
+# 219
+void DimmerIntr_ValueCalculate(char lights);
+
+
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3406,11 +3416,13 @@ inline void setDimmerIntr_IOC(char lights);
 
 inline void DimmerLights_TMR_1();
 inline void DimmerLights_TMR_2();
+inline void DimmerLights_TMR_3();
 
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
+inline void DimmerLights_IOC_3();
 
-# 239
+# 256
 struct Dimmer {
 
 
@@ -3447,7 +3459,7 @@ unsigned char Correction;
 
 struct Dimmer Dimmer;
 
-inline void Dimmer_Initialization();
+void Dimmer_Initialization();
 char getDimmer_LoadGO();
 char getDimmer_Load_Status();
 
@@ -3660,20 +3672,20 @@ if (myMain.PowerON == 1) {
 # 403
 DimmerLights_IOC_1();
 
-# 416
+# 417
 }
 
 IOCBF2 = 0;
 IOCIF = 0;
 }
 
-# 427
+# 428
 void ADC_Set() {
 ADCON1 = 0xf3;
 FVRCON = 0xc1;
 }
 
-# 461
+# 462
 inline int getAD(char adcon0, char adcon1) {
 ADCON0 = adcon0;
 ADCON1 = adcon1;
@@ -3685,7 +3697,7 @@ set_TimeoutCleared();
 return ((ADRESH*256)+ADRESL);
 }
 
-# 932
+# 933
 void Flash_Memory_Initialization() {
 char value = 0;
 if (Flash_Memory_Read(31) == 0xaa) {
@@ -3699,7 +3711,7 @@ product->Data[21] = Flash_Memory_Read(3);
 product->Data[22] = Flash_Memory_Read(4);
 product->Data[23] = Flash_Memory_Read(5);
 
-# 950
+# 951
 if (product->Data[12] == 0xff && product->Data[13] == 0xff && product->Data[14] == 0xff) {
 myMain.FirstOpen = 1;
 myMain.First = 1;
@@ -3851,10 +3863,10 @@ void setMemory_Data(char address, char data) {
 Memory.Data[address] = data;
 }
 
-# 1105
+# 1106
 void WDT_Set() {
 
-# 1112
+# 1113
 WDTCON = 0b00010111;;
 
 WDT.Enable = 1;

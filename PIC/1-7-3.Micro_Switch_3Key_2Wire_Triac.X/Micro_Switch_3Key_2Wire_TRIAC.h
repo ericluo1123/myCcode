@@ -1,6 +1,6 @@
 
-#ifndef _Micro_Switch_3Key_2Wire_MOSFET_H_
-#define	_Micro_Switch_3Key_2Wire_MOSFET_H_
+#ifndef _Micro_Switch_3Key_2Wire_TRIAC_H_
+#define	_Micro_Switch_3Key_2Wire_TRIAC_H_
 
 /**Version information
         Name_Version 			:	1~255
@@ -37,11 +37,6 @@
 #define Debug_Value                         1
 #define Properties_TwoPhase_Value           0
 #define Micro_Switch                        1
-
-
-#define Create_Date "2014/10/29"
-#define PCB_Name "TH-302PV11-1-Dim(20140722)"
-
 
 //MCU define
 #define	Key3				RA0		//pin2  1
@@ -97,7 +92,7 @@
 //Oscillator (System FOSC)
 #define	System_Fosc_16M     //_16M
 //ADC
-#define ADC_use_Value 1
+#define ADC_use_Value   1
 //Interrupt Time
 #define IntrTime_100us
 //Main Time
@@ -118,7 +113,7 @@
 #define I2C_use_Value 0
 #define Master_Mode_Value 1
 #define Slave_Mode_Value 0
-//IOC
+//IOC 
 #define IOC_use_Value 1
 #define _IOCBP_Value    0b00000100; //Positive edge
 #define _IOCBN_Value    0b00000100; //Negative edge

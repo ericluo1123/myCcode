@@ -89,11 +89,10 @@
 #define PFV_Channel		AN4	
 
 //Mcu Function Option
+
 #define MCU_16F1518
 //Oscillator (System FOSC)
 #define	System_Fosc_16M     //_16M
-//ADC
-#define ADC_use_Value 1
 //Interrupt Time
 #define IntrTime_100us
 //Main Time
@@ -104,6 +103,8 @@
 #define Timer1_use_Value 1
 //Timer2
 #define Timer2_use_Value 0
+//ADC
+#define ADC_use_Value 1
 //INT
 #define INT_use_Value 0
 //UART

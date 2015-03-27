@@ -87,12 +87,14 @@ struct myMain {
     };
 
     unsigned char PowerCount;
-#if Debug == 1
+  
+#if Debug_Value == 1
     unsigned int Count;
     unsigned int Count1;
     unsigned int Count2;
     unsigned int Count3;
 #endif
+
     //    unsigned char IOC_Count;
     //    unsigned char Test;
     //    unsigned char ClockCount;

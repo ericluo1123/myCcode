@@ -117,7 +117,7 @@ void interrupt ISR(void) {// interrupt 0	// ISR (Interrupt Service Routines)
 
 
 #if Timer0_use == 1
-else if (TMR0IE == true && TMR0IF == true) {
+    else if (TMR0IE == true && TMR0IF == true) {
         TMR0_ISR();
     }
 #endif
@@ -261,6 +261,7 @@ inline void TMR1_ISR() {
 
 #ifdef use_3KEY
     //    setDimmerIntr_TMR(3);
+    DimmerLights_TMR_3();
 #endif
 
 #endif
@@ -409,8 +410,8 @@ inline void IOC_ISR() {
 #endif
 
 #ifdef use_3KEY
-//        setDimmerIntr_IOC(3);
-         DimmerLights_IOC_3();
+        //        setDimmerIntr_IOC(3);
+        DimmerLights_IOC_3();
 #endif
 
 #endif
