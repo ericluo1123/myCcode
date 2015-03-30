@@ -7,7 +7,7 @@
 #define enable      1
 #define disable     0
  
-#include "../1-1-3.Switch_3Key_Dimmer.X/Switch_3Key_Dimmer_V1.1.1.3.1.h"
+#include "../1-1-2.Switch_2Key_Dimmer.X/Switch_2Key_Dimmer_V1.2.1.2.1.h"
 
 #endif
 

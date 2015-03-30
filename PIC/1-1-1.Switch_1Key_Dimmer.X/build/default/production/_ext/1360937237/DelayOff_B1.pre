@@ -1,14 +1,12 @@
 
 # 1 "../src/DelayOff_B1.c"
 
-# 11 "../src/../1-1.Switch_1Key_Dimmer.X/../src/Main_B1.h"
-typedef struct Product {
+# 11 "../src/../1-1-1.Switch_1Key_Dimmer.X/../src/Main_B1.h"
+struct Product {
 unsigned char Data[32];
-} Product;
+};
 
-Product *product;
-
-Product _product = {
+struct Product _product = {
 {
 0x63, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -17,10 +15,12 @@ Product _product = {
 }
 };
 
-# 57
+struct Product *product;
+
+# 59
 inline void setProductData(char address, char value);
 
-# 62
+# 64
 struct command {
 
 struct {
@@ -48,7 +48,13 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
-# 109
+
+unsigned int Count;
+unsigned int Count1;
+unsigned int Count2;
+unsigned int Count3;
+
+# 113
 struct {
 unsigned q : 1;
 unsigned r : 1;
@@ -64,16 +70,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 131
+# 135
 void myMain_Initialization();
 
-# 136
+# 140
 inline void my_Main();
 
-# 141
+# 145
 inline void my_MainTimer();
 
-# 146
+# 150
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -219,10 +225,10 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 175 "../src/../1-1.Switch_1Key_Dimmer.X/../src/Activity_B1.h"
+# 175 "../src/../1-1-1.Switch_1Key_Dimmer.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
-# 18 "../src/../1-1.Switch_1Key_Dimmer.X/../src/Switch_B1.h"
+# 18 "../src/../1-1-1.Switch_1Key_Dimmer.X/../src/Switch_B1.h"
 struct Switch {
 
 struct {
@@ -285,7 +291,7 @@ unsigned empty : 7;
 };
 struct SwitchDetect SwDetect;
 
-# 11 "../src/../1-1.Switch_1Key_Dimmer.X/../src/Buzzer_B1.h"
+# 11 "../src/../1-1-1.Switch_1Key_Dimmer.X/../src/Buzzer_B1.h"
 struct Buzzer {
 
 struct {
@@ -326,7 +332,7 @@ void setBuz_Enable(char command);
 # 72
 int getBuz_GO();
 
-# 10 "../src/../1-1.Switch_1Key_Dimmer.X/../src/LED_B1.h"
+# 10 "../src/../1-1-1.Switch_1Key_Dimmer.X/../src/LED_B1.h"
 struct LED {
 
 struct {
@@ -372,39 +378,7 @@ void setLED_Main(char led);
 # 93
 void setLED(char led, char command);
 
-# 8 "../src/../1-1.Switch_1Key_Dimmer.X/../src/OverTemperature_B1.h"
-struct OverTemp {
-
-struct {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned ADtoGO : 1;
-unsigned LoadADGO : 1;
-unsigned GO : 1;
-unsigned empty : 3;
-};
-
-unsigned int Time;
-unsigned char Count;
-
-# 26
-ADtype ADV[5];
-
-# 32
-};
-
-struct OverTemp Temp;
-
-# 83
-inline void Temp_Initialization();
-inline void Temp_Main();
-void setTemp_Main();
-void setTemp_Initialization();
-inline void getTemp_AD(char channel);
-void setOverTemp_Exceptions(char command);
-void setOverTemp_ADV_Restore();
-
-# 161 "../src/../1-1.Switch_1Key_Dimmer.X/../src/CC2500_B1.h"
+# 161 "../src/../1-1-1.Switch_1Key_Dimmer.X/../src/CC2500_B1.h"
 const unsigned char CC2500_rfSettings[47] = {
 
 
@@ -549,7 +523,7 @@ void CC2500_TxData();
 void CC2500_RxData(void);
 void DelayTime_1us(int count);
 
-# 12 "../src/../1-1.Switch_1Key_Dimmer.X/../src/RF_Control_B1.h"
+# 12 "../src/../1-1-1.Switch_1Key_Dimmer.X/../src/RF_Control_B1.h"
 struct RF {
 
 struct {
@@ -598,6 +572,7 @@ inline void setRF_Initialization();
 inline void RF_Main();
 inline void setRF_Main();
 inline void setTxData();
+inline void setData();
 inline void getRxData();
 
 inline void setLog_Code();
@@ -623,7 +598,7 @@ void setRF_flagDimming(char command);
 
 inline void setRF_DimmerLights(char lights, char on);
 
-# 29 "../src/../1-1.Switch_1Key_Dimmer.X/../src/Dimmer_B1.h"
+# 36 "../src/../1-1-1.Switch_1Key_Dimmer.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
 
@@ -678,10 +653,10 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 99
+# 106
 struct DimmerLights DimmerLights1;
 
-# 118
+# 125
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -740,7 +715,7 @@ unsigned Trigger4 : 1;
 unsigned Trigger5 : 1;
 unsigned Status : 1;
 unsigned TuneGO : 1;
-unsigned empty : 1;
+unsigned Calculate : 1;
 };
 };
 
@@ -757,13 +732,21 @@ unsigned char TuneValue3;
 unsigned char TuneValue4;
 unsigned char TuneEnd;
 
+unsigned char TuneValue2_Value;
+unsigned char TuneValue3_Value;
+unsigned char TuneValue4_Value;
+unsigned char TuneEnd_Value;
+
 };
 struct Dimmer_Interrupt *DimmerIntr;
 
 
 struct Dimmer_Interrupt DimmerIntr1;
 
-# 208
+# 219
+void DimmerIntr_ValueCalculate(char lights);
+
+
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -786,11 +769,13 @@ inline void setDimmerIntr_IOC(char lights);
 
 inline void DimmerLights_TMR_1();
 inline void DimmerLights_TMR_2();
+inline void DimmerLights_TMR_3();
 
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
+inline void DimmerLights_IOC_3();
 
-# 239
+# 256
 struct Dimmer {
 
 
@@ -827,11 +812,11 @@ unsigned char Correction;
 
 struct Dimmer Dimmer;
 
-inline void Dimmer_Initialization();
+void Dimmer_Initialization();
 char getDimmer_LoadGO();
 char getDimmer_Load_Status();
 
-# 33 "../src/../1-1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h"
+# 33 "../src/../1-1-1.Switch_1Key_Dimmer.X/../src/DelayOff_B1.h"
 struct DelayOff {
 
 struct {
@@ -859,41 +844,7 @@ void setDelayOff_GO(char sw, char command, char value);
 char getDelayOff_GO(char sw);
 void DelayOffPointSelect(char sw);
 
-# 7 "../src/../1-1.Switch_1Key_Dimmer.X/../src/PowerFault_B1.h"
-struct PF {
-
-struct {
-unsigned Enable : 1;
-unsigned ERROR : 1;
-unsigned Safe : 1;
-unsigned ADtoGO : 1;
-unsigned empty : 4;
-};
-
-unsigned char Count;
-unsigned int Time;
-
-# 29
-unsigned int AD;
-unsigned int ADRES;
-
-};
-
-
-struct PF PF1;
-
-
-inline void PowerFault_Initialization();
-inline inline void PowerFault_Main();
-inline void getPowerFault_AD(char channel);
-void setPowerFault_Initialization();
-void setPowerFault_Main();
-void setPowerFault_Exceptions(char command);
-void setPF_Enable(char command);
-char getPF_Safe();
-char getPF_ERROR();
-
-# 117 "../src/../1-1.Switch_1Key_Dimmer.X/../src/TriacRelay_B1.h"
+# 117 "../src/../1-1-1.Switch_1Key_Dimmer.X/../src/TriacRelay_B1.h"
 struct Light {
 
 struct {
@@ -3391,7 +3342,7 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 8 "../src/../1-1.Switch_1Key_Dimmer.X/../src/MCU_B1.h"
+# 8 "../src/../1-1-1.Switch_1Key_Dimmer.X/../src/MCU_B1.h"
 void interrupt ISR(void);
 
 # 17
@@ -3479,6 +3430,46 @@ struct WDT WDT;
 void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
+
+# 29 "../src/../1-1-1.Switch_1Key_Dimmer.X/../src/myUARTtoRF.h"
+struct uartC {
+
+union {
+
+struct {
+unsigned Timer1_start : 1;
+unsigned Switch_Enable_1 : 1;
+unsigned switch_status : 1;
+unsigned switch_status2 : 1;
+unsigned switch_already_press : 1;
+unsigned LED_Mode1 : 1;
+unsigned switch_already_release : 1;
+unsigned switch_debounce : 1;
+unsigned siwtch_debounce1 : 1;
+unsigned switch_function : 1;
+unsigned LED_GO : 1;
+unsigned switch_Mode1 : 1;
+unsigned switch_Mode2 : 1;
+unsigned switch_learn : 1;
+unsigned switch_dimming:1;
+};
+};
+int time1;
+int timer1_value;
+
+int time2;
+int time3;
+
+int LED_Time;
+int LED_Time_Value;
+
+int LED_Time2;
+
+
+
+};
+
+struct uartC u1;
 
 # 7 "../src/DelayOff_B1.c"
 void DelayOffPointSelect(char sw) {

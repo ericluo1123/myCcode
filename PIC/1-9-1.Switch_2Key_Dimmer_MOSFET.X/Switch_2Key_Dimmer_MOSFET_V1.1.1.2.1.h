@@ -66,7 +66,7 @@
 #define CC2500_SO			RC2		//pin13	1		
 #define	CC2500_GDO2			RC3		//pin14	1	
 #define CC2500_CSN			RC4		//pin15	0	
-//#define	TTPW				RC5		//pin16	0
+#define	TTPW				RC5		//pin16	0
 //#define LED3				RC6		//pin17	0
 #define	LED1				RC7		//pin18	0
 
@@ -74,12 +74,15 @@
 #define _TRISA 	0b01110111;
 #define _TRISB 	0b00000111;
 #define _TRISC 	0b00001100;
+
 #define _LATA	0b00000000;
 #define _LATB	0b00000010;
 #define _LATC	0b00000000;
+
 #define _ANSELA 0b00100010;
 #define _ANSELB 0b00000000;
 #define _ANSELC 0b00000000;
+
 #define _PORTA 	0b01110111;
 #define _PORTB 	0b00000111;
 #define _PORTC 	0b00001100;

@@ -1,7 +1,7 @@
 
 # 1 "../src/Dimmer_B1.c"
 
-# 11 "../src/../1-1-3.Switch_3Key_Dimmer.X/../src/Main_B1.h"
+# 11 "../src/../1-1-6.Switch_3Key_Dimmer_Neutral.X/../src/Main_B1.h"
 struct Product {
 unsigned char Data[32];
 };
@@ -225,10 +225,10 @@ extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
 
-# 175 "../src/../1-1-3.Switch_3Key_Dimmer.X/../src/Activity_B1.h"
+# 175 "../src/../1-1-6.Switch_3Key_Dimmer_Neutral.X/../src/Activity_B1.h"
 typedef unsigned int ADtype;
 
-# 18 "../src/../1-1-3.Switch_3Key_Dimmer.X/../src/Switch_B1.h"
+# 18 "../src/../1-1-6.Switch_3Key_Dimmer_Neutral.X/../src/Switch_B1.h"
 struct Switch {
 
 struct {
@@ -298,7 +298,7 @@ unsigned empty : 7;
 };
 struct SwitchDetect SwDetect;
 
-# 11 "../src/../1-1-3.Switch_3Key_Dimmer.X/../src/Buzzer_B1.h"
+# 11 "../src/../1-1-6.Switch_3Key_Dimmer_Neutral.X/../src/Buzzer_B1.h"
 struct Buzzer {
 
 struct {
@@ -339,7 +339,7 @@ void setBuz_Enable(char command);
 # 72
 int getBuz_GO();
 
-# 10 "../src/../1-1-3.Switch_3Key_Dimmer.X/../src/LED_B1.h"
+# 10 "../src/../1-1-6.Switch_3Key_Dimmer_Neutral.X/../src/LED_B1.h"
 struct LED {
 
 struct {
@@ -390,7 +390,7 @@ void setLED_Main(char led);
 # 93
 void setLED(char led, char command);
 
-# 161 "../src/../1-1-3.Switch_3Key_Dimmer.X/../src/CC2500_B1.h"
+# 161 "../src/../1-1-6.Switch_3Key_Dimmer_Neutral.X/../src/CC2500_B1.h"
 const unsigned char CC2500_rfSettings[47] = {
 
 
@@ -535,7 +535,7 @@ void CC2500_TxData();
 void CC2500_RxData(void);
 void DelayTime_1us(int count);
 
-# 12 "../src/../1-1-3.Switch_3Key_Dimmer.X/../src/RF_Control_B1.h"
+# 12 "../src/../1-1-6.Switch_3Key_Dimmer_Neutral.X/../src/RF_Control_B1.h"
 struct RF {
 
 struct {
@@ -610,7 +610,7 @@ void setRF_flagDimming(char command);
 
 inline void setRF_DimmerLights(char lights, char on);
 
-# 36 "../src/../1-1-3.Switch_3Key_Dimmer.X/../src/Dimmer_B1.h"
+# 36 "../src/../1-1-6.Switch_3Key_Dimmer_Neutral.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
 
@@ -843,7 +843,7 @@ void Dimmer_Initialization();
 char getDimmer_LoadGO();
 char getDimmer_Load_Status();
 
-# 33 "../src/../1-1-3.Switch_3Key_Dimmer.X/../src/DelayOff_B1.h"
+# 33 "../src/../1-1-6.Switch_3Key_Dimmer_Neutral.X/../src/DelayOff_B1.h"
 struct DelayOff {
 
 struct {
@@ -879,7 +879,7 @@ void setDelayOff_GO(char sw, char command, char value);
 char getDelayOff_GO(char sw);
 void DelayOffPointSelect(char sw);
 
-# 117 "../src/../1-1-3.Switch_3Key_Dimmer.X/../src/TriacRelay_B1.h"
+# 117 "../src/../1-1-6.Switch_3Key_Dimmer_Neutral.X/../src/TriacRelay_B1.h"
 struct Light {
 
 struct {
@@ -3377,7 +3377,7 @@ extern unsigned int flash_read(unsigned short addr);
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 8 "../src/../1-1-3.Switch_3Key_Dimmer.X/../src/MCU_B1.h"
+# 8 "../src/../1-1-6.Switch_3Key_Dimmer_Neutral.X/../src/MCU_B1.h"
 void interrupt ISR(void);
 
 # 17
@@ -3466,7 +3466,7 @@ void WDT_Set();
 void WDT_Main();
 void WDT_Clearing();
 
-# 29 "../src/../1-1-3.Switch_3Key_Dimmer.X/../src/myUARTtoRF.h"
+# 29 "../src/../1-1-6.Switch_3Key_Dimmer_Neutral.X/../src/myUARTtoRF.h"
 struct uartC {
 
 union {
@@ -3511,14 +3511,14 @@ void DimmerIntr_Initialization() {
 
 
 DimmerIntr1.TuneTimeValue = 3;
-DimmerIntr1.MaxmumValue = ((char)((100-77)*0.55));
+DimmerIntr1.MaxmumValue = ((char)((100-67)*0.55));
 DimmerIntr1.MinimumValue = ((char)((100-5)*0.55));
 DimmerIntr1.Tune = 0;
 
 
 
 
-product->Data[21] = getDimmerLights_ValueToPercent(((char)((100-77)*0.55)));
+product->Data[21] = getDimmerLights_ValueToPercent(((char)((100-67)*0.55)));
 
 
 DimmerIntr1.DimmingValue = getDimmerLights_PercentToValue(product->Data[21]);
@@ -3530,14 +3530,14 @@ DimmerIntr1.Calculate = 1;
 
 # 51
 DimmerIntr2.TuneTimeValue = 3;
-DimmerIntr2.MaxmumValue = ((char)((100-77)*0.55));
+DimmerIntr2.MaxmumValue = ((char)((100-67)*0.55));
 DimmerIntr2.MinimumValue = ((char)((100-5)*0.55));
 DimmerIntr2.Tune = 0;
 
 
 
 
-product->Data[22] = getDimmerLights_ValueToPercent(((char)((100-77)*0.55)));
+product->Data[22] = getDimmerLights_ValueToPercent(((char)((100-67)*0.55)));
 
 
 DimmerIntr2.DimmingValue = getDimmerLights_PercentToValue(product->Data[22]);
@@ -3549,11 +3549,11 @@ DimmerIntr2.Calculate = 1;
 
 # 90
 DimmerIntr3.TuneTimeValue = 3;
-DimmerIntr3.MaxmumValue = ((char)((100-77)*0.55));
+DimmerIntr3.MaxmumValue = ((char)((100-67)*0.55));
 DimmerIntr3.MinimumValue = ((char)((100-5)*0.55));
 
 
-product->Data[23] = getDimmerLights_ValueToPercent(((char)((100-77)*0.55)));
+product->Data[23] = getDimmerLights_ValueToPercent(((char)((100-67)*0.55)));
 
 DimmerIntr3.DimmingValue = getDimmerLights_PercentToValue(product->Data[23]);
 
@@ -4264,9 +4264,9 @@ return status;
 
 char getDimmerLights_PercentToValue(char value) {
 
-float i = ((char)((100-5)*0.55)) - ((char)((100-77)*0.55));
+float i = ((char)((100-5)*0.55)) - ((char)((100-67)*0.55));
 i /= 100;
-return (char) (((100 - value) * i) + ((char)((100-77)*0.55)));
+return (char) (((100 - value) * i) + ((char)((100-67)*0.55)));
 
 # 1312
 }
@@ -4274,9 +4274,9 @@ return (char) (((100 - value) * i) + ((char)((100-77)*0.55)));
 
 char getDimmerLights_ValueToPercent(char value) {
 
-float i = ((char)((100-5)*0.55)) - ((char)((100-77)*0.55));
+float i = ((char)((100-5)*0.55)) - ((char)((100-67)*0.55));
 i /= 100;
-return (100 - (char) ((value - ((char)((100-77)*0.55))) / i));
+return (100 - (char) ((value - ((char)((100-67)*0.55))) / i));
 
 # 1328
 }
@@ -4522,7 +4522,7 @@ if (DimmerIntr1.Dimming_Sw == 1) {
 
 # 2155
 if (DimmerIntr1.Dimming_Status == 0) {
-if (DimmerIntr1.DimmingValue > ((char)((100-77)*0.55))) {
+if (DimmerIntr1.DimmingValue > ((char)((100-67)*0.55))) {
 DimmerIntr1.DimmingValue--;
 DimmerIntr_ValueCalculate(1);
 } else {
@@ -4568,7 +4568,7 @@ if (DimmerIntr2.Dimming_Sw == 1) {
 
 # 2227
 if (DimmerIntr2.Dimming_Status == 0) {
-if (DimmerIntr2.DimmingValue > ((char)((100-77)*0.55))) {
+if (DimmerIntr2.DimmingValue > ((char)((100-67)*0.55))) {
 DimmerIntr2.DimmingValue--;
 DimmerIntr_ValueCalculate(2);
 } else {
@@ -4614,7 +4614,7 @@ if (DimmerIntr3.Dimming_Sw == 1) {
 
 # 2299
 if (DimmerIntr3.Dimming_Status == 0) {
-if (DimmerIntr3.DimmingValue > ((char)((100-77)*0.55))) {
+if (DimmerIntr3.DimmingValue > ((char)((100-67)*0.55))) {
 DimmerIntr3.DimmingValue--;
 DimmerIntr_ValueCalculate(3);
 } else {

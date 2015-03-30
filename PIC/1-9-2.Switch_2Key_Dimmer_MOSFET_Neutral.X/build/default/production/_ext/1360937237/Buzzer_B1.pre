@@ -2714,13 +2714,11 @@ void WDT_Main();
 void WDT_Clearing();
 
 # 11 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Main_B1.h"
-typedef struct Product {
+struct Product {
 unsigned char Data[32];
-} Product;
+};
 
-Product *product;
-
-Product _product = {
+struct Product _product = {
 {
 0x63, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -2729,10 +2727,12 @@ Product _product = {
 }
 };
 
-# 56
+struct Product *product;
+
+# 59
 inline void setProductData(char address, char value);
 
-# 61
+# 64
 struct command {
 
 struct {
@@ -2760,20 +2760,21 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
+
 unsigned int Count;
 unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 108
+# 113
 struct {
 unsigned q : 1;
 unsigned r : 1;
 unsigned Timeout : 1;
 unsigned Error_Run : 1;
 unsigned InitDimmer : 1;
-unsigned SaveDimmer:1;
-unsigned empty:2;
+unsigned SaveDimmer : 1;
+unsigned empty : 2;
 };
 
 unsigned int Timeout_Counter;
@@ -2781,16 +2782,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 130
+# 135
 void myMain_Initialization();
 
-# 135
+# 140
 inline void my_Main();
 
-# 140
+# 145
 inline void my_MainTimer();
 
-# 145
+# 150
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -3179,6 +3180,7 @@ inline void setRF_Initialization();
 inline void RF_Main();
 inline void setRF_Main();
 inline void setTxData();
+inline void setData();
 inline void getRxData();
 
 inline void setLog_Code();
@@ -3256,7 +3258,7 @@ void setLoad_AH_AL_Restore();
 char getLoad_OK();
 void setLoad_OK();
 
-# 29 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h"
+# 36 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
 
@@ -3311,14 +3313,14 @@ unsigned char MosfetOK_Count;
 };
 struct DimmerLights *DimmerLights;
 
-# 99
+# 106
 struct DimmerLights DimmerLights1;
 
 
 
 struct DimmerLights DimmerLights2;
 
-# 118
+# 125
 inline void DimmerLights_SelectPointer(char lights);
 void DimmerLights_Initialization();
 void setDimmerLights_Initialization(char lights);
@@ -3377,7 +3379,7 @@ unsigned Trigger4 : 1;
 unsigned Trigger5 : 1;
 unsigned Status : 1;
 unsigned TuneGO : 1;
-unsigned empty : 1;
+unsigned Calculate : 1;
 };
 };
 
@@ -3394,6 +3396,11 @@ unsigned char TuneValue3;
 unsigned char TuneValue4;
 unsigned char TuneEnd;
 
+unsigned char TuneValue2_Value;
+unsigned char TuneValue3_Value;
+unsigned char TuneValue4_Value;
+unsigned char TuneEnd_Value;
+
 };
 struct Dimmer_Interrupt *DimmerIntr;
 
@@ -3404,7 +3411,10 @@ struct Dimmer_Interrupt DimmerIntr1;
 
 struct Dimmer_Interrupt DimmerIntr2;
 
-# 208
+# 219
+void DimmerIntr_ValueCalculate(char lights);
+
+
 void DimmerIntr_Initialization();
 void setDimmerIntr_ControlStatus(char lights, char command);
 void setDimmerIntr_DimmingValue(char lights, char value);
@@ -3427,11 +3437,13 @@ inline void setDimmerIntr_IOC(char lights);
 
 inline void DimmerLights_TMR_1();
 inline void DimmerLights_TMR_2();
+inline void DimmerLights_TMR_3();
 
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
+inline void DimmerLights_IOC_3();
 
-# 239
+# 256
 struct Dimmer {
 
 
@@ -3468,11 +3480,11 @@ unsigned char Correction;
 
 struct Dimmer Dimmer;
 
-inline void Dimmer_Initialization();
+void Dimmer_Initialization();
 char getDimmer_LoadGO();
 char getDimmer_Load_Status();
 
-# 24 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/DelayOff_B1.h"
+# 33 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/DelayOff_B1.h"
 struct DelayOff {
 
 struct {
@@ -3494,7 +3506,7 @@ struct DelayOff DlySw1;
 
 struct DelayOff DlySw2;
 
-# 50
+# 59
 inline void DelayOff_Initialization();
 inline void DelayOff_Main();
 char DelayTimejudge(char value);
@@ -3517,6 +3529,46 @@ struct Light Light;
 
 char getLight_LoadGO();
 char getLight_Load_Status();
+
+# 29 "../src/../1-9-2.Switch_2Key_Dimmer_MOSFET_Neutral.X/../src/myUARTtoRF.h"
+struct uartC {
+
+union {
+
+struct {
+unsigned Timer1_start : 1;
+unsigned Switch_Enable_1 : 1;
+unsigned switch_status : 1;
+unsigned switch_status2 : 1;
+unsigned switch_already_press : 1;
+unsigned LED_Mode1 : 1;
+unsigned switch_already_release : 1;
+unsigned switch_debounce : 1;
+unsigned siwtch_debounce1 : 1;
+unsigned switch_function : 1;
+unsigned LED_GO : 1;
+unsigned switch_Mode1 : 1;
+unsigned switch_Mode2 : 1;
+unsigned switch_learn : 1;
+unsigned switch_dimming:1;
+};
+};
+int time1;
+int timer1_value;
+
+int time2;
+int time3;
+
+int LED_Time;
+int LED_Time_Value;
+
+int LED_Time2;
+
+
+
+};
+
+struct uartC u1;
 
 # 11 "../src/Buzzer_B1.c"
 inline void Buzzer_Initialization() {

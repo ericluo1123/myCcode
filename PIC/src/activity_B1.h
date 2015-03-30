@@ -291,14 +291,20 @@ typedef unsigned int ADtype;
 #else 
 #define TotalCount              60//83
 #define One_Percent		0.6//0.83
-#endif 
+#endif  
 #elif Properties_Keys == 2
 #if Properties_Neutral == 1
 #define TotalCount              55//83
 #define One_Percent		0.55//0.83
 #else
+#if Control_Method_Triac_Value == 1
+#define TotalCount              60//83
+#define One_Percent		0.6//0.83
+#endif
+#if Control_Method_Mosfet_Value == 1
 #define TotalCount              55//83
 #define One_Percent		0.55//0.83
+#endif
 #endif
 
 #elif Properties_Keys == 3

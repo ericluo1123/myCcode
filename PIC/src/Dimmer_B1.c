@@ -1604,6 +1604,8 @@ inline void DimmerLights_TMR_1() {
 #ifdef use_2KEY
 
 inline void DimmerLights_IOC_2() {
+
+
     if (DimmerIntr2.GO == false) {
         //        ErrLED = ErrLED == true ? false : true;
         //        if (DimmerReference1 != DimmerIntr2.Status) {
@@ -1652,6 +1654,7 @@ inline void DimmerLights_TMR_2() {
         if (DimmerIntr2.Count == TotalCount) {
             DimmerIntr2.GO = false;
             DimmerIntr2.Count = 0;
+
             //Triac off
             if (DimmerIntr2.ControlStatus == true) {
                 Triac2 = false;
@@ -1662,7 +1665,7 @@ inline void DimmerLights_TMR_2() {
 }
 #endif
 
-#ifdef use_2KEY
+#ifdef use_3KEY
 
 inline void DimmerLights_IOC_3() {
     if (DimmerIntr3.GO == false) {

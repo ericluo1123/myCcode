@@ -20,7 +20,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "78
 [s S143 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S143 . PowerON Flag GO FirstOpen SelfTest First Test Tempty ]
-"111
+"113
 [s S144 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :2 `uc 1 ]
 [n S144 . q r Timeout Error_Run InitDimmer SaveDimmer empty ]
 "76
@@ -167,10 +167,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 "3136
 [v _GO_nDONE `Vb ~T0 @X0 0 e@249 ]
 [v F1600 `(v ~T0 @X0 1 tf ]
-"148 ../src/../2-1-7.PIR_Ceiling_Thin_TRIAC.X/../src/Main_B1.h
+"150 ../src/../2-1-7.PIR_Ceiling_Thin_TRIAC.X/../src/Main_B1.h
 [v _Timeout_Counter `TF1600 ~T0 @X0 0 e ]
 [v F1602 `(v ~T0 @X0 1 tf ]
-"149
+"151
 [v _set_TimeoutCleared `TF1602 ~T0 @X0 0 e ]
 "1090 C:\Program Files (x86)\Microchip\xc8\v1.32\include\pic16f723a.h
 [v _ADRES `Vuc ~T0 @X0 0 e@30 ]
@@ -1581,31 +1581,31 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Main_B1.h: 86: unsigned Tempty : 1;
 [; ;Main_B1.h: 87: };
 [; ;Main_B1.h: 89: unsigned char PowerCount;
-[; ;Main_B1.h: 111: struct {
-[; ;Main_B1.h: 112: unsigned q : 1;
-[; ;Main_B1.h: 113: unsigned r : 1;
-[; ;Main_B1.h: 114: unsigned Timeout : 1;
-[; ;Main_B1.h: 115: unsigned Error_Run : 1;
-[; ;Main_B1.h: 116: unsigned InitDimmer : 1;
-[; ;Main_B1.h: 117: unsigned SaveDimmer : 1;
-[; ;Main_B1.h: 118: unsigned empty : 2;
-[; ;Main_B1.h: 119: };
-[; ;Main_B1.h: 121: unsigned int Timeout_Counter;
-[; ;Main_B1.h: 123: };
-"124
+[; ;Main_B1.h: 113: struct {
+[; ;Main_B1.h: 114: unsigned q : 1;
+[; ;Main_B1.h: 115: unsigned r : 1;
+[; ;Main_B1.h: 116: unsigned Timeout : 1;
+[; ;Main_B1.h: 117: unsigned Error_Run : 1;
+[; ;Main_B1.h: 118: unsigned InitDimmer : 1;
+[; ;Main_B1.h: 119: unsigned SaveDimmer : 1;
+[; ;Main_B1.h: 120: unsigned empty : 2;
+[; ;Main_B1.h: 121: };
+[; ;Main_B1.h: 123: unsigned int Timeout_Counter;
+[; ;Main_B1.h: 125: };
+"126
 [v _myMain `S142 ~T0 @X0 1 e ]
-[; ;Main_B1.h: 124: struct myMain myMain;
-[; ;Main_B1.h: 133: void myMain_Initialization();
-[; ;Main_B1.h: 138: inline void my_Main();
-[; ;Main_B1.h: 143: inline void my_MainTimer();
-[; ;Main_B1.h: 148: inline void Timeout_Counter();
-[; ;Main_B1.h: 149: inline void set_TimeoutCleared();
-[; ;Main_B1.h: 150: void setMain_Exception(char command);
-[; ;Main_B1.h: 151: char getMain_AD_OK();
-[; ;Main_B1.h: 152: char getMain_All_LightsStatus();
-[; ;Main_B1.h: 153: char getMain_All_Error_Status(char command);
-[; ;Main_B1.h: 154: char getMain_Lights_Count();
-[; ;Main_B1.h: 155: void Exception_Main();
+[; ;Main_B1.h: 126: struct myMain myMain;
+[; ;Main_B1.h: 135: void myMain_Initialization();
+[; ;Main_B1.h: 140: inline void my_Main();
+[; ;Main_B1.h: 145: inline void my_MainTimer();
+[; ;Main_B1.h: 150: inline void Timeout_Counter();
+[; ;Main_B1.h: 151: inline void set_TimeoutCleared();
+[; ;Main_B1.h: 152: void setMain_Exception(char command);
+[; ;Main_B1.h: 153: char getMain_AD_OK();
+[; ;Main_B1.h: 154: char getMain_All_LightsStatus();
+[; ;Main_B1.h: 155: char getMain_All_Error_Status(char command);
+[; ;Main_B1.h: 156: char getMain_Lights_Count();
+[; ;Main_B1.h: 157: void Exception_Main();
 [; ;Switch_B1.h: 97: struct SwitchDetect {
 [; ;Switch_B1.h: 99: union {
 [; ;Switch_B1.h: 101: struct {
@@ -2041,166 +2041,166 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;MCU_B1.c: 236: inline void TMR1_ISR() {
 [e :U _TMR1_ISR ]
 [f ]
-[; ;MCU_B1.c: 268: Timer1.Count++;
-"268
-[e ++ . _Timer1 1 -> -> 1 `i `ui ]
-[; ;MCU_B1.c: 269: if (Timer1.Count == (int)(20*10)) {
+[; ;MCU_B1.c: 269: Timer1.Count++;
 "269
+[e ++ . _Timer1 1 -> -> 1 `i `ui ]
+[; ;MCU_B1.c: 270: if (Timer1.Count == (int)(20*10)) {
+"270
 [e $ ! == . _Timer1 1 -> * -> 20 `i -> 10 `i `ui 180  ]
 {
-[; ;MCU_B1.c: 270: Timer1.Count = 0;
-"270
-[e = . _Timer1 1 -> -> 0 `i `ui ]
-[; ;MCU_B1.c: 271: Timer1.Timeout = 1;
+[; ;MCU_B1.c: 271: Timer1.Count = 0;
 "271
-[e = . . _Timer1 0 0 -> -> 1 `i `uc ]
+[e = . _Timer1 1 -> -> 0 `i `ui ]
+[; ;MCU_B1.c: 272: Timer1.Timeout = 1;
 "272
+[e = . . _Timer1 0 0 -> -> 1 `i `uc ]
+"273
 }
 [e :U 180 ]
-[; ;MCU_B1.c: 272: }
-[; ;MCU_B1.c: 274: TMR1H = (int)((65536-1480)/256);
-"274
-[e = _TMR1H -> -> / - -> 65536 `l -> -> 1480 `i `l -> -> 256 `i `l `i `uc ]
-[; ;MCU_B1.c: 275: TMR1L = (int)((65536-1480)%256);
+[; ;MCU_B1.c: 273: }
+[; ;MCU_B1.c: 275: TMR1H = (int)((65536-1480)/256);
 "275
-[e = _TMR1L -> -> % - -> 65536 `l -> -> 1480 `i `l -> -> 256 `i `l `i `uc ]
-[; ;MCU_B1.c: 276: TMR1IF = 0;
+[e = _TMR1H -> -> / - -> 65536 `l -> -> 1480 `i `l -> -> 256 `i `l `i `uc ]
+[; ;MCU_B1.c: 276: TMR1L = (int)((65536-1480)%256);
 "276
-[e = _TMR1IF -> -> 0 `i `b ]
-[; ;MCU_B1.c: 277: }
+[e = _TMR1L -> -> % - -> 65536 `l -> -> 1480 `i `l -> -> 256 `i `l `i `uc ]
+[; ;MCU_B1.c: 277: TMR1IF = 0;
 "277
+[e = _TMR1IF -> -> 0 `i `b ]
+[; ;MCU_B1.c: 278: }
+"278
 [e :UE 179 ]
 }
-"427
+"429
 [v _ADC_Set `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 427: void ADC_Set() {
+[; ;MCU_B1.c: 429: void ADC_Set() {
 [e :U _ADC_Set ]
 [f ]
-[; ;MCU_B1.c: 428: ADCON1 = 0x73;
-"428
-[e = _ADCON1 -> -> 115 `i `uc ]
-[; ;MCU_B1.c: 429: FVRCON = 0xc1;
-"429
-[e = _FVRCON -> -> 193 `i `uc ]
-[; ;MCU_B1.c: 430: }
+[; ;MCU_B1.c: 430: ADCON1 = 0x73;
 "430
+[e = _ADCON1 -> -> 115 `i `uc ]
+[; ;MCU_B1.c: 431: FVRCON = 0xc1;
+"431
+[e = _FVRCON -> -> 193 `i `uc ]
+[; ;MCU_B1.c: 432: }
+"432
 [e :UE 181 ]
 }
 [v F1538 `(uc ~T0 @X0 1 tf2`uc`uc ]
-"434
+"436
 [v _getAD `TF1538 ~T0 @X0 1 e ]
 {
-[; ;MCU_B1.c: 434: inline char getAD(char adcon0, char adcon1) {
+[; ;MCU_B1.c: 436: inline char getAD(char adcon0, char adcon1) {
 [e :U _getAD ]
 [v _adcon0 `uc ~T0 @X0 1 r1 ]
 [v _adcon1 `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;MCU_B1.c: 435: ADCON0 = adcon0;
-"435
-[e = _ADCON0 _adcon0 ]
-[; ;MCU_B1.c: 436: ADCON1 = adcon1;
-"436
-[e = _ADCON1 _adcon1 ]
-[; ;MCU_B1.c: 437: GO_nDONE = 1;
+[; ;MCU_B1.c: 437: ADCON0 = adcon0;
 "437
-[e = _GO_nDONE -> -> 1 `i `b ]
-[; ;MCU_B1.c: 438: while (GO_nDONE == 1 && myMain.Timeout == 0) {
+[e = _ADCON0 _adcon0 ]
+[; ;MCU_B1.c: 438: ADCON1 = adcon1;
 "438
+[e = _ADCON1 _adcon1 ]
+[; ;MCU_B1.c: 439: GO_nDONE = 1;
+"439
+[e = _GO_nDONE -> -> 1 `i `b ]
+[; ;MCU_B1.c: 440: while (GO_nDONE == 1 && myMain.Timeout == 0) {
+"440
 [e $U 183  ]
 [e :U 184 ]
 {
-[; ;MCU_B1.c: 439: Timeout_Counter();
-"439
+[; ;MCU_B1.c: 441: Timeout_Counter();
+"441
 [e ( _Timeout_Counter ..  ]
-"440
+"442
 }
 [e :U 183 ]
-"438
+"440
 [e $ && == -> _GO_nDONE `i -> 1 `i == -> . . _myMain 2 2 `i -> 0 `i 184  ]
 [e :U 185 ]
-[; ;MCU_B1.c: 440: };
-[; ;MCU_B1.c: 441: set_TimeoutCleared();
-"441
+[; ;MCU_B1.c: 442: };
+[; ;MCU_B1.c: 443: set_TimeoutCleared();
+"443
 [e ( _set_TimeoutCleared ..  ]
-[; ;MCU_B1.c: 442: return ADRES;
-"442
+[; ;MCU_B1.c: 444: return ADRES;
+"444
 [e ) _ADRES ]
 [e $UE 182  ]
-[; ;MCU_B1.c: 443: }
-"443
+[; ;MCU_B1.c: 445: }
+"445
 [e :UE 182 ]
 }
-"1105
+"1107
 [v _WDT_Set `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 1105: void WDT_Set() {
+[; ;MCU_B1.c: 1107: void WDT_Set() {
 [e :U _WDT_Set ]
 [f ]
-[; ;MCU_B1.c: 1107: PSA = 1;
-"1107
-[e = _PSA -> -> 1 `i `b ]
-[; ;MCU_B1.c: 1108: PS0 = 1;
-"1108
-[e = _PS0 -> -> 1 `i `b ]
-[; ;MCU_B1.c: 1109: PS1 = 1;
+[; ;MCU_B1.c: 1109: PSA = 1;
 "1109
-[e = _PS1 -> -> 1 `i `b ]
-[; ;MCU_B1.c: 1110: PS2 = 1;
+[e = _PSA -> -> 1 `i `b ]
+[; ;MCU_B1.c: 1110: PS0 = 1;
 "1110
+[e = _PS0 -> -> 1 `i `b ]
+[; ;MCU_B1.c: 1111: PS1 = 1;
+"1111
+[e = _PS1 -> -> 1 `i `b ]
+[; ;MCU_B1.c: 1112: PS2 = 1;
+"1112
 [e = _PS2 -> -> 1 `i `b ]
-[; ;MCU_B1.c: 1114: WDT.Enable = 1;
-"1114
-[e = . . _WDT 0 0 -> -> 1 `i `uc ]
-[; ;MCU_B1.c: 1115: WDT.Timer = 10;
-"1115
-[e = . _WDT 1 -> -> 10 `i `uc ]
-[; ;MCU_B1.c: 1116: }
+[; ;MCU_B1.c: 1116: WDT.Enable = 1;
 "1116
+[e = . . _WDT 0 0 -> -> 1 `i `uc ]
+[; ;MCU_B1.c: 1117: WDT.Timer = 10;
+"1117
+[e = . _WDT 1 -> -> 10 `i `uc ]
+[; ;MCU_B1.c: 1118: }
+"1118
 [e :UE 186 ]
 }
-"1119
+"1121
 [v _WDT_Main `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 1119: void WDT_Main() {
+[; ;MCU_B1.c: 1121: void WDT_Main() {
 [e :U _WDT_Main ]
 [f ]
-[; ;MCU_B1.c: 1120: if (WDT.Enable == 1) {
-"1120
+[; ;MCU_B1.c: 1122: if (WDT.Enable == 1) {
+"1122
 [e $ ! == -> . . _WDT 0 0 `i -> 1 `i 188  ]
 {
-[; ;MCU_B1.c: 1121: if (WDT.Timer-- > 0) {
-"1121
+[; ;MCU_B1.c: 1123: if (WDT.Timer-- > 0) {
+"1123
 [e $ ! > -> -- . _WDT 1 -> -> 1 `i `uc `i -> 0 `i 189  ]
 {
-[; ;MCU_B1.c: 1122: WDT.Timer = 100;
-"1122
-[e = . _WDT 1 -> -> 100 `i `uc ]
-[; ;MCU_B1.c: 1123: WDT_Clearing();
-"1123
-[e ( _WDT_Clearing ..  ]
+[; ;MCU_B1.c: 1124: WDT.Timer = 100;
 "1124
+[e = . _WDT 1 -> -> 100 `i `uc ]
+[; ;MCU_B1.c: 1125: WDT_Clearing();
+"1125
+[e ( _WDT_Clearing ..  ]
+"1126
 }
 [e :U 189 ]
-"1125
+"1127
 }
 [e :U 188 ]
-[; ;MCU_B1.c: 1124: }
-[; ;MCU_B1.c: 1125: }
 [; ;MCU_B1.c: 1126: }
-"1126
+[; ;MCU_B1.c: 1127: }
+[; ;MCU_B1.c: 1128: }
+"1128
 [e :UE 187 ]
 }
-"1129
+"1131
 [v _WDT_Clearing `(v ~T0 @X0 1 ef ]
 {
-[; ;MCU_B1.c: 1129: void WDT_Clearing() {
+[; ;MCU_B1.c: 1131: void WDT_Clearing() {
 [e :U _WDT_Clearing ]
 [f ]
-[; ;MCU_B1.c: 1130: asm("clrwdt");
-"1130
+[; ;MCU_B1.c: 1132: asm("clrwdt");
+"1132
 [; <" clrwdt ;# ">
-[; ;MCU_B1.c: 1131: }
-"1131
+[; ;MCU_B1.c: 1133: }
+"1133
 [e :UE 190 ]
 }

@@ -2760,12 +2760,13 @@ unsigned Tempty : 1;
 
 unsigned char PowerCount;
 
+
 unsigned int Count;
 unsigned int Count1;
 unsigned int Count2;
 unsigned int Count3;
 
-# 111
+# 113
 struct {
 unsigned q : 1;
 unsigned r : 1;
@@ -2781,16 +2782,16 @@ unsigned int Timeout_Counter;
 };
 struct myMain myMain;
 
-# 133
+# 135
 void myMain_Initialization();
 
-# 138
+# 140
 inline void my_Main();
 
-# 143
+# 145
 inline void my_MainTimer();
 
-# 148
+# 150
 inline void Timeout_Counter();
 inline void set_TimeoutCleared();
 void setMain_Exception(char command);
@@ -3431,11 +3432,13 @@ inline void setDimmerIntr_IOC(char lights);
 
 inline void DimmerLights_TMR_1();
 inline void DimmerLights_TMR_2();
+inline void DimmerLights_TMR_3();
 
 inline void DimmerLights_IOC_1();
 inline void DimmerLights_IOC_2();
+inline void DimmerLights_IOC_3();
 
-# 253
+# 256
 struct Dimmer {
 
 
@@ -3659,7 +3662,7 @@ DimmerLights_TMR_1();
 
 DimmerLights_TMR_2();
 
-# 268
+# 269
 Timer1.Count++;
 if (Timer1.Count == (int)(20*10)) {
 Timer1.Count = 0;
@@ -3671,7 +3674,7 @@ TMR1L = (int)((65536-1480)%256);
 TMR1IF = 0;
 }
 
-# 380
+# 381
 void IOC_Set() {
 
 IOCBP = 0b00000100;;
@@ -3691,7 +3694,7 @@ inline void IOC_ISR() {
 
 if (myMain.PowerON == 1) {
 
-# 403
+# 404
 DimmerLights_IOC_1();
 
 
@@ -3699,20 +3702,20 @@ DimmerLights_IOC_1();
 
 DimmerLights_IOC_2();
 
-# 416
+# 418
 }
 
 IOCBF2 = 0;
 IOCIF = 0;
 }
 
-# 427
+# 429
 void ADC_Set() {
 ADCON1 = 0xf3;
 FVRCON = 0xc1;
 }
 
-# 461
+# 463
 inline int getAD(char adcon0, char adcon1) {
 ADCON0 = adcon0;
 ADCON1 = adcon1;
@@ -3724,7 +3727,7 @@ set_TimeoutCleared();
 return ((ADRESH*256)+ADRESL);
 }
 
-# 932
+# 934
 void Flash_Memory_Initialization() {
 char value = 0;
 if (Flash_Memory_Read(31) == 0xaa) {
@@ -3738,7 +3741,7 @@ product->Data[21] = Flash_Memory_Read(3);
 product->Data[22] = Flash_Memory_Read(4);
 product->Data[23] = Flash_Memory_Read(5);
 
-# 950
+# 952
 if (product->Data[12] == 0xff && product->Data[13] == 0xff && product->Data[14] == 0xff) {
 myMain.FirstOpen = 1;
 myMain.First = 1;
@@ -3890,10 +3893,10 @@ void setMemory_Data(char address, char data) {
 Memory.Data[address] = data;
 }
 
-# 1105
+# 1107
 void WDT_Set() {
 
-# 1112
+# 1114
 WDTCON = 0b00010111;;
 
 WDT.Enable = 1;
