@@ -1479,6 +1479,8 @@ inline void DimmerLights_IOC_1() {
         }
     }
 #else
+
+
     if (DimmerIntr1.GO == false) {
         //        ErrLED = ErrLED == true ? false : true;
         //        if (DimmerReference1 != DimmerIntr1.Status) {
@@ -1510,11 +1512,6 @@ inline void DimmerLights_IOC_1() {
 
         //        }
     }
-    //old
-    //    if (DimmerIntr1.Start == false && DimmerReference1 == true) {
-    //        DimmerIntr1.Start = true;
-    //        DimmerIntr1.GO = true;
-    //    }
 
 #endif
 }
@@ -1608,34 +1605,33 @@ inline void DimmerLights_IOC_2() {
 
     if (DimmerIntr2.GO == false) {
         //        ErrLED = ErrLED == true ? false : true;
-        //        if (DimmerReference1 != DimmerIntr2.Status) {
 
-        DimmerIntr2.Count = 0;
-        DimmerIntr2.GO = true;
+            DimmerIntr2.Count = 0;
+            DimmerIntr2.GO = true;
 
-        if (DimmerIntr2.Dimming_Sw == true || DimmerIntr2.Dimming_RF == true) {
-            DimmerIntr2.Tune = true;
-        }
+            if (DimmerIntr2.Dimming_Sw == true || DimmerIntr2.Dimming_RF == true) {
+                DimmerIntr2.Tune = true;
+            }
 
-        if (DimmerIntr2.Calculate == true) {
-            DimmerIntr2.Calculate = false;
-            DimmerIntr2.TuneEnd_Value = DimmerIntr2.TuneEnd;
-            DimmerIntr2.TuneValue2_Value = DimmerIntr2.TuneValue2;
-        }
+            if (DimmerIntr2.Calculate == true) {
+                DimmerIntr2.Calculate = false;
+                DimmerIntr2.TuneEnd_Value = DimmerIntr2.TuneEnd;
+                DimmerIntr2.TuneValue2_Value = DimmerIntr2.TuneValue2;
+            }
 
 #if Properties_Keys == 1
 #if Properties_Neutral == 0
-        DimmerIntr2.Status = DimmerReference1 == true ? true : false;
+            DimmerIntr2.Status = DimmerReference1 == true ? true : false;
 #else
-        DimmerIntr2.Status = DimmerReference1 == true ? true : false;
+            DimmerIntr2.Status = DimmerReference1 == true ? true : false;
 #endif
 #elif Properties_Keys == 2
-        DimmerIntr2.Status = DimmerReference1 == true ? true : false;
+            DimmerIntr2.Status = DimmerReference1 == true ? true : false;
 #elif Properties_Keys == 3
-        DimmerIntr2.Status = DimmerReference1 == true ? true : false;
+            DimmerIntr2.Status = DimmerReference1 == true ? true : false;
 #endif
 
-        //        }
+        
     }
 
 }
@@ -1670,34 +1666,32 @@ inline void DimmerLights_TMR_2() {
 inline void DimmerLights_IOC_3() {
     if (DimmerIntr3.GO == false) {
         //        ErrLED = ErrLED == true ? false : true;
-        //        if (DimmerReference1 != DimmerIntr3.Status) {
 
-        DimmerIntr3.Count = 0;
-        DimmerIntr3.GO = true;
+            DimmerIntr3.Count = 0;
+            DimmerIntr3.GO = true;
 
-        if (DimmerIntr3.Dimming_Sw == true || DimmerIntr3.Dimming_RF == true) {
-            DimmerIntr3.Tune = true;
-        }
+            if (DimmerIntr3.Dimming_Sw == true || DimmerIntr3.Dimming_RF == true) {
+                DimmerIntr3.Tune = true;
+            }
 
-        if (DimmerIntr3.Calculate == true) {
-            DimmerIntr3.Calculate = false;
-            DimmerIntr3.TuneEnd_Value = DimmerIntr3.TuneEnd;
-            DimmerIntr3.TuneValue2_Value = DimmerIntr3.TuneValue2;
-        }
+            if (DimmerIntr3.Calculate == true) {
+                DimmerIntr3.Calculate = false;
+                DimmerIntr3.TuneEnd_Value = DimmerIntr3.TuneEnd;
+                DimmerIntr3.TuneValue2_Value = DimmerIntr3.TuneValue2;
+            }
 
 #if Properties_Keys == 1
 #if Properties_Neutral == 0
-        DimmerIntr3.Status = DimmerReference1 == true ? true : false;
+            DimmerIntr3.Status = DimmerReference1 == true ? true : false;
 #else
-        DimmerIntr3.Status = DimmerReference1 == true ? true : false;
+            DimmerIntr3.Status = DimmerReference1 == true ? true : false;
 #endif
 #elif Properties_Keys == 2
-        DimmerIntr3.Status = DimmerReference1 == true ? true : false;
+            DimmerIntr3.Status = DimmerReference1 == true ? true : false;
 #elif Properties_Keys == 3
-        DimmerIntr3.Status = DimmerReference1 == true ? true : false;
+            DimmerIntr3.Status = DimmerReference1 == true ? true : false;
 #endif
 
-        //        }
     }
 }
 

@@ -1,7 +1,7 @@
 
 
 Microchip Technology PIC LITE Macro Assembler V1.32 build 58300 
-                                                                                               Mon Mar 30 11:39:35 2015
+                                                                                               Tue Mar 31 13:24:56 2015
 
 Microchip Technology Omniscient Code Generator (Lite mode) build 58300
      1                           	processor	16F723A
@@ -4283,10 +4283,10 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   4277  07C6  3000               	movlw	0
   4278  07C7  07A2               	addwf	_SYSC+2,f
   4279                           
-  4280                           ;SYSC_B1.c: 28: if (SYSC.Time >= (500 / 20)) {
+  4280                           ;SYSC_B1.c: 28: if (SYSC.Time >= (1000 / 20)) {
   4281  07C8  3000               	movlw	0
   4282  07C9  0222               	subwf	_SYSC+2,w
-  4283  07CA  3019               	movlw	25
+  4283  07CA  3032               	movlw	50
   4284  07CB  1903               	skipnz
   4285  07CC  0221               	subwf	_SYSC+1,w
   4286  07CD  1C03               	skipc
@@ -4321,10 +4321,10 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   4315  07E0  3000               	movlw	0
   4316  07E1  07A2               	addwf	_SYSC+2,f
   4317                           
-  4318                           ;SYSC_B1.c: 35: if (SYSC.Time >= (500 / 20)) {
+  4318                           ;SYSC_B1.c: 35: if (SYSC.Time >= (1000 / 20)) {
   4319  07E2  3000               	movlw	0
   4320  07E3  0222               	subwf	_SYSC+2,w
-  4321  07E4  3019               	movlw	25
+  4321  07E4  3032               	movlw	50
   4322  07E5  1903               	skipnz
   4323  07E6  0221               	subwf	_SYSC+1,w
   4324  07E7  1C03               	skipc
@@ -6162,8 +6162,8 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6156  0359  1D03               	skipz
   6157  035A  2B5D               	goto	l5180
   6158                           
-  6159                           ;OverLoad_B1.c: 128: Load.JudgeValue = (int)(20*1.7);
-  6160  035B  3022               	movlw	34
+  6159                           ;OverLoad_B1.c: 128: Load.JudgeValue = (int)(20*5);
+  6160  035B  3064               	movlw	100
   6161  035C  2B6A               	goto	L15
   6162  035D                     l5180:	
   6163                           ;OverLoad_B1.c: 129: } else if (Load.Count == 2) {
@@ -6181,8 +6181,8 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6175  0365  1D03               	skipz
   6176  0366  2B6D               	goto	l5186
   6177                           
-  6178                           ;OverLoad_B1.c: 131: Load.JudgeValue = (int)(8*1.7);
-  6179  0367  300D               	movlw	13
+  6178                           ;OverLoad_B1.c: 131: Load.JudgeValue = (int)(1*5);
+  6179  0367  3005               	movlw	5
   6180  0368  1683               	bsf	3,5	;RP0=1, select bank1
   6181  0369  1303               	bcf	3,6	;RP1=0, select bank1
   6182  036A                     L15:	
@@ -6199,7 +6199,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6193  036F  1D03               	skipz
   6194  0370  2B8E               	goto	l5190
   6195                           
-  6196                           ;OverLoad_B1.c: 134: Load.JudgeValue = (int)(8*1.7) * LightsCount;
+  6196                           ;OverLoad_B1.c: 134: Load.JudgeValue = (int)(1*5) * LightsCount;
   6197  0371  085D               	movf	Load_Main@LightsCount,w
   6198  0372  00D6               	movwf	??_Load_Main
   6199  0373  01D7               	clrf	??_Load_Main+1
@@ -6207,7 +6207,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6201  0375  00CF               	movwf	___wmul@multiplier
   6202  0376  0857               	movf	??_Load_Main+1,w
   6203  0377  00D0               	movwf	___wmul@multiplier+1
-  6204  0378  300D               	movlw	13
+  6204  0378  3005               	movlw	5
   6205  0379  00D1               	movwf	___wmul@multiplicand
   6206  037A  3000               	movlw	0
   6207  037B  00D2               	movwf	___wmul@multiplicand+1
@@ -6236,11 +6236,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 58300
   6230  0391  1D03               	skipz
   6231  0392  2B9C               	goto	l734
   6232                           
-  6233                           ;OverLoad_B1.c: 136: Load.JudgeValue = (int)(8*1.7) + Load.TotalLoad;
+  6233                           ;OverLoad_B1.c: 136: Load.JudgeValue = (int)(1*5) + Load.TotalLoad;
   6234  0393  1683               	bsf	3,5	;RP0=1, select bank1
   6235  0394  1303               	bcf	3,6	;RP1=0, select bank1
   6236  0395  0853               	movf	(_Load^(0+128)+9),w
-  6237  0396  3E0D               	addlw	13
+  6237  0396  3E05               	addlw	5
   6238  0397  00E1               	movwf	(_Load^(0+128)+23)
   6239  0398  3000               	movlw	0
   6240  0399  1803               	skipnc
@@ -10507,7 +10507,7 @@ DATA                 0      0      A6      10        0.0%
 
 
 Microchip Technology PIC Macro Assembler V1.32 build 58300 
-Symbol Table                                                                                   Mon Mar 30 11:39:35 2015
+Symbol Table                                                                                   Tue Mar 31 13:24:56 2015
 
                         __CFG_CP$ON 0000                        _WDT_Clearing 0002  
          getMain_Lights_Count@count 0050                        ___awdiv@sign 0054  

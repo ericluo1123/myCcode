@@ -4182,7 +4182,7 @@ return status;
 # 1463
 inline void DimmerLights_IOC_1() {
 
-# 1482
+# 1484
 if (DimmerIntr1.GO == 0) {
 
 
@@ -4200,13 +4200,13 @@ DimmerIntr1.TuneEnd_Value = DimmerIntr1.TuneEnd;
 DimmerIntr1.TuneValue2_Value = DimmerIntr1.TuneValue2;
 }
 
-# 1506
+# 1508
 DimmerIntr1.Status = RB2 == 1 ? 1 : 0;
 
-# 1512
+# 1514
 }
 
-# 1520
+
 }
 
 inline void DimmerLights_TMR_1() {
@@ -4230,15 +4230,14 @@ RA7 = 0;
 }
 }
 
-# 1600
+# 1597
 }
 
-# 1606
+# 1603
 inline void DimmerLights_IOC_2() {
 
 
 if (DimmerIntr2.GO == 0) {
-
 
 
 DimmerIntr2.Count = 0;
@@ -4254,10 +4253,10 @@ DimmerIntr2.TuneEnd_Value = DimmerIntr2.TuneEnd;
 DimmerIntr2.TuneValue2_Value = DimmerIntr2.TuneValue2;
 }
 
-# 1633
+# 1629
 DimmerIntr2.Status = RB2 == 1 ? 1 : 0;
 
-# 1639
+# 1635
 }
 
 }
@@ -4286,7 +4285,7 @@ RB4 = 0;
 
 }
 
-# 2046
+# 2040
 void setDimmerLights_DimmingClose() {
 
 setDimmerIntr_Dimming_Sw(1, 0);
@@ -4295,7 +4294,7 @@ setDimmerIntr_Dimming_Sw(1, 0);
 
 setDimmerIntr_Dimming_Sw(2, 0);
 
-# 2058
+# 2052
 }
 
 
@@ -4307,7 +4306,7 @@ DimmerIntr1.TuneValue2 = DimmerIntr1.DimmingValue;
 DimmerIntr1.TuneEnd = 60;
 DimmerIntr1.Calculate = 1;
 
-# 2081
+# 2075
 }
 
 
@@ -4319,10 +4318,10 @@ DimmerIntr2.TuneValue2 = DimmerIntr2.DimmingValue;
 DimmerIntr2.TuneEnd = 60;
 DimmerIntr2.Calculate = 1;
 
-# 2104
+# 2098
 }
 
-# 2128
+# 2122
 }
 
 void DimmerLights_DimmingFunction(char lights) {
@@ -4336,7 +4335,7 @@ DimmerIntr1.TuneTime = 0;
 DimmerIntr1.TuneGO = 1;
 if (DimmerIntr1.Dimming_Sw == 1) {
 
-# 2158
+# 2152
 if (DimmerIntr1.Dimming_Status == 0) {
 if (DimmerIntr1.DimmingValue > ((char)((100-67)*0.6))) {
 DimmerIntr1.DimmingValue--;
@@ -4355,7 +4354,7 @@ DimmerIntr1.Dimming_Status = 0;
 
 } else if (DimmerIntr1.Dimming_RF == 1) {
 
-# 2187
+# 2181
 if (DimmerIntr1.DimmingValue > DimmerIntr1.MaxmumValue) {
 DimmerIntr1.DimmingValue--;
 DimmerIntr_ValueCalculate(1);
@@ -4382,7 +4381,7 @@ DimmerIntr2.TuneTime = 0;
 DimmerIntr2.TuneGO = 1;
 if (DimmerIntr2.Dimming_Sw == 1) {
 
-# 2230
+# 2224
 if (DimmerIntr2.Dimming_Status == 0) {
 if (DimmerIntr2.DimmingValue > ((char)((100-67)*0.6))) {
 DimmerIntr2.DimmingValue--;
@@ -4401,7 +4400,7 @@ DimmerIntr2.Dimming_Status = 0;
 
 } else if (DimmerIntr2.Dimming_RF == 1) {
 
-# 2259
+# 2253
 if (DimmerIntr2.DimmingValue > DimmerIntr2.MaxmumValue) {
 DimmerIntr2.DimmingValue--;
 DimmerIntr_ValueCalculate(2);
@@ -4417,10 +4416,10 @@ DimmerIntr2.Dimming_RF = 0;
 }
 }
 
-# 2346
+# 2340
 }
 
-# 2401
+# 2395
 inline char Division(char value, char num) {
 char result = (char) (value / num);
 return result;

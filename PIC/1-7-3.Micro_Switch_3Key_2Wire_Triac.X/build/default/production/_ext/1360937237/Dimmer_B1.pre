@@ -4303,10 +4303,10 @@ return status;
 # 1463
 inline void DimmerLights_IOC_1() {
 
-# 1482
+# 1518
 if (DimmerIntr1.GO == 0) {
 
-
+if (RB2 == 1) {
 
 DimmerIntr1.Count = 0;
 DimmerIntr1.GO = 1;
@@ -4320,15 +4320,11 @@ DimmerIntr1.Calculate = 0;
 DimmerIntr1.TuneEnd_Value = DimmerIntr1.TuneEnd;
 DimmerIntr1.TuneValue2_Value = DimmerIntr1.TuneValue2;
 }
-
-# 1508
-DimmerIntr1.Status = RB2 == 1 ? 1 : 0;
-
-
-
+}
 }
 
-# 1520
+
+
 }
 
 inline void DimmerLights_TMR_1() {
@@ -4352,14 +4348,16 @@ RB4 = 0;
 }
 }
 
-# 1600
+# 1619
 }
 
-# 1606
+# 1625
 inline void DimmerLights_IOC_2() {
+
+
 if (DimmerIntr2.GO == 0) {
 
-
+if (RB2 == 1) {
 
 DimmerIntr2.Count = 0;
 DimmerIntr2.GO = 1;
@@ -4374,11 +4372,11 @@ DimmerIntr2.TuneEnd_Value = DimmerIntr2.TuneEnd;
 DimmerIntr2.TuneValue2_Value = DimmerIntr2.TuneValue2;
 }
 
-# 1633
+# 1654
 DimmerIntr2.Status = RB2 == 1 ? 1 : 0;
 
 
-
+}
 }
 
 }
@@ -4398,6 +4396,7 @@ if (DimmerIntr2.Count == 55) {
 DimmerIntr2.GO = 0;
 DimmerIntr2.Count = 0;
 
+
 if (DimmerIntr2.ControlStatus == 1) {
 RA7 = 0;
 }
@@ -4412,7 +4411,7 @@ RA7 = 0;
 inline void DimmerLights_IOC_3() {
 if (DimmerIntr3.GO == 0) {
 
-
+if (RB2 == 1) {
 
 DimmerIntr3.Count = 0;
 DimmerIntr3.GO = 1;
@@ -4427,11 +4426,11 @@ DimmerIntr3.TuneEnd_Value = DimmerIntr3.TuneEnd;
 DimmerIntr3.TuneValue2_Value = DimmerIntr3.TuneValue2;
 }
 
-# 1694
+# 1716
 DimmerIntr3.Status = RB2 == 1 ? 1 : 0;
 
 
-
+}
 }
 }
 
@@ -4457,7 +4456,7 @@ RB1 = 0;
 }
 }
 
-# 2043
+# 2065
 void setDimmerLights_DimmingClose() {
 
 setDimmerIntr_Dimming_Sw(1, 0);
@@ -4481,7 +4480,7 @@ DimmerIntr1.TuneValue2 = DimmerIntr1.DimmingValue;
 DimmerIntr1.TuneEnd = 55;
 DimmerIntr1.Calculate = 1;
 
-# 2078
+# 2100
 }
 
 
@@ -4493,7 +4492,7 @@ DimmerIntr2.TuneValue2 = DimmerIntr2.DimmingValue;
 DimmerIntr2.TuneEnd = 55;
 DimmerIntr2.Calculate = 1;
 
-# 2101
+# 2123
 }
 
 
@@ -4504,7 +4503,7 @@ DimmerIntr3.TuneValue2 = DimmerIntr3.DimmingValue;
 DimmerIntr3.TuneEnd = 55;
 DimmerIntr3.Calculate = 1;
 
-# 2123
+# 2145
 }
 
 }
@@ -4520,7 +4519,7 @@ DimmerIntr1.TuneTime = 0;
 DimmerIntr1.TuneGO = 1;
 if (DimmerIntr1.Dimming_Sw == 1) {
 
-# 2155
+# 2177
 if (DimmerIntr1.Dimming_Status == 0) {
 if (DimmerIntr1.DimmingValue > ((char)((100-67)*0.55))) {
 DimmerIntr1.DimmingValue--;
@@ -4539,7 +4538,7 @@ DimmerIntr1.Dimming_Status = 0;
 
 } else if (DimmerIntr1.Dimming_RF == 1) {
 
-# 2184
+# 2206
 if (DimmerIntr1.DimmingValue > DimmerIntr1.MaxmumValue) {
 DimmerIntr1.DimmingValue--;
 DimmerIntr_ValueCalculate(1);
@@ -4566,7 +4565,7 @@ DimmerIntr2.TuneTime = 0;
 DimmerIntr2.TuneGO = 1;
 if (DimmerIntr2.Dimming_Sw == 1) {
 
-# 2227
+# 2249
 if (DimmerIntr2.Dimming_Status == 0) {
 if (DimmerIntr2.DimmingValue > ((char)((100-67)*0.55))) {
 DimmerIntr2.DimmingValue--;
@@ -4585,7 +4584,7 @@ DimmerIntr2.Dimming_Status = 0;
 
 } else if (DimmerIntr2.Dimming_RF == 1) {
 
-# 2256
+# 2278
 if (DimmerIntr2.DimmingValue > DimmerIntr2.MaxmumValue) {
 DimmerIntr2.DimmingValue--;
 DimmerIntr_ValueCalculate(2);
@@ -4612,7 +4611,7 @@ DimmerIntr3.TuneTime = 0;
 DimmerIntr3.TuneGO = 1;
 if (DimmerIntr3.Dimming_Sw == 1) {
 
-# 2299
+# 2321
 if (DimmerIntr3.Dimming_Status == 0) {
 if (DimmerIntr3.DimmingValue > ((char)((100-67)*0.55))) {
 DimmerIntr3.DimmingValue--;
@@ -4631,7 +4630,7 @@ DimmerIntr3.Dimming_Status = 0;
 
 } else if (DimmerIntr3.Dimming_RF == 1) {
 
-# 2328
+# 2350
 if (DimmerIntr3.DimmingValue > DimmerIntr3.MaxmumValue) {
 DimmerIntr3.DimmingValue--;
 DimmerIntr_ValueCalculate(3);
@@ -4649,7 +4648,7 @@ DimmerIntr3.Dimming_RF = 0;
 
 }
 
-# 2398
+# 2420
 inline char Division(char value, char num) {
 char result = (char) (value / num);
 return result;

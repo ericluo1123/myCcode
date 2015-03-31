@@ -152,8 +152,8 @@
 
 //OverLoad
 #define OverLoad_use_Value  1
-#define LimitCurrent_Value  8//A
-#define LinearParam_Value   1.7
+#define LimitCurrent_Value  1//A
+#define LinearParam_Value   5
 //LED
 #define LED_use_Value 1
 #define PIRLED_use_Value 1

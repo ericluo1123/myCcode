@@ -25,14 +25,14 @@ void setSYSC_Main() {
     if (SYSC.Enable == true) {
         if (SYSC.ERROR == false) {
             SYSC.Time++;
-            if (SYSC.Time >= (500 / Main_Time)) {
+            if (SYSC.Time >= (1000 / Main_Time)) {
                 SYSC.Time = 0;
                 SYSC.ERROR = true;
             }
         } else {
             if (getMain_All_Error_Status(1) == 0) {
                 SYSC.Time++;
-                if (SYSC.Time >= (500 / Main_Time)) {
+                if (SYSC.Time >= (1000 / Main_Time)) {
                     SYSC.Time = 0;
                     SYSC.Counter = 0;
                 } else {
