@@ -1,23 +1,31 @@
 /* 
- * File:   main.c
- * Author: taianluo
+ * File:   Main.c
+ * Author: Patrick
  *
- * Created on 2015年3月9日, 下午 4:06
+ * Created on 2015年4月11日, 上午 11:02
  */
 
-#include "headerFile_select.h"
+#include "Main.h"
 
 /*
- * 
+ * Main
  */
 int main(int argc, char** argv) {
 
+#if Use_Chip == 1
+    
+#endif
 
-    while (true) {
+    while(1){
+
+        
 
 
+        
     }
 
+
+    
     return (EXIT_SUCCESS);
 }
 

@@ -155,7 +155,7 @@
 #define setLights_SwOff_Value 1
 #define setLights_Value 1
 //RF cc2500
-#define CC2500_use_Value 1
+#define CC2500_use_Value 0
 #define Tx_Enable 	1
 #define Rx_Enable 	1
 //DelayOff

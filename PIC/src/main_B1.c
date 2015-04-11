@@ -21,8 +21,7 @@ int main(int argc, char** argv) {
     CDS_Initialization();
     PIR_Initialization();
     Switch_Initialization();
-    RF_Initialization();
-    CC2500_PowerOnInitial();
+
     SegmentDisplay_Initial();
     myUARTtoRF_Initialization();
 

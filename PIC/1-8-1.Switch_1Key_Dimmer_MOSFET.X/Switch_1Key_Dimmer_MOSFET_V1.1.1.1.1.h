@@ -109,7 +109,7 @@
 //Timer2 
 #define Timer2_use_Value	0
 //INT
-#define INT_use_Value   0
+#define INT_use_Value       0
 //UART 
 #define UART_use_Value      0
 #define UART_Master_Value   1
@@ -133,11 +133,11 @@
 //SYSC
 #define SYSC_use_Value 0
 //OverTemperature
-#define OverTemperature_use_Value   1
+#define OverTemperature_use_Value   0
 #define TempDangerValue_Value       0x1ba   //NTC 70度
 #define TempSafeValue_Value         0x205   //NTC 61度
 //OverLoad
-#define OverLoad_use_Value  1
+#define OverLoad_use_Value  0
 #define LimitCurrent_Value  1.8//A
 #define LinearParam_Value   65
 //LED
@@ -154,9 +154,9 @@
 #define setLights_SwOff_Value 1
 #define setLights_Value 1
 //RF cc2500
-#define CC2500_use_Value            1
-#define Tx_Enable                    1
-#define Rx_Enable                    1
+#define CC2500_use_Value            0
+#define Tx_Enable                   1
+#define Rx_Enable                   1
 //DelayOff
 #define DelayOff_use_Value          1
 //PowerFault

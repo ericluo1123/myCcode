@@ -52,16 +52,21 @@ inline void setRF_RxStatus(char command) {
 
 inline void setRF_Main() {
     char error = 0;
+    char TX = 0;
+    char RX = 0;
+    char KeyPress = 0;
+
+
     if (RF1.Enable == true) {
         if (getBuz_GO() == 0) {
 
 #if Switch_use == 1
-            RF1.Key = getRF_KeyStatus() == 1 ? true : false;
+            KeyPress = getRF_KeyStatus() == 1 && RF1.Learn == 0 ? 1 : 0;
 #else
-            RF1.Key = false;
+            KeyPress = 0;
 #endif
 
-            if (RF1.Key == false || RF1.Learn == true) {
+            if (KeyPress == 0) {
 
                 if (RF1.TransceiveGO == true) {
                     if (RF1.Learn == false) {
@@ -133,6 +138,9 @@ inline void setRF_Main() {
     } else {
         if (myMain.PowerON == true) {
             RF1.Enable = true;
+
+            RF_Initialization();
+            CC2500_PowerOnInitial();
         }
     }
 }
@@ -400,9 +408,9 @@ inline void setControl_Lights_Table() {
             setRFSW_AdjControl(2);
             break;
 
-        case 0xd2:
-            setRF_AdjControl(2);
-            break;
+//        case 0xd2:
+//            setRF_AdjControl(2);
+//            break;
 #endif
 #endif
 
@@ -521,6 +529,7 @@ void setRF_AdjControl(char sw) {
 //*********************************************************
 
 #if CC2500_use == 1
+
 char getRF_flagDimming() {
     char result = RF1.flagDimming == true ? 1 : 0;
     return result;
@@ -547,6 +556,7 @@ void setRF_flagDimming(char command) {
 //*********************************************************
 
 #if CC2500_use == 1
+
 inline void setRF_DimmerLights(char lights, char on) {
     char status = 1;
     switch (lights) {

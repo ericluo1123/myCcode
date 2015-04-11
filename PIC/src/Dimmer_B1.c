@@ -2,17 +2,19 @@
 // Includes
 #include "Select_File.h"
 
-#if Dimmer_use == 1 
+#if Dimmer_use == 1  
 
 void DimmerIntr_Initialization() {
 
-#ifdef use_1KEY 
+#ifdef use_1KEY
+
     DimmerIntr1.TuneTimeValue = 3; //7
     DimmerIntr1.MaxmumValue = Dimmer_Maxum;
     DimmerIntr1.MinimumValue = Dimmer_Minimum;
     DimmerIntr1.Tune = false;
 
 #ifndef MCU_16F723A
+
 #if DimmerValue_SaveMemory == 1
     //    if (myMain.InitDimmer == true) {
     product->Data[21] = getDimmerLights_ValueToPercent(Dimmer_Maxum);
@@ -23,7 +25,7 @@ void DimmerIntr_Initialization() {
 
 #else
     product->Data[21] = getDimmerLights_ValueToPercent(Dimmer_Maxum);
-#endif
+#endif 
 
 #if Control_Method_Triac_Value == 1
 
