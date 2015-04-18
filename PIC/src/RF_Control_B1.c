@@ -48,92 +48,166 @@ inline void setRF_RxStatus(char command) {
     RF1.RxStatus = command == 1 ? true : false;
 }
 
+int RF_getCommand() {
+    //0 exit
+    //1 RX
+    //2 TX
+    int command = 0;
+    if (getBuz_GO() == 0) {
+        if (getRF_KeyStatus() == 1) {
+            if (RF1.Learn == true) {
+                command = 1;
+            }
+        } else {
+            if (RF1.TransceiveGO == true) {
+                command = 2;
+            } else {
+                command = 1;
+            }
+        }
+    }
+    return command;
+}
+
 //*********************************************************
 
 inline void setRF_Main() {
     char error = 0;
     char TX = 0;
     char RX = 0;
-    char KeyPress = 0;
-
+    int command = 0;
 
     if (RF1.Enable == true) {
-        if (getBuz_GO() == 0) {
+        //delay time
+        if (RF1.debounce == true) {
+            RF1.Count++;
+            if (RF1.Count >= (RF1.RunTime / Main_Time)) {
+                RF1.Count = (RF1.RunTime / Main_Time);
+                RF1.Count = 0;
+                RF1.debounce = false;
+            }
+        } else {
+            command = RF_getCommand();
 
-#if Switch_use == 1
-            KeyPress = getRF_KeyStatus() == 1 && RF1.Learn == 0 ? 1 : 0;
-#else
-            KeyPress = 0;
-#endif
+            switch (command) {
+                case 0: //exit
+                    break;
+                case 1: //RX
+                    if (RF1.RxStatus == false) {
+                        RF1.RxStatus = true;
+                        CC2500_WriteCommand(CC2500_SIDLE); // idle
+                        CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+                        CC2500_WriteCommand(CC2500_SRX); // set receive mode
 
-            if (KeyPress == 0) {
-
-                if (RF1.TransceiveGO == true) {
-                    if (RF1.Learn == false) {
-                        RF1.Count++;
-                        if (RF1.Count >= (RF1.RunTime / Main_Time)) {
-                            RF1.Count = (RF1.RunTime / Main_Time);
-
-                            RF1.TransceiveGO = false;
-                            RF1.CorrectionCounter = 0;
-                            RF_RxDisable();
-                            setData();
-                            CC2500_TxData();
-                            //                    ErrLED = ErrLED == true ? false : true;
-                        }
                     } else {
-                        RF1.Count = 0;
-                        RF1.TransceiveGO = false;
-                    }
-                } else {
-                    if (RF1.RxStatus == true) {
-#if Rx_Enable == 1
+
                         CC2500_RxData();
-#endif
                         if (RF1.ReceiveGO == true) {
                             RF1.ReceiveGO = false;
-                            RF1.CorrectionCounter = 0;
-#if I2C_use == 1
-                            I2C_SetData(1);
-                            //LED2=~LED2;
-#elif UART_use == 1
-                            //UART_SetData();
-                            //LED2=~LED2;
-#else
+                            RF1.RxStatus = false;
                             getRxData();
-                            //                                ErrLED = ErrLED == true ? false : true;
-#endif    
-                        }
-                    } else {
-                        RF1.Count++;
-                        if (RF1.Count >= (RF1.RunTime / Main_Time)) {
-                            RF1.Count = 0;
-#if Rx_Enable == 1
-                            RF1.RxStatus = true;
-                            CC2500_WriteCommand(CC2500_SIDLE); // idle
-                            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-                            CC2500_WriteCommand(CC2500_SRX); // set receive mode
-#endif
+                            RF1.debounce = true;
                         }
                     }
-                }
-            }
+                    break;
+                case 2: //TX
+                    if (RF1.TransceiveGO == true) {                  
+                        RF1.RxStatus = false;
+                        //                    RF1.CorrectionCounter = 0;
+                        //                    RF_RxDisable();
+                        setData();
+                        CC2500_TxData();
+                        RF1.debounce = true;
+                        if(RF1.again == false){
+                            RF1.again = true;
+                        }else{
+                            RF1.again = false;
+                             RF1.TransceiveGO = false;
+                        }
+                    }
+                    break;
+            };
         }
 
-        RF1.CorrectionCounter++;
-        if (RF1.CorrectionCounter > (60000 / Main_Time)) {
-            RF1.CorrectionCounter = 0;
 
-            RF1.RxStatus = false;
-            RF1.ReceiveGO = false;
-            CC2500_WriteCommand(CC2500_SIDLE); // idle
-            //            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
-        }
+        //        if (getBuz_GO() == 0) {
+        //
+        //#if Switch_use == 1
+        //            command = RF_getCommand();
+        //#else
+        //            KeyPress = 0;
+        //#endif
+        //
+        //            if (command == 0) {
+        //
+        //                if (RF1.TransceiveGO == true) {
+        //                    //                    if (RF1.Learn == false) {
+        //                    RF1.Count++;
+        //                    if (RF1.Count >= (RF1.RunTime / Main_Time)) {
+        //                        RF1.Count = (RF1.RunTime / Main_Time);
+        //
+        //                        RF1.TransceiveGO = false;
+        //                        RF1.CorrectionCounter = 0;
+        //                        RF_RxDisable();
+        //                        setData();
+        //                        CC2500_TxData();
+        //
+        //
+        //                        ErrLED = ErrLED == true ? false : true;
+        //                        //                        }
+        //                    } else {
+        //                        RF1.Count = 0;
+        //                        RF1.TransceiveGO = false;
+        //                    }
+        //                } else {
+        //                    if (RF1.RxStatus == true) {
+        //#if Rx_Enable == 1
+        //                        CC2500_RxData();
+        //#endif
+        //                        if (RF1.ReceiveGO == true) {
+        //                            RF1.ReceiveGO = false;
+        //                            RF1.CorrectionCounter = 0;
+        //#if I2C_use == 1
+        //                            I2C_SetData(1);
+        //                            //LED2=~LED2;
+        //#elif UART_use == 1
+        //                            //UART_SetData();
+        //                            //LED2=~LED2;
+        //#else
+        //                            getRxData();
+        //                            //                                ErrLED = ErrLED == true ? false : true;
+        //#endif
+        //                        }
+        //                    } else {
+        //                        RF1.Count++;
+        //                        if (RF1.Count >= (RF1.RunTime / Main_Time)) {
+        //                            RF1.Count = 0;
+        //#if Rx_Enable == 1
+        //                            RF1.RxStatus = true;
+        //                            CC2500_WriteCommand(CC2500_SIDLE); // idle
+        //                            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+        //                            CC2500_WriteCommand(CC2500_SRX); // set receive mode
+        //#endif
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
 
-        if (RF1.Timeout == true) {
-            RF1.Timeout = false;
-            CC2500_PowerOnInitial();
-        }
+        //        RF1.CorrectionCounter++;
+        //        if (RF1.CorrectionCounter > (60000 / Main_Time)) {
+        //            RF1.CorrectionCounter = 0;
+        //
+        //            RF1.RxStatus = false;
+        //            RF1.ReceiveGO = false;
+        //            CC2500_WriteCommand(CC2500_SIDLE); // idle
+        //            //            CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data
+        //        }
+        //
+        //        if (RF1.Timeout == true) {
+        //            RF1.Timeout = false;
+        //            CC2500_PowerOnInitial();
+        //        }
 
     } else {
         if (myMain.PowerON == true) {
@@ -141,6 +215,7 @@ inline void setRF_Main() {
 
             RF_Initialization();
             CC2500_PowerOnInitial();
+
         }
     }
 }
@@ -244,19 +319,19 @@ inline void setData() {
 
 inline void setTxData() {
     char i;
-    if (RF1.Enable == true) {
+    //    if (RF1.Enable == true) {
 #if Tx_Enable == 1
-        RF1.TransceiveGO = true;
-        RF1.Count = 0;
-        //ErrLED = 0;
-        //        	Product->Data[0]=0x63;		//Command
-        //                Product->Data[1]=0x02;	//Command
-        //                Product->Data[20]=KeyID;	//Key ID*/
-        //        for (i = 0; i < 20; i++) {
-        //            RF_Data[i] = product->Data[i];
-        //        }
+    RF1.TransceiveGO = true;
+    RF1.Count = 0;
+    //ErrLED = 0;
+    //        	Product->Data[0]=0x63;		//Command
+    //                Product->Data[1]=0x02;	//Command
+    //                Product->Data[20]=KeyID;	//Key ID*/
+    //        for (i = 0; i < 20; i++) {
+    //            RF_Data[i] = product->Data[i];
+    //        }
 
-    }
+    //    }
 #endif
 }
 //******************************************************************************
@@ -408,9 +483,9 @@ inline void setControl_Lights_Table() {
             setRFSW_AdjControl(2);
             break;
 
-//        case 0xd2:
-//            setRF_AdjControl(2);
-//            break;
+            //        case 0xd2:
+            //            setRF_AdjControl(2);
+            //            break;
 #endif
 #endif
 

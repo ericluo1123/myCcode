@@ -65,6 +65,8 @@ void CC2500_TxData() {
     CC2500_WriteCommand(CC2500_SFTX); // clear TXFIFO data
 
     Transceive_OK = 1;
+                       
+
 }
 //-----------------------------------------------------------------------------
 // CC2500 RX Function
@@ -110,7 +112,6 @@ void CC2500_RxData(void) {
             if (CRC & 0x80)
                 Receive_OK = 1;
 
-            RF1.RxStatus = false;
             RF1.ReceiveGO = true;
             CC2500_WriteCommand(CC2500_SIDLE); // idle
             CC2500_WriteCommand(CC2500_SFRX); // clear RXFIFO data

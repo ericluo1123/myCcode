@@ -7,7 +7,6 @@
 
 #if CC2500_use == 1 
 //Global extern variable declaration
-#define RF_RunTime_Value 200
 
 struct RF {
 
@@ -35,7 +34,9 @@ struct RF {
 
     struct {
         unsigned flagDimming : 1;
-        unsigned empty : 7;
+        unsigned debounce:1;
+        unsigned again:1;
+        unsigned empty : 5;
     };
 
     unsigned int Count;
@@ -78,6 +79,7 @@ inline void setRF_TransceiveGO(char command);
 void setRF_AdjControl(char sw);
 char getRF_flagDimming();
 void setRF_flagDimming(char command);
+int RF_getCommand();
 
 #if Dimmer_use == 1
 //inline void setRF_DimmerValue(char lights);

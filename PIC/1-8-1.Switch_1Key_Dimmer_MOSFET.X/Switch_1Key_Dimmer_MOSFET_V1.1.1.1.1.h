@@ -154,9 +154,10 @@
 #define setLights_SwOff_Value 1
 #define setLights_Value 1
 //RF cc2500
-#define CC2500_use_Value            0
+#define CC2500_use_Value            1
 #define Tx_Enable                   1
 #define Rx_Enable                   1
+#define RF_RunTime_Value            200 //RF間隔時間
 //DelayOff
 #define DelayOff_use_Value          1
 //PowerFault

@@ -2941,6 +2941,229 @@ void setLED_Main(char led);
 # 93
 void setLED(char led, char command);
 
+# 161 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/CC2500_B1.h"
+const unsigned char CC2500_rfSettings[47] = {
+
+
+0x07,
+0x07,
+0x30,
+0x87,
+0x6B,
+0xF8,
+0x7F,
+0x3F,
+
+0x09,
+0x00,
+0x5C,
+0xA7,
+0x62,
+0x86,
+0x83,
+0x03,
+0x22,
+0xF8,
+0x00,
+0x44,
+0xB6,
+0x10,
+0x18,
+0x1D,
+0x1C,
+0xC7,
+0x00,
+0xB2,
+0xEA,
+0x0A,
+0x00,
+0x11,
+0x59,
+0x88,
+0x31,
+0x0B,
+0x2F,
+0x2E,
+0x06,
+0x04,
+0x05,
+0x00,
+0x30,
+0xD3,
+0x91,
+0x41,
+0x00
+
+};
+
+
+
+const unsigned char CC2500_registers_address[47] = {
+
+0x03,
+0x16,
+0x17,
+0x1E,
+0x1F,
+0x20,
+0x2A,
+0x2B,
+
+0x0B,
+0x0C,
+0x0D,
+0x0E,
+0x0F,
+0x10,
+0x11,
+0x12,
+0x13,
+0x14,
+0x0A,
+0x15,
+0x21,
+0x22,
+0x18,
+0x19,
+0x1A,
+0x1B,
+0x1C,
+0x1D,
+0x23,
+0x24,
+0x25,
+0x26,
+0x29,
+0x2C,
+0x2D,
+0x2E,
+0x00,
+0x01,
+0x02,
+0x07,
+0x08,
+0x09,
+0x06,
+0x04,
+0x05,
+0x27,
+0x28
+};
+
+# 277
+unsigned int RF_Count;
+unsigned char SPI0Buffer;
+unsigned char r_data;
+unsigned char s_data;
+unsigned char r_address;
+unsigned char RF_Data[30];
+unsigned char RSSI;
+unsigned char CRC;
+unsigned char Rx_Length;
+unsigned char Tx_Length;
+
+
+
+
+const unsigned char CC2500_patable_vaule[8] = {0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE};
+
+void CC2500_PowerOnInitial();
+void CC2500_PowerRST(void);
+void CC2500_InitSetREG(void);
+void CC2500_InitPATable(void);
+void CC2500_ClearTXFIFO(void);
+void CC2500_ClearRXFIFO(void);
+void CC2500_FrequencyCabr(void);
+void CC2500_SIDLEMode(void);
+
+void CC2500_WriteByte(void);
+void CC2500_WriteREG(unsigned char addr, unsigned char value);
+void CC2500_ReadByte(void);
+void CC2500_ReadREG(unsigned char addr);
+void CC2500_ReadStatus(unsigned char s_addr);
+void CC2500_WriteCommand(unsigned char command);
+void CC2500_TxData();
+void CC2500_RxData(void);
+void DelayTime_1us(int count);
+
+# 11 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/RF_Control_B1.h"
+struct RF {
+
+struct {
+unsigned Enable : 1;
+unsigned ReceiveGO : 1;
+unsigned TransceiveGO : 1;
+unsigned RxStatus : 1;
+unsigned TxStatus : 1;
+unsigned Debounce : 1;
+unsigned Learn : 1;
+unsigned Key : 1;
+};
+
+struct {
+unsigned Sleep : 1;
+unsigned Run : 1;
+unsigned Bus : 1;
+unsigned Checked : 1;
+unsigned RxChecked : 1;
+unsigned Correction : 1;
+unsigned Timeout : 1;
+unsigned All_Lights_Close : 1;
+};
+
+struct {
+unsigned flagDimming : 1;
+unsigned debounce:1;
+unsigned again:1;
+unsigned empty : 5;
+};
+
+unsigned int Count;
+unsigned char CheckCount;
+unsigned int CheckedCounter;
+unsigned int RunTime;
+unsigned char DebounceTime;
+unsigned int CorrectionCounter;
+unsigned int TimeoutCount;
+
+};
+
+
+struct RF RF1;
+
+
+inline void RF_Initialization();
+inline void setRF_Initialization();
+inline void RF_Main();
+inline void setRF_Main();
+inline void setTxData();
+inline void setData();
+inline void getRxData();
+
+inline void setLog_Code();
+inline void setControl_Lights_Table();
+inline void RF_RxDisable();
+inline void setRF_Learn(char command);
+
+inline void setRF_RxStatus(char command);
+inline char getRF_KeyStatus();
+inline void RF_Timeout_Counter();
+inline void setRF_TimeoutCleared();
+
+
+void setRFSW_Control(char sw);
+void setRFSW_AdjControl(char sw);
+inline void setRFSW_Status(char sw, char command);
+inline void setRF_TransceiveGO(char command);
+void setRF_AdjControl(char sw);
+char getRF_flagDimming();
+void setRF_flagDimming(char command);
+int RF_getCommand();
+
+
+
+inline void setRF_DimmerLights(char lights, char on);
+
 # 36 "../src/../1-8-1.Switch_1Key_Dimmer_MOSFET.X/../src/Dimmer_B1.h"
 struct DimmerLights {
 
@@ -3347,7 +3570,14 @@ if (Sw->Hold2Time >= (1500 / 20)) {
 Sw->Hold2Time = 0;
 Sw->Hold2 = 1;
 
-# 179
+
+setRF_Learn(1);
+if (myMain.First == 1) {
+setBuz(2, 100);
+}
+
+
+
 }
 } else {
 if (Sw->Hold3 == 0) {
@@ -3356,7 +3586,10 @@ if (Sw->Hold3Time >= (3000 / 20)) {
 Sw->Hold3Time = 0;
 Sw->Hold3 = 1;
 
-# 191
+
+setRF_Learn(0);
+
+
 }
 }
 }
@@ -3380,7 +3613,10 @@ Sw->Hold3Time = 0;
 # 216
 setDimmerLights_SwOff(sw);
 
-# 222
+
+
+setRF_Learn(0);
+
 }
 }
 }
